@@ -1,0 +1,49 @@
+.HIW-section
+    padding-top: gem(95)
+    padding-bottom: gem(90)
+    background: var(--color-mist)
+    .title-wrap
+        display: flex
+        flex-direction: column
+        gap: gem(25)
+        align-items: center
+    .visual-wrap
+        margin: 0 auto
+        margin-top: gem(85)
+        width: gem(1169)
+        min-height: gem(600)
+        img
+            width: 100%
+            display: block
+            object-fit: cover
+        .mobile,
+        .tablet
+            display: none
+@media (max-width: 1024px)
+    .HIW-section
+        padding-bottom: gem(110)
+        .title-wrap
+            gap: gem(20)
+        .visual-wrap
+            width: gem(751)
+            margin-top: gem(70)
+            img
+                width: 100%
+                height: auto
+            .desktop,
+            .mobile
+                display: none
+            .tablet
+                display: block
+
+@media (max-width: 480px)
+    .HIW-section
+        .visual-wrap
+            padding: 0 gem(6)
+            width: 100%
+            min-height: gem(320)
+            .tablet,
+            .desktop
+                display: none
+            .mobile
+                display: block

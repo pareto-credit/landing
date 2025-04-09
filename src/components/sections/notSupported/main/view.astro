@@ -1,0 +1,40 @@
+---
+import './style.scss';
+
+import Section from 'layouts/section.astro';
+
+import logo from 'assets/img/logo.png?url';
+import chromeLogo from 'assets/img/iechrome.png?url';
+import firefoxLogo from 'assets/img/iefirefox.png?url';
+import operaLogo from 'assets/img/ieopera.png?url';
+
+---
+
+<Section className="section-ie" id="section-ie">
+    <div class="ie__container">
+        <div class="ie__logo-block">
+            <img src={logo} alt="Zajno logo" class="ie__logo-block__image" />
+        </div>
+        <div class="ie__text-block">
+            <h2 class="ie__text-block__title ie__text-block__title-font">Your browser is not supported</h2>
+            <p class="ie__text-block__subtitle ie__text-block__subtitle-font">Please use the latest versions of these browsers:</p>
+            <ul class="ie-browsers">
+                <li class="ie-browsers__item">
+                    <a href="https://www.google.com/chrome/" class="ie-browsers__item__link" target="_blank" rel="nofollow noreferrer noopener">
+                        <img src={chromeLogo} alt="Google Chrome" class="ie-browsers__item__image" />
+                    </a>
+                </li>
+                <li class="ie-browsers__item">
+                    <a href="http://www.getfirefox.com/" class="ie-browsers__item__link" target="_blank" rel="nofollow noreferrer noopener">
+                        <img src={firefoxLogo} alt="Mozilla Firefox" class="ie-browsers__item__image" />
+                    </a>
+                </li>
+                <li class="ie-browsers__item">
+                    <a href="https://www.opera.com/computer/" class="ie-browsers__item__link" target="_blank" rel="nofollow noreferrer noopener">
+                        <img src={operaLogo} alt="Opera" class="ie-browsers__item__image" />
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</Section>

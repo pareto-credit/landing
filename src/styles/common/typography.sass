@@ -1,0 +1,184 @@
+@import './variables'
+
+@mixin typography($color, $font-family, $font-size, $font-weight, $letter-spacing:0, $line-height: normal)
+    color: $color
+    font-family: $font-family
+    font-size: $font-size
+    font-weight: $font-weight
+    letter-spacing: $letter-spacing
+    line-height: $line-height
+
+@mixin mixed-lbl($args...)
+    @include typography($args...)
+
+// title h1--sub-font
+@mixin title-h1
+    @include mixed-lbl(var(--color-emerald), var(--sub-font), var(--font-size-h1), var(--font-weight-4), var(--letter-spacing), var(--line-height-h1))
+
+// title h2
+@mixin title-h2
+    @include mixed-lbl(var(--color-emerald), var(--sub-font), var(--font-size-h2), var(--font-weight-4), var(--letter-spacing), var(--line-height-h2))
+
+// title h3
+@mixin title-h3
+    @include mixed-lbl(var(--color-emerald), var(--sub-font), var(--font-size-h3), var(--font-weight-4), var(--letter-spacing), var(--line-height-h3))
+
+// title h4
+@mixin title-h4
+    @include mixed-lbl(var(--color-emerald), var(--sub-font), var(--font-size-h4), var(--font-weight-4), var(--letter-spacing), var(--line-height-h4))
+
+// p1
+@mixin desc-1
+    @include mixed-lbl(var(--color-muted-green), var(--main-font), var(--font-size-desc1), var(--font-weight-4), var(--letter-spacing), var(--line-height-desc1))
+
+// p2
+@mixin desc-2
+    @include mixed-lbl(var(--color-muted-green), var(--main-font), var(--font-size-desc2), var(--font-weight-4), var(--letter-spacing), var(--line-height-desc2))
+
+// p3
+@mixin desc-3
+    @include mixed-lbl(var(--color-muted-green), var(--main-font), var(--font-size-desc3), var(--font-weight-4), var(--letter-spacing), var(--line-height-desc3))
+
+// p4
+@mixin desc-4
+    @include mixed-lbl(var(--color-muted-green), var(--main-font), var(--font-size-desc4), var(--font-weight-4), var(--letter-spacing), var(--line-height-desc4))
+
+// p5
+@mixin desc-5
+    @include mixed-lbl(var(--color-muted-green), var(--main-font), var(--font-size-desc5), var(--font-weight-4), var(--letter-spacing), var(--line-height-desc5))
+
+// nav
+@mixin nav
+    @include mixed-lbl(var(--color-deep-forest), var(--main-font), var(--font-size-nav), var(--font-weight-5), var(--letter-spacing), var(--line-height-nav))
+
+// title for noScript mode
+@mixin title-no-script
+    @include mixed-lbl(var(--color-title-no-script), var(--font-no-script), var(--font-size-title-ns), var(--font-weight-5), var(--letter-spacing-title-ns), var(--line-height-title-ns))
+
+// subtitle for noScript mode
+@mixin subtitle-no-script
+    @include mixed-lbl(var(--color-subtitle-no-script), var(--font-no-script), var(--font-size-subtitle-ns), var(--font-weight-4), var(--letter-spacing-subtitle-ns), var(--line-height-subtitle-ns))
+
+// desc for noScript mode
+@mixin desc-no-script
+    @include mixed-lbl(var(--color-desc-no-script), var(--font-no-script), var(--font-size-desc-ns), var(--font-weight-4), var(--letter-spacing-desc-ns), var(--line-height-desc-ns))
+
+// title for 404 page
+@mixin title-page-404
+    @include mixed-lbl(var(--color-title-page-404), var(--font-page-404), var(--font-size-title-404), var(--font-weight-5), var(--letter-spacing-title-404), var(--line-height-title-404))
+
+// subtitle for 404 page
+@mixin subtitle-page-404
+    @include mixed-lbl(var(--color-subtitle-page-404), var(--font-page-404), var(--font-size-subtitle-404), var(--font-weight-4), var(--letter-spacing-subtitle-404), var(--line-height-subtitle-404))
+
+// label for 404 page
+@mixin label-page-404
+    @include mixed-lbl(var(--color-title-page-404), var(--font-page-404), var(--font-size-label-404), var(--font-weight-5), var(--letter-spacing-label-404), var(--line-height-label-404))
+
+
+html, body, div, span, button,
+h1, h2, h3, h4, h5, h6, p, blockquote,
+a, small, strong, ul, li, form, label,
+article, footer, header, nav, section, input
+    font-variant-numeric: lining-nums proportional-nums
+    &.center-text
+        text-align: center
+
+    &.left-text
+        text-align: left
+
+    &.right-text
+        text-align: right
+
+    &.cap-text
+        text-transform: capitalize
+
+    &.up-text
+        text-transform: uppercase
+
+    &.low-text
+        text-transform: lowercase
+
+    &.title-h1
+        @include title-h1
+
+    &.title-h2
+        @include title-h2
+
+    &.title-h3
+        @include title-h3
+
+    &.title-h4
+        @include title-h4
+
+    &.nav
+        @include nav
+
+    &.desc-1
+        @include desc-1
+
+    &.desc-2
+        @include desc-2
+
+    &.desc-3
+        @include desc-3
+
+    &.desc-4
+        @include desc-4
+
+    &.desc-5
+        @include desc-5
+    &.dark-green
+        color: var(--color-dark-green)
+    &.darkest-green
+        color: var(--color-darkest-green)
+    &.pine
+        color: var(--color-pine)
+    &.muted-green
+        color: var(--color-muted-green)
+    &.deep-forest
+        color: var(--color-deep-forest)
+    &.emerald
+        color: var(--color-emerald)
+    &.sage
+        color: var(--color-sage)
+    &.dusty-mint
+        color: var(--color-dusty-mint)
+    &.soft-mint
+        color: var(--color-soft-mint)
+    &.mist
+        color: var(--color-mist)
+    &.fog
+        color: var(--color-fog)
+    &.bright-mint
+        color: var(--color-bright-mint)
+    &.dark-green
+        color: var(--color-dark-green)
+    &.teal
+        color: var(--color-teal)
+    &.ice-blue
+        color: var(--color-ice-blue)
+    &.porcelain
+        color: var(--color-porcelain)
+    &.pale-sage
+        color: var(--color-pale-sage)
+    &.cloud
+        color: var(--color-cloud)
+
+    &.title-no-script
+        @include title-no-script
+
+    &.subtitle-no-script
+        @include subtitle-no-script
+
+    &.desc-no-script
+        @include desc-no-script
+
+    &.title-page-404
+        @include title-page-404
+
+    &.subtitle-page-404
+        @include subtitle-page-404
+
+    &.label-page-404
+        @include label-page-404

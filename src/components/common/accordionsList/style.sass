@@ -1,0 +1,142 @@
+.accordion-button
+    position: relative
+    display: block
+    text-align: left
+    width: 100%
+    border: none
+    background: none
+    outline: none
+    -webkit-tap-highlight-color: transparent
+    padding: 0
+    &:hover
+        cursor: pointer
+        &::after
+            cursor: pointer
+.accordion-button[aria-expanded='true']
+    .icon
+        transform: translate(-10%, 0%) rotate(180deg)
+    .accordion-title
+        .title-close
+            .title-h3
+                transform: translateY(gem(50))
+        .title-open
+            top: gem(30)
+            height: gem(30)
+            .title-h3
+                top: gem(0)
+                opacity: 1
+                transform: translateY(gem(0))
+        &__icon
+            .img
+                transform: scale(1.43) translateX(10%)
+    & + .accordion-content
+        opacity: 1
+        max-height: gem(400)
+        overflow: scroll
+        transform: none
+        padding-top: gem(114)
+        padding-bottom: gem(10)
+        -ms-overflow-style: none  // IE and Edge
+        scrollbar-width: none     // Firefox
+        &::-webkit-scrollbar
+            display: none
+.accordion-content
+    opacity: 0
+    max-height: 0
+    overflow: hidden
+    transform: translateY(gem(-30))
+    transition: all 500ms cubic-bezier(.17,.17,.43,1), opacity 300ms cubic-bezier(.17,.17,.43,1)
+    -webkit-mask: linear-gradient(180deg,rgba(51,56,82,0),#070707 3%,#070707 90%,#070707 57.18%,rgba(51,56,82,0))
+    .desc-1
+        opacity: 0.7
+        margin-bottom: gem(32)
+        strong
+            font-weight: bold
+.accordion
+    display: flex
+    flex-direction: column
+    gap: gem(15)
+    width: gem(621)
+    .title-overflow
+        overflow: hidden
+    .title-close
+        display: flex
+        align-items: center
+        gap: gem(41)
+        .title-h3
+            position: relative
+            transition: all 300ms cubic-bezier(.17,.17,.43,1)
+    .title-open
+        width: 100%
+        position: relative
+        transition: all 500ms cubic-bezier(.17,.17,.43,1)
+        .title-h3
+            width: max-content
+            transition: all 500ms cubic-bezier(.17,.17,.43,1)
+            position: absolute
+            transform: translateY(gem(-50))
+    &-title
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+        transition: all 500ms cubic-bezier(.17,.17,.43,1)
+        &__icon
+            position: relative
+            transition: all 500ms cubic-bezier(.17,.17,.43,1)
+            width: gem(35)
+            height: gem(35)
+            .img
+                top: 0
+                left: 0
+                width: 100%
+                display: block
+                position: absolute
+                transition: all 500ms cubic-bezier(.17,.17,.43,1)
+    .accordion-item
+        border: 1px solid rgba(37, 72, 57, 0.21)
+        position: relative
+        padding: gem(25) gem(30)
+        border-radius: gem(20)
+        background: var(--color-mist)
+        position: relative
+        &::before
+            content: ''
+            border-radius: gem(20)
+            overflow: hidden
+            position: absolute
+            top: 0
+            left: 0
+            width: 100%
+            height: 100%
+            background-image: url("data:image/svg+xml,%3Csvg width='81' height='8' viewBox='0 0 81 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath opacity='0.8' d='M60.7611 3.7309C60.7611 3.7309 50.7271 7.44718 40.5074 7.44717C24.6218 7.44717 15.0509 1.00006 0 1.00006M60.7693 3.7309C60.7693 3.7309 70.037 1 81 1' stroke='%23B6C5D8' stroke-dasharray='2.34 1.17'/%3E%3C/svg%3E")
+            background-repeat: repeat
+            background-position: 0 0
+            opacity: 0.3
+            pointer-events: none
+            z-index: 1
+        &:nth-of-type(2n)
+            background: var(--color-ice-blue)
+
+        &:first-child
+            .accordion-button
+                padding-top: 0
+    .icon
+        display: inline-block
+        position: absolute
+        top: gem(10)
+        right: 0
+        width: gem(16)
+        height: gem(16)
+@media all and (max-width: 480px)
+    .accordion
+        width: 100%
+        .accordion-item
+            padding: gem(24) gem(26)
+        .accordion-button
+            .title-h3
+                font-size: gem(18)
+        .accordion-button[aria-expanded=true]
+            .accordion-title__icon
+                width: gem(35)
+            & + .accordion-content
+                padding-top: gem(80)

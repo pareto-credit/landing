@@ -1,0 +1,67 @@
+---
+import './style.sass';
+
+import Section from 'layouts/section.astro';
+import SolutionItem from './solutionItem.astro';
+
+
+type SectionCopyright = {
+    title: string,
+    subTitle: string,
+    description: string,
+    solutionList: Array<{
+        className: string,
+        visual: string,
+        title: string,
+        description: string,
+        btns: Array< {
+            text: string,
+            link: string,
+        }>,
+        futures: Array<{
+            title: string,
+            description: string,
+        }>
+    }>,
+};
+
+type Props = {
+    id: string,
+    COPY: SectionCopyright,
+
+};
+
+const { COPY, id } = Astro.props;
+
+---
+
+<Section className="solution-section" id={id}>
+    <div class="container container-big">
+        <div class="solution-section__title-wrap">
+            <div class="solution-section-title">
+                <span class="desc-4 teal text-up">{COPY.subTitle}</span>
+                <h2 class="title-h2 emerald">{COPY.title}</h2>
+            </div>
+            <div class="solution-section-description">
+                <p class="desc-2 muted-green">
+                    {COPY.description}
+                </p>
+            </div>
+        </div>
+        <div class="solution-list">
+
+            { COPY.solutionList.map( (item) => (
+                <SolutionItem
+                    className={item.className}
+                    title={item.title}
+                    description={item.description}
+                    visual={item.visual}
+                    btns={item.btns}
+                    futures={item.futures}
+                />
+            )) }
+        </div>
+    </div>
+</Section>
+
+<script src="./script.ts"></script>

@@ -1,0 +1,35 @@
+---
+import './style.sass';
+
+import Section from 'layouts/section.astro';
+import Desktop from 'assets/img/how-it-works/visual.svg?url';
+import Tablet from 'assets/img/how-it-works/visual-tablet.svg?url';
+import Mobile from 'assets/img/how-it-works/visual-mobile.svg?url';
+
+type SectionCopyright = {
+    title: string,
+    subTitle: string,
+};
+
+type Props = {
+    id: string,
+    COPY: SectionCopyright,
+};
+
+const { COPY, id } = Astro.props;
+
+---
+
+<Section className="HIW-section" id={id}>
+    <div class="title-wrap">
+        <span class="desc-4 teal">{COPY.subTitle}</span>
+        <h2 class="title-h2 emerald">{COPY.title}</h2>
+    </div>
+    <div class="visual-wrap">
+        <img src='#' data-src={Desktop} class="lazy desktop" alt="HIW visual" data-load-priority="3" />
+        <img src='#' data-src={Tablet} class="lazy tablet" alt="HIW visual" data-load-priority="3" />
+        <img src='#' data-src={Mobile} class="lazy mobile" alt="HIW visual" data-load-priority="3" />
+    </div>
+</Section>
+
+<script src="./script.ts"></script>

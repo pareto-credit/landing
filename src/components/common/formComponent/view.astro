@@ -1,0 +1,85 @@
+---
+
+import './style.sass';
+
+type Props = {
+    className?: string,
+};
+
+const { className } = Astro.props;
+
+---
+
+
+
+<div id="form-component" class={`form-container ${className ? className : ''} `}>
+    <form id="contact-form" class="contact-form" name="contact-form" action="#" method="post">
+        <ul class="form-list">
+            <li class="form-list-item form-list-item--column">
+                <span class="desc-2 radio-title">Your role:</span>
+                <ul class="radio-list">
+                    <li class="radio-item">
+                        <input type="radio" value="lender" id="lender" name="role" checked>
+                        <label class="desc-4 up-text" for="lender">Lender</label>
+                    </li>
+                    <li class="radio-item">
+                        <input type="radio" value="borrower" id="borrower" name="role">
+                        <label class="desc-4 up-text" for="borrower">Borrower</label>
+                    </li>
+                    <li class="radio-item">
+                        <input type="radio" value="curator" id="curator" name="role">
+                        <label class="desc-4 up-text" for="curator">Curator</label>
+                    </li>
+                </ul>
+            </li>
+            <li class="form-list-item">
+                <div class="input-wrap">
+                    <input class="input-item input-item--small desc-1" required type="text" name="name" id="name" placeholder="Name*">
+                    <span class="error-message desc-4">This field is required.</span>
+                </div>
+                <input class="input-item input-item--small desc-1" type="text" name="surname" id="surname" placeholder="Surname">
+            </li>
+            <li class="form-list-item">
+                <input class="input-item desc-1" type="text" name="company" id="company" placeholder="Company*">
+            </li>
+            <li class="form-list-item">
+                <input class="input-item desc-1" type="text" name="job-title" id="job-title" placeholder="Job Title">
+            </li>
+            <li class="form-list-item form-list-item--column form-list-item--focus">
+                <span class="desc-2 radio-title">Do you already have a borrower?</span>
+                <ul class="radio-list">
+                    <li class="radio-item">
+                        <input type="radio" value="have-borrower" id="have-borrower" name="curator-check">
+                        <label class="desc-4 up-text" for="have-borrower">YES</label>
+                    </li>
+                    <li class="radio-item">
+                        <input type="radio" value="havent-borrower" id="havent-borrower" name="curator-check">
+                        <label class="desc-4 up-text" for="havent-borrower">NO</label>
+                    </li>
+                </ul>
+            </li>
+            <li class="form-list-item form-list-item--deposit">
+                <input class="input-item input-item desc-1" type="text" name="deposit" id="deposit" placeholder="Expected deposit ($)">
+            </li>
+            <li class="form-list-item form-list-item--borrow">
+                <input class="input-item input-item desc-1" type="text" name="borrow-capacity" id="borrow-capacity" placeholder="Expected borrow capacity ($)">
+            </li>
+            <li class="form-list-item form-list-item--focus">
+                <input class="input-item input-item desc-1" type="text" name="vertical-focus" id="vertical-focus" placeholder="Vertical of focus">
+            </li>
+            <li class="form-list-item">
+                <div class="input-wrap">
+                    <input required class="input-item desc-1" type="text" name="contact-info" id="contact-info" placeholder="E-mail or Telegram handle*">
+                    <span class="error-message desc-4">This field is required.</span>
+                </div>
+            </li>
+        </ul>
+        <div class="form-footer-wrap">
+            <input type="submit" data-wait="Please wait..." class="submit-button btn-green nav" value="SUBMIT">
+            <span class="success-message desc-4">Form submitted successfully!</span>
+        </div>
+    </form>
+</div>
+
+
+<script src="./script.ts"></script>

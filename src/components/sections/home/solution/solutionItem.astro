@@ -1,0 +1,71 @@
+---
+
+import bg from 'assets/img/solution/bg.png?url';
+export type Props = {
+    title: string;
+    description: string;
+    visual: string;
+    btns: {
+        text: string;
+        link: string;
+    }[];
+    className?: string;
+    futures?: {
+        title: string;
+        description: string;
+    }[];
+};
+
+
+const props = Astro.props;
+
+---
+
+
+<div class={`solution-item ${props.className}`}>
+    <div class="solution-item__card">
+        <div class="z-index-2 position-relative">
+            <div class="solution-item__card-title">
+                <h3 class="title-h2">{props.title}</h3>
+            </div>
+            <div class="solution-item__card-description">
+                <p class="desc-2 emerald">{props.description}</p>
+            </div>
+            <div class="solution-item__card-visual desktop-mobile">
+                <img src="#" class="lazy" data-src={props.visual} alt="Lend" data-load-priority="2" />
+            </div>
+            <div class="solution-item__card-btn">
+                {
+                    props.btns.map((btn) => (
+                        <a href={btn.link} class="btn btn-primary">
+                            <span class="desc-4 deep-forest">{btn.text}</span>
+                        </a>
+                    ))
+                }
+            </div>
+        </div>
+        <div class="z-index-2 position-relative">
+            <div class="solution-item__card-visual tablet">
+                <img src="#" class="lazy" data-src={props.visual} alt="Lend" />
+            </div>
+        </div>
+        <div class="solution-item__card-bg">
+            <img src="#" class="lazy" data-src={bg} alt="Lend" />
+        </div>
+    </div>
+    <div class="solution-item__futures">
+        <ul class="futures-list">
+            { props.futures.map((item, index) => (
+                <li class="futures-list__item">
+                    <div class="futures-list__item-title">
+                        <h4 class="title-h4 emerald">{index+1}. {item.title}</h4>
+                    </div>
+                    <div class="futures-list__item-description">
+                        <p class="desc-3 muted-green">{item.description}</p>
+                    </div>
+                </li>
+            ))
+            }
+        </ul>
+    </div>
+</div>

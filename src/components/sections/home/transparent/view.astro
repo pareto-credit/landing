@@ -1,0 +1,100 @@
+---
+import './style.sass';
+
+import Section from 'layouts/section.astro';
+import Sherlock from 'assets/img/transparent/sherlock.svg?url';
+import Code from 'assets/img/transparent/code.svg?url';
+import Diligence from 'assets/img/transparent/diligence.svg?url';
+import imm from 'assets/img/transparent/imm.svg?url';
+
+type SectionCopyright = {
+    title: string,
+    subTitle: string,
+    leftBlock: {
+        title: string,
+        description: string,
+        btns: {
+            text: string,
+            link: string,
+        }[],
+    },
+    rightBlock: {
+        title: string,
+        btn: {
+            text: string,
+            link: string,
+        },
+        logos: {
+            src: string,
+            alt: string,
+        }[],
+    },
+    bottomBlock: {
+        title: string,
+        logo: string,
+        count: string,
+        description: string,
+    },
+};
+
+type Props = {
+    id: string,
+    COPY: SectionCopyright,
+};
+
+const { COPY, id } = Astro.props;
+
+---
+
+<Section className="transparent-section" id={id}>
+    <div class="container">
+        <div class="title-wrap">
+            <span class="nav up-text bright-mint">{COPY.subTitle}</span>
+            <h2 class="title-h2 dusty-mint">{COPY.title}</h2>
+        </div>
+        <div class="content-wrap">
+            <div class="content-wrap__top">
+                <div class="content-wrap__top__left">
+                    <h4 class="title-h4 dusty-mint">{COPY.leftBlock.title}</h4>
+                    <p class="desc-2 sage">{COPY.leftBlock.description}</p>
+                    <div class="btn-wrap">
+                        { COPY.leftBlock.btns.map(el => (
+                            <a href={el.link} class="btn black btn-primary up-text">
+                                <span class="desc-4 dusty-mint">{el.text}</span>
+                            </a>
+                        ))}
+                    </div>
+                </div>
+                <div class="content-wrap__top__right">
+                    <h4 class="title-h4 dusty-mint">{COPY.rightBlock.title}</h4>
+                    <ul class="logo-list">
+                        {
+                            COPY.rightBlock.logos.map((el) => (
+                                <li class="logo-list__item">
+                                    <img src="#" data-src={el.src} alt={el.alt} class="lazy" data-load-priority="3"/>
+                                </li>
+                            ))
+                        }
+                    </ul>
+                    <a href={COPY.rightBlock.btn.link} class="btn black btn-primary up-text">
+                        <span class="desc-4 dusty-mint">{COPY.rightBlock.btn.text}</span>
+                    </a>
+                </div>
+            </div>
+            <div class="content-wrap__bottom">
+                <div class="title-wrap">
+                    <h4 class="title-h3 dusty-mint">{COPY.bottomBlock.title}</h4>
+                    <img src="#" data-src={COPY.bottomBlock.logo} alt="placeholder" class="lazy imm-logo" data-load-priority="3">
+                </div>
+                <div class="count">
+                    <span class="title-h1 bright-mint">{COPY.bottomBlock.count}</span>
+                </div>
+                <p class="desc-2 sage">
+                    {COPY.bottomBlock.description}
+                </p>
+            </div>
+        </div>
+    </div>
+</Section>
+
+<script src="./script.ts"></script>

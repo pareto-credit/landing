@@ -1,0 +1,53 @@
+{
+  "name": "@zajno/static-astro-site-template",
+  "version": "2.1",
+  "description": "Astro website template by Zajno",
+  "private": true,
+  "author": "Zajno <hello@zajno.com> (https://zajno.com)",
+  "type": "module",
+  "engines": {
+    "node": "^18"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "dev:ts": "tsc --watch --noEmit",
+    "build": "yarn build:ts && astro build",
+    "build:ts": "yarn tsc --noEmit",
+    "build:prod": "yarn build --define-process-env-node-env production",
+    "build:release:staging": "yarn && (cross-env APP_ENV=staging yarn build:prod)",
+    "build:release:production": "yarn && (cross-env APP_ENV=production yarn build:prod)",
+    "preview": "astro preview",
+    "deploy:stage": "firebase -P default deploy --only hosting:web-stage",
+    "deploy:prod": "firebase -P default deploy --only hosting:web-prod",
+    "deploy:channel": "firebase -P default --only web-stage hosting:channel:deploy test-channel --expires 7d",
+    "astro": "astro",
+    "emulate": "firebase emulators:start --only hosting",
+    "lint": "eslint \"src/**/*.{js,ts,jsx,tsx,astro}\""
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.1.5",
+    "@zajno/common": "^2.3.12",
+    "@zajno/common-web": "^1.0.5",
+    "astro": "^4.9.2",
+    "astro-webmanifest": "^1.0.0",
+    "detect-browser": "^5.3.0",
+    "gsap": "^3.12.7",
+    "lenis": "^1.1.19",
+    "lottie-web": "^5.12.2",
+    "reeller": "^0.0.5",
+    "regenerator-runtime": "^0.14.1",
+    "split-type": "^0.3.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.1",
+    "@zajno/eslint-config": "^3.0.2",
+    "astro-eslint-parser": "^1.0.2",
+    "cross-env": "^7.0.3",
+    "eslint": "8.57.0",
+    "eslint-plugin-astro": "^1.2.0",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "git-rev-sync": "^3.0.2",
+    "sass": "^1.77.4",
+    "typescript": "^5.4.5"
+  }
+}

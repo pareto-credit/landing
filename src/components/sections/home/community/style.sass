@@ -1,0 +1,59 @@
+.community-section
+    padding-bottom: gem(155)
+    .title-wrap
+        width: gem(486)
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+        gap: gem(25)
+    &__list
+        display: grid
+        grid-template-columns: 1fr 1fr 1fr
+        gap: gem(60) gem(130)
+        margin-top: gem(66)
+        &__item
+            width: gem(256)
+            &__link
+                display: flex
+                height: 100%
+                flex-direction: column
+                justify-content: space-between
+            &__text
+                margin-top: gem(30)
+                display: flex
+                flex-direction: column
+                gap: gem(16)
+                margin-bottom: gem(42)
+            &__img
+                width: gem(50)
+                height: gem(50)
+                img
+                    width: 100%
+                    height: 100%
+                    object-fit: cover
+                    display: block
+            &:hover
+                .btn-secondary
+                    .nav
+                        color: var(--color-nav-hover)
+                    &::after
+                        background: var(--color-nav-hover)
+
+@media (max-width: 1024px)
+    .community-section
+        padding-bottom: gem(100)
+        &__list
+            grid-template-columns: repeat(3, 1fr)
+            gap: gem(40)
+            margin-top: gem(56)
+@media (max-width: 480px)
+    .community-section
+        &__list__item__text
+            margin-top: gem(20)
+
+        .container
+            padding: 0 gem(24)
+    .community-section__list
+        grid-template-columns: 1fr
+    .community-section__list__item
+        width: 100%

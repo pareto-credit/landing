@@ -1,0 +1,178 @@
+.footer
+    padding-top: gem(92)
+    padding-bottom: gem(62)
+    background: var(--color-darkest-green)
+    &-container
+        display: flex
+        flex-direction: column
+        &__first
+            display: flex
+            justify-content: space-between
+            width: 100%
+            &-left
+                display: flex
+                flex-direction: column
+                .subscribe-label
+                    color: rgba(137, 160, 151, 0.64)
+                .logo-wrap
+                    width: gem(116)
+                    height: gem(44)
+                    svg
+                        width: 100%
+                        object-fit: cover
+                        display: block
+            &-right
+                display: flex
+                gap: gem(129)
+
+        &__second
+            width: 100%
+            margin-top: gem(120)
+            display: flex
+            justify-content: space-between
+            &-left
+                display: flex
+            &-right
+                gap: gem(39)
+                display: flex
+                .footer-link
+                    text-transform: none
+                    color: var(--color-social-link)
+        &__desc
+            margin-top: gem(152)
+            color: var(--color-social-link)
+    .footer-list
+        display: flex
+        flex-direction: column
+        gap: gem(19)
+        margin-top: gem(20)
+        &__item
+            display: flex
+    .social
+        &-list
+            display: flex
+            flex-direction: row
+            gap: gem(18)
+            &__item
+                display: flex
+                width: gem(22)
+                height: gem(22)
+                border: 1.5px solid var(--color-social-link)
+                border-radius: 50%
+                transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1)
+                svg
+                    width: 100%
+                    height: 100%
+                    object-fit: cover
+                    display: block
+                    path
+                        transition: fill 0.5s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.5s cubic-bezier(0.4, 0, 0.2, 1)
+                &:hover
+                    border-color: var(--color-teal)
+                    svg
+                        path
+                            fill: var(--color-teal)
+                    &:last-child
+                        path
+                            fill: none
+                            stroke: var(--color-teal)
+                    &:nth-child(3)
+                        path
+                            stroke: var(--color-teal)
+
+    .subscribe
+        display: flex
+        &-label
+            margin-bottom: gem(24)
+        &-wrap
+            margin-top: gem(80)
+            display: flex
+            flex-direction: column
+        &__field
+            width: gem(320)
+            border: none
+            background: transparent
+            color: #C0CAC3
+            font-size: gem(16)
+            line-height: gem(27)
+            transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1), border 0.5s cubic-bezier(0.4, 0, 0.2, 1), background 0.5s cubic-bezier(0.4, 0, 0.2, 1)
+            &:focus
+                outline: none
+                border: none
+                background: transparent
+                color: #18CF92
+            &::placeholder
+                color: #C0CAC3
+                font-size: gem(16)
+                line-height: gem(27)
+
+        &__btn
+            background: transparent
+            border: none
+            outline: none
+            color: var(--color-social-link)
+            transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1)
+        &__form
+            display: flex
+            padding-bottom: gem(10)
+            border-bottom: 1px solid #C0CAC3
+            transition: border 0.5s cubic-bezier(0.4, 0, 0.2, 1)
+            &:hover
+                border-bottom: 1px solid var(--color-teal)
+                .subscribe__btn
+                    color: var(--color-teal)
+.footer-link
+    color: var(--color-social-link)
+    font-family: var(--main-font)
+    font-size: gem(13)
+    font-style: normal
+    font-weight: 500
+    line-height: gem(21)
+    text-transform: uppercase
+    transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1)
+    &:hover
+        color: #72F4C9
+@media (max-width: 1024px)
+    .footer
+        padding-top: gem(110)
+        .container
+            width: gem(950)
+            min-width: auto
+        &-container__first-right
+            gap: gem(100)
+        &-container__second
+            margin-top: gem(80)
+        &-container__desc
+            margin-top: gem(90)
+@media (max-width: 480px)
+    .footer
+        padding-top: gem(30)
+        padding-bottom: gem(50)
+        &-container
+            padding: 0 gem(30)
+            &__first
+                flex-direction: column
+                gap: gem(75)
+                &-left
+                    gap: gem(20)
+                    width: 100%
+                &-right
+                    gap: gem(100)
+            &__second
+                margin-top: gem(60)
+                flex-direction: column
+                gap: gem(30)
+                &-right
+                    flex-wrap: wrap
+                    gap: gem(10) gem(35)
+            &__desc
+                margin-top: gem(50)
+                padding: 0
+        .container
+            width: 100%
+            min-width: auto
+        .subscribe-wrap
+            margin-top: gem(25)
+
+        .subscribe__field
+            width: gem(200)

@@ -1,0 +1,14 @@
+---
+
+type Props = {
+    className: string,
+    id: string,
+};
+
+const { className, id } = Astro.props;
+
+---
+
+<section class={className} id={id}>
+    <slot />
+</section>

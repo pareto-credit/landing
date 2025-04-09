@@ -1,0 +1,40 @@
+---
+
+type SectionCopyright = {
+    img: string,
+    title: string,
+    description: string,
+    btn: {
+        text: string,
+        link: string,
+    }
+};
+
+type Props = {
+    id: string,
+    COPY: SectionCopyright,
+};
+
+
+
+const { COPY, id } = Astro.props;
+
+---
+
+<div class="community-section__list__item">
+    <a href={COPY.btn.link} class="community-section__list__item__link">
+        <div class="community-section__list__item__wrap">
+            <div class="community-section__list__item__img">
+                <img src="#" data-src={COPY.img} alt="icon" data-load-priority="4" class="lazy">
+            </div>
+            <div class="community-section__list__item__text">
+                <h4 class="title-h3 dark-green">{COPY.title}</h4>
+                <p class="desc-2 sage">{COPY.description}</p>
+            </div>
+        </div>
+        <span class="btn btn-secondary">
+            <span class="nav up-text">{COPY.btn.text}</span>
+        </span>
+    </a>
+</div>
+

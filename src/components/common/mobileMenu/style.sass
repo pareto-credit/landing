@@ -1,0 +1,102 @@
+.mobile-menu
+    position: fixed
+    top: 0
+    left: 0
+    display: none
+    flex-direction: column
+    justify-content: space-between
+    width: 100%
+    height: 100%
+    max-height: 100dvh
+    background-color: #E3E8E2
+    visibility: hidden
+    overflow: hidden
+    z-index: var(--index-mobile-menu)
+    .burger
+        position: relative
+        width: 24px
+        height: 24px
+        cursor: pointer
+        &.active
+            .burger-line
+                &:first-child
+                    top: 50%
+                    transform: rotate(45deg)
+                &:last-child
+                    top: 50%
+                    transform: rotate(-45deg)
+    .burger-line
+        position: absolute
+        left: 0
+        width: 100%
+        background: #081912
+        transition: all 0.3s ease
+        &:first-child
+            top: 8px
+        &:last-child
+            bottom: 8px
+    .links-list
+        display: flex
+        flex-direction: column
+        gap: gem(20)
+        margin-top: gem(40)
+        padding: 0 gem(47)
+        .link-item
+            opacity: 0
+            display: flex
+            justify-content: center
+            align-items: center
+            padding: gem(10) gem(0)
+            transition: all 800ms cubic-bezier(.19,1,.22,1)
+            .nav
+                font-size: gem(20)
+                line-height: gem(21)
+                text-transform: uppercase
+                color: var(--color-deep-forest)
+    .header__btn
+        width: gem(133)
+        margin: 0 auto
+
+    &.opened
+        overflow: auto
+    .container
+        padding-top: gem(16)
+        padding-bottom: gem(78)
+        height: 100%
+        display: flex
+        flex-direction: column
+        justify-content: space-between
+    &__header
+        display: flex
+        justify-content: space-between
+        align-items: center
+        padding: gem(13) gem(24)
+        border-radius: gem(30)
+        border: 1px solid #F7FFFD
+        background: linear-gradient(180deg, rgba(239, 241, 239, 0.60) -130.36%, rgba(239, 241, 239, 0.00) 235.71%)
+        backdrop-filter: blur(3px)
+        .menu
+            display: flex
+            align-items: center
+            justify-content: space-between
+        ul
+            display: flex
+            align-items: center
+            width: 100%
+            height: 100%
+        .logo-wrap
+            width: gem(108)
+            height: gem(12)
+            svg
+                width: 100%
+                height: 100%
+                object-fit: cover
+            a
+                display: flex
+            path
+                fill: var(--color-soft-sand)
+        .link
+            color: var(--color-soft-sand)
+        .burger
+            span
+                background: black

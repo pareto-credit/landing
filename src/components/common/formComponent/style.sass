@@ -1,0 +1,119 @@
+#form-component
+    width: gem(492)
+    height: gem(671)
+    padding: gem(46) gem(49) gem(44)
+    display: flex
+    border-radius: gem(30)
+    border: 1px solid var(--color-emerald)
+    background: var(--color-deep-forest)
+    .contact-form
+        width: 100%
+        display: flex
+        flex-direction: column
+        justify-content: space-between
+    .form-list
+        display: flex
+        flex-direction: column
+    .form-list-item
+        display: flex
+        justify-content: space-between
+        width: 100%
+        &--column
+            flex-direction: column
+        &--focus
+            padding-bottom: gem(16)
+            &.form-list-item--column
+                border-bottom: 1px solid var(--color-form-text)
+        &:not(:last-child)
+            margin-bottom: gem(26)
+    .radio-list
+        display: flex
+    .radio-item
+        &:not(:last-child)
+            margin-right: gem(13)
+        input
+            display: none
+            &:checked
+                & + label
+                    color: var(--color-form-text)
+                    background: var(--color-bg-bt)
+            &:hover
+                & + label
+                    color: var(--color-form-text)
+        label
+            display: block
+            padding: 0 gem(23)
+            border: 1px solid rgba(137, 160, 151, 0.24)
+            border-radius: gem(30)
+            cursor: pointer
+            transition: all 800ms cubic-bezier(.19,1,.22,1)
+    .radio-title
+        margin-bottom: gem(14)
+    .input-wrap
+        width: 100%
+        display: flex
+        flex-direction: column
+        position: relative
+    .error-message
+        display: none
+        position: absolute
+        bottom: gem(-34)
+        color: var(--color-error)
+    .input-item
+        width: 100%
+        background: transparent
+        padding: 0 0 gem(11)
+        border: none
+        border-bottom: 1px solid var(--color-muted-green)
+        color: var(--color-form-text)
+        transition: all 800ms cubic-bezier(.19,1,.22,1)
+        &:focus
+            outline: none
+            border-bottom-color: var(--color-contrast)
+            color: var(--color-contrast)
+        &::placeholder
+            color: var(--color-form-text)
+        &--small
+            width: gem(190)
+    .form-footer-wrap
+        display: flex
+        justify-content: space-between
+        align-items: center
+    .submit-button
+        width: fit-content
+        border: none
+        outline: none
+        cursor: pointer
+        transition: all 800ms cubic-bezier(.19,1,.22,1)
+        &:hover
+            background: var(--color-contrast)
+    .success-message
+        display: none
+        color: var(--color-bright-mint)
+
+
+@media (max-width: 480px)
+    #form-component
+        width: 100%
+        height: auto
+        padding: gem(44) gem(32) gem(48) gem(25)
+        .form-list
+            margin-bottom: gem(91)
+        .radio-title
+            margin-bottom: gem(7)
+        .radio-item
+            &:not(:last-child)
+                margin-right: gem(15)
+            label
+                padding: 0 gem(17)
+        .form-list-item
+            flex-wrap: wrap
+            &:first-child
+                margin-bottom: gem(32)
+            .input-wrap
+                &:not(:last-child)
+                    margin-bottom: gem(26)
+        .input-item--small
+            width: 100%
+        .error-message
+            bottom: gem(-22)

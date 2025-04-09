@@ -1,0 +1,74 @@
+---
+
+export type Props = {
+    icon: string;
+    title: string;
+    description: string;
+    bgImage: string;
+    badges: string[];
+    itemDescription: string;
+    infoBlock: {
+        title: string;
+        value: string;
+    }[];
+    isActive: boolean;
+    index: number;
+};
+
+
+const props = Astro.props;
+
+---
+
+<div class="tabs-list__item" data-nav-id={props.index}>
+    <div class="tabs-list__item-header">
+        <div class="icon">
+            <img src='#' data-src={props.icon} class="lazy" data-load-priority="1"  alt="icon">
+        </div>
+        <div class="title-wrap">
+            <div class="title-wrap__title">
+                <h4 class="title-h4 deep-forest">
+                    {props.title}
+                </h4>
+            </div>
+            <div class="title-wrap__description">
+                <p class="desc-4 muted-green">
+                    {props.description}
+                </p>
+            </div>
+        </div>
+        <div class="bg">
+            <Fragment set:html={props.bgImage} />
+        </div>
+    </div>
+    <div class="tabs-list__item-body">
+      <div>
+        <div class="badge-list">
+            {
+                props.badges.map((badge) => (
+                    <div class="badge">
+                        <span class="desc-5 deep-forest">{badge}</span>
+                    </div>
+                ))
+            }
+        </div>
+        <div class="item-description">
+            <p class="desc-4 muted-green">
+                {props.itemDescription}
+            </p>
+        </div>
+      </div>
+        <div class="info-block">
+            { props.infoBlock.map((item) => (
+                <div class="info-block__item">
+                <div class="title desc-4 muted-green">
+                    <span class="desc-4 muted-green">{item.title}</span>
+                </div>
+                <div class="value ">
+                    <h4 class="title-h4 deep-forest">{item.value}</h4>
+                </div>
+            </div>
+            )) }
+        </div>
+    </div>
+</div>

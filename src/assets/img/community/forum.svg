@@ -1,0 +1,57 @@
+<svg  viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Frame 316125994">
+<g id="Group 316126284">
+<g id="Group 316125988">
+<path id="Rectangle 13042" d="M28.9111 11H47V47H7L7 21" stroke="#2F5144" stroke-width="2"/>
+<g id="Group 316125989">
+<rect id="Rectangle 13044" x="35" y="27" width="7" height="14" stroke="#2F5144" stroke-width="2"/>
+<g id="Group 316125990">
+<g id="Group 316125969">
+<mask id="mask0_145_3407" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="25" y="25" width="4" height="14">
+<rect id="Rectangle 13043" x="25" y="25" width="4" height="14" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_145_3407)">
+<g id="Group 316126174">
+<g id="Group 316126174_2">
+<path id="Rectangle 12987" d="M26.5 31L28 32.5L26.5 34L25 32.5L26.5 31Z" fill="#2F5144"/>
+</g>
+<g id="Group 316126175">
+<path id="Rectangle 12981" d="M24.5 33L26 34.5L24.5 36L23 34.5L24.5 33Z" fill="#2F5144"/>
+<path id="Rectangle 12987_2" d="M28.5 33L30 34.5L28.5 36L27 34.5L28.5 33Z" fill="#2F5144"/>
+</g>
+<g id="Group 316126170">
+<path id="Rectangle 12987_3" d="M26.5 23L28 24.5L26.5 26L25 24.5L26.5 23Z" fill="#2F5144"/>
+</g>
+<g id="Group 316126176">
+<path id="Rectangle 12987_4" d="M26.5 35L28 36.5L26.5 38L25 36.5L26.5 35Z" fill="#2F5144"/>
+</g>
+<g id="Group 316126171">
+<path id="Rectangle 12981_2" d="M24.5 25L26 26.5L24.5 28L23 26.5L24.5 25Z" fill="#2F5144"/>
+<path id="Rectangle 12987_5" d="M28.5 25L30 26.5L28.5 28L27 26.5L28.5 25Z" fill="#2F5144"/>
+</g>
+<g id="Group 316126177">
+<path id="Rectangle 12981_3" d="M24.5 37L26 38.5L24.5 40L23 38.5L24.5 37Z" fill="#2F5144"/>
+<path id="Rectangle 12987_6" d="M28.5 37L30 38.5L28.5 40L27 38.5L28.5 37Z" fill="#2F5144"/>
+</g>
+<g id="Group 316126172">
+<path id="Rectangle 12987_7" d="M26.5 27L28 28.5L26.5 30L25 28.5L26.5 27Z" fill="#2F5144"/>
+</g>
+<g id="Group 316126173">
+<path id="Rectangle 12981_4" d="M24.5 29L26 30.5L24.5 32L23 30.5L24.5 29Z" fill="#2F5144"/>
+<path id="Rectangle 12987_8" d="M28.5 29L30 30.5L28.5 32L27 30.5L28.5 29Z" fill="#2F5144"/>
+</g>
+</g>
+</g>
+</g>
+<rect id="Rectangle 13046" x="23" y="23" width="8" height="18" stroke="#2F5144" stroke-width="2"/>
+</g>
+<path id="Rectangle 13045" d="M12 33H19V41H12V33Z" stroke="#2F5144" stroke-width="2"/>
+</g>
+</g>
+<g id="Group 316125991">
+<path id="Subtract" fill-rule="evenodd" clip-rule="evenodd" d="M1 8.27907C1 4.25896 4.25895 1 8.27907 1H19.7907C23.8108 1 27.0698 4.25895 27.0698 8.27907V12.8837C27.0698 16.7281 24.0895 19.8764 20.3133 20.1443V22.9302V23H17.5621L13.1099 20.1628H8.27907C4.25895 20.1628 1 16.9038 1 12.8837V8.27907ZM8.27907 3C5.36352 3 3 5.36352 3 8.27907V12.8837C3 15.7993 5.36352 18.1628 8.27907 18.1628H13.4015H13.693L13.9389 18.3195L18.3133 21.1072V19.1628V18.1628H19.3133H19.7907C22.7062 18.1628 25.0698 15.7993 25.0698 12.8837V8.27907C25.0698 5.36352 22.7062 3 19.7907 3H8.27907Z" fill="#2F5144"/>
+<path id="Rectangle 12964" d="M8.27982 12.9883L15.7909 12.9883M19.7909 8.80223L8.2793 8.80223" stroke="#2F5144" stroke-width="2"/>
+</g>
+</g>
+</g>
+</svg>

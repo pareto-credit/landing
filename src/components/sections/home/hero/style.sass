@@ -1,0 +1,106 @@
+.hero-section
+    padding-top: 15vh
+    .canvas
+        position: absolute
+        top: gem(-56)
+        left: 0
+        width: 100vw
+        height: 100vh
+        z-index: -1
+        &-placeholder
+            position: absolute
+            top: gem(-56)
+            left: 0
+            width: 100vw
+            height: 100vh
+            z-index: -1
+            background: var(--color-porcelain)
+            img
+                width: 100%
+                height: 100%
+    &__title-wrap
+        margin-top: gem(80)
+        text-align: center
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        gap: gem(13)
+    &__title
+        width: gem(800)
+    &__description
+        margin-top: gem(10)
+        width: gem(710)
+    &__info-blocks
+        &-list
+            display: flex
+            justify-content: center
+            gap: gem(20)
+            margin-top: gem(135)
+            padding-bottom: gem(10)
+        &-item
+            background: var(--color-porcelain)
+            display: flex
+            flex-direction: column
+            align-items: center
+            gap: gem(8)
+            padding: gem(20) gem(90)
+            border-radius: gem(8)
+            border: 1px solid var(--color-teal)
+            position: relative
+            &::before
+                content: ''
+                position: absolute
+                top: 0
+                left: -1px
+                width: 100%
+                border-radius: gem(8)
+                border: 1px solid var(--color-teal)
+                height: gem(101)
+                background: var(--color-porcelain)
+                z-index: -1
+            &::after
+                content: ''
+                position: absolute
+                top: 0
+                left: -1px
+                width: 100%
+                border-radius: gem(8)
+                border: 1px solid var(--color-teal)
+                height: gem(103)
+                background: var(--color-porcelain)
+                z-index: -2
+
+@media (max-width: 1024px)
+    .hero-section
+        padding-top: 20vh
+        .canvas-placeholder
+            display: none
+        &__title-wrap
+            margin-top: gem(65)
+@media (max-width: 480px)
+    .hero-section
+        padding-top: gem(65)
+        .canvas
+            display: none
+            &-placeholder
+                display: none
+        &__title,
+        &__description
+            // padding: 0 gem(10)
+            width: 100%
+            .title-h1
+                font-size: gem(32)
+                line-height: gem(38)
+        &__info-blocks-list
+            flex-direction: column
+            gap: gem(25)
+            margin-top: gem(58)
+            padding: 0 gem(10)
+        &__title-wrap
+            margin-top: gem(35)
+        &__info-blocks-item
+            &::before
+                height: gem(101)
+            &::after
+                height: gem(103.9)
