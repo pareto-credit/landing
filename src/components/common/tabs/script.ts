@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { Breakpoints } from 'scripts/appBreakpoints';
 import { inFrames } from 'scripts/utils/inFrames';
 import { customEaseIn, customEaseOut } from 'scripts/utils/tweenHelpers';
+import { getApiClient } from 'scripts/utils/apiClient';
 
 export class HeroTabs extends Component {
     private tabsComponent: TabsComponent;
@@ -17,8 +18,45 @@ export class HeroTabs extends Component {
 
     constructor(config: ComponentConfig) {
         super(config);
-
     }
+
+    async loadVaults() {
+        const apiClient = getApiClient();
+        const vaults = await apiClient.vaults.search({
+            status: 'READY',
+            visibility: 'PUBLIC',
+            contractType: 'CDO_EPOCH',
+            fields: ['_id']
+        });
+
+        const vaultIds = vaults.data.map( v => v._id )
+        const vaultLatestBlocks = await apiClient.vaultLatestBlocks.search({
+            vaultId: vaultIds
+        })
+
+        vaultLatestBlocks.data.forEach( vaultBlock => {
+            const tabEl = document.querySelector('.tabs-list__item[data-address="'+vaultBlock.vaultAddress+'"]')
+
+            const aprEl = tabEl.querySelector('.info-block__item[data-id="APY"] .value h4')
+            if (aprEl){
+                aprEl.innerHTML = Number(vaultBlock.APYs.NET).toFixed(2)+'%'
+            }
+
+            const tvlEl = tabEl.querySelector('.info-block__item[data-id="TVL"] .value h4')
+            if (tvlEl){
+                const intlOptions: Intl.NumberFormatOptions = {
+                    maximumFractionDigits: 1,
+                    notation: 'compact',
+                    currency: 'USD',
+                    style: 'currency',
+                    compactDisplay: 'short',
+                }
+                const formatter = new Intl.NumberFormat('en-US', intlOptions)
+                tvlEl.innerHTML = formatter.format(Number(vaultBlock.TVL.withRequestsUSD || vaultBlock.TVL.USD)/1000000)
+            }
+        })
+    }
+
     initializeHeroTabs() {
         new HeroTabs({
             el: document.querySelector('.tabs'),

@@ -1,9 +1,7 @@
 ---
 import { CommonComponents } from '../commonTypes';
 import './style.sass';
-import falcon from 'assets/img/hero/falconx.png?url';
 import TabItem from './tabItem.astro';
-
 
 type Props = {
     Tabs: Item[];
@@ -16,18 +14,18 @@ export type Item = {
     description: string;
     bgImage: string;
     badges: string[];
+    address: string
     itemDescription: string;
     infoBlock: {
+        id: string
         title: string;
         value: string;
     }[];
     isActive: boolean;
 };
 
-
-
-
 const { Tabs } = Astro.props;
+// const Tabs = await loadVaultTabs();
 
 ---
 
@@ -38,6 +36,7 @@ const { Tabs } = Astro.props;
                 index={index}
                 icon={item.icon}
                 title={item.title}
+                address={item.address}
                 description={item.description}
                 bgImage={item.bgImage}
                 badges={item.badges}

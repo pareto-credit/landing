@@ -54,17 +54,21 @@ export const HomeEnCopy = {
                 description: 'Basis Trade',
                 bgImage: fasanraBg,
                 badges: ['USDС', 'Variable rate'],
+                address: '0x45054c6753b4Bce40C5d54418DabC20b070F85bE',
                 itemDescription: 'Variable-rate loan channeling funds into delta-neutral yield strategies overperforming the BTC funding rate.',
                 infoBlock: [
                     {
+                        id: 'TVL',
                         title: 'TVL',
-                        value: '$11m',
+                        value: '$-',
                     },
                     {
+                        id: 'APY',
                         title: 'Net APY',
-                        value: '13.75%',
+                        value: '-%',
                     },
                     {
+                        id: 'RED',
                         title: 'Redemptions',
                         value: 'Weekly',
                     },
@@ -77,17 +81,20 @@ export const HomeEnCopy = {
                 description: 'Prime Brokerage',
                 bgImage: falconxBg,
                 badges: ['USDС', 'Fixed rate'],
+                address: '0x24e16F9Fad32891f8bA69cE8fEdd273A2649331A',
                 itemDescription: 'Lending funds to an SPV managed by a top-tier Prime Broker, providing financing to end-counterparties while being secured by structural protections.',
                 infoBlock: [
                     {
+                        id: 'TVL',
                         title: 'TVL',
-                        value: '$30m',
+                        value: '$-',
                     },
                     {
                         title: 'Net APY',
                         value: 'Hidden',
                     },
                     {
+                        id: 'RED',
                         title: 'Redemptions',
                         value: 'Monthly',
                     },
@@ -100,17 +107,21 @@ export const HomeEnCopy = {
                 description: 'Market Making',
                 bgImage: bastionBg,
                 badges: ['USDT', 'Fixed rate'],
+                address: '0xaE65d6C295E4a28519182a632FB25b7C1966AED7',
                 itemDescription: 'Fixed rate loan channeling funds into derivatives trading and market-making strategies.',
                 infoBlock: [
                     {
+                        id: 'TVL',
                         title: 'TVL',
-                        value: '$30m',
+                        value: '$-',
                     },
                     {
+                        id: 'APY',
                         title: 'Net APY',
-                        value: 'Hidden',
+                        value: '-%',
                     },
                     {
+                        id: 'RED',
                         title: 'Redemptions',
                         value: 'Monthly',
                     },
@@ -267,7 +278,8 @@ export const HomeEnCopy = {
             {
                 text: 'analytics page',
                 link: '#',
-            },],
+            },
+            ],
         },
         rightBlock: {
             title: 'Audits',

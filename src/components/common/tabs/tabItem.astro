@@ -1,17 +1,7 @@
 ---
+import type { Item } from './view.astro';
 
-export type Props = {
-    icon: string;
-    title: string;
-    description: string;
-    bgImage: string;
-    badges: string[];
-    itemDescription: string;
-    infoBlock: {
-        title: string;
-        value: string;
-    }[];
-    isActive: boolean;
+export type Props = Item & {
     index: number;
 };
 
@@ -20,7 +10,7 @@ const props = Astro.props;
 
 ---
 
-<div class="tabs-list__item" data-nav-id={props.index}>
+<div class="tabs-list__item" data-address={props.address} data-nav-id={props.index}>
     <div class="tabs-list__item-header">
         <div class="icon">
             <img src='#' data-src={props.icon} class="lazy" data-load-priority="1"  alt="icon">
@@ -60,7 +50,7 @@ const props = Astro.props;
       </div>
         <div class="info-block">
             { props.infoBlock.map((item) => (
-                <div class="info-block__item">
+                <div class="info-block__item" data-id={item.id}>
                 <div class="title desc-4 muted-green">
                     <span class="desc-4 muted-green">{item.title}</span>
                 </div>

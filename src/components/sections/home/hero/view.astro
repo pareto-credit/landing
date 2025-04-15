@@ -2,7 +2,7 @@
 import './style.sass';
 
 import Section from 'layouts/section.astro';
-import HeroTabs from 'components/common/tabs/view.astro';
+import HeroTabs, { type Item } from 'components/common/tabs/view.astro';
 
 
 type SectionCopyright = {
@@ -12,19 +12,7 @@ type SectionCopyright = {
         title: string;
         value: string;
     }[];
-    tabs: {
-        icon: string;
-        title: string;
-        description: string;
-        bgImage: string;
-        badges: string[];
-        itemDescription: string;
-        infoBlock: {
-            title: string;
-            value: string;
-        }[];
-        isActive: boolean;
-    }[];
+    tabs: Item[];
 };
 
 type Props = {

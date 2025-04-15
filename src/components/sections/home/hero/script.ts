@@ -12,6 +12,7 @@ export default class MainScene extends Section {
 
 
     protected async setupSection() {
+        HeroTabs.prototype.loadVaults();
         HeroTabs.prototype.initializeHeroTabs();
         this.setupSequence();
     }
