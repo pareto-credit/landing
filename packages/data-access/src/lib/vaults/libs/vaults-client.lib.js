@@ -50,6 +50,11 @@ import { stringify } from '../../core/utility.lib';
                 method: 'GET',
                 params: new URLSearchParams(uriFy(searchParams))
             }).then((response)=>response.data),
+        performances: (params)=>axios.request({
+                url: VaultRoutes.v1Performances,
+                method: 'GET',
+                params: new URLSearchParams(uriFy(params))
+            }).then((response)=>response.data),
         integrations: (vaultId, searchParams)=>axios.request({
                 url: VaultRoutes.v1Integrations.replace(':vaultId', vaultId),
                 method: 'GET',

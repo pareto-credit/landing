@@ -14,6 +14,7 @@ export const WALLET_PERFORMANCES_ROUTES_KEY = 'wallet-performances';
         }
     },
     realizedAPY: 0,
+    rewardsRealizedAPY: 0,
     poolSharePercentage: 0,
     accruedRewards: [],
     collectedRewards: []

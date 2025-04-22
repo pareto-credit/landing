@@ -36,15 +36,18 @@ import imm from '/src/assets/img/transparent/imm.svg?url';
 export const HomeEnCopy = {
     heroSection: {
         title: 'Radically transforming credit, on-chain',
-        description: 'Building a marketplace of scaled on-chain credit facilities that displace legacy lending infrastructure and loan origination processes at each stage of the loan lifecycle.',
+        // description: 'Building a marketplace of scaled on-chain credit facilities that displace legacy lending infrastructure and loan origination processes at each stage of the loan lifecycle.',
+        description: 'Building a private credit marketplace that connects institutional lenders and borrowers, offering scalable yield opportunities',
         infoBlocks: [
             {
+                id: 'TVL',
                 title: 'TVL',
-                value: '$31,227,832',
+                value: '$-',
             },
             {
+                id: 'CE',
                 title: 'CREDIT EXTENDED',
-                value: '$31,227,832',
+                value: '$-',
             },
         ],
         tabs: [
@@ -133,7 +136,8 @@ export const HomeEnCopy = {
     solutionSection: {
         subTitle: 'MODULAR SOLUTION',
         title: 'Onchain Credit, Simplified.',
-        description: 'Built for asset managers, credit funds, and institutional investors, Pareto delivers programmable, transparent, and efficient on-chain capital markets with institutional-grade infrastructure.',
+        // description: 'Built for asset managers, credit funds, and institutional investors, Pareto delivers programmable, transparent, and efficient on-chain capital markets with institutional-grade infrastructure.',
+        description: 'Built for asset managers, credit funds, and institutional investors, Pareto delivers programmable, transparent, and efficient on-chain capital solutions with institutional-grade infrastructure.',
         solutionList: [
             {
                 className: 'lend',
@@ -142,30 +146,26 @@ export const HomeEnCopy = {
                 visual: lend,
                 btns: [
                     {
-                        text: 'Open in app',
-                        link: '#',
-                    },
-                    {
-                        text: 'Documents',
-                        link: '#',
+                        text: 'Enter App',
+                        link: 'https://app.pareto.credit',
                     },
                 ],
                 futures: [
                     {
-                        title: 'Explore Credit Vaults',
+                        title: 'Choose Credit Vault',
                         description: 'Each market is uniquely structured based on borrower profiles, supported assets, blockchain networks, and loan terms.',
+                    },
+                    {
+                        title: 'Complete  KYC',
+                        description: 'Access eligibility is verified through zk-proofed KYC, ensuring institutional compliance and privacy.',
                     },
                     {
                         title: 'Execute Loan Agreement',
                         description: 'Formalize credit terms by signing a legally binding agreement that outlines borrower obligations and lender rights.',
                     },
                     {
-                        title: 'Asset Deployment',
+                        title: 'Deploy Assets',
                         description: 'Allocate assets to credit vaults, receive interest-bearing credit tokens in return, and use them across DeFi.',
-                    },
-                    {
-                        title: 'Seamless  KYC Verification',
-                        description: 'Access eligibility is verified through zk-proofed KYC, ensuring compliance and privacy.',
                     },
                 ],
             }, {
@@ -174,8 +174,9 @@ export const HomeEnCopy = {
                 description: 'Streamline the creation and securitization of your credit – interest rates, lockup periods, withdrawal cycles, reserve ratios, risk-adjusted tranches: construct the credit line that works best for you.',
                 visual: borrow,
                 btns: [{
-                    text: 'Open in app',
-                    link: '#',
+                    isAnchor: true,
+                    text: 'Contact Us',
+                    link: 'homepage-get-in-touch',
                 },
                 ],
                 futures: [
@@ -184,15 +185,15 @@ export const HomeEnCopy = {
                         description: 'Prospective borrowers undergo a due diligence process before gaining access to a credit vault.',
                     },
                     {
-                        title: 'Vault Configuration',
+                        title: 'Configure Vault',
                         description: 'Borrowers set key parameters like loan duration, interest rate model, early exit terms, tranche structure, preferred KYC processes, and utilize an available legal framework.',
                     },
                     {
-                        title: 'Yield Generation',
+                        title: 'Receive Funds',
                         description: 'Once a loan cycle commences, borrowers receive funds directly into their designated wallet.',
                     },
                     {
-                        title: 'Interest Payment',
+                        title: 'Distribute Interest',
                         description: 'Credit Vaults automate accounting. Borrowers must pay interest at the end of each cycle; unclaimed interest returns to the lending pool.',
                     },
                 ],
@@ -204,25 +205,26 @@ export const HomeEnCopy = {
                 visual: curate,
                 btns: [
                     {
-                        text: 'Open in app',
-                        link: '#',
+                        isAnchor: true,
+                        text: 'Contact Us',
+                        link: 'homepage-get-in-touch',
                     },
                 ],
                 futures: [
                     {
-                        title: 'Curator Onboarding',
+                        title: 'Get Onboarded',
                         description: 'Curators undergo a comprehensive due diligence process before being authorized to manage a Credit Vault.',
                     },
                     {
-                        title: 'Vault Configuration',
+                        title: 'Configure Vault',
                         description: 'Curators can set vault fees and earn from their curatorship.',
                     },
                     {
-                        title: 'Curator App',
+                        title: 'Access Curator App',
                         description: 'Curators have access to a dedicated application that provides real-time visibility into fund inflows and outflows.',
                     },
                     {
-                        title: 'Performance and Risk Reporting',
+                        title: 'Oversee Vault Performance',
                         description: 'Curators oversee the generation and distribution of reports on vault performance and risk exposures.',
                     },
                 ],
@@ -235,8 +237,8 @@ export const HomeEnCopy = {
     },
     OurAdvantage: {
         subTitle: 'OUR ADVANTAGE',
-        title: 'Choose Efficiency',
-        description: 'Liquidity built for the future, available today.',
+        title: 'Purpose-Built for Institutions',
+        description: 'Experience institutional-grade on-chain credit with Pareto.',
         list: [
             {
                 icon: lower,
@@ -285,7 +287,7 @@ export const HomeEnCopy = {
             title: 'Audits',
             btn: {
                 text: 'READ REPORTS',
-                link: '#',
+                link: 'https://docs.pareto.credit/developers/security/audits',
             },
             logos: [{
                 src: Sherlock,
@@ -318,7 +320,7 @@ export const HomeEnCopy = {
         description: 'Scale your digital asset business with flexible, cost-effective credit lines.',
     },
     CommunitySection: {
-        subTitle: 'Join Our Community',
+        subTitle: 'Governance & Documentation',
         title: 'Get Involved',
         description: '',
         list: [
@@ -328,31 +330,31 @@ export const HomeEnCopy = {
                 description: 'Discuss key issues, propose changes, and help shape Pareto’s future.',
                 btn: {
                     text: 'VISIT GOVERNANCE',
-                    link: '#',
+                    link: 'https://gov.pareto.credit/',
                 },
             },
             {
                 img: docs,
                 title: 'Developer Docs',
-                description: 'Learn how to interact with Pareto’s smart contracts and integrate them.',
+                description: 'Learn how to interact with Pareto\'s smart contracts and integrate them.',
                 btn: {
                     text: 'READ DOCS',
-                    link: '#',
+                    link: 'https://docs.pareto.credit/',
                 },
             },
             {
                 img: document,
-                title: 'User Documentation',
-                description: 'Understand how Pareto works and how to use it effectively.',
+                title: 'Integrators Docs',
+                description: 'Learn how to interact with Pareto\'s API and integrate them.',
                 btn: {
                     text: 'READ DOCS',
-                    link: '#',
+                    link: 'https://docs.pareto.credit/developers/api',
                 },
             },
         ],
     },
     NewsSection: {
-        subTitle: 'Join Our Community',
+        subTitle: 'Media Coverage',
         title: 'News',
         description: 'A collection of news about Pareto and its ecosystem',
         list: [

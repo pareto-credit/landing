@@ -13,6 +13,7 @@ import { BlockMock, RewardMock } from '../core';
         age: (options == null ? void 0 : options.age) || 0,
         earnings: WalletBlockEarningsMock(options == null ? void 0 : options.earnings),
         realizedAPY: (options == null ? void 0 : options.realizedAPY) || 0,
+        rewardsRealizedAPY: (options == null ? void 0 : options.rewardsRealizedAPY) || 0,
         poolSharePercentage: (options == null ? void 0 : options.poolSharePercentage) || 0,
         accruedRewards: options == null ? void 0 : (_options_accruedRewards = options.accruedRewards) == null ? void 0 : _options_accruedRewards.map((a)=>RewardMock(a)),
         collectedRewards: options == null ? void 0 : (_options_collectedRewards = options.collectedRewards) == null ? void 0 : _options_collectedRewards.map((c)=>RewardMock(c)),
@@ -28,6 +29,7 @@ export function WalletBlockPerformanceMock(options) {
         age: (options == null ? void 0 : options.age) || 0,
         earnings: WalletBlockEarningsMock(options == null ? void 0 : options.earnings),
         realizedAPY: (options == null ? void 0 : options.realizedAPY) || 0,
+        rewardsRealizedAPY: (options == null ? void 0 : options.rewardsRealizedAPY) || 0,
         poolSharePercentage: (options == null ? void 0 : options.poolSharePercentage) || 0,
         accruedRewards: options == null ? void 0 : (_options_accruedRewards = options.accruedRewards) == null ? void 0 : _options_accruedRewards.map((a)=>RewardMock(a)),
         collectedRewards: options == null ? void 0 : (_options_collectedRewards = options.collectedRewards) == null ? void 0 : _options_collectedRewards.map((c)=>RewardMock(c))

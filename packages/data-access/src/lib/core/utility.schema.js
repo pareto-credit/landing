@@ -81,5 +81,16 @@ import S from 'fluent-json-schema';
  */ export function sLocales() {
     return S.object().additionalProperties(false).prop('en', S.string()).required();
 }
+/**
+ * Meta data
+ */ export function sMetaContent() {
+    return S.object().additionalProperties(true);
+}
+export function sMetaItem() {
+    return S.object().additionalProperties(false).prop('title', sLocales()).required().prop('description', sLocales());
+}
+export function sMetaItems() {
+    return S.object().additionalProperties(true);
+}
 
 //# sourceMappingURL=utility.schema.js.map

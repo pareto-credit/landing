@@ -13,7 +13,7 @@ export function sVaultEpochData(isPartial) {
     ]).extend(sVaultEpochBody(isPartial));
 }
 export function sVaultEpochBody(isPartial) {
-    return S.object().prop('APRs', sVaultEpochAPRs()).prop('APYs', sVaultEpochAPYs()).prop('totalSupply', sBigInt()).prop('price', sBigInt()).prop('TVL', sVaultTvl()).prop('expectedInterest', sBigInt()).prop('unclaimedFees', sBigInt()).prop('deposits', sBigInt()).prop('duration', S.number()).prop('status', sVaultEpochStatus()).prop('withdrawType', sVaultEpochWithdrawType()).prop('count', S.number()).prop('bufferDuration', S.number()).prop('startDate', S.string()).prop('endDate', S.string()).prop('withdraws', sVaultEpochWithdraws()).prop('depositQueue', sVaultEpochQueue()).prop('withdrawQueue', sVaultEpochQueue()).prop('instantWithdraws', sVaultEpochInstantWithdraws()).required(isPartial ? [] : [
+    return S.object().prop('APRs', sVaultEpochAPRs()).prop('APYs', sVaultEpochAPYs()).prop('totalSupply', sBigInt()).prop('price', sBigInt()).prop('TVL', sVaultTvl()).prop('creditExtended', sVaultCreditExtended()).prop('expectedInterest', sBigInt()).prop('unclaimedFees', sBigInt()).prop('deposits', sBigInt()).prop('duration', S.number()).prop('status', sVaultEpochStatus()).prop('withdrawType', sVaultEpochWithdrawType()).prop('count', S.number()).prop('bufferDuration', S.number()).prop('startDate', S.string()).prop('endDate', S.string()).prop('withdraws', sVaultEpochWithdraws()).prop('depositQueue', sVaultEpochQueue()).prop('withdrawQueue', sVaultEpochQueue()).prop('instantWithdraws', sVaultEpochInstantWithdraws()).required(isPartial ? [] : [
         'APRs',
         'totalSupply',
         'price',
@@ -27,6 +27,9 @@ export function sVaultEpochBody(isPartial) {
         'count',
         'bufferDuration'
     ]);
+}
+export function sVaultCreditExtended() {
+    return S.object().additionalProperties(false).prop('token', sBigInt()).required().prop('USD', sBigInt()).required();
 }
 export function sVaultEpochWithdrawType() {
     return S.string().enum([

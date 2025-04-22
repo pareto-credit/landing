@@ -3,7 +3,9 @@ import { WEB3_DEFAULT_ADDR } from '../web3-client';
 export function VaultTvlMock(options) {
     return {
         token: (options == null ? void 0 : options.token) || '0',
-        USD: (options == null ? void 0 : options.USD) || '0'
+        USD: (options == null ? void 0 : options.USD) || '0',
+        withRequestsToken: (options == null ? void 0 : options.withRequestsToken) || '0',
+        withRequestsUSD: (options == null ? void 0 : options.withRequestsUSD) || '0'
     };
 }
 /**

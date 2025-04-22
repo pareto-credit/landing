@@ -22,27 +22,56 @@ export class HeroTabs extends Component {
 
     async loadVaults() {
         const apiClient = getApiClient();
-        const vaults = await apiClient.vaults.search({
-            status: 'READY',
-            visibility: 'PUBLIC',
-            contractType: 'CDO_EPOCH',
-            fields: ['_id']
+        const [
+            vaults,
+            performances,
+        ] = await Promise.all([
+            apiClient.vaults.search({
+                status: 'READY',
+                visibility: 'PUBLIC',
+                contractType: 'CDO_EPOCH',
+                fields: ['_id'],
+            }),
+            apiClient.vaults.performances({}),
+        ]);
+
+        // Add Performances
+        const tvlEl = document.querySelector('.hero-section__info-blocks-item[data-id="TVL"] p');
+        if (tvlEl){
+            const intlOptions: Intl.NumberFormatOptions = {
+                maximumFractionDigits: 0,
+                currency: 'USD',
+                style: 'currency',
+            };
+            const formatter = new Intl.NumberFormat('en-US', intlOptions);
+            tvlEl.innerHTML = formatter.format(Number(performances.TVL));
+        }
+        const creditExtendedEl = document.querySelector('.hero-section__info-blocks-item[data-id="CE"] p');
+        if (creditExtendedEl){
+            const intlOptions: Intl.NumberFormatOptions = {
+                maximumFractionDigits: 0,
+                currency: 'USD',
+                style: 'currency',
+            };
+            const formatter = new Intl.NumberFormat('en-US', intlOptions);
+            creditExtendedEl.innerHTML = formatter.format(Number(performances.creditExtended));
+        }
+
+        // Add product cards
+        const vaultIds = vaults.data.map( v => v._id );
+        const vaultLatestBlocks = await apiClient.vaultLatestBlocks.search({
+            vaultId: vaultIds,
         });
 
-        const vaultIds = vaults.data.map( v => v._id )
-        const vaultLatestBlocks = await apiClient.vaultLatestBlocks.search({
-            vaultId: vaultIds
-        })
-
         vaultLatestBlocks.data.forEach( vaultBlock => {
-            const tabEl = document.querySelector('.tabs-list__item[data-address="'+vaultBlock.vaultAddress+'"]')
+            const tabEl = document.querySelector('.tabs-list__item[data-address="'+vaultBlock.vaultAddress+'"]');
 
-            const aprEl = tabEl.querySelector('.info-block__item[data-id="APY"] .value h4')
+            const aprEl = tabEl.querySelector('.info-block__item[data-id="APY"] .value h4');
             if (aprEl){
-                aprEl.innerHTML = Number(vaultBlock.APYs.NET).toFixed(2)+'%'
+                aprEl.innerHTML = Number(vaultBlock.APYs.NET).toFixed(2)+'%';
             }
 
-            const tvlEl = tabEl.querySelector('.info-block__item[data-id="TVL"] .value h4')
+            const tvlEl = tabEl.querySelector('.info-block__item[data-id="TVL"] .value h4');
             if (tvlEl){
                 const intlOptions: Intl.NumberFormatOptions = {
                     maximumFractionDigits: 1,
@@ -50,11 +79,11 @@ export class HeroTabs extends Component {
                     currency: 'USD',
                     style: 'currency',
                     compactDisplay: 'short',
-                }
-                const formatter = new Intl.NumberFormat('en-US', intlOptions)
+                };
+                const formatter = new Intl.NumberFormat('en-US', intlOptions);
                 tvlEl.innerHTML = formatter.format(Number(vaultBlock.TVL.withRequestsUSD || vaultBlock.TVL.USD)/1000000)
             }
-        })
+        });
     }
 
     initializeHeroTabs() {

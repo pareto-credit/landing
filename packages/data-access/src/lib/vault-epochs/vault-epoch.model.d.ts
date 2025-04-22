@@ -13,6 +13,7 @@ export interface VaultEpochBody {
     APRs: VaultEpochAPRs;
     APYs?: VaultEpochAPYs;
     TVL: VaultTvl;
+    creditExtended: VaultCreditExtended;
     totalSupply: iBigInt;
     price: iBigInt;
     deposits: iBigInt;
@@ -31,6 +32,15 @@ export interface VaultEpochBody {
     instantWithdraws?: VaultEpochInstantWithdraws;
 }
 export declare function sVaultEpochBody(isPartial?: boolean): import("fluent-json-schema").ObjectSchema<{
+    [x: string]: any;
+    [x: number]: any;
+    [x: symbol]: any;
+}>;
+export interface VaultCreditExtended {
+    token: iBigInt;
+    USD: iBigInt;
+}
+export declare function sVaultCreditExtended(): import("fluent-json-schema").ObjectSchema<{
     [x: string]: any;
     [x: number]: any;
     [x: symbol]: any;

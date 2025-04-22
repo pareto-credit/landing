@@ -9,6 +9,7 @@ type SectionCopyright = {
     title: string,
     description: string,
     infoBlocks: {
+        id: string;
         title: string;
         value: string;
     }[];
@@ -31,7 +32,6 @@ const { COPY, id } = Astro.props;
     </div>
     <canvas class="canvas"></canvas>
     <div class="container">
-        <HeroTabs Tabs={COPY.tabs} />
         <div class="hero-section__title-wrap">
             <div class="hero-section__title">
                 <h1 class="title-h1 emerald">
@@ -44,9 +44,10 @@ const { COPY, id } = Astro.props;
                 </p>
             </div>
         </div>
+        <HeroTabs Tabs={COPY.tabs} />
         <div class="hero-section__info-blocks-list">
             {COPY.infoBlocks.map((item) => (
-                <div class="hero-section__info-blocks-item">
+                <div class="hero-section__info-blocks-item" data-id={item.id}>
                     <div class="hero-section__info-blocks-item-title">
                         <h4 class="desc-4 teal">
                             {item.title}

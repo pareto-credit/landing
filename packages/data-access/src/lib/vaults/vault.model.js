@@ -1,5 +1,5 @@
 import S from 'fluent-json-schema';
-import { sAbiContract, sBCAddress, sBigInt, sBlock, sClientEntity, sDateString, sMimeType, sPageSearchQuery, sStringId } from '../core';
+import { sAbiContract, sBCAddress, sBigInt, sBlock, sClientEntity, sDateString, sMetaContent, sMetaItems, sMimeType, sPageSearchQuery, sStringId } from '../core';
 import { sWeb3BaseContract, sWeb3Protocol, sWeb3ProtocolContract } from '../web3-client';
 import { sLocales } from '../core';
 import { sVaultContractCdoData, sVaultContractCdoEpochData, sVaultContractStrategyData, sVaultTvl } from '../vault-blocks';
@@ -9,7 +9,7 @@ export function sVault(isPartial) {
     return S.object().id('#vault').additionalProperties(false).extend(sClientEntity(isPartial)).extend(sVaultData(isPartial));
 }
 export function sVaultData(isPartial) {
-    return S.object().additionalProperties(false).prop('tokenId', sStringId()).prop('chainId', sStringId()).prop('typeId', sStringId()).prop('categoryId', sStringId()).prop('operatorIds', S.array().items(S.string())).prop('name', S.string()).prop('address', sBCAddress()).prop('symbol', S.string()).prop('protocol', sWeb3Protocol()).prop('contractType', sVaultContractType()).prop('abi', sAbiContract()).prop('description', sLocales()).prop('shortDescription', sLocales()).prop('caption', sLocales()).prop('keyInfo', S.array().items(sVaultKeyInfo())).prop('visibility', sVaultVisibility()).prop('status', sVaultStatus()).prop('feePercentage', S.number()).prop('harvestTokenIds', S.array().items(S.string())).prop('rewardPrograms', S.array().items(sVaultRewardProgram())).prop('rewardEmissions', S.array().items(sVaultRewardEmission())).prop('cdo', sVaultCdo()).prop('cdoEpoch', sVaultCdoEpoch()).prop('strategy', sVaultStrategy()).prop('pools', S.array().items(sVaultPool())).prop('kyc', sVaultKyc()).prop('signatures', S.array().items(sVaultSignature())).prop('integrations', S.array().items(sVaultIntegration())).prop('minDeposit', sVaultMinDeposit()).prop('documents', S.array().items(sVaultDocument())).prop('campaigns', S.array().items(sVaultCampaign())).prop('siblings', S.array().items(sVaultSibling())).required(isPartial ? [] : [
+    return S.object().additionalProperties(false).prop('tokenId', sStringId()).prop('chainId', sStringId()).prop('typeId', sStringId()).prop('categoryId', sStringId()).prop('operatorIds', S.array().items(S.string())).prop('name', S.string()).prop('address', sBCAddress()).prop('symbol', S.string()).prop('protocol', sWeb3Protocol()).prop('contractType', sVaultContractType()).prop('abi', sAbiContract()).prop('description', sLocales()).prop('shortDescription', sLocales()).prop('caption', sLocales()).prop('keyInfo', S.array().items(sVaultKeyInfo())).prop('metaContent', sMetaContent()).prop('metaItems', sMetaItems()).prop('visibility', sVaultVisibility()).prop('status', sVaultStatus()).prop('feePercentage', S.number()).prop('harvestTokenIds', S.array().items(S.string())).prop('rewardPrograms', S.array().items(sVaultRewardProgram())).prop('rewardEmissions', S.array().items(sVaultRewardEmission())).prop('cdo', sVaultCdo()).prop('cdoEpoch', sVaultCdoEpoch()).prop('paretoDollar', sVaultParetoDollar()).prop('strategy', sVaultStrategy()).prop('pools', S.array().items(sVaultPool())).prop('kyc', sVaultKyc()).prop('signatures', S.array().items(sVaultSignature())).prop('integrations', S.array().items(sVaultIntegration())).prop('minDeposit', sVaultMinDeposit()).prop('documents', S.array().items(sVaultDocument())).prop('campaigns', S.array().items(sVaultCampaign())).prop('siblings', S.array().items(sVaultSibling())).required(isPartial ? [] : [
         'tokenId',
         'chainId',
         'name',
@@ -45,6 +45,9 @@ export function sVaultIntegrationParams() {
 }
 export function sVaultIntegrationsData() {
     return S.object().additionalProperties(false).prop('APR', S.number());
+}
+export function sVaultParetoDollar() {
+    return S.object().additionalProperties(false).prop('queue', sWeb3BaseContract()).required().prop('staking', sWeb3BaseContract()).required();
 }
 export function sVaultCdo() {
     return S.object().additionalProperties(false).extend(sWeb3BaseContract());
@@ -82,7 +85,9 @@ export function sVaultContractType() {
     return S.string().enum([
         'BestYield',
         'CDO',
-        'CDO_EPOCH'
+        'CDO_EPOCH',
+        'PARETO_DOLLAR',
+        'PARETO_TOKEN'
     ]);
 }
 export function sVaultRewardAddress() {
@@ -153,7 +158,7 @@ export function sVaultStatus() {
     ]);
 }
 export function sVaultsPerformances() {
-    return S.object().additionalProperties(false).prop('TVL', sBigInt()).required().prop('APRs', sVaultsPerformancesAPRs()).required().prop('tokens', S.array().minItems(1).maxItems(200).items(sVaultsPerformancesToken())).required().prop('chains', S.array().minItems(1).maxItems(200).items(sVaultsPerformancesToken())).required().prop('vaults').required();
+    return S.object().additionalProperties(false).prop('TVL', sBigInt()).required().prop('creditExtended', sBigInt()).required().prop('APRs', sVaultsPerformancesAPRs()).required().prop('tokens', S.array().minItems(1).maxItems(200).items(sVaultsPerformancesToken())).required().prop('chains', S.array().minItems(1).maxItems(200).items(sVaultsPerformancesToken())).required().prop('vaults').required();
 }
 export function sVaultsPerformancesToken() {
     return S.object().additionalProperties(false).prop('token', S.string()).required().prop('TVL', sVaultTvl()).required().prop('APR', S.number()).required();
@@ -172,6 +177,7 @@ export var VaultErrorCodes;
     VaultErrorCodes["blockNotValid"] = "VAULT_BLOCK_NOT_VALID";
     VaultErrorCodes["walletRequired"] = "VAULT_WALLET_REQUIRED";
     VaultErrorCodes["integrationError"] = "VAULT_INTEGRATION_ERROR";
+    VaultErrorCodes["rewardProgramNotFound"] = "VAULT_REWARD_PROGRAM_NOT_FOUND";
 })(VaultErrorCodes || (VaultErrorCodes = {}));
 export function sVaultIntegrationsQuery() {
     return S.object().additionalProperties(false).prop('provider', S.array().minItems(1).maxItems(200).items(sVaultIntegrationProvider())).prop('type', S.array().minItems(1).maxItems(200).items(sVaultIntegrationType()));

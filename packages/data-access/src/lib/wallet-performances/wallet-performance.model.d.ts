@@ -90,6 +90,7 @@ export interface WalletBlockPerformance {
     age: number;
     earnings: WalletBlockEarnings;
     realizedAPY: number;
+    rewardsRealizedAPY: number;
     poolSharePercentage: number;
     accruedRewards?: Reward[];
     collectedRewards?: Reward[];

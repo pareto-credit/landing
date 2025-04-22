@@ -324,6 +324,8 @@ export class VaultCDOEpoch extends VaultContract {
                     return this.claimWithdrawRequest(options);
                 case 'CANCEL_WITHDRAW_REQUEST':
                     return this.cancelWithdrawRequest(options);
+                default:
+                    throw new Error('Method not available for this kind of vault');
             }
         } catch (error) {
             console.error(`Contract get method error`, type, error);
@@ -349,6 +351,8 @@ export class VaultCDOEpoch extends VaultContract {
                     return this.getWalletAllowance(options, this.vault);
                 case 'WALLET_WITHDRAWABLE':
                     return this.getWalletWithdrawable(options);
+                default:
+                    throw new Error('Value not available for this kind of vault');
             }
         } catch (error) {
             console.error(`Contract get value error`, type, error);

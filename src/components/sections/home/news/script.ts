@@ -9,6 +9,10 @@ export default class NewsSection extends Section {
 
     protected async setupSection() {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
+
+        const response = await fetch('https://api.paragraph.com/blogs/rss/@pareto')
+        const news = await response.text()
+        console.log(news)
     }
 
     protected async _activate() {

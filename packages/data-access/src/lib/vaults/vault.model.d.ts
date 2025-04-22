@@ -1,6 +1,6 @@
 import Web3, { Bytes } from 'web3';
 import { PayableMethodObject } from 'web3-eth-contract';
-import { DeepPartial, MimeType } from '../core';
+import { DeepPartial, MetaContent, MetaItems, MimeType } from '../core';
 import { Web3ClientModel } from '../web3-client';
 import { AbiContract, Block, BlockNumber, ClientEntity, Locales, Page, PageSearchQuery, iBigInt } from '../core';
 import { VaultBlock, VaultContractCdoData, VaultContractCdoEpochData, VaultContractStrategyData, VaultTvl } from '../vault-blocks';
@@ -31,6 +31,8 @@ export interface VaultData {
     shortDescription?: Locales<string>;
     caption?: Locales<string>;
     keyInfo?: VaultKeyInfo[];
+    metaContent?: MetaContent;
+    metaItems?: MetaItems;
     visibility: VaultVisibility;
     status: VaultStatus;
     feePercentage: number;
@@ -39,6 +41,8 @@ export interface VaultData {
     rewardEmissions?: VaultRewardEmission[];
     cdo?: VaultCdo;
     cdoEpoch?: VaultCdoEpoch;
+    paretoDollar?: VaultParetoDollar;
+    paretoToken?: VaultParetoToken;
     strategy?: VaultStrategy;
     pools?: VaultPool[];
     kyc?: VaultKyc;
@@ -85,6 +89,16 @@ export declare function sVaultIntegrationsData(): import("fluent-json-schema").O
     [x: symbol]: any;
 }>;
 export type VaultCdo = Web3BaseContract;
+export interface VaultParetoDollar {
+    queue: Web3BaseContract;
+    staking: Web3BaseContract;
+}
+export declare function sVaultParetoDollar(): import("fluent-json-schema").ObjectSchema<{
+    [x: string]: any;
+    [x: number]: any;
+    [x: symbol]: any;
+}>;
+export type VaultParetoToken = Web3BaseContract;
 export interface VaultCdoEpoch extends Web3BaseContract {
     manager: VaultCdoEpochOperator;
     borrower: VaultCdoEpochOperator;
@@ -144,14 +158,14 @@ export declare function sVaultRewardProgram(): import("fluent-json-schema").Obje
     [x: number]: any;
     [x: symbol]: any;
 }>;
-export type VaultContractType = 'BestYield' | 'CDO' | 'CDO_EPOCH';
+export type VaultContractType = 'BestYield' | 'CDO' | 'CDO_EPOCH' | 'PARETO_DOLLAR' | 'PARETO_TOKEN';
 export declare function sVaultContractType(): import("fluent-json-schema").StringSchema;
 export type VaultNonPayableMethodType = 'IS_WALLET_ALLOWED' | 'WALLET_BALANCE' | 'WALLET_DEPOSIT' | 'WALLET_ALLOWANCE' | 'WALLET_ALLOWANCE_LP' | 'WALLET_WITHDRAWABLE';
 export interface VaultNonPayableMethodOptions {
     walletAddress?: string;
     spender?: string;
 }
-export type VaultPayableMethodType = 'START_EPOCH' | 'STOP_EPOCH' | 'STOP_EPOCH_WITH_DURATION' | 'DEFAULT' | 'APPROVE' | 'APPROVE_LP' | 'SET_EPOCH_PARAMS' | 'SET_EPOCH_APR' | 'GET_INSTANT_WITHDRAWS' | 'PROCESS_WITHDRAW_QUEUE' | 'PROCESS_DEPOSIT_QUEUE' | 'PROCESS_WITHDRAWAL_CLAIMS' | 'DEPOSIT' | 'REQUEST_DEPOSIT' | 'WITHDRAW' | 'REQUEST_WITHDRAW' | 'CLAIM_WITHDRAW' | 'CLAIM_INSTANT_WITHDRAW' | 'CLAIM_WITHDRAW_REQUEST' | 'CANCEL_WITHDRAW_REQUEST' | 'CLAIM_DEPOSIT_REQUEST' | 'CANCEL_DEPOSIT_REQUEST';
+export type VaultPayableMethodType = 'START_EPOCH' | 'STOP_EPOCH' | 'STOP_EPOCH_WITH_DURATION' | 'DEFAULT' | 'APPROVE' | 'APPROVE_LP' | 'SET_EPOCH_PARAMS' | 'SET_EPOCH_APR' | 'GET_INSTANT_WITHDRAWS' | 'PROCESS_WITHDRAW_QUEUE' | 'PROCESS_DEPOSIT_QUEUE' | 'PROCESS_WITHDRAWAL_CLAIMS' | 'DEPOSIT' | 'REQUEST_DEPOSIT' | 'WITHDRAW' | 'REQUEST_WITHDRAW' | 'CLAIM_WITHDRAW' | 'CLAIM_INSTANT_WITHDRAW' | 'CLAIM_WITHDRAW_REQUEST' | 'CANCEL_WITHDRAW_REQUEST' | 'CLAIM_DEPOSIT_REQUEST' | 'CANCEL_DEPOSIT_REQUEST' | 'MINT';
 export interface VaultPayableMethodOptions {
     epochAPR?: string;
     epochAPRScaled?: string;
@@ -159,6 +173,7 @@ export interface VaultPayableMethodOptions {
     epochDuration?: number;
     epochNumber?: number;
     bufferDuration?: number;
+    collateralAddress?: string;
     amount?: string;
     spender?: string;
     overwriteInterests?: boolean;
@@ -280,6 +295,7 @@ export type VaultStatus = 'PAUSED' | 'DISABLED' | 'READY' | 'EXPERIMENTAL' | 'BO
 export declare function sVaultStatus(): import("fluent-json-schema").StringSchema;
 export interface VaultsPerformances {
     TVL: iBigInt;
+    creditExtended: iBigInt;
     tokens: VaultsPerformancesToken[];
     chains: VaultsPerformancesChain[];
     APRs: VaultsPerformancesAPRs;
@@ -326,7 +342,8 @@ export declare enum VaultErrorCodes {
     notDeletable = "VAULT_NOT_DELETABLE",
     blockNotValid = "VAULT_BLOCK_NOT_VALID",
     walletRequired = "VAULT_WALLET_REQUIRED",
-    integrationError = "VAULT_INTEGRATION_ERROR"
+    integrationError = "VAULT_INTEGRATION_ERROR",
+    rewardProgramNotFound = "VAULT_REWARD_PROGRAM_NOT_FOUND"
 }
 export interface VaultIntegrationsQuery {
     provider?: VaultIntegrationProvider | VaultIntegrationProvider[];
@@ -383,6 +400,7 @@ export interface VaultsClient {
     findOne: (params: VaultsSearchQuery) => Promise<Vault | undefined>;
     readOne: (params: VaultsSearchQuery) => Promise<Vault>;
     position: (vaultId: string, params: VaultPositionQuery) => Promise<WalletPosition>;
+    performances: (params: VaultsPerformancesQuery) => Promise<VaultsPerformances>;
     mint: (vaultId: string, body: VaultMintRedeemBody) => Promise<VaultBlock>;
     redeem: (vaultId: string, body: VaultMintRedeemBody) => Promise<VaultBlock>;
     transfer: (vaultId: string, body: VaultTransferBody) => Promise<VaultBlock>;

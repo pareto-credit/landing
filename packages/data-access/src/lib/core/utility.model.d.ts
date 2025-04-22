@@ -20,6 +20,19 @@ export type Locales<T = string> = {
     [locale: string]: T;
 };
 /**
+ * Meta management
+ */
+export type MetaContent = {
+    [key: string]: Locales<string>;
+};
+export interface MetaItem {
+    title: Locales<string>;
+    description?: Locales<string>;
+}
+export type MetaItems = {
+    [key: string]: MetaItem[];
+};
+/**
  * Reward
  */
 export interface Reward {

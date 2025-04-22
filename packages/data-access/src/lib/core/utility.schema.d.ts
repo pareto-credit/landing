@@ -71,3 +71,21 @@ export declare function sLocales(): import("fluent-json-schema").ObjectSchema<{
     [x: number]: any;
     [x: symbol]: any;
 }>;
+/**
+ * Meta data
+ */
+export declare function sMetaContent(): import("fluent-json-schema").ObjectSchema<{
+    [x: string]: any;
+    [x: number]: any;
+    [x: symbol]: any;
+}>;
+export declare function sMetaItem(): import("fluent-json-schema").ObjectSchema<{
+    [x: string]: any;
+    [x: number]: any;
+    [x: symbol]: any;
+}>;
+export declare function sMetaItems(): import("fluent-json-schema").ObjectSchema<{
+    [x: string]: any;
+    [x: number]: any;
+    [x: symbol]: any;
+}>;

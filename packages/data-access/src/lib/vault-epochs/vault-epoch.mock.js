@@ -15,6 +15,7 @@ import { WEB3_DEFAULT_ADDR } from '../web3-client';
         totalSupply: (options == null ? void 0 : options.totalSupply) || '0',
         price: (options == null ? void 0 : options.price) || '0',
         TVL: VaultTvlMock(options == null ? void 0 : options.TVL),
+        creditExtended: VaultCreditExtendedMock(options == null ? void 0 : options.creditExtended),
         expectedInterest: (options == null ? void 0 : options.expectedInterest) || '0',
         deposits: (options == null ? void 0 : options.deposits) || '0',
         duration: (options == null ? void 0 : options.duration) || 0,
@@ -32,6 +33,12 @@ import { WEB3_DEFAULT_ADDR } from '../web3-client';
         createdBy: (options == null ? void 0 : options.createdBy) || 'USER_ID',
         updatedAt: (options == null ? void 0 : options.updatedAt) || now,
         updatedBy: (options == null ? void 0 : options.updatedBy) || 'USER_ID'
+    };
+}
+export function VaultCreditExtendedMock(options) {
+    return {
+        token: (options == null ? void 0 : options.token) || '0',
+        USD: (options == null ? void 0 : options.USD) || '0'
     };
 }
 export function VaultCdoEpochDepositQueueMock(options) {

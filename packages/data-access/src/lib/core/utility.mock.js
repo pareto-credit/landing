@@ -15,7 +15,7 @@ export function RewardMock(options) {
 }
 export function LocalesMock(options) {
     return options || {
-        en_EN: ''
+        en: 'TEXT'
     };
 }
 
