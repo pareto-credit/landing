@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/wallets/wallet.const.ts"],"sourcesContent":["export const WALLETS_ROUTES_KEY = 'wallets'\nexport const WALLETS_IDLE_QUEUE = 'IDLE_WALLETS'\n"],"names":["WALLETS_ROUTES_KEY","WALLETS_IDLE_QUEUE"],"mappings":"AAAA,OAAO,MAAMA,qBAAqB,UAAS;AAC3C,OAAO,MAAMC,qBAAqB,eAAc"}

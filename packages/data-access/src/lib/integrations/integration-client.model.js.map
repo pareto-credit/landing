@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/integrations/integration-client.model.ts"],"sourcesContent":["export interface IntegrationClientModel {\n  getApr: (tokenSymbol: string) => Promise<number>\n}\n"],"names":[],"mappings":"AAAA,WAEC"}
