@@ -32,6 +32,12 @@ import Code from '/src/assets/img/transparent/code.svg?url';
 import Diligence from '/src/assets/img/transparent/diligence.svg?url';
 import imm from '/src/assets/img/transparent/imm.svg?url';
 
+import falconEco from '/src/assets/img/ecosystem/FalconX.svg?url';
+import rockawayEco from '/src/assets/img/ecosystem/RockawayX.svg?url';
+import digitalEco from '/src/assets/img/ecosystem/Fasanara_Digital.svg?url';
+import bastionEco from '/src/assets/img/ecosystem/Bastion_Trading.svg?url';
+import m11Eco from '/src/assets/img/ecosystem/m11.svg?url';
+
 
 export const HomeEnCopy = {
     heroSection: {
@@ -320,6 +326,28 @@ export const HomeEnCopy = {
         subTitle: 'ECOSYSTEM',
         title: 'Our partners',
         description: 'Collaborating with leading traditional and digital asset investment institutions dedicated to driving the adoption of tokenization in traditional finance and credit markets.',
+        images: [
+            {
+                link: 'https://www.falconx.io/',
+                src: falconEco,
+            },
+            {
+                link: 'https://www.rockawayx.com/',
+                src: rockawayEco,
+            },
+            {
+                link: 'https://www.fasanara.com/',
+                src: digitalEco,
+            },
+            {
+                link: 'https://bastiontrading.com/',
+                src: bastionEco,
+            },
+            {
+                link: 'https://www.maven11.com/',
+                src: m11Eco,
+            },
+        ],
     },
     GetInTouch: {
         subTitle: 'Get in touch',

@@ -44,9 +44,9 @@ const Strings = FooterCopyright[locale];
                 </div>
                 <div class="footer-container__first-right">
                     <div class="resources-wrap">
-                        <h3 class="resources desc-2">{Strings.ResourcesTitle}</h3>
+                        <h3 class="resources desc-2">{Strings.ProductsTitle}</h3>
                         <ul class="resources-list footer-list">
-                            { Strings.Resources.map(el =>{
+                            { Strings.Products.map(el =>{
                                 return (
                                     <li class="resources-list__item footer-list__item">
                                         <a href={el.link} class="resources-list__link footer-link" target="_blank">
@@ -58,9 +58,9 @@ const Strings = FooterCopyright[locale];
                         </ul>
                     </div>
                     <div class="resources-wrap">
-                        <h3 class="resources desc-2">{Strings.ProductsTitle}</h3>
+                        <h3 class="resources desc-2">{Strings.ResourcesTitle}</h3>
                         <ul class="resources-list footer-list">
-                            { Strings.Products.map(el =>{
+                            { Strings.Resources.map(el =>{
                                 return (
                                     <li class="resources-list__item footer-list__item">
                                         <a href={el.link} class="resources-list__link footer-link" target="_blank">

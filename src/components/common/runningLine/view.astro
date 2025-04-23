@@ -2,24 +2,29 @@
 
 import './style.sass';
 
+type Image = {
+    link: string
+    src: string
+};
+
 type Props = {
     className?: string,
-    tickerLiElement: any[],
+    tickerLiElement: Image[],
 };
 
 const { className, tickerLiElement } = Astro.props;
 
 ---
 
-
-
 <div id="ticker-container" class={`${className} my-reel`}>
     {
         <ul class={'ticker text-js  my-reel-wrap'}>
-            {tickerLiElement.map((imgSrc) => {
+            {tickerLiElement.map((image) => {
                 return (
                     <li class="ticker__li my-reel-item">
-                        <img src={imgSrc} alt="logo"/>
+                        <a href={image.link} target="_blank">
+                            <img src={image.src} alt="logo"/>
+                        </a>
                     </li>
                 );
             })}

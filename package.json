@@ -20,6 +20,7 @@
     "deploy:stage": "firebase -P default deploy --only hosting:web-stage",
     "deploy:prod": "firebase -P default deploy --only hosting:web-prod",
     "deploy:channel": "firebase -P default --only web-stage hosting:channel:deploy test-channel --expires 7d",
+    "deploy-pages": "echo 'landing.pareto.credit\nwww.landing.pareto.credit' > dist/CNAME;gh-pages -d dist --branch gh-pages",
     "astro": "astro",
     "emulate": "firebase emulators:start --only hosting",
     "lint": "eslint \"src/**/*.{js,ts,jsx,tsx,astro}\""
@@ -48,6 +49,7 @@
     "eslint": "8.57.0",
     "eslint-plugin-astro": "^1.2.0",
     "eslint-plugin-react-hooks": "^4.6.2",
+    "gh-pages": "^6.3.0",
     "git-rev-sync": "^3.0.2",
     "sass": "^1.77.4",
     "typescript": "^5.4.5"
