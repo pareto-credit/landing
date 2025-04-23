@@ -15,20 +15,20 @@ export const FooterEnCopy = {
     InputButton: 'Subscribe',
     Resources: [
         {
-            title: 'Blog',
-            link: links.blog,
+            title: 'Governance',
+            link: links.governance,
+        },
+        {
+            title: 'GitHub',
+            link: links.github,
         },
         {
             title: 'Documentation',
             link: links.documentation,
         },
         {
-            title: 'Brand kit',
+            title: 'Media kit',
             link: links.brandKit,
-        },
-        {
-            title: 'Governance',
-            link: links.governance,
         },
     ],
     Products: [

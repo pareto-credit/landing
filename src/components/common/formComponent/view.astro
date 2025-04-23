@@ -40,13 +40,13 @@ const { className } = Astro.props;
                 <input class="input-item input-item--small desc-1" type="text" name="surname" id="surname" placeholder="Surname">
             </li>
             <li class="form-list-item">
-                <input class="input-item desc-1" type="text" name="company" id="company" placeholder="Company*">
+                <input class="input-item desc-1" type="text" name="company" id="company" placeholder="Company*" required>
             </li>
             <li class="form-list-item">
                 <input class="input-item desc-1" type="text" name="job-title" id="job-title" placeholder="Job Title">
             </li>
             <li class="form-list-item form-list-item--column form-list-item--focus">
-                <span class="desc-2 radio-title">Do you already have a borrower?</span>
+                <span class="desc-2 radio-title">Do you already have a borrower?*</span>
                 <ul class="radio-list">
                     <li class="radio-item">
                         <input type="radio" value="have-borrower" id="have-borrower" name="curator-check">
@@ -59,13 +59,13 @@ const { className } = Astro.props;
                 </ul>
             </li>
             <li class="form-list-item form-list-item--deposit">
-                <input class="input-item input-item desc-1" type="text" name="deposit" id="deposit" placeholder="Expected deposit ($)">
+                <input class="input-item input-item desc-1" type="text" name="deposit" id="deposit" placeholder="Expected deposit ($)*" required>
             </li>
             <li class="form-list-item form-list-item--borrow">
-                <input class="input-item input-item desc-1" type="text" name="borrow-capacity" id="borrow-capacity" placeholder="Expected borrow capacity ($)">
+                <input class="input-item input-item desc-1" type="text" name="borrow-capacity" id="borrow-capacity" placeholder="Expected borrow capacity ($)*" required>
             </li>
             <li class="form-list-item form-list-item--focus">
-                <input class="input-item input-item desc-1" type="text" name="vertical-focus" id="vertical-focus" placeholder="Vertical of focus">
+                <input class="input-item input-item desc-1" type="text" name="vertical-focus" id="vertical-focus" placeholder="Vertical of focus*" required>
             </li>
             <li class="form-list-item">
                 <div class="input-wrap">

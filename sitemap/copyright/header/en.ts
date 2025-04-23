@@ -1,4 +1,3 @@
-import { title } from 'process';
 import { links } from '../links';
 
 export const HeaderEnCopy = {
@@ -8,9 +7,9 @@ export const HeaderEnCopy = {
     },
     links: [
         {
-            title: 'Product',
-            href: links.product,
-            isAnchor: false,
+            title: 'Solutions',
+            href: links.solutions,
+            isAnchor: true,
         },
         {
             title: 'Features',
@@ -18,8 +17,8 @@ export const HeaderEnCopy = {
             isAnchor: true,
         },
         {
-            title: 'Partners',
-            href: links.partners,
+            title: 'Contacts',
+            href: links.getInTouch,
             isAnchor: true,
         },
     ],

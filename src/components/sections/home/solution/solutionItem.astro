@@ -9,6 +9,8 @@ export type Props = {
         text: string;
         link: string;
         isAnchor?: boolean
+        className?: string
+        parentId?: string
     }[];
     className?: string;
     futures?: {
@@ -39,11 +41,11 @@ const props = Astro.props;
                 {
                     props.btns.map((btn) => (
                         btn.isAnchor ?
-                            <a href={'#'} class="btn btn-primary anchor-item" data-anchor={btn.link}>
+                            <a href={'#'} class=`btn btn-primary anchor-item ${btn.className}` data-parentId={btn.parentId} data-anchor={btn.link}>
                                 <span class="desc-4 deep-forest">{btn.text}</span>
                             </a>
                             :
-                            <a href={btn.link} class="btn btn-primary" target="_blank">
+                            <a href={btn.link} class=`btn btn-primary ${btn.className}` data-parentId={btn.parentId} target="_blank">
                                 <span class="desc-4 deep-forest">{btn.text}</span>
                             </a>
                     ))

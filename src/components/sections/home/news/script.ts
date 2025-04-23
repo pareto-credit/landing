@@ -1,18 +1,56 @@
 import { HomePageSections } from 'components/sections/sectionTypes';
-import gsap from 'gsap';
 import Section from 'scripts/core/section';
-
+import { parse } from 'rss-to-json';
 
 export default class NewsSection extends Section {
     isActivated: boolean;
 
 
     protected async setupSection() {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+        this.populateNewsSection();
+    }
 
-        const response = await fetch('https://api.paragraph.com/blogs/rss/@pareto')
-        const news = await response.text()
-        console.log(news)
+    protected async populateNewsSection() {
+        const feedUrl = 'https://api.paragraph.com/blogs/rss/@pareto';
+        try {
+            const feed = await parse(feedUrl);
+            const items = document.querySelectorAll('.news-section__list__item');
+
+            feed.items.slice(0, items.length).forEach((item, index) => {
+                const container = items[index];
+                const link: HTMLAnchorElement = container.querySelector('a.news-section__list__item__link');
+                const img: HTMLImageElement = container.querySelector('.news-section__list__item__img img');
+                const title = container.querySelector('h4.title-h3');
+                const desc = container.querySelector('p.desc-2');
+                const btnText = container.querySelector('.btn-secondary .nav');
+
+                link.href = item.link;
+                title.textContent = item.title || 'No title';
+                desc.textContent = item.description || 'No description';
+
+                let imageUrl = '';
+                if (item.enclosures?.length) {
+                    imageUrl = item.enclosures[0].url;
+                } else {
+                    const match = item.content?.match(/<img[^>]+src="([^">]+)"/);
+                    if (match) {
+                        imageUrl = match[1];
+                    }
+                }
+
+                if (imageUrl) {
+                    img.src = imageUrl;
+                    img.setAttribute('data-src', imageUrl);
+                    img.alt = item.title || 'Blog image';
+                }
+
+
+                btnText.textContent = 'Read more';
+            });
+
+        } catch (error) {
+            console.error('Error loading RSS feed:', error);
+        }
     }
 
     protected async _activate() {

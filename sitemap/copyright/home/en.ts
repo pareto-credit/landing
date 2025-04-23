@@ -134,7 +134,7 @@ export const HomeEnCopy = {
         ],
     },
     solutionSection: {
-        subTitle: 'MODULAR SOLUTION',
+        subTitle: 'MODULAR SOLUTIONS',
         title: 'Onchain Credit, Simplified.',
         // description: 'Built for asset managers, credit funds, and institutional investors, Pareto delivers programmable, transparent, and efficient on-chain capital markets with institutional-grade infrastructure.',
         description: 'Built for asset managers, credit funds, and institutional investors, Pareto delivers programmable, transparent, and efficient on-chain capital solutions with institutional-grade infrastructure.',
@@ -148,6 +148,13 @@ export const HomeEnCopy = {
                     {
                         text: 'Enter App',
                         link: 'https://app.pareto.credit',
+                    },
+                    {
+                        isAnchor: true,
+                        text: 'Contact Us',
+                        parentId: 'lender',
+                        className: 'contact-us-btn',
+                        link: 'homepage-get-in-touch',
                     },
                 ],
                 futures: [
@@ -176,6 +183,8 @@ export const HomeEnCopy = {
                 btns: [{
                     isAnchor: true,
                     text: 'Contact Us',
+                    parentId: 'borrower',
+                    className: 'contact-us-btn',
                     link: 'homepage-get-in-touch',
                 },
                 ],
@@ -207,6 +216,8 @@ export const HomeEnCopy = {
                     {
                         isAnchor: true,
                         text: 'Contact Us',
+                        parentId: 'curator',
+                        className: 'contact-us-btn',
                         link: 'homepage-get-in-touch',
                     },
                 ],
@@ -274,12 +285,8 @@ export const HomeEnCopy = {
             title: 'Transparency',
             description: 'Pareto offers real-time transaction monitoring, on-chain verified contracts, and the source code is publicly accessible and verifiable.',
             btns: [{
-                text: 'github Open source codebasE',
-                link: '#',
-            },
-            {
-                text: 'analytics page',
-                link: '#',
+                text: 'EXPLORE SECURITY',
+                link: 'https://docs.pareto.credit/developers/security',
             },
             ],
         },
@@ -306,7 +313,7 @@ export const HomeEnCopy = {
             title: 'Bug Bounty Program',
             logo: imm,
             count: '$50,000',
-            description: 'All contract code and balances are publicly verifiable, and security researchers.',
+            description: 'Earn rewards for reporting vulnerabilities and keeping the protocol secure.',
         },
     },
     Ecosystem: {

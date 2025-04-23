@@ -59,7 +59,7 @@ const { COPY, id } = Astro.props;
                     <p class="desc-2 sage">{COPY.leftBlock.description}</p>
                     <div class="btn-wrap">
                         { COPY.leftBlock.btns.map(el => (
-                            <a href={el.link} class="btn black btn-primary up-text">
+                            <a href={el.link} class="btn black btn-primary up-text" target="_blank">
                                 <span class="desc-4 dusty-mint">{el.text}</span>
                             </a>
                         ))}

@@ -34,12 +34,14 @@ export class FormComponent extends Component {
     private updateVisibleSection() {
         Object.values(this.roleSections).forEach(group => {
             gsap.set(group, { display: 'none' });
+            group.forEach( g => g.querySelectorAll('input').forEach( el => el.removeAttribute('required')) );
         });
 
         const selectedRole = this.getSelectedRole();
 
         if (selectedRole) {
             gsap.set(this.roleSections[selectedRole], { display: 'flex' });
+            this.roleSections[selectedRole].forEach( g => g.querySelectorAll('input').forEach( el => el.setAttribute('required', 'required')) );
         }
     }
 

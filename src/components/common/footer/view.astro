@@ -49,7 +49,7 @@ const Strings = FooterCopyright[locale];
                             { Strings.Resources.map(el =>{
                                 return (
                                     <li class="resources-list__item footer-list__item">
-                                        <a href={el.link} class="resources-list__link footer-link">
+                                        <a href={el.link} class="resources-list__link footer-link" target="_blank">
                                             <span>{el.title}</span>
                                         </a>
                                     </li>
@@ -63,7 +63,7 @@ const Strings = FooterCopyright[locale];
                             { Strings.Products.map(el =>{
                                 return (
                                     <li class="resources-list__item footer-list__item">
-                                        <a href={el.link} class="resources-list__link footer-link">
+                                        <a href={el.link} class="resources-list__link footer-link" target="_blank">
                                             <span>{el.title}</span>
                                         </a>
                                     </li>
@@ -78,7 +78,7 @@ const Strings = FooterCopyright[locale];
                     <div class="social-list">
                         {Strings.Social.map(el => {
                             return (
-                                <a href={el.link} class="social-list__item">
+                                <a href={el.link} class="social-list__item" target="_blank">
                                     <Fragment set:html={el.icon} />
                                 </a>
                             );
@@ -88,7 +88,7 @@ const Strings = FooterCopyright[locale];
                 <div class="footer-container__second-right">
                     {Strings.PolicyLink.map(el => {
                         return (
-                            <a href={el.link} class="footer-link">
+                            <a href={el.link} class="footer-link" target="_blank">
                                 {el.title}
                             </a>
                         );

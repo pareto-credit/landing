@@ -24,8 +24,6 @@ type Props = {
     COPY: SectionCopyright,
 };
 
-
-
 const { COPY, id } = Astro.props;
 
 ---
@@ -35,7 +33,6 @@ const { COPY, id } = Astro.props;
         <div class="title-wrap">
             <span class="desc-4 teal up-text">{COPY.subTitle}</span>
             <h2 class="title-h2 emerald">{COPY.title}</h2>
-            <p class="desc-2 emerald">{COPY.description}</p>
         </div>
         <div class="news-section__list">
             {

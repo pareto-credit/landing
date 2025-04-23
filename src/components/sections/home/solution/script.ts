@@ -1,11 +1,9 @@
 
 import { Breakpoints } from 'scripts/appBreakpoints';
 import Section from 'scripts/core/section';
-import { inFrames } from 'scripts/utils/inFrames';
 import { HomePageSections } from 'components/sections/sectionTypes';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import { PreloadEvent } from 'scripts/modules/pageEvents';
 import { minWaitPreloader } from 'scripts/utils/constants';
 
 export default class SecondSection extends Section {
@@ -99,7 +97,21 @@ export default class SecondSection extends Section {
         }
     }
 
+    protected setupContactUsBtns(){
+        const btns = document.querySelectorAll('.contact-us-btn');
+        btns.forEach( btn => btn.addEventListener('click', function(){
+            const parentId = this.attributes['data-parentid'].value;
+            const el: HTMLElement = document.querySelector('[for="'+parentId+'"]');
+            if (el){
+                el.click();
+            }
+        }) );
+    }
+
     async setupSection() {
+
+        this.setupContactUsBtns();
+
         if (Breakpoints.isDesktop) {
             // PreloadEvent.on(() => {
             //     this.setupPinAnimation();
