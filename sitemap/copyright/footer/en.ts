@@ -73,10 +73,11 @@ export const FooterEnCopy = {
         },
     ],
     PolicyLink:[
-        {
-            title: 'IPFS app',
-            link: links.IPFSapp,
-        },
+        // {
+        //     isExternal: true,
+        //     title: 'IPFS app',
+        //     link: links.IPFSapp,
+        // },
         {
             title: 'Terms of Service',
             link: links.TermsofService,
@@ -85,10 +86,10 @@ export const FooterEnCopy = {
             title: 'Privacy Policy',
             link: links.PrivacyPolicy,
         },
-        {
-            title: 'Cookie Policy',
-            link: links.CookiePolicy,
-        },
+        // {
+        //     title: 'Cookie Policy',
+        //     link: links.CookiePolicy,
+        // },
     ],
     Desc: 'All content available on this Website is general in nature, not directed or tailored to any particular person, and is for informational purposes only. Neither the Website nor any of its content is offered as investment advice and should not be deemed as investment advice or a recommendation to purchase or sell any specific security. The information contained herein reflects the opinions and projections of  Pareto as of the date hereof, which are subject to change without notice at any time. Pareto does not represent that any opinion or projection will be realized. Neither Pareto nor any of its advisers, officers, directors, or affiliates represents that the information presented on this Website is accurate, current, or complete, and such information is subject to change without notice. Any performance information must be considered in conjunction with applicable disclosures. Past performance is not a guarantee of future results. Neither this Website nor its contents should be construed as legal, tax, or other advice. Individuals are urged to consult with their own tax or legal advisers before entering into any advisory contract.',
 };

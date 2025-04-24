@@ -88,7 +88,7 @@ const Strings = FooterCopyright[locale];
                 <div class="footer-container__second-right">
                     {Strings.PolicyLink.map(el => {
                         return (
-                            <a href={el.link} class="footer-link" target="_blank">
+                            <a href={el.link} class="footer-link" target={el.isExternal ? '_blank' : '_self'}>
                                 {el.title}
                             </a>
                         );

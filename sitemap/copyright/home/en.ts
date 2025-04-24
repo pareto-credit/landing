@@ -320,6 +320,10 @@ export const HomeEnCopy = {
             logo: imm,
             count: '$50,000',
             description: 'Earn rewards for reporting vulnerabilities and keeping the protocol secure.',
+            btn: {
+                text: 'PARTICIPATE',
+                link: 'https://immunefi.com/bug-bounty/idlefinance/information/',
+            },
         },
     },
     Ecosystem: {

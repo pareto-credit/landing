@@ -25,7 +25,7 @@ export enum links {
 
 
     IPFSapp = 'https://idle-finance.on.fleek.co/',
-    TermsofService = 'https://idle.finance/terms-of-service',
-    PrivacyPolicy = 'https://idle.finance/privacy-policy',
+    TermsofService = '/terms-of-service',
+    PrivacyPolicy = '/privacy-policy',
     CookiePolicy = 'https://www.iubenda.com/privacy-policy/61211749/cookie-policy'
 }

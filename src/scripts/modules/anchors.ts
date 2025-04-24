@@ -25,7 +25,7 @@ export default function anchors(enableScroll: boolean, lenis?: Lenis, mobileMenu
                 const element = document.querySelector(`#${targetId}`);
                 if (!element) {
                     console.warn(`Element with id "${targetId}" not found`);
-                    return;
+                    return window.location.href = '/';
                 }
 
                 const scrollPosition = window.scrollY;

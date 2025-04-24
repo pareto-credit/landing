@@ -1,0 +1,15 @@
+---
+import PageLayot from 'layouts/page.astro';
+import { HomePage as PageSettings } from 'sitemap/pages';
+import { type Locales, defaultLang } from 'sitemap/copyright';
+import PP from 'components/sections/privacy-policy/view.astro';
+
+type Props = {
+	locale: Locales
+};
+
+const { locale = defaultLang } = Astro.props;
+---
+<PageLayot {...PageSettings} locale={locale}>
+	<PP />
+</PageLayot>

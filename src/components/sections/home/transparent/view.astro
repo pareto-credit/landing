@@ -34,6 +34,10 @@ type SectionCopyright = {
         logo: string,
         count: string,
         description: string,
+        btn: {
+            text: string,
+            link: string,
+        },
     },
 };
 
@@ -92,6 +96,9 @@ const { COPY, id } = Astro.props;
                 <p class="desc-2 sage">
                     {COPY.bottomBlock.description}
                 </p>
+                <a href={COPY.bottomBlock.btn.link} class="btn black btn-primary up-text" target="_blank">
+                    <span class="desc-4 dusty-mint">{COPY.bottomBlock.btn.text}</span>
+                </a>
             </div>
         </div>
     </div>
