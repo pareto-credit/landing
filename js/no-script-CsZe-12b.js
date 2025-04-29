@@ -1,6 +1,6 @@
 import { c as createComponent, r as renderTemplate, a as renderComponent, m as maybeRenderHead, b as addAttribute, d as createAstro } from './astro/server-CgvuF3dj.js';
 import 'kleur/colors';
-import { $ as $$Section, N as NoScript, a as $$Page } from './section-ChIWqOql.js';
+import { $ as $$Section, N as NoScript, a as $$Page } from './section-Bc-7FB-C.js';
 /* empty css                            */
 import { l as logo } from './logo-CJf9w-ca.js';
 
@@ -14,7 +14,7 @@ to get more information how to turn on JavaScript on your browser.
 </p> </div> </div> ` })}`;
 }, "/Users/samuelecester/Desktop/git/pareto-landing/src/components/sections/noScript/main/view.astro", void 0);
 
-const $$Astro = createAstro("https://real-not-now.web.app/");
+const $$Astro = createAstro("https://pareto.credit/");
 const $$NoScript = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$NoScript;

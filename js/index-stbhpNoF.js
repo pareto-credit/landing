@@ -1,9 +1,9 @@
 import { d as createAstro, c as createComponent, r as renderTemplate, a as renderComponent } from './astro/server-CgvuF3dj.js';
 import 'kleur/colors';
-import { c as createStaticPathGetter } from './section-ChIWqOql.js';
-import $$Index$1 from './index-DS_TQm-C.js';
+import { c as createStaticPathGetter } from './section-Bc-7FB-C.js';
+import $$Index$1 from './index-DuINirs5.js';
 
-const $$Astro = createAstro("https://real-not-now.web.app/");
+const $$Astro = createAstro("https://pareto.credit/");
 const getStaticPaths = createStaticPathGetter();
 const $$Index = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);

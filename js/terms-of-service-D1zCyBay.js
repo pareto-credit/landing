@@ -1,6 +1,6 @@
 import { c as createComponent, r as renderTemplate, a as renderComponent, m as maybeRenderHead, d as createAstro } from './astro/server-CgvuF3dj.js';
 import 'kleur/colors';
-import { $ as $$Section, H as HomePage, a as $$Page, d as defaultLang } from './section-ChIWqOql.js';
+import { $ as $$Section, H as HomePage, a as $$Page, d as defaultLang } from './section-Bc-7FB-C.js';
 /* empty css                                   */
 
 const $$View = createComponent(($$result, $$props, $$slots) => {
@@ -112,7 +112,7 @@ Any right or remedy of Pareto set forth in these Terms is in addition to, and no
 </p> </section> </div> </div>` })}`;
 }, "/Users/samuelecester/Desktop/git/pareto-landing/src/components/sections/tos/view.astro", void 0);
 
-const $$Astro = createAstro("https://real-not-now.web.app/");
+const $$Astro = createAstro("https://pareto.credit/");
 const $$TermsOfService = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$TermsOfService;
