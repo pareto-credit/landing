@@ -10,15 +10,15 @@ export enum PagesRoutes {
 }
 
 export const BaseMeta = {
-    Title: 'Pareto',
-    Description: 'Radically transforming credit, on-chain',
+    Title: 'Pareto | Radically transforming credit, on-chain',
+    Description: 'Building a private credit marketplace that connects institutional lenders and borrowers, offering scalable yield opportunities',
 };
 
 export const HomePage: SitePage<HomeCopyrightShape> = {
     id: 'home',
     href: PagesRoutes.Home,
-    title: 'Pareto',
-    description: 'Radically transforming credit, on-chain',
+    title: 'Pareto | Radically transforming credit, on-chain',
+    description: 'Building a private credit marketplace that connects institutional lenders and borrowers, offering scalable yield opportunities',
     copy: HomeCopyright,
 };
 
