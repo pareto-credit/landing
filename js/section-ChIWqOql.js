@@ -698,7 +698,7 @@ function urlJoin(...parts) {
   return parts.map((p) => indexTrim(p, "/")).filter((p) => p).join("/");
 }
 
-const DefaultOgImageUrl = "/assets/img/og-image-CdQ4TiTC.png";
+const DefaultOgImageUrl = "/assets/img/og-image-8h2vHxiW.png";
 
 const FaviconDefault = "/assets/img/favicon-DYVlzzVm.ico";
 
@@ -732,13 +732,14 @@ const $$Meta = createComponent(($$result, $$props, $$slots) => {
   return renderTemplate`${renderComponent($$result, "Fragment", Fragment, {}, { "default": ($$result2) => renderTemplate`<meta charset="utf-8"><title>${title}</title><meta name="description"${addAttribute(description, "content")}>${noIndex && renderTemplate`<meta name="robots" content="noindex">`}${!noIndex && renderTemplate`<meta name="generator"${addAttribute(Astro2.generator, "content")}>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
+		<meta name="title"${addAttribute(title, "content")}>
+		<meta name="description"${addAttribute(description, "content")}>
+
 		<meta property="og:description"${addAttribute(description, "content")}>
 		<meta property="og:title"${addAttribute(title, "content")}>
 		<meta property="og:type" content="website">
 		<meta property="og:url"${addAttribute(canonical, "content")}>
 		<meta property="og:site_name"${addAttribute(title, "content")}>
-		<meta property="og:title"${addAttribute(title, "content")}>
-		<meta property="og:description"${addAttribute(description, "content")}>
 
 		<meta property="og:image:width"${addAttribute(ogImage.width.toString(), "content")}>
 		<meta property="og:image:height"${addAttribute(ogImage.height.toString(), "content")}>
@@ -816,8 +817,8 @@ const $$View = createComponent(($$result, $$props, $$slots) => {
 const HomePage = {
   id: "home",
   href: "/" /* Home */,
-  title: "Pareto",
-  description: "Radically transforming credit, on-chain",
+  title: "Pareto | Radically transforming credit, on-chain",
+  description: "Building a private credit marketplace that connects institutional lenders and borrowers, offering scalable yield opportunities",
   copy: HomeCopyright
 };
 const Page404 = {

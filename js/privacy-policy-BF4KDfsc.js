@@ -1,6 +1,6 @@
 import { c as createComponent, r as renderTemplate, a as renderComponent, m as maybeRenderHead, d as createAstro } from './astro/server-CgvuF3dj.js';
 import 'kleur/colors';
-import { $ as $$Section, H as HomePage, a as $$Page, d as defaultLang } from './section-CEJarSuz.js';
+import { $ as $$Section, H as HomePage, a as $$Page, d as defaultLang } from './section-ChIWqOql.js';
 /* empty css                                 */
 
 const $$View = createComponent(($$result, $$props, $$slots) => {

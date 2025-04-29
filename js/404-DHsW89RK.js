@@ -1,6 +1,6 @@
 import { c as createComponent, r as renderTemplate, a as renderComponent, m as maybeRenderHead, b as addAttribute, d as createAstro } from './astro/server-CgvuF3dj.js';
 import 'kleur/colors';
-import { $ as $$Section, P as Page404, a as $$Page } from './section-CEJarSuz.js';
+import { $ as $$Section, P as Page404, a as $$Page } from './section-ChIWqOql.js';
 /* empty css                      */
 
 const visual = "/assets/img/404-bg-Ca5pfBEg.png";
