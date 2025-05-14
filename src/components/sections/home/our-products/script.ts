@@ -6,8 +6,8 @@ export default class OurProducts extends Section {
     private isActivated: boolean;
 
 
-
     async setupSection() {
+        new ProductsToggle();
     }
 
     protected _activate() {
@@ -41,10 +41,53 @@ document.addEventListener('astro:before-preparation', () => {
     ourProductsSection.unmount();
 });
 
+export class ProductsToggle {
+    private buttons: NodeListOf<HTMLButtonElement>;
+    private slider: HTMLElement | null;
+    private contents: NodeListOf<HTMLElement>;
 
-// Setup scripts for same sections.
+    constructor() {
+        this.buttons = document.querySelectorAll('.toggle-button');
+        this.slider = document.querySelector('.toggle-slider');
+        this.contents = document.querySelectorAll('[class*="content-item-"]');
+        this.init();
+    }
 
-// setupManyComponents(HeroSection, [
-//     document.getElementById(HomePageSections.Hero),
-//     document.getElementById(HomePageSections.Hero),
-// ]);
+    private init() {
+        this.buttons.forEach(button => {
+            button.addEventListener('click', () => this.handleToggle(button));
+        });
+        this.contents.forEach(content => {
+            if (content.classList.contains('content-item-0')) {
+                content.classList.remove('hidden');
+            } else {
+                content.classList.add('hidden');
+            }
+        });
+    }
+
+    private handleToggle(clickedButton: HTMLButtonElement) {
+        const targetId = clickedButton.dataset.id;
+
+        this.buttons.forEach(button => {
+            button.classList.remove('active');
+        });
+        clickedButton.classList.add('active');
+
+        if (this.slider && targetId === '1') {
+            this.slider.classList.add('slide');
+        } else if (this.slider) {
+            this.slider.classList.remove('slide');
+        }
+
+        this.contents.forEach(content => {
+            if (content.classList.contains(`content-item-${targetId}`)) {
+                content.classList.remove('hidden');
+            } else {
+                content.classList.add('hidden');
+            }
+        });
+    }
+}
+
+

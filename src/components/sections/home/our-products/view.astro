@@ -3,6 +3,7 @@ import './style.sass';
 import Section from 'layouts/section.astro';
 import FutureItem from './futureItem.astro';
 import InfoItem from './infoItem.astro';
+import ToggleSwitch from './toggleSwitch.astro';
 
 
 type SectionCopyright = {
@@ -44,6 +45,7 @@ const { COPY, id } = Astro.props;
         </div>
         <div class="toggle-container">
             <div class="maine-block">
+                <ToggleSwitch />
                 <div class="text-wrap">
                     <div class="maine-block__title">
                         <h3 class="title-h2">

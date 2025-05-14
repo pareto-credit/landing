@@ -1,4 +1,11 @@
 .our-products-section
+    .hidden
+        display: none !important
+        opacity: 0 !important
+        transition: opacity 0.5s ease
+    [class^="content-item-"]
+        opacity: 1
+        transition: opacity 0.3s ease
     padding-top: gem(130)
     .title-h2
         line-height: gem(36)
@@ -15,7 +22,64 @@
         display: flex
         flex-direction: column
         gap: gem(10)
+    .toggle-switch
+        width: gem(269)
+        position: absolute
+        top: gem(24)
+        right: gem(44)
+        display: flex
+        border-radius: gem(13.5)
+        border: 1px solid #AFC6D0
+        background: var(--Mist, #D0DED4)
+        padding: gem(2)
+        margin-bottom: gem(40)
+        justify-content: space-between
+        .toggle-button
+            position: relative
+            padding: gem(5) gem(33)
+            border: none
+            background: none
+            cursor: pointer
+            z-index: 2
+            transition: color 0.3s ease
+            display: flex
+            align-items: flex-end
+            gap: gem(10)
+            svg
+                width: gem(21)
+                height: gem(21)
+
+            .desc-4
+                font-size: gem(18)
+                line-height: gem(16)
+                font-family: var(--sub-font)
+                color: #081912
+                transition: color 0.3s ease
+            .fill-change,
+            .fill-change-2
+                transition: fill 0.3s ease
+            &.active
+                .fill-change
+                    fill:  #F1F3ED
+                .fill-change-2
+                    fill: #2C4739
+                .desc-4
+                    color: #E3E8E2
+
+        .toggle-slider
+            position: absolute
+            top: gem(4)
+            left: gem(4)
+            height: calc(100% - gem(8))
+            width: calc(50% - gem(4))
+            background: #1D4133
+            border-radius: gem(8)
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+
+            &.slide
+                transform: translateX(100%)
     .maine-block
+        position: relative
         padding-top: gem(31)
         padding-bottom: gem(31)
         padding-right: gem(42)
@@ -77,11 +141,13 @@
     .maine-block__btn-wrap
         display: flex
         gap: gem(20)
-    .content-item-1
-        display: none
 
 @media (max-width: 1024px)
     .our-products-section
+        .toggle-switch
+            top: gem(26)
+            right: 50%
+            transform: translateX(50%)
         .toggle-container
             gap: gem(15)
         .maine-block
@@ -138,6 +204,7 @@
             &__title
                 text-align: left
             &__desc
+                text-align: left
                 width: 100%
                 margin-bottom: gem(38)
         .container
