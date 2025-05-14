@@ -1,0 +1,183 @@
+---
+import './style.sass';
+import Section from 'layouts/section.astro';
+import FutureItem from './futureItem.astro';
+import InfoItem from './infoItem.astro';
+
+
+type SectionCopyright = {
+    subTitle: string;
+    title: string;
+    description: string;
+    list: {
+        title: string;
+        description: string;
+        btn: {
+            label: string;
+            link: string;
+        }[];
+        infoBlocks: {
+            label: string;
+            value: string;
+        }[];
+        futureBlocks: {
+            icon: string;
+            title: string;
+            description: string;
+        }[];
+    }[];
+};
+
+type Props = {
+    id: string;
+    COPY: SectionCopyright;
+};
+
+const { COPY, id } = Astro.props;
+---
+
+<Section className="our-products-section" id={id}>
+    <div class="container">
+        <div class="title-wrap">
+            <span class="desc-4 teal">{COPY.subTitle}</span>
+            <h2 class="title-h2">{COPY.title}</h2>
+        </div>
+        <div class="toggle-container">
+            <div class="maine-block">
+                <div class="text-wrap">
+                    <div class="maine-block__title">
+                        <h3 class="title-h2">
+                            {COPY.list.map((item, index) => (
+                                <span class={`content-item-${index}`}>
+                                    {item.title}
+                                </span>
+                            ))}
+                        </h3>
+                    </div>
+                    <div class="maine-block__desc">
+                        <p class="desc-3">
+                            {COPY.list.map((item, index) => (
+                                <span class={`content-item-${index}`}>
+                                    {item.description}
+                                </span>
+                            ))}
+                        </p>
+                    </div>
+                    <div class="info-list mobile">
+                        <div class="info-wrap">
+                            {COPY.list.map((item, index) => (
+                                <InfoItem
+                                    index={`${index}`}
+                                    label={item.infoBlocks[0].label}
+                                    value={item.infoBlocks[0].value}
+                                />
+                            ))}
+                        </div>
+                        <div class="info-wrap">
+                            {COPY.list.map((item, index) => (
+                                <InfoItem
+                                    index={`${index}`}
+                                    label={item.infoBlocks[1].label}
+                                    value={item.infoBlocks[1].value}
+                                />
+                            ))}
+                        </div>
+                        <div class="info-wrap">
+                            {COPY.list.map((item, index) => (
+                                <InfoItem
+                                    index={`${index}`}
+                                    label={item.infoBlocks[2].label}
+                                    value={item.infoBlocks[2].value}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                    <div class="maine-block__btn">
+                        {COPY.list.map((item, index) => (
+                            <div class={`content-item-${index} maine-block__btn-wrap`}>
+                                <a
+                                    class={'btn btn-primary'}
+                                    href={item.btn[0].link}
+                                >
+                                    <span class="desc-4 deep-forest">{item.btn[0].label}  </span>
+                                </a>
+
+                                <a
+                                    class={'btn btn-primary'}
+                                    href={item.btn[1].link}
+                                >
+                                    <span class="desc-4 deep-forest">{item.btn[1].label} </span>
+                                </a>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div class="info-list desktop">
+                    <div class="info-wrap">
+                        {COPY.list.map((item, index) => (
+                            <InfoItem
+                                index={`${index}`}
+                                label={item.infoBlocks[0].label}
+                                value={item.infoBlocks[0].value}
+                            />
+                        ))}
+                    </div>
+                    <div class="info-wrap">
+                        {COPY.list.map((item, index) => (
+                            <InfoItem
+                                index={`${index}`}
+                                label={item.infoBlocks[1].label}
+                                value={item.infoBlocks[1].value}
+                            />
+                        ))}
+                    </div>
+                    <div class="info-wrap">
+                        {COPY.list.map((item, index) => (
+                            <InfoItem
+                                index={`${index}`}
+                                label={item.infoBlocks[2].label}
+                                value={item.infoBlocks[2].value}
+                            />
+                        ))}
+                    </div>
+                </div>
+            </div>
+            <div class="futures-block">
+                <div class="futures-list">
+                    <div class="future-wrap">
+                        {COPY.list.map((item, index) => (
+                            <FutureItem
+                                id={`${index}`}
+                                icon={item.futureBlocks[0].icon}
+                                title={item.futureBlocks[0].title}
+                                description={item.futureBlocks[0].description}
+                            />
+                        ))}
+                    </div>
+                    <div class="future-wrap">
+                        {COPY.list.map((item, index) => (
+                            <FutureItem
+                                id={`${index}`}
+                                icon={item.futureBlocks[1].icon}
+                                title={item.futureBlocks[1].title}
+                                description={item.futureBlocks[1].description}
+                            />
+                        ))}
+                    </div>
+                    <div class="future-wrap">
+                        {COPY.list.map((item, index) => (
+                            <FutureItem
+                                id={`${index}`}
+                                icon={item.futureBlocks[2].icon}
+                                title={item.futureBlocks[2].title}
+                                description={item.futureBlocks[2].description}
+                            />
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</Section>
+
+<script src="./script.ts"></script>

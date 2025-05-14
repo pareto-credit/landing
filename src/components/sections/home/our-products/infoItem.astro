@@ -1,0 +1,22 @@
+---
+
+type Props = {
+    index: string;
+    label: string;
+    value: string;
+
+};
+
+const { index, label, value } = Astro.props;
+
+---
+
+<div class={`info-item content-item-${index}`}>
+    <div class="info-item__label">
+        <p class="desc-4">{label}</p>
+    </div>
+    <div class="info-item__value">
+        <p class="title-h3">{value}</p>
+    </div>
+</div>
+

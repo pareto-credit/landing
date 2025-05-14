@@ -12,6 +12,7 @@ import Ecosystem from 'components/sections/home/ecosystem/view.astro';
 import GetInTouch from 'components/sections/home/get-in-touch/view.astro';
 import CommunitySection from 'components/sections/home/community/view.astro';
 import NewsSection from 'components/sections/home/news/view.astro';
+import OurProducts from 'components/sections/home/our-products/view.astro';
 
 type Props = {
 	locale: Locales
@@ -24,6 +25,7 @@ const COPY = PageSettings.copy[locale];
 
 <PageLayot {...PageSettings} locale={locale}>
     <HeroSection COPY={COPY.heroSection} id={HomePageSections.Hero}/>
+    <OurProducts COPY={COPY.ourProductsSection} id={HomePageSections.OurProducts}/>
     <Ecosystem COPY={COPY.Ecosystem} id={HomePageSections.Ecosystem}/>
     <SolutionSection COPY={COPY.solutionSection} id={HomePageSections.Solution}/>
     <HowItWorks COPY={COPY.HowItWorks} id={HomePageSections.HowItWorks}/>

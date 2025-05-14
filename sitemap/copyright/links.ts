@@ -23,6 +23,11 @@ export enum links {
     BAS_USDT = 'https://app.pareto.credit/vault#0xaE65d6C295E4a28519182a632FB25b7C1966AED7',
     FAL_USDC = 'https://app.pareto.credit/vault#0x24e16F9Fad32891f8bA69cE8fEdd273A2649331A',
 
+    sUSP_APP = 'https://app.pareto.credit/susp',
+    sUSP_DOC = 'https://app.pareto.credit/docs/susp',
+    USP_APP = 'https://app.pareto.credit/usp',
+    USP_DOC = 'https://app.pareto.credit/docs/usp',
+
 
     IPFSapp = 'https://idle-finance.on.fleek.co/',
     TermsofService = '/terms-of-service',

@@ -8,6 +8,7 @@ export enum HomePageSections {
     GetInTouch = 'homepage-get-in-touch',
     Community = 'homepage-community',
     News = 'homepage-news',
+    OurProducts = 'homepage-our-products',
 }
 
 export enum AboutPageSections {

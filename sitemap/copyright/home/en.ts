@@ -38,6 +38,12 @@ import digitalEco from '/src/assets/img/ecosystem/Fasanara_Digital.svg?url';
 import bastionEco from '/src/assets/img/ecosystem/Bastion_Trading.svg?url';
 import m11Eco from '/src/assets/img/ecosystem/m11.svg?url';
 
+import composable from '/src/assets/img/our-products/composable.svg?url';
+import liquid from '/src/assets/img/our-products/liquid.svg?url';
+import diversified from '/src/assets/img/our-products/diversified.svg?url';
+import yieldGenerating from '/src/assets/img/our-products/yield-generating.svg?url';
+import overcollateralized from '/src/assets/img/our-products/overcollateralized.svg?url';
+import safe from '/src/assets/img/our-products/safe.svg?url';
 
 export const HomeEnCopy = {
     heroSection: {
@@ -136,6 +142,102 @@ export const HomeEnCopy = {
                     },
                 ],
                 isActive: false,
+            },
+        ],
+    },
+    ourProductsSection: {
+        subTitle: 'OUR PRODUCTS',
+        title: 'Building blocks of the new era',
+        list:[
+            {
+                title: 'USP, the credit-based synthetic dollar',
+                description: 'USP is a synthetic dollar protocol backed by real-world institutional-grade private credit.',
+                btn: [
+                    {
+                        label: 'Open in app',
+                        link: links.USP_APP,
+                    },
+                    {
+                        label: 'Documents',
+                        link: links.USP_DOC,
+                    },
+                ],
+                infoBlocks:[
+                    {
+                        label: 'Price',
+                        value: '$1',
+                    },
+                    {
+                        label: 'TVL',
+                        value: '$30m',
+                    },
+                    {
+                        label: 'Collateralization',
+                        value: '15.2%',
+                    },
+                ],
+                futureBlocks:[
+                    {
+                        icon: composable,
+                        title: 'Composable',
+                        description: 'USP is transferable, permissionless, and seamlessly integrates into DeFi and CeFi for enhanced efficiency.',
+                    },
+                    {
+                        icon: overcollateralized,
+                        title: 'Overcollateralized',
+                        description: 'Backed 1:1, USP is fully collateralized by stablecoins ',
+                    },
+                    {
+                        icon: safe,
+                        title: 'Safe',
+                        description: 'Although backed by solid, liquid assets, USP is also protected by a stability fund, funded by protocol revenue, to shield holders in a systemic crisis.',
+                    },
+                ],
+            },
+            {
+                title: 'sUSP, the credit savings rate',
+                description: 'sUSP is the staking version of USP, acting like a savings account for RWA credit lines. ',
+                btn: [
+                    {
+                        label: 'Open in app',
+                        link: links.sUSP_APP,
+                    },
+                    {
+                        label: 'Documents',
+                        link: links.sUSP_DOC,
+                    },
+                ],
+                infoBlocks:[
+                    {
+                        label: 'Price',
+                        value: '$1',
+                    },
+                    {
+                        label: 'TVL',
+                        value: '$30m',
+                    },
+                    {
+                        label: 'APY',
+                        value: '30d',
+                    },
+                ],
+                futureBlocks:[
+                    {
+                        icon: yieldGenerating,
+                        title: 'Yield generating',
+                        description: 'Yield generating sUSP lets users benefit from Credit Vaults yield and Pareto’s growth for a rewarding experience.',
+                    },
+                    {
+                        icon: liquid,
+                        title: 'Liquid',
+                        description: 'sUSP is fully liquid and transferable, allowing holders to exit their positions at any time by swapping it for other assets.',
+                    },
+                    {
+                        icon: diversified,
+                        title: 'Diversified',
+                        description: 'sUSP holders get instant exposure to a diversified basket of credit lines minimising the reliance on one single counterparty',
+                    },
+                ],
             },
         ],
     },

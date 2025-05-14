@@ -1,0 +1,26 @@
+---
+
+
+type Props = {
+    id: string;
+    icon: string;
+    title: string;
+    description: string;
+};
+
+const { icon, title, description, id } = Astro.props;
+
+---
+
+<div class=`future-item content-item-${id}` >
+    <div class="future-item__icon">
+        <img src={icon} alt="Future Icon" />
+    </div>
+    <div class="future-item__title">
+        <p class="title-h4"> {title}</p>
+    </div>
+    <div class="future-item__desc">
+        <p class="desc-3">{description}</p>
+    </div>
+</div>
+

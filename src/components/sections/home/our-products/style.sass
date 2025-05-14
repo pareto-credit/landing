@@ -1,0 +1,163 @@
+.our-products-section
+    padding-top: gem(130)
+    .title-h2
+        line-height: gem(36)
+    .title-wrap
+        width: gem(236)
+        display: flex
+        flex-direction: column
+        align-items: center
+        gap: gem(23)
+        text-align: center
+        margin: 0 auto
+    .toggle-container
+        margin-top: gem(78)
+        display: flex
+        flex-direction: column
+        gap: gem(10)
+    .maine-block
+        padding-top: gem(31)
+        padding-bottom: gem(31)
+        padding-right: gem(42)
+        display: flex
+        align-items: flex-start
+        justify-content: space-between
+        width: 100%
+        min-height: gem(300)
+        background: #D7E4EA
+        border-radius: gem(30)
+        border: 1px solid #AFC6D0
+        &__title
+            width: gem(296)
+        &__desc
+            margin-top: gem(25)
+            margin-bottom: gem(50)
+    .text-wrap
+        padding-left: gem(60)
+        width: gem(460)
+    .info-list
+        display: flex
+        align-self: flex-end
+        gap: gem(6)
+        &.mobile
+            display: none
+    .info-wrap
+        display: flex
+        flex-direction: column
+        gap: gem(20)
+        justify-content: center
+        align-items: center
+        width: gem(160)
+        height: gem(160)
+        background: rgba(187,203,210,0.2)
+        border-radius: gem(16)
+    .info-item
+        display: flex
+        flex-direction: column
+        align-items: center
+        justify-content: center
+        gap: gem(13)
+    .futures-list
+        display: grid
+        grid-template-columns: repeat(3, 1fr)
+        gap: gem(10)
+    .future-wrap
+        background: #D7E4EA
+        border-radius: gem(20)
+        border: 1px solid #AFC6D0
+        padding: gem(18) gem(44) gem(18) gem(33)
+    .future-item
+        &__icon
+            width: gem(114)
+            height: gem(120)
+            margin-bottom: gem(21)
+        &__title
+
+            margin-bottom: gem(10)
+    .maine-block__btn-wrap
+        display: flex
+        gap: gem(20)
+    .content-item-1
+        display: none
+
+@media (max-width: 1024px)
+    .our-products-section
+        .toggle-container
+            gap: gem(15)
+        .maine-block
+            padding-top: gem(95)
+            padding-left: gem(42)
+            &__title
+                text-align: center
+                width: gem(296)
+            &__desc
+                text-align: center
+                width: gem(402)
+                margin-top: gem(12)
+                margin-bottom: gem(32)
+        .text-wrap
+            width: 100%
+            padding-left: 0
+            display: flex
+            flex-direction: column
+            align-items: center
+            justify-content: center
+        .container
+            width: gem(734)
+            min-width: gem(734)
+        .future-wrap
+            position: relative
+            padding-left: gem(190)
+            padding-right: gem(88)
+            padding-top: gem(43)
+            padding-bottom: gem(56)
+        .future-item__icon
+            position: absolute
+            left: gem(48)
+            top: gem(43)
+        .futures-list
+            grid-template-columns: repeat(1, 1fr)
+            gap: gem(15)
+        .info-list
+            gap: gem(6)
+            align-self: center
+            margin-bottom: gem(44)
+            &.mobile
+                display: flex
+            &.desktop
+                display: none
+
+@media (max-width: 480px)
+    .our-products-section
+        .toggle-container
+            margin-top: gem(65)
+            gap: gem(10)
+        .maine-block
+            padding-left: gem(24)
+            padding-right: gem(24)
+            &__title
+                text-align: left
+            &__desc
+                width: 100%
+                margin-bottom: gem(38)
+        .container
+            width: gem(355)
+            min-width: gem(355)
+        .futures-list
+            gap: gem(10)
+        .info-list
+            flex-direction: column
+            gap: gem(12)
+            margin-bottom: gem(40)
+        .info-wrap
+            width: gem(298)
+            height: gem(74)
+        .info-item
+            gap: gem(0)
+        .future-wrap
+            padding-left: gem(34)
+            padding-right: gem(45)
+            padding-top: gem(18)
+            padding-bottom: gem(54)
+        .future-item__icon
+            position: static
