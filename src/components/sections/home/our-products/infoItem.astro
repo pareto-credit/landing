@@ -1,17 +1,18 @@
 ---
 
 type Props = {
+    parentId: string;
     index: string;
     label: string;
     value: string;
 
 };
 
-const { index, label, value } = Astro.props;
+const { parentId, index, label, value } = Astro.props;
 
 ---
 
-<div class={`info-item content-item-${index}`}>
+<div class={`info-item content-item-${index}`} data-id={parentId+'-'+label.toLowerCase()}>
     <div class="info-item__label">
         <p class="desc-4">{label}</p>
     </div>

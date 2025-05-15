@@ -1,7 +1,8 @@
+import { Contract } from 'web3';
 import { Token } from '../../tokens';
-import { VaultBlock } from '../../vault-blocks';
-import { Web3Clients } from '../../web3-client';
+import { Web3CallData, Web3Clients, Web3ContractMethod, Web3DataParam, Web3Entity, Web3EventType } from '../../web3-client';
 import { Vault, VaultKycData } from '../vault.model';
+import { AbiContract } from '../../core';
 /**
  * Load vault web3 data
  * @param web3Clients - the web3 clients
@@ -14,16 +15,25 @@ export declare function getVaultWeb3Data(web3Clients: Web3Clients, vault: Vault,
     walletAddress?: string;
 }): Promise<VaultKycData>;
 /**
- * Get spender address for deposits
- * @param vault vault object
- * @param block vault block object
- * @returns deposit spender address
+ * Make web3 call data for a specific contract method
+ * @param contract contract
+ * @param contractMethod contract method to call
+ * @param parent parent web3 entity in case of nested calls
+ * @returns web3 call data
  */
-export declare function getVaultDepositSpender(vault: Vault, block: VaultBlock): string | undefined;
+export declare function makeWeb3CallData(contract: Contract<AbiContract>, contractMethod: Web3ContractMethod, inputs?: Web3DataParam[], parent?: Web3Entity): Web3CallData;
 /**
- * Get spender address for withdraws
+ * Get Pool event type
  * @param vault vault object
- * @param block vault block object
- * @returns withdraw spender address
+ * @param from from address
+ * @param to to address
+ * @returns pool event type (if any)
  */
-export declare function getVaultWithdrawSpender(vault: Vault, block: VaultBlock): string | undefined;
+export declare function getVaultPoolEventType(vault: Vault, from: string, to: string): Web3EventType | undefined;
+/**
+ * Check if a specific address corresponds to a vault contract address
+ * @param vault vault model
+ * @param address address to check
+ * @returns true | false
+ */
+export declare function checkContractAddress(vault: Vault, address: string): boolean;

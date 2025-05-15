@@ -52,6 +52,7 @@ export interface VaultBlockBody {
     cdo?: VaultContractCdoData;
     cdoEpoch?: VaultContractCdoEpochData;
     strategy?: VaultContractStrategyData;
+    paretoDollar?: VaultContractParetoDollarData;
     pools?: VaultPoolBlock[];
     allocations?: VaultAllocation[];
     previous?: VaultBlockBody;
@@ -60,6 +61,55 @@ export interface VaultBlockBody {
     rewardPrograms?: VaultBlockRewardProgram[];
 }
 export declare function sVaultBlockBody(isPartial?: boolean): import("fluent-json-schema").ObjectSchema<{
+    [x: string]: any;
+    [x: number]: any;
+    [x: symbol]: any;
+}>;
+export interface VaultContractParetoDollarData {
+    queue?: VaultContractParetoDollarQueue;
+    staking?: VaultContractParetoDollarStaking;
+}
+export declare function sVaultContractParetoDollarData(): import("fluent-json-schema").ObjectSchema<{
+    [x: string]: any;
+    [x: number]: any;
+    [x: symbol]: any;
+}>;
+export interface ParetoDollarQueueYieldSource {
+    tokenId?: string;
+    vaultId?: string;
+    operatorId?: string;
+    tokenAddress: string;
+    sourceAddress: string;
+    vaultAddress: string;
+    maxCap: iBigInt;
+    depositedAmount: iBigInt;
+    vaultType: number;
+}
+export declare function sParetoDollarQueueYieldSource(): import("fluent-json-schema").ObjectSchema<{
+    [x: string]: any;
+    [x: number]: any;
+    [x: symbol]: any;
+}>;
+export interface VaultContractParetoDollarQueue {
+    epochNumber?: number;
+    totalCollateralsScaled?: iBigInt;
+    unlentBalanceScaled?: iBigInt;
+    totalReservedWithdrawals?: iBigInt;
+    yieldSources?: ParetoDollarQueueYieldSource[];
+    epochPending?: iBigInt;
+    prevEpochPending?: iBigInt;
+}
+export declare function sVaultContractParetoDollarQueue(): import("fluent-json-schema").ObjectSchema<{
+    [x: string]: any;
+    [x: number]: any;
+    [x: symbol]: any;
+}>;
+export interface VaultContractParetoDollarStaking {
+    totalSupply?: iBigInt;
+    totalAssets?: iBigInt;
+    rewardsLastDeposit?: iBigInt;
+}
+export declare function sVaultContractParetoDollarStaking(): import("fluent-json-schema").ObjectSchema<{
     [x: string]: any;
     [x: number]: any;
     [x: symbol]: any;
@@ -233,7 +283,13 @@ export interface VaultPoolBlock {
     rates: VaultPoolBlockRates;
     utilization: VaultPoolUtilization;
     available: VaultPoolBlockAvailable;
+    APR?: number;
 }
+export declare function sVaultPoolBlock(): import("fluent-json-schema").ObjectSchema<{
+    [x: string]: any;
+    [x: number]: any;
+    [x: symbol]: any;
+}>;
 export interface VaultAllocation {
     vaultId?: string;
     vaultAddress: string;
@@ -294,11 +350,6 @@ export declare enum VaultBlockRoutes {
     v1Search = "v1/vault-blocks"
 }
 export declare function sVaultBlockData(isPartial?: boolean): import("fluent-json-schema").ExtendedSchema;
-export declare function sVaultPoolBlock(): import("fluent-json-schema").ObjectSchema<{
-    [x: string]: any;
-    [x: number]: any;
-    [x: symbol]: any;
-}>;
 export declare function sVaultPoolBlockRates(): import("fluent-json-schema").ObjectSchema<{
     [x: string]: any;
     [x: number]: any;

@@ -1,5 +1,5 @@
 import { iBigInt } from '../../core';
-import { VaultContractAPRs, VaultContractData, VaultContractType, VaultIntegrationsData, VaultRewardProgram } from '../../vaults';
+import { Vault, VaultContractAPRs, VaultContractData, VaultContractType, VaultIntegrationsData, VaultRewardProgram } from '../../vaults';
 import { RewardToken, VaultBlock, VaultBlockAPRs, VaultBlockAPYs, VaultContractCdoEpochInstantWithdrawsData } from '../vault-block.model';
 import { VaultEpochProgression, VaultEpochStatus, VaultEpochWithdrawType } from '../../vault-epochs';
 /**
@@ -108,6 +108,13 @@ export declare function calculateVaultBlockInterestAmounts(block: VaultBlock, lp
  * @returns the epoch client status
  */
 export declare function getVaultBlockEpochStatus(block: VaultBlock, date?: Date): VaultEpochStatus | undefined;
+/**
+ * Get vault block CAP progression
+ * @param vault - the vault
+ * @param block - the vault block
+ * @returns the percentage of completion
+ */
+export declare function getVaultBlockCapProgression(vault: Vault, block: VaultBlock): number;
 /**
  * Get vault block epoch waiting progression data
  * @param block - the vault block

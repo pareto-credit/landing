@@ -80,6 +80,11 @@ import { stringify } from '../../core/utility.lib';
                 method: 'POST',
                 data: stringify(body)
             }).then((response)=>response.data),
+        usp: (vaultId, body)=>axios.request({
+                url: VaultRoutes.v1Usp.replace(':vaultId', vaultId),
+                method: 'POST',
+                data: stringify(body)
+            }).then((response)=>response.data),
         epoch: (vaultId, body)=>axios.request({
                 url: VaultRoutes.v1Epoch.replace(':vaultId', vaultId),
                 method: 'POST',

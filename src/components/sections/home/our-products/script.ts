@@ -1,5 +1,6 @@
 import { HomePageSections } from 'components/sections/sectionTypes';
 import Section from 'scripts/core/section';
+import { getApiClient } from 'scripts/utils/apiClient';
 
 
 export default class OurProducts extends Section {
@@ -8,6 +9,7 @@ export default class OurProducts extends Section {
 
     async setupSection() {
         new ProductsToggle();
+        await this.loadData();
     }
 
     protected _activate() {
@@ -18,6 +20,68 @@ export default class OurProducts extends Section {
 
     protected _deactivate() {
         /* TODO */
+    }
+
+    async loadData(){
+        const apiClient = getApiClient();
+        const vaultBlock = await apiClient.vaultLatestBlocks.readOne({
+            vaultId: '68026ee6905992e056c85a75',
+        });
+        // console.log({vaultBlock});
+        if (vaultBlock){
+            const sUSPapr = document.querySelectorAll('[data-id="SUSP-apy"] .info-item__value > p');
+            if (sUSPapr.length){
+                sUSPapr.forEach( item => item.innerHTML = Number(vaultBlock.APYs.NET).toFixed(2)+'%');
+            }
+
+            const uspTVLs = document.querySelectorAll('[data-id="USP-tvl"] .info-item__value > p');
+            if (uspTVLs.length){
+                const intlOptions: Intl.NumberFormatOptions = {
+                    maximumFractionDigits: 1,
+                    notation: 'compact',
+                    currency: 'USD',
+                    style: 'currency',
+                    compactDisplay: 'short',
+                };
+                const formatter = new Intl.NumberFormat('en-US', intlOptions);
+                uspTVLs.forEach( item => item.innerHTML = formatter.format(Number(vaultBlock.TVL.withRequestsUSD)/1e6));
+            }
+
+            const suspTVLs = document.querySelectorAll('[data-id="SUSP-tvl"] .info-item__value > p');
+            if (suspTVLs.length){
+                const intlOptions: Intl.NumberFormatOptions = {
+                    maximumFractionDigits: 1,
+                    notation: 'compact',
+                    currency: 'USD',
+                    style: 'currency',
+                    compactDisplay: 'short',
+                };
+                const formatter = new Intl.NumberFormat('en-US', intlOptions);
+                suspTVLs.forEach( item => item.innerHTML = formatter.format(Number(vaultBlock.paretoDollar.staking.totalAssets)/1e18));
+            }
+
+            const uspPrice = document.querySelectorAll('[data-id="USP-price"] .info-item__value > p');
+            if (uspPrice.length){
+                const intlOptions: Intl.NumberFormatOptions = {
+                    maximumFractionDigits: 2,
+                    currency: 'USD',
+                    style: 'currency',
+                };
+                const formatter = new Intl.NumberFormat('en-US', intlOptions);
+                uspPrice.forEach( item => item.innerHTML = formatter.format(1));
+            }
+
+            const suspPrice = document.querySelectorAll('[data-id="SUSP-price"] .info-item__value > p');
+            if (suspPrice.length){
+                const intlOptions: Intl.NumberFormatOptions = {
+                    maximumFractionDigits: 2,
+                    currency: 'USD',
+                    style: 'currency',
+                };
+                const formatter = new Intl.NumberFormat('en-US', intlOptions);
+                suspPrice.forEach( item => item.innerHTML = formatter.format(Number(vaultBlock.price)/1e18));
+            }
+        }
     }
 }
 

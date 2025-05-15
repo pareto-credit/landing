@@ -11,17 +11,17 @@ export declare class VaultParetoToken extends VaultContract implements VaultCont
      */
     getContractData(blockNumber?: BlockNumber): Promise<VaultContractData>;
     /**
+     * Prepare call data
+     * @returns the web3 call data
+     */
+    protected makeCallData(blockNumber?: BlockNumber): Web3CallData[];
+    /**
      * Get vault payable method
      * @param type the payment method type
      * @param options the payment method options
      * @returns the web3 payable method
      */
     getPayableMethod(type: VaultPayableMethodType, options?: any): undefined;
-    /**
-     * Prepare call data
-     * @returns the web3 call data
-     */
-    protected makeCallData(blockNumber?: BlockNumber): Web3CallData[];
     /**
      * Get vault non payable method
      * @param type

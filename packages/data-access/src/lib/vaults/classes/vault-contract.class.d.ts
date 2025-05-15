@@ -138,6 +138,48 @@ export declare class VaultContract {
      */
     private parseCdoEpochResponse;
     /**
+     * Parse Pareto Dollar response
+     * @param data - the already processed data
+     * @param response - the Pareto Dollar response
+     * @returns the contract data
+     */
+    private parseParetoDollarResponse;
+    /**
+     * Parse Pareto Dollar Queue response
+     * @param data - the already processed data
+     * @param response - the Pareto Dollar Queue response
+     * @returns the contract data
+     */
+    private parseParetoDollarQueueResponse;
+    /**
+     * Parse Pareto Dollar Queue response
+     * @param data - the already processed data
+     * @param response - the Pareto Dollar Queue response
+     * @returns the contract data
+     */
+    private parseParetoDollarQueueYieldSourceResponse;
+    /**
+     * Parse Pareto Dollar Queue response
+     * @param data - the already processed data
+     * @param response - the Pareto Dollar Queue response
+     * @returns the contract data
+     */
+    private parseParetoDollarQueueEpochPendingResponse;
+    /**
+     * Parse Pareto Dollar Strategy response
+     * @param data - the already processed data
+     * @param response - the Pareto Dollar Strategy response
+     * @returns the contract data
+     */
+    private parseParetoDollarStakingResponse;
+    /**
+     * Parse Pareto Dollar Strategy response
+     * @param data - the already processed data
+     * @param response - the Pareto Dollar Strategy response
+     * @returns the contract data
+     */
+    private parseWalletParetoDollarStakingResponse;
+    /**
      * Parse wallet deposit queue response
      * @param data - the already processed data
      * @param response - the wallet deposit queue response

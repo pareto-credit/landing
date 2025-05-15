@@ -240,6 +240,20 @@ export function getVaultBlockEpochWithdrawType(apr, lastApr, instantWithdraws) {
     return status;
 }
 /**
+ * Get vault block CAP progression
+ * @param vault - the vault
+ * @param block - the vault block
+ * @returns the percentage of completion
+ */ export function getVaultBlockCapProgression(vault, block) {
+    var _vault_maxCap, _block_TVL;
+    if (!((_vault_maxCap = vault.maxCap) == null ? void 0 : _vault_maxCap.isActive)) {
+        return 0;
+    }
+    const maxCap = vault.maxCap.amount;
+    const currentTvl = ((_block_TVL = block.TVL) == null ? void 0 : _block_TVL.USD) || 0;
+    return BNify(currentTvl).div(maxCap).times(100).toNumber();
+}
+/**
  * Get vault block epoch waiting progression data
  * @param block - the vault block
  * @param date - the date to use

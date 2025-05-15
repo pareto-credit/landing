@@ -21,20 +21,6 @@ export declare const VAULT_SIGNATURES: {
     };
 };
 export declare const ERC20_ABI: ({
-    anonymous: boolean;
-    inputs: {
-        indexed: boolean;
-        internalType: string;
-        name: string;
-        type: string;
-    }[];
-    name: string;
-    type: string;
-    constant?: undefined;
-    outputs?: undefined;
-    payable?: undefined;
-    stateMutability?: undefined;
-} | {
     constant: boolean;
     inputs: {
         name: string;
@@ -49,4 +35,26 @@ export declare const ERC20_ABI: ({
     stateMutability: string;
     type: string;
     anonymous?: undefined;
+} | {
+    payable: boolean;
+    stateMutability: string;
+    type: string;
+    constant?: undefined;
+    inputs?: undefined;
+    name?: undefined;
+    outputs?: undefined;
+    anonymous?: undefined;
+} | {
+    anonymous: boolean;
+    inputs: {
+        indexed: boolean;
+        name: string;
+        type: string;
+    }[];
+    name: string;
+    type: string;
+    constant?: undefined;
+    outputs?: undefined;
+    payable?: undefined;
+    stateMutability?: undefined;
 })[];

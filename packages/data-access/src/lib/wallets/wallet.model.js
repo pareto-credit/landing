@@ -11,7 +11,7 @@ export function sWalletData(isPartial) {
     ]).extend(sWalletBody());
 }
 export function sWalletBody() {
-    return S.object().additionalProperties(false).prop('userId', sStringId()).prop('ens', S.string()).prop('signatures', S.array().items(sWalletSignature())).prop('campaigns', S.array().items(sWalletCampaign()));
+    return S.object().additionalProperties(false).prop('userId', sStringId()).prop('ens', S.string()).prop('referralCode', S.string().maxLength(6)).prop('signatures', S.array().items(sWalletSignature())).prop('campaigns', S.array().items(sWalletCampaign())).prop('affiliates', S.array().items(sWalletAffiliate())).prop('affiliated', S.array().items(sWalletAffiliate()));
 }
 export function sWalletUserBody() {
     return S.object().additionalProperties(false).prop('name', S.string()).description('User name').prop('email', sEmail()).description('User email').prop('telegram', S.string()).description('User telegram profile');
@@ -21,6 +21,9 @@ export function sWalletSignature() {
 }
 export function sWalletCampaign() {
     return S.object().additionalProperties(false).prop('_id', sStringId()).required().prop('referralCode', S.string()).required().prop('activatedOn', sDateString()).required();
+}
+export function sWalletAffiliate() {
+    return S.object().additionalProperties(false).prop('_id', sStringId()).required().prop('address', sBCAddress()).required().prop('activatedOn', sDateString()).required();
 }
 export function sWalletPortfolioQuery() {
     S.object().additionalProperties(false).extend(sVaultsSearchQuery()).extend(sWalletPortfolioFilters());

@@ -28,6 +28,105 @@ export const WEB3_MULTICALL_RESPONSE_ABI = [
 export const WEB3_CONTRACT_METHODS = [
     {
         protocol: 'Idle',
+        type: 'PARETO_DOLLAR',
+        block: 'current',
+        method: 'totalSupply'
+    },
+    {
+        protocol: 'Idle',
+        type: 'PARETO_DOLLAR_QUEUE',
+        block: 'current',
+        method: 'epochNumber'
+    },
+    {
+        protocol: 'Idle',
+        type: 'PARETO_DOLLAR_QUEUE',
+        block: 'current',
+        method: 'getTotalCollateralsScaled'
+    },
+    {
+        protocol: 'Idle',
+        type: 'PARETO_DOLLAR_QUEUE',
+        block: 'current',
+        method: 'getUnlentBalanceScaled'
+    },
+    {
+        protocol: 'Idle',
+        type: 'PARETO_DOLLAR_QUEUE',
+        block: 'current',
+        method: 'totReservedWithdrawals'
+    },
+    {
+        protocol: 'Idle',
+        type: 'PARETO_DOLLAR_QUEUE',
+        block: 'current',
+        method: 'getAllYieldSources'
+    },
+    {
+        protocol: 'Idle',
+        type: 'PARETO_DOLLAR_QUEUE_EPOCH_PENDING',
+        block: 'current',
+        method: 'epochPending',
+        params: [
+            'epochNumber'
+        ]
+    },
+    {
+        protocol: 'Idle',
+        type: 'PARETO_DOLLAR_QUEUE_EPOCH_PENDING',
+        block: 'current',
+        method: 'epochPending',
+        params: [
+            'prevEpochNumber'
+        ]
+    },
+    {
+        protocol: 'Idle',
+        type: 'PARETO_DOLLAR_QUEUE_YIELD_SOURCE',
+        block: 'current',
+        method: 'getCollateralsYieldSourceScaled',
+        params: [
+            'yieldSourceAddress'
+        ]
+    },
+    {
+        protocol: 'Idle',
+        type: 'PARETO_DOLLAR_STAKING',
+        block: 'current',
+        method: 'totalSupply'
+    },
+    {
+        protocol: 'Idle',
+        type: 'PARETO_DOLLAR_STAKING',
+        block: 'current',
+        method: 'totalAssets'
+    },
+    {
+        protocol: 'Idle',
+        type: 'PARETO_DOLLAR_STAKING',
+        block: 'current',
+        method: 'rewardsLastDeposit'
+    },
+    {
+        protocol: 'Idle',
+        type: 'PARETO_DOLLAR_STAKING',
+        block: 'current',
+        method: 'convertToAssets',
+        params: [
+            '1e18'
+        ]
+    },
+    {
+        protocol: 'Idle',
+        type: 'WALLET_PARETO_DOLLAR_STAKING',
+        block: 'current',
+        method: 'balanceOf',
+        params: [
+            'walletAddress'
+        ]
+    },
+    {
+        protocol: 'Idle',
         type: 'BestYield',
         block: 'current',
         method: 'getAvgAPR'
@@ -115,6 +214,12 @@ export const WEB3_CONTRACT_METHODS = [
         type: 'CDO',
         block: 'current',
         method: 'getCurrentAARatio'
+    },
+    {
+        protocol: 'Sky',
+        type: 'POOL',
+        block: 'current',
+        method: 'ssr'
     },
     {
         protocol: 'Compound',
@@ -464,15 +569,6 @@ export const WEB3_CONTRACT_METHODS = [
         ]
     },
     {
-        protocol: 'Idle',
-        type: 'WALLET',
-        block: 'current',
-        method: 'balanceOf',
-        params: [
-            'walletAddress'
-        ]
-    },
-    {
         protocol: 'UniswapV2',
         type: 'ORACLE',
         block: 'current',
@@ -546,6 +642,24 @@ export const WEB3_CONTRACT_METHODS = [
             'tokenAmount',
             'tokenPriceLimit'
         ]
+    },
+    {
+        protocol: 'Idle',
+        type: 'ERC20',
+        block: 'current',
+        method: 'name'
+    },
+    {
+        protocol: 'Idle',
+        type: 'ERC20',
+        block: 'current',
+        method: 'symbol'
+    },
+    {
+        protocol: 'Idle',
+        type: 'ERC20',
+        block: 'current',
+        method: 'decimals'
     }
 ];
 

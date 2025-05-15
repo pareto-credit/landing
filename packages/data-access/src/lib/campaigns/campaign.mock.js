@@ -1,6 +1,6 @@
 import { LocalesMock } from '../core';
 export function CampaignMock(options) {
-    var _options_rules;
+    var _options_rules, _options_boosts;
     const now = new Date().toISOString();
     return {
         _id: (options == null ? void 0 : options._id) || 'CAMPAIGN_ID',
@@ -8,6 +8,7 @@ export function CampaignMock(options) {
         name: LocalesMock(options == null ? void 0 : options.name),
         description: LocalesMock(options == null ? void 0 : options.description),
         rules: options == null ? void 0 : (_options_rules = options.rules) == null ? void 0 : _options_rules.map((r)=>CampaignRuleMock(r)),
+        boosts: options == null ? void 0 : (_options_boosts = options.boosts) == null ? void 0 : _options_boosts.map((b)=>CampaignBoostMock(b)),
         startDate: (options == null ? void 0 : options.startDate) || now,
         endDate: (options == null ? void 0 : options.endDate) || now,
         createdAt: (options == null ? void 0 : options.createdAt) || now,
@@ -33,6 +34,19 @@ export function CampaignRuleMock(options) {
         frequency: {
             unit: (options == null ? void 0 : (_options_frequency = options.frequency) == null ? void 0 : _options_frequency.unit) || 'days',
             value: (options == null ? void 0 : (_options_frequency1 = options.frequency) == null ? void 0 : _options_frequency1.value) || 1
+        }
+    };
+}
+export function CampaignBoostMock(options) {
+    var _options_reward, _options_reward1;
+    return {
+        code: (options == null ? void 0 : options.code) || 'BOOST_CODE',
+        name: LocalesMock(options == null ? void 0 : options.name),
+        description: (options == null ? void 0 : options.description) ? LocalesMock(options == null ? void 0 : options.description) : undefined,
+        type: (options == null ? void 0 : options.type) || 'STAKE',
+        reward: {
+            type: (options == null ? void 0 : (_options_reward = options.reward) == null ? void 0 : _options_reward.type) || 'AMOUNT',
+            value: (options == null ? void 0 : (_options_reward1 = options.reward) == null ? void 0 : _options_reward1.value) || 1
         }
     };
 }

@@ -13,13 +13,25 @@ export function sVaultBlockRewardProgram() {
     return S.object().additionalProperties(false).prop('tokenId', sStringId()).required().prop('APR', S.number()).required().prop('USD', sBigInt());
 }
 export function sVaultBlockBody(isPartial) {
-    return S.object().additionalProperties(false).prop('APRs', sVaultBlockInterestRates()).description('Non-coumponded interest rates').prop('APYs', sVaultBlockInterestRates()).description('Compounded interest rates').prop('totalSupply', sBigInt()).prop('price', sBigInt()).prop('TVL', sVaultTvl()).prop('pools', S.array().items(sVaultPoolBlock())).prop('allocations', S.array().items(sVaultAllocation())).prop('cdo', sVaultContractCdoData()).prop('cdoEpoch', sVaultContractCdoEpochData()).prop('strategy', sVaultContractStrategyData()).prop('requests', S.array().items(sVaultBlockRequest())).prop('totalRequests', sVaultBlockTotalRequests()).prop('rewardPrograms', S.array().items(sVaultBlockRewardProgram()))// Deprecated
+    return S.object().additionalProperties(false).prop('APRs', sVaultBlockInterestRates()).description('Non-coumponded interest rates').prop('APYs', sVaultBlockInterestRates()).description('Compounded interest rates').prop('totalSupply', sBigInt()).prop('price', sBigInt()).prop('TVL', sVaultTvl()).prop('pools', S.array().items(sVaultPoolBlock())).prop('allocations', S.array().items(sVaultAllocation())).prop('cdo', sVaultContractCdoData()).prop('cdoEpoch', sVaultContractCdoEpochData()).prop('strategy', sVaultContractStrategyData()).prop('paretoDollar', sVaultContractParetoDollarData()).prop('requests', S.array().items(sVaultBlockRequest())).prop('totalRequests', sVaultBlockTotalRequests()).prop('rewardPrograms', S.array().items(sVaultBlockRewardProgram()))// Deprecated
     .prop('current', S.object().additionalProperties(true)).deprecated().prop('aggregated', S.object().additionalProperties(true)).deprecated().required(isPartial ? [] : [
         'APRs',
         'APYs',
         'totalSupply',
         'price'
     ]);
+}
+export function sVaultContractParetoDollarData() {
+    return S.object().additionalProperties(false).prop('queue', sVaultContractParetoDollarQueue()).prop('staking', sVaultContractParetoDollarStaking());
+}
+export function sParetoDollarQueueYieldSource() {
+    return S.object().additionalProperties(false).prop('tokenId', sStringId()).prop('vaultId', sStringId()).prop('operatorId', sStringId()).prop('tokenAddress', sBCAddress()).required().prop('sourceAddress', sBCAddress()).required().prop('vaultAddress', sBCAddress()).required().prop('maxCap', sBigInt()).required().prop('depositedAmount', sBigInt()).required().prop('vaultType', S.number()).required();
+}
+export function sVaultContractParetoDollarQueue() {
+    return S.object().additionalProperties(false).prop('epochNumber', S.number()).description('Queue contract epoch number').required().prop('totalCollateralsScaled', sBigInt()).description('Queue contract total collateral scaled').required().prop('unlentBalanceScaled', sBigInt()).description('Queue contract total unlent balance scaled').required().prop('totalReservedWithdrawals', sBigInt()).description('Queue contract total reserved withdrawals').required().prop('yieldSources', S.array().items(sParetoDollarQueueYieldSource())).description('Queue contract yield sources').required().prop('epochPending', sBigInt()).description('Current epoch pending').prop('prevEpochPending', sBigInt()).description('Previous epoch pending');
+}
+export function sVaultContractParetoDollarStaking() {
+    return S.object().additionalProperties(false).prop('totalSupply', sBigInt()).description('USP Staking contract total supply').required().prop('totalAssets', sBigInt()).description('USP Staking contract total assets').required().prop('rewardsLastDeposit', sBigInt()).description('USP Staking contract rewards last deposit').required();
 }
 export function sVaultBlockRequestStatus() {
     return S.string().enum([
@@ -85,6 +97,9 @@ export function sVaultAprType() {
         'BUFFER',
         'GROSS'
     ]);
+}
+export function sVaultPoolBlock() {
+    return S.object().additionalProperties(false).prop('address', sBCAddress()).required().prop('protocol', sWeb3Protocol()).required().prop('rates', sVaultPoolBlockRates()).required().prop('utilization', sVaultPoolUtilization()).required().prop('available', sVaultPoolBlockAvailable()).required().prop('APR', S.number());
 }
 export var VaultBlockErrorCodes;
 (function(VaultBlockErrorCodes) {
@@ -156,9 +171,6 @@ export function sVaultBlockData(isPartial) {
         'vaultAddress',
         'block'
     ]).extend(sVaultBlockBody(isPartial));
-}
-export function sVaultPoolBlock() {
-    return S.object().additionalProperties(false).prop('address', sBCAddress()).required().prop('protocol', sWeb3Protocol()).required().prop('rates', sVaultPoolBlockRates()).required().prop('utilization', sVaultPoolUtilization()).required().prop('available', sVaultPoolBlockAvailable()).required();
 }
 export function sVaultPoolBlockRates() {
     return S.object().additionalProperties(false).prop('supply', S.number()).required().prop('borrow', S.number()).required();

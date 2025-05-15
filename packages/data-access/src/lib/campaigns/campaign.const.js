@@ -4,6 +4,7 @@ export const CAMPAIGN_FIELDS = [
     'tokenId',
     'code',
     'rules',
+    'boosts',
     'startDate',
     'endDate',
     'createdAt',

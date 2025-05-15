@@ -1,5 +1,5 @@
 import { ContractEventOptions, PayableMethodObject } from 'web3-eth-contract';
-import Web3, { Block, Contract, ContractAbi, EventLog, Filter, Transaction } from 'web3';
+import Web3, { Block, Contract, ContractAbi, EventLog, Filter, Transaction, TransactionReceipt } from 'web3';
 import { Abi, AbiContract, BlockNumber, iBigInt } from '../core';
 import { VaultContractType } from '../vaults';
 export interface Web3ClientOptions {
@@ -9,6 +9,17 @@ export interface Web3ClientOptions {
     blocksPerYear?: number;
     logger?: any;
 }
+export interface ERC20Token {
+    decimals: number;
+    symbol: string;
+    name: string;
+    address: string;
+}
+export declare function sERC20Token(): import("fluent-json-schema").ObjectSchema<{
+    [x: string]: any;
+    [x: number]: any;
+    [x: symbol]: any;
+}>;
 export type Web3Clients = {
     [chainId: string]: Web3ClientModel;
 };
@@ -20,13 +31,15 @@ export interface Web3ClientModel {
     parseBlock: (blockNumber: BlockNumber) => string;
     createTopic: (topic: Web3Topic) => string;
     getTransaction: (hash: string) => Promise<Transaction | undefined>;
+    getTransactionLogs: (hash: string) => Promise<TransactionReceipt['logs']>;
+    getERC20: (address: string) => Promise<ERC20Token | undefined>;
     getContractEvents: (contract: Contract<Abi>, eventType: 'Transfer', startBlock: BlockNumber, endBlock?: BlockNumber, filters?: Filter, maxBlocks?: number) => Promise<Web3Event[]>;
     call: (callData: Web3CallData[], blockNumber?: BlockNumber) => Promise<Web3CallData[]>;
     getBlock: (blockNumber?: string | number | bigint) => Promise<Block>;
 }
-export type Web3Protocol = 'Idle' | 'Clearpool' | 'AaveV2' | 'Gearbox' | 'Compound' | 'Lido' | 'InstadApp' | 'UniswapV2' | 'UniswapV3' | 'Morpho' | 'Ethena';
+export type Web3Protocol = 'Idle' | 'Clearpool' | 'AaveV2' | 'Gearbox' | 'Compound' | 'Lido' | 'InstadApp' | 'UniswapV2' | 'UniswapV3' | 'Morpho' | 'Ethena' | 'Curve' | 'Sky';
 export declare function sWeb3Protocol(): import("fluent-json-schema").StringSchema;
-export type Web3ContractType = VaultContractType | 'POOL' | 'TOKEN' | 'ORACLE' | 'TRANCHE' | 'STRATEGY' | 'WALLET' | 'CDO_EPOCH_STRATEGY' | 'WALLET_DEPOSIT_QUEUE' | 'WALLET_WITHDRAW_QUEUE' | 'CDO_EPOCH_DEPOSIT_QUEUE' | 'CDO_EPOCH_WITHDRAW_QUEUE' | 'WALLET_CDO_EPOCH_STRATEGY';
+export type Web3ContractType = VaultContractType | 'ERC20' | 'POOL' | 'TOKEN' | 'ORACLE' | 'TRANCHE' | 'STRATEGY' | 'WALLET' | 'CDO_EPOCH_STRATEGY' | 'WALLET_DEPOSIT_QUEUE' | 'WALLET_WITHDRAW_QUEUE' | 'CDO_EPOCH_DEPOSIT_QUEUE' | 'CDO_EPOCH_WITHDRAW_QUEUE' | 'WALLET_CDO_EPOCH_STRATEGY' | 'PARETO_DOLLAR_QUEUE' | 'PARETO_DOLLAR_QUEUE_EPOCH_PENDING' | 'PARETO_DOLLAR_STAKING' | 'WALLET_PARETO_DOLLAR_STAKING' | 'PARETO_DOLLAR_QUEUE_YIELD_SOURCE';
 export interface Web3Provider {
     web3: Web3;
     provider: Web3RPCProvider;
@@ -50,7 +63,7 @@ export interface Web3EventsOptions {
     contract: Contract<Abi>;
     options: ContractEventOptions;
 }
-export type Web3EventType = 'MINT' | 'REDEEM' | 'TRANSFER' | 'START_EPOCH' | 'STOP_EPOCH' | 'GET_INSTANT_WITHDRAWS' | 'CLAIM_WITHDRAW' | 'CLAIM_INSTANT_WITHDRAW' | 'REQUEST_DEPOSIT' | 'DELETE_DEPOSIT_REQUEST' | 'PROCESS_DEPOSIT_QUEUE' | 'CLAIM_DEPOSIT_REQUEST' | 'REQUEST_WITHDRAW' | 'DELETE_WITHDRAW_REQUEST' | 'PROCESS_WITHDRAW_QUEUE' | 'CLAIM_WITHDRAW_REQUEST' | 'PROCESS_WITHDRAW_CLAIMS' | 'DISTRIBUTED_REWARDS';
+export type Web3EventType = 'MINT' | 'REDEEM' | 'TRANSFER' | 'START_EPOCH' | 'STOP_EPOCH' | 'GET_INSTANT_WITHDRAWS' | 'CLAIM_WITHDRAW' | 'CLAIM_INSTANT_WITHDRAW' | 'REQUEST_DEPOSIT' | 'DELETE_DEPOSIT_REQUEST' | 'PROCESS_DEPOSIT_QUEUE' | 'CLAIM_DEPOSIT_REQUEST' | 'REQUEST_WITHDRAW' | 'DELETE_WITHDRAW_REQUEST' | 'PROCESS_WITHDRAW_QUEUE' | 'CLAIM_WITHDRAW_REQUEST' | 'PROCESS_WITHDRAW_CLAIMS' | 'DISTRIBUTED_REWARDS' | 'ADD_COLLATERAL' | 'REMOVE_COLLATERAL' | 'REQUEST_REDEEM' | 'CLAIM_REDEEM_REQUEST' | 'NEW_EPOCH' | 'ADD_YIELD_SOURCE' | 'REMOVE_YIELD_SOURCE' | 'REDEEM_YIELD_SOURCE' | 'DEPOSIT_YIELD_SOURCE' | 'STAKE' | 'UNSTAKE' | 'DEPOSIT_REWARDS' | 'STAKE_POOL' | 'UNSTAKE_POOL';
 export interface Web3Tokens {
     INFURA?: string;
     ALCHEMY?: string;
@@ -124,12 +137,13 @@ export interface Web3ContractMethod {
 export interface Web3ProtocolContract extends Web3BaseContract {
     fromBlock?: iBigInt;
     protocol: Web3Protocol;
+    operatorId?: string;
 }
 export interface Web3BaseContract {
     address: string;
     abi: AbiContract;
 }
-export type Web3ContractMethodParam = 'vaultAddress' | 'tokenAddress' | 'walletAddress' | 'spenderAddress' | 'tokenAmount' | 'tokenFee' | 'epochNumber' | 'prevEpochNumber' | 'tokenPriceLimit' | 'tokenAddress[ARB]' | 'tokenAddress[USDC]' | 'tokenAddress[WETH]' | 'tokenAddress[stETH]' | 'tokenAddress[USDe]' | 'tokenAddress[MATIC]' | 'tokenAddress[OP]' | 'tokenAddresses[USDC|OP]' | 'tokenAddresses[USDC|WETH]' | 'tokenAddresses[USDC|MATIC]' | 'tokenAddresses[USDC|WETH|stETH]';
+export type Web3ContractMethodParam = '1e18' | 'vaultAddress' | 'tokenAddress' | 'walletAddress' | 'spenderAddress' | 'tokenAmount' | 'tokenFee' | 'epochNumber' | 'prevEpochNumber' | 'tokenPriceLimit' | 'yieldSourceAddress' | 'tokenAddress[ARB]' | 'tokenAddress[USDC]' | 'tokenAddress[WETH]' | 'tokenAddress[stETH]' | 'tokenAddress[USDe]' | 'tokenAddress[MATIC]' | 'tokenAddress[OP]' | 'tokenAddresses[USDC|OP]' | 'tokenAddresses[USDC|WETH]' | 'tokenAddresses[USDC|MATIC]' | 'tokenAddresses[USDC|WETH|stETH]';
 export declare function sWeb3ProtocolContract(): import("fluent-json-schema").ExtendedSchema;
 export declare function sWeb3BaseContract(): import("fluent-json-schema").ObjectSchema<{
     [x: string]: any;

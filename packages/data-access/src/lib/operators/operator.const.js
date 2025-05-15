@@ -19,6 +19,26 @@ export const OPERATORS = [
         code: 'maven11',
         logo: 'm11.svg',
         logoSquare: 'm11-square.svg'
+    },
+    {
+        code: 'pareto',
+        logo: 'pareto.svg',
+        logoSquare: 'pareto-square.svg'
+    },
+    {
+        code: 'CURVE',
+        logo: 'curve.svg',
+        logoSquare: 'curve-square.svg'
+    },
+    {
+        code: 'MORPHO',
+        logo: 'morpho.svg',
+        logoSquare: 'morpho-square.svg'
+    },
+    {
+        code: 'SKY',
+        logo: 'sky.svg',
+        logoSquare: 'sky.svg'
     }
 ];
 

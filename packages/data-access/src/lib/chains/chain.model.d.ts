@@ -11,6 +11,7 @@ export interface ChainData {
     name: string;
     hex: string;
     blocksPerYear: number;
+    blocksMaxRange?: number;
     tokenSymbol?: string;
     color?: string;
     chainID: number;

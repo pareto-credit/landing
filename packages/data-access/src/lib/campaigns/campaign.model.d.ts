@@ -11,6 +11,7 @@ export interface CampaignData {
     description?: Locales;
     rules?: CampaignRule[];
     referrals?: CampaignReferral[];
+    boosts?: CampaignBoost[];
     galxeId?: number;
     startDate?: string;
     endDate?: string;
@@ -26,7 +27,7 @@ export interface CampaignRule {
     description?: Locales;
     trigger: CampaignRuleTrigger;
     deposit: CampaignRuleDeposit;
-    reward: CampaignRuleReward;
+    reward: CampaignReward;
     frequency: CampaignRuleFrequency;
 }
 export declare function sCampaignRule(): import("fluent-json-schema").ObjectSchema<{
@@ -34,7 +35,7 @@ export declare function sCampaignRule(): import("fluent-json-schema").ObjectSche
     [x: number]: any;
     [x: symbol]: any;
 }>;
-export type CampaignRuleTrigger = 'DEPOSIT' | 'DEPOSIT_REQUEST';
+export type CampaignRuleTrigger = 'DEPOSIT' | 'DEPOSIT_REQUEST' | 'MINT';
 export declare function sCampaignRuleTrigger(): import("fluent-json-schema").StringSchema;
 export interface CampaignRuleDeposit {
     type: CampaignRuleDepositType;
@@ -47,17 +48,17 @@ export declare function sCampaignRuleDeposit(): import("fluent-json-schema").Obj
 }>;
 export type CampaignRuleDepositType = 'BALANCE' | 'AGE';
 export declare function sCampaignRuleDepositType(): import("fluent-json-schema").StringSchema;
-export interface CampaignRuleReward {
-    type: CampaignRuleRewardType;
+export interface CampaignReward {
+    type: CampaignRewardType;
     value: number;
 }
-export declare function sCampaignRuleReward(): import("fluent-json-schema").ObjectSchema<{
+export declare function sCampaignReward(): import("fluent-json-schema").ObjectSchema<{
     [x: string]: any;
     [x: number]: any;
     [x: symbol]: any;
 }>;
-export type CampaignRuleRewardType = 'AMOUNT' | 'MULTIPLIER';
-export declare function sCampaignRuleRewardType(): import("fluent-json-schema").StringSchema;
+export type CampaignRewardType = 'AMOUNT' | 'MULTIPLIER' | 'PERCENTAGE';
+export declare function sCampaignRewardType(): import("fluent-json-schema").StringSchema;
 export interface CampaignRuleFrequency {
     value: number;
     unit: UnitTime;
@@ -67,6 +68,22 @@ export declare function sCampaignRuleFrequency(): import("fluent-json-schema").O
     [x: number]: any;
     [x: symbol]: any;
 }>;
+export interface CampaignBoost {
+    code: string;
+    name: Locales;
+    description?: Locales;
+    operatorId?: string;
+    link?: string;
+    type: CampaignBoostType;
+    reward: CampaignReward;
+}
+export declare function sCampaignBoost(): import("fluent-json-schema").ObjectSchema<{
+    [x: string]: any;
+    [x: number]: any;
+    [x: symbol]: any;
+}>;
+export type CampaignBoostType = 'REFERRAL' | 'STAKE';
+export declare function sCampaignBoostType(): import("fluent-json-schema").StringSchema;
 export interface CampaignReferral {
     code: string;
     isActive: boolean;
@@ -111,6 +128,7 @@ export declare enum CampaignErrorCodes {
     notFound = "CAMPAIGN_NOT_FOUND",
     notDeletable = "CAMPAIGN_NOT_DELETABLE",
     walletRequired = "WALLET_REQUIRED",
+    referralNotValid = "REFERRAL_CODE_INVALID",
     referralCodeNotActive = "REFERRAL_CODE_NOT_ACTIVE"
 }
 export interface CampaignPointsQuery {
@@ -124,6 +142,7 @@ export declare function sCampaignPointsQuery(): import("fluent-json-schema").Obj
 }>;
 export interface CampaignPoints extends CampaignMetrics {
     vaults?: CampaignPointsVault[];
+    boosts?: CampaignPointsBoost[];
     metrics?: {
         [key: string]: string | number;
     };
@@ -148,3 +167,7 @@ export declare function sCampaignMetrics(): import("fluent-json-schema").ObjectS
     [x: number]: any;
     [x: symbol]: any;
 }>;
+export interface CampaignPointsBoost extends CampaignMetrics {
+    code: string;
+}
+export declare function sCampaignPointsBoost(): import("fluent-json-schema").ExtendedSchema;

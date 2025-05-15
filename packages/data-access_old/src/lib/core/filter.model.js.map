@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/core/filter.model.ts"],"sourcesContent":["export type FilterOperator =\n  | 'eq'\n  | 'gt'\n  | 'gte'\n  | 'lt'\n  | 'lte'\n  | 'neq'\n  | 'ex'\n  | 'nex'\n  | 'inc'\n\nexport interface FilterValue<T = string> {\n  id: T\n  value: string\n}\n"],"names":[],"mappings":"AAWA,WAGC"}

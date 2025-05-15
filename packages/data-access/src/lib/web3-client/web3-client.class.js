@@ -1,7 +1,8 @@
 import { _ as _extends } from "@swc/helpers/_/_extends";
 import BigNumber from 'bignumber.js';
-import { WEB3_DEFAULT_BLOCK_PER_YEAR, WEB3_MULTICALL_CONTRACT_ADDR, WEB3_MULTICALL_FIRST_BLOCK, WEB3_MULTICALL_METHOD_ABI, WEB3_MULTICALL_PARAM_ABI, WEB3_MULTICALL_RESPONSE_ABI } from './web3-client.const';
-import { BNify, BNlt, isTxHash, strip0x } from '../core';
+import { WEB3_CONTRACT_METHODS, WEB3_DEFAULT_BLOCK_PER_YEAR, WEB3_MULTICALL_CONTRACT_ADDR, WEB3_MULTICALL_FIRST_BLOCK, WEB3_MULTICALL_METHOD_ABI, WEB3_MULTICALL_PARAM_ABI, WEB3_MULTICALL_RESPONSE_ABI } from './web3-client.const';
+import { BNify, BNlt, isAddress, isTxHash, strip0x } from '../core';
+import { ERC20_ABI, makeWeb3CallData } from '../vaults';
 /**
  * Web3 Client class
  */ export class Web3Client {
@@ -28,6 +29,15 @@ import { BNify, BNlt, isTxHash, strip0x } from '../core';
    */ async getTransaction(hash) {
         if (!isTxHash(hash)) return;
         return this.web3.eth.getTransaction(hash);
+    }
+    /**
+   * Get transcation logs from hash
+   * @param hash transaction hash
+   * @returns transaction logs array
+   */ async getTransactionLogs(hash) {
+        if (!isTxHash(hash)) return [];
+        const receipt = await this.web3.eth.getTransactionReceipt(hash);
+        return (receipt == null ? void 0 : receipt.logs) || [];
     }
     /**
    * Get block data
@@ -126,6 +136,37 @@ import { BNify, BNlt, isTxHash, strip0x } from '../core';
             names: [],
             types: [],
             values: []
+        });
+    }
+    /**
+   * Get ERC20 token info
+   * @param address token address
+   * @returns ERC20 info
+   */ async getERC20(address) {
+        if (!isAddress(address)) {
+            return;
+        }
+        const contract = this.initContract(ERC20_ABI, address);
+        const methods = WEB3_CONTRACT_METHODS.filter((m)=>m.type === 'ERC20');
+        const callData = methods.map((m)=>makeWeb3CallData(contract, m));
+        const response = await this.call(callData);
+        return response.reduce((acc, callData)=>{
+            const methodName = callData.method.split('(')[0];
+            switch(methodName){
+                case 'symbol':
+                case 'name':
+                case 'decimals':
+                    return _extends({}, acc, {
+                        [methodName]: callData.outputs[0].value
+                    });
+                default:
+                    return acc;
+            }
+        }, {
+            address,
+            decimals: 18,
+            symbol: '',
+            name: ''
         });
     }
     /**

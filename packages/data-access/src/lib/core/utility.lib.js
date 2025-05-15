@@ -2,6 +2,7 @@ import moment from 'moment';
 import Ajv from 'ajv';
 import { difference, identity, pickBy, uniq } from 'lodash';
 import { BNify } from './bigint.lib';
+import crypto from 'crypto';
 /**
  * Escape Regular Expression for security reason
  * @param value - the string to excape
@@ -184,6 +185,15 @@ import { BNify } from './bigint.lib';
  */ export function isCode(code, minLength, maxLength) {
     const regex = new RegExp(`^[a-zA-Z0-9]{${minLength},${maxLength}}$`);
     return !!code.match(regex);
+}
+/**
+ * Generate a unique 6-character uppercase hexadecimal code from a wallet address
+ * @param address - the wallet address
+ * @param length - the length of the code
+ * @returns a 6-character uppercase hexadecimal code
+ */ export function generateHexCode(address, length = 6) {
+    const hash = crypto.createHash('sha256').update(address).digest('hex');
+    return hash.slice(0, length).toUpperCase();
 }
 
 //# sourceMappingURL=utility.lib.js.map

@@ -1,6 +1,7 @@
 import S from 'fluent-json-schema';
 import { sBCAddress, sBigInt, sBlock, sClientEntity, sPageSearchQuery, sStringId } from '../core';
 import { WALLET_BLOCKS_ROUTES_KEY } from './wallet-block.const';
+import { sVaultWalletCdoEpochData, sVaultWalletParetoDollarData } from '../vaults';
 export function sWalletBlock(isPartial) {
     return S.object().id('#walletBlock').additionalProperties(false).extend(sClientEntity(isPartial)).extend(sWalletBlockData(isPartial));
 }
@@ -14,7 +15,7 @@ export function sWalletBlockData(isPartial) {
     ]).extend(sWalletBlockBody(isPartial));
 }
 export function sWalletBlockBody(isPartial) {
-    return S.object().additionalProperties(false).prop('balance', sBigInt()).description('The balance of the wallet in the vault.').prop('tokenBalance', sBigInt()).description('The current token balance of the wallet.').prop('distributedRewards', S.array().items(sWalletBlockDistributedRewards())).description('List of distributed rewards for the wallet')// Deprecated
+    return S.object().additionalProperties(false).prop('balance', sBigInt()).description('The balance of the wallet in the vault.').prop('tokenBalance', sBigInt()).description('The current token balance of the wallet.').prop('distributedRewards', S.array().items(sWalletBlockDistributedRewards())).description('List of distributed rewards for the wallet').prop('cdoEpoch', sVaultWalletCdoEpochData()).prop('paretoDollar', sVaultWalletParetoDollarData())// Deprecated
     .prop('current', S.object().additionalProperties(true)).prop('aggregated', S.object().additionalProperties(true)).required(isPartial ? [] : [
         'balance',
         'tokenBalance'
@@ -50,7 +51,7 @@ export const WALLET_BLOCK_SORT_FIELDS = [
     'timestamp'
 ];
 export function sWalletBlocksSearchQuery() {
-    return S.object().additionalProperties(false).prop('walletId', sStringId()).description('The wallet IDentifier').prop('walletAddress', sBCAddress()).description('The wallet blockchain address').prop('vaultId', sStringId()).description('The vault IDentifier').prop('vaultAddress', sBCAddress()).description('The vault blockchain address').prop('balance:gt', S.string()).description('The wallet minimum balance').prop('timestamp:gte', S.number()).description('Start timestamp of the wallet block.').prop('timestamp:lte', S.number()).description('End timestamp of the wallet block.').extend(sPageSearchQuery(WALLET_BLOCK_FIELDS, WALLET_BLOCK_SORT_FIELDS));
+    return S.object().additionalProperties(false).prop('walletId', sStringId()).description('The wallet IDentifier').prop('walletAddress', sBCAddress()).description('The wallet blockchain address').prop('vaultId', S.array().minItems(1).maxItems(200).items(sStringId())).description('The vault IDentifier').prop('vaultAddress', sBCAddress()).description('The vault blockchain address').prop('balance:gt', S.string()).description('The wallet minimum balance').prop('timestamp:gte', S.number()).description('Start timestamp of the wallet block.').prop('timestamp:lte', S.number()).description('End timestamp of the wallet block.').extend(sPageSearchQuery(WALLET_BLOCK_FIELDS, WALLET_BLOCK_SORT_FIELDS));
 }
 
 //# sourceMappingURL=wallet-block.model.js.map

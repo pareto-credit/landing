@@ -119,3 +119,10 @@ export declare function arrayFy<T = any>(item: T): (T & any[]) | NonNullable<T>[
  * @returns true if is a code
  */
 export declare function isCode(code: string, minLength: number, maxLength: number): boolean;
+/**
+ * Generate a unique 6-character uppercase hexadecimal code from a wallet address
+ * @param address - the wallet address
+ * @param length - the length of the code
+ * @returns a 6-character uppercase hexadecimal code
+ */
+export declare function generateHexCode(address: string, length?: number): string;

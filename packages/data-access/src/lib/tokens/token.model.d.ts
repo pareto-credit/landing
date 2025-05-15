@@ -41,7 +41,9 @@ export declare function sTokenPriceData(): import("fluent-json-schema").ObjectSc
     [x: symbol]: any;
 }>;
 export declare enum TokenErrorCodes {
-    notDeletable = "TOKEN_NOT_DELETABLE"
+    notDeletable = "TOKEN_NOT_DELETABLE",
+    dataNotValid = "TOKEN_DATA_NOT_VALID",
+    addressMalformed = "TOKEN_ADDRESS_MALFORMED"
 }
 export type TokenFields = '_id' | 'name' | 'chainId' | 'address' | 'symbol' | 'decimals' | 'oracle';
 export declare const TOKEN_FIELDS: string[];

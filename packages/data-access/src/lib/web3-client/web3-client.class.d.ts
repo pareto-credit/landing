@@ -1,5 +1,5 @@
-import Web3, { Block, Contract, ContractAbi, Filter, Transaction } from 'web3';
-import { Web3CallData, Web3ClientModel, Web3ClientOptions, Web3DataParam, Web3DataParams, Web3Event, Web3RPCProvider, Web3Topic } from './web3-client.model';
+import Web3, { Block, Contract, ContractAbi, Filter, Transaction, TransactionReceipt } from 'web3';
+import { ERC20Token, Web3CallData, Web3ClientModel, Web3ClientOptions, Web3DataParam, Web3DataParams, Web3Event, Web3RPCProvider, Web3Topic } from './web3-client.model';
 import { Abi, BlockNumber } from '../core';
 /**
  * Web3 Client class
@@ -30,6 +30,12 @@ export declare class Web3Client implements Web3ClientModel {
      * @returns web3 transaction object
      */
     getTransaction(hash: string): Promise<Transaction | undefined>;
+    /**
+     * Get transcation logs from hash
+     * @param hash transaction hash
+     * @returns transaction logs array
+     */
+    getTransactionLogs(hash: string): Promise<TransactionReceipt['logs']>;
     /**
      * Get block data
      * @param blockNumber - the block number
@@ -65,6 +71,12 @@ export declare class Web3Client implements Web3ClientModel {
      * @returns the object with values
      */
     extractDataParams(params: Web3DataParam[]): Web3DataParams;
+    /**
+     * Get ERC20 token info
+     * @param address token address
+     * @returns ERC20 info
+     */
+    getERC20(address: string): Promise<ERC20Token | undefined>;
     /**
      * Execute Web3 Call
      * @param callData - the call params

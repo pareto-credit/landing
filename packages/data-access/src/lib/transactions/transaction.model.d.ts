@@ -1,4 +1,5 @@
 import { Block, ClientEntity, Page, PageSearchQuery, iBigInt } from '../core';
+import { VaultTransferEpochType, VaultTransferUSPType } from '../vaults';
 /**
  * Client Transaction interface
  */
@@ -11,6 +12,7 @@ export interface TransactionData {
     walletId: string;
     walletAddress: string;
     tokenId: string;
+    operatorId?: string;
     type: TransactionType;
     hash: string;
     block: Block;
@@ -18,13 +20,15 @@ export interface TransactionData {
     tokenAmount: iBigInt;
     price: iBigInt;
     input?: string;
+    transactionDate?: string;
 }
 export declare function sTransactionData(isPartial?: boolean): import("fluent-json-schema").ObjectSchema<{
     [x: string]: any;
     [x: number]: any;
     [x: symbol]: any;
 }>;
-export type TransactionType = 'DEPOSIT' | 'REDEEM' | 'HARVEST' | 'START_EPOCH' | 'STOP_EPOCH' | 'GET_INSTANT_WITHDRAWS' | 'CLAIM_WITHDRAW' | 'CLAIM_INSTANT_WITHDRAW' | 'REQUEST_DEPOSIT' | 'DELETE_DEPOSIT_REQUEST' | 'PROCESS_DEPOSIT_QUEUE' | 'CLAIM_DEPOSIT_REQUEST' | 'REQUEST_WITHDRAW' | 'DELETE_WITHDRAW_REQUEST' | 'PROCESS_WITHDRAW_QUEUE' | 'CLAIM_WITHDRAW_REQUEST' | 'PROCESS_WITHDRAW_CLAIMS' | 'DISTRIBUTED_REWARDS';
+export type TransactionType = 'DEPOSIT' | 'REDEEM' | 'HARVEST' | 'DISTRIBUTED_REWARDS' | VaultTransferUSPType | VaultTransferEpochType;
+export declare const TRANSACTION_TYPES: string[];
 export declare function sTransactionType(): import("fluent-json-schema").StringSchema;
 export type TransactionFields = '_id' | 'vaultId' | 'vaultAddress' | 'walletId' | 'walletAddress' | 'tokenId' | 'type' | 'hash' | 'block' | 'amount' | 'tokenAmount' | 'price' | 'input' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy';
 export declare const TRANSACTION_FIELDS: string[];

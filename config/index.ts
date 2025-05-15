@@ -18,11 +18,11 @@ const Configs: Partial<Record<Environments, EnvironmentConfig>> = {
         EnableLogger: true,
     },
     staging: {
-        Hostname: 'https://real-not-now.web.app/',
+        Hostname: 'https://pareto.credit/',
         EnableLogger: true,
     },
     production: {
-        Hostname: 'https://real-not-now.web.app/',
+        Hostname: 'https://pareto.credit/',
         EnableLogger: false,
     },
 };

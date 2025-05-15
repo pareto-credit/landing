@@ -81,7 +81,7 @@ export class HeroTabs extends Component {
                     compactDisplay: 'short',
                 };
                 const formatter = new Intl.NumberFormat('en-US', intlOptions);
-                tvlEl.innerHTML = formatter.format(Number(vaultBlock.TVL.withRequestsUSD || vaultBlock.TVL.USD)/1000000)
+                tvlEl.innerHTML = formatter.format(Number(vaultBlock.TVL.withRequestsUSD || vaultBlock.TVL.USD)/1000000);
             }
         });
     }

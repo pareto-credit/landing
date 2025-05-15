@@ -146,10 +146,11 @@ export const HomeEnCopy = {
         ],
     },
     ourProductsSection: {
-        subTitle: 'OUR PRODUCTS',
+        subTitle: 'SYNTHETIC DOLLAR',
         title: 'Building blocks of the new era',
         list:[
             {
+                id: 'USP',
                 title: 'USP, the credit-based synthetic dollar',
                 description: 'USP is a synthetic dollar protocol backed by real-world institutional-grade private credit.',
                 btn: [
@@ -169,32 +170,33 @@ export const HomeEnCopy = {
                     },
                     {
                         label: 'TVL',
-                        value: '$30m',
+                        value: '$-',
                     },
                     {
                         label: 'Collateralization',
-                        value: '15.2%',
+                        value: '100%',
                     },
                 ],
                 futureBlocks:[
                     {
                         icon: composable,
                         title: 'Composable',
-                        description: 'USP is transferable, permissionless, and seamlessly integrates into DeFi and CeFi for enhanced efficiency.',
+                        description: 'USP is a transferable, permissionless asset that integrates across DeFi and CeFi – streamlining capital deployment, risk management, and settlements.',
                     },
                     {
                         icon: overcollateralized,
-                        title: 'Overcollateralized',
-                        description: 'Backed 1:1, USP is fully collateralized by stablecoins ',
+                        title: 'Capital Efficient',
+                        description: 'Minted 1:1 against major stablecoins, USP is deployed into a diversified portfolio of liquid, short- and long-term credit – balancing liquidity and yield.',
                     },
                     {
                         icon: safe,
-                        title: 'Safe',
-                        description: 'Although backed by solid, liquid assets, USP is also protected by a stability fund, funded by protocol revenue, to shield holders in a systemic crisis.',
+                        title: 'Protected',
+                        description: 'USP holds senior priority in the capital stack and is shielded by a stability reserve – providing an added buffer against defaults and market stress.',
                     },
                 ],
             },
             {
+                id: 'SUSP',
                 title: 'sUSP, the credit savings rate',
                 description: 'sUSP is the staking version of USP, acting like a savings account for RWA credit lines. ',
                 btn: [
@@ -214,28 +216,28 @@ export const HomeEnCopy = {
                     },
                     {
                         label: 'TVL',
-                        value: '$30m',
+                        value: '$-',
                     },
                     {
                         label: 'APY',
-                        value: '30d',
+                        value: '-%',
                     },
                 ],
                 futureBlocks:[
                     {
                         icon: yieldGenerating,
                         title: 'Yield generating',
-                        description: 'Yield generating sUSP lets users benefit from Credit Vaults yield and Pareto’s growth for a rewarding experience.',
+                        description: 'sUSP allows users to earn yield from Credit Vaults and participate in Pareto’s long-term growth – designed for stable, risk-adjusted returns.',
                     },
                     {
                         icon: liquid,
                         title: 'Liquid',
-                        description: 'sUSP is fully liquid and transferable, allowing holders to exit their positions at any time by swapping it for other assets.',
+                        description: 'sUSP is fully liquid and non-custodial – holders can exit at any time by simply unstaking, without lockups or withdrawal restrictions.',
                     },
                     {
                         icon: diversified,
                         title: 'Diversified',
-                        description: 'sUSP holders get instant exposure to a diversified basket of credit lines minimising the reliance on one single counterparty',
+                        description: 'sUSP provides exposure to a broad set of credit lines – reducing single-counterparty risk through structured diversification.',
                     },
                 ],
             },

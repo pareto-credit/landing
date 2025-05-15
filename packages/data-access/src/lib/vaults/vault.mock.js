@@ -1,3 +1,4 @@
+import { _ as _extends } from "@swc/helpers/_/_extends";
 import { LocalesMock } from '../core';
 import { WEB3_DEFAULT_ADDR, Web3BaseContractMock } from '../web3-client';
 /**
@@ -26,6 +27,7 @@ import { WEB3_DEFAULT_ADDR, Web3BaseContractMock } from '../web3-client';
         strategy: Web3BaseContractMock(options == null ? void 0 : options.strategy),
         rewardPrograms: options == null ? void 0 : (_options_rewardPrograms = options.rewardPrograms) == null ? void 0 : _options_rewardPrograms.map((p)=>VaultRewardProgramMock(p)),
         rewardEmissions: options == null ? void 0 : (_options_rewardEmissions = options.rewardEmissions) == null ? void 0 : _options_rewardEmissions.map((e)=>VaultRewardEmissionMock(e)),
+        paretoDollar: VaultParetoDollarMock(options == null ? void 0 : options.paretoDollar),
         campaigns: options == null ? void 0 : (_options_campaigns = options.campaigns) == null ? void 0 : _options_campaigns.map((c)=>VaultCampaignMock(c)),
         integrations: options == null ? void 0 : (_options_integrations = options.integrations) == null ? void 0 : _options_integrations.map((i)=>VaultIntegrationMock(i)),
         createdAt: now,
@@ -50,6 +52,26 @@ export function VaultCdoEpochMock(options) {
         depositQueue: (options == null ? void 0 : options.depositQueue) && Web3BaseContractMock(options == null ? void 0 : options.depositQueue),
         withdrawQueue: (options == null ? void 0 : options.withdrawQueue) && Web3BaseContractMock(options == null ? void 0 : options.withdrawQueue),
         mode: (options == null ? void 0 : options.mode) || 'CREDIT'
+    };
+}
+export function VaultParetoDollarStakingMock(options) {
+    return _extends({
+        tokenId: (options == null ? void 0 : options.tokenId) || 'TOKEN_ID'
+    }, Web3BaseContractMock(options));
+}
+export function VaultParetoDollarMock(options) {
+    var _options_collaterals;
+    return {
+        tokenId: (options == null ? void 0 : options.tokenId) || 'TOKEN_ID',
+        queue: Web3BaseContractMock(options == null ? void 0 : options.queue),
+        staking: VaultParetoDollarStakingMock(options == null ? void 0 : options.staking),
+        collaterals: options == null ? void 0 : (_options_collaterals = options.collaterals) == null ? void 0 : _options_collaterals.map((c)=>VaultParetoDollarCollateralMock(c))
+    };
+}
+export function VaultParetoDollarCollateralMock(options) {
+    return {
+        tokenId: (options == null ? void 0 : options.tokenId) || 'TOKEN_ID',
+        tokenAddress: (options == null ? void 0 : options.tokenAddress) || WEB3_DEFAULT_ADDR
     };
 }
 export function VaultCdoEpochOperatorMock(options) {

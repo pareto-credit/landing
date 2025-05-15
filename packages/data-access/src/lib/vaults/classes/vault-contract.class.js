@@ -1,7 +1,7 @@
 import { _ as _extends } from "@swc/helpers/_/_extends";
 import { isEmpty } from 'lodash';
 import { WEB3_CONTRACT_METHODS } from '../../web3-client';
-import { BNFixed, BNgt, BNgte, BNify, BNlt, BNlte } from '../../core';
+import { BNFixed, BNgt, BNgte, BNify, BNlt, BNlte, SECONDS_IN_YEAR } from '../../core';
 import { compLower } from '../../core/utility.lib';
 import { ERC20_ABI } from '../vault.const';
 export class VaultContract {
@@ -65,7 +65,7 @@ export class VaultContract {
    * @param amount normalized amount
    * @returns true | false
    */ checkContractAmount(amount) {
-        return !BNify(amount).isNaN() && BNgte(amount, this.minTokenAmount) && BNlte(amount, this.maxTokenAmount);
+        return amount !== '' && !BNify(amount).isNaN() && BNgte(amount, this.minTokenAmount) && BNlte(amount, this.maxTokenAmount);
     }
     /**
    * Prepare reward tokens data
@@ -203,6 +203,9 @@ export class VaultContract {
         let value;
         const tokenToUse = token || this.token;
         switch(param){
+            case '1e18':
+                value = '1000000000000000000';
+                break;
             case 'vaultAddress':
                 value = this.vault.address;
                 break;
@@ -214,6 +217,7 @@ export class VaultContract {
             case 'walletAddress':
             case 'epochNumber':
             case 'prevEpochNumber':
+            case 'yieldSourceAddress':
                 value = values == null ? void 0 : values[param];
                 break;
             case 'tokenAmount':
@@ -333,6 +337,24 @@ export class VaultContract {
                 break;
             case 'CDO_EPOCH':
                 methodData = this.parseCdoEpochResponse(data, response);
+                break;
+            case 'PARETO_DOLLAR':
+                methodData = this.parseParetoDollarResponse(data, response);
+                break;
+            case 'PARETO_DOLLAR_QUEUE':
+                methodData = this.parseParetoDollarQueueResponse(data, response);
+                break;
+            case 'PARETO_DOLLAR_QUEUE_EPOCH_PENDING':
+                methodData = this.parseParetoDollarQueueEpochPendingResponse(data, response);
+                break;
+            case 'PARETO_DOLLAR_QUEUE_YIELD_SOURCE':
+                methodData = this.parseParetoDollarQueueYieldSourceResponse(data, response);
+                break;
+            case 'PARETO_DOLLAR_STAKING':
+                methodData = this.parseParetoDollarStakingResponse(data, response);
+                break;
+            case 'WALLET_PARETO_DOLLAR_STAKING':
+                methodData = this.parseWalletParetoDollarStakingResponse(data, response);
                 break;
             case 'WALLET':
                 methodData = this.parseWalletResponse(data, response);
@@ -561,6 +583,201 @@ export class VaultContract {
                 break;
             case 'virtualPrice':
                 methodData.price = outputs[0].value;
+                break;
+        }
+        return _extends({}, data, methodData);
+    }
+    /**
+   * Parse Pareto Dollar response
+   * @param data - the already processed data
+   * @param response - the Pareto Dollar response
+   * @returns the contract data
+   */ parseParetoDollarResponse(data, { method, outputs }) {
+        const methodName = method.split('(')[0];
+        const methodData = {};
+        switch(methodName){
+            case 'totalSupply':
+                methodData.totalSupply = outputs[0].value;
+                break;
+        }
+        return _extends({}, data, methodData);
+    }
+    /**
+   * Parse Pareto Dollar Queue response
+   * @param data - the already processed data
+   * @param response - the Pareto Dollar Queue response
+   * @returns the contract data
+   */ parseParetoDollarQueueResponse(data, { method, outputs }) {
+        const methodName = method.split('(')[0];
+        const methodData = {};
+        switch(methodName){
+            case 'epochNumber':
+                var _data_paretoDollar;
+                methodData.paretoDollar = _extends({}, data.paretoDollar || {}, {
+                    queue: _extends({}, ((_data_paretoDollar = data.paretoDollar) == null ? void 0 : _data_paretoDollar.queue) || {}, {
+                        epochNumber: outputs[0].value
+                    })
+                });
+                break;
+            case 'getTotalCollateralsScaled':
+                var _data_paretoDollar1;
+                methodData.paretoDollar = _extends({}, data.paretoDollar || {}, {
+                    queue: _extends({}, ((_data_paretoDollar1 = data.paretoDollar) == null ? void 0 : _data_paretoDollar1.queue) || {}, {
+                        totalCollateralsScaled: outputs[0].value
+                    })
+                });
+                break;
+            case 'getUnlentBalanceScaled':
+                var _data_paretoDollar2;
+                methodData.paretoDollar = _extends({}, data.paretoDollar || {}, {
+                    queue: _extends({}, ((_data_paretoDollar2 = data.paretoDollar) == null ? void 0 : _data_paretoDollar2.queue) || {}, {
+                        unlentBalanceScaled: outputs[0].value
+                    })
+                });
+                break;
+            case 'totReservedWithdrawals':
+                var _data_paretoDollar3;
+                methodData.paretoDollar = _extends({}, data.paretoDollar || {}, {
+                    queue: _extends({}, ((_data_paretoDollar3 = data.paretoDollar) == null ? void 0 : _data_paretoDollar3.queue) || {}, {
+                        totalReservedWithdrawals: outputs[0].value
+                    })
+                });
+                break;
+            case 'getAllYieldSources':
+                var _data_paretoDollar4;
+                methodData.paretoDollar = _extends({}, data.paretoDollar || {}, {
+                    queue: _extends({}, ((_data_paretoDollar4 = data.paretoDollar) == null ? void 0 : _data_paretoDollar4.queue) || {}, {
+                        yieldSources: outputs[0].value.map((s)=>({
+                                tokenAddress: s.token,
+                                sourceAddress: s.source,
+                                vaultAddress: s.vaultToken,
+                                maxCap: s.maxCap,
+                                depositedAmount: s.depositedAmount,
+                                vaultType: s.vaultType
+                            }))
+                    })
+                });
+                break;
+        }
+        return _extends({}, data, methodData);
+    }
+    /**
+   * Parse Pareto Dollar Queue response
+   * @param data - the already processed data
+   * @param response - the Pareto Dollar Queue response
+   * @returns the contract data
+   */ parseParetoDollarQueueYieldSourceResponse(data, { method, inputs, outputs }) {
+        const methodName = method.split('(')[0];
+        const methodData = {};
+        switch(methodName){
+            case 'getCollateralsYieldSourceScaled':
+                {
+                    var _data_paretoDollar, _data_paretoDollar_queue, _data_paretoDollar1;
+                    const sourceAddress = inputs[0].value;
+                    methodData.paretoDollar = _extends({}, data.paretoDollar || {}, {
+                        queue: _extends({}, ((_data_paretoDollar = data.paretoDollar) == null ? void 0 : _data_paretoDollar.queue) || {}, {
+                            yieldSources: (((_data_paretoDollar1 = data.paretoDollar) == null ? void 0 : (_data_paretoDollar_queue = _data_paretoDollar1.queue) == null ? void 0 : _data_paretoDollar_queue.yieldSources) || []).map((ys)=>compLower(ys.sourceAddress, sourceAddress) ? _extends({}, ys, {
+                                    depositedAmount: outputs[0].value
+                                }) : ys)
+                        })
+                    });
+                }
+                break;
+        }
+        return _extends({}, data, methodData);
+    }
+    /**
+   * Parse Pareto Dollar Queue response
+   * @param data - the already processed data
+   * @param response - the Pareto Dollar Queue response
+   * @returns the contract data
+   */ parseParetoDollarQueueEpochPendingResponse(data, { method, params, outputs }) {
+        const methodName = method.split('(')[0];
+        const methodData = {};
+        switch(methodName){
+            case 'epochPending':
+                {
+                    var _data_paretoDollar;
+                    const fieldName = (params == null ? void 0 : params.includes('prevEpochNumber')) ? 'prevEpochPending' : 'epochPending';
+                    methodData.paretoDollar = _extends({}, data.paretoDollar || {}, {
+                        queue: _extends({}, ((_data_paretoDollar = data.paretoDollar) == null ? void 0 : _data_paretoDollar.queue) || {}, {
+                            [fieldName]: outputs[0].value
+                        })
+                    });
+                }
+                break;
+        }
+        return _extends({}, data, methodData);
+    }
+    /**
+   * Parse Pareto Dollar Strategy response
+   * @param data - the already processed data
+   * @param response - the Pareto Dollar Strategy response
+   * @returns the contract data
+   */ parseParetoDollarStakingResponse(data, { method, outputs }) {
+        const methodName = method.split('(')[0];
+        const methodData = {};
+        switch(methodName){
+            case 'convertToAssets':
+                methodData.price = outputs[0].value;
+                break;
+            case 'totalSupply':
+                var _data_paretoDollar;
+                methodData.paretoDollar = _extends({}, data.paretoDollar || {}, {
+                    staking: _extends({}, ((_data_paretoDollar = data.paretoDollar) == null ? void 0 : _data_paretoDollar.staking) || {}, {
+                        totalSupply: outputs[0].value
+                    })
+                });
+                break;
+            case 'totalAssets':
+                var _data_paretoDollar1;
+                methodData.paretoDollar = _extends({}, data.paretoDollar || {}, {
+                    staking: _extends({}, ((_data_paretoDollar1 = data.paretoDollar) == null ? void 0 : _data_paretoDollar1.staking) || {}, {
+                        totalAssets: outputs[0].value
+                    })
+                });
+                break;
+            case 'rewardsLastDeposit':
+                var _data_paretoDollar2;
+                methodData.paretoDollar = _extends({}, data.paretoDollar || {}, {
+                    staking: _extends({}, ((_data_paretoDollar2 = data.paretoDollar) == null ? void 0 : _data_paretoDollar2.staking) || {}, {
+                        rewardsLastDeposit: outputs[0].value
+                    })
+                });
+                break;
+        }
+        return _extends({}, data, methodData);
+    }
+    /**
+   * Parse Pareto Dollar Strategy response
+   * @param data - the already processed data
+   * @param response - the Pareto Dollar Strategy response
+   * @returns the contract data
+   */ parseWalletParetoDollarStakingResponse(data, { method, inputs, outputs }) {
+        const methodName = method.split('(')[0];
+        const methodData = {};
+        switch(methodName){
+            case 'balanceOf':
+                {
+                    const address = inputs[0].value;
+                    const stakedBalance = outputs[0].value;
+                    // Update to existing wallet
+                    methodData.wallets = (data.wallets || []).map((wallet)=>compLower(wallet.address, address) ? _extends({}, wallet, {
+                            paretoDollar: _extends({}, wallet.paretoDollar || {}, {
+                                stakedBalance
+                            })
+                        }) : wallet);
+                    // Add new wallet
+                    if (!methodData.wallets.some((wallet)=>compLower(wallet.address, address))) {
+                        methodData.wallets.push({
+                            balance: '0',
+                            address,
+                            paretoDollar: {
+                                stakedBalance
+                            }
+                        });
+                    }
+                }
                 break;
         }
         return _extends({}, data, methodData);
@@ -896,6 +1113,13 @@ export class VaultContract {
             address
         };
         switch(methodName){
+            // Calculate Sky APR
+            case 'ssr':
+                {
+                    const ssr = BNify(outputs[0].value).div(1e27).toNumber();
+                    poolData.APR = String((Math.pow(ssr, SECONDS_IN_YEAR) - 1) * 100);
+                }
+                break;
             case 'totalSupply':
                 poolData.totalSupply = outputs[0].value;
                 break;

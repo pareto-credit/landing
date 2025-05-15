@@ -42,3 +42,11 @@ export declare function minTokenAmount(token: Token): BigNumber;
  * @returns the token USD amount
  */
 export declare function getTokenUSDAmount(amount?: BigNumberValue, price?: BigNumberValue): string;
+/**
+ * Convert token amount from one token to another, considering decimals
+ * @param sourceToken - the source token entity
+ * @param destToken - the target token entity
+ * @param amount - the normalize amount of the source token
+ * @returns the converted amount in the target token, normalized
+ */
+export declare function convertTokenAmount(sourceToken: Token, destToken: Token, amount: BigNumber.Value): BigNumber;

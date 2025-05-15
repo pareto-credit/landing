@@ -51,5 +51,15 @@ import { BNify, numberFormat } from '../../core';
     const tokenPrice = BNify(price).div(10 ** 6);
     return BNify(amount).times(tokenPrice).toString();
 }
+/**
+ * Convert token amount from one token to another, considering decimals
+ * @param sourceToken - the source token entity
+ * @param destToken - the target token entity
+ * @param amount - the normalize amount of the source token
+ * @returns the converted amount in the target token, normalized
+ */ export function convertTokenAmount(sourceToken, destToken, amount) {
+    const fixedAmount = fixTokenAmount(sourceToken, amount);
+    return normalizeTokenAmount(destToken, fixedAmount);
+}
 
 //# sourceMappingURL=token.lib.js.map

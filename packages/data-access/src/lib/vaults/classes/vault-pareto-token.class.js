@@ -8,6 +8,19 @@ export class VaultParetoToken extends VaultContract {
         return this.getData(callData, blockNumber);
     }
     /**
+   * Prepare call data
+   * @returns the web3 call data
+   */ makeCallData(blockNumber) {
+        // Parse vault contract methods
+        const { abi, address, protocol, contractType } = this.vault;
+        const callData = this.makeProtocolData({
+            abi,
+            address,
+            protocol
+        }, contractType);
+        return callData;
+    }
+    /**
    * Get vault payable method
    * @param type the payment method type
    * @param options the payment method options
@@ -22,19 +35,6 @@ export class VaultParetoToken extends VaultContract {
             console.error(`Contract get method error`, type, error);
             return void 0;
         }
-    }
-    /**
-   * Prepare call data
-   * @returns the web3 call data
-   */ makeCallData(blockNumber) {
-        // Parse vault contract methods
-        const { abi, address, protocol, contractType } = this.vault;
-        const callData = this.makeProtocolData({
-            abi,
-            address,
-            protocol
-        }, contractType);
-        return callData;
     }
     /**
    * Get vault non payable method

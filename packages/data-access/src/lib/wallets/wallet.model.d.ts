@@ -14,9 +14,12 @@ export interface WalletData extends WalletBody {
 export declare function sWalletData(isPartial?: boolean): import("fluent-json-schema").ExtendedSchema;
 export interface WalletBody {
     userId?: string;
+    referralCode?: string;
     ens?: string;
     signatures?: WalletSignature[];
     campaigns?: WalletCampaign[];
+    affiliates?: WalletAffiliate[];
+    affiliated?: WalletAffiliate[];
 }
 export declare function sWalletBody(): import("fluent-json-schema").ObjectSchema<{
     [x: string]: any;
@@ -57,6 +60,16 @@ export interface WalletCampaign {
     activatedOn: string;
 }
 export declare function sWalletCampaign(): import("fluent-json-schema").ObjectSchema<{
+    [x: string]: any;
+    [x: number]: any;
+    [x: symbol]: any;
+}>;
+export interface WalletAffiliate {
+    _id: string;
+    address: string;
+    activatedOn: string;
+}
+export declare function sWalletAffiliate(): import("fluent-json-schema").ObjectSchema<{
     [x: string]: any;
     [x: number]: any;
     [x: symbol]: any;

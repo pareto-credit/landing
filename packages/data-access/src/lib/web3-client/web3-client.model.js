@@ -1,5 +1,8 @@
 import S from 'fluent-json-schema';
-import { sAbiContract, sBCAddress, sBigInt } from '../core';
+import { sAbiContract, sBCAddress, sBigInt, sStringId } from '../core';
+export function sERC20Token() {
+    return S.object().additionalProperties(false).prop('decimals', S.number()).required().prop('symbol', S.string()).required().prop('name', S.string()).required().prop('address', sBCAddress()).required();
+}
 export function sWeb3Protocol() {
     return S.string().enum([
         'Idle',
@@ -12,7 +15,9 @@ export function sWeb3Protocol() {
         'InstadApp',
         'Ethena',
         'UniswapV2',
-        'UniswapV3'
+        'UniswapV3',
+        'Curve',
+        'Sky'
     ]);
 }
 export function sWeb3ProviderConnection() {
@@ -25,7 +30,7 @@ export function sWeb3RPCProvider() {
     ]);
 }
 export function sWeb3ProtocolContract() {
-    return S.object().additionalProperties(false).prop('protocol', sWeb3Protocol()).prop('fromBlock', sBigInt()).extend(sWeb3BaseContract());
+    return S.object().additionalProperties(false).prop('protocol', sWeb3Protocol()).prop('fromBlock', sBigInt()).prop('operatorId', sStringId()).extend(sWeb3BaseContract());
 }
 export function sWeb3BaseContract() {
     return S.object().additionalProperties(false).prop('address', sBCAddress()).required().prop('abi', sAbiContract()).required();

@@ -81,6 +81,13 @@ const CAMPAIGN_METRICS = {
                 const depositRequestPoints = getRuleQueuePoints(rule, transactions, token, options);
                 return depositRequestPoints;
             }
+        case 'MINT':
+            // TODO: the new rule points calculation
+            return {
+                points: '0',
+                perDay: '0',
+                multiplier: '0'
+            };
     }
 }
 /**

@@ -23,6 +23,8 @@ export function sTokenPriceData() {
 export var TokenErrorCodes;
 (function(TokenErrorCodes) {
     TokenErrorCodes["notDeletable"] = "TOKEN_NOT_DELETABLE";
+    TokenErrorCodes["dataNotValid"] = "TOKEN_DATA_NOT_VALID";
+    TokenErrorCodes["addressMalformed"] = "TOKEN_ADDRESS_MALFORMED";
 })(TokenErrorCodes || (TokenErrorCodes = {}));
 export const TOKEN_FIELDS = [
     '_id',
