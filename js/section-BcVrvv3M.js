@@ -91,6 +91,10 @@ var links = /* @__PURE__ */ ((links2) => {
   links2["Fas_USDC"] = "https://app.pareto.credit/vault#0x45054c6753b4Bce40C5d54418DabC20b070F85bE";
   links2["BAS_USDT"] = "https://app.pareto.credit/vault#0xaE65d6C295E4a28519182a632FB25b7C1966AED7";
   links2["FAL_USDC"] = "https://app.pareto.credit/vault#0x24e16F9Fad32891f8bA69cE8fEdd273A2649331A";
+  links2["sUSP_APP"] = "https://app.pareto.credit/usp";
+  links2["sUSP_DOC"] = "https://docs.pareto.credit/product/usp";
+  links2["USP_APP"] = "https://app.pareto.credit/usp";
+  links2["USP_DOC"] = "https://docs.pareto.credit/product/usp";
   links2["IPFSapp"] = "https://idle-finance.on.fleek.co/";
   links2["TermsofService"] = "/terms-of-service";
   links2["PrivacyPolicy"] = "/privacy-policy";
@@ -285,6 +289,18 @@ const bastionEco = "/assets/Bastion_Trading-CbXYrsIU.svg";
 
 const m11Eco = "/assets/m11-Dz8nVwh0.svg";
 
+const composable = "/assets/composable-ChixkgSO.svg";
+
+const liquid = "/assets/liquid-Bvj40Bfu.svg";
+
+const diversified = "/assets/diversified-B7btrTjQ.svg";
+
+const yieldGenerating = "/assets/yield-generating-B5uAxOnh.svg";
+
+const overcollateralized = "/assets/overcollateralized-DPhqxRI-.svg";
+
+const safe = "/assets/safe-CwMKMzci.svg";
+
 const HomeEnCopy = {
   heroSection: {
     title: "Radically transforming credit, on-chain",
@@ -382,6 +398,104 @@ const HomeEnCopy = {
           }
         ],
         isActive: false
+      }
+    ]
+  },
+  ourProductsSection: {
+    subTitle: "SYNTHETIC DOLLAR",
+    title: "Building blocks of the new era",
+    list: [
+      {
+        id: "USP",
+        title: "USP, the credit-based synthetic dollar",
+        description: "USP is a synthetic dollar protocol backed by real-world institutional-grade private credit.",
+        btn: [
+          {
+            label: "Open in app",
+            link: links.USP_APP
+          },
+          {
+            label: "Documents",
+            link: links.USP_DOC
+          }
+        ],
+        infoBlocks: [
+          {
+            label: "Price",
+            value: "$1"
+          },
+          {
+            label: "TVL",
+            value: "$-"
+          },
+          {
+            label: "Collateralization",
+            value: "100%"
+          }
+        ],
+        futureBlocks: [
+          {
+            icon: composable,
+            title: "Composable",
+            description: "USP is a transferable, permissionless asset that integrates across DeFi and CeFi – streamlining capital deployment, risk management, and settlements."
+          },
+          {
+            icon: overcollateralized,
+            title: "Capital Efficient",
+            description: "Minted 1:1 against major stablecoins, USP is deployed into a diversified portfolio of liquid, short- and long-term credit – balancing liquidity and yield."
+          },
+          {
+            icon: safe,
+            title: "Protected",
+            description: "USP holds senior priority in the capital stack and is shielded by a stability reserve – providing an added buffer against defaults and market stress."
+          }
+        ]
+      },
+      {
+        id: "SUSP",
+        title: "sUSP, the credit savings rate",
+        description: "sUSP is the staking version of USP, acting like a savings account for RWA credit lines. ",
+        btn: [
+          {
+            label: "Open in app",
+            link: links.sUSP_APP
+          },
+          {
+            label: "Documents",
+            link: links.sUSP_DOC
+          }
+        ],
+        infoBlocks: [
+          {
+            label: "Price",
+            value: "$1"
+          },
+          {
+            label: "TVL",
+            value: "$-"
+          },
+          {
+            label: "APY",
+            value: "-%"
+          }
+        ],
+        futureBlocks: [
+          {
+            icon: yieldGenerating,
+            title: "Yield generating",
+            description: "sUSP allows users to earn yield from Credit Vaults and participate in Pareto’s long-term growth – designed for stable, risk-adjusted returns."
+          },
+          {
+            icon: liquid,
+            title: "Liquid",
+            description: "sUSP is fully liquid and non-custodial – holders can exit at any time by simply unstaking, without lockups or withdrawal restrictions."
+          },
+          {
+            icon: diversified,
+            title: "Diversified",
+            description: "sUSP provides exposure to a broad set of credit lines – reducing single-counterparty risk through structured diversification."
+          }
+        ]
       }
     ]
   },

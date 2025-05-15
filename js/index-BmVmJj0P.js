@@ -1,7 +1,7 @@
 import { d as createAstro, c as createComponent, r as renderTemplate, a as renderComponent } from './astro/server-CgvuF3dj.js';
 import 'kleur/colors';
-import { c as createStaticPathGetter } from './section-DOjdSTdG.js';
-import $$Index$1 from './index-CwqvjSJK.js';
+import { c as createStaticPathGetter } from './section-BcVrvv3M.js';
+import $$Index$1 from './index-Br-qWx68.js';
 
 const $$Astro = createAstro("https://pareto.credit/");
 const getStaticPaths = createStaticPathGetter();
