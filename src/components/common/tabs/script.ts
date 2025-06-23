@@ -32,7 +32,8 @@ export class HeroTabs extends Component {
                 contractType: 'CDO_EPOCH',
                 fields: ['_id'],
             }),
-            apiClient.vaults.performances({}),
+            apiClient.vaults.performances({
+            }),
         ]);
 
         // Add Performances
@@ -64,7 +65,12 @@ export class HeroTabs extends Component {
         });
 
         vaultLatestBlocks.data.forEach( vaultBlock => {
+
             const tabEl = document.querySelector('.tabs-list__item[data-address="'+vaultBlock.vaultAddress+'"]');
+
+            if (!tabEl) {
+                return false
+            }
 
             const aprEl = tabEl.querySelector('.info-block__item[data-id="APY"] .value h4');
             if (aprEl){
@@ -83,7 +89,7 @@ export class HeroTabs extends Component {
                 const formatter = new Intl.NumberFormat('en-US', intlOptions);
                 tvlEl.innerHTML = formatter.format(Number(vaultBlock.TVL.withRequestsUSD || vaultBlock.TVL.USD)/1000000);
             }
-        });
+        })
     }
 
     initializeHeroTabs() {

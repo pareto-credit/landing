@@ -1,6 +1,5 @@
 import { HeroTabs } from 'components/common/tabs/script';
 import { HomePageSections } from 'components/sections/sectionTypes';
-import gsap from 'gsap';
 import { Breakpoints } from 'scripts/appBreakpoints';
 import Section from 'scripts/core/section';
 import SequenceComponent, { type SequenceConfig } from 'scripts/modules/sequence';
@@ -12,8 +11,8 @@ export default class MainScene extends Section {
 
 
     protected async setupSection() {
-        HeroTabs.prototype.loadVaults();
         HeroTabs.prototype.initializeHeroTabs();
+        HeroTabs.prototype.loadVaults();
         this.setupSequence();
     }
 

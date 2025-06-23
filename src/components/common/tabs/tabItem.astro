@@ -10,7 +10,7 @@ const props = Astro.props;
 
 ---
 
-<a class="tabs-list__item" href=`https://app.pareto.credit/vault#${props.address}` data-address={props.address} data-nav-id={props.index} target="_blank">
+<a class="tabs-list__item" href=`https://app.pareto.credit/vault#${props.address}` data-id={props._id} data-address={props.address} data-nav-id={props.index} target="_blank">
     <div class="tabs-list__item-header">
         <div class="icon">
             <img src='#' data-src={props.icon} class="lazy" data-load-priority="1"  alt="icon">

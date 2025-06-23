@@ -44,7 +44,7 @@ export default class OurProducts extends Section {
                     compactDisplay: 'short',
                 };
                 const formatter = new Intl.NumberFormat('en-US', intlOptions);
-                uspTVLs.forEach( item => item.innerHTML = formatter.format(Number(vaultBlock.TVL.withRequestsUSD)/1e6));
+                uspTVLs.forEach( item => item.innerHTML = formatter.format(Number(vaultBlock.totalSupply)/1e18));
             }
 
             const suspTVLs = document.querySelectorAll('[data-id="SUSP-tvl"] .info-item__value > p');
