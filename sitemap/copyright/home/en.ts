@@ -1,4 +1,3 @@
-import { span } from '../helpers';
 import { links } from '../links';
 import lower from '/src/assets/img/our-adventage/lower-cost.svg?url';
 import endToEnd from '/src/assets/img/our-adventage/end-to-end.svg?url';
@@ -22,6 +21,8 @@ import fasanraBg from '/src/assets/img/hero/fasanaraBg.svg?raw';
 import bastionIcon from '/src/assets/img/hero/bastion.png?url';
 import bastionBg from '/src/assets/img/hero/bastionBg.svg?raw';
 
+import adaptiveIcon from '/src/assets/img/hero/adaptive.png?url';
+import adaptiveBg from '/src/assets/img/hero/adaptiveBg.svg?raw';
 
 import borrow from '/src/assets/img/solution/borrow.svg?url';
 import lend from '/src/assets/img/solution/lend.svg?url';
@@ -64,6 +65,32 @@ export const HomeEnCopy = {
         ],
         tabs: [
             {
+                icon: falconx,
+                title: 'FalconX',
+                description: 'Prime Brokerage',
+                bgImage: falconxBg,
+                badges: ['USDС', 'Fixed rate'],
+                address: '0x24e16F9Fad32891f8bA69cE8fEdd273A2649331A',
+                itemDescription: 'Lending funds to an SPV managed by a top-tier Prime Broker, providing financing to end-counterparties while being secured by structural protections.',
+                infoBlock: [
+                    {
+                        id: 'TVL',
+                        title: 'TVL',
+                        value: '$-',
+                    },
+                    {
+                        title: 'Net APY',
+                        value: 'Hidden',
+                    },
+                    {
+                        id: 'RED',
+                        title: 'Redemptions',
+                        value: 'Monthly',
+                    },
+                ],
+                isActive: true,
+            },
+            {
                 icon: fasanra,
                 title: 'Fasanara Digital',
                 description: 'Basis Trade',
@@ -91,13 +118,13 @@ export const HomeEnCopy = {
                 isActive: false,
             },
             {
-                icon: falconx,
-                title: 'FalconX',
-                description: 'Prime Brokerage',
-                bgImage: falconxBg,
-                badges: ['USDС', 'Fixed rate'],
-                address: '0x24e16F9Fad32891f8bA69cE8fEdd273A2649331A',
-                itemDescription: 'Lending funds to an SPV managed by a top-tier Prime Broker, providing financing to end-counterparties while being secured by structural protections.',
+                icon: bastionIcon,
+                title: 'Bastion Trading',
+                description: 'Market Making',
+                bgImage: bastionBg,
+                badges: ['USDT', 'Fixed rate'],
+                address: '0xC49b4ECc14aa31Ef0AD077EdcF53faB4201b724c',
+                itemDescription: 'Fixed rate loan channeling funds into derivatives trading and market-making strategies.',
                 infoBlock: [
                     {
                         id: 'TVL',
@@ -105,8 +132,9 @@ export const HomeEnCopy = {
                         value: '$-',
                     },
                     {
+                        id: 'APY',
                         title: 'Net APY',
-                        value: 'Hidden',
+                        value: '-%',
                     },
                     {
                         id: 'RED',
@@ -114,16 +142,16 @@ export const HomeEnCopy = {
                         value: 'Monthly',
                     },
                 ],
-                isActive: true,
+                isActive: false,
             },
             {
-                icon: bastionIcon,
-                title: 'Bastion Trading',
-                description: 'Market Making',
-                bgImage: bastionBg,
+                icon: adaptiveIcon,
+                title: 'Adaptive Frontier',
+                description: 'HF Trading',
+                bgImage: adaptiveBg,
                 badges: ['USDT', 'Fixed rate'],
-                address: '0xaE65d6C295E4a28519182a632FB25b7C1966AED7',
-                itemDescription: 'Fixed rate loan channeling funds into derivatives trading and market-making strategies.',
+                address: '0xae7913c672c7F1f76C2a1a0Ac4de97d082681234',
+                itemDescription: 'Fixed-rate loan channeling funds into delta neutral arbitrage and market making strategies',
                 infoBlock: [
                     {
                         id: 'TVL',

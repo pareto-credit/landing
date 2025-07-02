@@ -96,32 +96,37 @@
 
         &__list
             display: flex
-            gap: gem(11)
+            gap: gem(22)
         &__item
             cursor: pointer
             display: flex
             border: 1px solid var(--color-sage)
             border-radius: gem(30)
-            padding: gem(3) gem(25)
+            width: gem(13)
+            height: gem(13)
             transition: border 800ms cubic-bezier(.19,1,.22,1)
             .desc-4
+                display: none
                 transition: color 800ms cubic-bezier(.19,1,.22,1)
-            &.active,
+            &.active
+                border: 1px solid var(--color-emerald)
+                background-color: var(--color-emerald)
             &:hover
-                border: 1px solid var(--color-teal)
+                border: 1px solid var(--color-emerald)
                 .desc-4
                     color: var(--color-teal)
 @media (max-width: 480px)
     .tabs
         &-list
+            gap: gem(12)
             width: gem(332)
             position: relative
             padding-top: gem(312)
             &__placeholder
                 left: gem(342)
         &-links__item
-            width: gem(6)
-            height: gem(6)
+            width: gem(12)
+            height: gem(12)
             border-radius: 50%
             padding: 0
             background: var(--color-sage)

@@ -28,7 +28,6 @@ export class HeroTabs extends Component {
         ] = await Promise.all([
             apiClient.vaults.search({
                 status: 'READY',
-                visibility: 'PUBLIC',
                 contractType: 'CDO_EPOCH',
                 fields: ['_id'],
             }),
@@ -142,7 +141,7 @@ export class HeroTabs extends Component {
         });
 
         await this.tabsComponent.setup();
-        this.tabsComponent.setActiveIndex(1);
+        this.tabsComponent.setActiveIndex(0);
         if (Breakpoints.isMobile) {
             this.initializeSwipeHandlers();
         }
