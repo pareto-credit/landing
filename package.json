@@ -21,6 +21,7 @@
     "deploy:prod": "firebase -P default deploy --only hosting:web-prod",
     "deploy:channel": "firebase -P default --only web-stage hosting:channel:deploy test-channel --expires 7d",
     "deploy-pages": "echo 'pareto.credit\nwww.pareto.credit' > dist/CNAME;gh-pages -d dist --branch gh-pages",
+    "build-deploy": "yarn build:release:production && yarn deploy-pages",
     "astro": "astro",
     "emulate": "firebase emulators:start --only hosting",
     "lint": "eslint \"src/**/*.{js,ts,jsx,tsx,astro}\""
