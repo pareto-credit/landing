@@ -1,5 +1,5 @@
 import { AbiContract } from '../core';
-import { Vault, VaultCampaign, VaultCdoEpoch, VaultCdoEpochOperator, VaultIntegration, VaultParetoDollar, VaultParetoDollarCollateral, VaultParetoDollarStaking, VaultRewardAddress, VaultRewardEmission, VaultRewardProgram, VaultRewardProgramFrequency } from './vault.model';
+import { Vault, VaultCampaign, VaultCdoEpoch, VaultOperator, VaultIntegration, VaultParetoDollar, VaultParetoDollarCollateral, VaultParetoDollarStaking, VaultRewardAddress, VaultRewardEmission, VaultRewardProgram, VaultRewardProgramFrequency } from './vault.model';
 /**
  * Vault Mock
  */
@@ -9,7 +9,7 @@ export declare function VaultCdoEpochMock(options?: Partial<VaultCdoEpoch>): Vau
 export declare function VaultParetoDollarStakingMock(options?: Partial<VaultParetoDollarStaking>): VaultParetoDollarStaking;
 export declare function VaultParetoDollarMock(options?: Partial<VaultParetoDollar>): VaultParetoDollar;
 export declare function VaultParetoDollarCollateralMock(options?: Partial<VaultParetoDollarCollateral>): VaultParetoDollarCollateral;
-export declare function VaultCdoEpochOperatorMock(options?: Partial<VaultCdoEpochOperator>): VaultCdoEpochOperator;
+export declare function VaultOperatorMock(options?: Partial<VaultOperator>): VaultOperator;
 export declare function VaultAbiParamMock(options?: AbiContract): AbiContract;
 export declare function VaultRewardProgramMock(options?: Partial<VaultRewardProgram>): VaultRewardProgram;
 export declare function VaultRewardDistributionFrequency(options?: Partial<VaultRewardProgramFrequency>): VaultRewardProgramFrequency;

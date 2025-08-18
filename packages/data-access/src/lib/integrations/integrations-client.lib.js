@@ -4,7 +4,7 @@ import { LidoClient } from './lido-client/lido-client';
 import { UsualClient } from './usual-client/usual-client.lib';
 export class IntegrationClient {
     async getApr(tokenSymbol) {
-        return this.client.getApr(tokenSymbol);
+        return this.client.getApr ? this.client.getApr(tokenSymbol) : 0;
     }
     constructor(provider){
         switch(provider){

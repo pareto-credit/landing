@@ -29,7 +29,7 @@ export declare function getWeb3ProviderToken(provider: Web3RPCProvider, tokens: 
  * @param walletAddress
  * @returns the payable options to use for wallet transactions
  */
-export declare function getWeb3PaypableOptions(web3: Web3, { method, from, toleranceBearing }: Web3PayableOptionsParams): Promise<PayableCallOptions>;
+export declare function getWeb3PaypableOptions(web3: Web3, { method, from, value, toleranceBearing }: Web3PayableOptionsParams): Promise<PayableCallOptions>;
 /**
  * Get Web3 Gas Limit
  * @param method - the method to simulate for the gas estimation

@@ -1,5 +1,5 @@
 import { Axios } from 'axios';
-import { Campaign, CampaignData, CampaignsSearchQuery, CampaignsClientModel, CampaignPoints } from '../campaign.model';
+import { Campaign, CampaignData, CampaignsSearchQuery, CampaignsClientModel, CampaignPoints, CampaignRankingQuery, CampaignRanking } from '../campaign.model';
 import { ApiEntity } from '../../core';
 export declare class CampaignsClient extends ApiEntity implements CampaignsClientModel {
     constructor(axios: Axios);
@@ -40,10 +40,23 @@ export declare class CampaignsClient extends ApiEntity implements CampaignsClien
      */
     findOne(searchParams?: CampaignsSearchQuery): Promise<Campaign | undefined>;
     /**
+     * Read a campaign by params
+     * @param searchParams - the search params
+     * @returns the promise for read a campaign
+     */
+    readOne(searchParams: CampaignsSearchQuery): Promise<Campaign>;
+    /**
      * Get campaign points for a wallet address
      * @param campaignId - the campaign ID
      * @param walletAddress - the wallet address
      * @returns the points of a campaign for a wallet
      */
     points(campaignId: string, walletAddress: string): Promise<CampaignPoints>;
+    /**
+     * Get campaign ranking
+     * @param campaignId - the campaign ID
+     * @param query - the campaign ranking query
+     * @returns the ranking of a campaign
+     */
+    ranking(campaignId: string, query?: CampaignRankingQuery): Promise<CampaignRanking>;
 }

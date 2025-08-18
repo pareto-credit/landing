@@ -1,4 +1,4 @@
-import { BNify, numberFormat } from '../../core';
+import { BNFixed, BNify, numberFormat } from '../../core';
 /**
  * Fix token price with correct decimals
  * @param token - the token entity
@@ -22,6 +22,14 @@ import { BNify, numberFormat } from '../../core';
  * @returns the amount to show
  */ export function normalizeTokenAmount(token, amount) {
     return BNify(BNify(amount).times(10 ** token.decimals).toFixed(0));
+}
+/**
+ * Get token price
+ * @param token - the token entity
+ * @param amount - the conversion amount
+ * @returns the token price
+ */ export function getTokenAmount(token, amount = 1, decimals) {
+    return BNFixed(BNify(amount).times(10 ** (decimals || token.decimals)));
 }
 /**
  * Parse token amount into human readable string

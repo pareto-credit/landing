@@ -6,7 +6,7 @@ export function sTransaction(isPartial) {
     return S.object().id('#transaction').additionalProperties(false).extend(sClientEntity(isPartial)).extend(sTransactionData(isPartial));
 }
 export function sTransactionData(isPartial) {
-    return S.object().additionalProperties(false).prop('vaultId', sStringId()).description('The vault IDentifier.').prop('vaultAddress', sBCAddress()).description('The vault blockchain address.').prop('walletId', sStringId()).description('The IDentifier of the wallet.').prop('walletAddress', sBCAddress()).description('The wallet blockchain address.').prop('tokenId', sStringId()).description('The token IDentifier.').prop('operatorId', sStringId()).description('The operator IDentifier.').prop('type', sTransactionType()).description('The transaction type.').prop('hash', sBCHash()).description('The transaction hash.').prop('block', sBlock()).description('The transaction blockchain block.').prop('amount', sBigInt()).description('The transaction amount.').prop('tokenAmount', sBigInt()).description('The transaction token amount.').prop('price', sBigInt()).description('The transaction vault price.').prop('input', S.string()).description('The transaction input data.').prop('transactionDate', sDateString()).description('The transaction date.').required(isPartial ? [] : [
+    return S.object().additionalProperties(false).prop('vaultId', sStringId()).description('The vault IDentifier.').prop('vaultAddress', sBCAddress()).description('The vault blockchain address.').prop('walletId', sStringId()).description('The IDentifier of the wallet.').prop('walletAddress', sBCAddress()).description('The wallet blockchain address.').prop('fromAddress', sBCAddress()).description('The from blockchain address.').prop('toAddress', sBCAddress()).description('The to blockchain address.').prop('tokenId', sStringId()).description('The token IDentifier.').prop('operatorId', sStringId()).description('The operator IDentifier.').prop('type', sTransactionType()).description('The transaction type.').prop('hash', sBCHash()).description('The transaction hash.').prop('block', sBlock()).description('The transaction blockchain block.').prop('amount', sBigInt()).description('The transaction amount.').prop('tokenAmount', sBigInt()).description('The transaction token amount.').prop('price', sBigInt()).description('The transaction vault price.').prop('input', S.string()).description('The transaction input data.').prop('transactionDate', sDateString()).description('The transaction date.').required(isPartial ? [] : [
         'vaultId',
         'vaultAddress',
         'walletId',
@@ -20,44 +20,60 @@ export function sTransactionData(isPartial) {
         'price'
     ]);
 }
-export const TRANSACTION_TYPES = [
+export const TRANSACTION_TYPES_COMMON = [
     'DEPOSIT',
     'REDEEM',
     'HARVEST',
-    'DISTRIBUTED_REWARDS',
-    // EPOCH
+    'DISTRIBUTED_REWARDS'
+];
+export const TRANSACTION_TYPES_PARETO_DOLLAR = [
+    'ADD_COLLATERAL',
+    'ADD_YIELD_SOURCE',
+    'CLAIM_REDEEM_REQUEST',
+    'DEPOSIT_REWARDS',
+    'DEPOSIT_YIELD_SOURCE',
+    'MINT',
+    'NEW_EPOCH',
+    'REDEEM',
+    'REDEEM_YIELD_SOURCE',
+    'REMOVE_COLLATERAL',
+    'REMOVE_YIELD_SOURCE',
+    'REQUEST_REDEEM',
+    'STAKE',
+    'STAKE_POOL',
+    'TRANSFER',
+    'TRANSFER_POOL',
+    'UNSTAKE',
+    'UNSTAKE_POOL'
+];
+export function sTransactionTypeParetoDollar() {
+    return S.string().enum(TRANSACTION_TYPES_PARETO_DOLLAR);
+}
+/**
+ * Vault CDO Epoch
+ */ export const TRANSACTION_TYPES_CDO_EPOCH = [
+    'CLAIM_DEPOSIT_REQUEST',
     'CLAIM_INSTANT_WITHDRAW',
     'CLAIM_WITHDRAW',
+    'CLAIM_WITHDRAW_REQUEST',
     'DELETE_DEPOSIT_REQUEST',
+    'DELETE_WITHDRAW_REQUEST',
     'GET_INSTANT_WITHDRAWS',
     'PROCESS_DEPOSIT_QUEUE',
-    'CLAIM_DEPOSIT_REQUEST',
-    'REQUEST_DEPOSIT',
-    'START_EPOCH',
-    'STOP_EPOCH',
-    'REQUEST_WITHDRAW',
-    'DELETE_WITHDRAW_REQUEST',
-    'PROCESS_WITHDRAW_QUEUE',
-    'CLAIM_WITHDRAW_REQUEST',
     'PROCESS_WITHDRAW_CLAIMS',
-    // USP
-    'MINT',
-    'REDEEM',
-    'ADD_COLLATERAL',
-    'REMOVE_COLLATERAL',
-    'REQUEST_REDEEM',
-    'NEW_EPOCH',
-    'ADD_YIELD_SOURCE',
-    'REMOVE_YIELD_SOURCE',
-    'REDEEM_YIELD_SOURCE',
-    'DEPOSIT_YIELD_SOURCE',
-    'STAKE',
-    'UNSTAKE',
-    'DEPOSIT_REWARDS',
-    'TRANSFER',
-    'CLAIM_REDEEM_REQUEST',
-    'STAKE_POOL',
-    'UNSTAKE_POOL'
+    'PROCESS_WITHDRAW_QUEUE',
+    'REQUEST_DEPOSIT',
+    'REQUEST_WITHDRAW',
+    'START_EPOCH',
+    'STOP_EPOCH'
+];
+export function sTransactionTypeCdoEpoch() {
+    return S.string().enum(TRANSACTION_TYPES_CDO_EPOCH);
+}
+export const TRANSACTION_TYPES = [
+    ...TRANSACTION_TYPES_COMMON,
+    ...TRANSACTION_TYPES_PARETO_DOLLAR,
+    ...TRANSACTION_TYPES_CDO_EPOCH
 ];
 export function sTransactionType() {
     return S.string().enum(uniq(TRANSACTION_TYPES));

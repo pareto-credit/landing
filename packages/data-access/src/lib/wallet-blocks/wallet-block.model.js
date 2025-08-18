@@ -1,7 +1,7 @@
 import S from 'fluent-json-schema';
 import { sBCAddress, sBigInt, sBlock, sClientEntity, sPageSearchQuery, sStringId } from '../core';
 import { WALLET_BLOCKS_ROUTES_KEY } from './wallet-block.const';
-import { sVaultWalletCdoEpochData, sVaultWalletParetoDollarData } from '../vaults';
+import { sVaultWalletCdoEpochData, sVaultWalletParetoDollarData, sVaultWalletPoolData } from '../vaults';
 export function sWalletBlock(isPartial) {
     return S.object().id('#walletBlock').additionalProperties(false).extend(sClientEntity(isPartial)).extend(sWalletBlockData(isPartial));
 }
@@ -15,8 +15,8 @@ export function sWalletBlockData(isPartial) {
     ]).extend(sWalletBlockBody(isPartial));
 }
 export function sWalletBlockBody(isPartial) {
-    return S.object().additionalProperties(false).prop('balance', sBigInt()).description('The balance of the wallet in the vault.').prop('tokenBalance', sBigInt()).description('The current token balance of the wallet.').prop('distributedRewards', S.array().items(sWalletBlockDistributedRewards())).description('List of distributed rewards for the wallet').prop('cdoEpoch', sVaultWalletCdoEpochData()).prop('paretoDollar', sVaultWalletParetoDollarData())// Deprecated
-    .prop('current', S.object().additionalProperties(true)).prop('aggregated', S.object().additionalProperties(true)).required(isPartial ? [] : [
+    return S.object().additionalProperties(false).prop('balance', sBigInt()).description('The balance of the wallet in the vault.').prop('tokenBalance', sBigInt()).description('The current token balance of the wallet.').prop('distributedRewards', S.array().items(sWalletBlockDistributedRewards())).description('List of distributed rewards for the wallet').prop('cdoEpoch', sVaultWalletCdoEpochData()).prop('paretoDollar', sVaultWalletParetoDollarData()).prop('pools', S.array().items(sVaultWalletPoolData()))// Deprecated
+    .prop('current', S.object().additionalProperties(true)).prop('uspAggregated', S.object().additionalProperties(true)).required(isPartial ? [] : [
         'balance',
         'tokenBalance'
     ]);

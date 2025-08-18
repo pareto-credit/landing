@@ -12,14 +12,14 @@ import { WEB3_HASH_LINKS } from './web3.const';
  * @param address - the address string to verify
  * @returns true if is an address
  */ export function isAddress(address) {
-    return !!address.match(/^0x[a-fA-F0-9]{40}$/);
+    return typeof address === 'string' && !!address.match(/^0x[a-fA-F0-9]{40}$/);
 }
 /**
  * Check if a string is a blockchain transaction
  * @param hash - the hash string to verify
  * @returns true if is a tx hash
  */ export function isTxHash(hash) {
-    return !!hash.match(/^0x[a-fA-F0-9]{64}$/);
+    return typeof hash === 'string' && !!hash.match(/^0x[a-fA-F0-9]{64}$/);
 }
 /**
  * Decode ABI parameters

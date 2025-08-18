@@ -93,20 +93,20 @@ async function getSocketProvider({ wss, provider }, tokens) {
  * @param web3
  * @param walletAddress
  * @returns the payable options to use for wallet transactions
- */ export async function getWeb3PaypableOptions(web3, { method, from, toleranceBearing = 5 }) {
+ */ export async function getWeb3PaypableOptions(web3, { method, from, value, toleranceBearing = 5 }) {
     // Get GAS info for the method call
     const chainID = await web3.eth.getChainId();
     const gas = await getWeb3GasLimit(method, {
         from
     }, toleranceBearing).catch(()=>undefined);
-    const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await getWeb3FeeData(web3);
-    // MainNET check
+    /* const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await getWeb3FeeData(
+    web3
+  ) */ // MainNET check
     if (chainID === 1n) {
         return {
             from,
             gas,
-            maxFeePerGas,
-            maxPriorityFeePerGas
+            value
         };
     }
     // Pass only the GAS PRICE
@@ -120,7 +120,8 @@ async function getSocketProvider({ wss, provider }, tokens) {
         /**
      * The gas price in WEI to use for transactions.
      * Not necessary if maxFeePerGas is passed
-     */ gasPrice
+     */ // gasPrice,
+        value
     };
 }
 /**

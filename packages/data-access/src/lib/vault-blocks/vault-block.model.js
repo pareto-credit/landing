@@ -14,7 +14,7 @@ export function sVaultBlockRewardProgram() {
 }
 export function sVaultBlockBody(isPartial) {
     return S.object().additionalProperties(false).prop('APRs', sVaultBlockInterestRates()).description('Non-coumponded interest rates').prop('APYs', sVaultBlockInterestRates()).description('Compounded interest rates').prop('totalSupply', sBigInt()).prop('price', sBigInt()).prop('TVL', sVaultTvl()).prop('pools', S.array().items(sVaultPoolBlock())).prop('allocations', S.array().items(sVaultAllocation())).prop('cdo', sVaultContractCdoData()).prop('cdoEpoch', sVaultContractCdoEpochData()).prop('strategy', sVaultContractStrategyData()).prop('paretoDollar', sVaultContractParetoDollarData()).prop('requests', S.array().items(sVaultBlockRequest())).prop('totalRequests', sVaultBlockTotalRequests()).prop('rewardPrograms', S.array().items(sVaultBlockRewardProgram()))// Deprecated
-    .prop('current', S.object().additionalProperties(true)).deprecated().prop('aggregated', S.object().additionalProperties(true)).deprecated().required(isPartial ? [] : [
+    .prop('current', S.object().additionalProperties(true)).deprecated().prop('uspAggregated', S.object().additionalProperties(true)).deprecated().required(isPartial ? [] : [
         'APRs',
         'APYs',
         'totalSupply',
@@ -99,7 +99,10 @@ export function sVaultAprType() {
     ]);
 }
 export function sVaultPoolBlock() {
-    return S.object().additionalProperties(false).prop('address', sBCAddress()).required().prop('protocol', sWeb3Protocol()).required().prop('rates', sVaultPoolBlockRates()).required().prop('utilization', sVaultPoolUtilization()).required().prop('available', sVaultPoolBlockAvailable()).required().prop('APR', S.number());
+    return S.object().additionalProperties(false).prop('address', sBCAddress()).required().prop('protocol', sWeb3Protocol()).required().prop('rates', sVaultPoolBlockRates()).prop('utilization', sVaultPoolUtilization()).prop('available', sVaultPoolBlockAvailable()).prop('APR', S.number()).prop('tokens', S.array().items(sVaultBlockPoolToken())).prop('exchangeRate', sBigInt()).prop('underlyingBalance', sBigInt()).prop('totalSupply', sBigInt());
+}
+export function sVaultBlockPoolToken() {
+    return S.object().additionalProperties(false).prop('tokenAddress', sBCAddress()).required().prop('balance', sBigInt()).required().prop('balanceScaled', sBigInt()).required();
 }
 export var VaultBlockErrorCodes;
 (function(VaultBlockErrorCodes) {
@@ -125,6 +128,7 @@ export const VAULT_BLOCK_FIELDS = [
     'vaultAddress',
     'block',
     'APRs',
+    'APYs',
     'totalSupply',
     'price',
     'TVL',
@@ -136,7 +140,7 @@ export const VAULT_BLOCK_FIELDS = [
     'requests',
     'totalRequests',
     'current',
-    'aggregated',
+    'uspAggregated',
     'createdAt',
     'createdBy',
     'updatedAt',
@@ -147,7 +151,7 @@ export const VAULT_BLOCK_SORT_FIELDS = [
     'timestamp'
 ];
 export function sVaultBlocksSearchQuery() {
-    return S.object().additionalProperties(false).prop('vaultId', S.array().minItems(1).maxItems(200).items(sStringId())).description('The vault IDentifier').prop('vaultAddress', S.array().minItems(1).maxItems(200).items(sBCAddress())).description('The vault blockchain address').prop('block', S.array().minItems(1).maxItems(200).items(S.string())).description('The block number that must match').prop('cdoEpoch.status', S.array().minItems(1).maxItems(200).items(sVautlBlockEpochStatus())).description('The cdoEpoch status that must match').extend(sPageSearchQuery(VAULT_BLOCK_FIELDS, VAULT_BLOCK_SORT_FIELDS));
+    return S.object().additionalProperties(false).prop('vaultId', S.array().minItems(1).maxItems(200).items(sStringId())).description('The vault IDentifier').prop('vaultAddress', S.array().minItems(1).maxItems(200).items(sBCAddress())).description('The vault blockchain address').prop('block', S.array().minItems(1).maxItems(200).items(S.string())).description('The block number that must match').prop('timestamp:gt', S.number()).description('The block timestamp greater than').prop('timestamp:gte', S.number()).description('The block timestamp greater or equal than').prop('timestamp:lt', S.number()).description('The block timestamp less than').prop('timestamp:lte', S.number()).description('The block timestamp less or equal than').prop('cdoEpoch.status', S.array().minItems(1).maxItems(200).items(sVautlBlockEpochStatus())).description('The cdoEpoch status that must match').extend(sPageSearchQuery(VAULT_BLOCK_FIELDS, VAULT_BLOCK_SORT_FIELDS));
 }
 export function sVautlBlockEpochStatus() {
     return S.string().enum([

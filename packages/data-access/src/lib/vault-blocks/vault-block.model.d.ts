@@ -280,12 +280,26 @@ export declare function sVaultAprType(): import("fluent-json-schema").StringSche
 export interface VaultPoolBlock {
     address: string;
     protocol: Web3Protocol;
-    rates: VaultPoolBlockRates;
-    utilization: VaultPoolUtilization;
-    available: VaultPoolBlockAvailable;
+    rates?: VaultPoolBlockRates;
+    utilization?: VaultPoolUtilization;
+    available?: VaultPoolBlockAvailable;
     APR?: number;
+    underlyingBalance?: iBigInt;
+    exchangeRate?: iBigInt;
+    totalSupply?: iBigInt;
+    tokens?: VaultBlockPoolToken[];
 }
 export declare function sVaultPoolBlock(): import("fluent-json-schema").ObjectSchema<{
+    [x: string]: any;
+    [x: number]: any;
+    [x: symbol]: any;
+}>;
+export interface VaultBlockPoolToken {
+    tokenAddress: string;
+    balance: iBigInt;
+    balanceScaled: iBigInt;
+}
+export declare function sVaultBlockPoolToken(): import("fluent-json-schema").ObjectSchema<{
     [x: string]: any;
     [x: number]: any;
     [x: symbol]: any;
@@ -323,22 +337,28 @@ export declare enum VaultBlockRequestErrorCodes {
     wrongStatus = "VAULT_BLOCK_REQUEST_WRONG_STATUS",
     wrongType = "VAULT_BLOCK_REQUEST_WRONG_TYPE"
 }
-export type VaultBlockFields = '_id' | 'vaultId' | 'vaultAddress' | 'block' | 'APRs' | 'totalSupply' | 'price' | 'TVL' | 'pools' | 'allocations' | 'cdo' | 'cdoEpoch' | 'strategy' | 'requests' | 'totalRequests' | 'current' | 'aggregated' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy';
+export type VaultBlockFields = '_id' | 'vaultId' | 'vaultAddress' | 'block' | 'APRs' | 'APYs' | 'totalSupply' | 'price' | 'TVL' | 'pools' | 'allocations' | 'cdo' | 'cdoEpoch' | 'strategy' | 'requests' | 'totalRequests' | 'current' | 'uspAggregated' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy';
 export declare const VAULT_BLOCK_FIELDS: string[];
 export declare const VAULT_BLOCK_SORT_FIELDS: string[];
 export interface VaultBlocksSearchQuery extends PageSearchQuery<'block' | 'timestamp', VaultBlockFields> {
     block?: string | string[];
     vaultId?: string | string[];
     vaultAddress?: string | string[];
+    'timestamp:lt'?: number;
+    'timestamp:lte'?: number;
+    'timestamp:gt'?: number;
+    'timestamp:gte'?: number;
     'cdoEpoch.status'?: VautlBlockEpochStatus | VautlBlockEpochStatus[];
 }
 export declare function sVaultBlocksSearchQuery(): import("fluent-json-schema").ExtendedSchema;
 export type VautlBlockEpochStatus = 'WAITING' | 'RUNNING' | 'DEFAULTED' | 'CURE';
 export declare function sVautlBlockEpochStatus(): import("fluent-json-schema").StringSchema;
-export interface VaultBlocksClient {
+export interface VaultBlocksClientModel {
     create: (body: VaultBlockData) => Promise<VaultBlock>;
     search: (params?: VaultBlocksSearchQuery) => Promise<Page<VaultBlock>>;
+    searchAll: (params?: VaultBlocksSearchQuery) => Promise<Page<VaultBlock>>;
     list: (params?: VaultBlocksSearchQuery) => Promise<VaultBlock[]>;
+    listAll: (params?: VaultBlocksSearchQuery) => Promise<VaultBlock[]>;
     findOne: (params?: VaultBlocksSearchQuery) => Promise<VaultBlock | undefined>;
     readOne: (params: VaultBlocksSearchQuery) => Promise<VaultBlock>;
 }

@@ -1,6 +1,6 @@
 import { _ as _extends } from "@swc/helpers/_/_extends";
 import BigNumber from 'bignumber.js';
-import { apr2apy, BNFixed, BNify, BNlt, BNlte, SECONDS_IN_YEAR } from '../../core';
+import { apr2apy, BNFixed, BNgt, BNify, BNlt, BNlte, MAX_APY, SECONDS_IN_YEAR } from '../../core';
 import { getVaultRewardProgramsApr } from './vault-block-rewards.lib';
 import moment from 'moment';
 /**
@@ -24,14 +24,14 @@ import moment from 'moment';
  * @param APRs vault APRs
  * @returns Compounded APRs
  */ export function parseAPYs(vaultContractType, APRs, options) {
-    const { feePercentage, totalDuration } = options || {};
+    const { feePercentage, totalDuration, compoudingPeriod } = options || {};
     // Compound Base APY
-    const BASE = compoundVaultApr(vaultContractType, 'BASE', APRs.BASE, totalDuration);
+    const BASE = compoundVaultApr(vaultContractType, 'BASE', APRs.BASE, totalDuration, compoudingPeriod);
     const grossNetAPR = Number(BNify(APRs.BASE).plus(BNify(APRs.HARVEST)).times(BNify(1).minus(BNify(feePercentage).div(1e5))));
     // Compound Net APY
-    const NET = Number(BNify(compoundVaultApr(vaultContractType, 'NET', grossNetAPR || 0, totalDuration)).plus(BNify(APRs.REWARDS)));
-    const HARVEST = APRs.HARVEST && compoundVaultApr(vaultContractType, 'HARVEST', APRs.HARVEST, totalDuration);
-    const REWARDS = APRs.REWARDS && compoundVaultApr(vaultContractType, 'REWARDS', APRs.REWARDS, totalDuration);
+    const NET = Number(BNify(compoundVaultApr(vaultContractType, 'NET', grossNetAPR || 0, totalDuration, compoudingPeriod)).plus(BNify(APRs.REWARDS)));
+    const HARVEST = APRs.HARVEST && compoundVaultApr(vaultContractType, 'HARVEST', APRs.HARVEST, totalDuration, compoudingPeriod);
+    const REWARDS = APRs.REWARDS && compoundVaultApr(vaultContractType, 'REWARDS', APRs.REWARDS, totalDuration, compoudingPeriod);
     // Calculate GROSS APY
     const GROSS = Number(BNify(BASE).plus(BNify(HARVEST)).plus(BNify(REWARDS)).toFixed(8));
     const FEE = Number(BNify(feePercentage).div(1e3));
@@ -55,17 +55,17 @@ import moment from 'moment';
  * @param type APR type
  * @param rate APR
  * @returns Compounded APR
- */ export function compoundVaultApr(vaultContractType, type, rate, totalDuration) {
+ */ export function compoundVaultApr(vaultContractType, type, rate, totalDuration, compoudingPeriod) {
     switch(type){
         // Don't compound REWARD APR
         case 'REWARDS':
             return rate;
         default:
             {
-                const compoundingPeriod = getVaultCompoundingPeriod(vaultContractType, totalDuration);
-                const APY = BNFixed(apr2apy(BNify(rate).div(100), compoundingPeriod).times(100), 8);
-                if (!BNify(Number(APY)).isFinite()) {
-                    return 999999;
+                const compoundPeriod = compoudingPeriod || getVaultCompoundingPeriod(vaultContractType, totalDuration);
+                const APY = BNFixed(apr2apy(BNify(rate).div(100), compoundPeriod).times(100), 8);
+                if (!BNify(Number(APY)).isFinite() || BNgt(APY, MAX_APY)) {
+                    return MAX_APY;
                 }
                 return Number(APY);
             }
@@ -245,13 +245,13 @@ export function getVaultBlockEpochWithdrawType(apr, lastApr, instantWithdraws) {
  * @param block - the vault block
  * @returns the percentage of completion
  */ export function getVaultBlockCapProgression(vault, block) {
-    var _vault_maxCap, _block_TVL;
+    var _vault_maxCap;
     if (!((_vault_maxCap = vault.maxCap) == null ? void 0 : _vault_maxCap.isActive)) {
         return 0;
     }
     const maxCap = vault.maxCap.amount;
-    const currentTvl = ((_block_TVL = block.TVL) == null ? void 0 : _block_TVL.USD) || 0;
-    return BNify(currentTvl).div(maxCap).times(100).toNumber();
+    const currentTotalSupply = BNify(block.totalSupply).div(1e12);
+    return BNify(currentTotalSupply).div(maxCap).times(100).toNumber();
 }
 /**
  * Get vault block epoch waiting progression data
@@ -304,6 +304,45 @@ export function getVaultBlockEpochWithdrawType(apr, lastApr, instantWithdraws) {
         return '0';
     }
     return BNify(apyGross).times(block.APYs.NET || 0).div(block.APYs.GROSS || 0).toString();
+}
+/**
+ * Filter vault blocks per day
+ * @param blocks - the vault blocks
+ * @returns the blocks filtered
+ */ export function filterVaultBlocksPerDay(blocks) {
+    const seenDates = [];
+    return blocks.filter((block)=>{
+        const date = moment.unix(block.block.timestamp).format('YYYY-MM-DD');
+        if (seenDates.includes(date)) {
+            return false;
+        }
+        seenDates.push(date);
+        return true;
+    });
+}
+/**
+ * Return true if the epoch has been withdrawed
+ * @param block - the vault block
+ * @returns true if withdrawed
+ */ export function isVaultBlockEpochWithdrawed(block) {
+    var _block_cdoEpoch, _block_cdoEpoch_instantWithdraws;
+    return ((_block_cdoEpoch = block.cdoEpoch) == null ? void 0 : _block_cdoEpoch.withdrawType) !== 'INSTANT' ? true : BNlte((_block_cdoEpoch_instantWithdraws = block.cdoEpoch.instantWithdraws) == null ? void 0 : _block_cdoEpoch_instantWithdraws.amount);
+}
+/**
+ * Get vault block epoch to withdraw
+ * @param block - the vault block
+ * @returns the amount to withdraw from the block
+ */ export function getVaultBlockEpochToWithdraw(block) {
+    var _block_cdoEpoch_withdraws;
+    if (!block.cdoEpoch) {
+        return '0';
+    }
+    const instantWithdrawed = isVaultBlockEpochWithdrawed(block);
+    if (block.cdoEpoch.withdrawType === 'INSTANT' && !instantWithdrawed) {
+        var _block_cdoEpoch_instantWithdraws;
+        return BNify((_block_cdoEpoch_instantWithdraws = block.cdoEpoch.instantWithdraws) == null ? void 0 : _block_cdoEpoch_instantWithdraws.amount).toString();
+    }
+    return BNify(block.cdoEpoch.expectedInterest).plus(BNify((_block_cdoEpoch_withdraws = block.cdoEpoch.withdraws) == null ? void 0 : _block_cdoEpoch_withdraws.amount)).toString();
 }
 
 //# sourceMappingURL=vault-block.lib.js.map

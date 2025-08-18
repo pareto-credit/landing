@@ -22,5 +22,14 @@ export function WalletSignatureMock(options) {
         signedOn: (options == null ? void 0 : options.signedOn) || now
     };
 }
+export function WalletReferredMock(options) {
+    const now = new Date().toISOString();
+    return {
+        _id: (options == null ? void 0 : options._id) || 'WALLET_ID',
+        address: (options == null ? void 0 : options.address) || 'WALLET_ADDRESS',
+        referralCode: (options == null ? void 0 : options.referralCode) || 'WALLET_REFERRAL_CODE',
+        activatedOn: (options == null ? void 0 : options.activatedOn) || now
+    };
+}
 
 //# sourceMappingURL=wallet.mock.js.map

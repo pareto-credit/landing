@@ -2,19 +2,98 @@ import { _ as _extends } from "@swc/helpers/_/_extends";
 import { BNFixed } from '../../core';
 import { VaultContract } from './vault-contract.class';
 import { ERC20_ABI } from '../vault.const';
+import { getEulerSubAccounts } from '../../integrations/euler-client/euler.lib';
 export class VaultParetoDollar extends VaultContract {
     /**
    * Get contract data
    * @returns the blockchain contract data
    */ async getContractData(blockNumber = 'latest') {
-        var _contractData_paretoDollar, _additionalQueueData_paretoDollar;
-        const callData = this.makeCallData();
-        const contractData = await this.getData(callData, blockNumber);
-        const additionalQueueData = await this.getQueueAdditionalData(blockNumber, contractData);
-        return _extends({}, contractData, {
+        var _contractData_paretoDollar, _additionalData_paretoDollar;
+        const callData = this.makeCallData(blockNumber);
+        let contractData = await this.getData(callData, blockNumber);
+        const [tokensData, additionalData] = await Promise.all([
+            this.getPoolsTokensData(contractData),
+            this.getAdditionalData(blockNumber, contractData)
+        ]);
+        // Implement pools with tokens data
+        const pools = contractData.pools ? this.implementPoolsTokensData(contractData.pools, tokensData) : undefined;
+        // Implements wallets with Euler data
+        const wallets = contractData.wallets && additionalData.wallets ? this.implementWalletsData(contractData.wallets, additionalData.wallets) : contractData.wallets;
+        contractData = _extends({}, contractData, {
+            pools,
+            wallets,
             paretoDollar: _extends({}, contractData.paretoDollar, {
-                queue: _extends({}, ((_contractData_paretoDollar = contractData.paretoDollar) == null ? void 0 : _contractData_paretoDollar.queue) || {}, ((_additionalQueueData_paretoDollar = additionalQueueData.paretoDollar) == null ? void 0 : _additionalQueueData_paretoDollar.queue) || {})
+                queue: _extends({}, ((_contractData_paretoDollar = contractData.paretoDollar) == null ? void 0 : _contractData_paretoDollar.queue) || {}, ((_additionalData_paretoDollar = additionalData.paretoDollar) == null ? void 0 : _additionalData_paretoDollar.queue) || {})
             })
+        });
+        return this.parseContractData(contractData);
+    }
+    /**
+   * Get Euler vaults data for each wallet
+   * @param blockNumber block number
+   * @param contractData main contract data
+   * @returns euler vaults data
+   */ getEulerWalletsCalls() {
+        var _this_vault_pools;
+        const eulerPool = (_this_vault_pools = this.vault.pools) == null ? void 0 : _this_vault_pools.find((p)=>p.protocol === 'Euler');
+        const accountLensContract = eulerPool == null ? void 0 : eulerPool.oracle;
+        if (!this.web3Client || !accountLensContract) {
+            return [];
+        }
+        return (this.walletAddresses || []).reduce((acc, walletAddress)=>[
+                ...acc,
+                ...this.makeEulerVaultsCalls(walletAddress, eulerPool, accountLensContract)
+            ], []);
+    }
+    makeEulerVaultsCalls(walletAddress, pool, accountLensContract) {
+        const { abi, address } = accountLensContract;
+        const contract = {
+            abi,
+            address,
+            protocol: pool.protocol
+        };
+        const subAccounts = getEulerSubAccounts(walletAddress);
+        return subAccounts.reduce((acc, subAccount)=>{
+            const callsData = this.makeProtocolData(contract, 'WALLET_EULER_ACCOUNT_LENS', undefined, {
+                walletAddress: subAccount,
+                poolAddress: pool.address
+            }, {
+                address: pool.address,
+                protocol: pool.protocol,
+                type: 'WALLET_EULER_ACCOUNT_LENS'
+            });
+            return [
+                ...acc,
+                ...callsData
+            ];
+        }, []);
+    }
+    /**
+   * Parse Cdo epoch raw contract data
+   * @param contractData Cdo Epoch contract raw data
+   * @returns Parsed Cdo Epoch contract data
+   */ parseContractData(contractData) {
+        return _extends({}, contractData, {
+            pools: contractData.pools ? this.parsePools(contractData.pools) : contractData.pools
+        });
+    }
+    /**
+   * Include napierPT pool tokens into napierYT pool
+   * @param pools
+   * @returns parsed pools
+   */ parsePools(pools) {
+        return pools.map((p)=>{
+            switch(p.protocol){
+                case 'NapierYT':
+                    {
+                        const napierPTPool = pools.find((pool)=>pool.protocol === 'NapierPT');
+                        return _extends({}, p, {
+                            tokensInfo: napierPTPool == null ? void 0 : napierPTPool.tokensInfo
+                        });
+                    }
+                default:
+                    return p;
+            }
         });
     }
     /**
@@ -22,10 +101,12 @@ export class VaultParetoDollar extends VaultContract {
    * @param blockNumber block number
    * @param contractData main contract data
    * @returns vault contract data
-   */ async getQueueAdditionalData(blockNumber = 'latest', contractData) {
+   */ async getAdditionalData(blockNumber = 'latest', contractData) {
+        const eulerWalletCalls = this.getEulerWalletsCalls();
         const yieldSourceCalls = this.getQueueYieldSourcesCalls(contractData);
         const epochPendingCalls = this.getQueueEpochPendingCalls(contractData);
         const callData = [
+            ...eulerWalletCalls,
             ...yieldSourceCalls,
             ...epochPendingCalls
         ];
@@ -134,7 +215,7 @@ export class VaultParetoDollar extends VaultContract {
     /**
    * Prepare call data
    * @returns the web3 call data
-   */ makeCallData() {
+   */ makeCallData(blockNumber) {
         // Parse vault contract methods
         const { abi, address, protocol, contractType } = this.vault;
         let callData = this.makeProtocolData({
@@ -175,7 +256,9 @@ export class VaultParetoDollar extends VaultContract {
                         }, 'WALLET_PARETO_DOLLAR_STAKING', undefined, {
                             walletAddress
                         })
-                    ], callData);
+                    ], [
+                    ...callData
+                ]);
             }
         }
         // Parse wallet methods
@@ -187,7 +270,9 @@ export class VaultParetoDollar extends VaultContract {
                         address,
                         protocol
                     })
-                ], callData);
+                ], [
+                ...callData
+            ]);
         }
         // Parse token methods
         if (this.token.oracle) {
@@ -200,8 +285,10 @@ export class VaultParetoDollar extends VaultContract {
         if (this.vault.pools) {
             callData = this.vault.pools.reduce((acc, pool)=>[
                     ...acc,
-                    ...this.makePoolData(pool)
-                ], callData);
+                    ...this.makePoolData(pool, blockNumber)
+                ], [
+                ...callData
+            ]);
         }
         return callData;
     }

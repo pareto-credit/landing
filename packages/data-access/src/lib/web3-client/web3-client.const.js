@@ -222,6 +222,240 @@ export const WEB3_CONTRACT_METHODS = [
         method: 'ssr'
     },
     {
+        protocol: 'Balancer',
+        type: 'POOL',
+        block: 'current',
+        method: 'totalSupply'
+    },
+    {
+        protocol: 'Balancer',
+        type: 'POOL',
+        block: 'current',
+        method: 'getTokenInfo'
+    },
+    {
+        protocol: 'Balancer',
+        type: 'POOL',
+        block: 'current',
+        method: 'getRate'
+    },
+    {
+        protocol: 'Balancer',
+        type: 'WALLET_POOL',
+        block: 'current',
+        method: 'balanceOf',
+        params: [
+            'walletAddress'
+        ]
+    },
+    {
+        protocol: 'BalancerGauge',
+        type: 'POOL',
+        block: 'current',
+        method: 'totalSupply'
+    },
+    {
+        protocol: 'BalancerGauge',
+        type: 'WALLET_POOL',
+        block: 'current',
+        method: 'balanceOf',
+        params: [
+            'walletAddress'
+        ]
+    },
+    {
+        protocol: 'NapierLP',
+        type: 'POOL',
+        block: 'current',
+        method: 'totalSupply'
+    },
+    {
+        protocol: 'NapierLP',
+        type: 'POOL',
+        block: 'current',
+        method: 'lp_price'
+    },
+    {
+        protocol: 'NapierLP',
+        type: 'POOL',
+        block: 'current',
+        method: 'lp_price'
+    },
+    {
+        protocol: 'NapierLP',
+        type: 'WALLET_POOL',
+        block: 'current',
+        method: 'balanceOf',
+        params: [
+            'walletAddress'
+        ]
+    },
+    {
+        protocol: 'NapierLP',
+        type: 'POOL_TOKEN',
+        block: 'current',
+        method: 'balanceOf',
+        params: [
+            'poolAddress'
+        ]
+    },
+    {
+        protocol: 'NapierLP',
+        type: 'WALLET_POOL',
+        block: 'current',
+        method: 'balanceOf',
+        params: [
+            'walletAddress'
+        ]
+    },
+    {
+        protocol: 'NapierPT',
+        type: 'POOL_TOKEN',
+        block: 'current',
+        method: 'balanceOf',
+        params: [
+            'poolAddress'
+        ]
+    },
+    {
+        protocol: 'NapierYT',
+        type: 'POOL',
+        block: 'current',
+        method: 'totalSupply'
+    },
+    {
+        protocol: 'NapierYT',
+        type: 'ORACLE',
+        block: 'current',
+        method: 'get_dy',
+        params: [
+            '1',
+            '0',
+            '1e18'
+        ]
+    },
+    {
+        protocol: 'NapierYT',
+        type: 'WALLET_POOL',
+        block: 'current',
+        method: 'balanceOf',
+        params: [
+            'walletAddress'
+        ]
+    },
+    {
+        protocol: 'NapierYT',
+        type: 'POOL_TOKEN',
+        block: 'current',
+        method: 'balanceOf',
+        params: [
+            'poolAddress'
+        ]
+    },
+    {
+        protocol: 'PendleLP',
+        type: 'POOL',
+        block: 'current',
+        method: 'totalSupply'
+    },
+    {
+        protocol: 'PendleLP',
+        type: 'WALLET_POOL',
+        block: 'current',
+        method: 'balanceOf',
+        params: [
+            'walletAddress'
+        ]
+    },
+    {
+        protocol: 'PendleLP',
+        type: 'POOL_TOKEN',
+        block: 'current',
+        method: 'balanceOf',
+        params: [
+            'oracleAddress'
+        ]
+    },
+    {
+        protocol: 'PendlePT',
+        type: 'POOL',
+        block: 'current',
+        method: 'totalSupply'
+    },
+    {
+        protocol: 'PendleSY',
+        type: 'ORACLE',
+        block: 'current',
+        method: 'balanceOf',
+        params: [
+            'poolAddress'
+        ]
+    },
+    {
+        protocol: 'Euler',
+        type: 'POOL',
+        block: 'current',
+        method: 'convertToAssets',
+        params: [
+            '1e18'
+        ]
+    },
+    {
+        protocol: 'Euler',
+        type: 'POOL',
+        block: 'current',
+        method: 'totalSupply'
+    },
+    {
+        protocol: 'Euler',
+        type: 'POOL_TOKEN',
+        block: 'current',
+        method: 'balanceOf',
+        params: [
+            'poolAddress'
+        ]
+    },
+    {
+        protocol: 'Euler',
+        type: 'WALLET_EULER_ACCOUNT_LENS',
+        block: 'current',
+        method: 'getVaultAccountInfo',
+        params: [
+            'walletAddress',
+            'poolAddress'
+        ]
+    },
+    {
+        protocol: 'Curve',
+        type: 'POOL',
+        block: 'current',
+        method: 'totalSupply'
+    },
+    {
+        protocol: 'Curve',
+        type: 'WALLET_POOL',
+        block: 'current',
+        method: 'balanceOf',
+        params: [
+            'walletAddress'
+        ]
+    },
+    {
+        protocol: 'Curve',
+        type: 'ORACLE',
+        block: 'current',
+        method: 'get_virtual_price'
+    },
+    {
+        protocol: 'Curve',
+        type: 'ORACLE',
+        block: 'current',
+        method: 'calc_withdraw_one_coin',
+        params: [
+            'lpBalance'
+        ]
+    },
+    {
         protocol: 'Compound',
         type: 'POOL',
         block: 'current',

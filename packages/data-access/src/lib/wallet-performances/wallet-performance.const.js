@@ -13,6 +13,10 @@ export const WALLET_PERFORMANCES_ROUTES_KEY = 'wallet-performances';
             percentage: 0
         }
     },
+    fees: {
+        USD: '0',
+        token: '0'
+    },
     realizedAPY: 0,
     rewardsRealizedAPY: 0,
     poolSharePercentage: 0,
@@ -28,12 +32,24 @@ export const WALLET_PERFORMANCES_ROUTES_KEY = 'wallet-performances';
     redeemable: {
         USD: '0'
     },
+    pendingDeposits: {
+        USD: '0'
+    },
+    pendingWithdraws: {
+        USD: '0'
+    },
     chains: [],
     tokens: [],
     vaultIds: [],
     operators: []
 }, WALLET_PERFORMANCE);
 export const WALLET_POSITION = _extends({
+    block: {
+        number: 0,
+        timestamp: 0
+    },
+    walletId: '',
+    walletAddress: '',
     tokenId: '',
     chainId: '',
     vaultId: '',
@@ -45,6 +61,12 @@ export const WALLET_POSITION = _extends({
         USD: '0'
     },
     redeemable: {
+        USD: '0'
+    },
+    pendingDeposits: {
+        USD: '0'
+    },
+    pendingWithdraws: {
         USD: '0'
     },
     balances: []

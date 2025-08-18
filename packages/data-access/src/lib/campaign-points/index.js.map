@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/campaign-points/index.ts"],"sourcesContent":["export * from './libs/campaign-points-client.lib'\n\nexport * from './campaign-points.model'\nexport * from './campaign-points.mock'\n"],"names":[],"mappings":"AAAA,cAAc,oCAAmC;AAEjD,cAAc,0BAAyB;AACvC,cAAc,yBAAwB"}

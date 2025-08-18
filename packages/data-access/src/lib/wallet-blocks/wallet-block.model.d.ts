@@ -1,5 +1,5 @@
 import { ClientEntity, Block, iBigInt, PageSearchQuery } from '../core';
-import { VaultWalletCdoEpochData, VaultWalletParetoDollarData } from '../vaults';
+import { VaultWalletCdoEpochData, VaultWalletParetoDollarData, VaultWalletPoolData } from '../vaults';
 /**
  * Client Vault interface
  */
@@ -23,6 +23,7 @@ export interface WalletBlockBody {
     distributedRewards?: WalletBlockDistributedRewards[];
     cdoEpoch?: VaultWalletCdoEpochData;
     paretoDollar?: VaultWalletParetoDollarData;
+    pools?: VaultWalletPoolData[];
 }
 export declare function sWalletBlockBody(isPartial?: boolean): import("fluent-json-schema").ObjectSchema<{
     [x: string]: any;

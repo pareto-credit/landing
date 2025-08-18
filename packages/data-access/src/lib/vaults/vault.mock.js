@@ -46,8 +46,8 @@ export function VaultCdoEpochMock(options) {
     return {
         abi: VaultAbiParamMock(options == null ? void 0 : options.abi),
         address: (options == null ? void 0 : options.address) || WEB3_DEFAULT_ADDR,
-        manager: VaultCdoEpochOperatorMock(options == null ? void 0 : options.manager),
-        borrower: VaultCdoEpochOperatorMock(options == null ? void 0 : options.borrower),
+        manager: VaultOperatorMock(options == null ? void 0 : options.manager),
+        borrower: VaultOperatorMock(options == null ? void 0 : options.borrower),
         waitingPeriod: options == null ? void 0 : options.waitingPeriod,
         depositQueue: (options == null ? void 0 : options.depositQueue) && Web3BaseContractMock(options == null ? void 0 : options.depositQueue),
         withdrawQueue: (options == null ? void 0 : options.withdrawQueue) && Web3BaseContractMock(options == null ? void 0 : options.withdrawQueue),
@@ -63,6 +63,7 @@ export function VaultParetoDollarMock(options) {
     var _options_collaterals;
     return {
         tokenId: (options == null ? void 0 : options.tokenId) || 'TOKEN_ID',
+        managers: (options == null ? void 0 : options.managers) || [],
         queue: Web3BaseContractMock(options == null ? void 0 : options.queue),
         staking: VaultParetoDollarStakingMock(options == null ? void 0 : options.staking),
         collaterals: options == null ? void 0 : (_options_collaterals = options.collaterals) == null ? void 0 : _options_collaterals.map((c)=>VaultParetoDollarCollateralMock(c))
@@ -74,7 +75,7 @@ export function VaultParetoDollarCollateralMock(options) {
         tokenAddress: (options == null ? void 0 : options.tokenAddress) || WEB3_DEFAULT_ADDR
     };
 }
-export function VaultCdoEpochOperatorMock(options) {
+export function VaultOperatorMock(options) {
     return {
         address: (options == null ? void 0 : options.address) || '',
         operatorId: options == null ? void 0 : options.operatorId

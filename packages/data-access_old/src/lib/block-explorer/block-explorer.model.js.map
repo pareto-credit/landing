@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/block-explorer/block-explorer.model.ts"],"sourcesContent":["export interface BlockExplorerProvider {\n  name: string\n  url: string\n  env: string\n}\n"],"names":[],"mappings":"AAAA,WAIC"}

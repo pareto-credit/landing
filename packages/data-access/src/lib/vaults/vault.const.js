@@ -22,6 +22,28 @@ export const VAULT_SIGNATURES = {
         claimWithdrawRequest: '0xd2233918'
     }
 };
+export const VAULT_SIGNATURES_TYPE = {
+    /**
+   * CDO_EPOCH
+   */ '0xa2c8b177': 'START_EPOCH',
+    // Stop epoch && Stop epoch with duration
+    '0xd48099ad': 'STOP_EPOCH',
+    '0xb4ecd47f': 'STOP_EPOCH',
+    '0xcfa56567': 'GET_INSTANT_WITHDRAWS',
+    '0x33986ffa': 'CLAIM_WITHDRAW',
+    '0x991052b7': 'CLAIM_INSTANT_WITHDRAW',
+    // Deposit requests
+    '0x0d1e6667': 'REQUEST_DEPOSIT',
+    '0xe9a21bcd': 'DELETE_DEPOSIT_REQUEST',
+    '0x33cd5dc9': 'PROCESS_DEPOSIT_QUEUE',
+    '0xb975b387': 'CLAIM_DEPOSIT_REQUEST',
+    // Withdraw requests
+    '0x745400c9': 'REQUEST_WITHDRAW',
+    '0xdc7137c3': 'DELETE_WITHDRAW_REQUEST',
+    '0xaa9d3a60': 'PROCESS_WITHDRAW_QUEUE',
+    '0x9abf0d55': 'PROCESS_WITHDRAW_CLAIMS',
+    '0xd2233918': 'CLAIM_WITHDRAW_REQUEST'
+};
 export const ERC20_ABI = [
     {
         constant: true,

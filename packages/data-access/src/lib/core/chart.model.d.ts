@@ -1,20 +1,22 @@
-import { PortfolioChainAllocation, PortfolioTokenAllocation } from '../wallets';
 export type DonutChartKey = string;
-export interface DonutChartData {
-    label: DonutChartKey;
+export interface DonutChartData<T = any> {
+    key: string;
+    label: string;
     value: number;
-    tokenAllocation?: PortfolioTokenAllocation;
-    chainAllocation?: PortfolioChainAllocation;
+    percentage?: number;
+    color?: string;
+    data?: T;
 }
 export type DonutChartColors = Record<DonutChartKey, string | undefined>;
-export interface DonutChartProps {
-    data: DonutChartData[];
+export interface DonutChartProps<AllocationData = any> {
+    data: DonutChartData<AllocationData>[];
     colors: DonutChartColors;
 }
 export interface DonutChartSliceProps {
     icon?: string;
     value: string | number;
     label: string;
+    subLabel?: string;
     colors?: {
         label?: string;
         value?: string;

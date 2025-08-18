@@ -1,3 +1,4 @@
+import { TransactionType } from '../transactions';
 export declare const VAULTS_ROUTES_KEY = "vaults";
 export declare const VAULTS_IDLE_QUEUE = "IDLE_VAULTS";
 export declare const VAULTS_BC_QUEUE = "BC_VAULTS";
@@ -19,6 +20,9 @@ export declare const VAULT_SIGNATURES: {
         processWithdrawClaims: string;
         claimWithdrawRequest: string;
     };
+};
+export declare const VAULT_SIGNATURES_TYPE: {
+    [signature: string]: TransactionType;
 };
 export declare const ERC20_ABI: ({
     constant: boolean;

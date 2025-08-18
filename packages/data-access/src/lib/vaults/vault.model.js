@@ -5,6 +5,7 @@ import { sLocales } from '../core';
 import { sVaultContractCdoData, sVaultContractCdoEpochData, sVaultContractParetoDollarData, sVaultContractStrategyData, sVaultTvl } from '../vault-blocks';
 import { VAULTS_ROUTES_KEY } from './vault.const';
 import { sCampaignRule } from '../campaigns';
+import { sTransactionTypeCdoEpoch, sTransactionTypeParetoDollar } from '../transactions';
 export function sVault(isPartial) {
     return S.object().id('#vault').additionalProperties(false).extend(sClientEntity(isPartial)).extend(sVaultData(isPartial));
 }
@@ -28,7 +29,8 @@ export function sVaultIntegrationProvider() {
         'Usual',
         'Lido',
         'Instadapp',
-        'Ethena'
+        'Ethena',
+        'Euler'
     ]);
 }
 export function sVaultIntegrationType() {
@@ -47,7 +49,7 @@ export function sVaultIntegrationsData() {
     return S.object().additionalProperties(false).prop('APR', S.number());
 }
 export function sVaultParetoDollar() {
-    return S.object().additionalProperties(false).prop('tokenId', sStringId()).required().prop('queue', sWeb3BaseContract()).required().prop('staking', sVaultParetoDollarStaking()).required().prop('collaterals', S.array().items(sVaultParetoDollarCollateral()));
+    return S.object().additionalProperties(false).prop('tokenId', sStringId()).required().prop('managers', S.array().items(sVaultOperator())).required().prop('queue', sWeb3BaseContract()).required().prop('staking', sVaultParetoDollarStaking()).required().prop('collaterals', S.array().items(sVaultParetoDollarCollateral()));
 }
 export function sVaultParetoDollarStaking() {
     return S.object().additionalProperties(false).prop('tokenId', sStringId()).required().extend(sWeb3BaseContract());
@@ -59,19 +61,22 @@ export function sVaultCdo() {
     return S.object().additionalProperties(false).extend(sWeb3BaseContract());
 }
 export function sVaultCdoEpoch() {
-    return S.object().additionalProperties(false).prop('borrower', sVaultCdoEpochOperator()).required().prop('manager', sVaultCdoEpochOperator()).required().prop('mode', S.string().enum([
+    return S.object().additionalProperties(false).prop('borrower', sVaultOperator()).required().prop('manager', sVaultOperator()).required().prop('mode', S.string().enum([
         'STRATEGY',
         'CREDIT'
     ])).required().prop('waitingPeriod', S.number()).prop('depositQueue', sWeb3BaseContract()).prop('withdrawQueue', sWeb3BaseContract()).extend(sWeb3BaseContract());
 }
-export function sVaultCdoEpochOperator() {
-    return S.object().additionalProperties(false).prop('address', S.string()).description('Operator wallet address').required().prop('operatorId', S.string()).description('Operator entity ID');
-}
 export function sVaultStrategy() {
     return S.object().additionalProperties(false).extend(sWeb3BaseContract());
 }
+export function sVaultOperator() {
+    return S.object().additionalProperties(false).prop('address', S.string()).description('Operator wallet address').required().prop('operatorId', S.string()).description('Operator entity ID');
+}
 export function sVaultPool() {
-    return S.object().additionalProperties(false).prop('oracle', S.object().additionalProperties(false).prop('address', sBCAddress()).required().prop('abi', sAbiContract()).required().prop('protocol', S.string())).extend(sWeb3ProtocolContract());
+    return S.object().additionalProperties(false).prop('ref', S.string()).prop('oracle', S.object().additionalProperties(false).prop('address', sBCAddress()).required().prop('abi', sAbiContract()).required().prop('protocol', S.string())).prop('tokens', S.array().items(sVaultPoolToken())).prop('poolsRefs', S.array().items(sBCAddress())).prop('isVisible', S.boolean()).prop('isSyncable', S.boolean()).prop('endDate', sDateString()).extend(sWeb3ProtocolContract());
+}
+export function sVaultPoolToken() {
+    return S.object().additionalProperties(false).prop('tokenId').extend(sWeb3BaseContract());
 }
 export function sVaultRewardProgramFrequencyUnit() {
     return S.string().enum([
@@ -120,52 +125,11 @@ export function sVaultMintRedeemBody() {
 export function sVaultDistributedRewardsBody() {
     return S.object().additionalProperties(false).prop('fromAddress', sBCAddress()).description('Rewards sender address').required().prop('toAddress', sBCAddress()).description('Rewards recipient address').required().prop('tokenAddress', sBCAddress()).description('Reward token address').required().extend(sVaultBaseTransactionBody());
 }
-export const VAULT_TRANSFER_USP_TYPES = [
-    'MINT',
-    'REDEEM',
-    'ADD_COLLATERAL',
-    'REMOVE_COLLATERAL',
-    'REQUEST_REDEEM',
-    'NEW_EPOCH',
-    'ADD_YIELD_SOURCE',
-    'REMOVE_YIELD_SOURCE',
-    'REDEEM_YIELD_SOURCE',
-    'DEPOSIT_YIELD_SOURCE',
-    'STAKE',
-    'UNSTAKE',
-    'DEPOSIT_REWARDS',
-    'TRANSFER',
-    'CLAIM_REDEEM_REQUEST',
-    'STAKE_POOL',
-    'UNSTAKE_POOL'
-];
-export function sVaultTransferUSPType() {
-    return S.string().enum(VAULT_TRANSFER_USP_TYPES);
-}
 export function sVaultTransferUSPBody() {
-    return S.object().additionalProperties(false).prop('action', sVaultTransferUSPType()).description('USP action').required().prop('tokenData', sERC20Token()).extend(sVaultTransferBody());
-}
-export const VAULT_TRANSFER_EPOCH_TYPES = [
-    'CLAIM_INSTANT_WITHDRAW',
-    'CLAIM_WITHDRAW',
-    'DELETE_DEPOSIT_REQUEST',
-    'GET_INSTANT_WITHDRAWS',
-    'PROCESS_DEPOSIT_QUEUE',
-    'CLAIM_DEPOSIT_REQUEST',
-    'REQUEST_DEPOSIT',
-    'START_EPOCH',
-    'STOP_EPOCH',
-    'REQUEST_WITHDRAW',
-    'DELETE_WITHDRAW_REQUEST',
-    'PROCESS_WITHDRAW_QUEUE',
-    'CLAIM_WITHDRAW_REQUEST',
-    'PROCESS_WITHDRAW_CLAIMS'
-];
-export function sVaultTransferEpochType() {
-    return S.string().enum(VAULT_TRANSFER_EPOCH_TYPES);
+    return S.object().additionalProperties(false).prop('action', sTransactionTypeParetoDollar()).description('USP action').required().prop('tokenData', sERC20Token()).extend(sVaultTransferBody());
 }
 export function sVaultTransferEpochBody() {
-    return S.object().additionalProperties(false).prop('action', sVaultTransferEpochType()).description('Epoch action').required().extend(sVaultBaseTransactionBody());
+    return S.object().additionalProperties(false).prop('action', sTransactionTypeCdoEpoch()).description('Epoch action').required().extend(sVaultBaseTransactionBody());
 }
 export function sVaultDistributionType() {
     return S.string().enum([
@@ -229,6 +193,7 @@ export const VAULT_FIELDS = [
     'categoryId',
     'operatorIds',
     'name',
+    'caption',
     'kyc',
     'address',
     'symbol',
@@ -248,6 +213,7 @@ export const VAULT_FIELDS = [
     'cdoEpoch',
     'strategy',
     'pools',
+    'siblings',
     'createdAt',
     'createdBy',
     'updatedAt',
@@ -263,6 +229,7 @@ export var VaultsRoutingKey;
 (function(VaultsRoutingKey) {
     VaultsRoutingKey["idleEvents"] = "idle.vault.*";
     VaultsRoutingKey["idleSync"] = "idle.vault.sync";
+    VaultsRoutingKey["idleWallets"] = "idle.vault.wallets";
     VaultsRoutingKey["idleCreated"] = "idle.vault.created";
     VaultsRoutingKey["idleUpdate"] = "idle.vault.update";
     VaultsRoutingKey["idleTransfered"] = "idle.vault.transfered";
@@ -283,7 +250,13 @@ export function sVaultContractTokenData() {
     return S.object().additionalProperties(false).prop('price', sBigInt()).required().prop('address', sBCAddress()).required();
 }
 export function sVaultWalletData() {
-    return S.object().additionalProperties(false).prop('address', sBCAddress()).required().prop('balance', sBigInt()).required().prop('cdoEpoch', sVaultWalletCdoEpochData()).prop('paretoDollar', sVaultWalletParetoDollarData());
+    return S.object().additionalProperties(false).prop('address', sBCAddress()).required().prop('balance', sBigInt()).required().prop('cdoEpoch', sVaultWalletCdoEpochData()).prop('paretoDollar', sVaultWalletParetoDollarData()).prop('pools', S.array().items(sVaultWalletPoolData()));
+}
+export function sVaultWalletPoolData() {
+    return S.object().additionalProperties(false).prop('lpBalance', sBigInt()).required().prop('address', sBCAddress()).required().prop('protocol', sWeb3Protocol()).required().prop('tokens', S.array().items(sVaultWalletPoolTokenData())).prop('operatorId', sStringId()).prop('balance', sBigInt());
+}
+export function sVaultWalletPoolTokenData() {
+    return S.object().additionalProperties(false).prop('tokenId', sStringId()).prop('tokenAddress', sBCAddress()).required().prop('balance', sBigInt()).required().prop('balanceScaled', sBigInt());
 }
 export function sVaultWalletParetoDollarData() {
     return S.object().additionalProperties(false).prop('stakedBalance', sBigInt()).description('Pareto Dollar staked amount').prop('uspBalance', sBigInt()).description('Pareto Dollar token amount');
@@ -292,7 +265,10 @@ export function sVaultWalletCdoEpochData() {
     return S.object().additionalProperties(false).prop('pendingDepositAmount', sBigInt()).description('Deposit queue pending amount').prop('pendingWithdrawAmount', sBigInt()).description('Withdraw queue pending amount').prop('withdrawsRequests', sBigInt()).description('Standard withdraw requests').prop('instantWithdrawsRequests', sBigInt()).description('Instant withdraw requests');
 }
 export function sVaultContractPoolData() {
-    return S.object().additionalProperties(false).prop('protocol', sWeb3Protocol()).required().prop('address', sBCAddress()).required().prop('supplyRate', sBigInt()).prop('borrowRate', sBigInt()).prop('exchangeRate', sBigInt()).prop('utilizationRate', sBigInt()).prop('availableToBorrow', sBigInt()).prop('availableToWithdraw', sBigInt()).prop('totalSupply', sBigInt()).prop('totalBorrow', sBigInt()).prop('APR', sBigInt());
+    return S.object().additionalProperties(false).prop('protocol', sWeb3Protocol()).required().prop('address', sBCAddress()).required().prop('supplyRate', sBigInt()).prop('borrowRate', sBigInt()).prop('underlyingBalance', sBigInt()).prop('exchangeRate', sBigInt()).prop('utilizationRate', sBigInt()).prop('availableToBorrow', sBigInt()).prop('availableToWithdraw', sBigInt()).prop('totalSupply', sBigInt()).prop('totalBorrow', sBigInt()).prop('APR', sBigInt()).prop('tokensInfo', S.array().items(sVaultContractPoolTokenInfo()));
+}
+export function sVaultContractPoolTokenInfo() {
+    return S.object().additionalProperties(false).prop('address', sBCAddress()).required().prop('balance', sBigInt()).required().prop('balanceScaled', sBigInt()).required().prop('tokenData', sERC20Token());
 }
 export function sVaultKyc() {
     return S.object().additionalProperties(false).prop('policyId', S.number()).required().prop('isActive', S.boolean()).required().prop('isRequired', S.boolean()).prop('link', S.string()).prop('hideSensitiveData', S.boolean());

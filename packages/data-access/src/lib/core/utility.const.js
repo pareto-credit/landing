@@ -1,3 +1,4 @@
+export const MAX_APY = 999999;
 export const SECONDS_IN_DAY = 86400;
 export const SECONDS_IN_WEEK = 604800;
 export const SECONDS_IN_YEAR = 31536000;

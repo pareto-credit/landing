@@ -284,3 +284,13 @@ export declare function setVaultEpochDataUnit(epochData: VaultCdoEpochData, unit
  * @returns the vault epoch data
  */
 export declare function setVaultEpochDataInterests(epochData: VaultCdoEpochData, token: Token, newInterests?: string): VaultCdoEpochData;
+/**
+ * Calculate epoch start and end dates
+ * @param epoch - the current Epoch
+ * @param lastEpoch - the previous Epoch
+ * @returns the start date and end date of the epoch
+ */
+export declare function getVaultEpochDates({ duration, bufferDuration, startDate, endDate }: VaultEpoch, lastEpoch?: VaultEpoch): {
+    startDate: string;
+    endDate: string;
+};

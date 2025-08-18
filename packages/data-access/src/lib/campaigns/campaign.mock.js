@@ -20,6 +20,7 @@ export function CampaignMock(options) {
 export function CampaignRuleMock(options) {
     var _options_deposit, _options_deposit1, _options_reward, _options_reward1, _options_frequency, _options_frequency1;
     return {
+        code: (options == null ? void 0 : options.code) || 'RULE_CODE',
         name: LocalesMock(options == null ? void 0 : options.name),
         description: (options == null ? void 0 : options.description) ? LocalesMock(options == null ? void 0 : options.description) : undefined,
         trigger: (options == null ? void 0 : options.trigger) || 'DEPOSIT',

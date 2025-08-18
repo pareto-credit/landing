@@ -1,6 +1,6 @@
 import Web3, { Bytes } from 'web3';
 import { PayableMethodObject } from 'web3-eth-contract';
-import { DeepPartial, MetaContent, MetaItems, MimeType } from '../core';
+import { DeepPartial, DonutChartData, MetaContent, MetaItems, MimeType } from '../core';
 import { ERC20Token, Web3ClientModel } from '../web3-client';
 import { AbiContract, Block, BlockNumber, ClientEntity, Locales, Page, PageSearchQuery, iBigInt } from '../core';
 import { VaultBlock, VaultContractCdoData, VaultContractCdoEpochData, VaultContractParetoDollarData, VaultContractStrategyData, VaultTvl } from '../vault-blocks';
@@ -9,6 +9,8 @@ import { Token } from '../tokens';
 import { WalletPosition } from '../wallet-performances';
 import { CampaignRule } from '../campaigns';
 import { WalletBlock } from '../wallet-blocks';
+import { Operator } from '../operators';
+import { TransactionTypeCdoEpoch, TransactionTypeParetoDollar } from '../transactions';
 /**
  * Client Vault interface
  */
@@ -70,8 +72,8 @@ export interface VaultIntegration {
 export interface VaultIntegrationsData {
     APR?: number;
 }
-export type VaultIntegrationProvider = 'Usual' | 'Lido' | 'Instadapp' | 'Ethena';
-export type VaultIntegrationType = 'APR' | 'strategyAPR';
+export type VaultIntegrationProvider = 'Usual' | 'Lido' | 'Instadapp' | 'Ethena' | 'Euler';
+export type VaultIntegrationType = 'APR' | 'strategyAPR' | 'accountVaults';
 export declare function sVaultIntegrationProvider(): import("fluent-json-schema").StringSchema;
 export declare function sVaultIntegrationType(): import("fluent-json-schema").StringSchema;
 export declare function sVaultIntegration(): import("fluent-json-schema").ObjectSchema<{
@@ -92,6 +94,7 @@ export declare function sVaultIntegrationsData(): import("fluent-json-schema").O
 export type VaultCdo = Web3BaseContract;
 export interface VaultParetoDollar {
     tokenId: string;
+    managers: VaultOperator[];
     queue: Web3BaseContract;
     staking: VaultParetoDollarStaking;
     collaterals?: VaultParetoDollarCollateral[];
@@ -114,38 +117,49 @@ export declare function sVaultParetoDollarCollateral(): import("fluent-json-sche
     [x: number]: any;
     [x: symbol]: any;
 }>;
-export type VaultDollarAction = 'MINT' | 'REDEEM' | 'STAKE' | 'UNSTAKE';
+export type VaultDollarAction = 'MINT' | 'REDEEM' | 'STAKE' | 'UNSTAKE' | 'SWAP';
 export type VaultParetoToken = Web3BaseContract;
 export interface VaultCdoEpoch extends Web3BaseContract {
-    manager: VaultCdoEpochOperator;
-    borrower: VaultCdoEpochOperator;
+    manager: VaultOperator;
+    borrower: VaultOperator;
     waitingPeriod?: number;
     mode: VaultCdoEpochMode;
     depositQueue?: Web3BaseContract;
     withdrawQueue?: Web3BaseContract;
 }
 export type VaultCdoEpochMode = 'STRATEGY' | 'CREDIT';
-export interface VaultCdoEpochOperator {
+export declare function sVaultCdo(): import("fluent-json-schema").ExtendedSchema;
+export declare function sVaultCdoEpoch(): import("fluent-json-schema").ExtendedSchema;
+export type VaultStrategy = Web3BaseContract;
+export declare function sVaultStrategy(): import("fluent-json-schema").ExtendedSchema;
+export interface VaultOperator {
     address: string;
     operatorId?: string;
 }
-export declare function sVaultCdo(): import("fluent-json-schema").ExtendedSchema;
-export declare function sVaultCdoEpoch(): import("fluent-json-schema").ExtendedSchema;
-export declare function sVaultCdoEpochOperator(): import("fluent-json-schema").ObjectSchema<{
+export declare function sVaultOperator(): import("fluent-json-schema").ObjectSchema<{
     [x: string]: any;
     [x: number]: any;
     [x: symbol]: any;
 }>;
-export type VaultStrategy = Web3BaseContract;
-export declare function sVaultStrategy(): import("fluent-json-schema").ExtendedSchema;
+export interface VaultPoolOracle {
+    protocol?: Web3Protocol;
+    address: string;
+    abi: AbiContract;
+}
 export interface VaultPool extends Web3ProtocolContract {
-    oracle?: {
-        protocol?: Web3Protocol;
-        address: string;
-        abi: AbiContract;
-    };
+    ref?: string;
+    oracle?: VaultPoolOracle;
+    tokens?: VaultPoolToken[];
+    poolsRefs?: string[];
+    isVisible?: boolean;
+    isSyncable?: boolean;
+    endDate?: string;
 }
 export declare function sVaultPool(): import("fluent-json-schema").ExtendedSchema;
+export interface VaultPoolToken extends Web3BaseContract {
+    tokenId: string;
+}
+export declare function sVaultPoolToken(): import("fluent-json-schema").ExtendedSchema;
 export type VaultRewardProgramFrequencyUnit = 'D' | 'W' | 'M' | 'Y';
 export declare function sVaultRewardProgramFrequencyUnit(): import("fluent-json-schema").StringSchema;
 export interface VaultRewardProgramFrequency {
@@ -287,17 +301,11 @@ export interface VaultDistributedRewardsBody {
     vaultData: VaultContractData;
 }
 export declare function sVaultDistributedRewardsBody(): import("fluent-json-schema").ExtendedSchema;
-export declare const VAULT_TRANSFER_USP_TYPES: string[];
-export type VaultTransferUSPType = 'MINT' | 'REDEEM' | 'ADD_COLLATERAL' | 'REMOVE_COLLATERAL' | 'REQUEST_REDEEM' | 'NEW_EPOCH' | 'ADD_YIELD_SOURCE' | 'REMOVE_YIELD_SOURCE' | 'REDEEM_YIELD_SOURCE' | 'DEPOSIT_YIELD_SOURCE' | 'STAKE' | 'UNSTAKE' | 'DEPOSIT_REWARDS' | 'TRANSFER' | 'CLAIM_REDEEM_REQUEST' | 'STAKE_POOL' | 'UNSTAKE_POOL';
-export declare function sVaultTransferUSPType(): import("fluent-json-schema").StringSchema;
 export interface VaultTransferUSPBody extends VaultTransferBody {
-    action: VaultTransferUSPType;
+    action: TransactionTypeParetoDollar;
     tokenData?: ERC20Token;
 }
 export declare function sVaultTransferUSPBody(): import("fluent-json-schema").ExtendedSchema;
-export declare const VAULT_TRANSFER_EPOCH_TYPES: string[];
-export type VaultTransferEpochType = 'CLAIM_INSTANT_WITHDRAW' | 'CLAIM_WITHDRAW' | 'DELETE_DEPOSIT_REQUEST' | 'GET_INSTANT_WITHDRAWS' | 'PROCESS_DEPOSIT_QUEUE' | 'CLAIM_DEPOSIT_REQUEST' | 'REQUEST_DEPOSIT' | 'START_EPOCH' | 'STOP_EPOCH' | 'REQUEST_WITHDRAW' | 'DELETE_WITHDRAW_REQUEST' | 'PROCESS_WITHDRAW_QUEUE' | 'CLAIM_WITHDRAW_REQUEST' | 'PROCESS_WITHDRAW_CLAIMS';
-export declare function sVaultTransferEpochType(): import("fluent-json-schema").StringSchema;
 export interface VaultTransferEpochBody {
     block: Block;
     amount?: iBigInt;
@@ -305,7 +313,7 @@ export interface VaultTransferEpochBody {
     tokenAmount?: iBigInt;
     transactionHash: string;
     vaultData: VaultContractData;
-    action: VaultTransferEpochType;
+    action: TransactionTypeCdoEpoch;
     transactionInput?: Bytes;
 }
 export declare function sVaultTransferEpochBody(): import("fluent-json-schema").ExtendedSchema;
@@ -409,7 +417,7 @@ export interface VaultPositionQuery {
     'timestamp:lte'?: Block['timestamp'];
 }
 export declare function sVaultPositionQuery(): void;
-export type VaultFields = '_id' | 'tokenId' | 'chainId' | 'typeId' | 'categoryId' | 'operatorIds' | 'name' | 'kyc' | 'address' | 'symbol' | 'protocol' | 'contractType' | 'abi' | 'description' | 'visibility' | 'status' | 'feePercentage' | 'harvestTokenIds' | 'rewardPrograms' | 'rewardEmissions' | 'cdo' | 'campaigns' | 'documents' | 'cdoEpoch' | 'strategy' | 'pools' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy';
+export type VaultFields = '_id' | 'tokenId' | 'chainId' | 'typeId' | 'categoryId' | 'operatorIds' | 'name' | 'caption' | 'kyc' | 'address' | 'symbol' | 'protocol' | 'contractType' | 'abi' | 'description' | 'visibility' | 'status' | 'feePercentage' | 'harvestTokenIds' | 'rewardPrograms' | 'rewardEmissions' | 'cdo' | 'campaigns' | 'documents' | 'cdoEpoch' | 'strategy' | 'pools' | 'siblings' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy';
 export declare const VAULT_FIELDS: string[];
 export declare const VAULT_SORT_FIELDS: string[];
 export type VaultSideData = 'block' | 'token' | 'operator' | 'chain' | 'KYC' | 'epoch' | 'signature' | 'performance' | 'campaign' | 'sibling' | 'walletBlock' | 'yieldSource';
@@ -455,6 +463,7 @@ export interface VaultsClient {
 export declare enum VaultsRoutingKey {
     idleEvents = "idle.vault.*",
     idleSync = "idle.vault.sync",
+    idleWallets = "idle.vault.wallets",
     idleCreated = "idle.vault.created",
     idleUpdate = "idle.vault.update",
     idleTransfered = "idle.vault.transfered",
@@ -505,8 +514,33 @@ export interface VaultWalletData {
     balance: iBigInt;
     cdoEpoch?: VaultWalletCdoEpochData;
     paretoDollar?: VaultWalletParetoDollarData;
+    pools?: VaultWalletPoolData[];
 }
 export declare function sVaultWalletData(): import("fluent-json-schema").ObjectSchema<{
+    [x: string]: any;
+    [x: number]: any;
+    [x: symbol]: any;
+}>;
+export interface VaultWalletPoolData {
+    lpBalance?: iBigInt;
+    balance?: iBigInt;
+    address: string;
+    protocol: Web3Protocol;
+    operatorId?: string;
+    tokens?: VaultWalletPoolTokenData[];
+}
+export declare function sVaultWalletPoolData(): import("fluent-json-schema").ObjectSchema<{
+    [x: string]: any;
+    [x: number]: any;
+    [x: symbol]: any;
+}>;
+export interface VaultWalletPoolTokenData {
+    tokenId?: string;
+    tokenAddress: string;
+    balance: iBigInt;
+    balanceScaled?: iBigInt;
+}
+export declare function sVaultWalletPoolTokenData(): import("fluent-json-schema").ObjectSchema<{
     [x: string]: any;
     [x: number]: any;
     [x: symbol]: any;
@@ -537,14 +571,27 @@ export interface VaultContractPoolData {
     supplyRate?: iBigInt;
     borrowRate?: iBigInt;
     exchangeRate?: iBigInt;
+    underlyingBalance?: iBigInt;
     utilizationRate?: iBigInt;
     availableToBorrow?: iBigInt;
     availableToWithdraw?: iBigInt;
     totalSupply?: iBigInt;
     totalBorrow?: iBigInt;
     APR?: iBigInt;
+    tokensInfo?: VaultContractPoolTokenInfo[];
 }
 export declare function sVaultContractPoolData(): import("fluent-json-schema").ObjectSchema<{
+    [x: string]: any;
+    [x: number]: any;
+    [x: symbol]: any;
+}>;
+export interface VaultContractPoolTokenInfo {
+    address: string;
+    balance: iBigInt;
+    balanceScaled: iBigInt;
+    tokenData?: ERC20Token;
+}
+export declare function sVaultContractPoolTokenInfo(): import("fluent-json-schema").ObjectSchema<{
     [x: string]: any;
     [x: number]: any;
     [x: symbol]: any;
@@ -624,13 +671,15 @@ export interface VaultContractOptions {
     rewardTokens?: Token[];
 }
 export interface VaultContractModel {
+    vault: Vault;
     getContractData: (blockNumber?: BlockNumber) => Promise<VaultContractData>;
     getValue: <T>(type: VaultNonPayableMethodType, params?: VaultNonPayableMethodOptions) => Promise<T> | undefined;
     getPayableMethod: (type: VaultPayableMethodType, params?: VaultPayableMethodOptions) => PayableMethodObject | undefined;
 }
-export interface VaultPerformanceValue {
+export interface VaultPerformanceValue<T = any> {
     date: string;
     value: number;
+    data?: T;
 }
 export declare enum VaultRoutes {
     v1Create = "v1/vaults",
@@ -654,4 +703,31 @@ export declare enum VaultRoutes {
     v1Integrations = "v1/vaults/:vaultId/integrations",
     v1PerformBlocks = "v1/vaults/:vaultId/perform-blocks",
     v1PerformWallets = "v1/vaults/:vaultId/perform-wallets"
+}
+/**
+ * Vault Yield sources
+ */
+export type VaultYieldSource = DonutChartData<{
+    vault?: Vault;
+    operator?: Operator;
+    token?: Token;
+}>;
+export interface VaultYieldSourcesData {
+    unlent: {
+        value: string;
+        percentage: string;
+    };
+    total: string;
+    sources: VaultYieldSource[];
+}
+export interface VaultYieldSourcesSideData {
+    vaults?: Vault[];
+    tokens?: Token[];
+    operators?: Operator[];
+}
+export interface VaultYieldSourcesOptions {
+    primaryColor?: string;
+    secondaryColor?: string;
+    defaultColor?: string;
+    currentKey?: string;
 }

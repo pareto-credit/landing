@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/transactions/index.ts"],"sourcesContent":["export * from './libs/transactions-client.lib'\n\nexport * from './transaction.const'\nexport * from './transaction.model'\nexport * from './transaction.mock'\n"],"names":[],"mappings":"AAAA,cAAc,iCAAgC;AAE9C,cAAc,sBAAqB;AACnC,cAAc,sBAAqB;AACnC,cAAc,qBAAoB"}

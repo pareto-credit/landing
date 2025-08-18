@@ -19,7 +19,7 @@ export interface WalletBody {
     signatures?: WalletSignature[];
     campaigns?: WalletCampaign[];
     affiliates?: WalletAffiliate[];
-    affiliated?: WalletAffiliate[];
+    referred?: WalletReferred[];
 }
 export declare function sWalletBody(): import("fluent-json-schema").ObjectSchema<{
     [x: string]: any;
@@ -74,6 +74,10 @@ export declare function sWalletAffiliate(): import("fluent-json-schema").ObjectS
     [x: number]: any;
     [x: symbol]: any;
 }>;
+export interface WalletReferred extends WalletAffiliate {
+    referralCode: string;
+}
+export declare function sWalletReferred(): import("fluent-json-schema").ExtendedSchema;
 export interface WalletPortfolioQuery extends WalletPortfolioFilters, VaultsSearchQuery {
 }
 export declare function sWalletPortfolioQuery(): void;

@@ -7,13 +7,15 @@ import { VaultEpochsClient } from '../vault-epochs';
 import { createChainsClient } from '../chains';
 import { createOperatorsClient } from '../operators';
 import { createTokensClient } from '../tokens';
-import { createVaultBlocksClient } from '../vault-blocks';
+import { VaultBlocksClient } from '../vault-blocks';
 import { createVaultCategoriesClient } from '../vault-categories';
 import { createVaultLatestBlocksClient } from '../vault-latest-blocks';
 import { createVaultTypesClient } from '../vault-types';
 import { createVaultsClient } from '../vaults';
 import { createWalletLatestBlocksClient } from '../wallet-latest-blocks';
 import { createWalletsClient } from '../wallets';
+import { CampaignPointsClient } from '../campaign-points';
+import { WalletPerformanceClient } from '../wallet-performances';
 /**
  * API Client class
  */ export class ApiClient {
@@ -31,6 +33,7 @@ import { createWalletsClient } from '../wallets';
     }
     constructor(apiUrl, token){
         this.axios = this.initAxios(apiUrl, token);
+        this.campaignPoints = new CampaignPointsClient(this.axios);
         this.campaigns = new CampaignsClient(this.axios);
         this.chains = createChainsClient(this.axios);
         this.operators = createOperatorsClient(this.axios);
@@ -38,12 +41,13 @@ import { createWalletsClient } from '../wallets';
         this.tokens = createTokensClient(this.axios);
         this.transactions = new TransactionsClient(this.axios);
         this.users = new UsersClient(this.axios);
-        this.vaultBlocks = createVaultBlocksClient(this.axios);
+        this.vaultBlocks = new VaultBlocksClient(this.axios);
         this.vaultCategories = createVaultCategoriesClient(this.axios);
         this.vaultEpochs = new VaultEpochsClient(this.axios);
         this.vaultLatestBlocks = createVaultLatestBlocksClient(this.axios);
         this.vaultTypes = createVaultTypesClient(this.axios);
         this.vaults = createVaultsClient(this.axios);
+        this.walletPerformances = new WalletPerformanceClient(this.axios);
         this.walletLatestBlocks = createWalletLatestBlocksClient(this.axios);
         this.wallets = createWalletsClient(this.axios);
     }

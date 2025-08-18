@@ -7,6 +7,15 @@ import BigNumber from 'bignumber.js';
     return new BigNumber(typeof value === 'bigint' ? value.toString() : typeof value === 'object' ? value : String(value));
 }
 /**
+ * Divide num by dev avoiding NaN
+ * @param num numerator
+ * @param den denominator
+ * @returns num/den
+ */ export function BNSafeDiv(num, den) {
+    if (BNeq(den)) return BNify(0);
+    return BNify(num).div(BNify(den));
+}
+/**
  * Transform a value to BigNumber string
  * @param value - the value to transform
  * @returns the big number as string

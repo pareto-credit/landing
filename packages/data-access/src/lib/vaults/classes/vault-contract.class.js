@@ -1,5 +1,5 @@
 import { _ as _extends } from "@swc/helpers/_/_extends";
-import { isEmpty } from 'lodash';
+import { isEmpty, uniq } from 'lodash';
 import { WEB3_CONTRACT_METHODS } from '../../web3-client';
 import { BNFixed, BNgt, BNgte, BNify, BNlt, BNlte, SECONDS_IN_YEAR } from '../../core';
 import { compLower } from '../../core/utility.lib';
@@ -55,10 +55,10 @@ export class VaultContract {
    * @param blockNumber web3 call block number
    * @returns
    */ checkPoolBlock(pool, blockNumber) {
-        if (!pool.fromBlock || BNify(blockNumber).isNaN()) {
+        if (!pool.fromBlock || blockNumber === 'latest' || BNify(blockNumber).isNaN()) {
             return true;
         }
-        return BNlt(pool.fromBlock, blockNumber);
+        return BNlte(pool.fromBlock, blockNumber);
     }
     /**
    * Check is the amount is formatted correctly for the contract
@@ -96,6 +96,24 @@ export class VaultContract {
         }, []);
     }
     /**
+   * Get pools tokens data
+   * @param contractData contract dta
+   * @returns pools tokens data
+   */ async getPoolsTokensData(contractData) {
+        var _contractData_pools;
+        const web3Client = this.web3Client;
+        if (!web3Client) {
+            throw new Error('Web3 Client not available');
+        }
+        if (!((_contractData_pools = contractData.pools) == null ? void 0 : _contractData_pools.length)) {
+            return [];
+        }
+        const poolTokenAddrs = contractData.pools.flatMap((p)=>(p.tokensInfo || []).flatMap((t)=>t.address));
+        const promises = uniq(poolTokenAddrs).map((tokenAddress)=>web3Client.getERC20(tokenAddress));
+        const tokensData = await Promise.all(promises);
+        return tokensData.filter((t)=>t !== undefined);
+    }
+    /**
    * Prepare wallet data
    * @param address - the wallet address
    * @returns the web3 call data
@@ -110,11 +128,29 @@ export class VaultContract {
    * @param pool - the vault pool
    * @returns the web3 call data
    */ makePoolData(pool, blockNumber) {
+        var _pool_oracle, _this_walletAddresses;
         // Skip pool is fromBlock < blockNumber
         if (!this.checkPoolBlock(pool, blockNumber)) {
             return [];
         }
-        let callData = this.makeProtocolData(pool, 'POOL');
+        let callData = this.makeProtocolData(pool, 'POOL', undefined, {
+            oracleAddress: (_pool_oracle = pool.oracle) == null ? void 0 : _pool_oracle.address
+        });
+        // Add wallet pool data
+        if ((_this_walletAddresses = this.walletAddresses) == null ? void 0 : _this_walletAddresses.length) {
+            callData = this.walletAddresses.reduce((acc, walletAddress)=>{
+                var _pool_oracle;
+                return [
+                    ...acc,
+                    ...this.makeProtocolData(pool, 'WALLET_POOL', undefined, {
+                        walletAddress,
+                        oracleAddress: (_pool_oracle = pool.oracle) == null ? void 0 : _pool_oracle.address
+                    })
+                ];
+            }, [
+                ...callData
+            ]);
+        }
         // Check oracle
         if (pool.oracle) {
             const oracle = this.getContractMethods(pool.oracle.abi, pool.oracle.address, pool.oracle.protocol || pool.protocol, 'ORACLE');
@@ -125,8 +161,31 @@ export class VaultContract {
                         protocol,
                         address,
                         type: 'POOL'
+                    }, {
+                        poolAddress: pool.address
                     }))
             ];
+        }
+        // Check tokens
+        if (pool.tokens) {
+            callData = pool.tokens.reduce((acc, poolToken)=>{
+                var _pool_oracle;
+                return [
+                    ...acc,
+                    ...this.makeProtocolData(_extends({}, poolToken, {
+                        protocol: pool.protocol
+                    }), 'POOL_TOKEN', undefined, {
+                        poolAddress: pool.address,
+                        oracleAddress: (_pool_oracle = pool.oracle) == null ? void 0 : _pool_oracle.address
+                    }, {
+                        protocol: pool.protocol,
+                        address: pool.address,
+                        type: 'POOL'
+                    })
+                ];
+            }, [
+                ...callData
+            ]);
         }
         return callData;
     }
@@ -157,9 +216,12 @@ export class VaultContract {
             throw new Error('Contract without a valid address');
         }
         // Get ABI method to prepare the right types
-        const methodAbi = jsonInterface.find((f)=>f.name === method && f.inputs.length === params.length);
+        const methodAbi = jsonInterface.find((f)=>f.name === method);
         if (!methodAbi) {
             throw new Error(`No ABI method '${method}' found for ${protocol} at contract ${contract.options.address} for vault: ${this.vault.address}`);
+        }
+        if (methodAbi.inputs.length !== params.length) {
+            throw new Error(`The ABI method '${method}' found for ${protocol} at contract ${contract.options.address} has incompatible params: ${methodAbi.inputs.length} required, ${params} given.`);
         }
         // Method name + params
         const inputTypes = methodAbi.inputs.map((i)=>i.type);
@@ -203,6 +265,10 @@ export class VaultContract {
         let value;
         const tokenToUse = token || this.token;
         switch(param){
+            case '0':
+            case '1':
+                value = param;
+                break;
             case '1e18':
                 value = '1000000000000000000';
                 break;
@@ -218,6 +284,8 @@ export class VaultContract {
             case 'epochNumber':
             case 'prevEpochNumber':
             case 'yieldSourceAddress':
+            case 'poolAddress':
+            case 'oracleAddress':
                 value = values == null ? void 0 : values[param];
                 break;
             case 'tokenAmount':
@@ -368,6 +436,12 @@ export class VaultContract {
             case 'POOL':
                 methodData = this.parsePoolResponse(data, response);
                 break;
+            case 'POOL_TOKEN':
+                methodData = this.parsePoolTokenResponse(data, response);
+                break;
+            case 'WALLET_POOL':
+                methodData = this.parseWalletPoolResponse(data, response);
+                break;
             case 'TOKEN':
                 methodData = this.parseTokenResponse(data, response);
                 break;
@@ -385,6 +459,9 @@ export class VaultContract {
                 break;
             case 'STRATEGY':
                 methodData = this.parseStrategyResponse(data, response);
+                break;
+            case 'WALLET_EULER_ACCOUNT_LENS':
+                methodData = this.parseEulerAccountLens(data, response);
                 break;
             case 'ORACLE':
                 // Use parent type parsing if specified
@@ -851,6 +928,74 @@ export class VaultContract {
         return _extends({}, data, methodData);
     }
     /**
+   * Parse wallet euler account lens
+   * @param data - the already processed data
+   * @param response - the wallet deposit queue response
+   * @returns the contract data
+   */ parseEulerAccountLens(data, { method, inputs, outputs, protocol, address, parent }) {
+        const methodName = method.split('(')[0];
+        const methodData = {};
+        switch(methodName){
+            case 'getVaultAccountInfo':
+                {
+                    var _this_walletAddresses, _data_wallets;
+                    const lpBalance = String(outputs[0].value.shares);
+                    const balance = String(outputs[0].value.assets);
+                    const walletPoolData = {
+                        address: (parent == null ? void 0 : parent.address) || address,
+                        protocol: (parent == null ? void 0 : parent.protocol) || protocol,
+                        balance,
+                        lpBalance
+                    };
+                    const subAccount = inputs[0].value;
+                    // Get native wallet address from sub-account
+                    const walletAddress = (_this_walletAddresses = this.walletAddresses) == null ? void 0 : _this_walletAddresses.find((wAddr)=>compLower(wAddr.substring(0, 40), subAccount.substring(0, 40)));
+                    if (!walletAddress) {
+                        return data;
+                    }
+                    const walletExists = (_data_wallets = data.wallets) == null ? void 0 : _data_wallets.some((wallet)=>compLower(wallet.address, walletAddress));
+                    if (walletExists) {
+                        methodData.wallets = (data.wallets || []).map((wallet)=>{
+                            if (!compLower(wallet.address, walletAddress)) return wallet;
+                            // Wallet found
+                            const pools = wallet.pools || [];
+                            const poolExists = pools.some((pool)=>compLower(pool.address, walletPoolData.address));
+                            // Pool exists: sum balance
+                            if (poolExists) {
+                                return _extends({}, wallet, {
+                                    pools: pools.map((pool)=>compLower(pool.address, walletPoolData.address) ? _extends({}, pool, {
+                                            balance: BNFixed(BNify(pool.balance).plus(balance)),
+                                            lpBalance: BNFixed(BNify(pool.lpBalance).plus(lpBalance))
+                                        }) : pool)
+                                });
+                            } else {
+                                // Pool doesn't exist: add it
+                                return _extends({}, wallet, {
+                                    pools: [
+                                        ...pools,
+                                        walletPoolData
+                                    ]
+                                });
+                            }
+                        });
+                    } else {
+                        // Wallet doesn't exist: add it
+                        methodData.wallets = [
+                            ...data.wallets || [],
+                            {
+                                balance: '0',
+                                address: walletAddress,
+                                pools: [
+                                    walletPoolData
+                                ]
+                            }
+                        ];
+                    }
+                }
+        }
+        return _extends({}, data, methodData);
+    }
+    /**
    * Parse wallet deposit queue response
    * @param data - the already processed data
    * @param response - the wallet deposit queue response
@@ -1099,6 +1244,48 @@ export class VaultContract {
         return _extends({}, data, tokensData);
     }
     /**
+   * Parse pool token reponse
+   * @param data contract data
+   * @param param1 web3 call data
+   * @returns pool token data
+   */ parsePoolTokenResponse(data, { method, outputs, protocol, address, parent }) {
+        var _data_pools;
+        if (!this.web3Client) {
+            throw new Error('Web3 Client not available');
+        }
+        // Exit if no parent set
+        if (!parent) {
+            return data;
+        }
+        const methodName = method.split('(')[0];
+        const poolData = ((_data_pools = data.pools) == null ? void 0 : _data_pools.find((p)=>compLower(p.address, parent.address))) || {
+            protocol,
+            address: parent.address
+        };
+        switch(methodName){
+            // Pool token balance
+            case 'balanceOf':
+                {
+                    var _poolData_tokensInfo;
+                    const tokenExists = (_poolData_tokensInfo = poolData.tokensInfo) == null ? void 0 : _poolData_tokensInfo.find((t)=>compLower(t.address, address));
+                    if (!tokenExists) {
+                        poolData.tokensInfo = [
+                            ...poolData.tokensInfo || [],
+                            {
+                                address,
+                                balance: outputs[0].value,
+                                balanceScaled: outputs[0].value
+                            }
+                        ];
+                    }
+                }
+                break;
+        }
+        return _extends({}, data, {
+            pools: this.implementPoolsData(data.pools, poolData)
+        });
+    }
+    /**
    * Parse data from POOL response
    * @param data vault contract data
    * @param response Pool call response
@@ -1113,6 +1300,18 @@ export class VaultContract {
             address
         };
         switch(methodName){
+            // Pendle SY balance
+            case 'balanceOf':
+                poolData.underlyingBalance = String(outputs[0].value);
+                break;
+            // Napier YT price
+            case 'get_dy':
+                poolData.exchangeRate = BNFixed(BNify(1e18).minus(outputs[0].value));
+                break;
+            // Napier PT price
+            case 'lp_price':
+                poolData.exchangeRate = String(outputs[0].value);
+                break;
             // Calculate Sky APR
             case 'ssr':
                 {
@@ -1120,12 +1319,23 @@ export class VaultContract {
                     poolData.APR = String((Math.pow(ssr, SECONDS_IN_YEAR) - 1) * 100);
                 }
                 break;
+            case 'getRate':
+                poolData.exchangeRate = outputs[0].value;
+                break;
+            case 'getTokenInfo':
+                poolData.tokensInfo = outputs[0].value.map((tokenAddress, index)=>({
+                        address: tokenAddress,
+                        balance: outputs[2].value[index],
+                        balanceScaled: outputs[3].value[index]
+                    }));
+                break;
             case 'totalSupply':
                 poolData.totalSupply = outputs[0].value;
                 break;
             case 'totalBorrows':
                 poolData.totalBorrow = outputs[0].value;
                 break;
+            case 'convertToAssets':
             case 'exchangeRateStored':
                 poolData.exchangeRate = outputs[0].value;
                 break;
@@ -1165,6 +1375,67 @@ export class VaultContract {
         });
     }
     /**
+   * Parse wallet deposit queue response
+   * @param data - the already processed data
+   * @param response - the wallet deposit queue response
+   * @returns the contract data
+   */ parseWalletPoolResponse(data, { method, outputs, inputs, protocol, address }) {
+        const methodName = method.split('(')[0];
+        const methodData = {};
+        switch(methodName){
+            case 'balanceOf':
+                {
+                    var _data_wallets;
+                    const lpBalance = String(outputs[0].value);
+                    const walletPoolData = {
+                        address,
+                        protocol,
+                        lpBalance
+                    };
+                    const walletAddress = inputs[0].value;
+                    const walletExists = (_data_wallets = data.wallets) == null ? void 0 : _data_wallets.some((wallet)=>compLower(wallet.address, walletAddress));
+                    if (walletExists) {
+                        methodData.wallets = (data.wallets || []).map((wallet)=>{
+                            if (!compLower(wallet.address, walletAddress)) return wallet;
+                            // Wallet found
+                            const pools = wallet.pools || [];
+                            const poolExists = pools.some((pool)=>compLower(pool.address, walletPoolData.address));
+                            // Pool exists: update it
+                            if (poolExists) {
+                                return _extends({}, wallet, {
+                                    pools: pools.map((pool)=>compLower(pool.address, walletPoolData.address) ? _extends({}, pool, {
+                                            walletPoolData
+                                        }) : pool)
+                                });
+                            } else {
+                                // Pool doesn't exist: add it
+                                return _extends({}, wallet, {
+                                    pools: [
+                                        ...pools,
+                                        walletPoolData
+                                    ]
+                                });
+                            }
+                        });
+                    } else {
+                        // Wallet doesn't exist: add it
+                        methodData.wallets = [
+                            ...data.wallets || [],
+                            {
+                                balance: '0',
+                                address: walletAddress,
+                                pools: [
+                                    walletPoolData
+                                ]
+                            }
+                        ];
+                    }
+                }
+                break;
+        }
+        return _extends({}, data, methodData);
+    }
+    /**
    * Implement pools data with new pool data
    * @param pools pools data
    * @param poolData new pool data
@@ -1178,6 +1449,50 @@ export class VaultContract {
             ];
         }
         return pools.map((pool)=>pool.protocol === poolData.protocol && compLower(pool.address, poolData.address) ? _extends({}, pool, poolData) : pool);
+    }
+    /**
+   * Implements wallets data
+   * @param wallets wallets data to be implemented
+   * @param walletsData new wallets data
+   * @returns implemented wallets data
+   */ implementWalletsData(wallets, walletsData) {
+        return walletsData.reduce((acc, walletData)=>{
+            const walletAddress = walletData.address;
+            const walletExists = acc.some((wallet)=>compLower(wallet.address, walletAddress));
+            if (!walletExists) {
+                return [
+                    ...wallets,
+                    walletData
+                ];
+            }
+            return acc.map((wallet)=>{
+                if (!compLower(wallet.address, walletAddress)) return wallet;
+                const pools = (walletData.pools || []).reduce((acc, walletPoolData)=>this.implementPoolsData(acc, walletPoolData), wallet.pools || []);
+                return _extends({}, wallet, {
+                    pools
+                });
+            });
+        }, [
+            ...wallets
+        ]);
+    }
+    /**
+   * Implements pools tokens with erc20 data
+   * @param pools pools
+   * @param tokensData tokens data
+   * @returns pools data with tokens info
+   */ implementPoolsTokensData(pools, tokensData) {
+        return pools.map((p)=>{
+            var _p_tokensInfo;
+            return _extends({}, p, {
+                tokensInfo: (_p_tokensInfo = p.tokensInfo) == null ? void 0 : _p_tokensInfo.map((t)=>{
+                    const tokenData = tokensData.find((tD)=>compLower(tD.address, t.address));
+                    return _extends({}, t, {
+                        tokenData
+                    });
+                })
+            });
+        });
     }
     /**
    * Get web3 payable method object ready to be sent

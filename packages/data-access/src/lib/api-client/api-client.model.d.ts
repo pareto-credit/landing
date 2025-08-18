@@ -1,3 +1,4 @@
+import { CampaignPointClientModel } from '../campaign-points';
 import { CampaignsClientModel } from '../campaigns';
 import { ChainsClient } from '../chains';
 import { OperatorsClient } from '../operators';
@@ -11,11 +12,13 @@ import { VaultLatestBlocksClient } from '../vault-latest-blocks';
 import { VaultTypesClient } from '../vault-types';
 import { VaultsClient } from '../vaults';
 import { WalletLatestBlocksClient } from '../wallet-latest-blocks';
+import { WalletPerformanceClientModel } from '../wallet-performances';
 import { WalletsClient } from '../wallets';
 /**
  * API Client structure
  */
 export interface ApiClientModel {
+    campaignPoints: CampaignPointClientModel;
     campaigns: CampaignsClientModel;
     chains: ChainsClient;
     operators: OperatorsClient;
@@ -29,5 +32,6 @@ export interface ApiClientModel {
     vaultTypes: VaultTypesClient;
     vaults: VaultsClient;
     walletLatestBlocks: WalletLatestBlocksClient;
+    walletPerformances: WalletPerformanceClientModel;
     wallets: WalletsClient;
 }

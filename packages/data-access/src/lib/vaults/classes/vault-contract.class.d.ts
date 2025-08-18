@@ -1,7 +1,7 @@
 import Web3, { Contract, ContractAbi } from 'web3';
 import { PayableMethodObject, NonPayableMethodObject } from 'web3-eth-contract';
-import { Web3CallData, Web3ClientModel, Web3ContractMethod, Web3ContractMethodParam, Web3ContractType, Web3DataParam, Web3Entity, Web3Protocol, Web3ProtocolContract } from '../../web3-client';
-import { Vault, VaultContractData, VaultContractOptions, VaultNonPayableMethodOptions, VaultPayableMethodOptions, VaultPool } from '../vault.model';
+import { ERC20Token, Web3CallData, Web3ClientModel, Web3ContractMethod, Web3ContractMethodParam, Web3ContractType, Web3DataParam, Web3Entity, Web3Protocol, Web3ProtocolContract } from '../../web3-client';
+import { Vault, VaultContractData, VaultContractOptions, VaultContractPoolData, VaultNonPayableMethodOptions, VaultPayableMethodOptions, VaultPool, VaultWalletData } from '../vault.model';
 import { AbiContract, AbiJsonParam, BlockNumber, Web3MethodOptions } from '../../core';
 import { Token } from '../../tokens';
 export declare class VaultContract {
@@ -57,6 +57,12 @@ export declare class VaultContract {
      * @returns web3 call data
      */
     protected makeRewardTokensData(protocol: Web3Protocol): Web3CallData[];
+    /**
+     * Get pools tokens data
+     * @param contractData contract dta
+     * @returns pools tokens data
+     */
+    protected getPoolsTokensData(contractData: VaultContractData): Promise<ERC20Token[]>;
     /**
      * Prepare wallet data
      * @param address - the wallet address
@@ -194,6 +200,13 @@ export declare class VaultContract {
      */
     private parseWalletWithdrawQueueResponse;
     /**
+     * Parse wallet euler account lens
+     * @param data - the already processed data
+     * @param response - the wallet deposit queue response
+     * @returns the contract data
+     */
+    private parseEulerAccountLens;
+    /**
      * Parse wallet deposit queue response
      * @param data - the already processed data
      * @param response - the wallet deposit queue response
@@ -250,6 +263,13 @@ export declare class VaultContract {
      */
     private parseTokenResponse;
     /**
+     * Parse pool token reponse
+     * @param data contract data
+     * @param param1 web3 call data
+     * @returns pool token data
+     */
+    private parsePoolTokenResponse;
+    /**
      * Parse data from POOL response
      * @param data vault contract data
      * @param response Pool call response
@@ -257,12 +277,52 @@ export declare class VaultContract {
      */
     private parsePoolResponse;
     /**
+     * Parse wallet deposit queue response
+     * @param data - the already processed data
+     * @param response - the wallet deposit queue response
+     * @returns the contract data
+     */
+    private parseWalletPoolResponse;
+    /**
      * Implement pools data with new pool data
      * @param pools pools data
      * @param poolData new pool data
      * @returns combined pools data and new pool data
      */
     private implementPoolsData;
+    /**
+     * Implements wallets data
+     * @param wallets wallets data to be implemented
+     * @param walletsData new wallets data
+     * @returns implemented wallets data
+     */
+    protected implementWalletsData(wallets: VaultWalletData[], walletsData: VaultWalletData[]): VaultWalletData[];
+    /**
+     * Implements pools tokens with erc20 data
+     * @param pools pools
+     * @param tokensData tokens data
+     * @returns pools data with tokens info
+     */
+    protected implementPoolsTokensData(pools: VaultContractPoolData[], tokensData: ERC20Token[]): {
+        tokensInfo: {
+            tokenData: ERC20Token | undefined;
+            address: string;
+            balance: string;
+            balanceScaled: string;
+        }[] | undefined;
+        protocol: Web3Protocol;
+        address: string;
+        supplyRate?: string | undefined;
+        borrowRate?: string | undefined;
+        exchangeRate?: string | undefined;
+        underlyingBalance?: string | undefined;
+        utilizationRate?: string | undefined;
+        availableToBorrow?: string | undefined;
+        availableToWithdraw?: string | undefined;
+        totalSupply?: string | undefined;
+        totalBorrow?: string | undefined;
+        APR?: string | undefined;
+    }[];
     /**
      * Get web3 payable method object ready to be sent
      * @param web3 web3 injected instance

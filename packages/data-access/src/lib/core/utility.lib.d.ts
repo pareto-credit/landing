@@ -112,7 +112,7 @@ export declare function apr2apy(apr: BigNumberValue, period?: number): BigNumber
  * @param item item
  * @returns array of items
  */
-export declare function arrayFy<T = any>(item: T): (T & any[]) | NonNullable<T>[];
+export declare function arrayFy<T = any>(item: T | T[]): T[];
 /**
  * Check if a string is a code
  * @paramc code - the code string to verify
@@ -126,3 +126,10 @@ export declare function isCode(code: string, minLength: number, maxLength: numbe
  * @returns a 6-character uppercase hexadecimal code
  */
 export declare function generateHexCode(address: string, length?: number): string;
+/**
+ * Transform an array into a dictionary
+ * @param array - the array of objects
+ * @param key - the key to use as dictionary key
+ * @returns the dictionary object
+ */
+export declare function arrayToDict<T extends object, K extends keyof T>(array: T[], key: K, keyValue?: K): Record<string, any>;

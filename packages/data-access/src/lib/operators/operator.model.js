@@ -5,7 +5,7 @@ export function sOperator(isPartial) {
     return S.object().id('#operator').additionalProperties(false).extend(sClientEntity(isPartial)).extend(sOperatorData(isPartial));
 }
 export function sOperatorData(isPartial) {
-    return S.object().additionalProperties(false).prop('name', S.string()).description('The name of the operator.').prop('code', S.string()).description('The unique code of the operator.').prop('type', sOperatorType()).description('The operator type.').prop('description', sLocales()).description('The operator description').prop('shortDescription', sLocales()).description('The operator short description').prop('caption', sLocales()).description('A short label about the operator').prop('rating', S.string()).description('The operator rating').prop('location', S.string()).description('The operator location').prop('links', sOperatorLinks()).description('Links about operator').required(isPartial ? [] : [
+    return S.object().additionalProperties(false).prop('name', S.string()).description('The name of the operator.').prop('code', S.string()).description('The unique code of the operator.').prop('type', sOperatorType()).description('The operator type.').prop('description', sLocales()).description('The operator description').prop('shortDescription', sLocales()).description('The operator short description').prop('caption', sLocales()).description('A short label about the operator').prop('rating', S.string()).description('The operator rating').prop('location', S.string()).description('The operator location').prop('color', S.string()).description('The operator main color').prop('links', sOperatorLinks()).description('Links about operator').required(isPartial ? [] : [
         'name',
         'code',
         'type'

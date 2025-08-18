@@ -23,6 +23,13 @@ export declare function fixAmount(amount: BigNumber.Value, decimals: number): Bi
  */
 export declare function normalizeTokenAmount(token: Token, amount: BigNumber.Value): BigNumber;
 /**
+ * Get token price
+ * @param token - the token entity
+ * @param amount - the conversion amount
+ * @returns the token price
+ */
+export declare function getTokenAmount(token: Token, amount?: BigNumberValue, decimals?: number): string;
+/**
  * Parse token amount into human readable string
  * @param token - the token entity
  * @param amount - the amount to parse

@@ -1,6 +1,7 @@
+import { _ as _extends } from "@swc/helpers/_/_extends";
 import moment from 'moment';
 import Ajv from 'ajv';
-import { difference, identity, pickBy, uniq } from 'lodash';
+import { difference, get, identity, pickBy, uniq } from 'lodash';
 import { BNify } from './bigint.lib';
 import crypto from 'crypto';
 /**
@@ -194,6 +195,20 @@ import crypto from 'crypto';
  */ export function generateHexCode(address, length = 6) {
     const hash = crypto.createHash('sha256').update(address).digest('hex');
     return hash.slice(0, length).toUpperCase();
+}
+/**
+ * Transform an array into a dictionary
+ * @param array - the array of objects
+ * @param key - the key to use as dictionary key
+ * @returns the dictionary object
+ */ export function arrayToDict(array, key, keyValue) {
+    return array.reduce((acc, item)=>{
+        const k = String(item[key]);
+        const value = keyValue ? get(item, keyValue) : item;
+        return _extends({}, acc, {
+            [k]: value
+        });
+    }, {});
 }
 
 //# sourceMappingURL=utility.lib.js.map

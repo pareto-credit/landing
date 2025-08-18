@@ -68,7 +68,9 @@ import { normalizeTokenAmount } from '../../tokens';
     const waitingPeriod = epoch.bufferDuration;
     // Current end date and next start date
     const endDate = moment(epoch.endDate).toISOString();
-    const startDate = moment(endDate).add(waitingPeriod, 'second').toISOString();
+    // Check start date
+    const minStartDate = moment(epoch.endDate).add(waitingPeriod, 's').toISOString();
+    const startDate = moment().isBefore(minStartDate) ? minStartDate : moment().toISOString();
     const progression = BNify(moment(date).diff(endDate, 'second')).div(waitingPeriod).times(100).toNumber();
     const progress = BigNumber.minimum(100, progression).toNumber();
     return {
@@ -532,7 +534,7 @@ import { normalizeTokenAmount } from '../../tokens';
     const APRs = makeVaultEpochAPRs({
         tvl: epoch.TVL.token,
         netInterest: epoch.expectedInterest,
-        totalAPR: epoch.APRs.GROSS,
+        totalAPR: epochData.APRs.GROSS,
         lastAPR: lastEpoch == null ? void 0 : lastEpoch.APRs.GROSS
     }, {
         startDate: epoch.startDate || new Date(),
@@ -560,7 +562,7 @@ import { normalizeTokenAmount } from '../../tokens';
     const APRs = makeVaultEpochAPRs({
         tvl: epoch.TVL.token,
         netInterest: epoch.expectedInterest,
-        totalAPR: epoch.APRs.GROSS,
+        totalAPR: epochData.APRs.GROSS,
         lastAPR: lastEpoch == null ? void 0 : lastEpoch.APRs.GROSS
     }, {
         startDate: epoch.startDate || new Date(),
@@ -619,6 +621,36 @@ import { normalizeTokenAmount } from '../../tokens';
         toWithdraw: toWithdraw.toFixed(token.decimals),
         isDefaultable
     });
+}
+/**
+ * Calculate epoch start and end dates
+ * @param epoch - the current Epoch
+ * @param lastEpoch - the previous Epoch
+ * @returns the start date and end date of the epoch
+ */ export function getVaultEpochDates({ duration, bufferDuration, startDate, endDate }, lastEpoch) {
+    // Case 1: Start/end dates already defined
+    if (startDate && endDate) {
+        return {
+            startDate,
+            endDate
+        };
+    }
+    // Case 2: Not yet finished
+    if (startDate && !endDate) {
+        const shouldEndOn = moment(startDate).add(duration, 's').toISOString();
+        return {
+            startDate,
+            endDate: shouldEndOn
+        };
+    }
+    // Case 3: Not yet started
+    const minStartDate = moment(lastEpoch == null ? void 0 : lastEpoch.endDate).add(bufferDuration, 's').toISOString();
+    const shouldStartOn = moment().isBefore(minStartDate) ? minStartDate : moment().toISOString();
+    const shouldEndOn = moment(shouldStartOn).add(duration, 's').toISOString();
+    return {
+        startDate: shouldStartOn,
+        endDate: shouldEndOn
+    };
 }
 
 //# sourceMappingURL=vault-epoch.lib.js.map

@@ -1,4 +1,4 @@
-import { ClientEntity, Locales, UnitTime, PageSearchQuery, Page } from '../core';
+import { ClientEntity, Locales, UnitTime, PageSearchQuery, Page, iBigInt } from '../core';
 /**
  * Client Vault interface
  */
@@ -12,10 +12,11 @@ export interface CampaignData {
     rules?: CampaignRule[];
     referrals?: CampaignReferral[];
     boosts?: CampaignBoost[];
-    galxeId?: number;
     startDate?: string;
     endDate?: string;
     link?: string;
+    galxeId?: number;
+    isSyncable?: boolean;
 }
 export declare function sCampaignData(isPartial?: boolean): import("fluent-json-schema").ObjectSchema<{
     [x: string]: any;
@@ -23,30 +24,33 @@ export declare function sCampaignData(isPartial?: boolean): import("fluent-json-
     [x: symbol]: any;
 }>;
 export interface CampaignRule {
+    code: string;
     name: Locales;
     description?: Locales;
     trigger: CampaignRuleTrigger;
     deposit: CampaignRuleDeposit;
     reward: CampaignReward;
     frequency: CampaignRuleFrequency;
+    vaultIds?: string[];
 }
 export declare function sCampaignRule(): import("fluent-json-schema").ObjectSchema<{
     [x: string]: any;
     [x: number]: any;
     [x: symbol]: any;
 }>;
-export type CampaignRuleTrigger = 'DEPOSIT' | 'DEPOSIT_REQUEST' | 'MINT';
+export type CampaignRuleTrigger = 'DEPOSIT' | 'DEPOSIT_REQUEST';
 export declare function sCampaignRuleTrigger(): import("fluent-json-schema").StringSchema;
 export interface CampaignRuleDeposit {
     type: CampaignRuleDepositType;
     value: number;
+    tokenId?: string;
 }
 export declare function sCampaignRuleDeposit(): import("fluent-json-schema").ObjectSchema<{
     [x: string]: any;
     [x: number]: any;
     [x: symbol]: any;
 }>;
-export type CampaignRuleDepositType = 'BALANCE' | 'AGE';
+export type CampaignRuleDepositType = 'BALANCE' | 'BALANCE_USP' | 'BALANCE_SUSP' | 'AGE';
 export declare function sCampaignRuleDepositType(): import("fluent-json-schema").StringSchema;
 export interface CampaignReward {
     type: CampaignRewardType;
@@ -74,15 +78,22 @@ export interface CampaignBoost {
     description?: Locales;
     operatorId?: string;
     link?: string;
+    linkLabel?: Locales;
     type: CampaignBoostType;
     reward: CampaignReward;
+    startDate?: string;
+    endDate?: string;
+    vaultIds?: string[];
+    tokenId?: string;
+    rules?: string[];
+    pools?: string[];
 }
 export declare function sCampaignBoost(): import("fluent-json-schema").ObjectSchema<{
     [x: string]: any;
     [x: number]: any;
     [x: symbol]: any;
 }>;
-export type CampaignBoostType = 'REFERRAL' | 'STAKE';
+export type CampaignBoostType = 'REFERRAL' | 'REFERRAL_FEE' | 'REFERRED' | 'STAKE' | 'DEPOSIT' | 'DEPOSIT_BALANCER' | 'DEPOSIT_NAPIER' | 'DEPOSIT_PENDLE' | 'DEPOSIT_EULER';
 export declare function sCampaignBoostType(): import("fluent-json-schema").StringSchema;
 export interface CampaignReferral {
     code: string;
@@ -108,6 +119,9 @@ export interface CampaignsSearchQuery extends PageSearchQuery {
     'endDate:gte'?: string;
 }
 export declare function sCampaignsSearchQuery(): import("fluent-json-schema").ExtendedSchema;
+export declare enum CampaignsRoutingKey {
+    idleSync = "idle.campaign.sync"
+}
 export interface CampaignsClientModel {
     create: (body: CampaignData) => Promise<Campaign>;
     search: (params?: CampaignsSearchQuery) => Promise<Page<Campaign>>;
@@ -115,6 +129,7 @@ export interface CampaignsClientModel {
     list: (params?: CampaignsSearchQuery) => Promise<Campaign[]>;
     listAll: (params?: CampaignsSearchQuery) => Promise<Campaign[]>;
     findOne: (params?: CampaignsSearchQuery) => Promise<Campaign | undefined>;
+    readOne: (params: CampaignsSearchQuery) => Promise<Campaign>;
 }
 export declare enum CampaignRoutes {
     v1Create = "v1/campaigns",
@@ -122,14 +137,17 @@ export declare enum CampaignRoutes {
     v1Read = "v1/campaigns/:campaignId",
     v1Update = "v1/campaigns/:campaignId",
     v1Search = "v1/campaigns",
-    v1Points = "v1/campaigns/:campaignId/points"
+    v1Points = "v1/campaigns/:campaignId/points",
+    v1Sync = "v1/campaigns/:campaignId/sync",
+    v1Ranking = "v1/campaigns/:campaignId/ranking"
 }
 export declare enum CampaignErrorCodes {
     notFound = "CAMPAIGN_NOT_FOUND",
     notDeletable = "CAMPAIGN_NOT_DELETABLE",
     walletRequired = "WALLET_REQUIRED",
     referralNotValid = "REFERRAL_CODE_INVALID",
-    referralCodeNotActive = "REFERRAL_CODE_NOT_ACTIVE"
+    referralCodeNotActive = "REFERRAL_CODE_NOT_ACTIVE",
+    rankOverflow = "RANK_OVERFLOW"
 }
 export interface CampaignPointsQuery {
     walletId?: string;
@@ -160,8 +178,22 @@ export declare function sCampaignPointsMetrics(): import("fluent-json-schema").O
 export interface CampaignMetrics {
     points: string;
     perDay: string;
+    multiplierScaled?: string;
     multiplier: string;
+    rewards?: CampaignMetricsReward[];
+    code?: string;
+    rules?: string[];
 }
+export interface CampaignMetricsReward {
+    tokenId?: string;
+    amount?: iBigInt;
+    USD: iBigInt;
+}
+export declare function sCampaignMetricsReward(): import("fluent-json-schema").ObjectSchema<{
+    [x: string]: any;
+    [x: number]: any;
+    [x: symbol]: any;
+}>;
 export declare function sCampaignMetrics(): import("fluent-json-schema").ObjectSchema<{
     [x: string]: any;
     [x: number]: any;
@@ -171,3 +203,37 @@ export interface CampaignPointsBoost extends CampaignMetrics {
     code: string;
 }
 export declare function sCampaignPointsBoost(): import("fluent-json-schema").ExtendedSchema;
+export interface CampaignRankingQuery {
+    walletId?: string | string[];
+    walletAddress?: string | string[];
+    rank?: number | number[];
+}
+export declare function sCampaignRankingQuery(): import("fluent-json-schema").ObjectSchema<{
+    [x: string]: any;
+    [x: number]: any;
+    [x: symbol]: any;
+}>;
+export interface CampaignRanking {
+    totalPoints: number;
+    totalWallets: number;
+    totalWalletsWithPoints: number;
+    rankings: CampaignRankingWallet[];
+    updatedAt?: string;
+}
+export declare function sCampaignRanking(): import("fluent-json-schema").ObjectSchema<{
+    [x: string]: any;
+    [x: number]: any;
+    [x: symbol]: any;
+}>;
+export interface CampaignRankingWallet {
+    walletId: string;
+    walletAddress: string;
+    points: number;
+    perDay: number;
+    rank: number;
+}
+export declare function sCampaignRankingWallet(): import("fluent-json-schema").ObjectSchema<{
+    [x: string]: any;
+    [x: number]: any;
+    [x: symbol]: any;
+}>;

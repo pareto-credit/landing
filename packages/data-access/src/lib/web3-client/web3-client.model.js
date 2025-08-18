@@ -17,7 +17,16 @@ export function sWeb3Protocol() {
         'UniswapV2',
         'UniswapV3',
         'Curve',
-        'Sky'
+        'Sky',
+        'Balancer',
+        'BalancerGauge',
+        'NapierPT',
+        'NapierYT',
+        'NapierLP',
+        'PendlePT',
+        'PendleLP',
+        'PendleSY',
+        'Euler'
     ]);
 }
 export function sWeb3ProviderConnection() {

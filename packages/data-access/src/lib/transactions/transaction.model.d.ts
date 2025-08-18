@@ -1,5 +1,4 @@
 import { Block, ClientEntity, Page, PageSearchQuery, iBigInt } from '../core';
-import { VaultTransferEpochType, VaultTransferUSPType } from '../vaults';
 /**
  * Client Transaction interface
  */
@@ -11,6 +10,8 @@ export interface TransactionData {
     vaultAddress: string;
     walletId: string;
     walletAddress: string;
+    fromAddress?: string;
+    toAddress?: string;
     tokenId: string;
     operatorId?: string;
     type: TransactionType;
@@ -27,9 +28,33 @@ export declare function sTransactionData(isPartial?: boolean): import("fluent-js
     [x: number]: any;
     [x: symbol]: any;
 }>;
-export type TransactionType = 'DEPOSIT' | 'REDEEM' | 'HARVEST' | 'DISTRIBUTED_REWARDS' | VaultTransferUSPType | VaultTransferEpochType;
+/**
+ * #################################
+ * ####### TRANSACTION TYPES #######
+ * #################################
+ */
+export type TransactionTypeCommon = 'DEPOSIT' | 'REDEEM' | 'HARVEST' | 'DISTRIBUTED_REWARDS';
+export declare const TRANSACTION_TYPES_COMMON: string[];
+/**
+ * Vault Pareto Dollar
+ */
+export type TransactionTypeParetoDollar = 'ADD_COLLATERAL' | 'ADD_YIELD_SOURCE' | 'CLAIM_REDEEM_REQUEST' | 'DEPOSIT_REWARDS' | 'DEPOSIT_YIELD_SOURCE' | 'MINT' | 'NEW_EPOCH' | 'REDEEM' | 'REDEEM_YIELD_SOURCE' | 'REMOVE_COLLATERAL' | 'REMOVE_YIELD_SOURCE' | 'REQUEST_REDEEM' | 'STAKE' | 'STAKE_POOL' | 'TRANSFER' | 'TRANSFER_POOL' | 'UNSTAKE' | 'UNSTAKE_POOL';
+export declare const TRANSACTION_TYPES_PARETO_DOLLAR: string[];
+export declare function sTransactionTypeParetoDollar(): import("fluent-json-schema").StringSchema;
+/**
+ * Vault CDO Epoch
+ */
+export declare const TRANSACTION_TYPES_CDO_EPOCH: string[];
+export type TransactionTypeCdoEpoch = 'CLAIM_DEPOSIT_REQUEST' | 'CLAIM_INSTANT_WITHDRAW' | 'CLAIM_WITHDRAW' | 'CLAIM_WITHDRAW_REQUEST' | 'DELETE_DEPOSIT_REQUEST' | 'DELETE_WITHDRAW_REQUEST' | 'GET_INSTANT_WITHDRAWS' | 'PROCESS_DEPOSIT_QUEUE' | 'PROCESS_WITHDRAW_CLAIMS' | 'PROCESS_WITHDRAW_QUEUE' | 'REQUEST_DEPOSIT' | 'REQUEST_WITHDRAW' | 'START_EPOCH' | 'STOP_EPOCH';
+export declare function sTransactionTypeCdoEpoch(): import("fluent-json-schema").StringSchema;
+export type TransactionType = TransactionTypeCommon | TransactionTypeParetoDollar | TransactionTypeCdoEpoch;
 export declare const TRANSACTION_TYPES: string[];
 export declare function sTransactionType(): import("fluent-json-schema").StringSchema;
+/**
+ * #####################################
+ * ####### END TRANSACTION TYPES #######
+ * #####################################
+ */
 export type TransactionFields = '_id' | 'vaultId' | 'vaultAddress' | 'walletId' | 'walletAddress' | 'tokenId' | 'type' | 'hash' | 'block' | 'amount' | 'tokenAmount' | 'price' | 'input' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy';
 export declare const TRANSACTION_FIELDS: string[];
 export declare const TRANSACTION_SORT_FIELDS: string[];

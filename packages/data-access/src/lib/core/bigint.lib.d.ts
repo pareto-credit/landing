@@ -8,6 +8,13 @@ export type BigNumberValue = BigNumber.Value | bigint;
  */
 export declare function BNify(value?: BigNumberValue): BigNumber;
 /**
+ * Divide num by dev avoiding NaN
+ * @param num numerator
+ * @param den denominator
+ * @returns num/den
+ */
+export declare function BNSafeDiv(num: BigNumberValue, den: BigNumberValue): BigNumber;
+/**
  * Transform a value to BigNumber string
  * @param value - the value to transform
  * @returns the big number as string

@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/chains/chain.const.ts"],"sourcesContent":["export const CHAINS_ROUTES_KEY = 'chains'\n"],"names":["CHAINS_ROUTES_KEY"],"mappings":"AAAA,OAAO,MAAMA,oBAAoB,SAAQ"}

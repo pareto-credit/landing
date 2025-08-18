@@ -17,6 +17,7 @@ export declare function parseVaultContractAPRs(APRs: VaultContractAPRs, integrat
 export declare function parseAPYs(vaultContractType: VaultContractType, APRs: VaultBlockAPRs, options?: {
     feePercentage?: number;
     totalDuration?: number;
+    compoudingPeriod?: number;
 }): VaultBlockAPYs;
 /**
  * Compound vault APR
@@ -25,7 +26,7 @@ export declare function parseAPYs(vaultContractType: VaultContractType, APRs: Va
  * @param rate APR
  * @returns Compounded APR
  */
-export declare function compoundVaultApr(vaultContractType: VaultContractType, type: keyof VaultBlockAPRs, rate: number, totalDuration?: number): number;
+export declare function compoundVaultApr(vaultContractType: VaultContractType, type: keyof VaultBlockAPRs, rate: number, totalDuration?: number, compoudingPeriod?: number): number;
 /**
  * Get vault compounding period
  * @param vault vault entity
@@ -135,3 +136,21 @@ export declare function getVaultBlockEpochProgression(block: VaultBlock, date?: 
  * @returns the vault block net APY calculated by gross and net
  */
 export declare function getVaultBlockAPYNet(block: VaultBlock, type: 'BASE' | 'REWARDS'): string;
+/**
+ * Filter vault blocks per day
+ * @param blocks - the vault blocks
+ * @returns the blocks filtered
+ */
+export declare function filterVaultBlocksPerDay(blocks: VaultBlock[]): VaultBlock[];
+/**
+ * Return true if the epoch has been withdrawed
+ * @param block - the vault block
+ * @returns true if withdrawed
+ */
+export declare function isVaultBlockEpochWithdrawed(block: VaultBlock): boolean;
+/**
+ * Get vault block epoch to withdraw
+ * @param block - the vault block
+ * @returns the amount to withdraw from the block
+ */
+export declare function getVaultBlockEpochToWithdraw(block: VaultBlock): string;

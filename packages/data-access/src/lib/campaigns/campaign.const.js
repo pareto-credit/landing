@@ -1,4 +1,5 @@
 export const CAMPAIGNS_ROUTES_KEY = 'campaigns';
+export const CAMPAIGNS_IDLE_QUEUE = 'IDLE_CAMPAIGNS';
 export const CAMPAIGN_FIELDS = [
     '_id',
     'tokenId',

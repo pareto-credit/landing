@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/galxe-client/galxe-client.model.ts"],"sourcesContent":["export interface GalxeSpacePoints {\n  id: string\n  addressLoyaltyPoints: {\n    id: string\n    points: number\n    rank: number\n  }\n}\n"],"names":[],"mappings":"AAAA,WAOC"}

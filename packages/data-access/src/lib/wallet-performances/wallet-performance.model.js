@@ -6,18 +6,19 @@ export function sWalletPerformance(isPartial) {
     return S.object().id('#walletPerformance').additionalProperties(false).extend(sClientEntity(isPartial)).extend(sWalletPerformanceData(isPartial));
 }
 export function sWalletPerformanceData(isPartial) {
-    return S.object().additionalProperties(false).prop('walletId', sStringId()).prop('walletBlockId', sStringId()).prop('vaultId', sStringId()).prop('block', sBlock()).required(isPartial ? [] : [
+    return S.object().additionalProperties(false).prop('walletId', sStringId()).prop('walletAddress', sBCAddress()).prop('vaultId', sStringId()).prop('vaultAddress', sBCAddress()).prop('block', sBlock()).prop('deposits', sWalletBlockAmounts()).description("The wallet's deposits.").prop('redeemable', sWalletBlockAmounts()).description("The wallet's redeemable amounts.").required(isPartial ? [] : [
         'walletId',
-        'walletBlockId',
+        'walletAddress',
         'vaultId',
+        'vaultAddress',
         'block'
     ]).extend(sWalletBlockPerformance(isPartial));
 }
 export function sWalletPositionAggregated() {
-    return S.object().additionalProperties(false).prop('vaultIds', S.array().items(sStringId())).required().prop('operators', S.array().items(sWalletPositionOperator())).required().prop('chains', S.array().items(sWalletPositionChain())).required().prop('tokens', S.array().items(sWalletPositionToken())).required().prop('deposits', sWalletBlockAmounts()).description("The user's deposits.").required().prop('redeemable', sWalletBlockAmounts()).description("The user's redeemable amounts.").required().extend(sWalletBlockPerformance());
+    return S.object().additionalProperties(false).prop('vaultIds', S.array().items(sStringId())).required().prop('operators', S.array().items(sWalletPositionOperator())).required().prop('chains', S.array().items(sWalletPositionChain())).required().prop('tokens', S.array().items(sWalletPositionToken())).required().prop('deposits', sWalletBlockAmounts()).description("The user's deposits.").required().prop('redeemable', sWalletBlockAmounts()).description("The user's redeemable amounts.").required().prop('pendingDeposits', sWalletBlockAmounts()).description("The user's pending deposits.").required().prop('pendingWithdraws', sWalletBlockAmounts()).description("The user's pending withdraws.").required().extend(sWalletBlockPerformance());
 }
 export function sWalletPositionToken() {
-    return S.object().additionalProperties(false).prop('tokenId', sStringId()).required().prop('tokenAddress', sBCAddress()).required().prop('amount', sBigInt()).required().prop('USD', sBigInt()).required().prop('percentage', S.number()).required();
+    return S.object().additionalProperties(false).prop('walletId', sStringId()).required().prop('tokenId', sStringId()).required().prop('tokenAddress', sBCAddress()).required().prop('amount', sBigInt()).required().prop('USD', sBigInt()).required().prop('percentage', S.number()).required().prop('pool', S.string()).prop('operatorId', sStringId());
 }
 export function sWalletPositionChain() {
     return S.object().additionalProperties(false).prop('chainId', sStringId()).required().prop('USD', sBigInt()).required().prop('percentage', S.number()).required();
@@ -28,14 +29,17 @@ export function sWalletPositionOperator() {
 export function sWalletDistributedRewards() {
     return S.object().additionalProperties(false).prop('block', sBlock()).required().prop('APR', S.number()).required().prop('percentage', S.number()).required().extend(sWalletBlockDistributedRewards());
 }
+export function sWalletDeposits() {
+    return S.object().additionalProperties(false).prop('firstBlock', sBlock()).prop('walletId', sStringId()).required().prop('avgPrice', sBigInt()).description("The user's avg buy price.").required().prop('deposits', sWalletBlockAmounts()).description("The user's deposits.").required().prop('redeemable', sWalletBlockAmounts()).description("The user's redeemable amounts.").required().prop('pendingDeposits', sWalletBlockAmounts()).description("The user's pending deposits.").required().prop('pendingWithdraws', sWalletBlockAmounts()).description("The user's pending withdraws.").required();
+}
 export function sWalletVaultBalance() {
     return S.object().additionalProperties(false).prop('block', sBlock()).required().prop('balance', sBigInt()).description('The balance of the wallet in the vault.').required().prop('tokenBalance', sBigInt()).description('The current token balance of the wallet.').required();
 }
 export function sWalletPosition() {
-    return S.object().additionalProperties(false).prop('vaultId', sStringId()).required().prop('chainId', sStringId()).required().prop('tokenId', sStringId()).required().prop('vaultAddress', sBCAddress()).required().prop('tokenAddress', sBCAddress()).required().prop('vaultPrice', sBigInt()).description('The current vault price').required().prop('avgPrice', sBigInt()).description("The user's avg buy price.").required().prop('deposits', sWalletBlockAmounts()).description("The user's deposits.").required().prop('redeemable', sWalletBlockAmounts()).description("The user's redeemable amounts.").required().prop('balances', S.array().items(sWalletVaultBalance())).description("The user's redeemable amounts.").extend(sWalletBlockPerformance());
+    return S.object().additionalProperties(false).prop('walletId', sStringId()).required().prop('vaultId', sStringId()).required().prop('chainId', sStringId()).required().prop('tokenId', sStringId()).required().prop('walletAddress', sBCAddress()).required().prop('vaultAddress', sBCAddress()).required().prop('tokenAddress', sBCAddress()).required().prop('vaultPrice', sBigInt()).description('The current vault price').required().prop('balances', S.array().items(sWalletVaultBalance())).description("The user's redeemable amounts.").extend(sWalletBlockPerformance()).extend(sWalletDeposits());
 }
 export function sWalletBlockPerformance(isPartial) {
-    return S.object().additionalProperties(false).prop('age', S.number()).prop('earnings', sWalletBlockEarnings()).description("The user's earnings.").prop('realizedAPY', S.number()).description("The user's APY realized.").prop('rewardsRealizedAPY', S.number()).description("The user's APY realized with rewards.").prop('poolSharePercentage', sPercentage()).description('The pool share percentage of the user.').prop('accruedRewards', S.array().items(sReward())).description('The accrued rewards of the user.').prop('collectedRewards', S.array().items(sReward())).description('The collected rewards of the user.')// Backward-compatible
+    return S.object().additionalProperties(false).prop('age', S.number()).prop('earnings', sWalletBlockEarnings()).description("The user's earnings.").prop('fees', sWalletBlockAmounts()).description("The user's fees.").prop('realizedAPY', S.number()).description("The user's APY realized.").prop('rewardsRealizedAPY', S.number()).description("The user's APY realized with rewards.").prop('poolSharePercentage', sPercentage()).description('The pool share percentage of the user.').prop('accruedRewards', S.array().items(sReward())).description('The accrued rewards of the user.').prop('collectedRewards', S.array().items(sReward())).description('The collected rewards of the user.').prop('tokens', S.array().items(sWalletPositionToken()))// Backward-compatible
     .prop('balance', sBigInt()).description('The balance of the wallet in the vault.').prop('tokenBalance', sBigInt()).description('The current token balance of the wallet.').required(isPartial ? [] : [
         'age',
         'earnings',
@@ -60,7 +64,6 @@ export var WalletPerformanceErrorCodes;
 export const WALLET_PERFORMANCE_FIELDS = [
     '_id',
     'walletId',
-    'walletBlockId',
     'vaultId',
     'block',
     'age',
@@ -75,18 +78,13 @@ export const WALLET_PERFORMANCE_FIELDS = [
     'updatedBy'
 ];
 export const WALLET_PERFORMANCE_SORT_FIELDS = [
-    'block',
-    'timestamp'
+    '_id'
 ];
 export function sWalletPerformancesSearchQuery() {
-    return S.object().additionalProperties(false).prop('walletId', S.array().minItems(1).maxItems(200).items(sStringId())).description('Wallet IDs of the performance that must match.').prop('vaultId', S.array().minItems(1).maxItems(200).items(sStringId())).description('Vault IDs of the performance that must match.').prop('walletBlockId', S.array().minItems(1).maxItems(200).items(sStringId())).description('Wallet block IDs of the performance that must match.').prop('timestamp:gte', S.number()).description('Start timestamp of the performance.').prop('timestamp:lte', S.number()).description('End timestamp of the performance.').extend(sPageSearchQuery(WALLET_PERFORMANCE_FIELDS, WALLET_PERFORMANCE_SORT_FIELDS));
+    return S.object().additionalProperties(false).prop('walletId', S.array().minItems(1).maxItems(200).items(sStringId())).description('Wallet IDs of the performance that must match.').prop('vaultId', S.array().minItems(1).maxItems(200).items(sStringId())).description('Vault IDs of the performance that must match.').prop('timestamp:gte', S.number()).description('Start timestamp of the performance.').prop('timestamp:lte', S.number()).description('End timestamp of the performance.').extend(sPageSearchQuery(WALLET_PERFORMANCE_FIELDS, WALLET_PERFORMANCE_SORT_FIELDS));
 }
 export var WalletPerformanceRoutes;
 (function(WalletPerformanceRoutes) {
-    WalletPerformanceRoutes[WalletPerformanceRoutes["v1Create"] = `v1/${WALLET_PERFORMANCES_ROUTES_KEY}`] = "v1Create";
-    WalletPerformanceRoutes[WalletPerformanceRoutes["v1Delete"] = `v1/${WALLET_PERFORMANCES_ROUTES_KEY}/:walletPerformanceId`] = "v1Delete";
-    WalletPerformanceRoutes[WalletPerformanceRoutes["v1Read"] = `v1/${WALLET_PERFORMANCES_ROUTES_KEY}/:walletPerformanceId`] = "v1Read";
-    WalletPerformanceRoutes[WalletPerformanceRoutes["v1Update"] = `v1/${WALLET_PERFORMANCES_ROUTES_KEY}/:walletPerformanceId`] = "v1Update";
     WalletPerformanceRoutes[WalletPerformanceRoutes["v1Search"] = `v1/${WALLET_PERFORMANCES_ROUTES_KEY}`] = "v1Search";
 })(WalletPerformanceRoutes || (WalletPerformanceRoutes = {}));
 

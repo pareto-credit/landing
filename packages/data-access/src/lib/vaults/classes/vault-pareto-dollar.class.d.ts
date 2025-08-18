@@ -1,7 +1,7 @@
 import { BlockNumber } from '../../core';
 import { Token } from '../../tokens';
 import { Web3CallData } from '../../web3-client';
-import { Vault, VaultContractData, VaultContractModel, VaultContractOptions, VaultNonPayableMethodOptions, VaultNonPayableMethodType, VaultPayableMethodOptions, VaultPayableMethodType } from '../vault.model';
+import { Vault, VaultContractData, VaultContractModel, VaultContractOptions, VaultContractPoolData, VaultNonPayableMethodOptions, VaultNonPayableMethodType, VaultPayableMethodOptions, VaultPayableMethodType } from '../vault.model';
 import { VaultContract } from './vault-contract.class';
 export declare class VaultParetoDollar extends VaultContract implements VaultContractModel {
     constructor(vault: Vault, token: Token, options?: VaultContractOptions);
@@ -11,12 +11,32 @@ export declare class VaultParetoDollar extends VaultContract implements VaultCon
      */
     getContractData(blockNumber?: BlockNumber): Promise<VaultContractData>;
     /**
+     * Get Euler vaults data for each wallet
+     * @param blockNumber block number
+     * @param contractData main contract data
+     * @returns euler vaults data
+     */
+    protected getEulerWalletsCalls(): Web3CallData[];
+    private makeEulerVaultsCalls;
+    /**
+     * Parse Cdo epoch raw contract data
+     * @param contractData Cdo Epoch contract raw data
+     * @returns Parsed Cdo Epoch contract data
+     */
+    protected parseContractData(contractData: VaultContractData): VaultContractData;
+    /**
+     * Include napierPT pool tokens into napierYT pool
+     * @param pools
+     * @returns parsed pools
+     */
+    protected parsePools(pools: VaultContractPoolData[]): VaultContractPoolData[];
+    /**
      * Get additional data from queue contract
      * @param blockNumber block number
      * @param contractData main contract data
      * @returns vault contract data
      */
-    private getQueueAdditionalData;
+    private getAdditionalData;
     /**
      * Get contract data from queue contract
      * @param blockNumber block number
@@ -54,7 +74,7 @@ export declare class VaultParetoDollar extends VaultContract implements VaultCon
      * Prepare call data
      * @returns the web3 call data
      */
-    protected makeCallData(): Web3CallData[];
+    protected makeCallData(blockNumber?: BlockNumber): Web3CallData[];
     /**
      * Get vault non payable method
      * @param type

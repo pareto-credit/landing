@@ -14,6 +14,7 @@ export interface OperatorData {
     caption?: Locales<string>;
     rating?: string;
     location?: string;
+    color?: string;
     links?: OperatorLinks;
 }
 export declare function sOperatorData(isPartial?: boolean): import("fluent-json-schema").ObjectSchema<{

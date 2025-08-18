@@ -1,5 +1,7 @@
+import { WEB3_DEFAULT_ADDR } from '../../web3-client';
 import { VaultContractFactory } from '../classes/vault-contract.factory';
-import { compLower } from '../../core';
+import { compLower, isAddress } from '../../core';
+import { uniq } from 'lodash';
 /**
  * Load vault web3 data
  * @param web3Clients - the web3 clients
@@ -84,20 +86,56 @@ import { compLower } from '../../core';
     };
 }
 /**
+ *
+ * @param vault
+ * @returns
+ */ export function getVaultPoolsAddresses(vault) {
+    return (vault.pools || []).reduce((acc, p)=>{
+        const newAcc = [
+            ...acc,
+            p.address.toLowerCase()
+        ];
+        if (p.oracle) {
+            return [
+                ...newAcc,
+                p.oracle.address.toLowerCase()
+            ];
+        }
+        return newAcc;
+    }, []);
+}
+/**
  * Get Pool event type
  * @param vault vault object
  * @param from from address
  * @param to to address
  * @returns pool event type (if any)
  */ export function getVaultPoolEventType(vault, from, to) {
-    var _vault_pools, _vault_pools1;
-    if ((_vault_pools = vault.pools) == null ? void 0 : _vault_pools.map((p)=>p.address.toLowerCase()).includes(to.toLowerCase())) {
+    const poolAddresses = getVaultPoolsAddresses(vault);
+    if (poolAddresses.includes(to.toLowerCase())) {
         return 'STAKE_POOL';
     }
-    if ((_vault_pools1 = vault.pools) == null ? void 0 : _vault_pools1.map((p)=>p.address.toLowerCase()).includes(from.toLowerCase())) {
+    if (poolAddresses.includes(from.toLowerCase())) {
         return 'UNSTAKE_POOL';
     }
     return;
+}
+/**
+ * Check if a transfer is an internal pool
+ * @param vault vault object
+ * @param from from address
+ * @param to to address
+ * @returns true | false
+ */ export function checkVaultPoolInternalTransfer(vault, from, to) {
+    const poolAddresses = getVaultPoolsAddresses(vault);
+    const eventType = getVaultPoolEventType(vault, from, to);
+    switch(eventType){
+        case 'STAKE_POOL':
+            return poolAddresses.includes(from.toLowerCase());
+        case 'UNSTAKE_POOL':
+            return poolAddresses.includes(to.toLowerCase());
+    }
+    return false;
 }
 /**
  * Check if a specific address corresponds to a vault contract address
@@ -114,7 +152,31 @@ import { compLower } from '../../core';
     const isWithdrawQueue = ((_vault_cdoEpoch1 = vault.cdoEpoch) == null ? void 0 : _vault_cdoEpoch1.withdrawQueue) ? compLower(address, vault.cdoEpoch.withdrawQueue.address) : false;
     const isParetoDollarQueue = ((_vault_paretoDollar = vault.paretoDollar) == null ? void 0 : _vault_paretoDollar.queue) ? compLower(address, vault.paretoDollar.queue.address) : false;
     const isParetoDollarStaking = ((_vault_paretoDollar1 = vault.paretoDollar) == null ? void 0 : _vault_paretoDollar1.staking) ? compLower(address, vault.paretoDollar.staking.address) : false;
-    return isVault || isCdo || isCdoEpoch || isStrategy || isDepositQueue || isWithdrawQueue || isParetoDollarQueue || isParetoDollarStaking;
+    const poolAddresses = getVaultPoolsAddresses(vault);
+    const isPoolAddress = poolAddresses.includes(address.toLowerCase());
+    return isVault || isCdo || isCdoEpoch || isStrategy || isDepositQueue || isWithdrawQueue || isParetoDollarQueue || isParetoDollarStaking || isPoolAddress;
+}
+/**
+ * Get all wallet addresses to track from a web3 event
+ * @param vault vault object
+ * @param event web3 event
+ * @returns list of addresses
+ */ export function getWeb3EventAddresses(vault, event, transaction) {
+    const addresses = [
+        transaction == null ? void 0 : transaction.from,
+        event.values['from'],
+        event.values['to'],
+        event.values['_from'],
+        event.values['_to'],
+        event.values['user'],
+        event.values['owner'],
+        event.values['receiver'],
+        event.values['sender'],
+        event.values['owner'],
+        event.values['0'],
+        event.values['1']
+    ].filter((address)=>address && isAddress(address) && address !== WEB3_DEFAULT_ADDR && !checkContractAddress(vault, address));
+    return uniq(addresses.map((addr)=>addr.toLowerCase()));
 }
 
 //# sourceMappingURL=vault-web3.lib.js.map

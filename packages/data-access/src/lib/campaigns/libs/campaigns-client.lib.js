@@ -44,6 +44,13 @@ export class CampaignsClient extends ApiEntity {
         return this._findOne(CampaignRoutes.v1Search, searchParams);
     }
     /**
+   * Read a campaign by params
+   * @param searchParams - the search params
+   * @returns the promise for read a campaign
+   */ readOne(searchParams) {
+        return this._readOne(CampaignRoutes.v1Search, searchParams);
+    }
+    /**
    * Get campaign points for a wallet address
    * @param campaignId - the campaign ID
    * @param walletAddress - the wallet address
@@ -55,6 +62,18 @@ export class CampaignsClient extends ApiEntity {
             params: new URLSearchParams(uriFy({
                 walletAddress
             }))
+        }).then((response)=>response.data);
+    }
+    /**
+   * Get campaign ranking
+   * @param campaignId - the campaign ID
+   * @param query - the campaign ranking query
+   * @returns the ranking of a campaign
+   */ ranking(campaignId, query) {
+        return this.axios.request({
+            url: CampaignRoutes.v1Ranking.replace(':campaignId', campaignId),
+            method: 'GET',
+            params: new URLSearchParams(uriFy(query))
         }).then((response)=>response.data);
     }
     constructor(axios){
