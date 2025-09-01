@@ -269,6 +269,10 @@ const adaptiveIcon = "/assets/img/adaptive-lcDahoJX.png";
 
 const adaptiveBg = "<svg width=\"158\" height=\"100\" viewBox=\"0 0 158 100\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<mask id=\"mask0_1_14\" style=\"mask-type:alpha\" maskUnits=\"userSpaceOnUse\" x=\"0\" y=\"0\" width=\"158\" height=\"100\">\n<rect width=\"158\" height=\"100\" fill=\"#D9D9D9\"/>\n</mask>\n<g mask=\"url(#mask0_1_14)\">\n<path opacity=\"0.5\" d=\"M138.357 -23.6939C124.264 -20.9712 112.092 -11.0416 105.846 2.572C102.322 10.259 102.162 12.501 101.682 57.505L101.201 104.43H111H120.26V75.762L120.58 48.216H138.998H157.416V39.407V30.599H138.998H120.58V21.79C120.58 5.29399 129.709 -4.475 146.685 -6.077L156.615 -7.038V-15.8463V-24.6548L151.009 -24.9751C147.966 -25.1353 142.201 -24.4947 138.357 -23.6939Z\" fill=\"#EFF1EE\"/>\n<path opacity=\"0.5\" d=\"M39.079 11.065C17.1687 14.499 0 34.611 0 56.848C0 74.181 11.2823 91.513 27.6334 99.525C34.501 102.959 37.935 103.286 64.26 103.776L93.201 104.43V75.162C93.201 48.019 92.874 45.403 89.277 37.881C80.447 18.587 60.009 7.63202 39.079 11.065ZM56.738 30.687C62.952 32.976 70.31 40.007 72.926 46.384C74.397 49.654 75.215 57.83 75.215 68.131V84.482H56.902C41.041 84.482 37.608 83.991 32.866 81.048C17.1687 71.564 13.8984 52.597 25.6712 38.535C33.193 29.706 45.783 26.435 56.738 30.687Z\" fill=\"#EFF1EE\"/>\n</g>\n</svg>\n";
 
+const rockawayIcon = "/assets/img/rockawayx-QIXQCOeu.png";
+
+const rockawayBg = "<svg width=\"120\" height=\"70\" viewBox=\"0 0 120 70\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<g clip-path=\"url(#clip0_846_3080)\">\n<g opacity=\"0.5\">\n<path d=\"M48.5894 47.1968H30.7465L8 80.433H21.5574L39.4003 54.4085L56.949 80.433H71L48.5894 47.1968Z\" fill=\"#EFEFEF\"/>\n<path d=\"M30.4126 42.2362H48.255L71 9H57.4436L39.6012 35.0245L22.0535 9H8L30.4126 42.2362Z\" fill=\"#EFEFEF\"/>\n</g>\n</g>\n<defs>\n<clipPath id=\"clip0_846_3080\">\n<rect width=\"120\" height=\"70\" fill=\"white\"/>\n</clipPath>\n</defs>\n</svg>\n";
+
 const borrow = "/assets/borrow-DDWUC14N.svg";
 
 const lend = "/assets/lend-DDO0RjU-.svg";
@@ -411,6 +415,33 @@ const HomeEnCopy = {
         badges: ["USDT", "Fixed rate"],
         address: "0xae7913c672c7F1f76C2a1a0Ac4de97d082681234",
         itemDescription: "Fixed-rate loan channeling funds into delta neutral arbitrage and market making strategies",
+        infoBlock: [
+          {
+            id: "TVL",
+            title: "TVL",
+            value: "$-"
+          },
+          {
+            id: "APY",
+            title: "Net APY",
+            value: "-%"
+          },
+          {
+            id: "RED",
+            title: "Redemptions",
+            value: "Monthly"
+          }
+        ],
+        isActive: false
+      },
+      {
+        icon: rockawayIcon,
+        title: "RockawayX",
+        description: "Credit & DeFi Liquidity",
+        bgImage: rockawayBg,
+        badges: ["USDC", "Fixed rate"],
+        address: "0xEC6a70F62a83418c7fb238182eD2865F80491a8B",
+        itemDescription: "The vault is a fixed-rate credit facility with a 30-day notice period for redemptions.",
         infoBlock: [
           {
             id: "TVL",
