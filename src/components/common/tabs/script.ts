@@ -24,9 +24,9 @@ export class HeroTabs extends Component {
         const apiClient = getApiClient();
         const [vaults, performances] = await Promise.all([
           apiClient.vaults.search({
-            status: "READY",
-            contractType: "CDO_EPOCH",
-            fields: ["_id", "address", "visibility", "siblings"],
+            status: 'READY',
+            contractType: 'CDO_EPOCH',
+            fields: ['_id', 'address', 'visibility', 'siblings'] as any,
           }),
           apiClient.vaults.performances({}),
         ]);
@@ -77,43 +77,34 @@ export class HeroTabs extends Component {
             }
 
 
-            const aprEl = tabEl.querySelector(
-              '.info-block__item[data-id="APY"] .value h4'
-            );
+            const aprEl = tabEl.querySelector('.info-block__item[data-id="APY"] .value h4');
             if (aprEl) {
-              aprEl.innerHTML = Number(vaultBlock.APYs.NET).toFixed(2) + "%";
+              aprEl.innerHTML = Number(vaultBlock.APYs.NET).toFixed(2) + '%';
             }
 
-            const tvlEl = tabEl.querySelector(
-              '.info-block__item[data-id="TVL"] .value h4'
-            );
+            const tvlEl = tabEl.querySelector('.info-block__item[data-id="TVL"] .value h4');
+
             if (tvlEl) {
               const intlOptions: Intl.NumberFormatOptions = {
                 maximumFractionDigits: 1,
-                notation: "compact",
-                currency: "USD",
-                style: "currency",
-                compactDisplay: "short",
+                notation: 'compact',
+                currency: 'USD',
+                style: 'currency',
+                compactDisplay: 'short',
               };
-              const formatter = new Intl.NumberFormat("en-US", intlOptions);
+              const formatter = new Intl.NumberFormat('en-US', intlOptions);
 
-              let totalTvl = Number(
-                vaultBlock.TVL.withRequestsUSD || vaultBlock.TVL.USD
-              );
+              let totalTvl = Number(vaultBlock.TVL.withRequestsUSD || vaultBlock.TVL.USD);
 
               v.siblings?.forEach(s => {
-                const sBlock = vaultLatestBlocks.data.find(
-                  (b) => b.vaultId === s._id
-                );
-                totalTvl += Number(
-                  sBlock.TVL.withRequestsUSD || sBlock.TVL.USD
-                );
-              })
+                const sBlock = vaultLatestBlocks.data.find((b) => b.vaultId === s._id);
+                totalTvl += Number(sBlock.TVL.withRequestsUSD || sBlock.TVL.USD);
+              });
 
               tvlEl.innerHTML = formatter.format(totalTvl / 1000000);
             }
 
-        })
+        });
     }
 
     initializeHeroTabs() {
