@@ -265,6 +265,10 @@ const bastionIcon = "/assets/img/bastion-4ogTwmjt.png";
 
 const bastionBg = "<svg width=\"119\" height=\"70\" viewBox=\"0 0 119 70\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<g clip-path=\"url(#clip0_354_1019)\">\n<path opacity=\"0.5\" d=\"M45.11 45.1998H26.6685L20 83L57.8005 76.3305V57.89C51.9143 55.7568 47.2426 51.0864 45.11 45.1998ZM20 -7L26.6685 30.8002H45.11C47.2426 24.914 51.9143 20.2433 57.8005 18.1098V-0.330503L20 -7ZM72.2003 -0.330503V18.1098C78.0857 20.2433 82.7574 24.914 84.8898 30.8002H103.331L110 -7L72.2003 -0.330503ZM110 83L72.2003 76.3305V57.89C78.0857 55.7568 82.7574 51.0864 84.8898 45.1998H103.331L110 83Z\" fill=\"#EFF1EE\"/>\n</g>\n<defs>\n<clipPath id=\"clip0_354_1019\">\n<rect width=\"119\" height=\"70\" fill=\"white\"/>\n</clipPath>\n</defs>\n</svg>\n";
 
+const adaptiveIcon = "/assets/img/adaptive-lcDahoJX.png";
+
+const adaptiveBg = "<svg width=\"158\" height=\"100\" viewBox=\"0 0 158 100\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<mask id=\"mask0_1_14\" style=\"mask-type:alpha\" maskUnits=\"userSpaceOnUse\" x=\"0\" y=\"0\" width=\"158\" height=\"100\">\n<rect width=\"158\" height=\"100\" fill=\"#D9D9D9\"/>\n</mask>\n<g mask=\"url(#mask0_1_14)\">\n<path opacity=\"0.5\" d=\"M138.357 -23.6939C124.264 -20.9712 112.092 -11.0416 105.846 2.572C102.322 10.259 102.162 12.501 101.682 57.505L101.201 104.43H111H120.26V75.762L120.58 48.216H138.998H157.416V39.407V30.599H138.998H120.58V21.79C120.58 5.29399 129.709 -4.475 146.685 -6.077L156.615 -7.038V-15.8463V-24.6548L151.009 -24.9751C147.966 -25.1353 142.201 -24.4947 138.357 -23.6939Z\" fill=\"#EFF1EE\"/>\n<path opacity=\"0.5\" d=\"M39.079 11.065C17.1687 14.499 0 34.611 0 56.848C0 74.181 11.2823 91.513 27.6334 99.525C34.501 102.959 37.935 103.286 64.26 103.776L93.201 104.43V75.162C93.201 48.019 92.874 45.403 89.277 37.881C80.447 18.587 60.009 7.63202 39.079 11.065ZM56.738 30.687C62.952 32.976 70.31 40.007 72.926 46.384C74.397 49.654 75.215 57.83 75.215 68.131V84.482H56.902C41.041 84.482 37.608 83.991 32.866 81.048C17.1687 71.564 13.8984 52.597 25.6712 38.535C33.193 29.706 45.783 26.435 56.738 30.687Z\" fill=\"#EFF1EE\"/>\n</g>\n</svg>\n";
+
 const borrow = "/assets/borrow-DDWUC14N.svg";
 
 const lend = "/assets/lend-DDO0RjU-.svg";
@@ -320,6 +324,32 @@ const HomeEnCopy = {
     ],
     tabs: [
       {
+        icon: falconx,
+        title: "FalconX",
+        description: "Prime Brokerage",
+        bgImage: falconxBg,
+        badges: ["USDС", "Fixed rate"],
+        address: "0xc26a6fa2c37b38e549a4a1807543801db684f99c",
+        itemDescription: "Lending funds to an SPV managed by a top-tier Prime Broker, providing financing to end-counterparties while being secured by structural protections.",
+        infoBlock: [
+          {
+            id: "TVL",
+            title: "TVL",
+            value: "$-"
+          },
+          {
+            title: "Net APY",
+            value: "Hidden"
+          },
+          {
+            id: "RED",
+            title: "Redemptions",
+            value: "Monthly"
+          }
+        ],
+        isActive: true
+      },
+      {
         icon: fasanra,
         title: "Fasanara Digital",
         description: "Basis Trade",
@@ -347,13 +377,13 @@ const HomeEnCopy = {
         isActive: false
       },
       {
-        icon: falconx,
-        title: "FalconX",
-        description: "Prime Brokerage",
-        bgImage: falconxBg,
-        badges: ["USDС", "Fixed rate"],
-        address: "0x24e16F9Fad32891f8bA69cE8fEdd273A2649331A",
-        itemDescription: "Lending funds to an SPV managed by a top-tier Prime Broker, providing financing to end-counterparties while being secured by structural protections.",
+        icon: bastionIcon,
+        title: "Bastion Trading",
+        description: "Market Making",
+        bgImage: bastionBg,
+        badges: ["USDT", "Fixed rate"],
+        address: "0xC49b4ECc14aa31Ef0AD077EdcF53faB4201b724c",
+        itemDescription: "Fixed rate loan channeling funds into derivatives trading and market-making strategies.",
         infoBlock: [
           {
             id: "TVL",
@@ -361,8 +391,9 @@ const HomeEnCopy = {
             value: "$-"
           },
           {
+            id: "APY",
             title: "Net APY",
-            value: "Hidden"
+            value: "-%"
           },
           {
             id: "RED",
@@ -370,16 +401,16 @@ const HomeEnCopy = {
             value: "Monthly"
           }
         ],
-        isActive: true
+        isActive: false
       },
       {
-        icon: bastionIcon,
-        title: "Bastion Trading",
-        description: "Market Making",
-        bgImage: bastionBg,
+        icon: adaptiveIcon,
+        title: "Adaptive Frontier",
+        description: "HF Trading",
+        bgImage: adaptiveBg,
         badges: ["USDT", "Fixed rate"],
-        address: "0xaE65d6C295E4a28519182a632FB25b7C1966AED7",
-        itemDescription: "Fixed rate loan channeling funds into derivatives trading and market-making strategies.",
+        address: "0xae7913c672c7F1f76C2a1a0Ac4de97d082681234",
+        itemDescription: "Fixed-rate loan channeling funds into delta neutral arbitrage and market making strategies",
         infoBlock: [
           {
             id: "TVL",
