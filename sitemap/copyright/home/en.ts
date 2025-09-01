@@ -70,7 +70,7 @@ export const HomeEnCopy = {
                 description: 'Prime Brokerage',
                 bgImage: falconxBg,
                 badges: ['USDС', 'Fixed rate'],
-                address: '0x24e16F9Fad32891f8bA69cE8fEdd273A2649331A',
+                address: '0xc26a6fa2c37b38e549a4a1807543801db684f99c',
                 itemDescription: 'Lending funds to an SPV managed by a top-tier Prime Broker, providing financing to end-counterparties while being secured by structural protections.',
                 infoBlock: [
                     {

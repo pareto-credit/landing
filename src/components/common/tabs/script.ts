@@ -22,17 +22,13 @@ export class HeroTabs extends Component {
 
     async loadVaults() {
         const apiClient = getApiClient();
-        const [
-            vaults,
-            performances,
-        ] = await Promise.all([
-            apiClient.vaults.search({
-                status: 'READY',
-                contractType: 'CDO_EPOCH',
-                fields: ['_id'],
-            }),
-            apiClient.vaults.performances({
-            }),
+        const [vaults, performances] = await Promise.all([
+          apiClient.vaults.search({
+            status: "READY",
+            contractType: "CDO_EPOCH",
+            fields: ["_id", "address", "visibility", "siblings"],
+          }),
+          apiClient.vaults.performances({}),
         ]);
 
         // Add Performances
@@ -58,36 +54,65 @@ export class HeroTabs extends Component {
         }
 
         // Add product cards
-        const vaultIds = vaults.data.map( v => v._id );
+        const vaultIds = vaults.data.reduce((acc, v) => {
+            const siblingIds = v.siblings ? v.siblings.map(v => v._id) : [];
+            return [
+                ...acc,
+                ...siblingIds,
+                v._id,
+            ];
+        }, []);
+
         const vaultLatestBlocks = await apiClient.vaultLatestBlocks.search({
             vaultId: vaultIds,
         });
 
-        vaultLatestBlocks.data.forEach( vaultBlock => {
+        vaults.data.filter(v => v.visibility === 'PUBLIC').forEach(v => {
 
-            const tabEl = document.querySelector('.tabs-list__item[data-address="'+vaultBlock.vaultAddress+'"]');
+            const tabEl = document.querySelector('.tabs-list__item[data-address="' + v.address + '"]');
 
-            if (!tabEl) {
-                return false
+            const vaultBlock = vaultLatestBlocks.data.find(b => b.vaultId === v._id);
+            if (!tabEl || !vaultBlock) {
+                return false;
             }
 
-            const aprEl = tabEl.querySelector('.info-block__item[data-id="APY"] .value h4');
-            if (aprEl){
-                aprEl.innerHTML = Number(vaultBlock.APYs.NET).toFixed(2)+'%';
+
+            const aprEl = tabEl.querySelector(
+              '.info-block__item[data-id="APY"] .value h4'
+            );
+            if (aprEl) {
+              aprEl.innerHTML = Number(vaultBlock.APYs.NET).toFixed(2) + "%";
             }
 
-            const tvlEl = tabEl.querySelector('.info-block__item[data-id="TVL"] .value h4');
-            if (tvlEl){
-                const intlOptions: Intl.NumberFormatOptions = {
-                    maximumFractionDigits: 1,
-                    notation: 'compact',
-                    currency: 'USD',
-                    style: 'currency',
-                    compactDisplay: 'short',
-                };
-                const formatter = new Intl.NumberFormat('en-US', intlOptions);
-                tvlEl.innerHTML = formatter.format(Number(vaultBlock.TVL.withRequestsUSD || vaultBlock.TVL.USD)/1000000);
+            const tvlEl = tabEl.querySelector(
+              '.info-block__item[data-id="TVL"] .value h4'
+            );
+            if (tvlEl) {
+              const intlOptions: Intl.NumberFormatOptions = {
+                maximumFractionDigits: 1,
+                notation: "compact",
+                currency: "USD",
+                style: "currency",
+                compactDisplay: "short",
+              };
+              const formatter = new Intl.NumberFormat("en-US", intlOptions);
+
+              let totalTvl = Number(
+                vaultBlock.TVL.withRequestsUSD || vaultBlock.TVL.USD
+              );
+
+              v.siblings?.forEach(s => {
+                const sBlock = vaultLatestBlocks.data.find(
+                  (b) => b.vaultId === s._id
+                );
+                totalTvl += Number(
+                  sBlock.TVL.withRequestsUSD || sBlock.TVL.USD
+                );
+              })
+
+              tvlEl.innerHTML = formatter.format(totalTvl / 1000000);
             }
+
         })
     }
 
