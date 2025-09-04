@@ -1,6 +1,6 @@
 import { c as createComponent, r as renderTemplate, a as renderComponent, m as maybeRenderHead, d as createAstro } from './astro/server-CgvuF3dj.js';
 import 'kleur/colors';
-import { $ as $$Section, H as HomePage, a as $$Page, d as defaultLang } from './section-BD5TIchE.js';
+import { $ as $$Section, H as HomePage, a as $$Page, d as defaultLang } from './section-zRDsU9C6.js';
 /* empty css                                 */
 
 const $$View = createComponent(($$result, $$props, $$slots) => {
@@ -250,7 +250,7 @@ This privacy statement has been prepared based on provisions of multiple legisla
 <br>
 This privacy policy relates solely to this Application, if not stated otherwise within this document.
 </div> </section> </div> <p class="desc-3">Latest update: April 24, 2025</p> </div>` })}`;
-}, "/Users/nikiman/Projects/pareto-landing/src/components/sections/privacy-policy/view.astro", void 0);
+}, "/Users/samuelecester/Desktop/git/pareto-landing/src/components/sections/privacy-policy/view.astro", void 0);
 
 const $$Astro = createAstro("https://pareto.credit/");
 const $$PrivacyPolicy = createComponent(($$result, $$props, $$slots) => {
@@ -258,9 +258,9 @@ const $$PrivacyPolicy = createComponent(($$result, $$props, $$slots) => {
   Astro2.self = $$PrivacyPolicy;
   const { locale = defaultLang } = Astro2.props;
   return renderTemplate`${renderComponent($$result, "PageLayot", $$Page, { ...HomePage, "locale": locale }, { "default": ($$result2) => renderTemplate` ${renderComponent($$result2, "PP", $$View, {})} ` })}`;
-}, "/Users/nikiman/Projects/pareto-landing/src/pages/privacy-policy.astro", void 0);
+}, "/Users/samuelecester/Desktop/git/pareto-landing/src/pages/privacy-policy.astro", void 0);
 
-const $$file = "/Users/nikiman/Projects/pareto-landing/src/pages/privacy-policy.astro";
+const $$file = "/Users/samuelecester/Desktop/git/pareto-landing/src/pages/privacy-policy.astro";
 const $$url = "/privacy-policy";
 
 export { $$PrivacyPolicy as default, $$file as file, $$url as url };

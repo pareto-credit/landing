@@ -1,6 +1,6 @@
 import { c as createComponent, r as renderTemplate, a as renderComponent, m as maybeRenderHead, b as addAttribute, d as createAstro } from './astro/server-CgvuF3dj.js';
 import 'kleur/colors';
-import { $ as $$Section, N as NoScript, a as $$Page } from './section-BD5TIchE.js';
+import { $ as $$Section, N as NoScript, a as $$Page } from './section-zRDsU9C6.js';
 /* empty css                            */
 import { l as logo } from './logo-CJf9w-ca.js';
 
@@ -12,7 +12,7 @@ If you need help, use
 <a href="https://www.enablejavascript.io/en" class="no-script__text-block__link" target="_blank" rel="nofollow noreferrer noopener">this link</a>
 to get more information how to turn on JavaScript on your browser.
 </p> </div> </div> ` })}`;
-}, "/Users/nikiman/Projects/pareto-landing/src/components/sections/noScript/main/view.astro", void 0);
+}, "/Users/samuelecester/Desktop/git/pareto-landing/src/components/sections/noScript/main/view.astro", void 0);
 
 const $$Astro = createAstro("https://pareto.credit/");
 const $$NoScript = createComponent(($$result, $$props, $$slots) => {
@@ -20,9 +20,9 @@ const $$NoScript = createComponent(($$result, $$props, $$slots) => {
   Astro2.self = $$NoScript;
   const { locale = "en" } = Astro2.props;
   return renderTemplate`${renderComponent($$result, "PageLayot", $$Page, { ...NoScript, "locale": locale, "isActiveHeader": false, "isActiveFooter": false, "isActiveMobileMenu": false, "isActivePreloader": false }, { "default": ($$result2) => renderTemplate` ${renderComponent($$result2, "MainSection", $$View, {})} ` })}`;
-}, "/Users/nikiman/Projects/pareto-landing/src/pages/no-script.astro", void 0);
+}, "/Users/samuelecester/Desktop/git/pareto-landing/src/pages/no-script.astro", void 0);
 
-const $$file = "/Users/nikiman/Projects/pareto-landing/src/pages/no-script.astro";
+const $$file = "/Users/samuelecester/Desktop/git/pareto-landing/src/pages/no-script.astro";
 const $$url = "/no-script";
 
 export { $$NoScript as default, $$file as file, $$url as url };

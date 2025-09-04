@@ -1,6 +1,6 @@
 import { c as createComponent, r as renderTemplate, a as renderComponent, m as maybeRenderHead, d as createAstro } from './astro/server-CgvuF3dj.js';
 import 'kleur/colors';
-import { $ as $$Section, H as HomePage, a as $$Page, d as defaultLang } from './section-BD5TIchE.js';
+import { $ as $$Section, H as HomePage, a as $$Page, d as defaultLang } from './section-zRDsU9C6.js';
 /* empty css                                   */
 
 const $$View = createComponent(($$result, $$props, $$slots) => {
@@ -110,7 +110,7 @@ The interpretation and enforcement of these Terms, and any dispute related to th
 </p> </section> <section id="miscellaneous"> <h4 class="title-h4">Miscellaneous</h4> <p class="desc-2">
 Any right or remedy of Pareto set forth in these Terms is in addition to, and not in lieu of, any other right or remedy whether described in these Terms, under Applicable Law, at law or in equity. Our failure or delay in exercising any right, power, or privilege under these Terms shall not operate as a waiver thereof. The invalidity or unenforceability of any of these Terms shall not affect the validity or enforceability of any other of these Terms, all of which shall remain in full force and effect. We will have no responsibility or liability for any failure or delay in performance of the Portal or any of the Services, or any loss or damage that you may incur, due to any circumstance or event beyond our control, including without limitation any flood, extraordinary weather conditions, earthquake, or other act of God, fire, war, insurrection, riot, labor dispute, accident, action of government, communications, power failure, or equipment or software malfunction. You may not assign or transfer any right to use the Portal or the Services, or any of your rights or obligations under these Terms, without our express prior written consent, including by operation of law or in connection with any change of control. We may assign or transfer any or all of our rights or obligations under these Terms, in whole or in part, without notice or obtaining your consent or approval. Headings of sections are for convenience only and shall not be used to limit or construe such sections. These Terms contain the entire agreement and supersede all prior and contemporaneous understandings between the parties regarding the Portal and the Services. In the event of any conflict between these Terms and any other agreement you may have with us, these Terms will control unless the other agreement specifically identifies these Terms and declares that the other agreement supersedes these Terms.
 </p> </section> </div> </div>` })}`;
-}, "/Users/nikiman/Projects/pareto-landing/src/components/sections/tos/view.astro", void 0);
+}, "/Users/samuelecester/Desktop/git/pareto-landing/src/components/sections/tos/view.astro", void 0);
 
 const $$Astro = createAstro("https://pareto.credit/");
 const $$TermsOfService = createComponent(($$result, $$props, $$slots) => {
@@ -118,9 +118,9 @@ const $$TermsOfService = createComponent(($$result, $$props, $$slots) => {
   Astro2.self = $$TermsOfService;
   const { locale = defaultLang } = Astro2.props;
   return renderTemplate`${renderComponent($$result, "PageLayot", $$Page, { ...HomePage, "locale": locale }, { "default": ($$result2) => renderTemplate` ${renderComponent($$result2, "ToS", $$View, {})} ` })}`;
-}, "/Users/nikiman/Projects/pareto-landing/src/pages/terms-of-service.astro", void 0);
+}, "/Users/samuelecester/Desktop/git/pareto-landing/src/pages/terms-of-service.astro", void 0);
 
-const $$file = "/Users/nikiman/Projects/pareto-landing/src/pages/terms-of-service.astro";
+const $$file = "/Users/samuelecester/Desktop/git/pareto-landing/src/pages/terms-of-service.astro";
 const $$url = "/terms-of-service";
 
 export { $$TermsOfService as default, $$file as file, $$url as url };
