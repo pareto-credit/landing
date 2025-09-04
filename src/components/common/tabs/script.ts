@@ -28,7 +28,9 @@ export class HeroTabs extends Component {
             contractType: 'CDO_EPOCH',
             fields: ['_id', 'address', 'visibility', 'siblings'] as any,
           }),
-          apiClient.vaults.performances({}),
+          apiClient.vaults.performances({
+            status: 'READY',
+          }),
         ]);
 
         // Add Performances
