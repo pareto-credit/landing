@@ -24,6 +24,9 @@ import bastionBg from '/src/assets/img/hero/bastionBg.svg?raw';
 import adaptiveIcon from '/src/assets/img/hero/adaptive.png?url';
 import adaptiveBg from '/src/assets/img/hero/adaptiveBg.svg?raw';
 
+import rockawayIcon from '/src/assets/img/hero/rockawayx.png?url';
+import rockawayBg from '/src/assets/img/hero/rockawayBg.svg?raw';
+
 import borrow from '/src/assets/img/solution/borrow.svg?url';
 import lend from '/src/assets/img/solution/lend.svg?url';
 import curate from '/src/assets/img/solution/curate.svg?url';
@@ -152,6 +155,33 @@ export const HomeEnCopy = {
                 badges: ['USDT', 'Fixed rate'],
                 address: '0xae7913c672c7F1f76C2a1a0Ac4de97d082681234',
                 itemDescription: 'Fixed-rate loan channeling funds into delta neutral arbitrage and market making strategies',
+                infoBlock: [
+                    {
+                        id: 'TVL',
+                        title: 'TVL',
+                        value: '$-',
+                    },
+                    {
+                        id: 'APY',
+                        title: 'Net APY',
+                        value: '-%',
+                    },
+                    {
+                        id: 'RED',
+                        title: 'Redemptions',
+                        value: 'Monthly',
+                    },
+                ],
+                isActive: false,
+            },
+            {
+                icon: rockawayIcon,
+                title: 'RockawayX',
+                description: 'Credit & DeFi Liquidity',
+                bgImage: rockawayBg,
+                badges: ['USDC', 'Fixed rate'],
+                address: '0xEC6a70F62a83418c7fb238182eD2865F80491a8B',
+                itemDescription: 'The vault is a fixed-rate credit facility with a 30-day notice period for redemptions.',
                 infoBlock: [
                     {
                         id: 'TVL',
