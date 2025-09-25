@@ -5,6 +5,7 @@ import { Breakpoints } from 'scripts/appBreakpoints';
 import { inFrames } from 'scripts/utils/inFrames';
 import { customEaseIn, customEaseOut } from 'scripts/utils/tweenHelpers';
 import { getApiClient } from 'scripts/utils/apiClient';
+import { BNify } from '@idle-multiverse/data-access';
 
 export class HeroTabs extends Component {
     private tabsComponent: TabsComponent;
@@ -22,7 +23,7 @@ export class HeroTabs extends Component {
 
     async loadVaults() {
         const apiClient = getApiClient();
-        const [vaults, performances] = await Promise.all([
+        const [vaults, performances, uspBlock] = await Promise.all([
           apiClient.vaults.search({
             status: 'READY',
             contractType: 'CDO_EPOCH',
@@ -31,6 +32,8 @@ export class HeroTabs extends Component {
           apiClient.vaults.performances({
             status: 'READY',
           }),
+          // TODO: TO REMOVE THIS BULLSHIT ASAP
+          apiClient.vaultLatestBlocks.readOne({ vaultAddress: '0x97cCC1C046d067ab945d3CF3CC6920D3b1E54c88' })
         ]);
 
         // Add Performances
@@ -42,7 +45,9 @@ export class HeroTabs extends Component {
                 style: 'currency',
             };
             const formatter = new Intl.NumberFormat('en-US', intlOptions);
-            tvlEl.innerHTML = formatter.format(Number(performances.TVL));
+            const tvl = BNify(performances.TVL).minus(BNify(uspBlock.TVL.USD).div(1e6)).plus(BNify(uspBlock.totalSupply).div(1e18)).toNumber();
+
+            tvlEl.innerHTML = formatter.format(tvl);
         }
         const creditExtendedEl = document.querySelector('.hero-section__info-blocks-item[data-id="CE"] p');
         if (creditExtendedEl){
