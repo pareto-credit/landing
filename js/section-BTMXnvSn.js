@@ -342,8 +342,9 @@ const HomeEnCopy = {
             value: "$-"
           },
           {
+            id: "APY",
             title: "Net APY",
-            value: "Hidden"
+            value: "-%"
           },
           {
             id: "RED",
