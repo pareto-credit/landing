@@ -27,7 +27,7 @@ export class HeroTabs extends Component {
           apiClient.vaults.search({
             status: 'READY',
             contractType: 'CDO_EPOCH',
-            fields: ['_id', 'address', 'visibility', 'siblings'] as any,
+            fields: ['_id', 'address', 'visibility', 'siblings', 'kyc'] as any,
           }),
           apiClient.vaults.performances({
             status: 'READY',
@@ -86,7 +86,9 @@ export class HeroTabs extends Component {
 
             const aprEl = tabEl.querySelector('.info-block__item[data-id="APY"] .value h4');
             if (aprEl) {
-              aprEl.innerHTML = Number(vaultBlock.APYs.NET).toFixed(2) + '%';
+              aprEl.innerHTML = v.kyc?.hideSensitiveData
+                ? 'Hidden'
+                : Number(vaultBlock.APYs.NET).toFixed(2) + '%';
             }
 
             const tvlEl = tabEl.querySelector('.info-block__item[data-id="TVL"] .value h4');
