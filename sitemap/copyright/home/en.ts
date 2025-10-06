@@ -124,11 +124,11 @@ export const HomeEnCopy = {
             {
                 icon: bastionIcon,
                 title: 'Bastion Trading',
-                description: 'Market Making',
+                description: 'Derivatives Desk',
                 bgImage: bastionBg,
                 badges: ['USDT', 'Fixed rate'],
                 address: '0xC49b4ECc14aa31Ef0AD077EdcF53faB4201b724c',
-                itemDescription: 'Fixed rate loan channeling funds into derivatives trading and market-making strategies.',
+                itemDescription: 'Fixed rate loan channeling funds into derivatives trading and systematic strategies.',
                 infoBlock: [
                     {
                         id: 'TVL',
