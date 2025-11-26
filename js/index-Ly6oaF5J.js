@@ -1,6 +1,6 @@
 import { d as createAstro, c as createComponent, r as renderTemplate, m as maybeRenderHead, b as addAttribute, a as renderComponent, u as unescapeHTML, F as Fragment } from './astro/server-CgvuF3dj.js';
 import 'kleur/colors';
-import { C as CommonComponents, $ as $$Section, H as HomePage, d as defaultLang, a as $$Page } from './section-CBLM-wg8.js';
+import { C as CommonComponents, $ as $$Section, H as HomePage, d as defaultLang, a as $$Page } from './section-Croci6aD.js';
 /* empty css                        */
 import 'clsx';
 

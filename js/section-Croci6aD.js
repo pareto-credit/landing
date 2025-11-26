@@ -333,7 +333,7 @@ const HomeEnCopy = {
         description: "Prime Brokerage",
         bgImage: falconxBg,
         badges: ["USDС", "Fixed rate"],
-        address: "0xc26a6fa2c37b38e549a4a1807543801db684f99c",
+        address: "0xC26A6Fa2C37b38E549a4a1807543801Db684f99C",
         itemDescription: "Lending funds to an SPV managed by a top-tier Prime Broker, providing financing to end-counterparties while being secured by structural protections.",
         infoBlock: [
           {
