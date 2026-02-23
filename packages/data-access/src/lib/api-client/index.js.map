@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/api-client/index.ts"],"sourcesContent":["export * from './api-client.class'\nexport * from './api-client.model'\n"],"names":[],"mappings":";;;;;uBAAc;uBACA"}

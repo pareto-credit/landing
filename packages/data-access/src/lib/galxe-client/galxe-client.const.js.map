@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/galxe-client/galxe-client.const.ts"],"sourcesContent":["export const GALXE_GRAPHQL_ENDPOINT = 'https://graphigo.prd.galaxy.eco/query'\n"],"names":["GALXE_GRAPHQL_ENDPOINT"],"mappings":";;;;+BAAaA;;;eAAAA;;;AAAN,MAAMA,yBAAyB"}

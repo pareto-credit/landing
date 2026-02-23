@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/signatures/index.ts"],"sourcesContent":["export * from './libs/signatures-client.lib'\n\nexport * from './signature.const'\nexport * from './signature.model'\nexport * from './signature.mock'\n"],"names":[],"mappings":";;;;;uBAAc;uBAEA;uBACA;uBACA"}

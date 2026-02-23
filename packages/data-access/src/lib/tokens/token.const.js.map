@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/tokens/token.const.ts"],"sourcesContent":["export const TOKENS_ROUTES_KEY = 'tokens'\n"],"names":["TOKENS_ROUTES_KEY"],"mappings":";;;;+BAAaA;;;eAAAA;;;AAAN,MAAMA,oBAAoB"}

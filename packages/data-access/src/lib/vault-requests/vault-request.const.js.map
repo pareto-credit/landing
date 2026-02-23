@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/vault-requests/vault-request.const.ts"],"sourcesContent":["export const VAULT_REQUESTS_ROUTES_KEY = 'vault-requests'\n"],"names":["VAULT_REQUESTS_ROUTES_KEY"],"mappings":";;;;+BAAaA;;;eAAAA;;;AAAN,MAAMA,4BAA4B"}

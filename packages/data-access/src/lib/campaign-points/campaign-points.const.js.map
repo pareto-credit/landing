@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/campaign-points/campaign-points.const.ts"],"sourcesContent":["export const CAMPAIGN_POINTS_ROUTES_KEY = 'campaign-points'\n"],"names":["CAMPAIGN_POINTS_ROUTES_KEY"],"mappings":";;;;+BAAaA;;;eAAAA;;;AAAN,MAAMA,6BAA6B"}

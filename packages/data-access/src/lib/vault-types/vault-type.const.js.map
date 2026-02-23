@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/vault-types/vault-type.const.ts"],"sourcesContent":["export const VAULT_TYPES_ROUTES_KEY = 'vault-types'\n"],"names":["VAULT_TYPES_ROUTES_KEY"],"mappings":";;;;+BAAaA;;;eAAAA;;;AAAN,MAAMA,yBAAyB"}

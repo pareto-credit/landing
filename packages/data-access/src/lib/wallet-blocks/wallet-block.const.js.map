@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/wallet-blocks/wallet-block.const.ts"],"sourcesContent":["export const WALLET_BLOCKS_ROUTES_KEY = 'wallet-blocks'\n"],"names":["WALLET_BLOCKS_ROUTES_KEY"],"mappings":";;;;+BAAaA;;;eAAAA;;;AAAN,MAAMA,2BAA2B"}

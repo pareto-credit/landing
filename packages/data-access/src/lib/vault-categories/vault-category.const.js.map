@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/vault-categories/vault-category.const.ts"],"sourcesContent":["export const VAULT_CATEGORIES_ROUTES_KEY = 'vault-categories'\n"],"names":["VAULT_CATEGORIES_ROUTES_KEY"],"mappings":";;;;+BAAaA;;;eAAAA;;;AAAN,MAAMA,8BAA8B"}

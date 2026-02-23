@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/vault-epochs/vault-epoch.const.ts"],"sourcesContent":["export const VAULT_EPOCHS_ROUTES_KEY = 'vault-epochs'\n"],"names":["VAULT_EPOCHS_ROUTES_KEY"],"mappings":";;;;+BAAaA;;;eAAAA;;;AAAN,MAAMA,0BAA0B"}

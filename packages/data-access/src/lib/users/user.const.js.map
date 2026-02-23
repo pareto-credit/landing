@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/users/user.const.ts"],"sourcesContent":["export const USERS_ROUTES_KEY = 'users'\n"],"names":["USERS_ROUTES_KEY"],"mappings":";;;;+BAAaA;;;eAAAA;;;AAAN,MAAMA,mBAAmB"}

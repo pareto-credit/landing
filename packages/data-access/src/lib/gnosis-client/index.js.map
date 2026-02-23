@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/gnosis-client/index.ts"],"sourcesContent":["export * from './gnosis-client.lib'\nexport * from './gnosis-client.model'\n"],"names":[],"mappings":";;;;;uBAAc;uBACA"}

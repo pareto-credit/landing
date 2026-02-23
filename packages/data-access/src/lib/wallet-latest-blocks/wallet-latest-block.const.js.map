@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/wallet-latest-blocks/wallet-latest-block.const.ts"],"sourcesContent":["export const WALLET_LATEST_BLOCKS_ROUTES_KEY = 'wallet-latest-blocks'\n"],"names":["WALLET_LATEST_BLOCKS_ROUTES_KEY"],"mappings":";;;;+BAAaA;;;eAAAA;;;AAAN,MAAMA,kCAAkC"}

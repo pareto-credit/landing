@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/auth/auth.const.ts"],"sourcesContent":["export const AUTH_ROUTES_KEY = 'auth'\n"],"names":["AUTH_ROUTES_KEY"],"mappings":";;;;+BAAaA;;;eAAAA;;;AAAN,MAAMA,kBAAkB"}

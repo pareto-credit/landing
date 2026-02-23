@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/wallet-latest-blocks/index.ts"],"sourcesContent":["export * from './wallet-latest-block.const'\nexport * from './wallet-latest-block.model'\nexport * from './wallet-latest-blocks-client.lib'\n"],"names":[],"mappings":";;;;;uBAAc;uBACA;uBACA"}

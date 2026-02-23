@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/token-blocks/token-block.const.ts"],"sourcesContent":["export const TOKEN_BLOCKS_ROUTES_KEY = 'token-blocks'\n"],"names":["TOKEN_BLOCKS_ROUTES_KEY"],"mappings":";;;;+BAAaA;;;eAAAA;;;AAAN,MAAMA,0BAA0B"}

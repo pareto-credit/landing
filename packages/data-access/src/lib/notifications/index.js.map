@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/notifications/index.ts"],"sourcesContent":["export * from './notification.model'\n"],"names":[],"mappings":";;;;;uBAAc"}

@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/core/chart.const.ts"],"sourcesContent":["import { ChartProps } from './chart.model'\n\nexport const CHART_EMPTY_DATA: ChartProps = {\n  data: [],\n  colors: {},\n}\n"],"names":["CHART_EMPTY_DATA","data","colors"],"mappings":";;;;+BAEaA;;;eAAAA;;;AAAN,MAAMA,mBAA+B;IAC1CC,MAAM,EAAE;IACRC,QAAQ,CAAC;AACX"}

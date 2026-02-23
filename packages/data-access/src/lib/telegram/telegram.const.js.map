@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/telegram/telegram.const.ts"],"sourcesContent":["export const TELEGRAM_NOTIFICATIONS_QUEUE = 'TG_NOTIFICATIONS'\n"],"names":["TELEGRAM_NOTIFICATIONS_QUEUE"],"mappings":";;;;+BAAaA;;;eAAAA;;;AAAN,MAAMA,+BAA+B"}

@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../../../libs/shared/data-access/src/lib/signatures/signature.const.ts"],"sourcesContent":["export const SIGNATURES_ROUTES_KEY = 'signatures'\n"],"names":["SIGNATURES_ROUTES_KEY"],"mappings":";;;;+BAAaA;;;eAAAA;;;AAAN,MAAMA,wBAAwB"}
