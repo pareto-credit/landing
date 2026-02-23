@@ -70,3 +70,60 @@ input[type='reset'] {
     transform: translateX(-50%);
   }
 }
+
+.legal-content .container,
+.legal-content .text-block {
+  margin: 0;
+  max-width: none;
+  padding: 0;
+}
+
+.legal-content .title-h1,
+.legal-content .title-h2 {
+  margin: 0 0 1.5rem;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #f6f8f7;
+}
+
+.legal-content section {
+  margin-top: 1.25rem;
+}
+
+.legal-content .title-h4 {
+  margin: 0 0 0.65rem;
+  color: #70b19e;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.legal-content .subtitle-1 {
+  margin: 0.9rem 0 0.45rem;
+  color: #f6f8f7;
+  font-weight: 600;
+}
+
+.legal-content p,
+.legal-content li {
+  margin: 0.45rem 0;
+  color: #b7c0bb;
+  font-size: 0.95rem;
+  line-height: 1.68;
+}
+
+.legal-content ul {
+  margin: 0.5rem 0 0.5rem 1.25rem;
+  padding: 0;
+}
+
+.legal-content a {
+  color: #70b19e;
+  text-decoration: none;
+}
+
+.legal-content a:hover {
+  text-decoration: underline;
+}

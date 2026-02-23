@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import paretoLogo from "../../assets/svgs/pareto-logo.svg";
 import paretoSignature from "../../assets/svgs/pareto-signature.svg";
 
@@ -152,12 +153,12 @@ const Footer = () => {
           <a href="#" className="transition-colors hover:text-white">
             LinkedIn
           </a>
-          <a href="#" className="transition-colors hover:text-white">
+          <Link to="/privacy-policy" className="transition-colors hover:text-white">
             Privacy Policy
-          </a>
-          <a href="#" className="transition-colors hover:text-white">
+          </Link>
+          <Link to="/terms-of-service" className="transition-colors hover:text-white">
             Terms of Service
-          </a>
+          </Link>
         </div>
       </div>
     </footer>
