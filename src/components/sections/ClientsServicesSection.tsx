@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from "framer-motion";
+import { SectionContainer, SectionHeading } from "../ui/Section";
 
 const barHeights = [
   95, 85, 75, 65, 58, 52, 47, 42, 38, 34, 30, 26, 23, 20, 18, 16, 14,
@@ -8,7 +9,7 @@ const serviceTags = [
   {
     label: "Onchain Settlement",
     className:
-      "absolute left-[10%] top-[10%] -rotate-6 bg-white/5 border border-white/10 px-5 py-3 text-white",
+      "absolute left-[10%] top-[10%] -rotate-6 bg-white/10 border border-white/20 px-5 py-3 text-white",
     transition: {
       duration: 9.6,
       repeat: Infinity,
@@ -62,7 +63,7 @@ const serviceTags = [
   {
     label: "Smart Contract Escrow",
     className:
-      "absolute right-[5%] top-[25%] border border-[#A2CFC0]/30 bg-[#A2CFC0]/20 px-5 py-3 text-[#70B19E] shadow-[0_8px_32px_rgba(0,0,0,0.3)] md:right-[35%]",
+      "absolute right-[5%] top-[25%] border border-[#A2CFC0]/30 bg-[#A2CFC0]/20 px-5 py-3 text-[#71B29F] shadow-[0_8px_32px_rgba(0,0,0,0.3)] md:right-[35%]",
     transition: {
       duration: 12.2,
       repeat: Infinity,
@@ -137,24 +138,23 @@ const ClientsServicesSection = () => {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section className="relative z-20 overflow-hidden border-b border-white/5 bg-[#081912] py-24">
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:40px_40px]" />
-      <div className="relative z-10 mx-auto max-w-7xl px-6">
-        <div className="mb-16 max-w-3xl">
-          <div className="mb-4 font-mono text-xs uppercase tracking-widest text-[#70B19E]">
-            Ecosystem
-          </div>
-          <h2 className="text-4xl font-bold tracking-tight md:text-5xl">
-            Where institutional capital meets programmable credit.
-          </h2>
-        </div>
+    <section className="relative z-20 overflow-hidden border-b border-white/5 bg-[#254839] py-24">
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#ffffff06_1px,transparent_1px),linear-gradient(to_bottom,#ffffff06_1px,transparent_1px)] bg-[size:40px_40px]" />
+      <SectionContainer className="relative z-10">
+        <SectionHeading
+          eyebrow="Ecosystem"
+          title="Where institutional capital meets programmable credit."
+          className="mb-16"
+          eyebrowClassName="text-[#71B29F]"
+          titleClassName="text-white"
+        />
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-          <div className="group relative flex min-h-[450px] flex-col overflow-hidden rounded-[2rem] border border-white/5 bg-gradient-to-b from-white/[0.04] to-[#081912] shadow-2xl md:min-h-[500px] lg:col-span-5">
-            <div className="pointer-events-none absolute inset-0 z-10 h-1/2 bg-gradient-to-b from-[#081912]/80 via-transparent to-transparent" />
+          <div className="group relative flex min-h-[450px] flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-b from-white/[0.06] to-[#183026] shadow-2xl md:min-h-[500px] lg:col-span-5">
+            <div className="pointer-events-none absolute inset-0 z-10 h-1/2 bg-gradient-to-b from-[#254839]/80 via-transparent to-transparent" />
             <div className="relative z-20 p-10">
-              <h3 className="mb-4 text-3xl font-bold">Clients</h3>
-              <p className="text-sm leading-relaxed text-gray-400">
+              <h3 className="mb-4 text-3xl font-bold text-white">Clients</h3>
+              <p className="text-sm leading-relaxed text-[#E8EBE6]/80">
                 Sophisticated credit funds, prime brokerage, DeFi protocols and
                 the largest institutions across the global capital markets, all
                 use Pareto.
@@ -164,7 +164,7 @@ const ClientsServicesSection = () => {
               {barHeights.map((height, idx) => (
                 <motion.div
                   key={`bar-${idx}`}
-                  className="flex-1 origin-bottom rounded-t-sm bg-gradient-to-t from-[#70B19E]/80 to-[#85C4A7]"
+                  className="flex-1 origin-bottom rounded-t-sm bg-gradient-to-t from-[#71B29F]/80 to-[#78FFC5]"
                   style={{ height: `${height}%` }}
                   animate={
                     shouldReduceMotion
@@ -200,9 +200,9 @@ const ClientsServicesSection = () => {
             </div>
           </div>
 
-          <div className="group relative flex min-h-[450px] flex-col overflow-hidden rounded-[2rem] border border-white/5 bg-[#0A120E] shadow-2xl md:min-h-[500px] lg:col-span-7">
+          <div className="group relative flex min-h-[450px] flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-[#183026] shadow-2xl md:min-h-[500px] lg:col-span-7">
             <div className="absolute inset-0 z-0">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(112,177,158,0.1)_0%,transparent_70%)] opacity-50 transition-opacity duration-700 group-hover:opacity-100" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(113,178,159,0.15)_0%,transparent_70%)] opacity-50 transition-opacity duration-700 group-hover:opacity-100" />
 
               {serviceTags.map((tag) => (
                 <motion.div
@@ -216,10 +216,10 @@ const ClientsServicesSection = () => {
               ))}
             </div>
 
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 w-full bg-gradient-to-t from-[#0A120E] via-[#0A120E]/90 to-transparent px-8 pb-8 pt-32 md:px-10 md:pb-10">
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 w-full bg-gradient-to-t from-[#183026] via-[#183026]/90 to-transparent px-8 pb-8 pt-32 md:px-10 md:pb-10">
               <div className="pointer-events-auto">
-                <h3 className="mb-3 text-3xl font-bold">Services</h3>
-                <p className="max-w-2xl text-sm leading-relaxed text-gray-400">
+                <h3 className="mb-3 text-3xl font-bold text-white">Services</h3>
+                <p className="max-w-2xl text-sm leading-relaxed text-[#E8EBE6]/80">
                   Pareto is enabling access to credit market participants on
                   modern infrastructure, minimizing risk and facilitating growth
                   for our clients with our onchain, real-time fixed income
@@ -229,7 +229,7 @@ const ClientsServicesSection = () => {
             </div>
           </div>
         </div>
-      </div>
+      </SectionContainer>
     </section>
   );
 };

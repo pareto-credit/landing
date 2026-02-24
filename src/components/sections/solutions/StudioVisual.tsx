@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { Activity, Lock, PieChart } from 'lucide-react'
 import { studioFeatures } from '../../../data/solutions'
+import { VisualFrame } from './VisualFrame'
 
 interface StudioVisualProps {
   activeIndex: number
@@ -8,9 +9,7 @@ interface StudioVisualProps {
 
 const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
   return (
-    <div className="relative flex h-[450px] items-center justify-center overflow-hidden rounded-3xl border border-white/5 bg-[#0A120E] shadow-2xl md:h-[550px]">
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:20px_20px]" />
-
+    <VisualFrame>
       <AnimatePresence mode="popLayout">
         <motion.div
           key={`st-container-${activeIndex}`}
@@ -168,7 +167,7 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
           </div>
         </motion.div>
       </AnimatePresence>
-    </div>
+    </VisualFrame>
   )
 }
 

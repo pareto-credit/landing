@@ -1,18 +1,20 @@
 import { ChevronRight } from 'lucide-react'
+import { Button } from '../ui/Button'
+import { SectionContainer, SectionHeading } from '../ui/Section'
 
 const ContactSection = () => {
   return (
     <section id="contact" className="relative bg-[#081912] py-32">
       <div className="pointer-events-none absolute bottom-0 left-0 h-[500px] w-[500px] rounded-full bg-[#70B19E]/10 blur-[150px]" />
-      <div className="relative z-10 mx-auto max-w-3xl px-6">
-        <div className="mb-16 text-center">
-          <div className="mb-4 font-mono text-xs uppercase tracking-widest text-[#70B19E]">Contact</div>
-          <h2 className="mb-6 text-4xl font-bold md:text-5xl">Request institutional access.</h2>
-          <p className="text-gray-400">
-            Share your use case and team profile. We will follow up with onboarding steps and
-            commercial details.
-          </p>
-        </div>
+      <SectionContainer size="3xl" className="relative z-10">
+        <SectionHeading
+          eyebrow="Contact"
+          title="Request institutional access."
+          className="mb-16 text-center"
+          titleClassName="mb-6"
+          descriptionClassName="mx-auto max-w-2xl text-base"
+          description="Share your use case and team profile. We will follow up with onboarding steps and commercial details."
+        />
 
         <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-8 shadow-2xl backdrop-blur-sm md:p-10">
           <form
@@ -111,15 +113,12 @@ const ContactSection = () => {
               </span>
             </div>
 
-            <button
-              type="submit"
-              className="mt-6 w-full rounded-lg bg-[#85C4A7] py-4 font-semibold text-[#081912] transition-colors hover:bg-white"
-            >
+            <Button type="submit" variant="primary" size="lg" className="mt-6 w-full font-semibold">
               Request Access
-            </button>
+            </Button>
           </form>
         </div>
-      </div>
+      </SectionContainer>
     </section>
   )
 }

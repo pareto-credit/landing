@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { ShieldCheck } from 'lucide-react'
 import { wlFeatures } from '../../../data/solutions'
+import { VisualFrame } from './VisualFrame'
 
 interface WhiteLabelVisualProps {
   activeIndex: number
@@ -8,9 +9,7 @@ interface WhiteLabelVisualProps {
 
 const WhiteLabelVisual = ({ activeIndex }: WhiteLabelVisualProps) => {
   return (
-    <div className="relative flex h-[450px] items-center justify-center overflow-hidden rounded-3xl border border-white/5 bg-[#0A120E] shadow-2xl md:h-[550px]">
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:20px_20px]" />
-
+    <VisualFrame>
       <AnimatePresence mode="popLayout">
         <motion.div
           key={`wl-container-${activeIndex}`}
@@ -139,7 +138,7 @@ const WhiteLabelVisual = ({ activeIndex }: WhiteLabelVisualProps) => {
           </div>
         </motion.div>
       </AnimatePresence>
-    </div>
+    </VisualFrame>
   )
 }
 

@@ -25,7 +25,8 @@ const Earth3D = () => {
 
     const shaderMaterial = new THREE.ShaderMaterial({
       uniforms: {
-        uColor: { value: new THREE.Color(0x70b19e) },
+        uBaseColor: { value: new THREE.Color(0x72f4c9) },
+        uHoverColor: { value: new THREE.Color(0x293b33) },
         uMousePos: { value: new THREE.Vector3(999, 999, 999) },
         uHoverState: { value: 0.0 },
       },
@@ -40,7 +41,8 @@ const Earth3D = () => {
         }
       `,
       fragmentShader: `
-        uniform vec3 uColor;
+        uniform vec3 uBaseColor;
+        uniform vec3 uHoverColor;
         uniform vec3 uMousePos;
         uniform float uHoverState;
         varying vec3 vWorldPosition;
@@ -52,14 +54,14 @@ const Earth3D = () => {
           float dist = distance(vWorldPosition, uMousePos);
           float spotlight = smoothstep(0.8, 0.1, dist);
 
-          float targetAlpha = max(0.05, spotlight * 0.9);
-          float alpha = mix(0.05, targetAlpha, uHoverState);
+          float targetAlpha = max(0.15, spotlight * 0.7);
+          float alpha = mix(0.15, targetAlpha, uHoverState);
+          vec3 finalColor = mix(uBaseColor, uHoverColor, spotlight * uHoverState);
 
-          gl_FragColor = vec4(uColor, alpha);
+          gl_FragColor = vec4(finalColor, alpha);
         }
       `,
       transparent: true,
-      blending: THREE.AdditiveBlending,
       depthWrite: false,
     })
 
@@ -191,7 +193,7 @@ const Earth3D = () => {
   return (
     <div
       ref={mountRef}
-      className="pointer-events-none absolute inset-0 z-0 opacity-80 mix-blend-screen"
+      className="pointer-events-none absolute inset-0 z-0"
     />
   )
 }

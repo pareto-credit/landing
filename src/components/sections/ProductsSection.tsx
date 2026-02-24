@@ -1,5 +1,7 @@
 import { Fragment } from 'react'
 import { ArrowRight } from 'lucide-react'
+import { Button } from '../ui/Button'
+import { SectionContainer, SectionHeading } from '../ui/Section'
 
 interface Vault {
   name: string
@@ -48,19 +50,18 @@ const vaults: Vault[] = [
 const ProductsSection = () => {
   return (
     <section id="products" className="overflow-hidden border-y border-white/5 bg-[#081912] py-24">
-      <div className="mx-auto mb-12 flex max-w-7xl flex-col items-end justify-between gap-6 px-6 md:flex-row">
-        <div>
-          <div className="mb-4 font-mono text-xs uppercase tracking-widest text-[#70B19E]">Products</div>
-          <h2 className="mb-4 text-4xl font-bold">Tokenized credit, built for scale.</h2>
-          <p className="max-w-2xl text-lg text-gray-400">
-            A modern fixed-income stack with the oversight, compliance, and reliability institutions
-            expect.
-          </p>
-        </div>
-        <button className="flex items-center gap-2 whitespace-nowrap border-b border-white pb-1 font-mono text-sm text-white transition-colors hover:border-[#70B19E] hover:text-[#70B19E]">
+      <SectionContainer className="mb-12 flex flex-col items-end justify-between gap-6 md:flex-row">
+        <SectionHeading
+          eyebrow="Products"
+          title="Tokenized credit, built for scale."
+          size="2xl"
+          titleClassName="text-4xl md:text-4xl"
+          description="A modern fixed-income stack with the oversight, compliance, and reliability institutions expect."
+        />
+        <Button variant="underline" size="sm" className="font-mono">
           Explore All Vaults <ArrowRight size={14} />
-        </button>
-      </div>
+        </Button>
+      </SectionContainer>
 
       <div className="group marquee-container w-full cursor-grab py-8 active:cursor-grabbing">
         <div className="marquee-content gap-6 px-6">
@@ -105,9 +106,9 @@ const ProductsSection = () => {
                     </div>
                   </div>
 
-                  <button className="w-full rounded border border-white/10 py-3 font-mono text-sm transition-colors hover:bg-white/5">
+                  <Button variant="ghost" className="w-full font-mono">
                     View Vault
-                  </button>
+                  </Button>
                 </div>
               ))}
             </Fragment>

@@ -1,53 +1,53 @@
-import { Fragment } from 'react'
-import bastionEco from '../../assets/images/operators/Bastion_Trading.svg'
-import falconEco from '../../assets/images/operators/FalconX.svg'
-import digitalEco from '../../assets/images/operators/Fasanara_Digital.svg'
-import rockawayEco from '../../assets/images/operators/RockawayX.svg'
-import m11Eco from '../../assets/images/operators/m11.svg'
+import { Fragment } from "react";
+import bastionEco from "../../assets/images/operators/Bastion_Trading.svg";
+import falconEco from "../../assets/images/operators/FalconX.svg";
+import digitalEco from "../../assets/images/operators/Fasanara_Digital.svg";
+import rockawayEco from "../../assets/images/operators/RockawayX.svg";
+import m11Eco from "../../assets/images/operators/m11.svg";
+import { SectionContainer } from "../ui/Section";
 
 interface Operator {
-  name: string
-  link: string
-  src: string
+  name: string;
+  link: string;
+  src: string;
 }
 
 const operators: Operator[] = [
   {
-    name: 'FalconX',
-    link: 'https://www.falconx.io/',
+    name: "FalconX",
+    link: "https://www.falconx.io/",
     src: falconEco,
   },
   {
-    name: 'RockawayX',
-    link: 'https://www.rockawayx.com/',
+    name: "RockawayX",
+    link: "https://www.rockawayx.com/",
     src: rockawayEco,
   },
   {
-    name: 'Fasanara Digital',
-    link: 'https://www.fasanara.com/',
+    name: "Fasanara Digital",
+    link: "https://www.fasanara.com/",
     src: digitalEco,
   },
   {
-    name: 'Bastion Trading',
-    link: 'https://bastiontrading.com/',
+    name: "Bastion Trading",
+    link: "https://bastiontrading.com/",
     src: bastionEco,
   },
   {
-    name: 'M11 Credit',
-    link: 'https://www.maven11.com/',
+    name: "M11 Credit",
+    link: "https://www.maven11.com/",
     src: m11Eco,
   },
-]
+];
 
 const SegmentsSection = () => {
   return (
     <section className="relative z-20 overflow-hidden border-b border-white/5 bg-[#081912] py-8">
-      <div className="mx-auto mb-6 flex max-w-7xl items-center justify-between gap-4 px-6">
-        <div className="font-mono text-xs uppercase tracking-widest text-[#70B19E]">Our partners</div>
-        <div className="text-right text-sm font-medium text-gray-400">
-          Collaborating with leading traditional and digital asset investment institutions.
+      <SectionContainer className="mb-6 flex items-center justify-between gap-4">
+        <div className="font-mono text-xs uppercase tracking-widest text-[#70B19E]">
+          Our partners
         </div>
-      </div>
+      </SectionContainer>
 
       <div className="group marquee-container w-full">
         <div className="marquee-content items-center gap-16 px-6 md:gap-24">
@@ -82,7 +82,7 @@ const SegmentsSection = () => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default SegmentsSection
+export default SegmentsSection;

@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import paretoLogo from "../../assets/svgs/pareto-logo.svg";
 import paretoSignature from "../../assets/svgs/pareto-signature.svg";
+import { SectionContainer } from "../ui/Section";
 
 const platformLinks = [
   "Live Vaults",
@@ -25,7 +26,7 @@ const Footer = () => {
       <div className="pointer-events-none absolute bottom-0 left-1/2 h-[14px] w-full max-w-6xl -translate-x-1/2 bg-gradient-to-r from-transparent via-[#8DF8E0]/28 to-transparent blur-[16px]" />
       <div className="pointer-events-none absolute -bottom-[200px] left-1/2 h-[420px] w-[82vw] -translate-x-1/2 rounded-[100%] bg-[#70B19E]/22 blur-[130px]" />
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl flex-1 px-6">
+      <SectionContainer className="relative z-10 flex-1">
         <div className="mb-20 grid gap-16 lg:grid-cols-12">
           <div className="flex flex-col justify-between lg:col-span-5">
             <div>
@@ -124,7 +125,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-      </div>
+      </SectionContainer>
 
       <div className="relative z-0 mt-auto -mb-20 flex w-full select-none items-end justify-center overflow-hidden pointer-events-none">
         <img
@@ -144,7 +145,7 @@ const Footer = () => {
         />
       </div>
 
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-4 border-t border-white/5 px-6 pt-6 font-mono text-xs text-gray-500 md:flex-row">
+      <SectionContainer className="relative z-10 flex flex-col items-center justify-between gap-4 border-t border-white/5 pt-6 font-mono text-xs text-gray-500 md:flex-row">
         <p>©2026 Pareto Credit. All rights reserved.</p>
         <div className="flex flex-wrap justify-center gap-6">
           <a href="#" className="transition-colors hover:text-white">
@@ -160,7 +161,7 @@ const Footer = () => {
             Terms of Service
           </Link>
         </div>
-      </div>
+      </SectionContainer>
     </footer>
   );
 };

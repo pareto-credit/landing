@@ -3,6 +3,8 @@ import { MoveRight } from "lucide-react";
 import newsPlaceholder from "../../assets/svgs/news-placeholder.svg";
 import { PARAGRAPH_BLOG_URL } from "../../data/news";
 import { useParagraphFeed } from "../../hooks/useParagraphFeed";
+import { ButtonLink } from "../ui/Button";
+import { SectionContainer, SectionHeading } from "../ui/Section";
 
 const NEWS_SKELETON_COUNT = 3;
 
@@ -17,24 +19,23 @@ const NewsSection = () => {
 
   return (
     <section id="news" className="border-b border-white/5 bg-[#081912] py-24">
-      <div className="mx-auto max-w-7xl px-6">
+      <SectionContainer>
         <div className="mb-12 flex flex-col items-end justify-between gap-6 md:flex-row">
-          <div>
-            <div className="mb-4 font-mono text-xs uppercase tracking-widest text-[#70B19E]">
-              News
-            </div>
-            <h2 className="text-4xl font-bold">
-              Market Intelligence &amp; Updates.
-            </h2>
-          </div>
-          <a
+          <SectionHeading
+            eyebrow="News"
+            title="Market Intelligence & Updates."
+            size="2xl"
+            titleClassName="text-4xl md:text-4xl"
+          />
+          <ButtonLink
             href={PARAGRAPH_BLOG_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded border border-white/20 px-6 py-2 text-sm font-medium transition-colors hover:bg-white/10"
+            variant="outline"
+            size="sm"
           >
             View All Articles
-          </a>
+          </ButtonLink>
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">
@@ -98,7 +99,7 @@ const NewsSection = () => {
                 </a>
               ))}
         </div>
-      </div>
+      </SectionContainer>
     </section>
   );
 };

@@ -3,6 +3,7 @@ import { studioFeatures, wlFeatures } from '../../data/solutions'
 import FeatureList from './solutions/FeatureList'
 import StudioVisual from './solutions/StudioVisual'
 import WhiteLabelVisual from './solutions/WhiteLabelVisual'
+import { SectionContainer, SectionHeading } from '../ui/Section'
 
 const SolutionsSection = () => {
   const [activeWhiteLabel, setActiveWhiteLabel] = useState(0)
@@ -16,13 +17,14 @@ const SolutionsSection = () => {
       <div className="pointer-events-none absolute left-0 top-1/4 h-[600px] w-[600px] rounded-full bg-[#70B19E]/5 blur-[150px]" />
       <div className="pointer-events-none absolute bottom-1/4 right-0 h-[600px] w-[600px] rounded-full bg-blue-500/5 blur-[150px]" />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6">
-        <div className="mx-auto mb-24 max-w-4xl text-center">
-          <div className="mb-4 font-mono text-xs uppercase tracking-widest text-[#70B19E]">Solutions</div>
-          <h2 className="text-4xl font-bold leading-tight tracking-tight md:text-5xl lg:text-6xl">
-            Launch your own credit facility in minutes.
-          </h2>
-        </div>
+      <SectionContainer className="relative z-10">
+        <SectionHeading
+          eyebrow="Solutions"
+          title="Launch your own credit facility in minutes."
+          size="4xl"
+          className="mx-auto mb-24 text-center"
+          titleClassName="leading-tight md:text-5xl lg:text-6xl"
+        />
 
         <div className="space-y-32">
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
@@ -62,7 +64,7 @@ const SolutionsSection = () => {
             </div>
           </div>
         </div>
-      </div>
+      </SectionContainer>
     </section>
   )
 }
