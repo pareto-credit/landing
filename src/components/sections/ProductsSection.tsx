@@ -1,122 +1,279 @@
-import { Fragment } from 'react'
-import { ArrowRight } from 'lucide-react'
-import { Button } from '../ui/Button'
-import { SectionContainer, SectionHeading } from '../ui/Section'
+import { Fragment } from "react";
+import { ArrowRight } from "lucide-react";
+import {
+  getOperatorBackground,
+  getOperatorLogo,
+} from "../../data/operatorLogos";
+import type { ProductVaultCard } from "../../types/products";
+import { ButtonLink } from "../ui/Button";
+import { SectionContainer } from "../ui/Section";
 
-interface Vault {
-  name: string
-  status: 'OPEN' | 'CLOSED' | 'COMING_SOON'
-  apy: string
-  tvl: string
-  risk: string
-  ratio: string
+interface ProductsSectionProps {
+  vaults: ProductVaultCard[];
+  isVaultsLoading: boolean;
 }
 
-const vaults: Vault[] = [
-  {
-    name: 'USDC Prime Builder',
-    status: 'OPEN',
-    apy: '5.24%',
-    tvl: '$42.5M',
-    risk: 'AA',
-    ratio: '120%',
-  },
-  {
-    name: 'WETH Yield Strategy',
-    status: 'OPEN',
-    apy: '3.80%',
-    tvl: '$18.2M',
-    risk: 'A',
-    ratio: '135%',
-  },
-  {
-    name: 'WBTC Core Lending',
-    status: 'CLOSED',
-    apy: '2.10%',
-    tvl: '$8.5M',
-    risk: 'AAA',
-    ratio: '150%',
-  },
-  {
-    name: 'RWA Treasury Bill',
-    status: 'COMING_SOON',
-    apy: 'TBD',
-    tvl: '$0.0M',
-    risk: 'AAA',
-    ratio: '105%',
-  },
-]
+const PRODUCTS_SKELETON_COUNT = 4;
 
-const ProductsSection = () => {
+const getStatusClassName = (status: string) => {
+  const normalized = status.toLowerCase();
+  if (normalized.includes("run") || normalized.includes("ready")) {
+    return "border border-[#71B29F]/35 bg-[#71B29F]/15 text-[#254839]";
+  }
+  if (
+    normalized.includes("stop") ||
+    normalized.includes("close") ||
+    normalized.includes("pause") ||
+    normalized.includes("disable")
+  ) {
+    return "border border-red-200 bg-red-50 text-red-700";
+  }
+  return "border border-gray-300 bg-gray-100 text-gray-500";
+};
+
+const formatStatusLabel = (status: string) => status.replace(/_/g, " ");
+
+const truncateDescription = (description?: string) =>
+  description && description.length > 190
+    ? `${description.slice(0, 187).trimEnd()}...`
+    : description;
+
+const metricLabelClassName =
+  "font-mono text-[10px] uppercase tracking-[0.16em] leading-none text-[#4D625A]";
+const metricValueClassName =
+  "whitespace-nowrap font-sans text-[1.01rem] font-semibold leading-none tracking-tight text-[#0E1813] md:text-[1.35rem]";
+
+const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
   return (
-    <section id="products" className="overflow-hidden border-y border-white/5 bg-[#081912] py-24">
-      <SectionContainer className="mb-12 flex flex-col items-end justify-between gap-6 md:flex-row">
-        <SectionHeading
-          eyebrow="Products"
-          title="Tokenized credit, built for scale."
-          size="2xl"
-          titleClassName="text-4xl md:text-4xl"
-          description="A modern fixed-income stack with the oversight, compliance, and reliability institutions expect."
-        />
-        <Button variant="underline" size="sm" className="font-mono">
+    <section
+      id="products"
+      className="relative overflow-hidden border-y border-[#0E1813]/10 bg-[#E8EBE6] py-24 text-[#0E1813]"
+    >
+      <div className="pointer-events-none absolute left-1/2 top-0 h-[400px] w-[800px] -translate-x-1/2 rounded-full bg-[#71B29F]/10 blur-[100px]" />
+
+      <SectionContainer className="relative z-10 mb-16 flex flex-col items-end justify-between gap-6 md:flex-row">
+        <div className="max-w-3xl">
+          <div className="mb-4 font-mono text-xs font-semibold uppercase tracking-widest text-[#71B29F]">
+            Live Markets
+          </div>
+          <h2 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
+            Transparent risk. Verifiable yield.
+          </h2>
+          <p className="max-w-2xl text-lg leading-relaxed text-[#293B33]">
+            Explore our active institutional lending markets. Data is pulled
+            directly from onchain states in real-time.
+          </p>
+        </div>
+
+        <ButtonLink
+          href="https://app.pareto.credit/"
+          target="_blank"
+          rel="noopener noreferrer"
+          variant="underline"
+          size="sm"
+          className="normal-case text-[#0E1813]"
+        >
           Explore All Vaults <ArrowRight size={14} />
-        </Button>
+        </ButtonLink>
       </SectionContainer>
 
-      <div className="group marquee-container w-full cursor-grab py-8 active:cursor-grabbing">
-        <div className="marquee-content gap-6 px-6">
-          {[...Array(2)].map((_, loopIndex) => (
-            <Fragment key={`vault-loop-${loopIndex}`}>
-              {vaults.map((vault) => (
-                <div
-                  key={`${loopIndex}-${vault.name}`}
-                  className="min-w-[360px] flex-shrink-0 rounded border border-white/10 bg-white/[0.02] p-6 transition-all hover:border-[#70B19E]/50 hover:bg-white/[0.04]"
-                >
-                  <div className="mb-6 flex items-start justify-between">
-                    <h4 className="text-lg font-bold">{vault.name}</h4>
-                    <span
-                      className={`rounded px-2 py-1 font-mono text-[10px] ${
-                        vault.status === 'OPEN'
-                          ? 'border border-[#70B19E]/30 bg-[#70B19E]/20 text-[#70B19E]'
-                          : vault.status === 'CLOSED'
-                            ? 'border border-red-500/30 bg-red-500/20 text-red-400'
-                            : 'border border-gray-500/30 bg-gray-500/20 text-gray-400'
-                      }`}
-                    >
-                      {vault.status}
-                    </span>
-                  </div>
+      {isVaultsLoading ? (
+        <div className="relative z-10 mx-auto flex w-full max-w-7xl gap-6 overflow-hidden px-6 py-8">
+          {Array.from({ length: PRODUCTS_SKELETON_COUNT }).map((_, index) => (
+            <div
+              key={`product-skeleton-${index}`}
+              role="status"
+              className="min-w-[420px] max-w-[420px] flex-shrink-0 animate-pulse rounded-[2rem] border border-[#0E1813]/10 bg-white p-8"
+            >
+              <div className="mb-8 flex items-start justify-between">
+                <div className="h-11 w-48 rounded-full bg-[#E8EBE6]" />
+                <div className="h-6 w-20 rounded-full bg-[#E8EBE6]" />
+              </div>
 
-                  <div className="mb-8 grid grid-cols-2 gap-x-4 gap-y-6">
-                    <div>
-                      <div className="mb-1 text-xs text-gray-500">Net APY</div>
-                      <div className="font-mono text-xl text-[#70B19E]">{vault.apy}</div>
-                    </div>
-                    <div>
-                      <div className="mb-1 text-xs text-gray-500">Total Value Locked</div>
-                      <div className="font-mono text-xl">{vault.tvl}</div>
-                    </div>
-                    <div>
-                      <div className="mb-1 text-xs text-gray-500">Risk Tier</div>
-                      <div className="font-mono text-sm">{vault.risk}</div>
-                    </div>
-                    <div>
-                      <div className="mb-1 text-xs text-gray-500">Collateral Ratio</div>
-                      <div className="font-mono text-sm">{vault.ratio}</div>
-                    </div>
-                  </div>
+              <div className="mb-5 h-9 w-52 rounded bg-[#E8EBE6]" />
+              <div className="mb-6 flex gap-2">
+                <div className="h-6 w-16 rounded bg-[#E8EBE6]" />
+                <div className="h-6 w-24 rounded bg-[#E8EBE6]" />
+              </div>
 
-                  <Button variant="ghost" className="w-full font-mono">
-                    View Vault
-                  </Button>
-                </div>
-              ))}
-            </Fragment>
+              <div className="mb-8 space-y-2">
+                <div className="h-3 w-full rounded bg-[#E8EBE6]" />
+                <div className="h-3 w-full rounded bg-[#E8EBE6]" />
+                <div className="h-3 w-4/5 rounded bg-[#E8EBE6]" />
+              </div>
+
+              <div className="grid grid-cols-3 overflow-hidden rounded-2xl border border-[#0E1813]/10 bg-[#F4F7F5]">
+                <div className="h-[84px] border-r border-[#0E1813]/10" />
+                <div className="h-[84px] border-r border-[#0E1813]/10" />
+                <div className="h-[84px]" />
+              </div>
+              <span className="sr-only">Loading vault cards...</span>
+            </div>
           ))}
         </div>
-      </div>
-    </section>
-  )
-}
+      ) : vaults.length === 0 ? (
+        <SectionContainer className="relative z-10 py-8">
+          <div className="rounded-3xl border border-[#0E1813]/15 bg-white/70 p-8 text-center backdrop-blur-sm">
+            <p className="font-mono text-xs uppercase tracking-[0.14em] text-[#5A6E66]">
+              Live data unavailable
+            </p>
+            <p className="mt-3 text-lg text-[#293B33]">
+              Vault cards are temporarily unavailable. Refresh the page in a few
+              seconds.
+            </p>
+          </div>
+        </SectionContainer>
+      ) : (
+        <div className="group relative z-10 marquee-container w-full cursor-grab py-8 active:cursor-grabbing">
+          <div className="marquee-content gap-6 px-6">
+            {[...Array(2)].map((_, loopIndex) => (
+              <Fragment key={`vault-loop-${loopIndex}`}>
+                {vaults.map((vault) => {
+                  const operatorLogo = getOperatorLogo(
+                    vault.operatorCode,
+                    vault.operatorName,
+                  );
+                  const operatorBackground = getOperatorBackground(
+                    vault.operatorCode,
+                    vault.operatorName,
+                  );
+                  const curatorLogo = getOperatorLogo(
+                    vault.curatorCode,
+                    vault.curatorName,
+                  );
+                  const statusClassName = getStatusClassName(vault.status);
+                  const description = truncateDescription(vault.description);
+                  const vaultLink = `https://app.pareto.credit/vault#${vault.address}`;
 
-export default ProductsSection
+                  return (
+                    <a
+                      key={`${loopIndex}-${vault.id}`}
+                      href={vaultLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Open ${vault.name} vault`}
+                      className="group relative flex min-w-[420px] max-w-[420px] flex-shrink-0 flex-col overflow-hidden rounded-[2rem] bg-white p-8 no-underline shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 whitespace-normal hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgb(0,0,0,0.10)]"
+                    >
+                      {operatorBackground ? (
+                        <img
+                          src={operatorBackground}
+                          alt=""
+                          aria-hidden="true"
+                          className="pointer-events-none absolute bottom-0 right-0 z-0 h-[62%] w-[72%] select-none object-contain object-right-bottom opacity-[0.18]"
+                        />
+                      ) : null}
+
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#71B29F]/[0.05] to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+                      <div className="relative z-10 flex h-full flex-col">
+                        <div className="mb-6 flex items-start justify-between gap-3">
+                          <div className="min-w-0 flex-1">
+                            {vault.operatorName ? (
+                              <div className="flex items-start gap-3">
+                                <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full">
+                                  {operatorLogo ? (
+                                    <img
+                                      src={operatorLogo}
+                                      alt={vault.operatorName}
+                                      className="h-full w-full object-cover"
+                                    />
+                                  ) : (
+                                    <span className="font-sans text-base font-bold text-[#71B29F]">
+                                      {vault.operatorName
+                                        .charAt(0)
+                                        .toUpperCase()}
+                                    </span>
+                                  )}
+                                </div>
+                                <div className="min-w-0 pt-0.5">
+                                  <p className="truncate whitespace-nowrap text-[1.7rem] font-semibold leading-none tracking-tight text-[#0E1813]">
+                                    {vault.name}
+                                  </p>
+                                  {vault.subtitle ? (
+                                    <p className="mt-1 truncate whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.16em] text-[#5A6E66]">
+                                      {vault.subtitle}
+                                    </p>
+                                  ) : null}
+                                </div>
+                              </div>
+                            ) : (
+                              <p className="truncate whitespace-nowrap text-[1.7rem] font-semibold leading-none tracking-tight text-[#0E1813]">
+                                {vault.name}
+                              </p>
+                            )}
+                          </div>
+
+                          <span
+                            className={`inline-flex h-8 shrink-0 items-center whitespace-nowrap rounded-full px-3 font-mono text-[9px] font-bold uppercase tracking-widest leading-none shadow-sm ${statusClassName}`}
+                          >
+                            {formatStatusLabel(vault.status)}
+                          </span>
+                        </div>
+
+                        <div className="mb-6 flex flex-wrap gap-2">
+                          {vault.curatorName ? (
+                            <span className="inline-flex h-8 items-center gap-2 rounded-full border border-[#0E1813]/10 bg-[#F4F7F5] px-3 font-mono text-[10px] font-semibold uppercase tracking-widest leading-none text-[#1A2D26]">
+                              <span className="flex h-5 w-5 items-center justify-center overflow-hidden rounded-full border border-[#0E1813]/10">
+                                {curatorLogo ? (
+                                  <img
+                                    src={curatorLogo}
+                                    alt={vault.curatorName}
+                                    className="h-5 w-5 object-contain"
+                                  />
+                                ) : (
+                                  <span className="text-[10px] text-[#BDE7D7]">
+                                    {vault.curatorName.charAt(0).toUpperCase()}
+                                  </span>
+                                )}
+                              </span>
+                              {vault.curatorName}
+                            </span>
+                          ) : null}
+
+                          <span className="inline-flex h-8 items-center rounded-full border border-[#0E1813]/10 bg-[#F4F7F5] px-3 font-mono text-[10px] font-semibold uppercase tracking-widest leading-none text-[#1A2D26]">
+                            {vault.asset}
+                          </span>
+
+                          {vault.type ? (
+                            <span className="inline-flex h-8 items-center rounded-full border border-[#0E1813]/10 bg-[#F4F7F5] px-3 font-mono text-[10px] font-semibold uppercase tracking-widest leading-none text-[#1A2D26]">
+                              {vault.type}
+                            </span>
+                          ) : null}
+                        </div>
+
+                        {description ? (
+                          <p className="mb-8 flex-1 break-words whitespace-normal font-mono text-[13px] leading-[1.7] text-[#293B33]/90">
+                            {description}
+                          </p>
+                        ) : null}
+
+                        <div className="grid grid-cols-3 overflow-hidden rounded-2xl border border-[#0E1813]/10 bg-[#F4F7F5]">
+                          <div className="flex h-[80px] flex-col justify-center gap-2 border-r border-[#0E1813]/10 px-4">
+                            <p className={metricLabelClassName}>TVL</p>
+                            <p className={metricValueClassName}>{vault.tvl}</p>
+                          </div>
+                          <div className="flex h-[80px] flex-col justify-center gap-2 border-r border-[#0E1813]/10 bg-white/40 px-4">
+                            <p className={metricLabelClassName}>Net APY</p>
+                            <p className={metricValueClassName}>{vault.apy}</p>
+                          </div>
+                          <div className="flex h-[80px] flex-col justify-center gap-2 bg-[#EEF2F0] px-4">
+                            <p className={metricLabelClassName}>Redemptions</p>
+                            <p className={metricValueClassName}>
+                              {vault.redemptions ?? "—"}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  );
+                })}
+              </Fragment>
+            ))}
+          </div>
+        </div>
+      )}
+    </section>
+  );
+};
+
+export default ProductsSection;

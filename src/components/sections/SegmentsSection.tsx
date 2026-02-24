@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import bastionEco from "../../assets/images/operators/Bastion_Trading.svg";
 import falconEco from "../../assets/images/operators/FalconX.svg";
 import digitalEco from "../../assets/images/operators/Fasanara_Digital.svg";
-import rockawayEco from "../../assets/images/operators/RockawayX.svg";
+import rockawayEco from "../../assets/images/operators/RockawayX_mark.svg";
 import m11Eco from "../../assets/images/operators/m11.svg";
 import { SectionContainer } from "../ui/Section";
 

@@ -3,9 +3,15 @@ import { createRoot } from 'react-dom/client'
 import { RouterProvider } from '@tanstack/react-router'
 import './index.css'
 import { router } from './router'
+import { ApiClientProvider } from './providers/ApiClientProvider'
+import { QueryProvider } from './providers/QueryProvider'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <QueryProvider>
+      <ApiClientProvider>
+        <RouterProvider router={router} />
+      </ApiClientProvider>
+    </QueryProvider>
   </StrictMode>,
 )

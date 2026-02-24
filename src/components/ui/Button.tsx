@@ -6,9 +6,9 @@ const sharedBaseClass =
 
 const variantClass = {
   primary:
-    "rounded-md border border-[#70B19E]/45 bg-[#70B19E]/86 text-[#0E1813] shadow-[0_8px_24px_rgba(112,177,158,0.28)] backdrop-blur-md hover:border-[#8AC7AE]/65 hover:bg-[#8AC7AE]/82 hover:text-[#0E1813] hover:shadow-[0_12px_30px_rgba(112,177,158,0.34)]",
+    "rounded-md border border-[#70B19E]/45 bg-[#70B19E]/86 text-[#0E1813] shadow-sm backdrop-blur-md hover:border-[#8AC7AE]/65 hover:bg-[#8AC7AE]/82 hover:text-[#0E1813] hover:shadow-md",
   secondary:
-    "rounded-md border border-white/20 bg-white/50 text-[#0E1813] shadow-sm backdrop-blur-sm hover:bg-white/75",
+    "rounded-md border border-white/20 bg-white/50 text-[#0E1813] shadow-sm backdrop-blur-sm hover:bg-white/75 hover:shadow-md",
   outline:
     "rounded-md border border-white/20 bg-transparent text-white hover:border-white/30 hover:bg-white/10",
   ghost:

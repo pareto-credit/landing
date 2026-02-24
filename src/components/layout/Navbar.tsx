@@ -32,7 +32,7 @@ const Navbar = () => {
       data-site-navbar
       className={`fixed z-50 w-full border-b transition-[background-color,border-color,padding,backdrop-filter,box-shadow] duration-300 ${
         isScrolled
-          ? "border-white/1 bg-white/50 py-4 text-[#0E1813] shadow-sm backdrop-blur-xl"
+          ? "border-white/1 bg-white/75 py-4 text-[#0E1813] shadow-sm backdrop-blur-xl"
           : "border-black/0 bg-transparent py-6 text-[#0E1813]"
       }`}
     >

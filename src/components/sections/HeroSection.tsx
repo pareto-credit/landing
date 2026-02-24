@@ -3,8 +3,21 @@ import Earth3D from "../three/Earth3D";
 import { Button } from "../ui/Button";
 import { SectionContainer } from "../ui/Section";
 import { scrollToSection } from "../../lib/scrollToSection";
+import { AirportBoardNumber } from "../ui/AirportBoardNumber";
+import type { VanityMetrics } from "../../types/products";
 
-const HeroSection = () => {
+interface HeroSectionProps {
+  metrics: VanityMetrics;
+  isMetricsLoading: boolean;
+}
+
+const CURRENCY_FORMATTER = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  maximumFractionDigits: 0,
+});
+
+const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
   return (
     <section
       id="hero"
@@ -45,6 +58,7 @@ const HeroSection = () => {
             style={{ textShadow: "0 2px 10px rgba(232, 235, 230, 0.8)" }}
           >
             Programmable institutional credit. Enterprise-grade compliance.
+            <br />
             Built for the way capital flows today.
           </motion.p>
 
@@ -84,18 +98,22 @@ const HeroSection = () => {
             <div className="mb-1 font-mono text-xs uppercase tracking-widest text-[#293B33]">
               Outstanding Loans
             </div>
-            <div className="font-mono text-3xl tracking-tight text-[#0E1813]">
-              $155,052,275
-            </div>
+            <AirportBoardNumber
+              value={CURRENCY_FORMATTER.format(metrics.outstandingLoans)}
+              isLoading={isMetricsLoading}
+              className="font-mono text-3xl tracking-tight text-[#0E1813]"
+            />
           </div>
           <div className="hidden h-12 w-px bg-[#0E1813]/10 md:block" />
           <div>
             <div className="mb-1 font-mono text-xs uppercase tracking-widest text-[#293B33]">
               Credit Extended
             </div>
-            <div className="font-mono text-3xl tracking-tight text-[#71B29F]">
-              $1,438,869,142
-            </div>
+            <AirportBoardNumber
+              value={CURRENCY_FORMATTER.format(metrics.creditExtended)}
+              isLoading={isMetricsLoading}
+              className="font-mono text-3xl tracking-tight text-[#71B29F]"
+            />
           </div>
         </div>
       </motion.div>
