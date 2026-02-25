@@ -4,6 +4,9 @@
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --radius-control: 0.5rem;
+  --radius-panel: 1.5rem;
+  --radius-card: 2rem;
 }
 
 :root {
@@ -12,6 +15,146 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --color-bg-page: #081912;
+  --color-bg-page-alt: #050b08;
+  --color-bg-panel-dark: #0a120e;
+  --color-bg-narrative: #020504;
+  --color-bg-dark: #0e1813;
+  --color-bg-dark-alt: #18241e;
+  --color-bg-emerald: #254839;
+  --color-bg-emerald-deep: #183026;
+  --color-bg-light: #e8ebe6;
+  --color-bg-light-alt: #f4f7f5;
+  --color-bg-light-mint: #c9d6ce;
+  --color-bg-light-mint-muted: #9caea4;
+  --color-surface: #ffffff;
+  --color-brand: #71b29f;
+  --color-brand-alt: #70b19e;
+  --color-brand-bright: #72f4c9;
+  --color-brand-deep: #254839;
+  --color-brand-soft: #bde7d7;
+  --color-brand-glow: #8df8e0;
+  --color-text-primary: #0e1813;
+  --color-text-secondary: #293b33;
+  --color-text-muted: #5a6e66;
+  --color-text-muted-2: #4d625a;
+  --color-text-muted-soft: #9ca3af;
+  --color-text-muted-softer: #d1d5db;
+  --color-text-inverse: #ffffff;
+  --color-chip-bg: #f4f7f5;
+  --color-chip-text: #1a2d26;
+  --color-surface-muted: #eef2f0;
+  --color-surface-soft: #f3f4f6;
+  --color-stroke-forest: #1a3326;
+  --color-border-soft: rgb(14 24 19 / 0.1);
+  --color-border-soft-strong: rgb(14 24 19 / 0.2);
+  --color-border-soft-muted: rgb(14 24 19 / 0.15);
+  --color-border-inverse-soft: rgb(255 255 255 / 0.1);
+  --color-border-inverse-subtle: rgb(255 255 255 / 0.05);
+  --color-overlay-inverse-20: rgb(255 255 255 / 0.2);
+  --color-overlay-inverse-30: rgb(255 255 255 / 0.3);
+  --color-overlay-surface-02: rgb(255 255 255 / 0.02);
+  --color-overlay-surface-03: rgb(255 255 255 / 0.03);
+  --color-overlay-surface-05: rgb(255 255 255 / 0.05);
+  --color-overlay-surface-06: rgb(255 255 255 / 0.06);
+  --color-overlay-surface-10: rgb(255 255 255 / 0.1);
+  --color-overlay-surface-50: rgb(255 255 255 / 0.5);
+  --color-overlay-surface-70: rgb(255 255 255 / 0.7);
+  --color-overlay-surface-72: rgb(255 255 255 / 0.72);
+  --color-overlay-surface-75: rgb(255 255 255 / 0.75);
+  --color-overlay-surface-80: rgb(255 255 255 / 0.8);
+  --color-overlay-surface-90: rgb(255 255 255 / 0.9);
+  --color-state-info: #93c5fd;
+  --color-state-info-soft: #bfdbfe;
+  --color-state-success: #86efac;
+  --color-state-warning: #fdba74;
+  --color-state-danger-bg: #fef2f2;
+  --color-state-danger-border: #fecaca;
+  --color-state-danger-text: #b91c1c;
+  --color-accent-blue: #3b82f6;
+  --color-accent-purple: #a855f7;
+  --color-accent-red: #ef4444;
+  --color-accent-yellow: #f59e0b;
+  --color-accent-green: #22c55e;
+  --color-accent-red-soft: rgb(239 68 68 / 0.5);
+  --color-accent-yellow-soft: rgb(245 158 11 / 0.5);
+  --color-accent-green-soft: rgb(34 197 94 / 0.5);
+  --color-button-primary-bg: rgb(112 177 158 / 0.86);
+  --color-button-primary-border: rgb(112 177 158 / 0.45);
+  --color-button-primary-hover-bg: rgb(138 199 174 / 0.82);
+  --color-button-primary-hover-border: rgb(138 199 174 / 0.65);
+  --color-glow-brand: rgb(113 178 159 / 0.15);
+  --color-glow-blue: rgb(59 130 246 / 0.05);
+  --shadow-soft: 0 8px 24px rgb(14 24 19 / 0.08);
+  --shadow-elevated: 0 20px 40px rgb(0 0 0 / 0.1);
+}
+
+.ui-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-brand);
+}
+
+.ui-copy-muted {
+  color: var(--color-text-secondary);
+}
+
+.ui-copy-muted-2 {
+  color: var(--color-text-muted);
+}
+
+.ui-radius-control {
+  border-radius: var(--radius-control);
+}
+
+.ui-radius-panel {
+  border-radius: var(--radius-panel);
+}
+
+.ui-radius-card {
+  border-radius: var(--radius-card);
+}
+
+.ui-card-surface {
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface);
+}
+
+.ui-surface-dark {
+  border: 1px solid var(--color-border-inverse-soft);
+  border-radius: var(--radius-panel);
+  background-color: color-mix(in srgb, var(--color-surface) 3%, transparent);
+}
+
+.ui-form-field {
+  border: 1px solid var(--color-border-inverse-soft);
+  border-radius: 0.5rem;
+  background-color: var(--color-bg-panel-dark);
+  color: var(--color-text-inverse);
+  transition: border-color 200ms ease;
+}
+
+.ui-form-field:focus {
+  border-color: var(--color-brand-alt);
+  outline: none;
+}
+
+.ui-brand-link {
+  color: var(--color-brand-alt);
+}
+
+.ui-frost-chip {
+  border: 1px solid rgb(255 255 255 / 0.25);
+  border-radius: var(--radius-control);
+  background: rgb(255 255 255 / 0.08);
+  box-shadow:
+    0 8px 24px rgb(255 255 255 / 0.16),
+    inset 0 1px 0 rgb(255 255 255 / 0.5);
+  backdrop-filter: blur(12px);
 }
 
 * {
@@ -28,8 +171,8 @@ body {
   margin: 0;
   min-width: 320px;
   overflow-x: clip;
-  background-color: #081912;
-  color: #ffffff;
+  background-color: var(--color-bg-page);
+  color: var(--color-text-inverse);
 }
 
 a {
@@ -84,7 +227,7 @@ input[type='reset'] {
   font-size: clamp(1.8rem, 4vw, 2.6rem);
   line-height: 1.15;
   letter-spacing: -0.02em;
-  color: #f6f8f7;
+  color: color-mix(in srgb, var(--color-text-inverse) 96%, transparent);
 }
 
 .legal-content section {
@@ -93,7 +236,7 @@ input[type='reset'] {
 
 .legal-content .title-h4 {
   margin: 0 0 0.65rem;
-  color: #70b19e;
+  color: var(--color-brand-alt);
   font-family: var(--font-mono);
   font-size: 0.9rem;
   letter-spacing: 0.09em;
@@ -102,14 +245,14 @@ input[type='reset'] {
 
 .legal-content .subtitle-1 {
   margin: 0.9rem 0 0.45rem;
-  color: #f6f8f7;
+  color: color-mix(in srgb, var(--color-text-inverse) 96%, transparent);
   font-weight: 600;
 }
 
 .legal-content p,
 .legal-content li {
   margin: 0.45rem 0;
-  color: #b7c0bb;
+  color: color-mix(in srgb, var(--color-text-inverse) 72%, var(--color-bg-page));
   font-size: 0.95rem;
   line-height: 1.68;
 }
@@ -120,7 +263,7 @@ input[type='reset'] {
 }
 
 .legal-content a {
-  color: #70b19e;
+  color: var(--color-brand-alt);
   text-decoration: none;
 }
 

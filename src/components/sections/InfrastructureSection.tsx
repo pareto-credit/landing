@@ -73,19 +73,19 @@ const InfrastructureFeatureList = ({
           onMouseEnter={() => onChange(index)}
           onFocus={() => onChange(index)}
           onClick={() => onChange(index)}
-          className={`flex w-full items-center gap-4 rounded-2xl border p-5 text-left transition-all duration-300 ${
+          className={`ui-radius-panel flex w-full items-center gap-4 border p-5 text-left transition-all duration-300 ${
             activeIndex === index
-              ? "border-[#0E1813]/10 bg-white shadow-[0_15px_40px_rgba(14,24,19,0.06)]"
-              : "border-transparent hover:bg-white/50"
+              ? "border-[var(--color-border-soft)] bg-[var(--color-surface)] shadow-[0_15px_40px_rgba(14,24,19,0.06)]"
+              : "border-transparent hover:bg-[var(--color-overlay-surface-50)]"
           }`}
         >
           <feature.icon
             size={24}
-            className={activeIndex === index ? "text-[#71B29F]" : "text-gray-400"}
+            className={activeIndex === index ? "text-[var(--color-brand)]" : "text-[var(--color-text-muted-soft)]"}
           />
           <span
             className={`text-lg font-semibold ${
-              activeIndex === index ? "text-[#0E1813]" : "text-[#293B33]"
+              activeIndex === index ? "text-[var(--color-text-primary)]" : "text-[var(--color-text-secondary)]"
             }`}
           >
             {feature.name}
@@ -103,24 +103,24 @@ const InfrastructureVisualOne = ({ activeIndex }: { activeIndex: number }) => (
         <motion.div
           animate={{ x: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="flex h-20 w-20 items-center justify-center rounded-2xl border border-white/20 bg-[#71B29F] shadow-xl"
+          className="ui-radius-panel flex h-20 w-20 items-center justify-center border border-[var(--color-overlay-inverse-20)] bg-[var(--color-brand)] shadow-xl"
         >
-          <Zap className="text-white" size={32} />
+          <Zap className="text-[var(--color-text-inverse)]" size={32} />
         </motion.div>
-        <div className="relative h-1.5 w-12 overflow-hidden rounded-full bg-[#0E1813]/10">
+        <div className="relative h-1.5 w-12 overflow-hidden rounded-full bg-[var(--color-border-soft)]">
           <motion.div
             initial={{ x: "-100%" }}
             animate={{ x: "100%" }}
             transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-            className="h-full w-full bg-[#71B29F]/50"
+            className="h-full w-full bg-[color:rgb(113_178_159_/_0.50)]"
           />
         </div>
         <motion.div
           animate={{ scale: [1, 1.05, 1] }}
           transition={{ duration: 2, repeat: Infinity, delay: 0.5, ease: "easeInOut" }}
-          className="flex h-20 w-20 items-center justify-center rounded-2xl bg-[#0E1813] shadow-xl"
+          className="ui-radius-panel flex h-20 w-20 items-center justify-center bg-[var(--color-text-primary)] shadow-xl"
         >
-          <CheckCircle2 className="text-[#71B29F]" size={32} />
+          <CheckCircle2 className="text-[var(--color-brand)]" size={32} />
         </motion.div>
       </div>
     ) : null}
@@ -143,7 +143,7 @@ const InfrastructureVisualOne = ({ activeIndex }: { activeIndex: number }) => (
               ease: "easeInOut",
               delay: index * 0.15,
             }}
-            className="w-8 rounded-t-lg border-t border-white/50 bg-gradient-to-t from-blue-200 to-[#71B29F]/80 shadow-sm"
+            className="w-8 rounded-t-lg border-t border-[var(--color-overlay-surface-50)] bg-gradient-to-t from-[var(--color-state-info-soft)] to-[color:rgb(113_178_159_/_0.80)] shadow-sm"
           />
         ))}
       </div>
@@ -151,16 +151,16 @@ const InfrastructureVisualOne = ({ activeIndex }: { activeIndex: number }) => (
 
     {activeIndex === 2 ? (
       <div className="relative flex items-center justify-center">
-        <ShieldCheck className="relative z-10 h-32 w-32 text-[#254839] drop-shadow-xl" />
+        <ShieldCheck className="relative z-10 h-32 w-32 text-[var(--color-brand-deep)] drop-shadow-xl" />
         <motion.div
           animate={{ scale: [1, 1.4], opacity: [0.6, 0] }}
           transition={{ duration: 2.5, repeat: Infinity, ease: "easeOut" }}
-          className="absolute h-32 w-32 rounded-full border-2 border-[#71B29F]"
+          className="absolute h-32 w-32 rounded-full border-2 border-[var(--color-brand)]"
         />
         <motion.div
           animate={{ scale: [1, 1.8], opacity: [0.3, 0] }}
           transition={{ duration: 2.5, repeat: Infinity, ease: "easeOut", delay: 0.6 }}
-          className="absolute h-32 w-32 rounded-full border border-[#71B29F]"
+          className="absolute h-32 w-32 rounded-full border border-[var(--color-brand)]"
         />
       </div>
     ) : null}
@@ -170,7 +170,7 @@ const InfrastructureVisualOne = ({ activeIndex }: { activeIndex: number }) => (
 const InfrastructureVisualTwo = ({ activeIndex }: { activeIndex: number }) => (
   <div className="flex flex-1 items-center justify-center px-8 pt-8">
     {activeIndex === 0 ? (
-      <div className="w-72 rounded-2xl border border-[#71B29F]/20 bg-[#0E1813] p-8 font-mono text-[13px] text-[#71B29F] shadow-2xl">
+      <div className="ui-radius-panel w-72 border border-[color:rgb(113_178_159_/_0.20)] bg-[var(--color-text-primary)] p-8 font-mono text-[13px] text-[var(--color-brand)] shadow-2xl">
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}>
           {`{`}
         </motion.div>
@@ -180,7 +180,7 @@ const InfrastructureVisualTwo = ({ activeIndex }: { activeIndex: number }) => (
           transition={{ delay: 0.3 }}
           className="pl-4"
         >
-          "endpoint": <span className="text-blue-300">"/v1/vault"</span>,
+          "endpoint": <span className="text-[var(--color-state-info)]">"/v1/vault"</span>,
         </motion.div>
         <motion.div
           initial={{ opacity: 0 }}
@@ -188,7 +188,7 @@ const InfrastructureVisualTwo = ({ activeIndex }: { activeIndex: number }) => (
           transition={{ delay: 0.5 }}
           className="pl-4"
         >
-          "status": <span className="text-green-300">"active"</span>,
+          "status": <span className="text-[var(--color-state-success)]">"active"</span>,
         </motion.div>
         <motion.div
           initial={{ opacity: 0 }}
@@ -196,7 +196,7 @@ const InfrastructureVisualTwo = ({ activeIndex }: { activeIndex: number }) => (
           transition={{ delay: 0.7 }}
           className="pl-4"
         >
-          "ai_model": <span className="text-orange-300">"optimized"</span>
+          "ai_model": <span className="text-[var(--color-state-warning)]">"optimized"</span>
         </motion.div>
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9 }}>
           {`}`}
@@ -216,7 +216,7 @@ const InfrastructureVisualTwo = ({ activeIndex }: { activeIndex: number }) => (
               delay: index * 0.4,
               ease: "easeInOut",
             }}
-            className="absolute h-24 w-48 -skew-x-12 rounded-xl border border-[#0E1813]/10 bg-white/80 shadow-[0_10px_30px_rgba(0,0,0,0.08)] backdrop-blur-md"
+            className="absolute h-24 w-48 -skew-x-12 rounded-xl border border-[var(--color-border-soft)] bg-[var(--color-overlay-surface-80)] shadow-[0_10px_30px_rgba(0,0,0,0.08)] backdrop-blur-md"
             style={{ top: `${index * 35}px`, zIndex: 3 - index }}
           />
         ))}
@@ -228,11 +228,11 @@ const InfrastructureVisualTwo = ({ activeIndex }: { activeIndex: number }) => (
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="h-48 w-48 rounded-full border-[16px] border-gray-100 border-r-[#71B29F] border-t-[#71B29F] drop-shadow-md"
+          className="h-48 w-48 rounded-full border-[16px] border-[var(--color-surface-soft)] border-r-[var(--color-brand)] border-t-[var(--color-brand)] drop-shadow-md"
         />
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="font-mono text-3xl font-bold text-[#0E1813]">-60%</span>
-          <span className="mt-1 font-sans text-[10px] uppercase tracking-widest text-gray-500">
+          <span className="font-mono text-3xl font-bold text-[var(--color-text-primary)]">-60%</span>
+          <span className="mt-1 font-sans text-[10px] uppercase tracking-widest text-[var(--color-text-muted-soft)]">
             Setup Costs
           </span>
         </div>
@@ -254,7 +254,7 @@ const InfrastructureVisualCard = ({
   cardKey,
   children,
 }: InfrastructureVisualCardProps) => (
-  <div className="relative flex h-[450px] items-center justify-center overflow-hidden rounded-3xl border border-[#0E1813]/10 bg-white shadow-xl md:h-[550px]">
+  <div className="ui-radius-card relative flex h-[450px] items-center justify-center overflow-hidden border border-[var(--color-border-soft)] bg-[var(--color-surface)] shadow-xl md:h-[550px]">
     <AnimatePresence mode="popLayout">
       <motion.div
         key={`${cardKey}-${activeIndex}`}
@@ -265,9 +265,9 @@ const InfrastructureVisualCard = ({
         className="absolute inset-0 flex flex-col"
       >
         {children}
-        <div className="z-10 mt-auto bg-gradient-to-t from-white via-white/90 to-transparent p-8 pt-12 text-center">
-          <h4 className="mb-2 text-xl font-bold text-[#0E1813]">{feature.name}</h4>
-          <p className="mx-auto max-w-sm text-sm leading-relaxed text-[#293B33]">
+        <div className="z-10 mt-auto bg-gradient-to-t from-[var(--color-surface)] via-[var(--color-overlay-surface-90)] to-transparent p-8 pt-12 text-center">
+          <h4 className="mb-2 text-xl font-bold text-[var(--color-text-primary)]">{feature.name}</h4>
+          <p className="mx-auto max-w-sm text-sm leading-relaxed text-[var(--color-text-secondary)]">
             {feature.desc}
           </p>
         </div>
@@ -283,7 +283,7 @@ const InfrastructureSection = () => {
   return (
     <section
       id="infrastructure"
-      className="relative z-10 overflow-hidden border-y border-[#0E1813]/5 bg-[#F4F7F5] py-32"
+      className="relative z-10 overflow-hidden border-y border-[var(--color-border-soft-muted)] bg-[var(--color-bg-light-alt)] py-32"
     >
       <SectionContainer className="relative z-10">
         <SectionHeading
@@ -291,14 +291,14 @@ const InfrastructureSection = () => {
           title="Onchain credit infrastructure for modern capital markets."
           size="4xl"
           className="mx-auto mb-24 text-center"
-          eyebrowClassName="font-semibold text-[#293B33]"
-          titleClassName="font-sans leading-[1.05] text-[#0E1813] md:text-5xl lg:text-[56px]"
+          eyebrowClassName="font-semibold text-[var(--color-text-secondary)]"
+          titleClassName="font-sans leading-[1.05] text-[var(--color-text-primary)] md:text-5xl lg:text-[56px]"
         />
 
         <div className="space-y-32">
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
             <div className="order-2 lg:order-1">
-              <h3 className="mb-8 text-3xl font-bold tracking-tight text-[#0E1813]">
+              <h3 className="mb-8 text-3xl font-bold tracking-tight text-[var(--color-text-primary)]">
                 Built for Next-Gen Fixed-Income
               </h3>
               <InfrastructureFeatureList
@@ -331,7 +331,7 @@ const InfrastructureSection = () => {
             </div>
 
             <div className="order-1 lg:order-2">
-              <h3 className="mb-8 text-3xl font-bold tracking-tight text-[#0E1813]">
+              <h3 className="mb-8 text-3xl font-bold tracking-tight text-[var(--color-text-primary)]">
                 Designed for the future
               </h3>
               <InfrastructureFeatureList

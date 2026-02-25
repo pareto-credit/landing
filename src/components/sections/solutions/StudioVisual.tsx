@@ -28,7 +28,7 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.3, delay: idx * 0.1 }}
-                    className="h-20 rounded-xl border border-white/20 bg-white/5 shadow-[0_0_15px_rgba(255,255,255,0.05)]"
+                    className="h-20 rounded-xl border border-[var(--color-overlay-inverse-20)] bg-[var(--color-border-inverse-subtle)] shadow-[0_0_15px_rgba(255,255,255,0.05)]"
                   />
                 ))}
               </div>
@@ -38,78 +38,78 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
                 <motion.div
                   animate={{ backgroundPosition: ['200% 0', '-200% 0'] }}
                   transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-                  className="mb-6 h-16 w-full rounded-full bg-gradient-to-r from-[#70B19E] via-white to-[#70B19E] bg-[length:200%_auto] p-[2px] shadow-[0_0_20px_#70B19E50]"
+                  className="mb-6 h-16 w-full rounded-full bg-gradient-to-r from-[var(--color-brand-alt)] via-[var(--color-text-inverse)] to-[var(--color-brand-alt)] bg-[length:200%_auto] p-[2px] shadow-[0_0_20px_rgba(112,177,158,0.5)]"
                 >
-                  <div className="flex h-full w-full items-center justify-center rounded-full bg-[#050B08] font-mono text-sm font-bold tracking-widest text-[#70B19E]">
+                  <div className="flex h-full w-full items-center justify-center rounded-full bg-[var(--color-bg-page-alt)] font-mono text-sm font-bold tracking-widest text-[var(--color-brand-alt)]">
                     Deploying to Mainnet...
                   </div>
                 </motion.div>
-                <div className="h-3 w-full overflow-hidden rounded-full bg-white/10">
+                <div className="h-3 w-full overflow-hidden rounded-full bg-[var(--color-border-inverse-soft)]">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: '100%' }}
                     transition={{ duration: 2, repeat: Infinity }}
-                    className="h-full bg-[#70B19E] shadow-[0_0_10px_#70B19E]"
+                    className="h-full bg-[var(--color-brand-alt)] shadow-[0_0_10px_var(--color-brand-alt)]"
                   />
                 </div>
               </div>
             )}
             {activeIndex === 2 && (
               <div className="relative flex items-center justify-center">
-                <Activity className="relative z-10 h-20 w-20 text-[#70B19E] drop-shadow-[0_0_15px_#70B19E]" />
+                <Activity className="relative z-10 h-20 w-20 text-[var(--color-brand-alt)] drop-shadow-[0_0_15px_var(--color-brand-alt)]" />
                 <svg className="absolute h-64 w-64 animate-[spin_10s_linear_infinite] opacity-30" viewBox="0 0 100 100">
                   <polygon
                     points="50,5 95,25 95,75 50,95 5,75 5,25"
                     fill="none"
-                    stroke="#70B19E"
+                    stroke="var(--color-brand-alt)"
                     strokeWidth="1"
                   />
                   <polygon
                     points="50,20 80,35 80,65 50,80 20,65 20,35"
                     fill="none"
-                    stroke="#70B19E"
+                    stroke="var(--color-brand-alt)"
                     strokeWidth="1"
                   />
-                  <line x1="50" y1="5" x2="50" y2="95" stroke="#70B19E" strokeWidth="0.5" />
-                  <line x1="5" y1="25" x2="95" y2="75" stroke="#70B19E" strokeWidth="0.5" />
-                  <line x1="5" y1="75" x2="95" y2="25" stroke="#70B19E" strokeWidth="0.5" />
+                  <line x1="50" y1="5" x2="50" y2="95" stroke="var(--color-brand-alt)" strokeWidth="0.5" />
+                  <line x1="5" y1="25" x2="95" y2="75" stroke="var(--color-brand-alt)" strokeWidth="0.5" />
+                  <line x1="5" y1="75" x2="95" y2="25" stroke="var(--color-brand-alt)" strokeWidth="0.5" />
                 </svg>
               </div>
             )}
             {activeIndex === 3 && (
-              <div className="relative flex h-48 w-48 items-center justify-center rounded-full border-[16px] border-[#70B19E]/20">
+              <div className="relative flex h-48 w-48 items-center justify-center rounded-full border-[16px] border-[color:rgb(112_177_158_/_0.20)]">
                 <motion.div
                   initial={{ rotate: 0 }}
                   animate={{ rotate: 360 }}
                   transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-                  className="absolute inset-[-16px] rounded-full border-[16px] border-transparent border-r-blue-500 border-t-[#70B19E] drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]"
+                  className="absolute inset-[-16px] rounded-full border-[16px] border-transparent border-r-[var(--color-accent-blue)] border-t-[var(--color-brand-alt)] drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]"
                 />
-                <PieChart className="h-12 w-12 text-white opacity-50" />
+                <PieChart className="h-12 w-12 text-[var(--color-text-inverse)] opacity-50" />
               </div>
             )}
             {activeIndex === 4 && (
               <div className="relative flex items-center justify-center">
-                <Lock className="absolute z-10 h-16 w-16 text-[#70B19E]" />
+                <Lock className="absolute z-10 h-16 w-16 text-[var(--color-brand-alt)]" />
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
-                  className="h-40 w-40 rounded-full border-2 border-dashed border-[#70B19E]/50"
+                  className="h-40 w-40 rounded-full border-2 border-dashed border-[color:rgb(112_177_158_/_0.50)]"
                 />
                 <motion.div
                   animate={{ rotate: -360 }}
                   transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
-                  className="absolute flex h-52 w-52 items-center justify-center rounded-full border border-white/20"
+                  className="absolute flex h-52 w-52 items-center justify-center rounded-full border border-[var(--color-overlay-inverse-20)]"
                 >
-                  <div className="absolute -top-1.5 h-3 w-3 rounded-full bg-[#70B19E] shadow-[0_0_10px_#70B19E]" />
+                  <div className="absolute -top-1.5 h-3 w-3 rounded-full bg-[var(--color-brand-alt)] shadow-[0_0_10px_var(--color-brand-alt)]" />
                 </motion.div>
               </div>
             )}
             {activeIndex === 5 && (
-              <div className="w-full max-w-sm overflow-hidden rounded-xl border border-white/10 bg-black/60 p-6 font-mono text-left text-sm text-[#70B19E] shadow-2xl">
+              <div className="w-full max-w-sm overflow-hidden rounded-xl border border-[var(--color-border-inverse-soft)] bg-black/60 p-6 font-mono text-left text-sm text-[var(--color-brand-alt)] shadow-2xl">
                 <div className="mb-4 flex gap-2">
-                  <div className="h-3 w-3 rounded-full bg-red-500/50" />
-                  <div className="h-3 w-3 rounded-full bg-yellow-500/50" />
-                  <div className="h-3 w-3 rounded-full bg-green-500/50" />
+                  <div className="h-3 w-3 rounded-full bg-[var(--color-accent-red-soft)]" />
+                  <div className="h-3 w-3 rounded-full bg-[var(--color-accent-yellow-soft)]" />
+                  <div className="h-3 w-3 rounded-full bg-[var(--color-accent-green-soft)]" />
                 </div>
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}>
                   {'>'} Initializing Pareto API...
@@ -127,7 +127,7 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 1.3 }}
-                  className="mt-3 text-white"
+                  className="mt-3 text-[var(--color-text-inverse)]"
                 >
                   {'{'}
                 </motion.div>
@@ -151,7 +151,7 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 1.9 }}
-                  className="text-white"
+                  className="text-[var(--color-text-inverse)]"
                 >
                   {'}'}
                 </motion.div>
@@ -159,9 +159,9 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
             )}
           </div>
 
-          <div className="z-10 mt-auto bg-gradient-to-t from-[#0A120E] via-[#0A120E]/90 to-transparent p-8 pt-12 text-center">
-            <h4 className="mb-2 text-xl font-bold text-white">{studioFeatures[activeIndex].name}</h4>
-            <p className="mx-auto max-w-sm text-sm leading-relaxed text-gray-400">
+          <div className="z-10 mt-auto bg-gradient-to-t from-[var(--color-bg-panel-dark)] via-[color:rgb(10_18_14_/_0.90)] to-transparent p-8 pt-12 text-center">
+            <h4 className="mb-2 text-xl font-bold text-[var(--color-text-inverse)]">{studioFeatures[activeIndex].name}</h4>
+            <p className="mx-auto max-w-sm text-sm leading-relaxed text-[var(--color-text-muted)]">
               {studioFeatures[activeIndex].desc}
             </p>
           </div>

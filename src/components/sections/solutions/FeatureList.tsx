@@ -19,12 +19,12 @@ const FeatureListItem = ({ feature, isActive, onHover }: FeatureListItemProps) =
     className={cn(
       'flex cursor-pointer items-center gap-4 rounded-xl p-4 transition-all duration-300',
       isActive
-        ? 'border border-white/10 bg-white/[0.05] shadow-lg'
-        : 'border border-transparent hover:bg-white/[0.02]',
+        ? 'border border-[var(--color-border-inverse-soft)] bg-[var(--color-overlay-surface-05)] shadow-lg'
+        : 'border border-transparent hover:bg-[var(--color-overlay-surface-02)]',
     )}
   >
-    <feature.icon className={isActive ? 'text-[#70B19E]' : 'text-gray-500'} size={24} />
-    <span className={cn('text-lg font-semibold', isActive ? 'text-white' : 'text-gray-400')}>
+    <feature.icon className={isActive ? 'text-[var(--color-brand-alt)]' : 'text-[var(--color-text-muted-soft)]'} size={24} />
+    <span className={cn('text-lg font-semibold', isActive ? 'text-[var(--color-text-inverse)]' : 'text-[var(--color-text-muted)]')}>
       {feature.name}
     </span>
   </li>

@@ -55,7 +55,7 @@ export const SectionHeading = ({
   <div className={cn(headingSizeClass[size], className)}>
     <div
       className={cn(
-        "mb-4 font-mono text-xs uppercase tracking-widest text-[#70B19E]",
+        "mb-4 font-mono text-xs uppercase tracking-widest text-[var(--color-brand-alt)]",
         eyebrowClassName,
       )}
     >
@@ -65,7 +65,7 @@ export const SectionHeading = ({
       {title}
     </h2>
     {description ? (
-      <p className={cn("mt-4 text-lg leading-relaxed text-gray-400", descriptionClassName)}>
+      <p className={cn("mt-4 text-lg leading-relaxed text-[var(--color-text-muted)]", descriptionClassName)}>
         {description}
       </p>
     ) : null}

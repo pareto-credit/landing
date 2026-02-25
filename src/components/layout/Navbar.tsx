@@ -10,7 +10,7 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navLinkClass =
-    "inline-flex items-center transition-colors hover:text-[#70B19E] focus-visible:text-[#70B19E] focus-visible:outline-none";
+    "inline-flex items-center transition-colors hover:text-[var(--color-brand-alt)] focus-visible:text-[var(--color-brand-alt)] focus-visible:outline-none";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,14 +32,14 @@ const Navbar = () => {
       data-site-navbar
       className={`fixed z-50 w-full border-b transition-[background-color,border-color,padding,backdrop-filter,box-shadow] duration-300 ${
         isScrolled
-          ? "border-white/1 bg-white/75 py-4 text-[#0E1813] shadow-sm backdrop-blur-xl"
-          : "border-black/0 bg-transparent py-6 text-[#0E1813]"
+          ? "border-[color:rgb(14_24_19_/_0.05)] bg-[var(--color-overlay-surface-72)] py-4 text-[var(--color-text-primary)] shadow-sm backdrop-blur-xl"
+          : "border-black/0 bg-transparent py-6 text-[var(--color-text-primary)]"
       }`}
     >
       <SectionContainer className="flex items-center justify-between">
         <button
           onClick={() => handleSectionScroll("hero")}
-          className="flex items-center rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#70B19E]"
+          className="ui-radius-control flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)]"
           aria-label="Scroll to top"
         >
           <img src={paretoLogo} alt="Pareto logo" className="h-8 w-auto" />
@@ -47,7 +47,7 @@ const Navbar = () => {
 
         <div
           className={`hidden items-center gap-8 font-mono text-sm md:flex ${
-            isScrolled ? "text-gray-600" : "text-[#293B33]"
+            isScrolled ? "text-[var(--color-text-muted)]" : "text-[var(--color-text-secondary)]"
           }`}
         >
           <button
@@ -85,7 +85,7 @@ const Navbar = () => {
             rel="noopener noreferrer"
             variant="primary"
             size="sm"
-            className="font-mono"
+            className="font-mono text-[var(--color-text-primary)]"
           >
             Enter App
           </ButtonLink>
@@ -106,23 +106,23 @@ const Navbar = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="absolute left-0 top-full flex w-full flex-col gap-4 border-b border-white/10 bg-[#0E1813] p-6 font-mono text-sm text-white"
+            className="absolute left-0 top-full flex w-full flex-col gap-4 border-b border-[var(--color-border-inverse-soft)] bg-[var(--color-bg-dark)] p-6 font-mono text-sm text-[var(--color-text-inverse)]"
           >
             <button
               onClick={() => handleSectionScroll("products")}
-              className="border-b border-white/5 py-2 text-left text-gray-300"
+              className="border-b border-[var(--color-border-inverse-subtle)] py-2 text-left text-[var(--color-text-muted-softer)]"
             >
               Products
             </button>
             <button
               onClick={() => handleSectionScroll("solutions")}
-              className="border-b border-white/5 py-2 text-left text-gray-300"
+              className="border-b border-[var(--color-border-inverse-subtle)] py-2 text-left text-[var(--color-text-muted-softer)]"
             >
               Solutions
             </button>
             <button
               onClick={() => handleSectionScroll("news")}
-              className="border-b border-white/5 py-2 text-left text-gray-300"
+              className="border-b border-[var(--color-border-inverse-subtle)] py-2 text-left text-[var(--color-text-muted-softer)]"
             >
               News
             </button>
@@ -131,7 +131,7 @@ const Navbar = () => {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setMobileMenuOpen(false)}
-              className="block border-b border-white/5 py-2 text-left text-gray-300"
+              className="block border-b border-[var(--color-border-inverse-subtle)] py-2 text-left text-[var(--color-text-muted-softer)]"
             >
               Docs
             </a>

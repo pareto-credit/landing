@@ -42,9 +42,9 @@ const operators: Operator[] = [
 
 const SegmentsSection = () => {
   return (
-    <section className="relative z-20 overflow-hidden border-b border-white/5 bg-[#081912] py-8">
+    <section className="relative z-20 overflow-hidden border-b border-[var(--color-border-inverse-subtle)] bg-[var(--color-bg-page)] py-8">
       <SectionContainer className="mb-6 flex items-center justify-between gap-4">
-        <div className="font-mono text-xs uppercase tracking-widest text-[#70B19E]">
+        <div className="ui-eyebrow">
           Our partners
         </div>
       </SectionContainer>
@@ -66,9 +66,9 @@ const SegmentsSection = () => {
                     aria-hidden
                     className="pointer-events-none absolute inset-x-0 bottom-[2px] opacity-0 transition-opacity duration-300 group-hover/logo:opacity-100"
                   >
-                    <span className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-[#70B19E] to-transparent shadow-[0_0_28px_#70B19E]" />
-                    <span className="absolute inset-x-1 bottom-0 h-[7px] bg-gradient-to-r from-transparent via-[#70B19E]/45 to-transparent blur-[5px]" />
-                    <span className="absolute inset-x-2 bottom-0 h-[12px] bg-gradient-to-r from-transparent via-[#8DF8E0]/24 to-transparent blur-[12px]" />
+                    <span className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--color-brand-alt)] to-transparent shadow-[0_0_28px_var(--color-brand-alt)]" />
+                    <span className="absolute inset-x-1 bottom-0 h-[7px] bg-gradient-to-r from-transparent via-[color:rgb(112_177_158_/_0.45)] to-transparent blur-[5px]" />
+                    <span className="absolute inset-x-2 bottom-0 h-[12px] bg-gradient-to-r from-transparent via-[color:rgb(141_248_224_/_0.24)] to-transparent blur-[12px]" />
                   </span>
                   <img
                     src={operator.src}

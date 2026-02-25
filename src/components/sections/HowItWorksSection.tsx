@@ -94,10 +94,10 @@ const InteractiveBanknote = ({
 
   return (
     <div className="mt-12 flex w-full flex-col items-center">
-      <div className="relative mb-12 hidden w-full justify-center overflow-visiblem lg:flex">
+      <div className="relative mb-12 hidden w-full justify-center overflow-visible lg:flex">
         <svg
           viewBox="0 0 1200 800"
-          className="h-[min(68vh,780px)] w-auto max-w-full shadow-lg rounded-[2rem]"
+          className="ui-radius-card h-[min(68vh,780px)] w-auto max-w-full shadow-lg"
         >
           <defs>
             <pattern
@@ -112,7 +112,7 @@ const InteractiveBanknote = ({
                 y1="0"
                 x2="0"
                 y2="6"
-                stroke="#1A3326"
+                stroke="var(--color-stroke-forest)"
                 strokeWidth="0.5"
                 opacity="0.35"
               />
@@ -121,7 +121,7 @@ const InteractiveBanknote = ({
                 y1="0"
                 x2="3"
                 y2="6"
-                stroke="#1A3326"
+                stroke="var(--color-stroke-forest)"
                 strokeWidth="0.5"
                 opacity="0.1"
               />
@@ -138,7 +138,7 @@ const InteractiveBanknote = ({
                 y1="0"
                 x2="0"
                 y2="4"
-                stroke="#1A3326"
+                stroke="var(--color-stroke-forest)"
                 strokeWidth="0.5"
                 opacity="0.25"
               />
@@ -153,7 +153,7 @@ const InteractiveBanknote = ({
               markerHeight="6"
               orient="auto"
             >
-              <path d="M 0 0 L 10 5 L 0 10 z" fill="#0E1813" />
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--color-text-primary)" />
             </marker>
             <marker
               id="arrow-glow"
@@ -164,7 +164,7 @@ const InteractiveBanknote = ({
               markerHeight="6"
               orient="auto"
             >
-              <path d="M 0 0 L 10 5 L 0 10 z" fill="#71B29F" />
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--color-brand)" />
             </marker>
 
             <filter id="paper-texture" x="0%" y="0%" width="100%" height="100%">
@@ -176,7 +176,7 @@ const InteractiveBanknote = ({
               />
               <feDiffuseLighting
                 in="noise"
-                lightingColor="#ffffff"
+                lightingColor="white"
                 surfaceScale="0.8"
                 result="light"
               >
@@ -196,7 +196,7 @@ const InteractiveBanknote = ({
             width="1200"
             height="800"
             rx="30"
-            fill="#C9D6CE"
+            fill="var(--color-bg-light-mint)"
             filter="url(#paper-texture)"
           />
           <rect
@@ -206,7 +206,7 @@ const InteractiveBanknote = ({
             height="760"
             rx="20"
             fill="none"
-            stroke="#1A3326"
+            stroke="var(--color-stroke-forest)"
             strokeWidth="1"
             opacity="0.3"
           />
@@ -215,7 +215,7 @@ const InteractiveBanknote = ({
             <path
               d="M 350 140 L 835 140"
               fill="none"
-              stroke={isElemActive("loanRequest") ? "#71B29F" : "#0E1813"}
+              stroke={isElemActive("loanRequest") ? "var(--color-brand)" : "var(--color-text-primary)"}
               strokeWidth={
                 isElemActive("loanRequest") ? activeStrokeWidth : "2"
               }
@@ -228,7 +228,7 @@ const InteractiveBanknote = ({
             <path
               d="M 850 180 L 365 180"
               fill="none"
-              stroke={isElemActive("creditAssessment") ? "#71B29F" : "#0E1813"}
+              stroke={isElemActive("creditAssessment") ? "var(--color-brand)" : "var(--color-text-primary)"}
               strokeWidth={
                 isElemActive("creditAssessment") ? activeStrokeWidth : "2"
               }
@@ -243,7 +243,7 @@ const InteractiveBanknote = ({
             <path
               d="M 120 220 V 320 H 405"
               fill="none"
-              stroke={isElemActive("interestPayment") ? "#71B29F" : "#0E1813"}
+              stroke={isElemActive("interestPayment") ? "var(--color-brand)" : "var(--color-text-primary)"}
               strokeWidth={
                 isElemActive("interestPayment") ? activeStrokeWidth : "2"
               }
@@ -258,7 +258,7 @@ const InteractiveBanknote = ({
               d="M 120 580 V 480 H 405"
               fill="none"
               stroke={
-                isElemActive("liquidityProvision") ? "#71B29F" : "#0E1813"
+                isElemActive("liquidityProvision") ? "var(--color-brand)" : "var(--color-text-primary)"
               }
               strokeWidth={
                 isElemActive("liquidityProvision") ? activeStrokeWidth : "2"
@@ -273,7 +273,7 @@ const InteractiveBanknote = ({
             <path
               d="M 1080 220 V 320 H 795"
               fill="none"
-              stroke={isElemActive("ratesManagement") ? "#71B29F" : "#0E1813"}
+              stroke={isElemActive("ratesManagement") ? "var(--color-brand)" : "var(--color-text-primary)"}
               strokeWidth={
                 isElemActive("ratesManagement") ? activeStrokeWidth : "2"
               }
@@ -288,7 +288,7 @@ const InteractiveBanknote = ({
               d="M 1080 580 V 480 H 795"
               fill="none"
               stroke={
-                isElemActive("riskDiversification") ? "#71B29F" : "#0E1813"
+                isElemActive("riskDiversification") ? "var(--color-brand)" : "var(--color-text-primary)"
               }
               strokeWidth={
                 isElemActive("riskDiversification") ? activeStrokeWidth : "2"
@@ -303,7 +303,7 @@ const InteractiveBanknote = ({
             <path
               d="M 850 640 H 365"
               fill="none"
-              stroke={isElemActive("interestEarnings") ? "#71B29F" : "#0E1813"}
+              stroke={isElemActive("interestEarnings") ? "var(--color-brand)" : "var(--color-text-primary)"}
               strokeWidth={
                 isElemActive("interestEarnings") ? activeStrokeWidth : "2"
               }
@@ -326,8 +326,8 @@ const InteractiveBanknote = ({
           >
             <path
               d="M 50 100 H 350 V 160 A 60 60 0 0 0 290 220 H 50 Z"
-              fill="#9CAEA4"
-              stroke={isElemActive("borrower") ? "#71B29F" : "#0E1813"}
+              fill="var(--color-bg-light-mint-muted)"
+              stroke={isElemActive("borrower") ? "var(--color-brand)" : "var(--color-text-primary)"}
               strokeWidth={isElemActive("borrower") ? activeStrokeWidth : "2"}
             />
             <path
@@ -346,7 +346,7 @@ const InteractiveBanknote = ({
               x="180"
               y="165"
               textAnchor="middle"
-              fill="#0E1813"
+              fill="var(--color-text-primary)"
               className="font-sans text-3xl font-semibold tracking-tight"
             >
               BORROWER
@@ -363,8 +363,8 @@ const InteractiveBanknote = ({
           >
             <path
               d="M 850 100 H 1150 V 220 H 910 A 60 60 0 0 0 850 160 Z"
-              fill="#9CAEA4"
-              stroke={isElemActive("curator") ? "#71B29F" : "#0E1813"}
+              fill="var(--color-bg-light-mint-muted)"
+              stroke={isElemActive("curator") ? "var(--color-brand)" : "var(--color-text-primary)"}
               strokeWidth={isElemActive("curator") ? activeStrokeWidth : "2"}
             />
             <path
@@ -383,7 +383,7 @@ const InteractiveBanknote = ({
               x="1020"
               y="165"
               textAnchor="middle"
-              fill="#0E1813"
+              fill="var(--color-text-primary)"
               className="font-sans text-3xl font-semibold tracking-tight"
             >
               CURATOR
@@ -400,8 +400,8 @@ const InteractiveBanknote = ({
           >
             <path
               d="M 50 580 H 290 A 60 60 0 0 0 350 640 V 700 H 50 Z"
-              fill="#9CAEA4"
-              stroke={isElemActive("lenders") ? "#71B29F" : "#0E1813"}
+              fill="var(--color-bg-light-mint-muted)"
+              stroke={isElemActive("lenders") ? "var(--color-brand)" : "var(--color-text-primary)"}
               strokeWidth={isElemActive("lenders") ? activeStrokeWidth : "2"}
             />
             <path
@@ -420,7 +420,7 @@ const InteractiveBanknote = ({
               x="180"
               y="648"
               textAnchor="middle"
-              fill="#0E1813"
+              fill="var(--color-text-primary)"
               className="font-sans text-3xl font-semibold tracking-tight"
             >
               LENDERS
@@ -437,8 +437,8 @@ const InteractiveBanknote = ({
           >
             <path
               d="M 910 580 H 1150 V 700 H 850 V 640 A 60 60 0 0 0 910 580 Z"
-              fill="#9CAEA4"
-              stroke={isElemActive("tranches") ? "#71B29F" : "#0E1813"}
+              fill="var(--color-bg-light-mint-muted)"
+              stroke={isElemActive("tranches") ? "var(--color-brand)" : "var(--color-text-primary)"}
               strokeWidth={isElemActive("tranches") ? activeStrokeWidth : "2"}
             />
             <path
@@ -457,7 +457,7 @@ const InteractiveBanknote = ({
               x="1020"
               y="648"
               textAnchor="middle"
-              fill="#0E1813"
+              fill="var(--color-text-primary)"
               className="font-sans text-3xl font-semibold tracking-tight"
             >
               TRANCHES
@@ -472,13 +472,13 @@ const InteractiveBanknote = ({
               transform: vaultScale,
             }}
           >
-            <circle cx="600" cy="400" r="190" fill="#C9D6CE" />
+            <circle cx="600" cy="400" r="190" fill="var(--color-bg-light-mint)" />
             <circle
               cx="600"
               cy="400"
               r="190"
               fill="url(#guilloche-dense)"
-              stroke={isElemActive("vault") ? "#71B29F" : "#0E1813"}
+              stroke={isElemActive("vault") ? "var(--color-brand)" : "var(--color-text-primary)"}
               strokeWidth={isElemActive("vault") ? activeStrokeWidth : "2"}
             />
             <circle
@@ -486,7 +486,7 @@ const InteractiveBanknote = ({
               cy="400"
               r="170"
               fill="none"
-              stroke={isElemActive("vault") ? "#71B29F" : "#0E1813"}
+              stroke={isElemActive("vault") ? "var(--color-brand)" : "var(--color-text-primary)"}
               strokeWidth="4"
               strokeDasharray="4 6"
             />
@@ -495,7 +495,7 @@ const InteractiveBanknote = ({
               cy="400"
               r="162"
               fill="none"
-              stroke="#0E1813"
+              stroke="var(--color-text-primary)"
               strokeWidth="1"
             />
             <circle
@@ -503,15 +503,15 @@ const InteractiveBanknote = ({
               cy="400"
               r="178"
               fill="none"
-              stroke="#0E1813"
+              stroke="var(--color-text-primary)"
               strokeWidth="1"
             />
             <circle
               cx="600"
               cy="400"
               r="150"
-              fill={isElemActive("vault") ? "#E8EBE6" : "#9CAEA4"}
-              stroke="#0E1813"
+              fill={isElemActive("vault") ? "var(--color-bg-light)" : "var(--color-bg-light-mint-muted)"}
+              stroke="var(--color-text-primary)"
               strokeWidth="2"
               className={
                 reduceMotion
@@ -530,14 +530,14 @@ const InteractiveBanknote = ({
               x="600"
               y="410"
               textAnchor="middle"
-              fill="#0E1813"
+              fill="var(--color-text-primary)"
               className="font-sans text-4xl font-bold tracking-tight"
             >
               Credit Vault
             </text>
           </g>
 
-          <g className="fill-[#0E1813] font-mono text-[11px] font-semibold tracking-widest">
+          <g className="fill-[var(--color-text-primary)] font-mono text-[11px] font-semibold tracking-widest">
             <g
               onMouseEnter={() => setActiveNode("borrower")}
               className={labelTransitionClass}
@@ -548,8 +548,8 @@ const InteractiveBanknote = ({
                 width="180"
                 height="30"
                 rx="4"
-                fill="#E8EBE6"
-                stroke={isElemActive("loanRequest") ? "#71B29F" : "#0E1813"}
+                fill="var(--color-bg-light)"
+                stroke={isElemActive("loanRequest") ? "var(--color-brand)" : "var(--color-text-primary)"}
                 strokeWidth={
                   isElemActive("loanRequest") ? activeStrokeWidth : "2"
                 }
@@ -569,9 +569,9 @@ const InteractiveBanknote = ({
                 width="180"
                 height="30"
                 rx="4"
-                fill="#E8EBE6"
+                fill="var(--color-bg-light)"
                 stroke={
-                  isElemActive("creditAssessment") ? "#71B29F" : "#0E1813"
+                  isElemActive("creditAssessment") ? "var(--color-brand)" : "var(--color-text-primary)"
                 }
                 strokeWidth={
                   isElemActive("creditAssessment") ? activeStrokeWidth : "2"
@@ -592,8 +592,8 @@ const InteractiveBanknote = ({
                 width="170"
                 height="30"
                 rx="4"
-                fill="#E8EBE6"
-                stroke={isElemActive("interestPayment") ? "#71B29F" : "#0E1813"}
+                fill="var(--color-bg-light)"
+                stroke={isElemActive("interestPayment") ? "var(--color-brand)" : "var(--color-text-primary)"}
                 strokeWidth={
                   isElemActive("interestPayment") ? activeStrokeWidth : "2"
                 }
@@ -613,9 +613,9 @@ const InteractiveBanknote = ({
                 width="190"
                 height="30"
                 rx="4"
-                fill="#E8EBE6"
+                fill="var(--color-bg-light)"
                 stroke={
-                  isElemActive("liquidityProvision") ? "#71B29F" : "#0E1813"
+                  isElemActive("liquidityProvision") ? "var(--color-brand)" : "var(--color-text-primary)"
                 }
                 strokeWidth={
                   isElemActive("liquidityProvision") ? activeStrokeWidth : "2"
@@ -636,8 +636,8 @@ const InteractiveBanknote = ({
                 width="220"
                 height="30"
                 rx="4"
-                fill="#E8EBE6"
-                stroke={isElemActive("ratesManagement") ? "#71B29F" : "#0E1813"}
+                fill="var(--color-bg-light)"
+                stroke={isElemActive("ratesManagement") ? "var(--color-brand)" : "var(--color-text-primary)"}
                 strokeWidth={
                   isElemActive("ratesManagement") ? activeStrokeWidth : "2"
                 }
@@ -657,9 +657,9 @@ const InteractiveBanknote = ({
                 width="200"
                 height="30"
                 rx="4"
-                fill="#E8EBE6"
+                fill="var(--color-bg-light)"
                 stroke={
-                  isElemActive("riskDiversification") ? "#71B29F" : "#0E1813"
+                  isElemActive("riskDiversification") ? "var(--color-brand)" : "var(--color-text-primary)"
                 }
                 strokeWidth={
                   isElemActive("riskDiversification") ? activeStrokeWidth : "2"
@@ -680,9 +680,9 @@ const InteractiveBanknote = ({
                 width="180"
                 height="30"
                 rx="4"
-                fill="#E8EBE6"
+                fill="var(--color-bg-light)"
                 stroke={
-                  isElemActive("interestEarnings") ? "#71B29F" : "#0E1813"
+                  isElemActive("interestEarnings") ? "var(--color-brand)" : "var(--color-text-primary)"
                 }
                 strokeWidth={
                   isElemActive("interestEarnings") ? activeStrokeWidth : "2"
@@ -704,17 +704,17 @@ const InteractiveBanknote = ({
             <div
               key={node.id}
               onClick={() => setActiveNode(isActive ? null : node.id)}
-              className={`cursor-pointer rounded-[2rem] border p-6 transition-[background-color,border-color,box-shadow] duration-200 ease-out ${isActive ? "border-[#71B29F] bg-[#E8EBE6] shadow-lg" : "border-[#1A3326]/10 bg-[#C9D6CE]"}`}
+              className={`ui-radius-card cursor-pointer border p-6 transition-[background-color,border-color,box-shadow] duration-200 ease-out ${isActive ? "border-[var(--color-brand)] bg-[var(--color-bg-light)] shadow-lg" : "border-[color:rgb(26_51_38_/_0.10)] bg-[var(--color-bg-light-mint)]"}`}
             >
               <div className="flex items-center gap-4">
                 <h4
-                  className={`font-sans text-xl font-bold tracking-tight ${isActive ? "text-[#0E1813]" : "text-[#293B33]"}`}
+                  className={`font-sans text-xl font-bold tracking-tight ${isActive ? "text-[var(--color-text-primary)]" : "text-[var(--color-text-secondary)]"}`}
                 >
                   {node.label}
                 </h4>
                 <ChevronRight
                   size={20}
-                  className={`ml-auto transition-transform ${isActive ? "rotate-90 text-[#71B29F]" : "text-[#1A3326]/50"}`}
+                  className={`ml-auto transition-transform ${isActive ? "rotate-90 text-[var(--color-brand)]" : "text-[color:rgb(26_51_38_/_0.50)]"}`}
                 />
               </div>
 
@@ -726,11 +726,11 @@ const InteractiveBanknote = ({
                     exit={{ height: 0, opacity: 0 }}
                     className="overflow-hidden"
                   >
-                    <div className="mt-4 border-t border-[#1A3326]/10 pt-4">
-                      <h5 className="mb-2 font-sans text-xs font-bold uppercase tracking-widest text-[#0E1813]">
+                    <div className="mt-4 border-t border-[color:rgb(26_51_38_/_0.10)] pt-4">
+                      <h5 className="mb-2 font-sans text-xs font-bold uppercase tracking-widest text-[var(--color-text-primary)]">
                         {node.title}
                       </h5>
-                      <p className="font-sans text-sm leading-relaxed text-[#293B33]">
+                      <p className="font-sans text-sm leading-relaxed text-[var(--color-text-secondary)]">
                         {node.desc}
                       </p>
                     </div>
@@ -751,16 +751,16 @@ const HowItWorksSection = () => {
   const activeData = activeNode ? diagramNodes[activeNode] : diagramNodes.vault;
 
   return (
-    <section id="how-it-works" className="relative z-10 bg-[#E8EBE6] py-24">
+    <section id="how-it-works" className="relative z-10 bg-[var(--color-bg-light)] py-24">
       <SectionContainer>
         <div className="mb-16 text-center">
-          <div className="mb-4 font-mono text-xs font-semibold uppercase tracking-widest text-[#71B29F]">
+          <div className="mb-4 font-mono text-xs font-semibold uppercase tracking-widest text-[var(--color-brand)]">
             How It Works
           </div>
-          <h2 className="text-4xl font-bold tracking-tight text-[#0E1813] md:text-5xl">
+          <h2 className="text-4xl font-bold tracking-tight text-[var(--color-text-primary)] md:text-5xl">
             Where Roles Create Value.
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-[#293B33]">
+          <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-[var(--color-text-secondary)]">
             An elegant, fully automated framework connecting capital allocators
             directly with vetted institutional demand.
           </p>
@@ -774,9 +774,9 @@ const HowItWorksSection = () => {
 
       <div className="pointer-events-none absolute inset-y-0 right-10 bottom-10 top-10 z-30 hidden lg:block">
         <div className="pointer-events-auto sticky top-[calc(100vh-15rem)] w-[280px]">
-          <div className="rounded-[2rem] bg-white p-6 shadow-xl">
+          <div className="ui-radius-card bg-white p-6 shadow-xl">
             <div className="flex items-start gap-4">
-              <div className="mt-2 h-2 w-2 shrink-0 animate-pulse rounded-full bg-[#71B29F]" />
+              <div className="mt-2 h-2 w-2 shrink-0 animate-pulse rounded-full bg-[var(--color-brand)]" />
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={activeData.id}
@@ -786,10 +786,10 @@ const HowItWorksSection = () => {
                   transition={{ duration: 0.2, ease: "easeOut" }}
                   className="w-full"
                 >
-                  <h4 className="mb-1 font-sans text-xl font-bold tracking-tight text-[#0E1813]">
+                  <h4 className="mb-1 font-sans text-xl font-bold tracking-tight text-[var(--color-text-primary)]">
                     {activeData.title}
                   </h4>
-                  <p className="font-sans text-sm leading-relaxed text-[#293B33]">
+                  <p className="font-sans text-sm leading-relaxed text-[var(--color-text-secondary)]">
                     {activeData.desc}
                   </p>
                 </motion.div>

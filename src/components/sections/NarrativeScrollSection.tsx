@@ -178,10 +178,13 @@ const NarrativeScrollSection = () => {
   ]);
 
   return (
-    <section ref={containerRef} className="relative h-[500vh] bg-[#020504]">
+    <section
+      ref={containerRef}
+      className="relative h-[500vh] bg-[var(--color-bg-narrative)]"
+    >
       <div
         ref={viewportRef}
-        className="sticky top-0 flex h-screen w-full overflow-hidden bg-[#020504]"
+        className="sticky top-0 flex h-screen w-full overflow-hidden bg-[var(--color-bg-narrative)]"
       >
         {/* Layer 1: Full-screen background videos */}
         <motion.div
@@ -238,7 +241,7 @@ const NarrativeScrollSection = () => {
         {/* Contrast layer to keep frosty perceived opacity stable on bright/dark frames */}
         <motion.div
           style={{ opacity: splitScreenOpacity }}
-          className="pointer-events-none absolute inset-0 z-[5] bg-[#020504]/25"
+          className="pointer-events-none absolute inset-0 z-[5] bg-[color:rgb(2_5_4_/_0.25)]"
         ></motion.div>
 
         {/* Layer 2: Frosted glass mask */}
@@ -283,14 +286,14 @@ const NarrativeScrollSection = () => {
               style={{ opacity: opacity1, y: y1 }}
               className="absolute top-1/2 left-8 right-8 -translate-y-1/2 lg:left-24 lg:right-16"
             >
-              <div className="mb-6 flex items-center gap-3 font-mono text-xs tracking-widest text-[#70B19E] uppercase">
-                <span className="h-px w-8 bg-[#70B19E]/50"></span> 01. The
+              <div className="mb-6 flex items-center gap-3 font-mono text-xs tracking-widest text-[var(--color-brand-alt)] uppercase">
+                <span className="h-px w-8 bg-[color:rgb(112_177_158_/_0.50)]"></span> 01. The
                 Legacy
               </div>
-              <h2 className="mb-6 text-4xl leading-[1.1] font-medium tracking-tight text-white md:text-5xl">
+              <h2 className="mb-6 text-4xl leading-[1.1] font-medium tracking-tight text-[var(--color-text-inverse)] md:text-5xl">
                 Credit markets operate on infrastructure built in the 1970s.
               </h2>
-              <p className="max-w-md text-lg leading-relaxed text-white/85">
+              <p className="max-w-md text-lg leading-relaxed text-[var(--color-text-inverse)]/85">
                 Archaic databases and fragmented ledgers were never designed for
                 the velocity and scale required by modern global capital.
               </p>
@@ -300,14 +303,14 @@ const NarrativeScrollSection = () => {
               style={{ opacity: opacity2, y: y2 }}
               className="absolute top-1/2 left-8 right-8 -translate-y-1/2 lg:left-24 lg:right-16"
             >
-              <div className="mb-6 flex items-center gap-3 font-mono text-xs tracking-widest text-[#70B19E] uppercase">
-                <span className="h-px w-8 bg-[#70B19E]/50"></span> 02. The
+              <div className="mb-6 flex items-center gap-3 font-mono text-xs tracking-widest text-[var(--color-brand-alt)] uppercase">
+                <span className="h-px w-8 bg-[color:rgb(112_177_158_/_0.50)]"></span> 02. The
                 Patchwork
               </div>
-              <h2 className="mb-6 text-4xl leading-[1.1] font-medium tracking-tight text-white md:text-5xl">
+              <h2 className="mb-6 text-4xl leading-[1.1] font-medium tracking-tight text-[var(--color-text-inverse)] md:text-5xl">
                 Decades of technology layered on outdated systems.
               </h2>
-              <p className="max-w-md text-lg leading-relaxed text-white/85">
+              <p className="max-w-md text-lg leading-relaxed text-[var(--color-text-inverse)]/85">
                 Instead of rebuilding from the ground up, the industry has
                 stacked intermediary protocols on top of fragile core banking
                 frameworks.
@@ -318,14 +321,14 @@ const NarrativeScrollSection = () => {
               style={{ opacity: opacity3, y: y3 }}
               className="absolute top-1/2 left-8 right-8 -translate-y-1/2 lg:left-24 lg:right-16"
             >
-              <div className="mb-6 flex items-center gap-3 font-mono text-xs tracking-widest text-[#70B19E] uppercase">
-                <span className="h-px w-8 bg-[#70B19E]/50"></span> 03. The
+              <div className="mb-6 flex items-center gap-3 font-mono text-xs tracking-widest text-[var(--color-brand-alt)] uppercase">
+                <span className="h-px w-8 bg-[color:rgb(112_177_158_/_0.50)]"></span> 03. The
                 Friction
               </div>
-              <h2 className="mb-6 text-4xl leading-[1.1] font-medium tracking-tight text-white md:text-5xl">
+              <h2 className="mb-6 text-4xl leading-[1.1] font-medium tracking-tight text-[var(--color-text-inverse)] md:text-5xl">
                 Inefficiency, opacity, and unnecessary risk.
               </h2>
-              <p className="max-w-md text-lg leading-relaxed text-white/85">
+              <p className="max-w-md text-lg leading-relaxed text-[var(--color-text-inverse)]/85">
                 The result is a fragile ecosystem plagued by T+2 settlement
                 delays, hidden counterparty risks, and excessive capital
                 overhead.
@@ -337,7 +340,7 @@ const NarrativeScrollSection = () => {
         {/* Layer 4: Pareto climax */}
         <motion.div
           style={{ opacity: climaxOpacity }}
-          className="absolute inset-0 z-30 flex items-center justify-center bg-[#020504]"
+          className="absolute inset-0 z-30 flex items-center justify-center bg-[var(--color-bg-narrative)]"
         >
           <video
             src={hyperCityVideo}
@@ -350,7 +353,7 @@ const NarrativeScrollSection = () => {
             className="absolute inset-0 h-full w-full object-cover filter brightness-[0.58] contrast-110"
           />
 
-          <div className="absolute inset-0 bg-gradient-to-t from-[#050B08]/45 via-[#050B08]/8 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[color:rgb(5_11_8_/_0.45)] via-[color:rgb(5_11_8_/_0.08)] to-transparent"></div>
 
           <motion.div
             style={{ scale: climaxScale }}
@@ -361,10 +364,10 @@ const NarrativeScrollSection = () => {
               alt="Pareto mark"
               className="h-40 w-40 mx-auto mb-8 h-20 w-20 items-center justify-center"
             />
-            <h2 className="text-5xl leading-none font-semibold tracking-tighter text-white drop-shadow-2xl md:text-7xl lg:text-8xl">
+            <h2 className="text-5xl leading-none font-semibold tracking-tighter text-[var(--color-text-inverse)] drop-shadow-2xl md:text-7xl lg:text-8xl">
               This is where Pareto
               <br />
-              <span className="bg-gradient-to-b from-white to-[#70B19E] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-b from-[var(--color-text-inverse)] to-[var(--color-brand-alt)] bg-clip-text text-transparent">
                 comes in.
               </span>
             </h2>

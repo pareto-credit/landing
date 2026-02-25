@@ -2,19 +2,19 @@ import type { AnchorHTMLAttributes, ButtonHTMLAttributes } from "react";
 import { cn } from "../../lib/cn";
 
 const sharedBaseClass =
-  "inline-flex items-center justify-center gap-2 uppercase whitespace-nowrap font-mono font-medium transition-[background-color,border-color,color,box-shadow,transform] duration-300 active:translate-y-px disabled:pointer-events-none disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#70B19E]/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent";
+  "inline-flex items-center justify-center gap-2 uppercase whitespace-nowrap font-mono font-medium transition-[background-color,border-color,color,box-shadow,transform] duration-300 active:translate-y-px disabled:pointer-events-none disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:rgb(112_177_158_/_0.7)] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent";
 
 const variantClass = {
   primary:
-    "rounded-md border border-[#70B19E]/45 bg-[#70B19E]/86 text-[#0E1813] shadow-sm backdrop-blur-md hover:border-[#8AC7AE]/65 hover:bg-[#8AC7AE]/82 hover:text-[#0E1813] hover:shadow-md",
+    "ui-radius-control border border-[var(--color-button-primary-border)] bg-[var(--color-button-primary-bg)] text-[var(--color-text-primary)] shadow-sm backdrop-blur-md hover:border-[var(--color-button-primary-hover-border)] hover:bg-[var(--color-button-primary-hover-bg)] hover:text-[var(--color-text-primary)] hover:shadow-md",
   secondary:
-    "rounded-md border border-white/20 bg-white/50 text-[#0E1813] shadow-sm backdrop-blur-sm hover:bg-white/75 hover:shadow-md",
+    "ui-radius-control border border-[var(--color-overlay-inverse-20)] bg-[var(--color-overlay-surface-50)] text-[var(--color-text-primary)] shadow-sm backdrop-blur-sm hover:bg-[var(--color-overlay-surface-75)] hover:shadow-md",
   outline:
-    "rounded-md border border-white/20 bg-transparent text-white hover:border-white/30 hover:bg-white/10",
+    "ui-radius-control border border-[var(--color-overlay-inverse-20)] bg-transparent text-[var(--color-text-inverse)] hover:border-[var(--color-overlay-inverse-30)] hover:bg-[var(--color-border-inverse-soft)]",
   ghost:
-    "rounded-md border border-white/10 bg-white/[0.02] text-white hover:border-white/20 hover:bg-white/[0.05]",
+    "ui-radius-control border border-[var(--color-border-inverse-soft)] bg-[var(--color-overlay-surface-02)] text-[var(--color-text-inverse)] hover:border-[var(--color-overlay-inverse-20)] hover:bg-[var(--color-border-inverse-subtle)]",
   underline:
-    "rounded-none border-b border-current/85 px-0 py-0 pb-1 text-current hover:border-[#70B19E] hover:text-[#70B19E]",
+    "rounded-none border-b border-current/85 px-0 py-0 pb-1 text-current hover:border-[var(--color-brand-alt)] hover:text-[var(--color-brand-alt)]",
 } as const;
 
 const sizeClass = {

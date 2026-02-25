@@ -27,7 +27,7 @@ const App = () => {
   const showHowItWorksSection = shouldShowBanknoteSection()
 
   return (
-    <div className="min-h-screen overflow-x-clip bg-[#081912] font-sans text-white selection:bg-[#70B19E] selection:text-[#081912]">
+    <div className="min-h-screen overflow-x-clip bg-[var(--color-bg-page)] font-sans text-[var(--color-text-inverse)] selection:bg-[var(--color-brand-alt)] selection:text-[var(--color-bg-page)]">
       <Navbar />
       <main>
         <HeroSection metrics={metrics} isMetricsLoading={isProductsDataLoading} />
