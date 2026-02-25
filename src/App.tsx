@@ -4,6 +4,7 @@ import HeroSection from './components/sections/HeroSection'
 import SegmentsSection from './components/sections/SegmentsSection'
 import ClientsServicesSection from './components/sections/ClientsServicesSection'
 import NarrativeScrollSection from './components/sections/NarrativeScrollSection'
+import HowItWorksSection from './components/sections/HowItWorksSection'
 import ProductsSection from './components/sections/ProductsSection'
 import SolutionsSection from './components/sections/SolutionsSection'
 import TestimonialsSection from './components/sections/TestimonialsSection'
@@ -11,8 +12,18 @@ import NewsSection from './components/sections/NewsSection'
 import ContactSection from './components/sections/ContactSection'
 import { useProductsData } from './hooks/useProductsData'
 
+const shouldShowBanknoteSection = (): boolean => {
+  if (typeof window === 'undefined') return false
+
+  const value = new URLSearchParams(window.location.search).get('showBanknote')
+  if (value === null) return false
+
+  return !['0', 'false', 'no', 'off'].includes(value.trim().toLowerCase())
+}
+
 const App = () => {
   const { metrics, vaults, isLoading: isProductsDataLoading } = useProductsData()
+  const showHowItWorksSection = shouldShowBanknoteSection()
 
   return (
     <div className="min-h-screen overflow-x-clip bg-[#081912] font-sans text-white selection:bg-[#70B19E] selection:text-[#081912]">
@@ -22,6 +33,7 @@ const App = () => {
         <SegmentsSection />
         <ClientsServicesSection />
         <NarrativeScrollSection />
+        {showHowItWorksSection ? <HowItWorksSection /> : null}
         <ProductsSection vaults={vaults} isVaultsLoading={isProductsDataLoading} />
         <SolutionsSection />
         <TestimonialsSection />
