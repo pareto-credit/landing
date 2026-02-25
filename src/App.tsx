@@ -5,6 +5,7 @@ import SegmentsSection from './components/sections/SegmentsSection'
 import ClientsServicesSection from './components/sections/ClientsServicesSection'
 import NarrativeScrollSection from './components/sections/NarrativeScrollSection'
 import HowItWorksSection from './components/sections/HowItWorksSection'
+import InfrastructureSection from './components/sections/InfrastructureSection'
 import ProductsSection from './components/sections/ProductsSection'
 import SolutionsSection from './components/sections/SolutionsSection'
 import TestimonialsSection from './components/sections/TestimonialsSection'
@@ -34,6 +35,7 @@ const App = () => {
         <ClientsServicesSection />
         <NarrativeScrollSection />
         {showHowItWorksSection ? <HowItWorksSection /> : null}
+        <InfrastructureSection />
         <ProductsSection vaults={vaults} isVaultsLoading={isProductsDataLoading} />
         <SolutionsSection />
         <TestimonialsSection />
