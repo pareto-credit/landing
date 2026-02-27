@@ -6,6 +6,7 @@ import falconxLogo from "../assets/images/operators/falconx.png";
 import falconxBackground from "../assets/images/operators/falconxBg.svg";
 import fasanaraLogo from "../assets/images/operators/fasanara.png";
 import fasanaraBackground from "../assets/images/operators/fasanaraBg.svg";
+import gauntletLogo from "../assets/images/operators/gauntlet.svg";
 import m11Logo from "../assets/images/operators/m11.png";
 import paretoLogo from "../assets/images/operators/pareto.png";
 import rockawayBackground from "../assets/images/operators/rockawayBg.svg";
@@ -16,6 +17,7 @@ const OPERATOR_LOGOS: Record<string, string> = {
   bastion: bastionLogo,
   falconx: falconxLogo,
   fasanara: fasanaraLogo,
+  gauntlet: gauntletLogo,
   m11: m11Logo,
   maven11: m11Logo,
   pareto: paretoLogo,

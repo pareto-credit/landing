@@ -18,14 +18,19 @@ const NewsSection = () => {
   };
 
   return (
-    <section id="news" className="border-b border-[var(--color-border-inverse-subtle)] bg-[var(--color-bg-page)] py-24">
+    <section
+      id="news"
+      className="relative border-b border-[var(--color-border-soft)] bg-[var(--color-bg-light-alt)] py-24 text-[var(--color-text-primary)]"
+    >
+      <div className="pointer-events-none absolute right-0 top-0 h-[420px] w-[420px] rounded-full bg-[color:rgb(113_178_159_/_0.08)] blur-[120px]" />
       <SectionContainer>
         <div className="mb-12 flex flex-col items-end justify-between gap-6 md:flex-row">
           <SectionHeading
             eyebrow="News"
             title="Market Intelligence & Updates."
             size="2xl"
-            titleClassName="text-4xl md:text-4xl"
+            titleClassName="text-4xl text-[var(--color-text-primary)] md:text-4xl"
+            descriptionClassName="text-[var(--color-text-secondary)]"
           />
           <ButtonLink
             href={PARAGRAPH_BLOG_URL}
@@ -33,6 +38,7 @@ const NewsSection = () => {
             rel="noopener noreferrer"
             variant="outline"
             size="sm"
+            className="text-[var(--color-text-primary)]"
           >
             View All Articles
           </ButtonLink>
@@ -46,16 +52,16 @@ const NewsSection = () => {
                   role="status"
                   className="animate-pulse"
                 >
-                  <div className="mb-6 h-48 w-full rounded border border-[var(--color-border-inverse-soft)] bg-[var(--color-overlay-surface-05)]" />
+                  <div className="mb-6 h-48 w-full rounded border border-[var(--color-border-soft)] bg-[var(--color-surface-muted)]" />
                   <div className="mb-3 flex items-center justify-between gap-3">
-                    <div className="h-3 w-24 rounded-full bg-[var(--color-overlay-surface-10)]" />
-                    <div className="h-5 w-20 rounded bg-[var(--color-overlay-surface-10)]" />
+                    <div className="h-3 w-24 rounded-full bg-[var(--color-surface-muted)]" />
+                    <div className="h-5 w-20 rounded bg-[var(--color-surface-muted)]" />
                   </div>
-                  <div className="mb-3 h-6 w-11/12 rounded bg-[var(--color-overlay-surface-10)]" />
-                  <div className="mb-3 h-6 w-8/12 rounded bg-[var(--color-overlay-surface-10)]" />
+                  <div className="mb-3 h-6 w-11/12 rounded bg-[var(--color-surface-muted)]" />
+                  <div className="mb-3 h-6 w-8/12 rounded bg-[var(--color-surface-muted)]" />
                   <div className="flex items-center gap-3">
-                    <div className="h-4 w-24 rounded bg-[var(--color-overlay-surface-10)]" />
-                    <div className="h-4 w-14 rounded bg-[var(--color-overlay-surface-10)]" />
+                    <div className="h-4 w-24 rounded bg-[var(--color-surface-muted)]" />
+                    <div className="h-4 w-14 rounded bg-[var(--color-surface-muted)]" />
                   </div>
                   <span className="sr-only">Loading...</span>
                 </div>
@@ -68,31 +74,31 @@ const NewsSection = () => {
                   rel="noopener noreferrer"
                   className="group block cursor-pointer"
                 >
-                  <div className="relative mb-6 h-48 w-full overflow-hidden rounded border border-[var(--color-border-inverse-soft)] bg-[var(--color-bg-panel-dark)] transition-colors group-hover:border-[color:rgb(112_177_158_/_0.50)]">
+                  <div className="relative mb-6 h-48 w-full overflow-hidden rounded border border-[var(--color-border-soft)] bg-[var(--color-surface-muted)] transition-colors group-hover:border-[color:rgb(112_177_158_/_0.50)]">
                     <img
                       src={article.image || newsPlaceholder}
                       alt={article.title}
                       loading="lazy"
                       onError={handleImageError}
-                      className="absolute inset-0 h-full w-full object-cover opacity-80 transition-transform duration-700 group-hover:scale-105"
+                      className="absolute inset-0 h-full w-full object-cover opacity-85 transition-transform duration-700 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[color:rgb(8_25_18_/_0.85)] via-[color:rgb(8_25_18_/_0.15)] to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[color:rgb(14_24_19_/_0.28)] via-transparent to-transparent" />
                     <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[var(--color-brand-alt)] to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-90" />
                   </div>
                   <div className="mb-3 flex items-center justify-between gap-3">
-                    <span className="font-mono text-xs text-[var(--color-text-muted-soft)]">
+                    <span className="font-mono text-xs text-[var(--color-text-muted)]">
                       {article.date}
                     </span>
-                    <span className="rounded bg-[var(--color-overlay-surface-05)] px-2 py-1 font-mono text-[10px] text-[var(--color-brand-alt)]">
+                    <span className="rounded border border-[var(--color-border-soft)] bg-[var(--color-chip-bg)] px-2 py-1 font-mono text-[10px] text-[var(--color-brand-deep)]">
                       {article.tag}
                     </span>
                   </div>
-                  <h4 className="mb-3 text-lg font-bold transition-colors group-hover:text-[var(--color-brand-alt)]">
+                  <h4 className="mb-3 text-lg font-bold text-[var(--color-text-primary)] transition-colors group-hover:text-[var(--color-brand-alt)]">
                     {article.title}
                   </h4>
-                  <div className="flex items-center gap-2 font-mono text-sm text-[var(--color-text-muted)]">
+                  <div className="flex items-center gap-2 font-mono text-sm text-[var(--color-text-secondary)]">
                     Read Article <MoveRight size={14} />
-                    <span className="text-xs text-[var(--color-text-muted-soft)]">
+                    <span className="text-xs text-[var(--color-text-muted)]">
                       {article.readTime}
                     </span>
                   </div>

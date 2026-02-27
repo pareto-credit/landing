@@ -194,12 +194,12 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
       </SectionContainer>
 
       {isVaultsLoading ? (
-        <div className="relative z-10 mx-auto flex w-full max-w-7xl gap-6 overflow-hidden px-6 py-8">
+        <div className="relative z-10 mx-auto flex w-full max-w-7xl gap-6 overflow-hidden px-6">
           {Array.from({ length: PRODUCTS_SKELETON_COUNT }).map((_, index) => (
             <div
               key={`product-skeleton-${index}`}
               role="status"
-              className="ui-card-surface min-w-[420px] max-w-[420px] flex-shrink-0 animate-pulse p-8"
+              className="ui-card-surface min-w-[420px] max-w-[420px] flex-shrink-0 animate-pulse p-10"
             >
               <div className="mb-8 flex items-start justify-between">
                 <div className="h-11 w-48 rounded-full bg-[var(--color-bg-light)]" />
@@ -240,7 +240,7 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
           </div>
         </SectionContainer>
       ) : (
-        <div className="relative z-10 w-full py-8">
+        <div className="relative z-10 w-full">
           <div
             ref={viewportRef}
             onPointerDown={(event) => {
@@ -275,7 +275,7 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
             onLostPointerCapture={finishDragging}
             onPointerEnter={() => setIsTrackHovered(true)}
             onPointerLeave={() => setIsTrackHovered(false)}
-            className="marquee-scroll flex w-full cursor-grab overflow-x-auto py-6 touch-pan-y select-none active:cursor-grabbing"
+            className="marquee-scroll flex w-full cursor-grab overflow-x-auto py-10 touch-pan-y select-none active:cursor-grabbing"
           >
             <div className="flex w-max px-10 md:px-12">
               {[...Array(PRODUCTS_MARQUEE_SETS)].map((_, loopIndex) => (

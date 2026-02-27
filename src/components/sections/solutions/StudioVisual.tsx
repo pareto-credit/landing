@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { Activity, Lock, PieChart } from 'lucide-react'
 import { studioFeatures } from '../../../data/solutions'
+import paretoLogoLight from '../../../assets/svgs/pareto-logo-light.svg'
 import { VisualFrame } from './VisualFrame'
 
 interface StudioVisualProps {
@@ -21,16 +22,80 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
         >
           <div className="relative flex h-full w-full flex-1 items-center justify-center pt-8">
             {activeIndex === 0 && (
-              <div className="grid w-full max-w-sm grid-cols-3 gap-6 p-8">
-                {[...Array(6)].map((_, idx) => (
-                  <motion.div
-                    key={`grid-cell-${idx}`}
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.3, delay: idx * 0.1 }}
-                    className="h-20 rounded-xl border border-[var(--color-overlay-inverse-20)] bg-[var(--color-border-inverse-subtle)] shadow-[0_0_15px_rgba(255,255,255,0.05)]"
+              <div className="w-full max-w-[430px] rounded-2xl border border-[var(--color-overlay-inverse-20)] bg-[color:rgb(8_18_14_/_0.92)] p-4 shadow-[0_24px_50px_rgba(0,0,0,0.45)]">
+                <div className="flex items-center justify-between border-b border-[var(--color-border-inverse-subtle)] pb-3">
+                  <img
+                    src={paretoLogoLight}
+                    alt="Pareto"
+                    className="h-6 w-auto object-contain opacity-95"
                   />
-                ))}
+                  <div className="inline-flex items-center gap-2 rounded-full border border-[color:rgb(112_177_158_/_0.40)] bg-[color:rgb(112_177_158_/_0.12)] px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-[var(--color-brand-alt)]">
+                    <motion.span
+                      animate={{ opacity: [0.45, 1, 0.45] }}
+                      transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+                      className="h-1.5 w-1.5 rounded-full bg-[var(--color-brand-alt)]"
+                    />
+                    Studio
+                  </div>
+                </div>
+
+                <div className="mt-3 grid grid-cols-[1.3fr_0.7fr] gap-3">
+                  <div className="rounded-xl border border-[var(--color-border-inverse-soft)] bg-[color:rgb(255_255_255_/_0.02)] p-3">
+                    <div className="mb-2 font-mono text-[10px] uppercase tracking-widest text-[var(--color-text-muted)]">
+                      Vault Configuration
+                    </div>
+                    <div className="flex h-20 items-end gap-1.5">
+                      {[42, 62, 51, 70, 58, 76, 66].map((height, idx) => (
+                        <motion.div
+                          key={`studio-bar-${idx}`}
+                          animate={{ height: [`${height}%`, `${height + 10}%`, `${height}%`] }}
+                          transition={{
+                            duration: 2.2,
+                            repeat: Infinity,
+                            ease: 'easeInOut',
+                            delay: idx * 0.08,
+                          }}
+                          className="flex-1 rounded-t-sm bg-gradient-to-t from-[color:rgb(112_177_158_/_0.20)] to-[color:rgb(112_177_158_/_0.80)]"
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="rounded-xl border border-[var(--color-border-inverse-soft)] bg-[color:rgb(255_255_255_/_0.02)] p-3">
+                      <div className="font-mono text-[9px] uppercase tracking-widest text-[var(--color-text-muted)]">
+                        LTV cap
+                      </div>
+                      <div className="mt-1 text-xl font-semibold text-[var(--color-text-inverse)]">65%</div>
+                    </div>
+                    <div className="rounded-xl border border-[var(--color-border-inverse-soft)] bg-[color:rgb(255_255_255_/_0.02)] p-3">
+                      <div className="font-mono text-[9px] uppercase tracking-widest text-[var(--color-text-muted)]">
+                        Trigger
+                      </div>
+                      <div className="mt-1 text-xl font-semibold text-[var(--color-text-inverse)]">2.4σ</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-3 grid grid-cols-3 gap-3">
+                  {[
+                    ['Collateral', 'USDC / USDT'],
+                    ['Rate model', 'Dynamic'],
+                    ['Status', 'Draft'],
+                  ].map(([label, value]) => (
+                    <div
+                      key={label}
+                      className="rounded-xl border border-[var(--color-border-inverse-soft)] bg-[color:rgb(255_255_255_/_0.02)] p-2.5"
+                    >
+                      <div className="font-mono text-[9px] uppercase tracking-widest text-[var(--color-text-muted)]">
+                        {label}
+                      </div>
+                      <div className="mt-1 truncate text-[11px] font-medium text-[var(--color-text-inverse)]">
+                        {value}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
             {activeIndex === 1 && (

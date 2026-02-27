@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { studioFeatures, wlFeatures } from "../../data/solutions";
-import { ButtonLink } from "../ui/Button";
+import { Button } from "../ui/Button";
 import FeatureList from "./solutions/FeatureList";
 import StudioVisual from "./solutions/StudioVisual";
 import WhiteLabelVisual from "./solutions/WhiteLabelVisual";
 import { SectionContainer, SectionHeading } from "../ui/Section";
+import { scrollToSection } from "../../lib/scrollToSection";
 
 const SolutionsSection = () => {
   const [activeWhiteLabel, setActiveWhiteLabel] = useState(0);
@@ -48,9 +49,13 @@ const SolutionsSection = () => {
           </div>
         </div>
         <div className="flex justify-center my-20">
-          <ButtonLink href="#contact" variant="outline" size="md">
+          <Button
+            onClick={() => scrollToSection("contact")}
+            variant="ghost"
+            size="md"
+          >
             Request access
-          </ButtonLink>
+          </Button>
         </div>
 
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
@@ -71,9 +76,13 @@ const SolutionsSection = () => {
           </div>
         </div>
         <div className="mt-20 flex justify-center">
-          <ButtonLink href="#contact" variant="outline" size="md">
+          <Button
+            onClick={() => scrollToSection("contact")}
+            variant="ghost"
+            size="md"
+          >
             Request setup
-          </ButtonLink>
+          </Button>
         </div>
       </SectionContainer>
     </section>
