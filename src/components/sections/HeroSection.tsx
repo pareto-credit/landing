@@ -24,7 +24,7 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
       className="relative min-h-screen overflow-hidden border-b border-[var(--color-border-soft)] bg-[var(--color-bg-light)] text-[var(--color-text-primary)]"
     >
       <Earth3D />
-      <div className="pointer-events-none absolute left-1/2 top-1/4 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-[color:rgb(114_244_201_/_0.10)] blur-[120px]" />
+      <div className="pointer-events-none absolute left-1/2 top-1/4 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-[color:rgb(114_244_201_/_0.10)] blur-[132px]" />
 
       <SectionContainer className="relative z-10 flex min-h-screen flex-col items-center justify-center pb-32 pt-28 text-center lg:pb-36 lg:pt-32">
         <div className="flex max-w-3xl flex-col items-center">
@@ -44,9 +44,11 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="mb-8 text-5xl font-semibold leading-[1.05] tracking-tight lg:text-7xl"
           >
-            It&apos;s time to update the <br />
+            It&apos;s time to update <br />
             <span className="bg-gradient-to-r from-[var(--color-text-primary)] to-[var(--color-brand)] bg-clip-text text-transparent">
-              credit operating system.
+              the credit operating
+              <br />
+              system
             </span>
           </motion.h1>
 
