@@ -21,7 +21,7 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
   return (
     <section
       id="hero"
-      className="relative min-h-screen overflow-hidden border-b border-[var(--color-border-soft)] bg-[var(--color-bg-light)] text-[var(--color-text-primary)]"
+      className="relative min-h-screen overflow-hidden border-b border-[var(--color-border-soft)] bg-[var(--color-bg-light-alt)] text-[var(--color-text-primary)]"
     >
       <Earth3D />
       <div className="pointer-events-none absolute left-1/2 top-1/4 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-[color:rgb(114_244_201_/_0.10)] blur-[132px]" />

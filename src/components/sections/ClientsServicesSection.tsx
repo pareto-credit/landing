@@ -160,7 +160,7 @@ const ClientsServicesSection = () => {
       <SectionContainer className="relative z-10">
         <SectionHeading
           eyebrow="Ecosystem"
-          title="Engineered for institutional scale."
+          title="Engineered for institutional scale"
           description="Tailored infrastructure and dedicated services powering the next generation of capital allocators, trading desks, and digital venues."
           className="mx-auto mb-24 text-center"
           size="4xl"

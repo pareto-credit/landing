@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import paretoLogo from "../../assets/svgs/pareto-logo-dark.svg";
+import paretoLogo from "../../assets/svgs/pareto-logo.svg";
 import { ButtonLink } from "../ui/Button";
 import { SectionContainer } from "../ui/Section";
 import { scrollToSection } from "../../lib/scrollToSection";
@@ -32,7 +32,7 @@ const Navbar = () => {
       data-site-navbar
       className={`fixed z-50 w-full border-b transition-[background-color,border-color,padding,backdrop-filter,box-shadow] duration-300 ${
         isScrolled
-          ? "border-[color:rgb(14_24_19_/_0.05)] bg-[var(--color-overlay-surface-72)] py-4 text-[var(--color-text-primary)] shadow-sm backdrop-blur-xl"
+          ? "border-[color:rgb(14_24_19_/_0.05)] bg-[var(--color-overlay-surface-80)] py-4 text-[var(--color-text-primary)] shadow-sm backdrop-blur-xl"
           : "border-black/0 bg-transparent py-6 text-[var(--color-text-primary)]"
       }`}
     >

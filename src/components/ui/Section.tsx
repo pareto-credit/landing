@@ -19,7 +19,9 @@ export const SectionContainer = ({
   className,
   size = "7xl",
 }: SectionContainerProps) => (
-  <div className={cn("mx-auto w-full px-6", containerSizeClass[size], className)}>
+  <div
+    className={cn("mx-auto w-full px-6", containerSizeClass[size], className)}
+  >
     {children}
   </div>
 );
@@ -61,11 +63,21 @@ export const SectionHeading = ({
     >
       {eyebrow}
     </div>
-    <h2 className={cn("text-4xl font-bold tracking-tight md:text-5xl", titleClassName)}>
+    <h2
+      className={cn(
+        "text-4xl text-[var(--color-brand-deep)] font-bold tracking-tight md:text-5xl",
+        titleClassName,
+      )}
+    >
       {title}
     </h2>
     {description ? (
-      <p className={cn("mt-4 text-lg leading-relaxed text-[var(--color-text-muted)]", descriptionClassName)}>
+      <p
+        className={cn(
+          "mt-4 text-lg leading-relaxed text-[var(--color-text-muted)]",
+          descriptionClassName,
+        )}
+      >
         {description}
       </p>
     ) : null}

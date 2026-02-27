@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-import paretoLogo from "../../assets/svgs/pareto-logo.svg";
+import paretoLogo from "../../assets/svgs/pareto-logo-light.svg";
 import paretoSignature from "../../assets/svgs/pareto-signature.svg";
 import { SectionContainer } from "../ui/Section";
 
@@ -148,16 +148,28 @@ const Footer = () => {
       <SectionContainer className="relative z-10 flex flex-col items-center justify-between gap-4 border-t border-[var(--color-border-inverse-subtle)] pt-6 font-mono text-xs text-[var(--color-text-muted-soft)] md:flex-row">
         <p>©2026 Pareto Credit. All rights reserved.</p>
         <div className="flex flex-wrap justify-center gap-6">
-          <a href="#" className="transition-colors hover:text-[var(--color-text-inverse)]">
+          <a
+            href="#"
+            className="transition-colors hover:text-[var(--color-text-inverse)]"
+          >
             Twitter
           </a>
-          <a href="#" className="transition-colors hover:text-[var(--color-text-inverse)]">
+          <a
+            href="#"
+            className="transition-colors hover:text-[var(--color-text-inverse)]"
+          >
             LinkedIn
           </a>
-          <Link to="/privacy-policy" className="transition-colors hover:text-[var(--color-text-inverse)]">
+          <Link
+            to="/privacy-policy"
+            className="transition-colors hover:text-[var(--color-text-inverse)]"
+          >
             Privacy Policy
           </Link>
-          <Link to="/terms-of-service" className="transition-colors hover:text-[var(--color-text-inverse)]">
+          <Link
+            to="/terms-of-service"
+            className="transition-colors hover:text-[var(--color-text-inverse)]"
+          >
             Terms of Service
           </Link>
         </div>
