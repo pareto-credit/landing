@@ -197,7 +197,15 @@ input[type='reset'] {
 
 .marquee-content {
   display: flex;
-  animation: marquee 30s linear infinite;
+  width: max-content;
+  will-change: transform;
+  animation: marquee 36s linear infinite;
+}
+
+.marquee-group {
+  display: flex;
+  flex-shrink: 0;
+  min-width: max-content;
 }
 
 .marquee-container:hover .marquee-content {
