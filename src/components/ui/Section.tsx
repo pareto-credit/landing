@@ -65,7 +65,7 @@ export const SectionHeading = ({
     </div>
     <h2
       className={cn(
-        "text-4xl text-[var(--color-brand-deep)] font-bold tracking-tight md:text-5xl",
+        "text-4xl text-[var(--color-brand-dark)] font-bold tracking-tight md:text-5xl",
         titleClassName,
       )}
     >

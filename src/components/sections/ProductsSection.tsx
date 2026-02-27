@@ -1,12 +1,11 @@
 import { Fragment } from "react";
-import { ArrowRight } from "lucide-react";
 import {
   getOperatorBackground,
   getOperatorLogo,
 } from "../../data/operatorLogos";
 import type { ProductVaultCard } from "../../types/products";
 import { ButtonLink } from "../ui/Button";
-import { SectionContainer } from "../ui/Section";
+import { SectionContainer, SectionHeading } from "../ui/Section";
 
 interface ProductsSectionProps {
   vaults: ProductVaultCard[];
@@ -41,39 +40,33 @@ const truncateDescription = (description?: string) =>
 const metricLabelClassName =
   "font-mono text-[10px] uppercase tracking-[0.16em] leading-none text-[var(--color-text-secondary)]";
 const metricValueClassName =
-  "whitespace-nowrap font-sans text-[1.01rem] font-semibold leading-none tracking-tight text-[var(--color-text-primary)] md:text-[1.35rem]";
+  "whitespace-nowrap font-sans text-[1.01rem] font-semibold leading-none tracking-tight text-[var(--color-text-primary)] md:text-[1.25rem]";
 
 const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
   return (
     <section
       id="products"
-      className="relative overflow-hidden border-y border-[var(--color-border-soft)] bg-[var(--color-bg-light)] py-24 text-[var(--color-text-primary)]"
+      className="relative overflow-hidden border-y border-[var(--color-border-soft)] bg-[var(--color-bg-light-alt)] py-24 text-[var(--color-text-primary)]"
     >
       <div className="pointer-events-none absolute left-1/2 top-0 h-[400px] w-[800px] -translate-x-1/2 rounded-full bg-[color:rgb(113_178_159_/_0.10)] blur-[100px]" />
 
       <SectionContainer className="relative z-10 mb-16 flex flex-col items-end justify-between gap-6 md:flex-row">
-        <div className="max-w-3xl">
-          <div className="ui-eyebrow mb-4">
-            Live Markets
-          </div>
-          <h2 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
-            Transparent risk. Verifiable yield.
-          </h2>
-          <p className="ui-copy-muted max-w-2xl text-lg leading-relaxed">
-            Explore our active institutional lending markets. Data is pulled
-            directly from onchain states in real-time.
-          </p>
-        </div>
+        <SectionHeading
+          eyebrow="Live Markets"
+          title="Transparent risk. Verifiable yield."
+          description="Explore our active institutional lending markets. Data is pulled directly from onchain states in real-time."
+          className="max-w-3xl"
+        />
 
         <ButtonLink
           href="https://app.pareto.credit/"
           target="_blank"
           rel="noopener noreferrer"
-          variant="underline"
+          variant="outline"
           size="sm"
           className="normal-case text-[var(--color-text-primary)]"
         >
-          Explore All Vaults <ArrowRight size={14} />
+          Explore Vaults
         </ButtonLink>
       </SectionContainer>
 
@@ -159,7 +152,7 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
                           src={operatorBackground}
                           alt=""
                           aria-hidden="true"
-                          className="pointer-events-none absolute bottom-0 right-0 z-0 h-[62%] w-[72%] select-none object-contain object-right-bottom opacity-[0.18]"
+                          className="pointer-events-none absolute bottom-0 right-0 z-0 h-[62%] w-[72%] select-none object-contain object-right-bottom opacity-[0.15]"
                         />
                       ) : null}
 

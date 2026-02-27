@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import { testimonialList } from '../../data/testimonials'
-import { SectionContainer } from '../ui/Section'
+import { SectionContainer, SectionHeading } from '../ui/Section'
 
 const TestimonialsSection = () => {
   return (
@@ -11,12 +11,13 @@ const TestimonialsSection = () => {
       <div className="pointer-events-none absolute left-0 top-1/2 h-[500px] w-[500px] -translate-y-1/2 rounded-full bg-[color:rgb(113_178_159_/_0.05)] blur-[120px]" />
 
       <SectionContainer className="relative z-10 mb-16 text-center">
-        <div className="ui-eyebrow mb-4">
-          Trusted By Leaders
-        </div>
-        <h2 className="text-4xl font-bold tracking-tight text-[var(--color-text-inverse)] md:text-5xl">
-          What our partners say.
-        </h2>
+        <SectionHeading
+          eyebrow="Trusted By Leaders"
+          title="What our partners say."
+          className="mx-auto text-center"
+          eyebrowClassName="text-[var(--color-brand)]"
+          titleClassName="text-[var(--color-text-inverse)]"
+        />
       </SectionContainer>
 
       <div className="group relative z-10 marquee-container w-full cursor-grab active:cursor-grabbing">

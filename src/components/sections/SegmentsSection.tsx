@@ -3,7 +3,7 @@ import falconEco from "../../assets/images/operators/FalconX.svg";
 import digitalEco from "../../assets/images/operators/Fasanara_Digital.svg";
 import rockawayEco from "../../assets/images/operators/RockawayX_mark.svg";
 import m11Eco from "../../assets/images/operators/m11.svg";
-import { SectionContainer } from "../ui/Section";
+import { SectionContainer, SectionHeading } from "../ui/Section";
 
 interface Operator {
   name: string;
@@ -55,7 +55,12 @@ const SegmentsSection = () => {
   return (
     <section className="relative z-20 overflow-hidden border-b border-[var(--color-border-inverse-subtle)] bg-[var(--color-bg-page)] py-8">
       <SectionContainer className="mb-6 flex items-center justify-between gap-4">
-        <div className="ui-eyebrow">Our partners</div>
+        <SectionHeading
+          eyebrow="Our partners"
+          title="Our partners"
+          className="max-w-none"
+          titleClassName="sr-only"
+        />
       </SectionContainer>
 
       <div className="group marquee-container w-full">

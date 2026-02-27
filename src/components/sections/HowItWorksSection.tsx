@@ -1,7 +1,7 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { useMemo, useState } from "react";
-import { SectionContainer } from "../ui/Section";
+import { SectionContainer, SectionHeading } from "../ui/Section";
 
 type DiagramNodeId = "borrower" | "lenders" | "vault" | "curator" | "tranches";
 
@@ -753,18 +753,15 @@ const HowItWorksSection = () => {
   return (
     <section id="how-it-works" className="relative z-10 bg-[var(--color-bg-light)] py-24">
       <SectionContainer>
-        <div className="mb-16 text-center">
-          <div className="mb-4 font-mono text-xs font-semibold uppercase tracking-widest text-[var(--color-brand)]">
-            How It Works
-          </div>
-          <h2 className="text-4xl font-bold tracking-tight text-[var(--color-text-primary)] md:text-5xl">
-            Where Roles Create Value.
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-[var(--color-text-secondary)]">
-            An elegant, fully automated framework connecting capital allocators
-            directly with vetted institutional demand.
-          </p>
-        </div>
+        <SectionHeading
+          eyebrow="How It Works"
+          title="Where Roles Create Value."
+          description="An elegant, fully automated framework connecting capital allocators directly with vetted institutional demand."
+          className="mx-auto mb-16 text-center"
+          titleClassName="text-[var(--color-text-primary)]"
+          descriptionClassName="mx-auto max-w-2xl text-lg leading-relaxed text-[var(--color-text-secondary)]"
+          eyebrowClassName="font-semibold text-[var(--color-brand)]"
+        />
 
         <InteractiveBanknote
           activeNode={activeNode}
