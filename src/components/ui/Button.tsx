@@ -10,7 +10,7 @@ const variantClass = {
   secondary:
     "ui-radius-control border border-[var(--color-overlay-inverse-20)] bg-[var(--color-overlay-surface-50)] text-[var(--color-text-primary)] shadow-sm backdrop-blur-sm hover:bg-[var(--color-overlay-surface-75)] hover:shadow-md",
   outline:
-    "ui-radius-control border border-[var(--color-overlay-inverse-20)] bg-transparent text-[var(--color-text-inverse)] hover:border-[var(--color-overlay-inverse-30)] hover:bg-[var(--color-border-inverse-soft)]",
+    "ui-radius-control border border-[var(--color-button-primary-border)] bg-[var(--color-overlay-surface-50)] text-[var(--color-text-inverse)] shadow-sm backdrop-blur-sm hover:border-[var(--color-button-primary-hover-border)] hover:bg-[var(--color-button-primary-hover-bg)] hover:shadow-md",
   ghost:
     "ui-radius-control border border-[var(--color-border-inverse-soft)] bg-[var(--color-overlay-surface-02)] text-[var(--color-text-inverse)] hover:border-[var(--color-overlay-inverse-20)] hover:bg-[var(--color-border-inverse-subtle)]",
   underline:

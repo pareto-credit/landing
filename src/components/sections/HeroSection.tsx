@@ -35,7 +35,7 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
             className="ui-frost-chip mb-8 inline-flex items-center gap-2 px-4 py-2 font-mono text-xs font-semibold uppercase tracking-wider text-[var(--color-brand)] shadow-sm"
           >
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--color-brand)] shadow-[0_0_8px_var(--color-brand)]" />
-            Tokenized fixed income solutions
+            Onchain credit solutions
           </motion.div>
 
           <motion.h1
@@ -44,7 +44,7 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="mb-8 text-5xl font-semibold leading-[1.05] tracking-tight lg:text-7xl"
           >
-            It&apos;s time to update <br />
+            It&apos;s time to upgrade <br />
             <span className="bg-gradient-to-r from-[var(--color-text-primary)] to-[var(--color-brand)] bg-clip-text text-transparent">
               the credit operating
               <br />

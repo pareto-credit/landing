@@ -47,7 +47,9 @@ const Navbar = () => {
 
         <div
           className={`hidden items-center gap-8 font-mono text-sm md:flex ${
-            isScrolled ? "text-[var(--color-text-muted)]" : "text-[var(--color-text-secondary)]"
+            isScrolled
+              ? "text-[var(--color-text-muted)]"
+              : "text-[var(--color-text-secondary)]"
           }`}
         >
           <button
@@ -83,7 +85,7 @@ const Navbar = () => {
             href="https://app.pareto.credit/"
             target="_blank"
             rel="noopener noreferrer"
-            variant="primary"
+            variant="outline"
             size="sm"
             className="font-mono text-[var(--color-text-primary)]"
           >

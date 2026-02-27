@@ -16,14 +16,78 @@ interface CitySpec {
 const EARTH_RADIUS = 0.81
 
 const CITY_SPECS: CitySpec[] = [
-  { name: 'New York', lat: 40.7128, lon: -74.006, footprint: 0.03, towerHeight: 0.11, density: 14, seed: 11 },
-  { name: 'London', lat: 51.5072, lon: -0.1276, footprint: 0.028, towerHeight: 0.1, density: 13, seed: 29 },
-  { name: 'Milan', lat: 45.4642, lon: 9.19, footprint: 0.024, towerHeight: 0.09, density: 11, seed: 43 },
-  { name: 'Dubai', lat: 25.2048, lon: 55.2708, footprint: 0.024, towerHeight: 0.12, density: 10, seed: 59 },
-  { name: 'Tokyo', lat: 35.6764, lon: 139.65, footprint: 0.027, towerHeight: 0.11, density: 13, seed: 73 },
-  { name: 'Singapore', lat: 1.3521, lon: 103.8198, footprint: 0.022, towerHeight: 0.095, density: 10, seed: 91 },
-  { name: 'Sao Paulo', lat: -23.5558, lon: -46.6396, footprint: 0.022, towerHeight: 0.085, density: 10, seed: 107 },
-  { name: 'San Francisco', lat: 37.7749, lon: -122.4194, footprint: 0.022, towerHeight: 0.09, density: 9, seed: 127 },
+  {
+    name: 'New York',
+    lat: 40.7128,
+    lon: -74.006,
+    footprint: 0.03,
+    towerHeight: 0.11,
+    density: 14,
+    seed: 11,
+  },
+  {
+    name: 'London',
+    lat: 51.5072,
+    lon: -0.1276,
+    footprint: 0.028,
+    towerHeight: 0.1,
+    density: 13,
+    seed: 29,
+  },
+  {
+    name: 'Milan',
+    lat: 45.4642,
+    lon: 9.19,
+    footprint: 0.024,
+    towerHeight: 0.09,
+    density: 11,
+    seed: 43,
+  },
+  {
+    name: 'Dubai',
+    lat: 25.2048,
+    lon: 55.2708,
+    footprint: 0.024,
+    towerHeight: 0.12,
+    density: 10,
+    seed: 59,
+  },
+  {
+    name: 'Tokyo',
+    lat: 35.6764,
+    lon: 139.65,
+    footprint: 0.027,
+    towerHeight: 0.11,
+    density: 13,
+    seed: 73,
+  },
+  {
+    name: 'Singapore',
+    lat: 1.3521,
+    lon: 103.8198,
+    footprint: 0.022,
+    towerHeight: 0.095,
+    density: 10,
+    seed: 91,
+  },
+  {
+    name: 'Sao Paulo',
+    lat: -23.5558,
+    lon: -46.6396,
+    footprint: 0.022,
+    towerHeight: 0.085,
+    density: 10,
+    seed: 107,
+  },
+  {
+    name: 'San Francisco',
+    lat: 37.7749,
+    lon: -122.4194,
+    footprint: 0.022,
+    towerHeight: 0.09,
+    density: 9,
+    seed: 127,
+  },
 ]
 
 const seededRandom = (seed: number) => {
@@ -33,12 +97,7 @@ const seededRandom = (seed: number) => {
 
 const createFallbackTexture = (hex: number) => {
   const color = new THREE.Color(hex)
-  const data = new Uint8Array([
-    Math.round(color.r * 255),
-    Math.round(color.g * 255),
-    Math.round(color.b * 255),
-    255,
-  ])
+  const data = new Uint8Array([Math.round(color.r * 255), Math.round(color.g * 255), Math.round(color.b * 255), 255])
 
   const texture = new THREE.DataTexture(data, 1, 1, THREE.RGBAFormat)
   texture.colorSpace = THREE.SRGBColorSpace
@@ -173,11 +232,7 @@ const latLonToVector3 = (lat: number, lon: number, radius: number) => {
   const phi = THREE.MathUtils.degToRad(90 - lat)
   const theta = THREE.MathUtils.degToRad(lon + 180)
 
-  return new THREE.Vector3(
-    -radius * Math.sin(phi) * Math.cos(theta),
-    radius * Math.cos(phi),
-    radius * Math.sin(phi) * Math.sin(theta),
-  )
+  return new THREE.Vector3(-radius * Math.sin(phi) * Math.cos(theta), radius * Math.cos(phi), radius * Math.sin(phi) * Math.sin(theta))
 }
 
 const clamp01 = (value: number) => THREE.MathUtils.clamp(value, 0, 1)
@@ -267,10 +322,7 @@ const createCityCluster = (city: CitySpec, radius: number): CityCluster => {
   const center = normal.clone().multiplyScalar(radius + 0.003)
   group.position.copy(center)
 
-  const alignToSurface = new THREE.Quaternion().setFromUnitVectors(
-    new THREE.Vector3(0, 1, 0),
-    normal.normalize(),
-  )
+  const alignToSurface = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), normal.normalize())
   group.quaternion.copy(alignToSurface)
 
   const cityScale = 0.78
@@ -282,15 +334,7 @@ const createCityCluster = (city: CitySpec, radius: number): CityCluster => {
     opacity: 0.58,
   })
 
-  const addWireBuilding = (
-    centerX: number,
-    centerZ: number,
-    width: number,
-    depth: number,
-    height: number,
-    baseY: number,
-    rotationY: number,
-  ) => {
+  const addWireBuilding = (centerX: number, centerZ: number, width: number, depth: number, height: number, baseY: number, rotationY: number) => {
     const buildingGeometry = new THREE.BoxGeometry(width, height, depth)
     const edgesGeometry = new THREE.EdgesGeometry(buildingGeometry)
     const buildingWire = new THREE.LineSegments(edgesGeometry, wireMaterial)
@@ -371,15 +415,7 @@ const createCityCluster = (city: CitySpec, radius: number): CityCluster => {
     if (hasSetback) {
       const topHeight = height * (0.24 + seededRandom(city.seed + index * 23.7) * 0.22)
       const topBaseY = 0.003 + height - topHeight
-      addWireBuilding(
-        centerX,
-        centerZ,
-        width * 0.72,
-        depth * 0.72,
-        topHeight,
-        topBaseY,
-        rotationY * 1.05,
-      )
+      addWireBuilding(centerX, centerZ, width * 0.72, depth * 0.72, topHeight, topBaseY, rotationY * 1.05)
     }
   }
 
@@ -387,15 +423,7 @@ const createCityCluster = (city: CitySpec, radius: number): CityCluster => {
   const landmarkWidth = baseFootprint * 0.26
   const landmarkDepth = baseFootprint * 0.24
   addWireBuilding(0, 0, landmarkWidth, landmarkDepth, landmarkHeight, 0.003, 0)
-  addWireBuilding(
-    0,
-    0,
-    landmarkWidth * 0.7,
-    landmarkDepth * 0.7,
-    landmarkHeight * 0.24,
-    0.003 + landmarkHeight * 0.76,
-    0.05,
-  )
+  addWireBuilding(0, 0, landmarkWidth * 0.7, landmarkDepth * 0.7, landmarkHeight * 0.24, 0.003 + landmarkHeight * 0.76, 0.05)
 
   const beaconPositions: number[] = []
   const beaconCenterY = 0.003 + landmarkHeight + baseFootprint * 0.03
@@ -407,11 +435,7 @@ const createCityCluster = (city: CitySpec, radius: number): CityCluster => {
     const phi = Math.acos(2 * seededRandom(city.seed * 9.7 + index * 1.9) - 1)
     const radial = beaconRadius * (0.5 + seededRandom(city.seed * 11.3 + index * 2.7) * 0.5)
 
-    beaconPositions.push(
-      Math.sin(phi) * Math.cos(theta) * radial,
-      beaconCenterY + Math.cos(phi) * radial,
-      Math.sin(phi) * Math.sin(theta) * radial,
-    )
+    beaconPositions.push(Math.sin(phi) * Math.cos(theta) * radial, beaconCenterY + Math.cos(phi) * radial, Math.sin(phi) * Math.sin(theta) * radial)
   }
 
   const beacon = new THREE.Points(
@@ -442,79 +466,80 @@ const Earth3D = () => {
     let isCancelled = false
 
     const init = async () => {
-      const [earthImage, waterMaskImage] = await Promise.all([
-        loadImage(earthDayTextureUrl),
-        loadImage(earthWaterMaskUrl),
-      ])
+      const [earthImage, waterMaskImage] = await Promise.all([loadImage(earthDayTextureUrl), loadImage(earthWaterMaskUrl)])
 
       if (isCancelled) return
 
-    const width = mount.clientWidth
-    const height = mount.clientHeight
+      const width = mount.clientWidth
+      const height = mount.clientHeight
 
-    const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000)
-    camera.position.z = 2.9
+      const scene = new THREE.Scene()
+      const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000)
+      camera.position.z = 2.9
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' })
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    renderer.setSize(width, height)
-    renderer.outputColorSpace = THREE.SRGBColorSpace
-    mount.appendChild(renderer.domElement)
+      const renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        alpha: true,
+        powerPreference: 'high-performance',
+      })
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+      renderer.setSize(width, height)
+      renderer.outputColorSpace = THREE.SRGBColorSpace
+      mount.appendChild(renderer.domElement)
 
-    const ambientLight = new THREE.HemisphereLight(0xe4f2eb, 0x0e1813, 0.45)
-    const keyLight = new THREE.DirectionalLight(0xd2f7ea, 0.7)
-    keyLight.position.set(3, 2, 2)
-    const rimLight = new THREE.DirectionalLight(0x1d3e31, 0.5)
-    rimLight.position.set(-2.5, -1.5, -2)
+      const ambientLight = new THREE.HemisphereLight(0xe4f2eb, 0x0e1813, 0.45)
+      const keyLight = new THREE.DirectionalLight(0xd2f7ea, 0.7)
+      keyLight.position.set(3, 2, 2)
+      const rimLight = new THREE.DirectionalLight(0x1d3e31, 0.5)
+      rimLight.position.set(-2.5, -1.5, -2)
 
-    scene.add(ambientLight)
-    scene.add(keyLight)
-    scene.add(rimLight)
+      scene.add(ambientLight)
+      scene.add(keyLight)
+      scene.add(rimLight)
 
-    const stars = createStarField()
-    scene.add(stars)
+      const stars = createStarField()
+      scene.add(stars)
 
-    const globeGroup = new THREE.Group()
-    globeGroup.rotation.set(0.18, -0.9, 0)
-    scene.add(globeGroup)
+      const globeGroup = new THREE.Group()
+      globeGroup.rotation.set(0.18, -0.9, 0)
+      scene.add(globeGroup)
 
-    const earthTexture = createEarthTexture(earthImage)
-    const landMaskResource = createLandMaskTexture(waterMaskImage)
-    const landMaskTexture = landMaskResource.texture
-    const glowTexture = createGlowTexture()
-    const anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy())
-    earthTexture.anisotropy = anisotropy
-    landMaskTexture.anisotropy = anisotropy
-    landMaskTexture.minFilter = THREE.NearestFilter
-    landMaskTexture.magFilter = THREE.NearestFilter
-    landMaskTexture.generateMipmaps = false
-    landMaskTexture.needsUpdate = true
-    glowTexture.anisotropy = anisotropy
+      const earthTexture = createEarthTexture(earthImage)
+      const landMaskResource = createLandMaskTexture(waterMaskImage)
+      const landMaskTexture = landMaskResource.texture
+      const glowTexture = createGlowTexture()
+      const anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy())
+      earthTexture.anisotropy = anisotropy
+      landMaskTexture.anisotropy = anisotropy
+      landMaskTexture.minFilter = THREE.NearestFilter
+      landMaskTexture.magFilter = THREE.NearestFilter
+      landMaskTexture.generateMipmaps = false
+      landMaskTexture.needsUpdate = true
+      glowTexture.anisotropy = anisotropy
 
-    const activeCitySpecs = CITY_SPECS.map((city) => {
-      const adjusted = moveCityToNearestLand(city.lat, city.lon, landMaskResource)
-      return {
-        ...city,
-        lat: adjusted.lat,
-        lon: adjusted.lon,
-      }
-    })
+      const activeCitySpecs = CITY_SPECS.map((city) => {
+        const adjusted = moveCityToNearestLand(city.lat, city.lon, landMaskResource)
+        return {
+          ...city,
+          lat: adjusted.lat,
+          lon: adjusted.lon,
+        }
+      })
 
-    const earthParticlesMaterial = new THREE.ShaderMaterial({
-      uniforms: {
-        uMap: { value: earthTexture },
-        uLandMask: { value: landMaskTexture },
-        uGlowColor: { value: new THREE.Color(0x4a8a73) },
-        uBias: { value: 1.0 },
-        uScale: { value: -1.0 },
-        uPower: { value: 3.2 },
-        uSweep: { value: EARTH_RADIUS },
-        uMousePos: { value: new THREE.Vector3(999, 999, 999) },
-        uHoverState: { value: 0.0 },
-        uHoverColor: { value: new THREE.Color(0x174b3a) },
-      },
-      vertexShader: `
+      const earthParticlesMaterial = new THREE.ShaderMaterial({
+        uniforms: {
+          uMap: { value: earthTexture },
+          uLandMask: { value: landMaskTexture },
+          uGlowColor: { value: new THREE.Color(0x4a8a73) },
+          uBias: { value: 1.0 },
+          uScale: { value: -1.0 },
+          uPower: { value: 3.2 },
+          uSweep: { value: EARTH_RADIUS },
+          uMousePos: { value: new THREE.Vector3(999, 999, 999) },
+          uHoverState: { value: 0.0 },
+          uHoverColor: { value: new THREE.Color(0x174b3a) },
+        },
+        vertexShader: `
         varying vec2 vUv;
         varying vec3 vWorldPosition;
         varying vec3 vWorldNormal;
@@ -541,7 +566,7 @@ const Earth3D = () => {
           gl_Position = projectionMatrix * mvPosition;
         }
       `,
-      fragmentShader: `
+        fragmentShader: `
         uniform sampler2D uMap;
         uniform sampler2D uLandMask;
         uniform vec3 uGlowColor;
@@ -570,10 +595,10 @@ const Earth3D = () => {
 
           vec3 textureColor = texture2D(uMap, vUv).rgb;
           float landMask = texture2D(uLandMask, vUv).r;
-          if (landMask < 0.35) discard;
+          if (landMask < 0.22) discard;
 
           float grain = random(vUv * 2048.0);
-          float landStrength = smoothstep(0.35, 0.92, landMask);
+          float landStrength = smoothstep(0.22, 0.9, landMask);
           float landTone = clamp(textureColor.g * 1.12, 0.0, 1.0);
           vec3 surfaceColor = mix(vec3(0.19, 0.38, 0.29), vec3(0.9, 1.0, 0.93), landTone);
           surfaceColor *= mix(0.86, 1.18, grain);
@@ -607,223 +632,208 @@ const Earth3D = () => {
           gl_FragColor = vec4(finalColor, min(alpha, 0.95));
         }
       `,
-      transparent: true,
-      depthWrite: false,
-      blending: THREE.NormalBlending,
-    })
-
-    const earthParticles = new THREE.Points(
-      new THREE.SphereGeometry(EARTH_RADIUS, 220, 220),
-      earthParticlesMaterial,
-    )
-    globeGroup.add(earthParticles)
-
-    const glowSprite = new THREE.Sprite(
-      new THREE.SpriteMaterial({
-        map: glowTexture,
-        color: 0x71b29f,
         transparent: true,
-        opacity: 0.14,
         depthWrite: false,
-        blending: THREE.AdditiveBlending,
-      }),
-    )
-    glowSprite.scale.set(EARTH_RADIUS * 3.1, EARTH_RADIUS * 3.1, 1)
-    globeGroup.add(glowSprite)
-
-    const cityBeacons: Array<THREE.Points<THREE.BufferGeometry, THREE.PointsMaterial>> = []
-
-    activeCitySpecs.forEach((city) => {
-      const cluster = createCityCluster(city, EARTH_RADIUS)
-      cityBeacons.push(cluster.beacon)
-      globeGroup.add(cluster.group)
-    })
-
-    const cityLightPositions = new Float32Array(activeCitySpecs.length * 3)
-    activeCitySpecs.forEach((city, index) => {
-      const position = latLonToVector3(city.lat, city.lon, EARTH_RADIUS + 0.02)
-      cityLightPositions[index * 3] = position.x
-      cityLightPositions[index * 3 + 1] = position.y
-      cityLightPositions[index * 3 + 2] = position.z
-    })
-
-    const cityLights = new THREE.Points(
-      new THREE.BufferGeometry().setAttribute('position', new THREE.BufferAttribute(cityLightPositions, 3)),
-      new THREE.PointsMaterial({
-        color: 0x8de7d0,
-        size: 0.026,
-        transparent: true,
-        opacity: 0.75,
-        depthWrite: false,
-      }),
-    )
-    globeGroup.add(cityLights)
-
-    const hitMesh = new THREE.Mesh(
-      new THREE.SphereGeometry(EARTH_RADIUS * 1.02, 40, 40),
-      new THREE.MeshBasicMaterial({ visible: false }),
-    )
-    globeGroup.add(hitMesh)
-
-    const raycaster = new THREE.Raycaster()
-    const mouse2D = new THREE.Vector2(-1, -1)
-
-    let animationFrameId = 0
-    let mouseX = 0
-    let mouseY = 0
-    let autoRotationY = globeGroup.rotation.y
-    const autoRotationX = globeGroup.rotation.x
-    let isInView = true
-
-    const handleMouseMove = (event: MouseEvent) => {
-      if (!isInView) return
-
-      mouseX = (event.clientX - window.innerWidth / 2) * 0.0005
-      mouseY = (event.clientY - window.innerHeight / 2) * 0.00045
-
-      mouse2D.x = (event.clientX / window.innerWidth) * 2 - 1
-      mouse2D.y = -(event.clientY / window.innerHeight) * 2 + 1
-    }
-
-    const resetHover = () => {
-      mouse2D.set(-10, -10)
-    }
-
-    const handleResize = () => {
-      const current = mountRef.current
-      if (!current) return
-
-      const newWidth = current.clientWidth
-      const newHeight = current.clientHeight
-
-      camera.aspect = newWidth / newHeight
-      camera.updateProjectionMatrix()
-      renderer.setSize(newWidth, newHeight)
-    }
-
-    const visibilityObserver = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries
-        isInView = Boolean(entry?.isIntersecting)
-
-        if (!isInView) {
-          resetHover()
-        }
-      },
-      { threshold: 0.01 },
-    )
-    visibilityObserver.observe(mount)
-
-    const handlePageVisibility = () => {
-      if (document.hidden) {
-        isInView = false
-        resetHover()
-        return
-      }
-
-      const rect = mount.getBoundingClientRect()
-      isInView = rect.bottom > 0 && rect.top < window.innerHeight
-    }
-
-    const clock = new THREE.Clock()
-    const sweepLimit = EARTH_RADIUS * 1.05
-
-    const animate = () => {
-      animationFrameId = window.requestAnimationFrame(animate)
-
-      if (!isInView) return
-
-      const elapsed = clock.getElapsedTime()
-      autoRotationY += 0.001
-
-      const desiredY = autoRotationY + mouseX * 0.55
-      const desiredX = THREE.MathUtils.clamp(autoRotationX + mouseY * 0.7, -0.38, 0.38)
-
-      globeGroup.rotation.y = THREE.MathUtils.lerp(globeGroup.rotation.y, desiredY, 0.045)
-      globeGroup.rotation.x = THREE.MathUtils.lerp(globeGroup.rotation.x, desiredX, 0.05)
-
-      stars.rotation.y -= 0.00004
-
-      const currentSweep = earthParticlesMaterial.uniforms.uSweep.value
-      earthParticlesMaterial.uniforms.uSweep.value = currentSweep < -sweepLimit ? sweepLimit : currentSweep - 0.0018
-
-      raycaster.setFromCamera(mouse2D, camera)
-      const intersections = raycaster.intersectObject(hitMesh)
-
-      if (intersections.length > 0) {
-        earthParticlesMaterial.uniforms.uMousePos.value.copy(intersections[0].point)
-        earthParticlesMaterial.uniforms.uHoverState.value = THREE.MathUtils.lerp(
-          earthParticlesMaterial.uniforms.uHoverState.value,
-          1,
-          0.1,
-        )
-      } else {
-        earthParticlesMaterial.uniforms.uHoverState.value = THREE.MathUtils.lerp(
-          earthParticlesMaterial.uniforms.uHoverState.value,
-          0,
-          0.06,
-        )
-      }
-
-      const cityPulse = 0.95 + Math.sin(elapsed * 2.2) * 0.06
-      cityLights.material.size = 0.026 * cityPulse
-
-      cityBeacons.forEach((beacon, index) => {
-        const seed = activeCitySpecs[index].seed
-        const pulse = 0.86 + Math.sin(elapsed * 2.6 + seed) * 0.16
-        beacon.scale.setScalar(pulse)
-        beacon.material.size = 0.0105 * (0.92 + Math.sin(elapsed * 2.9 + seed * 0.5) * 0.1)
+        blending: THREE.NormalBlending,
       })
 
-      renderer.render(scene, camera)
-    }
+      const earthParticles = new THREE.Points(new THREE.SphereGeometry(EARTH_RADIUS, 220, 220), earthParticlesMaterial)
+      globeGroup.add(earthParticles)
 
-    window.addEventListener('mousemove', handleMouseMove, { passive: true })
-    window.addEventListener('resize', handleResize, { passive: true })
-    document.addEventListener('visibilitychange', handlePageVisibility)
+      const glowSprite = new THREE.Sprite(
+        new THREE.SpriteMaterial({
+          map: glowTexture,
+          color: 0x71b29f,
+          transparent: true,
+          opacity: 0.14,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+        }),
+      )
+      glowSprite.scale.set(EARTH_RADIUS * 3.1, EARTH_RADIUS * 3.1, 1)
+      globeGroup.add(glowSprite)
 
-    animate()
+      const cityBeacons: Array<THREE.Points<THREE.BufferGeometry, THREE.PointsMaterial>> = []
 
-    disposeScene = () => {
-      window.removeEventListener('mousemove', handleMouseMove)
-      window.removeEventListener('resize', handleResize)
-      document.removeEventListener('visibilitychange', handlePageVisibility)
+      activeCitySpecs.forEach((city) => {
+        const cluster = createCityCluster(city, EARTH_RADIUS)
+        cityBeacons.push(cluster.beacon)
+        globeGroup.add(cluster.group)
+      })
 
-      visibilityObserver.disconnect()
-      window.cancelAnimationFrame(animationFrameId)
+      const cityLightPositions = new Float32Array(activeCitySpecs.length * 3)
+      activeCitySpecs.forEach((city, index) => {
+        const position = latLonToVector3(city.lat, city.lon, EARTH_RADIUS + 0.02)
+        cityLightPositions[index * 3] = position.x
+        cityLightPositions[index * 3 + 1] = position.y
+        cityLightPositions[index * 3 + 2] = position.z
+      })
 
-      if (mount.contains(renderer.domElement)) {
-        mount.removeChild(renderer.domElement)
+      const cityLights = new THREE.Points(
+        new THREE.BufferGeometry().setAttribute('position', new THREE.BufferAttribute(cityLightPositions, 3)),
+        new THREE.PointsMaterial({
+          color: 0x8de7d0,
+          size: 0.026,
+          transparent: true,
+          opacity: 0.75,
+          depthWrite: false,
+        }),
+      )
+      globeGroup.add(cityLights)
+
+      const hitMesh = new THREE.Mesh(new THREE.SphereGeometry(EARTH_RADIUS * 1.02, 40, 40), new THREE.MeshBasicMaterial({ visible: false }))
+      globeGroup.add(hitMesh)
+
+      const raycaster = new THREE.Raycaster()
+      const mouse2D = new THREE.Vector2(-1, -1)
+
+      let animationFrameId = 0
+      let mouseX = 0
+      let mouseY = 0
+      let autoRotationY = globeGroup.rotation.y
+      const autoRotationX = globeGroup.rotation.x
+      let isInView = true
+
+      const handleMouseMove = (event: MouseEvent) => {
+        if (!isInView) return
+
+        mouseX = (event.clientX - window.innerWidth / 2) * 0.0005
+        mouseY = (event.clientY - window.innerHeight / 2) * 0.00045
+
+        mouse2D.x = (event.clientX / window.innerWidth) * 2 - 1
+        mouse2D.y = -(event.clientY / window.innerHeight) * 2 + 1
       }
 
-      const geometries = new Set<THREE.BufferGeometry>()
-      const materials = new Set<THREE.Material>()
+      const resetHover = () => {
+        mouse2D.set(-10, -10)
+      }
 
-      scene.traverse((object) => {
-        if (object instanceof THREE.Mesh || object instanceof THREE.Points || object instanceof THREE.Sprite || object instanceof THREE.Line) {
-          if ('geometry' in object && object.geometry) {
-            geometries.add(object.geometry)
+      const handleResize = () => {
+        const current = mountRef.current
+        if (!current) return
+
+        const newWidth = current.clientWidth
+        const newHeight = current.clientHeight
+
+        camera.aspect = newWidth / newHeight
+        camera.updateProjectionMatrix()
+        renderer.setSize(newWidth, newHeight)
+      }
+
+      const visibilityObserver = new IntersectionObserver(
+        (entries) => {
+          const [entry] = entries
+          isInView = Boolean(entry?.isIntersecting)
+
+          if (!isInView) {
+            resetHover()
           }
+        },
+        { threshold: 0.01 },
+      )
+      visibilityObserver.observe(mount)
 
-          if ('material' in object && object.material) {
-            if (Array.isArray(object.material)) {
-              object.material.forEach((material) => materials.add(material))
-            } else {
-              materials.add(object.material)
+      const handlePageVisibility = () => {
+        if (document.hidden) {
+          isInView = false
+          resetHover()
+          return
+        }
+
+        const rect = mount.getBoundingClientRect()
+        isInView = rect.bottom > 0 && rect.top < window.innerHeight
+      }
+
+      const clock = new THREE.Clock()
+      const sweepLimit = EARTH_RADIUS * 1.05
+
+      const animate = () => {
+        animationFrameId = window.requestAnimationFrame(animate)
+
+        if (!isInView) return
+
+        const elapsed = clock.getElapsedTime()
+        autoRotationY += 0.001
+
+        const desiredY = autoRotationY + mouseX * 0.55
+        const desiredX = THREE.MathUtils.clamp(autoRotationX + mouseY * 0.7, -0.38, 0.38)
+
+        globeGroup.rotation.y = THREE.MathUtils.lerp(globeGroup.rotation.y, desiredY, 0.045)
+        globeGroup.rotation.x = THREE.MathUtils.lerp(globeGroup.rotation.x, desiredX, 0.05)
+
+        stars.rotation.y -= 0.00004
+
+        const currentSweep = earthParticlesMaterial.uniforms.uSweep.value
+        earthParticlesMaterial.uniforms.uSweep.value = currentSweep < -sweepLimit ? sweepLimit : currentSweep - 0.0018
+
+        raycaster.setFromCamera(mouse2D, camera)
+        const intersections = raycaster.intersectObject(hitMesh)
+
+        if (intersections.length > 0) {
+          earthParticlesMaterial.uniforms.uMousePos.value.copy(intersections[0].point)
+          earthParticlesMaterial.uniforms.uHoverState.value = THREE.MathUtils.lerp(earthParticlesMaterial.uniforms.uHoverState.value, 1, 0.1)
+        } else {
+          earthParticlesMaterial.uniforms.uHoverState.value = THREE.MathUtils.lerp(earthParticlesMaterial.uniforms.uHoverState.value, 0, 0.06)
+        }
+
+        const cityPulse = 0.95 + Math.sin(elapsed * 2.2) * 0.06
+        cityLights.material.size = 0.026 * cityPulse
+
+        cityBeacons.forEach((beacon, index) => {
+          const seed = activeCitySpecs[index].seed
+          const pulse = 0.86 + Math.sin(elapsed * 2.6 + seed) * 0.16
+          beacon.scale.setScalar(pulse)
+          beacon.material.size = 0.0105 * (0.92 + Math.sin(elapsed * 2.9 + seed * 0.5) * 0.1)
+        })
+
+        renderer.render(scene, camera)
+      }
+
+      window.addEventListener('mousemove', handleMouseMove, { passive: true })
+      window.addEventListener('resize', handleResize, { passive: true })
+      document.addEventListener('visibilitychange', handlePageVisibility)
+
+      animate()
+
+      disposeScene = () => {
+        window.removeEventListener('mousemove', handleMouseMove)
+        window.removeEventListener('resize', handleResize)
+        document.removeEventListener('visibilitychange', handlePageVisibility)
+
+        visibilityObserver.disconnect()
+        window.cancelAnimationFrame(animationFrameId)
+
+        if (mount.contains(renderer.domElement)) {
+          mount.removeChild(renderer.domElement)
+        }
+
+        const geometries = new Set<THREE.BufferGeometry>()
+        const materials = new Set<THREE.Material>()
+
+        scene.traverse((object) => {
+          if (object instanceof THREE.Mesh || object instanceof THREE.Points || object instanceof THREE.Sprite || object instanceof THREE.Line) {
+            if ('geometry' in object && object.geometry) {
+              geometries.add(object.geometry)
+            }
+
+            if ('material' in object && object.material) {
+              if (Array.isArray(object.material)) {
+                object.material.forEach((material) => materials.add(material))
+              } else {
+                materials.add(object.material)
+              }
             }
           }
-        }
-      })
+        })
 
-      geometries.forEach((geometry) => geometry.dispose())
-      materials.forEach((material) => material.dispose())
+        geometries.forEach((geometry) => geometry.dispose())
+        materials.forEach((material) => material.dispose())
 
-      earthTexture.dispose()
-      landMaskTexture.dispose()
-      glowTexture.dispose()
-      renderer.dispose()
-    }
-
+        earthTexture.dispose()
+        landMaskTexture.dispose()
+        glowTexture.dispose()
+        renderer.dispose()
+      }
     }
 
     init().catch((error) => {
