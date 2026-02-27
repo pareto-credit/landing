@@ -213,6 +213,15 @@ input[type='reset'] {
   animation-play-state: paused;
 }
 
+.marquee-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.marquee-scroll::-webkit-scrollbar {
+  display: none;
+}
+
 @keyframes marquee {
   0% {
     transform: translateX(0%);
