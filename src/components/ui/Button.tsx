@@ -8,6 +8,8 @@ const variantClass = {
   primary:
     "ui-radius-control border border-[var(--color-button-primary-border)] bg-[var(--color-button-primary-bg)] text-[var(--color-text-primary)] shadow-sm backdrop-blur-md hover:border-[var(--color-button-primary-hover-border)] hover:bg-[var(--color-button-primary-hover-bg)] hover:text-[var(--color-text-primary)] hover:shadow-md",
   secondary:
+    "ui-radius-control border border-black/10 bg-[var(--color-brand-soft)] text-[var(--color-text-primary)] shadow-sm backdrop-blur-sm hover:bg-[var(--color-brand)] hover:shadow-md",
+  white:
     "ui-radius-control border border-[var(--color-overlay-inverse-20)] bg-[var(--color-overlay-surface-50)] text-[var(--color-text-primary)] shadow-sm backdrop-blur-sm hover:bg-[var(--color-overlay-surface-75)] hover:shadow-md",
   outline:
     "ui-radius-control border-2 border-[var(--color-button-primary-border)] bg-white color-black text-black shadow-sm backdrop-blur-sm hover:border-[var(--color-button-primary-hover-border)] hover:bg-[var(--color-button-primary-hover-bg)] hover:shadow-md",

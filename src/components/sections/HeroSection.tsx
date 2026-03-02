@@ -79,7 +79,7 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
               Build a Credit Line
             </Button>
             <Button
-              variant="secondary"
+              variant="white"
               size="lg"
               onClick={() => scrollToSection("products")}
             >

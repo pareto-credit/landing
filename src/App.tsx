@@ -7,11 +7,13 @@ import NarrativeScrollSection from './components/sections/NarrativeScrollSection
 import HowItWorksSection from './components/sections/HowItWorksSection'
 import InfrastructureSection from './components/sections/InfrastructureSection'
 import ProductsSection from './components/sections/ProductsSection'
+import SyntheticDollarSection from './components/sections/SyntheticDollarSection'
 import SolutionsSection from './components/sections/SolutionsSection'
 import TestimonialsSection from './components/sections/TestimonialsSection'
 import NewsSection from './components/sections/NewsSection'
 import ContactSection from './components/sections/ContactSection'
 import { useProductsData } from './hooks/useProductsData'
+import { useSyntheticDollarData } from './hooks/useSyntheticDollarData'
 
 const shouldShowBanknoteSection = (): boolean => {
   if (typeof window === 'undefined') return false
@@ -24,6 +26,7 @@ const shouldShowBanknoteSection = (): boolean => {
 
 const App = () => {
   const { metrics, vaults, isLoading: isProductsDataLoading } = useProductsData()
+  const { data: syntheticDollarData, isLoading: isSyntheticDollarLoading } = useSyntheticDollarData()
   const showHowItWorksSection = shouldShowBanknoteSection()
 
   return (
@@ -37,6 +40,7 @@ const App = () => {
         {showHowItWorksSection ? <HowItWorksSection /> : null}
         <InfrastructureSection />
         <ProductsSection vaults={vaults} isVaultsLoading={isProductsDataLoading} />
+        <SyntheticDollarSection data={syntheticDollarData} isLoading={isSyntheticDollarLoading} />
         <SolutionsSection />
         <TestimonialsSection />
         <NewsSection />
