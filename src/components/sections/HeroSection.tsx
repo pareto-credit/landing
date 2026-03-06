@@ -21,7 +21,7 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
   return (
     <section
       id="hero"
-      className="relative min-h-screen overflow-hidden border-b border-[var(--color-border-soft)] bg-[var(--color-bg-light-alt)] text-[var(--color-text-primary)]"
+      className="relative min-h-screen overflow-hidden bg-[var(--color-bg-light-alt)] text-[var(--color-text-primary)]"
     >
       <Earth3D />
       <div className="pointer-events-none absolute left-1/2 top-1/4 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-[color:rgb(114_244_201_/_0.10)] blur-[132px]" />
@@ -95,7 +95,7 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
         transition={{ duration: 1, delay: 0.8 }}
         className="absolute inset-x-0 bottom-0 z-10"
       >
-        <div className="mx-auto flex w-full max-w-3xl flex-wrap items-center justify-center gap-8 border-t border-[var(--color-border-soft)] pb-8 pt-8 lg:pb-10">
+        <div className="mx-auto flex w-full max-w-3xl flex-wrap items-center justify-center gap-8 pb-8 pt-8 lg:pb-10">
           <div>
             <div className="ui-copy-muted mb-1 font-mono text-xs uppercase tracking-widest">
               Outstanding Loans

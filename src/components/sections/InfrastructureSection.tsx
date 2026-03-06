@@ -105,7 +105,7 @@ const InfrastructureSection = () => {
   return (
     <section
       id="infrastructure"
-      className="relative z-10 overflow-hidden border-y border-[var(--color-border-soft-muted)] bg-[var(--color-bg-light-alt)] py-32 text-[var(--color-text-primary)]"
+      className="relative z-10 overflow-hidden bg-[var(--color-bg-light-alt)] py-32 text-[var(--color-text-primary)]"
     >
       <SectionContainer className="relative z-10">
         <SectionHeading

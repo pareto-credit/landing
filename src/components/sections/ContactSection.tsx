@@ -1,12 +1,12 @@
-import { ChevronRight } from 'lucide-react'
-import { Button } from '../ui/Button'
-import { SectionContainer, SectionHeading } from '../ui/Section'
+import { ChevronRight } from "lucide-react";
+import { Button } from "../ui/Button";
+import { SectionContainer, SectionHeading } from "../ui/Section";
 
 const ContactSection = () => {
   return (
     <section
       id="contact"
-      className="relative border-b border-[var(--color-border-soft)] bg-[var(--color-bg-light-alt)] py-32 text-[var(--color-text-primary)]"
+      className="relative bg-[var(--color-bg-light-alt)] py-32 text-[var(--color-text-primary)]"
     >
       <div className="pointer-events-none absolute bottom-0 left-0 h-[500px] w-[500px] rounded-full bg-[color:rgb(112_177_158_/_0.08)] blur-[150px]" />
       <div className="pointer-events-none absolute right-0 top-0 h-[380px] w-[380px] rounded-full bg-[color:rgb(59_130_246_/_0.06)] blur-[120px]" />
@@ -27,7 +27,9 @@ const ContactSection = () => {
             method="POST"
           >
             <div>
-              <label className="mb-2 block text-sm text-[var(--color-text-secondary)]">Full name *</label>
+              <label className="mb-2 block text-sm text-[var(--color-text-secondary)]">
+                Full name *
+              </label>
               <input
                 type="text"
                 name="fullName"
@@ -37,7 +39,9 @@ const ContactSection = () => {
             </div>
 
             <div>
-              <label className="mb-2 block text-sm text-[var(--color-text-secondary)]">Organization *</label>
+              <label className="mb-2 block text-sm text-[var(--color-text-secondary)]">
+                Organization *
+              </label>
               <input
                 type="text"
                 name="organization"
@@ -47,7 +51,9 @@ const ContactSection = () => {
             </div>
 
             <div>
-              <label className="mb-2 block text-sm text-[var(--color-text-secondary)]">Email *</label>
+              <label className="mb-2 block text-sm text-[var(--color-text-secondary)]">
+                Email *
+              </label>
               <input
                 type="email"
                 name="email"
@@ -58,7 +64,9 @@ const ContactSection = () => {
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div>
-                <label className="mb-2 block text-sm text-[var(--color-text-secondary)]">Role</label>
+                <label className="mb-2 block text-sm text-[var(--color-text-secondary)]">
+                  Role
+                </label>
                 <div className="relative">
                   <select
                     name="role"
@@ -75,7 +83,9 @@ const ContactSection = () => {
                 </div>
               </div>
               <div>
-                <label className="mb-2 block text-sm text-[var(--color-text-secondary)]">Inquiry type</label>
+                <label className="mb-2 block text-sm text-[var(--color-text-secondary)]">
+                  Inquiry type
+                </label>
                 <div className="relative">
                   <select
                     name="inquiryType"
@@ -94,7 +104,9 @@ const ContactSection = () => {
             </div>
 
             <div>
-              <label className="mb-2 block text-sm text-[var(--color-text-secondary)]">Message *</label>
+              <label className="mb-2 block text-sm text-[var(--color-text-secondary)]">
+                Message *
+              </label>
               <textarea
                 required
                 name="message"
@@ -112,19 +124,24 @@ const ContactSection = () => {
                 className="mt-1 h-4 w-4 shrink-0 cursor-pointer rounded border-[var(--color-border-soft-strong)] bg-[var(--color-surface)] text-[var(--color-brand-alt)] focus:ring-[var(--color-brand-alt)]"
               />
               <span className="text-sm leading-tight text-[var(--color-text-secondary)]">
-                I consent to Pareto contacting me regarding this inquiry and processing personal data
-                under applicable privacy rules.
+                I consent to Pareto contacting me regarding this inquiry and
+                processing personal data under applicable privacy rules.
               </span>
             </div>
 
-            <Button type="submit" variant="primary" size="lg" className="mt-6 w-full font-semibold">
+            <Button
+              type="submit"
+              variant="primary"
+              size="lg"
+              className="mt-6 w-full font-semibold"
+            >
               Request Access
             </Button>
           </form>
         </div>
       </SectionContainer>
     </section>
-  )
-}
+  );
+};
 
-export default ContactSection
+export default ContactSection;

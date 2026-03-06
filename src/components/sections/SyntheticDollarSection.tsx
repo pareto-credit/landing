@@ -117,11 +117,8 @@ const SyntheticDollarSection = ({
   return (
     <section
       id="synthetic-dollar"
-      className="relative overflow-hidden border-b border-[var(--color-border-soft)] bg-[var(--color-bg-light)] py-24 text-[var(--color-text-primary)]"
+      className="relative overflow-hidden bg-[var(--color-bg-light-alt)] py-24 text-[var(--color-text-primary)]"
     >
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--color-border-soft-strong)] to-transparent" />
-      <div className="pointer-events-none absolute left-1/2 top-12 h-[360px] w-[360px] -translate-x-1/2 rounded-full bg-[color:rgb(113_178_159_/_0.12)] blur-[120px]" />
-
       <SectionContainer className="relative z-10">
         <SectionHeading
           eyebrow="Synthetic Dollar"

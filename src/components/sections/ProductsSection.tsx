@@ -169,9 +169,9 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
   return (
     <section
       id="products"
-      className="relative overflow-x-hidden border-y border-[var(--color-border-soft)] bg-[var(--color-bg-light-alt)] py-24 text-[var(--color-text-primary)]"
+      className="relative overflow-x-hidden bg-[var(--color-bg-light-alt)] py-24 text-[var(--color-text-primary)]"
     >
-      <div className="pointer-events-none absolute left-1/2 top-0 h-[400px] w-[800px] -translate-x-1/2 rounded-full bg-[color:rgb(113_178_159_/_0.10)] blur-[100px]" />
+      <div className="pointer-events-none absolute left-1/2 top-0 h-[400px] w-[800px] -translate-x-1/2 rounded-full blur-[100px]" />
 
       <SectionContainer className="relative z-10 mb-16 flex flex-col items-end justify-between gap-6 md:flex-row">
         <SectionHeading

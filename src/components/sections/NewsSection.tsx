@@ -20,9 +20,9 @@ const NewsSection = () => {
   return (
     <section
       id="news"
-      className="relative border-b border-[var(--color-border-soft)] bg-[var(--color-bg-light-alt)] py-24 text-[var(--color-text-primary)]"
+      className="relative bg-[var(--color-bg-light-alt)] py-24 text-[var(--color-text-primary)]"
     >
-      <div className="pointer-events-none absolute right-0 top-0 h-[420px] w-[420px] rounded-full bg-[color:rgb(113_178_159_/_0.08)] blur-[120px]" />
+      <div className="pointer-events-none absolute right-0 top-0 h-[420px] w-[420px] rounded-full blur-[120px]" />
       <SectionContainer>
         <div className="mb-12 flex flex-col items-end justify-between gap-6 md:flex-row">
           <SectionHeading

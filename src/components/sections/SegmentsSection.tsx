@@ -53,7 +53,7 @@ const operators: Operator[] = [
 
 const SegmentsSection = () => {
   return (
-    <section className="relative z-20 overflow-hidden border-b border-[var(--color-border-inverse-subtle)] bg-[var(--color-bg-page)] py-8">
+    <section className="relative z-20 overflow-hidden border-b border-[var(--color-border-inverse-subtle)] bg-[var(--color-brand-mid)] py-8">
       <SectionContainer className="mb-6 flex items-center justify-between gap-4">
         <SectionHeading
           eyebrow="Our partners"
