@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { ShieldCheck } from 'lucide-react'
 import { wlFeatures } from '../../../data/solutions'
+import paretoMarkWhite from '../../../assets/svgs/pareto-mark-white.svg'
 import { VisualFrame } from './VisualFrame'
 
 interface WhiteLabelVisualProps {
@@ -8,6 +9,8 @@ interface WhiteLabelVisualProps {
 }
 
 const WhiteLabelVisual = ({ activeIndex }: WhiteLabelVisualProps) => {
+  const activeFeature = wlFeatures[Math.min(activeIndex, wlFeatures.length - 1)] ?? wlFeatures[0]
+
   return (
     <VisualFrame>
       <AnimatePresence mode="popLayout">
@@ -21,22 +24,150 @@ const WhiteLabelVisual = ({ activeIndex }: WhiteLabelVisualProps) => {
         >
           <div className="relative flex h-full w-full flex-1 items-center justify-center pt-8">
             {activeIndex === 0 && (
-              <div className="flex gap-4">
+              <div className="relative h-[320px] w-full max-w-[430px] overflow-hidden">
+                <div className="absolute left-0 top-7 w-28 space-y-3">
+                  {[
+                    { label: 'Logo', height: 'h-12' },
+                    { label: 'Hero', height: 'h-16' },
+                    { label: 'Metrics', height: 'h-24' },
+                  ].map((module) => (
+                    <div
+                      key={module.label}
+                      className={`rounded-2xl border border-[var(--color-border-inverse-soft)] bg-[var(--color-overlay-surface-03)] p-3 ${module.height}`}
+                    >
+                      <div className="font-mono text-[9px] uppercase tracking-widest text-[var(--color-text-muted)]">
+                        {module.label}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="absolute right-0 top-0 w-[292px] rounded-[2rem] border border-[var(--color-border-inverse-soft)] bg-[color:rgb(7_15_12_/_0.96)] p-3.5 shadow-[0_24px_50px_rgba(0,0,0,0.42)]">
+                  <div className="flex items-center justify-between rounded-2xl border border-[var(--color-overlay-inverse-20)] bg-[var(--color-overlay-surface-03)] p-2.5">
+                    <motion.div
+                      animate={{
+                        borderColor: [
+                          'rgba(255,255,255,0.16)',
+                          'rgba(112,177,158,0.55)',
+                          'rgba(255,255,255,0.16)',
+                        ],
+                        backgroundColor: [
+                          'rgba(255,255,255,0.03)',
+                          'rgba(112,177,158,0.12)',
+                          'rgba(255,255,255,0.03)',
+                        ],
+                      }}
+                      transition={{ duration: 5.6, repeat: Infinity, ease: 'easeInOut' }}
+                      className="flex h-9 w-22 items-center justify-center rounded-xl border border-dashed"
+                    >
+                      <img
+                        src={paretoMarkWhite}
+                        alt="Brand logo"
+                        className="h-5 w-5 object-contain opacity-85"
+                      />
+                    </motion.div>
+                    <div className="h-7 w-14 rounded-full bg-[var(--color-overlay-surface-05)]" />
+                  </div>
+
+                  <div className="mt-2.5 grid grid-cols-2 gap-2.5">
+                    <motion.div
+                      animate={{
+                        borderColor: [
+                          'rgba(255,255,255,0.14)',
+                          'rgba(59,130,246,0.55)',
+                          'rgba(255,255,255,0.14)',
+                        ],
+                        backgroundColor: [
+                          'rgba(255,255,255,0.02)',
+                          'rgba(59,130,246,0.10)',
+                          'rgba(255,255,255,0.02)',
+                        ],
+                      }}
+                      transition={{ duration: 6.2, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
+                      className="h-20 rounded-2xl border border-dashed"
+                    />
+                    <div className="space-y-2.5">
+                      <div className="h-9 rounded-2xl border border-[var(--color-overlay-inverse-20)] bg-[var(--color-overlay-surface-03)]" />
+                      <div className="h-10 rounded-2xl border border-[var(--color-overlay-inverse-20)] bg-[var(--color-overlay-surface-03)]" />
+                    </div>
+                  </div>
+
+                  <motion.div
+                    animate={{
+                      borderColor: [
+                        'rgba(255,255,255,0.14)',
+                        'rgba(112,177,158,0.50)',
+                        'rgba(255,255,255,0.14)',
+                      ],
+                      backgroundColor: [
+                        'rgba(255,255,255,0.02)',
+                        'rgba(112,177,158,0.08)',
+                        'rgba(255,255,255,0.02)',
+                      ],
+                    }}
+                    transition={{ duration: 5.8, repeat: Infinity, ease: 'easeInOut', delay: 1.2 }}
+                    className="mt-2.5 h-24 rounded-[1.75rem] border border-dashed"
+                  />
+
+                  <div className="mt-3 flex items-center gap-2 font-mono text-[9px] uppercase tracking-widest text-[var(--color-brand-alt)]">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-brand-alt)] shadow-[0_0_10px_var(--color-brand-alt)]" />
+                    Composable dashboard
+                  </div>
+                </div>
+
                 <motion.div
-                  animate={{ height: [100, 150, 100] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                  className="w-16 rounded-full bg-[var(--color-brand-alt)] shadow-[0_0_20px_rgba(112,177,158,0.5)]"
-                />
+                  animate={{
+                    x: [0, 170, 170, 0],
+                    y: [0, -24, -24, 0],
+                    rotate: [-6, 0, 0, -6],
+                    scale: [1, 1.03, 1, 1],
+                  }}
+                  transition={{
+                    duration: 5.6,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                    times: [0, 0.24, 0.72, 1],
+                  }}
+                  className="absolute left-2 top-10 z-20 flex h-12 w-[92px] items-center gap-2 rounded-2xl border border-[var(--color-overlay-inverse-30)] bg-[color:rgb(18_38_30_/_0.92)] px-3 shadow-[0_18px_36px_rgba(0,0,0,0.35)]"
+                >
+                  <span className="flex h-7 w-7 items-center justify-center rounded-xl bg-[var(--color-overlay-surface-10)]">
+                    <img
+                      src={paretoMarkWhite}
+                      alt="Brand logo"
+                      className="h-4 w-4 object-contain opacity-90"
+                    />
+                  </span>
+                  <span className="font-mono text-[9px] uppercase tracking-widest text-[var(--color-text-inverse)]">
+                    Logo
+                  </span>
+                </motion.div>
+
                 <motion.div
-                  animate={{ height: [150, 80, 150] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                  className="w-16 rounded-full bg-[var(--color-accent-blue)] shadow-[0_0_20px_rgba(59,130,246,0.5)]"
-                />
-                <motion.div
-                  animate={{ height: [80, 120, 80] }}
-                  transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
-                  className="w-16 rounded-full bg-[var(--color-accent-purple)] shadow-[0_0_20px_rgba(168,85,247,0.5)]"
-                />
+                  animate={{
+                    x: [0, 156, 156, 0],
+                    y: [0, 58, 58, 0],
+                    rotate: [-4, 0, 0, -4],
+                    scale: [1, 1.02, 1, 1],
+                  }}
+                  transition={{
+                    duration: 6.2,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                    times: [0, 0.28, 0.76, 1],
+                    delay: 0.25,
+                  }}
+                  className="absolute left-0 top-[145px] z-20 w-[136px] rounded-[1.6rem] border border-[color:rgb(59_130_246_/_0.30)] bg-[color:rgb(11_24_40_/_0.92)] p-3 shadow-[0_18px_36px_rgba(0,0,0,0.35)]"
+                >
+                  <div className="mb-3 flex items-center justify-between">
+                    <div className="h-2 w-14 rounded-full bg-[color:rgb(59_130_246_/_0.35)]" />
+                    <div className="h-2 w-2 rounded-full bg-[var(--color-accent-blue)]" />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="h-2 rounded-full bg-[color:rgb(59_130_246_/_0.18)]" />
+                    <div className="h-2 w-4/5 rounded-full bg-[color:rgb(59_130_246_/_0.18)]" />
+                    <div className="h-14 rounded-2xl bg-[linear-gradient(180deg,rgba(59,130,246,0.22),rgba(59,130,246,0.06))]" />
+                  </div>
+                </motion.div>
               </div>
             )}
             {activeIndex === 1 && (
@@ -67,24 +198,6 @@ const WhiteLabelVisual = ({ activeIndex }: WhiteLabelVisualProps) => {
               </div>
             )}
             {activeIndex === 3 && (
-              <div className="w-full max-w-sm space-y-8">
-                {[60, 30, 80].map((value, idx) => (
-                  <div key={`slider-${idx}`} className="relative h-2 rounded-full bg-[var(--color-border-inverse-soft)]">
-                    <motion.div
-                      animate={{ width: [`${value}%`, `${value + 20}%`, `${value}%`] }}
-                      transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', delay: idx * 0.2 }}
-                      className="absolute left-0 top-0 h-full rounded-full bg-[var(--color-brand-alt)] shadow-[0_0_15px_rgba(112,177,158,0.5)]"
-                    />
-                    <motion.div
-                      animate={{ left: [`${value}%`, `${value + 20}%`, `${value}%`] }}
-                      transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', delay: idx * 0.2 }}
-                      className="absolute top-1/2 h-6 w-6 -translate-y-1/2 rounded-full bg-[var(--color-text-inverse)] shadow-[0_0_15px_var(--color-brand-alt)]"
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-            {activeIndex === 4 && (
               <div className="relative h-48 w-full max-w-sm">
                 <svg
                   viewBox="0 0 100 50"
@@ -117,7 +230,7 @@ const WhiteLabelVisual = ({ activeIndex }: WhiteLabelVisualProps) => {
                 </svg>
               </div>
             )}
-            {activeIndex === 5 && (
+            {activeIndex === 4 && (
               <div className="flex flex-col items-center justify-center">
                 <div className="bg-gradient-to-b from-[var(--color-text-inverse)] to-[var(--color-brand-alt)] bg-clip-text text-6xl font-bold tracking-tighter text-transparent drop-shadow-[0_0_20px_rgba(112,177,158,0.4)] md:text-8xl">
                   99.99<span className="text-5xl">%</span>
@@ -131,9 +244,9 @@ const WhiteLabelVisual = ({ activeIndex }: WhiteLabelVisualProps) => {
           </div>
 
           <div className="z-10 mt-auto bg-gradient-to-t from-[var(--color-bg-panel-dark)] via-[color:rgb(10_18_14_/_0.90)] to-transparent p-8 pt-12 text-center">
-            <h4 className="mb-2 text-xl font-bold text-[var(--color-text-inverse)]">{wlFeatures[activeIndex].name}</h4>
+            <h4 className="mb-2 text-xl font-bold text-[var(--color-text-inverse)]">{activeFeature.name}</h4>
             <p className="mx-auto max-w-sm text-sm leading-relaxed text-[var(--color-text-muted)]">
-              {wlFeatures[activeIndex].desc}
+              {activeFeature.desc}
             </p>
           </div>
         </motion.div>

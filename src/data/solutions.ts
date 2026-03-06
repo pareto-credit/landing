@@ -9,9 +9,7 @@ import {
   Lock,
   Palette,
   PieChart,
-  Rocket,
   ShieldCheck,
-  Sliders,
 } from 'lucide-react'
 
 export interface SolutionFeature {
@@ -37,11 +35,6 @@ export const wlFeatures: SolutionFeature[] = [
     desc: 'Automate KYC/AML checks and ensure full regulatory compliance across jurisdictions without manual intervention.',
   },
   {
-    name: 'Custom vault parameters',
-    icon: Sliders,
-    desc: 'Define collateral types, interest rate models, and liquidation thresholds to perfectly match your credit strategy.',
-  },
-  {
     name: 'Integrated reporting',
     icon: BarChart2,
     desc: 'Generate real-time, audit-ready reports covering portfolio performance, risk metrics, and capital flows.',
@@ -55,14 +48,9 @@ export const wlFeatures: SolutionFeature[] = [
 
 export const studioFeatures: SolutionFeature[] = [
   {
-    name: 'Visual vault configuration',
+    name: 'Vault configuration & deployment',
     icon: Layout,
-    desc: 'Design and simulate complex credit structures using an intuitive drag-and-drop interface, no coding required.',
-  },
-  {
-    name: '1-click mainnet deployment',
-    icon: Rocket,
-    desc: 'Transition seamlessly from testnet simulations to live mainnet environments with a single secure transaction.',
+    desc: 'Design credit structures visually, simulate key parameters, and transition from draft setup to mainnet deployment through a guided workflow.',
   },
   {
     name: 'Real-time risk modeling',

@@ -218,10 +218,10 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
                 <div className="h-3 w-4/5 rounded bg-[var(--color-bg-light)]" />
               </div>
 
-              <div className="ui-radius-panel grid grid-cols-3 overflow-hidden border border-[var(--color-border-soft)] bg-[var(--color-bg-light-alt)]">
-                <div className="h-[84px] border-r border-[var(--color-border-soft)]" />
-                <div className="h-[84px] border-r border-[var(--color-border-soft)]" />
-                <div className="h-[84px]" />
+              <div className="ui-radius-panel grid grid-cols-3 overflow-hidden border border-[var(--color-border-soft)] bg-[var(--color-border-soft)]">
+                <div className="h-[84px] border-r border-[var(--color-border-soft)] bg-[var(--color-surface)]" />
+                <div className="h-[84px] border-r border-[var(--color-border-soft)] bg-[var(--color-surface)]" />
+                <div className="h-[84px] bg-[var(--color-surface)]" />
               </div>
               <span className="sr-only">Loading vault cards...</span>
             </div>
@@ -371,7 +371,7 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
                             </div>
 
                             <span
-                              className={`inline-flex h-8 shrink-0 items-center whitespace-nowrap rounded-full px-3 font-mono text-[9px] font-bold uppercase tracking-widest leading-none shadow-sm ${statusClassName}`}
+                              className={`inline-flex h-8 shrink-0 items-center whitespace-nowrap rounded-lg px-3 font-mono text-[9px] font-bold uppercase tracking-widest leading-none shadow-sm ${statusClassName}`}
                             >
                               {formatStatusLabel(vault.status)}
                             </span>
@@ -379,7 +379,7 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
 
                           <div className="mb-6 flex flex-wrap gap-2">
                             {vault.curatorName ? (
-                              <span className="inline-flex h-8 items-center gap-2 rounded-full border border-[var(--color-border-soft)] bg-[var(--color-chip-bg)] px-3 font-mono text-[10px] font-semibold uppercase tracking-widest leading-none text-[var(--color-chip-text)]">
+                              <span className="inline-flex h-8 items-center gap-2 rounded-lg border border-[var(--color-border-soft)] bg-white px-3 font-mono text-[10px] font-semibold uppercase tracking-widest leading-none text-[var(--color-chip-text)]">
                                 <span className="flex h-5 w-5 items-center justify-center overflow-hidden rounded-full border border-[var(--color-border-soft)]">
                                   {curatorLogo ? (
                                     <img
@@ -400,12 +400,12 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
                               </span>
                             ) : null}
 
-                            <span className="inline-flex h-8 items-center rounded-full border border-[var(--color-border-soft)] bg-[var(--color-chip-bg)] px-3 font-mono text-[10px] font-semibold uppercase tracking-widest leading-none text-[var(--color-chip-text)]">
+                            <span className="inline-flex h-8 items-center rounded-lg border border-[var(--color-border-soft)] bg-white px-3 font-mono text-[10px] font-semibold uppercase tracking-widest leading-none text-[var(--color-chip-text)]">
                               {vault.asset}
                             </span>
 
                             {vault.type ? (
-                              <span className="inline-flex h-8 items-center rounded-full border border-[var(--color-border-soft)] bg-[var(--color-chip-bg)] px-3 font-mono text-[10px] font-semibold uppercase tracking-widest leading-none text-[var(--color-chip-text)]">
+                              <span className="inline-flex h-8 items-center rounded-lg border border-[var(--color-border-soft)] bg-white px-3 font-mono text-[10px] font-semibold uppercase tracking-widest leading-none text-[var(--color-chip-text)]">
                                 {vault.type}
                               </span>
                             ) : null}
@@ -417,20 +417,20 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
                             </p>
                           ) : null}
 
-                          <div className="ui-radius-panel grid grid-cols-3 overflow-hidden border border-[var(--color-border-soft)] bg-[var(--color-bg-light-alt)]">
-                            <div className="flex h-[80px] flex-col justify-center gap-2 border-r border-[var(--color-border-soft)] px-4">
+                          <div className="rounded-2xl grid grid-cols-3 overflow-hidden border border-[var(--color-border-soft)] bg-[var(--color-border-soft)]">
+                            <div className="flex h-[80px] flex-col justify-center gap-2 border-r border-[var(--color-border-soft)] bg-[var(--color-surface)] px-4">
                               <p className={metricLabelClassName}>TVL</p>
                               <p className={metricValueClassName}>
                                 {vault.tvl}
                               </p>
                             </div>
-                            <div className="flex h-[80px] flex-col justify-center gap-2 border-r border-[var(--color-border-soft)] bg-[var(--color-overlay-surface-50)] px-4">
+                            <div className="flex h-[80px] flex-col justify-center gap-2 border-r border-[var(--color-border-soft)] bg-[var(--color-surface)] px-4">
                               <p className={metricLabelClassName}>Net APY</p>
                               <p className={metricValueClassName}>
                                 {vault.apy}
                               </p>
                             </div>
-                            <div className="flex h-[80px] flex-col justify-center gap-2 bg-[var(--color-surface-muted)] px-4">
+                            <div className="flex h-[80px] flex-col justify-center gap-2 bg-[var(--color-surface)] px-4">
                               <p className={metricLabelClassName}>
                                 Redemptions
                               </p>

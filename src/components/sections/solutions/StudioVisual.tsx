@@ -42,7 +42,7 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
                 <div className="mt-3 grid grid-cols-[1.3fr_0.7fr] gap-3">
                   <div className="rounded-xl border border-[var(--color-border-inverse-soft)] bg-[color:rgb(255_255_255_/_0.02)] p-3">
                     <div className="mb-2 font-mono text-[10px] uppercase tracking-widest text-[var(--color-text-muted)]">
-                      Vault Configuration
+                      Vault Setup
                     </div>
                     <div className="flex h-20 items-end gap-1.5">
                       {[42, 62, 51, 70, 58, 76, 66].map((height, idx) => (
@@ -99,27 +99,6 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
               </div>
             )}
             {activeIndex === 1 && (
-              <div className="flex w-full max-w-sm flex-col items-center justify-center">
-                <motion.div
-                  animate={{ backgroundPosition: ['200% 0', '-200% 0'] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-                  className="mb-6 h-16 w-full rounded-full bg-gradient-to-r from-[var(--color-brand-alt)] via-[var(--color-text-inverse)] to-[var(--color-brand-alt)] bg-[length:200%_auto] p-[2px] shadow-[0_0_20px_rgba(112,177,158,0.5)]"
-                >
-                  <div className="flex h-full w-full items-center justify-center rounded-full bg-[var(--color-bg-page-alt)] font-mono text-sm font-bold tracking-widest text-[var(--color-brand-alt)]">
-                    Deploying to Mainnet...
-                  </div>
-                </motion.div>
-                <div className="h-3 w-full overflow-hidden rounded-full bg-[var(--color-border-inverse-soft)]">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: '100%' }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    className="h-full bg-[var(--color-brand-alt)] shadow-[0_0_10px_var(--color-brand-alt)]"
-                  />
-                </div>
-              </div>
-            )}
-            {activeIndex === 2 && (
               <div className="relative flex items-center justify-center">
                 <Activity className="relative z-10 h-20 w-20 text-[var(--color-brand-alt)] drop-shadow-[0_0_15px_var(--color-brand-alt)]" />
                 <svg className="absolute h-64 w-64 animate-[spin_10s_linear_infinite] opacity-30" viewBox="0 0 100 100">
@@ -141,7 +120,7 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
                 </svg>
               </div>
             )}
-            {activeIndex === 3 && (
+            {activeIndex === 2 && (
               <div className="relative flex h-48 w-48 items-center justify-center rounded-full border-[16px] border-[color:rgb(112_177_158_/_0.20)]">
                 <motion.div
                   initial={{ rotate: 0 }}
@@ -152,7 +131,7 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
                 <PieChart className="h-12 w-12 text-[var(--color-text-inverse)] opacity-50" />
               </div>
             )}
-            {activeIndex === 4 && (
+            {activeIndex === 3 && (
               <div className="relative flex items-center justify-center">
                 <Lock className="absolute z-10 h-16 w-16 text-[var(--color-brand-alt)]" />
                 <motion.div
@@ -169,7 +148,7 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
                 </motion.div>
               </div>
             )}
-            {activeIndex === 5 && (
+            {activeIndex === 4 && (
               <div className="w-full max-w-sm overflow-hidden rounded-xl border border-[var(--color-border-inverse-soft)] bg-black/60 p-6 font-mono text-left text-sm text-[var(--color-brand-alt)] shadow-2xl">
                 <div className="mb-4 flex gap-2">
                   <div className="h-3 w-3 rounded-full bg-[var(--color-accent-red-soft)]" />

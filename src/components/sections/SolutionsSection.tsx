@@ -10,6 +10,8 @@ import { scrollToSection } from "../../lib/scrollToSection";
 const SolutionsSection = () => {
   const [activeWhiteLabel, setActiveWhiteLabel] = useState(0);
   const [activeStudio, setActiveStudio] = useState(0);
+  const safeWhiteLabelIndex = Math.min(activeWhiteLabel, wlFeatures.length - 1);
+  const safeStudioIndex = Math.min(activeStudio, studioFeatures.length - 1);
 
   return (
     <section
@@ -30,7 +32,7 @@ const SolutionsSection = () => {
 
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
           <div className="order-2 lg:order-1">
-            <StudioVisual activeIndex={activeStudio} />
+            <StudioVisual activeIndex={safeStudioIndex} />
           </div>
 
           <div className="order-1 lg:order-2">
@@ -42,47 +44,48 @@ const SolutionsSection = () => {
               </p>
               <FeatureList
                 features={studioFeatures}
-                activeIndex={activeStudio}
+                activeIndex={safeStudioIndex}
                 onHover={setActiveStudio}
               />
+              <div className="mt-8 flex justify-start">
+                <Button
+                  onClick={() => scrollToSection("contact")}
+                  variant="ghost"
+                  size="md"
+                >
+                  Request access
+                </Button>
+              </div>
             </div>
           </div>
         </div>
-        <div className="flex justify-center my-20">
-          <Button
-            onClick={() => scrollToSection("contact")}
-            variant="ghost"
-            size="md"
-          >
-            Request access
-          </Button>
-        </div>
-
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+        <div className="mt-20 grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
           <div className="order-2 lg:order-1">
-            <h3 className="mb-4 text-3xl font-bold">Pareto White Label</h3>
-            <p className="mb-8 text-lg leading-relaxed text-[var(--color-text-muted)]">
-              Pareto enables fintechs, prime brokers, and institutions to deploy
-              fully white-labeled credit infrastructure.
-            </p>
-            <FeatureList
-              features={wlFeatures}
-              activeIndex={activeWhiteLabel}
-              onHover={setActiveWhiteLabel}
-            />
+            <div>
+              <h3 className="mb-4 text-3xl font-bold">Pareto White Label</h3>
+              <p className="mb-8 text-lg leading-relaxed text-[var(--color-text-muted)]">
+                Pareto enables fintechs, prime brokers, and institutions to deploy
+                fully white-labeled credit infrastructure.
+              </p>
+              <FeatureList
+                features={wlFeatures}
+                activeIndex={safeWhiteLabelIndex}
+                onHover={setActiveWhiteLabel}
+              />
+              <div className="mt-8 flex justify-start">
+                <Button
+                  onClick={() => scrollToSection("contact")}
+                  variant="ghost"
+                  size="md"
+                >
+                  Request setup
+                </Button>
+              </div>
+            </div>
           </div>
           <div className="order-1 lg:order-2">
-            <WhiteLabelVisual activeIndex={activeWhiteLabel} />
+            <WhiteLabelVisual activeIndex={safeWhiteLabelIndex} />
           </div>
-        </div>
-        <div className="mt-20 flex justify-center">
-          <Button
-            onClick={() => scrollToSection("contact")}
-            variant="ghost"
-            size="md"
-          >
-            Request setup
-          </Button>
         </div>
       </SectionContainer>
     </section>

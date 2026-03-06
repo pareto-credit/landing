@@ -92,11 +92,20 @@ const toCadenceLabel = (value: string): string | null => {
 };
 
 const getRateType = (vault: Vault): string | undefined => {
-  const shortDescription = getLocalizedText(vault.shortDescription).toLowerCase();
-  if (shortDescription.includes("variable-rate") || shortDescription.includes("variable rate")) {
+  const rateTypeSource = [
+    getLocalizedText(vault.shortDescription),
+    getLocalizedText(vault.description),
+  ]
+    .join(" ")
+    .toLowerCase();
+
+  if (
+    rateTypeSource.includes("variable-rate") ||
+    rateTypeSource.includes("variable rate")
+  ) {
     return "Variable rate";
   }
-  if (shortDescription.includes("fixed-rate") || shortDescription.includes("fixed rate")) {
+  if (rateTypeSource.includes("fixed-rate") || rateTypeSource.includes("fixed rate")) {
     return "Fixed rate";
   }
   if (vault.contractType === "PARETO_DOLLAR") {
