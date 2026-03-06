@@ -1,8 +1,8 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { Activity, Building2, Network, type LucideIcon } from "lucide-react";
-import brokersImage from "../../assets/images/brokers.jpg";
-import fintechImage from "../../assets/images/fintech.jpg";
-import marketMakersImage from "../../assets/images/market-makers.jpg";
+import brokersImage from "../../assets/images/ecosystem/brokers-card.jpg";
+import fintechImage from "../../assets/images/ecosystem/fintech-card.jpg";
+import marketMakersImage from "../../assets/images/ecosystem/market-makers-card.jpg";
 import { SectionContainer, SectionHeading } from "../ui/Section";
 
 interface EcosystemSegment {
@@ -21,7 +21,7 @@ const ecosystemSegments: EcosystemSegment[] = [
     icon: Building2,
     image: brokersImage,
     imageAlt: "Skyscrapers viewed from below through heavy fog.",
-    imageClassName: "object-center",
+    imageClassName: "object-center brightness-[0.8] saturate-[0.82]",
     desc: "Secure, isolated environments for large-scale capital deployment and origination.",
     services: [
       "Smart Contract Escrow",
@@ -35,7 +35,7 @@ const ecosystemSegments: EcosystemSegment[] = [
     icon: Activity,
     image: marketMakersImage,
     imageAlt: "Glass trading tower rising into a foggy sky.",
-    imageClassName: "object-[60%_22%]",
+    imageClassName: "object-[60%_22%] brightness-[0.8] saturate-[0.82]",
     desc: "High-velocity infrastructure designed for programmatic execution and liquidity.",
     services: [
       "Onchain Settlement",
@@ -49,7 +49,7 @@ const ecosystemSegments: EcosystemSegment[] = [
     icon: Network,
     image: fintechImage,
     imageAlt: "Lit office tower at night seen from above street level.",
-    imageClassName: "object-[52%_26%]",
+    imageClassName: "object-[52%_40%] brightness-[1.05] saturate-[0.94]",
     desc: "Modular building blocks to launch proprietary, branded credit products.",
     services: [
       "White-label UX",
@@ -102,9 +102,9 @@ const ClientsServicesSection = () => {
                 <img
                   src={segment.image}
                   alt={segment.imageAlt}
-                  loading="lazy"
+                  fetchPriority="low"
                   decoding="async"
-                  className={`pointer-events-none absolute inset-0 h-full w-full object-cover brightness-[0.8] saturate-[0.82] ${segment.imageClassName} ${mediaMotionClass}`}
+                  className={`pointer-events-none absolute inset-0 h-full w-full object-cover ${segment.imageClassName} ${mediaMotionClass}`}
                 />
                 <div className="absolute inset-0 z-10 bg-gradient-to-t from-[color:rgb(8_25_18_/_0.96)] via-[color:rgb(8_25_18_/_0.34)] to-transparent" />
 
