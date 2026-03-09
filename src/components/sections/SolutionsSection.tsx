@@ -16,75 +16,86 @@ const SolutionsSection = () => {
   return (
     <section
       id="solutions"
-      className="relative z-10 overflow-hidden border-b border-[var(--color-border-inverse-subtle)] bg-[var(--color-brand-mid)] py-32"
+      className="relative z-10 overflow-hidden border-b border-[var(--color-border-inverse-subtle)] bg-[var(--color-brand-mid)]"
     >
       <div className="pointer-events-none absolute left-0 top-1/4 h-[600px] w-[600px] rounded-full bg-[color:rgb(112_177_158_/_0.05)] blur-[150px]" />
       <div className="pointer-events-none absolute bottom-1/4 right-0 h-[600px] w-[600px] rounded-full bg-[var(--color-glow-blue)] blur-[150px]" />
 
-      <SectionContainer className="relative z-10">
-        <SectionHeading
-          eyebrow="Solutions"
-          title="Launch your own credit facility in minutes"
-          size="4xl"
-          className="mx-auto mb-24 text-center"
-          titleClassName="leading-tight md:text-5xl lg:text-6xl text-[var(--color-text-inverse)]"
-        />
+      <SectionContainer className="ui-section-shell relative z-10 py-16 md:py-20 lg:py-0">
+        <div className="flex flex-col">
+          <div className="flex flex-col justify-center py-10 md:py-14 lg:min-h-[100svh] lg:py-16 xl:py-20">
+            <SectionHeading
+              eyebrow="Solutions"
+              title="Launch your own credit facility in minutes"
+              size="4xl"
+              className="mx-auto mb-14 text-center lg:mb-16 xl:mb-20"
+              titleClassName="leading-tight text-[var(--color-text-inverse)] md:text-5xl lg:text-[3.5rem]"
+            />
 
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
-          <div className="order-2 lg:order-1">
-            <StudioVisual activeIndex={safeStudioIndex} />
-          </div>
+            <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14 xl:gap-16">
+              <div className="order-2 lg:order-1">
+                <StudioVisual activeIndex={safeStudioIndex} />
+              </div>
 
-          <div className="order-1 lg:order-2">
-            <div>
-              <h3 className="mb-4 text-3xl font-bold">Pareto Studio</h3>
-              <p className="mb-8 text-lg leading-relaxed text-[var(--color-text-muted)]">
-                Streamline the entire debt lifecycle, from origination and
-                issuance to reporting and capital flows.
-              </p>
-              <FeatureList
-                features={studioFeatures}
-                activeIndex={safeStudioIndex}
-                onHover={setActiveStudio}
-              />
-              <div className="mt-8 flex justify-start">
-                <Button
-                  onClick={() => scrollToSection("contact")}
-                  variant="ghost"
-                  size="md"
-                >
-                  Request access
-                </Button>
+              <div className="order-1 lg:order-2">
+                <div>
+                  <h3 className="mb-3 text-[1.9rem] font-bold tracking-tight text-[var(--color-text-inverse)] xl:text-[2rem]">
+                    Pareto Studio
+                  </h3>
+                  <p className="mb-6 max-w-xl text-base leading-relaxed text-[var(--color-text-muted)] xl:mb-7 xl:text-lg">
+                    Streamline the entire debt lifecycle, from origination and
+                    issuance to reporting and capital flows.
+                  </p>
+                  <FeatureList
+                    features={studioFeatures}
+                    activeIndex={safeStudioIndex}
+                    onHover={setActiveStudio}
+                  />
+                  <div className="mt-6 flex justify-start xl:mt-7">
+                    <Button
+                      onClick={() => scrollToSection("contact")}
+                      variant="ghost"
+                      size="md"
+                    >
+                      Request access
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="mt-20 grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
-          <div className="order-2 lg:order-1">
-            <div>
-              <h3 className="mb-4 text-3xl font-bold">Pareto White Label</h3>
-              <p className="mb-8 text-lg leading-relaxed text-[var(--color-text-muted)]">
-                Pareto enables fintechs, prime brokers, and institutions to deploy
-                fully white-labeled credit infrastructure.
-              </p>
-              <FeatureList
-                features={wlFeatures}
-                activeIndex={safeWhiteLabelIndex}
-                onHover={setActiveWhiteLabel}
-              />
-              <div className="mt-8 flex justify-start">
-                <Button
-                  onClick={() => scrollToSection("contact")}
-                  variant="ghost"
-                  size="md"
-                >
-                  Request setup
-                </Button>
+
+          <div className="flex flex-col justify-center py-10 md:py-14 lg:min-h-[100svh] lg:py-16 xl:py-20">
+            <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14 xl:gap-16">
+              <div className="order-2 lg:order-1">
+                <div>
+                  <h3 className="mb-3 text-[1.9rem] font-bold tracking-tight text-[var(--color-text-inverse)] xl:text-[2rem]">
+                    Pareto White Label
+                  </h3>
+                  <p className="mb-6 max-w-xl text-base leading-relaxed text-[var(--color-text-muted)] xl:mb-7 xl:text-lg">
+                    Pareto enables fintechs, prime brokers, and institutions to deploy
+                    fully white-labeled credit infrastructure.
+                  </p>
+                  <FeatureList
+                    features={wlFeatures}
+                    activeIndex={safeWhiteLabelIndex}
+                    onHover={setActiveWhiteLabel}
+                  />
+                  <div className="mt-6 flex justify-start xl:mt-7">
+                    <Button
+                      onClick={() => scrollToSection("contact")}
+                      variant="ghost"
+                      size="md"
+                    >
+                      Request setup
+                    </Button>
+                  </div>
+                </div>
+              </div>
+              <div className="order-1 lg:order-2">
+                <WhiteLabelVisual activeIndex={safeWhiteLabelIndex} />
               </div>
             </div>
-          </div>
-          <div className="order-1 lg:order-2">
-            <WhiteLabelVisual activeIndex={safeWhiteLabelIndex} />
           </div>
         </div>
       </SectionContainer>

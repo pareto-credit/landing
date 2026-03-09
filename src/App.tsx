@@ -2,7 +2,7 @@ import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 import HeroSection from './components/sections/HeroSection'
 import SegmentsSection from './components/sections/SegmentsSection'
-import ClientsServicesSection from './components/sections/ClientsServicesSection'
+import EcosystemSection from './components/sections/EcosystemSection'
 import NarrativeScrollSection from './components/sections/NarrativeScrollSection'
 import HowItWorksSection from './components/sections/HowItWorksSection'
 import InfrastructureSection from './components/sections/InfrastructureSection'
@@ -35,7 +35,7 @@ const App = () => {
       <main>
         <HeroSection metrics={metrics} isMetricsLoading={isProductsDataLoading} />
         <SegmentsSection />
-        <ClientsServicesSection />
+        <EcosystemSection />
         <NarrativeScrollSection />
         {showHowItWorksSection ? <HowItWorksSection /> : null}
         <InfrastructureSection />

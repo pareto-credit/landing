@@ -89,6 +89,7 @@
   --color-glow-blue: rgb(59 130 246 / 0.05);
   --shadow-soft: 0 8px 24px rgb(14 24 19 / 0.08);
   --shadow-elevated: 0 20px 40px rgb(0 0 0 / 0.1);
+  --section-viewport-offset: 5.75rem;
 }
 
 .ui-eyebrow {
@@ -157,6 +158,18 @@
     0 8px 24px rgb(255 255 255 / 0.16),
     inset 0 1px 0 rgb(255 255 255 / 0.5);
   backdrop-filter: blur(12px);
+}
+
+.ui-section-fit {
+  display: flex;
+  align-items: center;
+  min-height: calc(100svh - var(--section-viewport-offset));
+  min-height: calc(100dvh - var(--section-viewport-offset));
+}
+
+.ui-section-shell {
+  width: 100%;
+  padding-block: clamp(3.75rem, 7vh, 6rem);
 }
 
 * {

@@ -123,122 +123,127 @@ const TestimonialsSection = () => {
   return (
     <section
       id="testimonials"
-      className="relative overflow-x-hidden bg-[var(--color-bg-light-alt)] py-24 text-[var(--color-text-primary)]"
+      className="ui-section-fit relative overflow-x-hidden bg-[var(--color-bg-light-alt)] text-[var(--color-text-primary)]"
     >
       <div className="pointer-events-none absolute left-0 top-1/2 h-[500px] w-[500px] -translate-y-1/2 rounded-full blur-[120px]" />
 
-      <SectionContainer className="relative z-10 mb-10 text-center">
-        <SectionHeading
-          eyebrow="Trusted By Leaders"
-          title="What our partners say."
-          className="mx-auto text-center"
-          titleClassName="text-[var(--color-text-primary)]"
-          eyebrowClassName="text-[var(--color-brand-alt)]"
-        />
-      </SectionContainer>
+      <div className="relative z-10 w-full ui-section-shell">
+        <SectionContainer className="mb-6 text-center xl:mb-8">
+          <SectionHeading
+            eyebrow="Trusted By Leaders"
+            title="What our partners say."
+            className="mx-auto text-center"
+            titleClassName="text-[var(--color-text-primary)]"
+            eyebrowClassName="text-[var(--color-brand-alt)]"
+          />
+        </SectionContainer>
 
-      <div className="relative z-10 w-full">
-        <div
-          ref={viewportRef}
-          onPointerDown={(event) => {
-            const viewport = viewportRef.current;
-            if (!viewport) return;
+        <div className="w-full">
+          <div
+            ref={viewportRef}
+            onPointerDown={(event) => {
+              const viewport = viewportRef.current;
+              if (!viewport) return;
 
-            pointerIdRef.current = event.pointerId;
-            viewport.setPointerCapture(event.pointerId);
-            pointerStartXRef.current = event.clientX;
-            pointerStartScrollRef.current = viewport.scrollLeft;
-            didDragRef.current = false;
-            setIsDragging(true);
-          }}
-          onPointerMove={(event) => {
-            if (pointerIdRef.current !== event.pointerId) return;
-            const viewport = viewportRef.current;
-            if (!viewport) return;
+              pointerIdRef.current = event.pointerId;
+              viewport.setPointerCapture(event.pointerId);
+              pointerStartXRef.current = event.clientX;
+              pointerStartScrollRef.current = viewport.scrollLeft;
+              didDragRef.current = false;
+              setIsDragging(true);
+            }}
+            onPointerMove={(event) => {
+              if (pointerIdRef.current !== event.pointerId) return;
+              const viewport = viewportRef.current;
+              if (!viewport) return;
 
-            const deltaX = event.clientX - pointerStartXRef.current;
-            if (Math.abs(deltaX) > DRAG_THRESHOLD_PX) {
-              didDragRef.current = true;
-            }
+              const deltaX = event.clientX - pointerStartXRef.current;
+              if (Math.abs(deltaX) > DRAG_THRESHOLD_PX) {
+                didDragRef.current = true;
+              }
 
-            const next = pointerStartScrollRef.current - deltaX;
-            viewport.scrollLeft = normalizeMarqueeScroll(next, singleSetWidth);
-          }}
-          onPointerUp={finishDragging}
-          onPointerCancel={finishDragging}
-          onLostPointerCapture={finishDragging}
-          onPointerEnter={() => setIsTrackHovered(true)}
-          onPointerLeave={() => setIsTrackHovered(false)}
-          className="marquee-scroll flex w-full cursor-grab overflow-x-auto py-10 touch-pan-y select-none active:cursor-grabbing"
-        >
-          <div className="flex w-max px-10 md:px-12">
-            {[...Array(TESTIMONIALS_MARQUEE_SETS)].map((_, arrayIndex) => (
-              <div
-                key={`testimonial-loop-${arrayIndex}`}
-                ref={arrayIndex === 0 ? singleSetRef : undefined}
-                aria-hidden={arrayIndex > 0}
-                className="flex shrink-0 gap-6 pr-6"
-              >
-                {testimonialList.map((testimonial, index) => {
-                  const operatorLogo = getOperatorLogo(
-                    undefined,
-                    testimonial.company,
-                  );
+              const next = pointerStartScrollRef.current - deltaX;
+              viewport.scrollLeft = normalizeMarqueeScroll(
+                next,
+                singleSetWidth,
+              );
+            }}
+            onPointerUp={finishDragging}
+            onPointerCancel={finishDragging}
+            onLostPointerCapture={finishDragging}
+            onPointerEnter={() => setIsTrackHovered(true)}
+            onPointerLeave={() => setIsTrackHovered(false)}
+            className="marquee-scroll flex w-full cursor-grab overflow-x-auto py-4 touch-pan-y select-none active:cursor-grabbing xl:py-10"
+          >
+            <div className="flex w-max px-8 md:px-10">
+              {[...Array(TESTIMONIALS_MARQUEE_SETS)].map((_, arrayIndex) => (
+                <div
+                  key={`testimonial-loop-${arrayIndex}`}
+                  ref={arrayIndex === 0 ? singleSetRef : undefined}
+                  aria-hidden={arrayIndex > 0}
+                  className="flex shrink-0 gap-6 pr-6"
+                >
+                  {testimonialList.map((testimonial, index) => {
+                    const operatorLogo = getOperatorLogo(
+                      undefined,
+                      testimonial.company,
+                    );
 
-                  return (
-                    <article
-                      key={`testimonial-${arrayIndex}-${index}`}
-                      className="ui-radius-card flex min-w-[450px] max-w-[450px] flex-shrink-0 flex-col justify-between border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-8 shadow-[0_10px_30px_rgb(0,0,0,0.05)] transition-all duration-300 hover:-translate-y-1 hover:border-[color:rgb(113_178_159_/_0.40)] hover:shadow-[0_18px_36px_rgb(0,0,0,0.08)]"
-                    >
-                      <div>
-                        <div className="mb-6 text-[var(--color-brand)] opacity-60">
-                          <svg
-                            width="32"
-                            height="32"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                            xmlns="http://www.w3.org/2000/svg"
-                            aria-hidden="true"
-                          >
-                            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                          </svg>
+                    return (
+                      <article
+                        key={`testimonial-${arrayIndex}-${index}`}
+                        className="ui-radius-card flex min-w-[400px] max-w-[400px] flex-shrink-0 flex-col justify-between border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-7 shadow-[0_10px_30px_rgb(0,0,0,0.05)] transition-all duration-300 hover:-translate-y-1 hover:border-[color:rgb(113_178_159_/_0.40)] hover:shadow-[0_18px_36px_rgb(0,0,0,0.08)] xl:min-w-[420px] xl:max-w-[420px]"
+                      >
+                        <div>
+                          <div className="mb-6 text-[var(--color-brand)] opacity-60">
+                            <svg
+                              width="32"
+                              height="32"
+                              viewBox="0 0 24 24"
+                              fill="currentColor"
+                              xmlns="http://www.w3.org/2000/svg"
+                              aria-hidden="true"
+                            >
+                              <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                            </svg>
+                          </div>
+
+                          <p className="mb-8 whitespace-normal text-base font-medium leading-relaxed text-[var(--color-text-secondary)] xl:text-lg">
+                            {testimonial.quote}
+                          </p>
                         </div>
 
-                        <p className="mb-10 whitespace-normal text-lg font-medium leading-relaxed text-[var(--color-text-secondary)]">
-                          {testimonial.quote}
-                        </p>
-                      </div>
+                        <div className="mt-auto flex items-center gap-4 border-t border-[var(--color-border-soft)] pt-5">
+                          <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-[var(--color-border-soft)] bg-[var(--color-bg-light)] shadow-inner">
+                            {operatorLogo ? (
+                              <img
+                                src={operatorLogo}
+                                alt={testimonial.company}
+                                className="h-full w-full object-cover"
+                                draggable={false}
+                              />
+                            ) : (
+                              <span className="text-lg font-bold font-sans text-[var(--color-brand)]">
+                                {testimonial.name.charAt(0)}
+                              </span>
+                            )}
+                          </div>
 
-                      <div className="mt-auto flex items-center gap-4 border-t border-[var(--color-border-soft)] pt-6">
-                        <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-[var(--color-border-soft)] bg-[var(--color-bg-light)] shadow-inner">
-                          {operatorLogo ? (
-                            <img
-                              src={operatorLogo}
-                              alt={testimonial.company}
-                              className="h-full w-full object-cover"
-                              draggable={false}
-                            />
-                          ) : (
-                            <span className="text-lg font-bold font-sans text-[var(--color-brand)]">
-                              {testimonial.name.charAt(0)}
+                          <div className="flex flex-col">
+                            <span className="text-base font-semibold tracking-tight text-[var(--color-text-primary)]">
+                              {testimonial.name}
                             </span>
-                          )}
+                            <span className="mt-1 font-mono text-xs uppercase tracking-wider text-[var(--color-brand-alt)]">
+                              {testimonial.role} @ {testimonial.company}
+                            </span>
+                          </div>
                         </div>
-
-                        <div className="flex flex-col">
-                          <span className="text-base font-semibold tracking-tight text-[var(--color-text-primary)]">
-                            {testimonial.name}
-                          </span>
-                          <span className="mt-1 font-mono text-xs uppercase tracking-wider text-[var(--color-brand-alt)]">
-                            {testimonial.role} @ {testimonial.company}
-                          </span>
-                        </div>
-                      </div>
-                    </article>
-                  );
-                })}
-              </div>
-            ))}
+                      </article>
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

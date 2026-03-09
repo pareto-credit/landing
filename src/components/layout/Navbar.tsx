@@ -53,6 +53,12 @@ const Navbar = () => {
           }`}
         >
           <button
+            onClick={() => handleSectionScroll("ecosystem")}
+            className={navLinkClass}
+          >
+            Ecosystem
+          </button>
+          <button
             onClick={() => handleSectionScroll("products")}
             className={navLinkClass}
           >
@@ -70,14 +76,6 @@ const Navbar = () => {
           >
             News
           </button>
-          <a
-            href="https://docs.pareto.credit/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={navLinkClass}
-          >
-            Docs
-          </a>
         </div>
 
         <div className="hidden items-center gap-4 md:flex">

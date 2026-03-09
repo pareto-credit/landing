@@ -105,25 +105,25 @@ const InfrastructureSection = () => {
   return (
     <section
       id="infrastructure"
-      className="relative z-10 overflow-hidden bg-[var(--color-bg-light-alt)] py-32 text-[var(--color-text-primary)]"
+      className="ui-section-fit relative z-10 overflow-hidden bg-[var(--color-bg-light-alt)] text-[var(--color-text-primary)]"
     >
-      <SectionContainer className="relative z-10">
+      <SectionContainer className="ui-section-shell relative z-10">
         <SectionHeading
           eyebrow="Modular Infrastructure"
           title="One protocol. Shared utility."
           description="Every participant leverages the same immutable core. Hover over your primary objective to see how Pareto's features orchestrate your strategy."
           size="4xl"
-          className="mx-auto mb-24 text-center"
+          className="mx-auto mb-14 text-center xl:mb-16"
         />
 
-        <div className="flex flex-col items-center gap-16 lg:flex-row lg:items-center lg:gap-8">
+        <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-10 xl:gap-12">
           <div className="w-full lg:w-1/3">
-            <h3 className="mb-6 border-b border-[var(--color-border-soft-strong)] pb-3 font-mono text-[10px] font-bold uppercase tracking-widest text-[var(--color-text-secondary)]">
+            <h3 className="mb-4 border-b border-[var(--color-border-soft-strong)] pb-2.5 font-mono text-[10px] font-bold uppercase tracking-widest text-[var(--color-text-secondary)] xl:mb-6">
               Primary Objectives
             </h3>
 
             <div
-              className="flex flex-col gap-4"
+              className="flex flex-col gap-3 xl:gap-4"
               onMouseLeave={() => setHoveredUseCase(null)}
             >
               {useCasesData.map((useCase) => {
@@ -157,7 +157,7 @@ const InfrastructureSection = () => {
                       }`}
                     />
                     <h4
-                      className={`text-xl font-bold tracking-tight transition-colors ${
+                      className={`text-lg font-bold tracking-tight transition-colors xl:text-xl ${
                         isActive
                           ? "text-[var(--color-text-primary)]"
                           : "text-[var(--color-text-secondary)]"
@@ -175,7 +175,7 @@ const InfrastructureSection = () => {
           </div>
 
           <div className="flex w-full items-center justify-center lg:w-2/3">
-            <div className="relative aspect-square w-full max-w-[600px]">
+            <div className="relative aspect-square w-full max-w-[500px] xl:max-w-[560px]">
               <svg
                 className="pointer-events-none absolute inset-0 h-full w-full"
                 style={{ zIndex: 0 }}

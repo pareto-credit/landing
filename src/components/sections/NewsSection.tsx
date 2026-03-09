@@ -20,11 +20,11 @@ const NewsSection = () => {
   return (
     <section
       id="news"
-      className="relative bg-[var(--color-bg-light-alt)] py-24 text-[var(--color-text-primary)]"
+      className="ui-section-fit relative bg-[var(--color-bg-light-alt)] text-[var(--color-text-primary)]"
     >
       <div className="pointer-events-none absolute right-0 top-0 h-[420px] w-[420px] rounded-full blur-[120px]" />
-      <SectionContainer>
-        <div className="mb-12 flex flex-col items-end justify-between gap-6 md:flex-row">
+      <SectionContainer className="ui-section-shell">
+        <div className="mb-8 flex flex-col items-end justify-between gap-4 md:flex-row xl:mb-10">
           <SectionHeading
             eyebrow="News"
             title="Market Intelligence & Updates."
@@ -44,7 +44,7 @@ const NewsSection = () => {
           </ButtonLink>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-5 md:grid-cols-3 xl:gap-6">
           {isLoading
             ? Array.from({ length: NEWS_SKELETON_COUNT }).map((_, index) => (
                 <div
@@ -52,7 +52,7 @@ const NewsSection = () => {
                   role="status"
                   className="animate-pulse"
                 >
-                  <div className="mb-6 h-48 w-full rounded border border-[var(--color-border-soft)] bg-[var(--color-surface-muted)]" />
+                  <div className="mb-5 h-40 w-full rounded border border-[var(--color-border-soft)] bg-[var(--color-surface-muted)] xl:h-44" />
                   <div className="mb-3 flex items-center justify-between gap-3">
                     <div className="h-3 w-24 rounded-full bg-[var(--color-surface-muted)]" />
                     <div className="h-5 w-20 rounded bg-[var(--color-surface-muted)]" />
@@ -74,7 +74,7 @@ const NewsSection = () => {
                   rel="noopener noreferrer"
                   className="group block cursor-pointer"
                 >
-                  <div className="relative mb-6 h-48 w-full overflow-hidden rounded border border-[var(--color-border-soft)] bg-[var(--color-surface-muted)] transition-colors group-hover:border-[color:rgb(112_177_158_/_0.50)]">
+                  <div className="relative mb-5 h-40 w-full overflow-hidden rounded border border-[var(--color-border-soft)] bg-[var(--color-surface-muted)] transition-colors group-hover:border-[color:rgb(112_177_158_/_0.50)] xl:h-44">
                     <img
                       src={article.image || newsPlaceholder}
                       alt={article.title}
@@ -93,7 +93,7 @@ const NewsSection = () => {
                       {article.tag}
                     </span>
                   </div>
-                  <h4 className="mb-3 text-lg font-bold text-[var(--color-text-primary)] transition-colors group-hover:text-[var(--color-brand-alt)]">
+                  <h4 className="mb-3 text-base font-bold text-[var(--color-text-primary)] transition-colors group-hover:text-[var(--color-brand-alt)] xl:text-lg">
                     {article.title}
                   </h4>
                   <div className="flex items-center gap-2 font-mono text-sm text-[var(--color-text-secondary)]">

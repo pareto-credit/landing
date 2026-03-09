@@ -9,7 +9,7 @@ interface VisualFrameProps {
 export const VisualFrame = ({ children, className }: VisualFrameProps) => (
   <div
     className={cn(
-      "ui-radius-card relative flex h-[450px] items-center justify-center overflow-hidden border border-[var(--color-border-inverse-subtle)] bg-[var(--color-bg-panel-dark)] shadow-2xl md:h-[550px]",
+      "ui-radius-card relative flex h-[390px] items-center justify-center overflow-hidden border border-[var(--color-border-inverse-subtle)] bg-[var(--color-bg-panel-dark)] shadow-2xl md:h-[460px] xl:h-[500px]",
       className,
     )}
   >

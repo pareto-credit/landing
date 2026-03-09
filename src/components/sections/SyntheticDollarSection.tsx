@@ -118,10 +118,10 @@ const SyntheticDollarSection = ({
   return (
     <section
       id="synthetic-dollar"
-      className="relative overflow-hidden border-b border-[var(--color-border-soft)] bg-[var(--color-bg-light-alt)] py-24 text-[var(--color-text-primary)]"
+      className="ui-section-fit relative overflow-hidden border-b border-[var(--color-border-soft)] bg-[var(--color-bg-light-alt)] text-[var(--color-text-primary)]"
     >
-      <SectionContainer className="relative z-10">
-        <div className="mb-16 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+      <SectionContainer className="ui-section-shell relative z-10">
+        <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between xl:mb-12">
           <div className="max-w-2xl">
             <div className="mb-3 font-mono text-xs font-semibold uppercase tracking-widest text-[var(--color-brand-alt)]">
               Synthetic Assets
@@ -200,7 +200,7 @@ const SyntheticDollarSection = ({
               <div className="pointer-events-none absolute right-0 top-0 h-64 w-64 rounded-full bg-[radial-gradient(circle_at_top_right,rgb(113_178_159_/_0.16),transparent_62%)] blur-3xl" />
 
               <div className="relative z-10">
-                <h3 className="max-w-xl text-3xl font-bold leading-[1.15] tracking-tight text-[var(--color-text-primary)] md:text-4xl">
+                <h3 className="max-w-xl text-[1.9rem] font-bold leading-[1.15] tracking-tight text-[var(--color-text-primary)] md:text-[2.3rem]">
                   {content.title}
                 </h3>
                 <p className="mt-4 max-w-xl text-base leading-relaxed text-[color:rgb(41_59_51_/_0.90)]">
@@ -209,7 +209,7 @@ const SyntheticDollarSection = ({
               </div>
 
               <div
-                className="relative z-10 mt-10 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[var(--color-border-soft)] bg-[var(--color-border-soft)] sm:grid-cols-3"
+                className="relative z-10 mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[var(--color-border-soft)] bg-[var(--color-border-soft)] sm:grid-cols-3 xl:mt-10"
                 aria-busy={isLoading}
               >
                 {stats.map((stat) => (
@@ -229,7 +229,7 @@ const SyntheticDollarSection = ({
                 ))}
               </div>
 
-              <div className="relative z-10 mt-10 flex flex-wrap gap-4">
+              <div className="relative z-10 mt-8 flex flex-wrap gap-4 xl:mt-10">
                 <ButtonLink
                   href={OPEN_IN_APP_URL}
                   target="_blank"
@@ -254,11 +254,11 @@ const SyntheticDollarSection = ({
               </div>
             </div>
 
-            <div className="flex flex-col gap-4 lg:col-span-6 lg:gap-5">
+            <div className="flex flex-col gap-3 lg:col-span-6 lg:gap-4">
               {content.features.map((feature) => (
                 <article
                   key={feature.name}
-                  className="group flex items-start gap-5 rounded-2xl border border-transparent p-5 transition-all duration-300 hover:border-[var(--color-border-soft)] hover:bg-[color:rgb(255_255_255_/_0.55)] lg:p-6"
+                  className="group flex items-start gap-4 rounded-2xl border border-transparent p-4 transition-all duration-300 hover:border-[var(--color-border-soft)] hover:bg-[color:rgb(255_255_255_/_0.55)] lg:p-5"
                 >
                   <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[var(--color-border-soft)] bg-[var(--color-surface)] shadow-sm transition-all duration-300 group-hover:border-[color:rgb(113_178_159_/_0.30)] group-hover:shadow-[0_0_15px_rgba(113,178,159,0.15)] lg:h-14 lg:w-14">
                     <feature.icon

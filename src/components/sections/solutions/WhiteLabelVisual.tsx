@@ -1,12 +1,24 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { ShieldCheck } from 'lucide-react'
 import { wlFeatures } from '../../../data/solutions'
-import paretoMarkWhite from '../../../assets/svgs/pareto-mark-white.svg'
 import { VisualFrame } from './VisualFrame'
 
 interface WhiteLabelVisualProps {
   activeIndex: number
 }
+
+const WhiteLabelBrandMark = ({ className }: { className?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+    className={className}
+    fill="none"
+  >
+    <rect x="3" y="3" width="8" height="18" rx="3" fill="var(--color-brand-alt)" />
+    <rect x="13" y="3" width="8" height="8" rx="3" fill="var(--color-accent-blue)" />
+    <rect x="13" y="13" width="8" height="8" rx="3" fill="white" fillOpacity="0.92" />
+  </svg>
+)
 
 const WhiteLabelVisual = ({ activeIndex }: WhiteLabelVisualProps) => {
   const activeFeature = wlFeatures[Math.min(activeIndex, wlFeatures.length - 1)] ?? wlFeatures[0]
@@ -60,11 +72,7 @@ const WhiteLabelVisual = ({ activeIndex }: WhiteLabelVisualProps) => {
                       transition={{ duration: 5.6, repeat: Infinity, ease: 'easeInOut' }}
                       className="flex h-9 w-22 items-center justify-center rounded-xl border border-dashed"
                     >
-                      <img
-                        src={paretoMarkWhite}
-                        alt="Brand logo"
-                        className="h-5 w-5 object-contain opacity-85"
-                      />
+                      <WhiteLabelBrandMark className="h-5 w-5 opacity-90" />
                     </motion.div>
                     <div className="h-7 w-14 rounded-full bg-[var(--color-overlay-surface-05)]" />
                   </div>
@@ -131,11 +139,7 @@ const WhiteLabelVisual = ({ activeIndex }: WhiteLabelVisualProps) => {
                   className="absolute left-2 top-10 z-20 flex h-12 w-[92px] items-center gap-2 rounded-2xl border border-[var(--color-overlay-inverse-30)] bg-[color:rgb(18_38_30_/_0.92)] px-3 shadow-[0_18px_36px_rgba(0,0,0,0.35)]"
                 >
                   <span className="flex h-7 w-7 items-center justify-center rounded-xl bg-[var(--color-overlay-surface-10)]">
-                    <img
-                      src={paretoMarkWhite}
-                      alt="Brand logo"
-                      className="h-4 w-4 object-contain opacity-90"
-                    />
+                    <WhiteLabelBrandMark className="h-4 w-4" />
                   </span>
                   <span className="font-mono text-[9px] uppercase tracking-widest text-[var(--color-text-inverse)]">
                     Logo
@@ -145,7 +149,7 @@ const WhiteLabelVisual = ({ activeIndex }: WhiteLabelVisualProps) => {
                 <motion.div
                   animate={{
                     x: [0, 156, 156, 0],
-                    y: [0, 58, 58, 0],
+                    y: [0, -18, -18, 0],
                     rotate: [-4, 0, 0, -4],
                     scale: [1, 1.02, 1, 1],
                   }}
