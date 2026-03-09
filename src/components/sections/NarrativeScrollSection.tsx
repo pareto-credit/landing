@@ -7,7 +7,7 @@ import {
 } from "framer-motion";
 import serverRoomVideo from "../../assets/videos/server-room.mp4";
 import tradingDeskVideo from "../../assets/videos/trading-desk.mp4";
-import financialDocumentsVideo from "../../assets/videos/financial-documents.mp4";
+import financialDocumentsVideo from "../../assets/videos/financial-docs.mp4";
 import hyperCityVideo from "../../assets/videos/hyper-city.mp4";
 import paretoMarkGlass from "../../assets/svgs/pareto-mark-glass.svg";
 
@@ -287,8 +287,8 @@ const NarrativeScrollSection = () => {
               className="absolute top-1/2 left-8 right-8 -translate-y-1/2 lg:left-24 lg:right-16"
             >
               <div className="mb-6 flex items-center gap-3 font-mono text-xs tracking-widest text-[var(--color-brand-alt)] uppercase">
-                <span className="h-px w-8 bg-[color:rgb(112_177_158_/_0.50)]"></span> 01. The
-                Legacy
+                <span className="h-px w-8 bg-[color:rgb(112_177_158_/_0.50)]"></span>{" "}
+                01. The Legacy
               </div>
               <h2 className="mb-6 text-4xl leading-[1.1] font-medium tracking-tight text-[var(--color-text-inverse)] md:text-5xl">
                 Credit markets operate on infrastructure built in the 1970s.
@@ -304,8 +304,8 @@ const NarrativeScrollSection = () => {
               className="absolute top-1/2 left-8 right-8 -translate-y-1/2 lg:left-24 lg:right-16"
             >
               <div className="mb-6 flex items-center gap-3 font-mono text-xs tracking-widest text-[var(--color-brand-alt)] uppercase">
-                <span className="h-px w-8 bg-[color:rgb(112_177_158_/_0.50)]"></span> 02. The
-                Patchwork
+                <span className="h-px w-8 bg-[color:rgb(112_177_158_/_0.50)]"></span>{" "}
+                02. The Patchwork
               </div>
               <h2 className="mb-6 text-4xl leading-[1.1] font-medium tracking-tight text-[var(--color-text-inverse)] md:text-5xl">
                 Decades of technology layered on outdated systems.
@@ -322,8 +322,8 @@ const NarrativeScrollSection = () => {
               className="absolute top-1/2 left-8 right-8 -translate-y-1/2 lg:left-24 lg:right-16"
             >
               <div className="mb-6 flex items-center gap-3 font-mono text-xs tracking-widest text-[var(--color-brand-alt)] uppercase">
-                <span className="h-px w-8 bg-[color:rgb(112_177_158_/_0.50)]"></span> 03. The
-                Friction
+                <span className="h-px w-8 bg-[color:rgb(112_177_158_/_0.50)]"></span>{" "}
+                03. The Friction
               </div>
               <h2 className="mb-6 text-4xl leading-[1.1] font-medium tracking-tight text-[var(--color-text-inverse)] md:text-5xl">
                 Inefficiency, opacity, and unnecessary risk.
@@ -350,7 +350,7 @@ const NarrativeScrollSection = () => {
             muted
             playsInline
             preload="auto"
-            className="absolute inset-0 h-full w-full object-cover filter brightness-[0.58] contrast-110"
+            className="absolute inset-0 h-full w-full scale-[1.08] object-cover object-center brightness-[0.58] contrast-110"
           />
 
           <div className="absolute inset-0 bg-gradient-to-t from-[color:rgb(5_11_8_/_0.45)] via-[color:rgb(5_11_8_/_0.08)] to-transparent"></div>
