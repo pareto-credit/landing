@@ -13,7 +13,7 @@ const ContactSection = () => {
       <SectionContainer size="3xl" className="relative z-10">
         <SectionHeading
           eyebrow="Contact"
-          title="Build on better credit infrastructure."
+          title="Build on better credit infrastructure"
           className="mb-16 text-center"
           titleClassName="mb-6 text-[var(--color-text-primary)]"
           descriptionClassName="mx-auto max-w-2xl text-base text-[var(--color-text-secondary)]"

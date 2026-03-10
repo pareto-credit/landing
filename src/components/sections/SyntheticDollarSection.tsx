@@ -18,7 +18,7 @@ import type {
   SyntheticToken,
 } from "../../types/syntheticDollar";
 import { ButtonLink } from "../ui/Button";
-import { SectionContainer } from "../ui/Section";
+import { SectionContainer, SectionHeading } from "../ui/Section";
 
 interface SyntheticFeature {
   name: string;
@@ -122,14 +122,12 @@ const SyntheticDollarSection = ({
     >
       <SectionContainer className="ui-section-shell relative z-10">
         <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between xl:mb-12">
-          <div className="max-w-2xl">
-            <div className="mb-3 font-mono text-xs font-semibold uppercase tracking-widest text-[var(--color-brand-alt)]">
-              Synthetic Assets
-            </div>
-            <h2 className="text-4xl font-bold tracking-tight text-[var(--color-text-primary)] md:text-5xl">
-              Building blocks of the new era.
-            </h2>
-          </div>
+          <SectionHeading
+            eyebrow="Synthetic Assets"
+            title="Building blocks of the new era"
+            size="2xl"
+            className="max-w-2xl"
+          />
 
           <div
             aria-label="Synthetic dollar token selector"

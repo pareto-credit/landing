@@ -110,7 +110,7 @@ const InfrastructureSection = () => {
       <SectionContainer className="ui-section-shell relative z-10">
         <SectionHeading
           eyebrow="Core Platform"
-          title="A unified technology layer for modern credit markets."
+          title="A unified technology layer for modern credit markets"
           description="From facility setup to allocation, servicing, redemptions, and reporting, Pareto gives every participant a common infrastructure layer for onchain credit."
           size="4xl"
           className="mx-auto mb-14 text-center xl:mb-10"

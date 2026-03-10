@@ -177,7 +177,7 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
         <SectionContainer className="mb-10 flex flex-col items-end justify-between gap-4 md:flex-row xl:mb-12">
           <SectionHeading
             eyebrow="Live Vaults"
-            title="Tokenized credit, built for scale."
+            title="Tokenized credit, built for scale"
             description="A modern fixed-income stack with the oversight, compliance, and reliability institutions expect."
             className="max-w-3xl"
           />
