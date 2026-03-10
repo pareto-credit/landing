@@ -62,7 +62,7 @@ const Navbar = () => {
             onClick={() => handleSectionScroll("products")}
             className={navLinkClass}
           >
-            Products
+            Product
           </button>
           <button
             onClick={() => handleSectionScroll("solutions")}
@@ -144,7 +144,7 @@ const Navbar = () => {
               size="md"
               className="mt-4 w-full text-center"
             >
-              Enter App
+              Enter app
             </ButtonLink>
           </motion.div>
         )}

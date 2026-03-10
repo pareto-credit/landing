@@ -28,7 +28,7 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
 
       <SectionContainer className="relative z-10 flex min-h-screen flex-col items-center justify-center pb-32 pt-28 text-center lg:pb-36 lg:pt-32">
         <div className="flex max-w-3xl flex-col items-center">
-          <motion.div
+          {/* <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -36,7 +36,7 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
           >
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--color-brand)] shadow-[0_0_8px_var(--color-brand)]" />
             Onchain credit solutions
-          </motion.div>
+          </motion.div> */}
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -59,7 +59,7 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
             className="ui-copy-muted mx-auto mb-10 max-w-2xl text-lg font-medium leading-relaxed md:text-xl"
             style={{ textShadow: "0 2px 10px rgba(232, 235, 230, 0.8)" }}
           >
-            Programmable institutional credit. Enterprise-grade compliance.
+            Transparent credit infrastructure. Enterprise-grade compliance.
             <br />
             Built for the way capital flows today.
           </motion.p>
@@ -98,7 +98,7 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
         <div className="mx-auto flex w-full max-w-3xl flex-wrap items-center justify-center gap-8 pb-8 pt-8 lg:pb-10">
           <div>
             <div className="ui-copy-muted mb-1 font-mono text-xs uppercase tracking-widest">
-              Outstanding Loans
+              Active Loans
             </div>
             <AirportBoardNumber
               value={CURRENCY_FORMATTER.format(metrics.outstandingLoans)}
@@ -109,7 +109,7 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
           <div className="hidden h-12 w-px bg-[var(--color-border-soft)] md:block" />
           <div>
             <div className="ui-copy-muted mb-1 font-mono text-xs uppercase tracking-widest">
-              Credit Extended
+              Credit serviced
             </div>
             <AirportBoardNumber
               value={CURRENCY_FORMATTER.format(metrics.creditExtended)}

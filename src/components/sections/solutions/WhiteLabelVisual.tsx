@@ -24,7 +24,7 @@ const WhiteLabelVisual = ({ activeIndex }: WhiteLabelVisualProps) => {
   const activeFeature = wlFeatures[Math.min(activeIndex, wlFeatures.length - 1)] ?? wlFeatures[0]
 
   return (
-    <VisualFrame>
+    <VisualFrame className="h-[420px] md:h-[490px] xl:h-[530px]">
       <AnimatePresence mode="popLayout">
         <motion.div
           key={`wl-container-${activeIndex}`}

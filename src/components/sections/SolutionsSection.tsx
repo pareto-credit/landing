@@ -25,11 +25,13 @@ const SolutionsSection = () => {
         <div className="flex flex-col">
           <div className="flex flex-col justify-center py-10 md:py-14 lg:min-h-[100svh] lg:py-16 xl:py-20">
             <SectionHeading
-              eyebrow="Solutions"
-              title="Launch your own credit facility in minutes"
+              eyebrow="Embedded Credit"
+              title="Built for Embedded Credit"
+              description="Pareto enables fintechs, prime brokers, and institutions to deploy fully white-labeled credit infrastructure."
               size="4xl"
               className="mx-auto mb-14 text-center lg:mb-16 xl:mb-20"
               titleClassName="leading-tight text-[var(--color-text-inverse)] md:text-5xl lg:text-[3.5rem]"
+              descriptionClassName="mx-auto max-w-3xl text-[var(--color-text-muted)]"
             />
 
             <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14 xl:gap-16">
@@ -63,6 +65,7 @@ const SolutionsSection = () => {
                 </div>
               </div>
             </div>
+
           </div>
 
           <div className="flex flex-col justify-center py-10 md:py-14 lg:min-h-[100svh] lg:py-16 xl:py-20">
@@ -73,8 +76,7 @@ const SolutionsSection = () => {
                     Pareto White Label
                   </h3>
                   <p className="mb-6 max-w-xl text-base leading-relaxed text-[var(--color-text-muted)] xl:mb-7 xl:text-lg">
-                    Pareto enables fintechs, prime brokers, and institutions to deploy
-                    fully white-labeled credit infrastructure.
+                    Deploy branded credit infrastructure with the compliance, liquidity, reporting, and uptime guarantees institutional products require.
                   </p>
                   <FeatureList
                     features={wlFeatures}

@@ -13,11 +13,11 @@ const ContactSection = () => {
       <SectionContainer size="3xl" className="relative z-10">
         <SectionHeading
           eyebrow="Contact"
-          title="Request institutional access."
+          title="Build on better credit infrastructure."
           className="mb-16 text-center"
           titleClassName="mb-6 text-[var(--color-text-primary)]"
           descriptionClassName="mx-auto max-w-2xl text-base text-[var(--color-text-secondary)]"
-          description="Share your use case and team profile. We will follow up with onboarding steps and commercial details."
+          description="Whether you're launching a facility, allocating capital, or embedding credit infrastructure, we'll help you assess the right setup."
         />
 
         <div className="ui-radius-panel border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-8 shadow-[0_20px_42px_rgb(14_24_19_/_0.08)] md:p-10">

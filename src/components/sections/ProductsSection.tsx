@@ -176,9 +176,9 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
       <div className="relative z-10 w-full ui-section-shell">
         <SectionContainer className="mb-10 flex flex-col items-end justify-between gap-4 md:flex-row xl:mb-12">
           <SectionHeading
-            eyebrow="Live Markets"
-            title="Transparent risk. Verifiable yield."
-            description="Explore our active institutional lending markets. Data is pulled directly from onchain states in real-time."
+            eyebrow="Live Vaults"
+            title="Tokenized credit, built for scale."
+            description="A modern fixed-income stack with the oversight, compliance, and reliability institutions expect."
             className="max-w-3xl"
           />
 

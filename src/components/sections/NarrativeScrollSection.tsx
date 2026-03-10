@@ -291,12 +291,13 @@ const NarrativeScrollSection = () => {
                 01. The Legacy
               </div>
               <h2 className="mb-6 text-4xl leading-[1.1] font-medium tracking-tight text-[var(--color-text-inverse)] md:text-5xl">
-                Credit markets operate on infrastructure built in the 1970s.
+                Private credit still runs on outdated infrastructure, stacked up
+                over the past 50 years.
               </h2>
-              <p className="max-w-md text-lg leading-relaxed text-[var(--color-text-inverse)]/85">
+              {/* <p className="max-w-md text-lg leading-relaxed text-[var(--color-text-inverse)]/85">
                 Archaic databases and fragmented ledgers were never designed for
                 the velocity and scale required by modern global capital.
-              </p>
+              </p> */}
             </motion.div>
 
             <motion.div
@@ -308,13 +309,14 @@ const NarrativeScrollSection = () => {
                 02. The Patchwork
               </div>
               <h2 className="mb-6 text-4xl leading-[1.1] font-medium tracking-tight text-[var(--color-text-inverse)] md:text-5xl">
-                Decades of technology layered on outdated systems.
+                Private credit markets have scaled over the years. Their
+                technology has not.
               </h2>
-              <p className="max-w-md text-lg leading-relaxed text-[var(--color-text-inverse)]/85">
+              {/* <p className="max-w-md text-lg leading-relaxed text-[var(--color-text-inverse)]/85">
                 Instead of rebuilding from the ground up, the industry has
                 stacked intermediary protocols on top of fragile core banking
                 frameworks.
-              </p>
+              </p> */}
             </motion.div>
 
             <motion.div
@@ -326,13 +328,13 @@ const NarrativeScrollSection = () => {
                 03. The Friction
               </div>
               <h2 className="mb-6 text-4xl leading-[1.1] font-medium tracking-tight text-[var(--color-text-inverse)] md:text-5xl">
-                Inefficiency, opacity, and unnecessary risk.
+                The result is a fragile system carrying unnecessary risk.
               </h2>
-              <p className="max-w-md text-lg leading-relaxed text-[var(--color-text-inverse)]/85">
+              {/* <p className="max-w-md text-lg leading-relaxed text-[var(--color-text-inverse)]/85">
                 The result is a fragile ecosystem plagued by T+2 settlement
                 delays, hidden counterparty risks, and excessive capital
                 overhead.
-              </p>
+              </p> */}
             </motion.div>
           </div>
         </motion.div>
@@ -365,10 +367,10 @@ const NarrativeScrollSection = () => {
               className="h-40 w-40 mx-auto mb-8 h-20 w-20 items-center justify-center"
             />
             <h2 className="text-5xl leading-none font-semibold tracking-tighter text-[var(--color-text-inverse)] drop-shadow-2xl md:text-7xl lg:text-8xl">
-              This is where Pareto
+              We are here to
               <br />
               <span className="bg-gradient-to-b from-[var(--color-text-inverse)] to-[var(--color-brand-alt)] bg-clip-text text-transparent">
-                comes in.
+                set a new standard
               </span>
             </h2>
           </motion.div>

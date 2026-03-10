@@ -17,45 +17,45 @@ interface EcosystemSegment {
 
 const ecosystemSegments: EcosystemSegment[] = [
   {
-    title: "Prime Brokers<br />& Funds",
+    title: "Institutional Funds<br />& Asset Managers",
     icon: Building2,
     image: brokersImage,
     imageAlt: "Skyscrapers viewed from below through heavy fog.",
     imageClassName: "object-center brightness-[0.8] saturate-[0.82]",
     desc: "Secure, isolated environments for large-scale capital deployment and origination.",
     services: [
-      "Smart Contract Escrow",
-      "KYC/AML Enclaves",
-      "Portfolio Reporting",
-      "Risk Isolation Models",
+      "Smart contract escrow",
+      "KYC/AML engines",
+      "Portfolio reporting",
+      "Risk isolation models",
     ],
   },
   {
-    title: "Market Makers<br />& Trading",
+    title: "Prime Brokers<br />& Market Makers",
     icon: Activity,
     image: marketMakersImage,
     imageAlt: "Glass trading tower rising into a foggy sky.",
     imageClassName: "object-[60%_22%] brightness-[0.8] saturate-[0.82]",
-    desc: "High-velocity infrastructure designed for programmatic execution and liquidity.",
+    desc: "High-velocity infrastructure designed for programmable execution and liquidity.",
     services: [
-      "Onchain Settlement",
-      "Real-time Margin",
-      "Automated Liquidations",
+      "Onchain settlement",
+      "Customizable facilities",
+      "Automated liquidations",
       "WebSocket APIs",
     ],
   },
   {
-    title: "Fintechs<br />& Platforms",
+    title: "Neobanks<br />& Fintechs",
     icon: Network,
     image: fintechImage,
     imageAlt: "Lit office tower at night seen from above street level.",
     imageClassName: "object-[52%_40%] brightness-[1.05] saturate-[0.94]",
     desc: "Modular building blocks to launch proprietary, branded credit products.",
     services: [
-      "White-label UX",
-      "Modular Credit Vaults",
-      "Compliance Orchestration",
-      "Fiat On/Off Ramps",
+      "White-label UI",
+      "Modular credit vaults",
+      "Compliance orchestration",
+      "Fiat on/off ramps",
     ],
   },
 ];
@@ -77,8 +77,8 @@ const EcosystemSection = () => {
       <SectionContainer className="ui-section-shell relative z-10">
         <SectionHeading
           eyebrow="Ecosystem"
-          title="Engineered for institutional scale."
-          description="Tailored infrastructure and dedicated services powering the next generation of capital allocators, trading desks, and digital venues."
+          title="Engineered for global scale"
+          description="The modern credit infrastructure the market deserves — rebuilt for a transparent, programmable era."
           className="mx-auto mb-12 text-center xl:mb-14"
           size="3xl"
         />

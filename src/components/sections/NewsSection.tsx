@@ -26,8 +26,8 @@ const NewsSection = () => {
       <SectionContainer className="ui-section-shell">
         <div className="mb-8 flex flex-col items-end justify-between gap-4 md:flex-row xl:mb-10">
           <SectionHeading
-            eyebrow="News"
-            title="Market Intelligence & Updates."
+            eyebrow="Insights"
+            title="Research, market structure, and onchain credit."
             size="2xl"
             titleClassName="text-4xl text-[var(--color-text-primary)] md:text-4xl"
             descriptionClassName="text-[var(--color-text-secondary)]"

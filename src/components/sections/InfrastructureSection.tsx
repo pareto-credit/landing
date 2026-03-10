@@ -12,7 +12,7 @@ import { useState } from "react";
 import paretoMark from "../../assets/svgs/pareto-mark-circle.svg";
 import { SectionContainer, SectionHeading } from "../ui/Section";
 
-type UseCaseId = "yield" | "borrow" | "manage";
+type UseCaseId = "launch" | "allocate" | "operate";
 
 interface UseCase {
   id: UseCaseId;
@@ -31,38 +31,38 @@ interface EcosystemNode {
 
 const useCasesData: UseCase[] = [
   {
-    id: "yield",
-    title: "Earn yield on capital",
-    desc: "Deploy liquidity into curated pools for automated, risk-adjusted returns.",
+    id: "launch",
+    title: "Launch credit facilities",
+    desc: "Configure bespoke structures, vault wrappers, servicing flows, and lender-specific terms before capital is deployed.",
   },
   {
-    id: "borrow",
-    title: "Borrow against collateral",
-    desc: "Unlock instant liquidity with predictable, transparent margin mechanics.",
+    id: "allocate",
+    title: "Allocate with clearer terms",
+    desc: "Access curated deal flow with transparent risk structures, security profiles, and ongoing reporting.",
   },
   {
-    id: "manage",
-    title: "Manage investment cycles",
-    desc: "Structure parameters, orchestrate flows, and monitor vault health.",
+    id: "operate",
+    title: "Operate and oversee facilities",
+    desc: "Monitor, service, and manage capital flows across vaults, borrower cohorts, servicing, and covenant events.",
   },
 ];
 
 const ecosystemNodesData: EcosystemNode[] = [
   {
     id: "api",
-    label: "API & WebSocket Sync",
+    label: "API Sync",
     icon: Code,
     x: 50,
     y: 12,
-    cases: ["yield", "borrow", "manage"],
+    cases: ["launch", "allocate", "operate"],
   },
   {
     id: "margin",
-    label: "Real-time Margin",
+    label: "Monitoring & Reporting",
     icon: Activity,
     x: 85,
     y: 32,
-    cases: ["borrow", "manage"],
+    cases: ["allocate", "operate"],
   },
   {
     id: "settle",
@@ -70,31 +70,31 @@ const ecosystemNodesData: EcosystemNode[] = [
     icon: Zap,
     x: 85,
     y: 68,
-    cases: ["yield", "borrow", "manage"],
+    cases: ["launch", "allocate", "operate"],
   },
   {
     id: "params",
-    label: "Custom Parameters",
+    label: "Servicing Flows",
     icon: Sliders,
     x: 50,
     y: 88,
-    cases: ["manage"],
+    cases: ["operate"],
   },
   {
     id: "kyc",
-    label: "KYC/AML Enclaves",
+    label: "Compliance Controls",
     icon: ShieldCheck,
     x: 15,
     y: 68,
-    cases: ["yield", "borrow", "manage"],
+    cases: ["launch", "allocate", "operate"],
   },
   {
     id: "tranches",
-    label: "Risk Tranches",
+    label: "Facility Terms",
     icon: Layers,
     x: 15,
     y: 32,
-    cases: ["yield", "manage"],
+    cases: ["launch", "allocate"],
   },
 ];
 
@@ -109,17 +109,17 @@ const InfrastructureSection = () => {
     >
       <SectionContainer className="ui-section-shell relative z-10">
         <SectionHeading
-          eyebrow="Modular Infrastructure"
-          title="One protocol. Shared utility."
-          description="Every participant leverages the same immutable core. Hover over your primary objective to see how Pareto's features orchestrate your strategy."
+          eyebrow="Core Platform"
+          title="A unified technology layer for modern credit markets."
+          description="From facility setup to allocation, servicing, redemptions, and reporting, Pareto gives every participant a common infrastructure layer for onchain credit."
           size="4xl"
-          className="mx-auto mb-14 text-center xl:mb-16"
+          className="mx-auto mb-14 text-center xl:mb-10"
         />
 
         <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-10 xl:gap-12">
           <div className="w-full lg:w-1/3">
             <h3 className="mb-4 border-b border-[var(--color-border-soft-strong)] pb-2.5 font-mono text-[10px] font-bold uppercase tracking-widest text-[var(--color-text-secondary)] xl:mb-6">
-              Primary Objectives
+              Core Workflows
             </h3>
 
             <div

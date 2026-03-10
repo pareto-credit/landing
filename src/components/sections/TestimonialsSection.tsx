@@ -130,8 +130,8 @@ const TestimonialsSection = () => {
       <div className="relative z-10 w-full ui-section-shell">
         <SectionContainer className="mb-6 text-center xl:mb-8">
           <SectionHeading
-            eyebrow="Trusted By Leaders"
-            title="What our partners say."
+            eyebrow="Testimonials"
+            title="Built around what the market wants, not just for it."
             className="mx-auto text-center"
             titleClassName="text-[var(--color-text-primary)]"
             eyebrowClassName="text-[var(--color-brand-alt)]"

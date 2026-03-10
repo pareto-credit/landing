@@ -1,16 +1,16 @@
-import { AnimatePresence, motion } from 'framer-motion'
-import { Activity, Lock, PieChart } from 'lucide-react'
-import { studioFeatures } from '../../../data/solutions'
-import paretoLogoLight from '../../../assets/svgs/pareto-logo-light.svg'
-import { VisualFrame } from './VisualFrame'
+import { AnimatePresence, motion } from "framer-motion";
+import { Activity, Lock, PieChart } from "lucide-react";
+import { studioFeatures } from "../../../data/solutions";
+import paretoLogoLight from "../../../assets/svgs/pareto-logo-light.svg";
+import { VisualFrame } from "./VisualFrame";
 
 interface StudioVisualProps {
-  activeIndex: number
+  activeIndex: number;
 }
 
 const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
   return (
-    <VisualFrame>
+    <VisualFrame className="h-[420px] md:h-[490px] xl:h-[530px]">
       <AnimatePresence mode="popLayout">
         <motion.div
           key={`st-container-${activeIndex}`}
@@ -32,7 +32,11 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
                   <div className="inline-flex items-center gap-2 rounded-full border border-[color:rgb(112_177_158_/_0.40)] bg-[color:rgb(112_177_158_/_0.12)] px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-[var(--color-brand-alt)]">
                     <motion.span
                       animate={{ opacity: [0.45, 1, 0.45] }}
-                      transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+                      transition={{
+                        duration: 1.8,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
                       className="h-1.5 w-1.5 rounded-full bg-[var(--color-brand-alt)]"
                     />
                     Studio
@@ -48,11 +52,17 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
                       {[42, 62, 51, 70, 58, 76, 66].map((height, idx) => (
                         <motion.div
                           key={`studio-bar-${idx}`}
-                          animate={{ height: [`${height}%`, `${height + 10}%`, `${height}%`] }}
+                          animate={{
+                            height: [
+                              `${height}%`,
+                              `${height + 10}%`,
+                              `${height}%`,
+                            ],
+                          }}
                           transition={{
                             duration: 2.2,
                             repeat: Infinity,
-                            ease: 'easeInOut',
+                            ease: "easeInOut",
                             delay: idx * 0.08,
                           }}
                           className="flex-1 rounded-t-sm bg-gradient-to-t from-[color:rgb(112_177_158_/_0.20)] to-[color:rgb(112_177_158_/_0.80)]"
@@ -66,22 +76,26 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
                       <div className="font-mono text-[9px] uppercase tracking-widest text-[var(--color-text-muted)]">
                         LTV cap
                       </div>
-                      <div className="mt-1 text-xl font-semibold text-[var(--color-text-inverse)]">65%</div>
+                      <div className="mt-1 text-xl font-semibold text-[var(--color-text-inverse)]">
+                        65%
+                      </div>
                     </div>
                     <div className="rounded-xl border border-[var(--color-border-inverse-soft)] bg-[color:rgb(255_255_255_/_0.02)] p-3">
                       <div className="font-mono text-[9px] uppercase tracking-widest text-[var(--color-text-muted)]">
                         Trigger
                       </div>
-                      <div className="mt-1 text-xl font-semibold text-[var(--color-text-inverse)]">2.4σ</div>
+                      <div className="mt-1 text-xl font-semibold text-[var(--color-text-inverse)]">
+                        2.4σ
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 <div className="mt-3 grid grid-cols-3 gap-3">
                   {[
-                    ['Collateral', 'USDC / USDT'],
-                    ['Rate model', 'Dynamic'],
-                    ['Status', 'Draft'],
+                    ["Collateral", "USDC / USDT"],
+                    ["Rate model", "Dynamic"],
+                    ["Status", "Draft"],
                   ].map(([label, value]) => (
                     <div
                       key={label}
@@ -101,7 +115,10 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
             {activeIndex === 1 && (
               <div className="relative flex items-center justify-center">
                 <Activity className="relative z-10 h-20 w-20 text-[var(--color-brand-alt)] drop-shadow-[0_0_15px_var(--color-brand-alt)]" />
-                <svg className="absolute h-64 w-64 animate-[spin_10s_linear_infinite] opacity-30" viewBox="0 0 100 100">
+                <svg
+                  className="absolute h-64 w-64 animate-[spin_10s_linear_infinite] opacity-30"
+                  viewBox="0 0 100 100"
+                >
                   <polygon
                     points="50,5 95,25 95,75 50,95 5,75 5,25"
                     fill="none"
@@ -114,9 +131,30 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
                     stroke="var(--color-brand-alt)"
                     strokeWidth="1"
                   />
-                  <line x1="50" y1="5" x2="50" y2="95" stroke="var(--color-brand-alt)" strokeWidth="0.5" />
-                  <line x1="5" y1="25" x2="95" y2="75" stroke="var(--color-brand-alt)" strokeWidth="0.5" />
-                  <line x1="5" y1="75" x2="95" y2="25" stroke="var(--color-brand-alt)" strokeWidth="0.5" />
+                  <line
+                    x1="50"
+                    y1="5"
+                    x2="50"
+                    y2="95"
+                    stroke="var(--color-brand-alt)"
+                    strokeWidth="0.5"
+                  />
+                  <line
+                    x1="5"
+                    y1="25"
+                    x2="95"
+                    y2="75"
+                    stroke="var(--color-brand-alt)"
+                    strokeWidth="0.5"
+                  />
+                  <line
+                    x1="5"
+                    y1="75"
+                    x2="95"
+                    y2="25"
+                    stroke="var(--color-brand-alt)"
+                    strokeWidth="0.5"
+                  />
                 </svg>
               </div>
             )}
@@ -125,7 +163,11 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
                 <motion.div
                   initial={{ rotate: 0 }}
                   animate={{ rotate: 360 }}
-                  transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                  transition={{
+                    duration: 20,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
                   className="absolute inset-[-16px] rounded-full border-[16px] border-transparent border-r-[var(--color-accent-blue)] border-t-[var(--color-brand-alt)] drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]"
                 />
                 <PieChart className="h-12 w-12 text-[var(--color-text-inverse)] opacity-50" />
@@ -136,12 +178,20 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
                 <Lock className="absolute z-10 h-16 w-16 text-[var(--color-brand-alt)]" />
                 <motion.div
                   animate={{ rotate: 360 }}
-                  transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
+                  transition={{
+                    duration: 15,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
                   className="h-40 w-40 rounded-full border-2 border-dashed border-[color:rgb(112_177_158_/_0.50)]"
                 />
                 <motion.div
                   animate={{ rotate: -360 }}
-                  transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
+                  transition={{
+                    duration: 10,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
                   className="absolute flex h-52 w-52 items-center justify-center rounded-full border border-[var(--color-overlay-inverse-20)]"
                 >
                   <div className="absolute -top-1.5 h-3 w-3 rounded-full bg-[var(--color-brand-alt)] shadow-[0_0_10px_var(--color-brand-alt)]" />
@@ -155,17 +205,33 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
                   <div className="h-3 w-3 rounded-full bg-[var(--color-accent-yellow-soft)]" />
                   <div className="h-3 w-3 rounded-full bg-[var(--color-accent-green-soft)]" />
                 </div>
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}>
-                  {'>'} Initializing Pareto API...
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  {">"} Initializing Pareto API...
                 </motion.div>
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>
-                  {'>'} Connecting to vault endpoints
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.4 }}
+                >
+                  {">"} Connecting to vault endpoints
                 </motion.div>
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }}>
-                  {'>'} Auth success (OAuth2)
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.7 }}
+                >
+                  {">"} Auth success (OAuth2)
                 </motion.div>
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.0 }}>
-                  {'>'} Fetching risk parameters
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1.0 }}
+                >
+                  {">"} Fetching risk parameters
                 </motion.div>
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -173,7 +239,7 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
                   transition={{ delay: 1.3 }}
                   className="mt-3 text-[var(--color-text-inverse)]"
                 >
-                  {'{'}
+                  {"{"}
                 </motion.div>
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -197,14 +263,16 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
                   transition={{ delay: 1.9 }}
                   className="text-[var(--color-text-inverse)]"
                 >
-                  {'}'}
+                  {"}"}
                 </motion.div>
               </div>
             )}
           </div>
 
           <div className="z-10 mt-auto bg-gradient-to-t from-[var(--color-bg-panel-dark)] via-[color:rgb(10_18_14_/_0.90)] to-transparent p-8 pt-12 text-center">
-            <h4 className="mb-2 text-xl font-bold text-[var(--color-text-inverse)]">{studioFeatures[activeIndex].name}</h4>
+            <h4 className="mb-2 text-xl font-bold text-[var(--color-text-inverse)]">
+              {studioFeatures[activeIndex].name}
+            </h4>
             <p className="mx-auto max-w-sm text-sm leading-relaxed text-[var(--color-text-muted)]">
               {studioFeatures[activeIndex].desc}
             </p>
@@ -212,7 +280,7 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
         </motion.div>
       </AnimatePresence>
     </VisualFrame>
-  )
-}
+  );
+};
 
-export default StudioVisual
+export default StudioVisual;
