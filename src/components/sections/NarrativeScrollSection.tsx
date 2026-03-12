@@ -11,6 +11,7 @@ import tradingDeskVideo from "../../assets/videos/trading-desk.mp4";
 import financialDocumentsVideo from "../../assets/videos/financial-docs.mp4";
 import hyperCityVideo from "../../assets/videos/hyper-city.mp4";
 import paretoMarkGlass from "../../assets/svgs/pareto-mark-glass.svg";
+import { cn } from "../../lib/cn";
 
 const NAVBAR_OFFSET_PX = 96;
 const WINDOW_TOP_PX = 64;
@@ -84,7 +85,19 @@ const sameVideoKeys = (
   next: NarrativeVideoKey[],
 ) => current.length === next.length && current.every((key, index) => key === next[index]);
 
+const shouldEnableFullNarrative = (): boolean => {
+  if (typeof window === "undefined") return false;
+
+  const value = new URLSearchParams(window.location.search).get(
+    "enableFullNarrative",
+  );
+  if (value === null) return false;
+
+  return !["0", "false", "no", "off"].includes(value.trim().toLowerCase());
+};
+
 const NarrativeScrollSection = () => {
+  const isFullNarrativeEnabled = useMemo(() => shouldEnableFullNarrative(), []);
   const containerRef = useRef<HTMLElement | null>(null);
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const videoRefs = useRef<Record<NarrativeVideoKey, HTMLVideoElement | null>>({
@@ -348,6 +361,25 @@ const NarrativeScrollSection = () => {
     windowRect.width,
   ]);
 
+  const narrativeTextRailClassName = isFullNarrativeEnabled
+    ? "relative flex h-full w-full flex-col items-center justify-center px-8 text-center lg:px-24"
+    : "relative flex h-full w-full flex-col justify-center px-8 pointer-events-auto lg:w-[55%] lg:pl-24 lg:pr-16";
+
+  const narrativeSlideClassName = isFullNarrativeEnabled
+    ? "absolute top-1/2 left-1/2 w-full max-w-4xl -translate-x-1/2 -translate-y-1/2"
+    : "absolute top-1/2 left-8 right-8 -translate-y-1/2 lg:left-24 lg:right-16";
+
+  const narrativeEyebrowClassName = cn(
+    "mb-6 flex items-center gap-3 font-mono text-xs tracking-widest text-[var(--color-brand-alt)] uppercase",
+    isFullNarrativeEnabled && "justify-center",
+  );
+
+  const narrativeHeadingClassName = cn(
+    "mb-6 text-4xl leading-[1.1] font-medium tracking-tight text-[var(--color-text-inverse)] md:text-5xl",
+    isFullNarrativeEnabled &&
+      "mx-auto max-w-4xl text-center drop-shadow-[0_12px_30px_rgba(0,0,0,0.45)]",
+  );
+
   return (
     <section
       ref={containerRef}
@@ -428,59 +460,63 @@ const NarrativeScrollSection = () => {
           </motion.div>
         </motion.div>
 
-        {/* Contrast layer to keep frosty perceived opacity stable on bright/dark frames */}
-        <motion.div
-          style={{ opacity: splitScreenOpacity }}
-          className="pointer-events-none absolute inset-0 z-[5] bg-[color:rgb(2_5_4_/_0.25)]"
-        ></motion.div>
+        {isFullNarrativeEnabled ? null : (
+          <>
+            {/* Contrast layer to keep frosty perceived opacity stable on bright/dark frames */}
+            <motion.div
+              style={{ opacity: splitScreenOpacity }}
+              className="pointer-events-none absolute inset-0 z-[5] bg-[color:rgb(2_5_4_/_0.25)]"
+            ></motion.div>
 
-        {/* Layer 2: Frosted glass mask */}
-        <motion.div className="pointer-events-none absolute inset-0 z-10">
-          {/* Mobile: frosty layer full width */}
-          <motion.div
-            style={{ backgroundColor: frostyTint, opacity: splitScreenOpacity }}
-            className="absolute inset-0 backdrop-blur-2xl backdrop-saturate-150 lg:hidden"
-          ></motion.div>
+            {/* Layer 2: Frosted glass mask */}
+            <motion.div className="pointer-events-none absolute inset-0 z-10">
+              {/* Mobile: frosty layer full width */}
+              <motion.div
+                style={{ backgroundColor: frostyTint, opacity: splitScreenOpacity }}
+                className="absolute inset-0 backdrop-blur-2xl backdrop-saturate-150 lg:hidden"
+              ></motion.div>
 
-          {/* Desktop: single frosty layer with rounded transparent cutout */}
-          <motion.div
-            style={{
-              backgroundColor: frostyTint,
-              opacity: splitScreenOpacity,
-              clipPath: frostyDesktopClipPath,
-            }}
-            className="absolute inset-0 hidden backdrop-blur-2xl backdrop-saturate-150 lg:block"
-          ></motion.div>
+              {/* Desktop: single frosty layer with rounded transparent cutout */}
+              <motion.div
+                style={{
+                  backgroundColor: frostyTint,
+                  opacity: splitScreenOpacity,
+                  clipPath: frostyDesktopClipPath,
+                }}
+                className="absolute inset-0 hidden backdrop-blur-2xl backdrop-saturate-150 lg:block"
+              ></motion.div>
 
-          <motion.div
-            style={{
-              left: windowRect.left,
-              top: windowRect.top,
-              width: windowRect.width,
-              height: windowRect.height,
-              borderRadius: windowRect.radius,
-              borderColor: frostyBorder,
-              opacity: splitScreenOpacity,
-            }}
-            className="pointer-events-none absolute hidden border shadow-[0_0_50px_rgba(255,255,255,0.05),inset_0_0_80px_rgba(0,0,0,0.5)] lg:block"
-          ></motion.div>
-        </motion.div>
+              <motion.div
+                style={{
+                  left: windowRect.left,
+                  top: windowRect.top,
+                  width: windowRect.width,
+                  height: windowRect.height,
+                  borderRadius: windowRect.radius,
+                  borderColor: frostyBorder,
+                  opacity: splitScreenOpacity,
+                }}
+                className="pointer-events-none absolute hidden border shadow-[0_0_50px_rgba(255,255,255,0.05),inset_0_0_80px_rgba(0,0,0,0.5)] lg:block"
+              ></motion.div>
+            </motion.div>
+          </>
+        )}
 
         {/* Layer 3: Left fixed texts */}
         <motion.div
           style={{ opacity: splitScreenOpacity }}
           className="pointer-events-none absolute inset-0 z-20 flex h-full w-full"
         >
-          <div className="relative flex h-full w-full flex-col justify-center px-8 pointer-events-auto lg:w-[55%] lg:pl-24 lg:pr-16">
+          <div className={narrativeTextRailClassName}>
             <motion.div
               style={{ opacity: opacity1, y: y1 }}
-              className="absolute top-1/2 left-8 right-8 -translate-y-1/2 lg:left-24 lg:right-16"
+              className={narrativeSlideClassName}
             >
-              <div className="mb-6 flex items-center gap-3 font-mono text-xs tracking-widest text-[var(--color-brand-alt)] uppercase">
+              <div className={narrativeEyebrowClassName}>
                 <span className="h-px w-8 bg-[color:rgb(112_177_158_/_0.50)]"></span>{" "}
                 01. The Legacy
               </div>
-              <h2 className="mb-6 text-4xl leading-[1.1] font-medium tracking-tight text-[var(--color-text-inverse)] md:text-5xl">
+              <h2 className={narrativeHeadingClassName}>
                 Private credit still runs on outdated infrastructure, stacked up
                 over the past 50 years.
               </h2>
@@ -492,13 +528,13 @@ const NarrativeScrollSection = () => {
 
             <motion.div
               style={{ opacity: opacity2, y: y2 }}
-              className="absolute top-1/2 left-8 right-8 -translate-y-1/2 lg:left-24 lg:right-16"
+              className={narrativeSlideClassName}
             >
-              <div className="mb-6 flex items-center gap-3 font-mono text-xs tracking-widest text-[var(--color-brand-alt)] uppercase">
+              <div className={narrativeEyebrowClassName}>
                 <span className="h-px w-8 bg-[color:rgb(112_177_158_/_0.50)]"></span>{" "}
                 02. The Patchwork
               </div>
-              <h2 className="mb-6 text-4xl leading-[1.1] font-medium tracking-tight text-[var(--color-text-inverse)] md:text-5xl">
+              <h2 className={narrativeHeadingClassName}>
                 Private credit markets have scaled over the years. Their
                 technology has not.
               </h2>
@@ -511,13 +547,13 @@ const NarrativeScrollSection = () => {
 
             <motion.div
               style={{ opacity: opacity3, y: y3 }}
-              className="absolute top-1/2 left-8 right-8 -translate-y-1/2 lg:left-24 lg:right-16"
+              className={narrativeSlideClassName}
             >
-              <div className="mb-6 flex items-center gap-3 font-mono text-xs tracking-widest text-[var(--color-brand-alt)] uppercase">
+              <div className={narrativeEyebrowClassName}>
                 <span className="h-px w-8 bg-[color:rgb(112_177_158_/_0.50)]"></span>{" "}
                 03. The Friction
               </div>
-              <h2 className="mb-6 text-4xl leading-[1.1] font-medium tracking-tight text-[var(--color-text-inverse)] md:text-5xl">
+              <h2 className={narrativeHeadingClassName}>
                 The result is a fragile system carrying unnecessary risk.
               </h2>
               {/* <p className="max-w-md text-lg leading-relaxed text-[var(--color-text-inverse)]/85">
