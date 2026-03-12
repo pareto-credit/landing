@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   motion,
   useMotionTemplate,
+  useMotionValueEvent,
   useScroll,
   useTransform,
 } from "framer-motion";
@@ -18,11 +19,93 @@ const WINDOW_RIGHT_PX = 64;
 const WINDOW_LEFT_RATIO = 0.55;
 const WINDOW_RADIUS_PX = 32;
 const WINDOW_SAFE_TOP_PX = NAVBAR_OFFSET_PX + 16;
+const VIDEO_LOAD_AHEAD_MARGIN = "1200px 0px";
+
+type NarrativeVideoKey =
+  | "serverRoom"
+  | "tradingDesk"
+  | "financialDocuments"
+  | "hyperCity";
+
+const NARRATIVE_VIDEO_ASSETS: Record<
+  NarrativeVideoKey,
+  { poster: string; src: string }
+> = {
+  serverRoom: {
+    src: serverRoomVideo,
+    poster:
+      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=1000",
+  },
+  tradingDesk: {
+    src: tradingDeskVideo,
+    poster:
+      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1000",
+  },
+  financialDocuments: {
+    src: financialDocumentsVideo,
+    poster:
+      "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=1000",
+  },
+  hyperCity: {
+    src: hyperCityVideo,
+    poster:
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2000",
+  },
+};
+
+const NARRATIVE_VIDEO_KEYS: NarrativeVideoKey[] = [
+  "serverRoom",
+  "tradingDesk",
+  "financialDocuments",
+  "hyperCity",
+];
+
+const getVisibleVideoKeys = (progress: number): NarrativeVideoKey[] => {
+  if (progress < 0.15) return ["serverRoom"];
+  if (progress < 0.25) return ["serverRoom", "tradingDesk"];
+  if (progress < 0.45) return ["tradingDesk"];
+  if (progress < 0.55) return ["tradingDesk", "financialDocuments"];
+  if (progress < 0.75) return ["financialDocuments"];
+  if (progress < 0.82) return ["financialDocuments", "hyperCity"];
+
+  return ["hyperCity"];
+};
+
+const getPreloadVideoKeys = (progress: number): NarrativeVideoKey[] => {
+  if (progress < 0.25) return ["serverRoom", "tradingDesk"];
+  if (progress < 0.55) return ["tradingDesk", "financialDocuments"];
+  if (progress < 0.82) return ["financialDocuments", "hyperCity"];
+
+  return ["hyperCity"];
+};
+
+const sameVideoKeys = (
+  current: NarrativeVideoKey[],
+  next: NarrativeVideoKey[],
+) => current.length === next.length && current.every((key, index) => key === next[index]);
 
 const NarrativeScrollSection = () => {
   const containerRef = useRef<HTMLElement | null>(null);
   const viewportRef = useRef<HTMLDivElement | null>(null);
+  const videoRefs = useRef<Record<NarrativeVideoKey, HTMLVideoElement | null>>({
+    serverRoom: null,
+    tradingDesk: null,
+    financialDocuments: null,
+    hyperCity: null,
+  });
   const [viewportSize, setViewportSize] = useState({ width: 0, height: 0 });
+  const [shouldLoadVideos, setShouldLoadVideos] = useState(false);
+  const [activeVideoKeys, setActiveVideoKeys] = useState<NarrativeVideoKey[]>([
+    "serverRoom",
+  ]);
+  const [loadedVideoKeys, setLoadedVideoKeys] = useState<
+    Record<NarrativeVideoKey, boolean>
+  >({
+    serverRoom: false,
+    tradingDesk: false,
+    financialDocuments: false,
+    hyperCity: false,
+  });
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
@@ -113,6 +196,94 @@ const NarrativeScrollSection = () => {
     return () => resizeObserver.disconnect();
   }, []);
 
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container || shouldLoadVideos) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+
+        setShouldLoadVideos(true);
+        observer.disconnect();
+      },
+      { rootMargin: VIDEO_LOAD_AHEAD_MARGIN },
+    );
+
+    observer.observe(container);
+
+    return () => observer.disconnect();
+  }, [shouldLoadVideos]);
+
+  useEffect(() => {
+    if (!shouldLoadVideos) return;
+
+    const progress = scrollYProgress.get();
+    const initialActiveKeys = getVisibleVideoKeys(progress);
+    const initialPreloadKeys = getPreloadVideoKeys(progress);
+
+    setActiveVideoKeys(initialActiveKeys);
+    setLoadedVideoKeys((current) => {
+      let changed = false;
+      const next = { ...current };
+
+      for (const key of initialPreloadKeys) {
+        if (next[key]) continue;
+
+        next[key] = true;
+        changed = true;
+      }
+
+      return changed ? next : current;
+    });
+  }, [scrollYProgress, shouldLoadVideos]);
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    if (!shouldLoadVideos) return;
+
+    const nextActiveKeys = getVisibleVideoKeys(latest);
+    const nextPreloadKeys = getPreloadVideoKeys(latest);
+
+    setActiveVideoKeys((current) =>
+      sameVideoKeys(current, nextActiveKeys) ? current : nextActiveKeys,
+    );
+    setLoadedVideoKeys((current) => {
+      let changed = false;
+      const next = { ...current };
+
+      for (const key of nextPreloadKeys) {
+        if (next[key]) continue;
+
+        next[key] = true;
+        changed = true;
+      }
+
+      return changed ? next : current;
+    });
+  });
+
+  useEffect(() => {
+    for (const key of NARRATIVE_VIDEO_KEYS) {
+      const video = videoRefs.current[key];
+      if (!video) continue;
+
+      if (!shouldLoadVideos || !loadedVideoKeys[key]) {
+        video.pause();
+        continue;
+      }
+
+      if (!activeVideoKeys.includes(key)) {
+        video.pause();
+        continue;
+      }
+
+      const playPromise = video.play();
+      if (playPromise && typeof playPromise.catch === "function") {
+        playPromise.catch(() => {});
+      }
+    }
+  }, [activeVideoKeys, loadedVideoKeys, shouldLoadVideos]);
+
   const windowRect = useMemo(() => {
     const width = viewportSize.width;
     const height = viewportSize.height;
@@ -196,13 +367,18 @@ const NarrativeScrollSection = () => {
             className="absolute inset-0 h-full w-full"
           >
             <video
-              src={serverRoomVideo}
-              poster="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=1000"
-              autoPlay
+              ref={(node) => {
+                videoRefs.current.serverRoom = node;
+              }}
+              src={loadedVideoKeys.serverRoom ? NARRATIVE_VIDEO_ASSETS.serverRoom.src : undefined}
+              poster={NARRATIVE_VIDEO_ASSETS.serverRoom.poster}
               loop
               muted
               playsInline
-              preload="auto"
+              preload={activeVideoKeys.includes("serverRoom") ? "auto" : "metadata"}
+              disablePictureInPicture
+              disableRemotePlayback
+              aria-hidden="true"
               className="h-full w-full object-cover"
             />
           </motion.div>
@@ -211,13 +387,18 @@ const NarrativeScrollSection = () => {
             className="absolute inset-0 h-full w-full"
           >
             <video
-              src={tradingDeskVideo}
-              poster="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1000"
-              autoPlay
+              ref={(node) => {
+                videoRefs.current.tradingDesk = node;
+              }}
+              src={loadedVideoKeys.tradingDesk ? NARRATIVE_VIDEO_ASSETS.tradingDesk.src : undefined}
+              poster={NARRATIVE_VIDEO_ASSETS.tradingDesk.poster}
               loop
               muted
               playsInline
-              preload="auto"
+              preload={activeVideoKeys.includes("tradingDesk") ? "auto" : "metadata"}
+              disablePictureInPicture
+              disableRemotePlayback
+              aria-hidden="true"
               className="h-full w-full object-cover"
             />
           </motion.div>
@@ -226,13 +407,22 @@ const NarrativeScrollSection = () => {
             className="absolute inset-0 h-full w-full"
           >
             <video
-              src={financialDocumentsVideo}
-              poster="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=1000"
-              autoPlay
+              ref={(node) => {
+                videoRefs.current.financialDocuments = node;
+              }}
+              src={
+                loadedVideoKeys.financialDocuments
+                  ? NARRATIVE_VIDEO_ASSETS.financialDocuments.src
+                  : undefined
+              }
+              poster={NARRATIVE_VIDEO_ASSETS.financialDocuments.poster}
               loop
               muted
               playsInline
-              preload="auto"
+              preload={activeVideoKeys.includes("financialDocuments") ? "auto" : "metadata"}
+              disablePictureInPicture
+              disableRemotePlayback
+              aria-hidden="true"
               className="h-full w-full object-cover"
             />
           </motion.div>
@@ -345,13 +535,18 @@ const NarrativeScrollSection = () => {
           className="absolute inset-0 z-30 flex items-center justify-center bg-[var(--color-bg-narrative)]"
         >
           <video
-            src={hyperCityVideo}
-            poster="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2000"
-            autoPlay
+            ref={(node) => {
+              videoRefs.current.hyperCity = node;
+            }}
+            src={loadedVideoKeys.hyperCity ? NARRATIVE_VIDEO_ASSETS.hyperCity.src : undefined}
+            poster={NARRATIVE_VIDEO_ASSETS.hyperCity.poster}
             loop
             muted
             playsInline
-            preload="auto"
+            preload={activeVideoKeys.includes("hyperCity") ? "auto" : "metadata"}
+            disablePictureInPicture
+            disableRemotePlayback
+            aria-hidden="true"
             className="absolute inset-0 h-full w-full scale-[1.08] object-cover object-center brightness-[0.58] contrast-110"
           />
 

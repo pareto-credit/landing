@@ -34,7 +34,7 @@ const ContactSection = () => {
                 type="text"
                 name="fullName"
                 required
-                className="w-full rounded-[0.5rem] border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] transition-colors focus:border-[var(--color-brand-alt)] focus:outline-none"
+                className="ui-radius-control w-full border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] transition-colors focus:border-[var(--color-brand-alt)] focus:outline-none"
               />
             </div>
 
@@ -46,7 +46,7 @@ const ContactSection = () => {
                 type="text"
                 name="organization"
                 required
-                className="w-full rounded-[0.5rem] border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] transition-colors focus:border-[var(--color-brand-alt)] focus:outline-none"
+                className="ui-radius-control w-full border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] transition-colors focus:border-[var(--color-brand-alt)] focus:outline-none"
               />
             </div>
 
@@ -58,7 +58,7 @@ const ContactSection = () => {
                 type="email"
                 name="email"
                 required
-                className="w-full rounded-[0.5rem] border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] transition-colors focus:border-[var(--color-brand-alt)] focus:outline-none"
+                className="ui-radius-control w-full border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] transition-colors focus:border-[var(--color-brand-alt)] focus:outline-none"
               />
             </div>
 
@@ -70,7 +70,7 @@ const ContactSection = () => {
                 <div className="relative">
                   <select
                     name="role"
-                    className="w-full cursor-pointer appearance-none rounded-[0.5rem] border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] transition-colors focus:border-[var(--color-brand-alt)] focus:outline-none"
+                    className="ui-radius-control w-full cursor-pointer appearance-none border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] transition-colors focus:border-[var(--color-brand-alt)] focus:outline-none"
                   >
                     <option>Lender</option>
                     <option>Borrower</option>
@@ -89,7 +89,7 @@ const ContactSection = () => {
                 <div className="relative">
                   <select
                     name="inquiryType"
-                    className="w-full cursor-pointer appearance-none rounded-[0.5rem] border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] transition-colors focus:border-[var(--color-brand-alt)] focus:outline-none"
+                    className="ui-radius-control w-full cursor-pointer appearance-none border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] transition-colors focus:border-[var(--color-brand-alt)] focus:outline-none"
                   >
                     <option>Borrower</option>
                     <option>Lender</option>
@@ -111,7 +111,7 @@ const ContactSection = () => {
                 required
                 name="message"
                 rows={5}
-                className="w-full resize-y rounded-[0.5rem] border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] transition-colors focus:border-[var(--color-brand-alt)] focus:outline-none"
+                className="ui-radius-control w-full resize-y border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] transition-colors focus:border-[var(--color-brand-alt)] focus:outline-none"
               />
             </div>
 

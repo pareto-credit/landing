@@ -194,7 +194,7 @@ const SyntheticDollarSection = ({
             }
             className="relative z-10 grid items-center gap-12 lg:grid-cols-12 lg:gap-16"
           >
-            <div className="relative overflow-hidden rounded-[2rem] border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-8 shadow-[0_20px_40px_rgb(14_24_19_/_0.04)] lg:col-span-6 lg:p-12">
+            <div className="ui-radius-card relative overflow-hidden border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-8 shadow-[0_20px_40px_rgb(14_24_19_/_0.04)] lg:col-span-6 lg:p-12">
               <div className="pointer-events-none absolute right-0 top-0 h-64 w-64 rounded-full bg-[radial-gradient(circle_at_top_right,rgb(113_178_159_/_0.16),transparent_62%)] blur-3xl" />
 
               <div className="relative z-10">

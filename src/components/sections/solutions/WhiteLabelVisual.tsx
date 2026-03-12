@@ -54,7 +54,7 @@ const WhiteLabelVisual = ({ activeIndex }: WhiteLabelVisualProps) => {
                   ))}
                 </div>
 
-                <div className="absolute right-0 top-0 w-[292px] rounded-[2rem] border border-[var(--color-border-inverse-soft)] bg-[color:rgb(7_15_12_/_0.96)] p-3.5 shadow-[0_24px_50px_rgba(0,0,0,0.42)]">
+                <div className="ui-radius-card absolute right-0 top-0 w-[292px] border border-[var(--color-border-inverse-soft)] bg-[color:rgb(7_15_12_/_0.96)] p-3.5 shadow-[0_24px_50px_rgba(0,0,0,0.42)]">
                   <div className="flex items-center justify-between rounded-2xl border border-[var(--color-overlay-inverse-20)] bg-[var(--color-overlay-surface-03)] p-2.5">
                     <motion.div
                       animate={{
@@ -114,7 +114,7 @@ const WhiteLabelVisual = ({ activeIndex }: WhiteLabelVisualProps) => {
                       ],
                     }}
                     transition={{ duration: 5.8, repeat: Infinity, ease: 'easeInOut', delay: 1.2 }}
-                    className="mt-2.5 h-24 rounded-[1.75rem] border border-dashed"
+                    className="ui-radius-card mt-2.5 h-24 border border-dashed"
                   />
 
                   <div className="mt-3 flex items-center gap-2 font-mono text-[9px] uppercase tracking-widest text-[var(--color-brand-alt)]">
@@ -160,7 +160,7 @@ const WhiteLabelVisual = ({ activeIndex }: WhiteLabelVisualProps) => {
                     times: [0, 0.28, 0.76, 1],
                     delay: 0.25,
                   }}
-                  className="absolute left-0 top-[145px] z-20 w-[136px] rounded-[1.6rem] border border-[color:rgb(59_130_246_/_0.30)] bg-[color:rgb(11_24_40_/_0.92)] p-3 shadow-[0_18px_36px_rgba(0,0,0,0.35)]"
+                  className="ui-radius-panel absolute left-0 top-[145px] z-20 w-[136px] border border-[color:rgb(59_130_246_/_0.30)] bg-[color:rgb(11_24_40_/_0.92)] p-3 shadow-[0_18px_36px_rgba(0,0,0,0.35)]"
                 >
                   <div className="mb-3 flex items-center justify-between">
                     <div className="h-2 w-14 rounded-full bg-[color:rgb(59_130_246_/_0.35)]" />

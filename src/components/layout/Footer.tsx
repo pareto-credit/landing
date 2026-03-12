@@ -124,7 +124,7 @@ const Footer = () => {
       <div className="pointer-events-none absolute bottom-0 left-1/2 h-[2px] w-full max-w-4xl -translate-x-1/2 bg-gradient-to-r from-transparent via-[var(--color-brand-alt)] to-transparent shadow-[0_0_52px_var(--color-brand-alt)]" />
       <div className="pointer-events-none absolute bottom-0 left-1/2 h-[8px] w-full max-w-5xl -translate-x-1/2 bg-gradient-to-r from-transparent via-[color:rgb(112_177_158_/_0.50)] to-transparent blur-[6px]" />
       <div className="pointer-events-none absolute bottom-0 left-1/2 h-[14px] w-full max-w-6xl -translate-x-1/2 bg-gradient-to-r from-transparent via-[color:rgb(141_248_224_/_0.28)] to-transparent blur-[16px]" />
-      <div className="pointer-events-none absolute -bottom-[200px] left-1/2 h-[420px] w-[82vw] -translate-x-1/2 rounded-[100%] bg-[color:rgb(112_177_158_/_0.22)] blur-[130px]" />
+      <div className="pointer-events-none absolute -bottom-[200px] left-1/2 h-[420px] w-[82vw] -translate-x-1/2 rounded-full bg-[color:rgb(112_177_158_/_0.22)] blur-[130px]" />
 
       <SectionContainer className="relative z-10 flex-1">
         <div className="mb-20 grid gap-16 lg:grid-cols-12">

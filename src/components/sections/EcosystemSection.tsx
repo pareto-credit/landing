@@ -96,7 +96,7 @@ const EcosystemSection = () => {
                 duration: 0.6,
                 delay: idx * 0.15,
               }}
-              className="group relative flex flex-col overflow-hidden rounded-[2rem] border border-[var(--color-border-soft)] bg-[var(--color-surface)] shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(14,24,19,0.06)]"
+              className="ui-radius-card group relative flex flex-col overflow-hidden border border-[var(--color-border-soft)] bg-[var(--color-surface)] shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(14,24,19,0.06)]"
             >
               <div className="relative h-[13rem] w-full overflow-hidden bg-[var(--color-bg-dark)] xl:h-[14rem]">
                 <div className="absolute inset-0 opacity-[0.08] [background-image:linear-gradient(rgb(255_255_255_/_0.24)_1px,transparent_1px),linear-gradient(90deg,rgb(255_255_255_/_0.24)_1px,transparent_1px)] [background-size:34px_34px]" />
@@ -139,7 +139,7 @@ const EcosystemSection = () => {
                   <ul className="space-y-2.5 xl:space-y-3">
                     {segment.services.map((service) => (
                       <li key={service} className="flex items-center gap-3">
-                        <div className="h-1.5 w-1.5 rounded-[2px] border border-[color:rgb(113_178_159_/_0.50)] bg-[var(--color-surface)] transition-all duration-300 group-hover:border-[var(--color-brand-alt)] group-hover:bg-[var(--color-brand-alt)]" />
+                        <div className="h-1.5 w-1.5 rounded-xs border border-[color:rgb(113_178_159_/_0.50)] bg-[var(--color-surface)] transition-all duration-300 group-hover:border-[var(--color-brand-alt)] group-hover:bg-[var(--color-brand-alt)]" />
                         <span className="text-sm font-medium text-[var(--color-text-primary)]">
                           {service}
                         </span>
