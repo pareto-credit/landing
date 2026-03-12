@@ -39,9 +39,9 @@ const truncateDescription = (description?: string) =>
     : description;
 
 const metricLabelClassName =
-  "font-mono text-[10px] uppercase tracking-[0.16em] leading-none text-[var(--color-text-secondary)]";
+  "font-mono text-[10px] font-semibold uppercase tracking-widest text-[var(--color-text-secondary)]";
 const metricValueClassName =
-  "whitespace-nowrap font-sans text-[1.01rem] font-semibold leading-none tracking-tight text-[var(--color-text-primary)] md:text-[1.25rem]";
+  "mt-2 whitespace-nowrap text-2xl font-bold tracking-tight text-[var(--color-text-primary)]";
 const PRODUCTS_MARQUEE_SPEED = 50;
 const PRODUCTS_MARQUEE_SETS = 2;
 const DRAG_THRESHOLD_PX = 4;
@@ -219,10 +219,19 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
                   <div className="h-3 w-4/5 rounded bg-[var(--color-bg-light)]" />
                 </div>
 
-                <div className="ui-radius-panel grid grid-cols-3 overflow-hidden border border-[var(--color-border-soft)] bg-[var(--color-border-soft)]">
-                  <div className="h-[72px] border-r border-[var(--color-border-soft)] bg-[var(--color-surface)]" />
-                  <div className="h-[72px] border-r border-[var(--color-border-soft)] bg-[var(--color-surface)]" />
-                  <div className="h-[72px] bg-[var(--color-surface)]" />
+                <div className="grid grid-cols-3 gap-6 border-y border-[var(--color-border-soft)] py-5">
+                  <div className="space-y-2">
+                    <div className="h-2.5 w-10 rounded bg-[var(--color-bg-light)]" />
+                    <div className="h-7 w-20 rounded bg-[var(--color-bg-light)]" />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="h-2.5 w-14 rounded bg-[var(--color-bg-light)]" />
+                    <div className="h-7 w-24 rounded bg-[var(--color-bg-light)]" />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="h-2.5 w-20 rounded bg-[var(--color-bg-light)]" />
+                    <div className="h-7 w-24 rounded bg-[var(--color-bg-light)]" />
+                  </div>
                 </div>
                 <span className="sr-only">Loading vault cards...</span>
               </div>
@@ -420,20 +429,20 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
                               </p>
                             ) : null}
 
-                            <div className="rounded-2xl grid grid-cols-3 overflow-hidden border border-[var(--color-border-soft)] bg-[var(--color-border-soft)]">
-                              <div className="flex h-[72px] flex-col justify-center gap-1.5 border-r border-[var(--color-border-soft)] bg-[var(--color-surface)] px-4">
+                            <div className="mt-auto grid grid-cols-3 gap-6 border-t border-[var(--color-border-soft)] pt-5">
+                              <div>
                                 <p className={metricLabelClassName}>TVL</p>
                                 <p className={metricValueClassName}>
                                   {vault.tvl}
                                 </p>
                               </div>
-                              <div className="flex h-[72px] flex-col justify-center gap-1.5 border-r border-[var(--color-border-soft)] bg-[var(--color-surface)] px-4">
+                              <div>
                                 <p className={metricLabelClassName}>Net APY</p>
                                 <p className={metricValueClassName}>
                                   {vault.apy}
                                 </p>
                               </div>
-                              <div className="flex h-[72px] flex-col justify-center gap-1.5 bg-[var(--color-surface)] px-4">
+                              <div>
                                 <p className={metricLabelClassName}>
                                   Redemptions
                                 </p>
@@ -452,6 +461,7 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
             </div>
           </div>
         )}
+
       </div>
     </section>
   );

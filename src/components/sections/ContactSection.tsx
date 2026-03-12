@@ -2,75 +2,80 @@ import { ChevronRight } from "lucide-react";
 import { Button } from "../ui/Button";
 import { SectionContainer, SectionHeading } from "../ui/Section";
 
+const fieldLabelClassName =
+  "mb-2 block text-sm text-[var(--color-text-secondary)]";
+const fieldInputClassName =
+  "ui-radius-control w-full border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] transition-colors focus:border-[var(--color-brand-alt)] focus:outline-none";
+
 const ContactSection = () => {
   return (
     <section
       id="contact"
-      className="relative bg-[var(--color-bg-light-alt)] py-32 text-[var(--color-text-primary)]"
+      className="ui-section-fit relative overflow-hidden bg-[var(--color-bg-light-alt)] text-[var(--color-text-primary)]"
     >
       <div className="pointer-events-none absolute bottom-0 left-0 h-[500px] w-[500px] rounded-full bg-[color:rgb(112_177_158_/_0.08)] blur-[150px]" />
       <div className="pointer-events-none absolute right-0 top-0 h-[380px] w-[380px] rounded-full bg-[color:rgb(59_130_246_/_0.06)] blur-[120px]" />
-      <SectionContainer size="3xl" className="relative z-10">
+      <SectionContainer size="5xl" className="ui-section-shell relative z-10">
         <SectionHeading
           eyebrow="Contact"
           title="Build on better credit infrastructure"
-          className="mb-16 text-center"
-          titleClassName="mb-6 text-[var(--color-text-primary)]"
-          descriptionClassName="mx-auto max-w-2xl text-base text-[var(--color-text-secondary)]"
+          className="mx-auto mb-10 text-center lg:mb-12"
+          titleClassName="text-[var(--color-text-primary)]"
+          descriptionClassName="mx-auto max-w-3xl text-base text-[var(--color-text-secondary)]"
           description="Whether you're launching a facility, allocating capital, or embedding credit infrastructure, we'll help you assess the right setup."
         />
 
-        <div className="ui-radius-panel border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-8 shadow-[0_20px_42px_rgb(14_24_19_/_0.08)] md:p-10">
+        <div className="ui-radius-panel mx-auto border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-6 shadow-[0_20px_42px_rgb(14_24_19_/_0.08)] md:p-8 lg:p-9">
           <form
-            className="space-y-6"
+            className="space-y-5"
             action="https://formspree.io/f/xkgjlnwg"
             method="POST"
           >
-            <div>
-              <label className="mb-2 block text-sm text-[var(--color-text-secondary)]">
-                Full name *
-              </label>
-              <input
-                type="text"
-                name="fullName"
-                required
-                className="ui-radius-control w-full border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] transition-colors focus:border-[var(--color-brand-alt)] focus:outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="mb-2 block text-sm text-[var(--color-text-secondary)]">
-                Organization *
-              </label>
-              <input
-                type="text"
-                name="organization"
-                required
-                className="ui-radius-control w-full border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] transition-colors focus:border-[var(--color-brand-alt)] focus:outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="mb-2 block text-sm text-[var(--color-text-secondary)]">
-                Email *
-              </label>
-              <input
-                type="email"
-                name="email"
-                required
-                className="ui-radius-control w-full border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] transition-colors focus:border-[var(--color-brand-alt)] focus:outline-none"
-              />
-            </div>
-
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className="grid gap-x-6 gap-y-5 lg:grid-cols-2">
               <div>
-                <label className="mb-2 block text-sm text-[var(--color-text-secondary)]">
-                  Role
+                <label className={fieldLabelClassName}>
+                  Full name *
                 </label>
+                <input
+                  type="text"
+                  name="fullName"
+                  required
+                  className={fieldInputClassName}
+                />
+              </div>
+
+              <div>
+                <label className={fieldLabelClassName}>
+                  Email *
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  className={fieldInputClassName}
+                />
+              </div>
+            </div>
+
+            <div className="grid gap-x-6 gap-y-5 lg:grid-cols-4">
+              <div className="lg:col-span-2">
+                <label className={fieldLabelClassName}>
+                  Organization *
+                </label>
+                <input
+                  type="text"
+                  name="organization"
+                  required
+                  className={fieldInputClassName}
+                />
+              </div>
+
+              <div>
+                <label className={fieldLabelClassName}>Role</label>
                 <div className="relative">
                   <select
                     name="role"
-                    className="ui-radius-control w-full cursor-pointer appearance-none border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] transition-colors focus:border-[var(--color-brand-alt)] focus:outline-none"
+                    className={`${fieldInputClassName} cursor-pointer appearance-none pr-10`}
                   >
                     <option>Lender</option>
                     <option>Borrower</option>
@@ -82,14 +87,13 @@ const ContactSection = () => {
                   />
                 </div>
               </div>
+
               <div>
-                <label className="mb-2 block text-sm text-[var(--color-text-secondary)]">
-                  Inquiry type
-                </label>
+                <label className={fieldLabelClassName}>Inquiry type</label>
                 <div className="relative">
                   <select
                     name="inquiryType"
-                    className="ui-radius-control w-full cursor-pointer appearance-none border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] transition-colors focus:border-[var(--color-brand-alt)] focus:outline-none"
+                    className={`${fieldInputClassName} cursor-pointer appearance-none pr-10`}
                   >
                     <option>Borrower</option>
                     <option>Lender</option>
@@ -104,18 +108,18 @@ const ContactSection = () => {
             </div>
 
             <div>
-              <label className="mb-2 block text-sm text-[var(--color-text-secondary)]">
+              <label className={fieldLabelClassName}>
                 Message *
               </label>
               <textarea
                 required
                 name="message"
-                rows={5}
-                className="ui-radius-control w-full resize-y border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] transition-colors focus:border-[var(--color-brand-alt)] focus:outline-none"
+                rows={2}
+                className={`${fieldInputClassName} resize-y`}
               />
             </div>
 
-            <div className="flex items-start gap-3 pt-2">
+            <div className="flex items-start gap-3 pt-1">
               <input
                 type="checkbox"
                 required
@@ -133,7 +137,7 @@ const ContactSection = () => {
               type="submit"
               variant="primary"
               size="lg"
-              className="mt-6 w-full font-semibold"
+              className="w-full font-semibold"
             >
               Request Access
             </Button>

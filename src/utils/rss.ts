@@ -31,6 +31,14 @@ const formatArticleDate = (value: string) => {
 
 const stripHtml = (value: string) => value.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
 
+const createExcerpt = (value: string, maxLength = 148) => {
+  const normalized = stripHtml(value)
+  if (!normalized) return ''
+  if (normalized.length <= maxLength) return normalized
+
+  return `${normalized.slice(0, maxLength).trimEnd()}...`
+}
+
 const estimateReadTime = (value: string) => {
   const words = value.split(/\s+/).filter(Boolean).length
   const minutes = Math.max(1, Math.round(words / WORDS_PER_MINUTE))
@@ -68,6 +76,7 @@ export const parseParagraphFeed = (xml: string, limit: number) => {
       return {
         id: guid || `${link}-${index}`,
         title,
+        excerpt: createExcerpt(description || contentEncoded),
         link,
         date: formatArticleDate(pubDate),
         tag: normalizeTag(category),

@@ -59,6 +59,10 @@ const NewsSection = () => {
                   </div>
                   <div className="mb-3 h-6 w-11/12 rounded bg-[var(--color-surface-muted)]" />
                   <div className="mb-3 h-6 w-8/12 rounded bg-[var(--color-surface-muted)]" />
+                  <div className="mb-4 space-y-2">
+                    <div className="h-3 w-full rounded bg-[var(--color-surface-muted)]" />
+                    <div className="h-3 w-10/12 rounded bg-[var(--color-surface-muted)]" />
+                  </div>
                   <div className="flex items-center gap-3">
                     <div className="h-4 w-24 rounded bg-[var(--color-surface-muted)]" />
                     <div className="h-4 w-14 rounded bg-[var(--color-surface-muted)]" />
@@ -96,6 +100,11 @@ const NewsSection = () => {
                   <h4 className="mb-3 text-base font-bold text-[var(--color-text-primary)] transition-colors group-hover:text-[var(--color-brand-alt)] xl:text-lg">
                     {article.title}
                   </h4>
+                  {article.excerpt ? (
+                    <p className="mb-4 min-h-[3rem] text-sm leading-relaxed text-[var(--color-text-secondary)]">
+                      {article.excerpt}
+                    </p>
+                  ) : null}
                   <div className="flex items-center gap-2 font-mono text-sm text-[var(--color-text-secondary)]">
                     Read Article <MoveRight size={14} />
                     <span className="text-xs text-[var(--color-text-muted)]">

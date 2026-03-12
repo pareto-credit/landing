@@ -1,6 +1,5 @@
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
-  ArrowRight,
+  CheckCircle2,
   Droplets,
   LineChart,
   Network,
@@ -9,10 +8,10 @@ import {
   TrendingUp,
   type LucideIcon,
 } from "lucide-react";
-import { useState } from "react";
 import suspIcon from "../../assets/svgs/sUSP.svg";
 import uspIcon from "../../assets/svgs/USP.svg";
 import { FALLBACK_SYNTHETIC_DOLLAR_DATA } from "../../data/syntheticDollar";
+import { cn } from "../../lib/cn";
 import type {
   SyntheticDollarDataPayload,
   SyntheticToken,
@@ -38,7 +37,7 @@ interface SyntheticDollarSectionProps {
 }
 
 const OPEN_IN_APP_URL = "https://app.pareto.credit/usp";
-const DOCUMENTS_URL = "https://docs.pareto.credit/product/usp";
+// const DOCUMENTS_URL = "https://docs.pareto.credit/product/usp";
 const TOKEN_ORDER: SyntheticToken[] = ["USP", "sUSP"];
 const tokenIcons: Record<SyntheticToken, string> = {
   USP: uspIcon,
@@ -47,7 +46,7 @@ const tokenIcons: Record<SyntheticToken, string> = {
 
 const syntheticDollarContent: Record<SyntheticToken, SyntheticTokenContent> = {
   USP: {
-    title: "USP, the credit-based synthetic dollar",
+    title: "USP, the credit-based<br />synthetic dollar",
     description:
       "USP is a synthetic dollar protocol backed by real-world institutional-grade private credit.",
     features: [
@@ -72,7 +71,7 @@ const syntheticDollarContent: Record<SyntheticToken, SyntheticTokenContent> = {
     ],
   },
   sUSP: {
-    title: "sUSP, the credit savings rate",
+    title: "sUSP, the credit<br />savings rate",
     description:
       "sUSP is the staking version of USP, acting like a savings account for RWA credit lines.",
     features: [
@@ -102,182 +101,157 @@ const SyntheticDollarSection = ({
   data = FALLBACK_SYNTHETIC_DOLLAR_DATA,
   isLoading = false,
 }: SyntheticDollarSectionProps) => {
-  const shouldReduceMotion = useReducedMotion();
-  const [activeToken, setActiveToken] = useState<SyntheticToken>("USP");
-
-  const content = syntheticDollarContent[activeToken];
-  const stats = data[activeToken].stats;
-  const panelMotion = shouldReduceMotion
-    ? { initial: false, animate: { opacity: 1 }, exit: { opacity: 1 } }
-    : {
-        initial: { opacity: 0, y: 12 },
-        animate: { opacity: 1, y: 0 },
-        exit: { opacity: 0, y: -12 },
-      };
+  const cards = TOKEN_ORDER.map((token) => ({
+    content: syntheticDollarContent[token],
+    icon: tokenIcons[token],
+    isDark: token === "sUSP",
+    stats: data[token].stats,
+    token,
+  }));
 
   return (
     <section
       id="synthetic-dollar"
-      className="ui-section-fit relative overflow-hidden border-b border-[var(--color-border-soft)] bg-[var(--color-bg-light-alt)] text-[var(--color-text-primary)]"
+      className="relative overflow-hidden border-b border-[var(--color-border-soft)] bg-[var(--color-bg-light-alt)] text-[var(--color-text-primary)]"
     >
-      <SectionContainer className="ui-section-shell relative z-10">
-        <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between xl:mb-12">
+      <SectionContainer className="relative z-10 py-24 lg:py-32">
+        <div className="mb-16 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading
             eyebrow="Synthetic Assets"
             title="Building blocks of the new era"
+            description="Pareto introduces a stable unit of account and a yield-bearing savings asset, designed to work in tandem for optimal capital efficiency."
             size="2xl"
             className="max-w-2xl"
           />
 
-          <div
-            aria-label="Synthetic dollar token selector"
-            className="shrink-0"
-          >
-            <div className="inline-flex rounded-full border border-[var(--color-border-soft-strong)] bg-[var(--color-surface)] p-1.5 shadow-sm">
-              {TOKEN_ORDER.map((token) => {
-                const isActive = activeToken === token;
-
-                return (
-                  <button
-                    key={token}
-                    type="button"
-                    aria-pressed={isActive}
-                    onClick={() => setActiveToken(token)}
-                    className={`relative flex min-h-11 items-center gap-3 rounded-full px-5 py-2.5 font-mono text-sm font-bold uppercase tracking-[0.16em] transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:rgb(112_177_158_/_0.7)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-light-alt)] sm:px-8 ${
-                      isActive
-                        ? "text-[var(--color-text-inverse)]"
-                        : "text-[color:rgb(41_59_51_/_0.56)] hover:text-[var(--color-text-secondary)]"
-                    }`}
-                  >
-                    {isActive ? (
-                      <motion.div
-                        layoutId="synthetic-dollar-tab"
-                        transition={
-                          shouldReduceMotion
-                            ? { duration: 0 }
-                            : { type: "spring", stiffness: 380, damping: 30 }
-                        }
-                        className="absolute inset-0 rounded-full bg-[var(--color-brand-mid)] shadow-[0_6px_16px_rgb(14_24_19_/_0.16)]"
-                      />
-                    ) : null}
-
-                    <span className="relative z-10 flex items-center gap-3">
-                      <span
-                        className={`flex h-7 w-7 items-center justify-center overflow-hidden rounded-full`}
-                      >
-                        <img
-                          src={tokenIcons[token]}
-                          alt={`${token} icon`}
-                          draggable={false}
-                          className={`h-7 w-7  object-contain ${
-                            isActive ? "opacity-100" : "opacity-75"
-                          }`}
-                        />
-                      </span>
-                      <span>{token}</span>
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
+          <div className="flex shrink-0 flex-wrap gap-4">
+            <ButtonLink
+              href={OPEN_IN_APP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="outline"
+              size="md"
+              className="shadow-lg"
+            >
+              Explore
+            </ButtonLink>
           </div>
         </div>
 
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.div
-            key={activeToken}
-            initial={panelMotion.initial}
-            animate={panelMotion.animate}
-            exit={panelMotion.exit}
-            transition={
-              shouldReduceMotion ? { duration: 0 } : { duration: 0.4 }
-            }
-            className="relative z-10 grid items-center gap-12 lg:grid-cols-12 lg:gap-16"
-          >
-            <div className="ui-radius-card relative overflow-hidden border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-8 shadow-[0_20px_40px_rgb(14_24_19_/_0.04)] lg:col-span-6 lg:p-12">
-              <div className="pointer-events-none absolute right-0 top-0 h-64 w-64 rounded-full bg-[radial-gradient(circle_at_top_right,rgb(113_178_159_/_0.16),transparent_62%)] blur-3xl" />
+        <div className="grid gap-6 lg:grid-cols-2">
+          {cards.map(({ content, icon, isDark, stats, token }) => (
+            <article
+              key={token}
+              className={cn(
+                "ui-radius-card relative overflow-hidden border p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgb(0,0,0,0.10)] md:p-12",
+                isDark
+                  ? "border-[var(--color-border-inverse-soft)] bg-[var(--color-brand-mid)] text-[var(--color-text-inverse)]"
+                  : "border-[var(--color-border-soft)] bg-[var(--color-surface)] text-[var(--color-text-primary)]",
+              )}
+            >
+              {!isDark ? (
+                <div className="pointer-events-none absolute right-0 top-0 h-64 w-64 rounded-full bg-[radial-gradient(circle_at_top_right,rgb(113_178_159_/_0.14),transparent_62%)] blur-3xl" />
+              ) : null}
 
-              <div className="relative z-10">
-                <h3 className="max-w-xl text-[1.9rem] font-bold leading-[1.15] tracking-tight text-[var(--color-text-primary)] md:text-[2.3rem]">
-                  {content.title}
-                </h3>
-                <p className="mt-4 max-w-xl text-base leading-relaxed text-[color:rgb(41_59_51_/_0.90)]">
-                  {content.description}
-                </p>
+              <div className="relative z-10 flex items-center gap-4">
+                <div
+                  className={cn(
+                    "flex h-12 w-12 items-center justify-center overflow-hidden rounded-full shadow-sm",
+                    isDark
+                      ? "border-[var(--color-border-inverse-soft)] bg-[var(--color-bg-dark-alt)]"
+                      : "border-[var(--color-border-soft)] bg-[var(--color-bg-light-alt)]",
+                  )}
+                >
+                  <img
+                    src={icon}
+                    alt={`${token} icon`}
+                    draggable={false}
+                    className="h-12 w-12 object-contain"
+                  />
+                </div>
+                <span className="text-2xl font-bold tracking-tight">
+                  {token}
+                </span>
               </div>
 
+              <h3
+                className="relative z-10 mt-8 text-3xl font-bold leading-tight tracking-tight"
+                dangerouslySetInnerHTML={{ __html: content.title }}
+              ></h3>
+              <p
+                className={cn(
+                  "relative z-10 mt-4 text-base leading-relaxed",
+                  isDark
+                    ? "text-[var(--color-text-muted-softer)]"
+                    : "text-[var(--color-text-secondary)]",
+                )}
+              >
+                {content.description}
+              </p>
+
+              <ul className="relative z-10 mt-10 space-y-4">
+                {content.features.map((feature) => (
+                  <li key={feature.name} className="flex items-start gap-3">
+                    <CheckCircle2
+                      size={18}
+                      className="mt-0.5 shrink-0 text-[var(--color-brand-alt)]"
+                    />
+                    <span
+                      className={cn(
+                        "text-sm leading-relaxed",
+                        isDark
+                          ? "text-[var(--color-text-muted-softer)]"
+                          : "text-[var(--color-text-secondary)]",
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          "font-semibold",
+                          isDark
+                            ? "text-[var(--color-text-inverse)]"
+                            : "text-[var(--color-text-primary)]",
+                        )}
+                      >
+                        {feature.name}.
+                      </span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
               <div
-                className="relative z-10 mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[var(--color-border-soft)] bg-[var(--color-border-soft)] sm:grid-cols-3 xl:mt-10"
+                className={cn(
+                  "relative z-10 mt-10 grid grid-cols-3 gap-6 border-t pt-10",
+                  isDark
+                    ? "border-[var(--color-border-inverse-soft)]"
+                    : "border-[var(--color-border-soft)]",
+                )}
                 aria-busy={isLoading}
               >
                 {stats.map((stat) => (
                   <div
                     key={stat.label}
-                    className={`bg-[var(--color-surface)] p-5 text-center ${
-                      isLoading ? "animate-pulse" : ""
-                    }`}
+                    className={isLoading ? "animate-pulse" : undefined}
                   >
-                    <div className="font-mono text-[10px] font-semibold uppercase tracking-widest text-[var(--color-text-secondary)]">
+                    <div
+                      className={cn(
+                        "font-mono text-[10px] font-semibold uppercase tracking-widest",
+                        isDark
+                          ? "text-[var(--color-text-muted-soft)]"
+                          : "text-[var(--color-text-secondary)]",
+                      )}
+                    >
                       {stat.label}
                     </div>
-                    <div className="mt-2 text-2xl font-bold tracking-tight text-[var(--color-text-primary)]">
+                    <div className="mt-2 text-2xl font-bold tracking-tight">
                       {stat.value}
                     </div>
                   </div>
                 ))}
               </div>
-
-              <div className="relative z-10 mt-8 flex flex-wrap gap-4 xl:mt-10">
-                <ButtonLink
-                  href={OPEN_IN_APP_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  variant="secondary"
-                  size="md"
-                  className="shadow-lg"
-                >
-                  Open In App
-                  <ArrowRight size={14} />
-                </ButtonLink>
-                <ButtonLink
-                  href={DOCUMENTS_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  variant="white"
-                  size="md"
-                  className="border-[var(--color-border-soft-strong)] bg-[var(--color-surface)]"
-                >
-                  Documents
-                </ButtonLink>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-3 lg:col-span-6 lg:gap-4">
-              {content.features.map((feature) => (
-                <article
-                  key={feature.name}
-                  className="group flex items-start gap-4 rounded-2xl border border-transparent p-4 transition-all duration-300 hover:border-[var(--color-border-soft)] hover:bg-[color:rgb(255_255_255_/_0.55)] lg:p-5"
-                >
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[var(--color-border-soft)] bg-[var(--color-surface)] shadow-sm transition-all duration-300 group-hover:border-[color:rgb(113_178_159_/_0.30)] group-hover:shadow-[0_0_15px_rgba(113,178,159,0.15)] lg:h-14 lg:w-14">
-                    <feature.icon
-                      size={24}
-                      className="text-[var(--color-text-secondary)] transition-colors duration-300 group-hover:text-[var(--color-brand-alt)]"
-                    />
-                  </div>
-
-                  <div>
-                    <h4 className="text-lg font-bold tracking-tight text-[var(--color-text-primary)] lg:text-xl">
-                      {feature.name}
-                    </h4>
-                    <p className="mt-2 text-sm leading-relaxed text-[color:rgb(41_59_51_/_0.82)]">
-                      {feature.description}
-                    </p>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </motion.div>
-        </AnimatePresence>
+            </article>
+          ))}
+        </div>
       </SectionContainer>
     </section>
   );
