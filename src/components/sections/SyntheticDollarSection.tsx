@@ -118,10 +118,14 @@ const SyntheticDollarSection = ({
 
         <div className="grid gap-6 lg:grid-cols-2">
           {cards.map(({ content, icon, isDark, stats, token }) => (
-            <article
+            <a
               key={token}
+              href={OPEN_IN_APP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Open ${token} in app`}
               className={cn(
-                "ui-radius-card relative overflow-hidden border p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgb(0,0,0,0.10)] md:p-12",
+                "ui-radius-card relative block overflow-hidden border p-10 no-underline shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgb(0,0,0,0.10)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)] focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--color-bg-light-alt)] md:p-12",
                 isDark
                   ? "border-[var(--color-border-inverse-soft)] bg-[var(--color-brand-mid)] text-[var(--color-text-inverse)]"
                   : "border-[var(--color-border-soft)] bg-[var(--color-surface)] text-[var(--color-text-primary)]",
@@ -147,13 +151,25 @@ const SyntheticDollarSection = ({
                     className="h-12 w-12 object-contain"
                   />
                 </div>
-                <span className="text-2xl font-bold tracking-tight">
+                <span
+                  className={cn(
+                    "text-2xl font-bold tracking-tight",
+                    isDark
+                      ? "text-[var(--color-text-inverse)]"
+                      : "text-[var(--color-text-primary)]",
+                  )}
+                >
                   {token}
                 </span>
               </div>
 
               <h3
-                className="relative z-10 mt-8 text-3xl font-bold leading-tight tracking-tight"
+                className={cn(
+                  "relative z-10 mt-8 text-3xl font-bold leading-tight tracking-tight",
+                  isDark
+                    ? "text-[var(--color-text-inverse)]"
+                    : "text-[var(--color-text-primary)]",
+                )}
                 dangerouslySetInnerHTML={{ __html: content.title }}
               ></h3>
               <p
@@ -234,7 +250,7 @@ const SyntheticDollarSection = ({
                   </div>
                 ))}
               </div>
-            </article>
+            </a>
           ))}
         </div>
 

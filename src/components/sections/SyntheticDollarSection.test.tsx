@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import SyntheticDollarSection from "./SyntheticDollarSection";
 
@@ -54,6 +54,31 @@ describe("SyntheticDollarSection", () => {
 
     expect(screen.getByAltText("USP icon")).toBeInTheDocument();
     expect(screen.getByAltText("sUSP icon")).toBeInTheDocument();
+  });
+
+  it("renders clickable USP and sUSP cards that open the app in a new tab", () => {
+    render(<SyntheticDollarSection />);
+
+    const uspCardLink = screen.getByRole("link", { name: /open usp in app/i });
+    const suspCardLink = screen.getByRole("link", { name: /open susp in app/i });
+
+    expect(uspCardLink).toHaveAttribute("href", "https://app.pareto.credit/usp");
+    expect(uspCardLink).toHaveAttribute("target", "_blank");
+    expect(suspCardLink).toHaveAttribute("href", "https://app.pareto.credit/usp");
+    expect(suspCardLink).toHaveAttribute("target", "_blank");
+  });
+
+  it("keeps the sUSP label and title readable on the dark card", () => {
+    render(<SyntheticDollarSection />);
+
+    const suspCardLink = screen.getByRole("link", { name: /open susp in app/i });
+    const suspLabel = within(suspCardLink).getByText("sUSP");
+    const suspTitle = within(suspCardLink).getByRole("heading", {
+      name: /susp, the credit\s*index return/i,
+    });
+
+    expect(suspLabel).toHaveClass("text-[var(--color-text-inverse)]");
+    expect(suspTitle).toHaveClass("text-[var(--color-text-inverse)]");
   });
 
   it("renders the updated section copy", () => {

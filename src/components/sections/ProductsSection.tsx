@@ -57,12 +57,21 @@ const normalizeMarqueeScroll = (value: number, singleSetWidth: number) => {
   return normalized;
 };
 
+const isInteractiveMarqueeTarget = (target: EventTarget | null) =>
+  target instanceof Element &&
+  Boolean(
+    target.closest(
+      "a, button, input, select, textarea, summary, [role='button'], [role='link']",
+    ),
+  );
+
 const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
   const shouldReduceMotion = useReducedMotion();
   const showHeaderCta = useMinWidth(768);
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const singleSetRef = useRef<HTMLDivElement | null>(null);
   const didDragRef = useRef(false);
+  const pointerStartedOnInteractiveRef = useRef(false);
   const rafRef = useRef<number | null>(null);
   const lastFrameTimeRef = useRef<number | null>(null);
   const pointerIdRef = useRef<number | null>(null);
@@ -158,6 +167,7 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
     }
 
     pointerIdRef.current = null;
+    pointerStartedOnInteractiveRef.current = false;
     setIsDragging(false);
     viewport.scrollLeft = normalizeMarqueeScroll(
       viewport.scrollLeft,
@@ -264,11 +274,12 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
                 if (!viewport) return;
 
                 pointerIdRef.current = event.pointerId;
-                viewport.setPointerCapture(event.pointerId);
                 pointerStartXRef.current = event.clientX;
                 pointerStartScrollRef.current = viewport.scrollLeft;
+                pointerStartedOnInteractiveRef.current =
+                  isInteractiveMarqueeTarget(event.target);
                 didDragRef.current = false;
-                setIsDragging(true);
+                setIsDragging(false);
               }}
               onPointerMove={(event) => {
                 if (pointerIdRef.current !== event.pointerId) return;
@@ -276,8 +287,25 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
                 if (!viewport) return;
 
                 const deltaX = event.clientX - pointerStartXRef.current;
-                if (Math.abs(deltaX) > DRAG_THRESHOLD_PX) {
+                if (!didDragRef.current && Math.abs(deltaX) <= DRAG_THRESHOLD_PX) {
+                  return;
+                }
+
+                if (!didDragRef.current) {
                   didDragRef.current = true;
+                  setIsDragging(true);
+
+                  const hasPointerCapture =
+                    typeof viewport.hasPointerCapture === "function" &&
+                    viewport.hasPointerCapture(event.pointerId);
+
+                  if (!hasPointerCapture) {
+                    viewport.setPointerCapture(event.pointerId);
+                  }
+
+                  if (pointerStartedOnInteractiveRef.current) {
+                    event.preventDefault();
+                  }
                 }
 
                 const next = pointerStartScrollRef.current - deltaX;
