@@ -18,6 +18,7 @@ const mobileNavigationItems = [
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [pendingSectionId, setPendingSectionId] = useState<string | null>(null);
   const shouldReduceMotion = useReducedMotion();
   const navLinkClass =
     "inline-flex items-center transition-colors hover:text-[var(--color-brand-alt)] focus-visible:text-[var(--color-brand-alt)] focus-visible:outline-none";
@@ -79,9 +80,25 @@ const Navbar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, [mobileMenuOpen]);
 
+  useEffect(() => {
+    if (mobileMenuOpen || !pendingSectionId) return;
+
+    const timeoutId = window.setTimeout(() => {
+      scrollToSection(pendingSectionId);
+      setPendingSectionId(null);
+    }, 40);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [mobileMenuOpen, pendingSectionId]);
+
   const handleSectionScroll = (id: string) => {
+    if (mobileMenuOpen) {
+      setPendingSectionId(id);
+      setMobileMenuOpen(false);
+      return;
+    }
+
     scrollToSection(id);
-    setMobileMenuOpen(false);
   };
 
   return (

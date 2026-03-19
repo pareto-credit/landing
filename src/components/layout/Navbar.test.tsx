@@ -12,6 +12,7 @@ describe("Navbar", () => {
   afterEach(() => {
     scrollToSection.mockReset();
     document.body.style.overflow = "";
+    vi.useRealTimers();
   });
 
   it("opens a full-screen mobile menu and locks page scroll", () => {
@@ -51,18 +52,23 @@ describe("Navbar", () => {
   });
 
   it("navigates to a section and closes the mobile menu", async () => {
+    vi.useFakeTimers();
     render(<Navbar />);
 
-    fireEvent.click(screen.getByRole("button", { name: /toggle mobile menu/i }));
+    const toggleButton = screen.getByRole("button", {
+      name: /toggle mobile menu/i,
+    });
+
+    fireEvent.click(toggleButton);
     const dialog = screen.getByRole("dialog", { name: /site navigation/i });
 
     fireEvent.click(within(dialog).getByRole("button", { name: /solutions/i }));
 
+    expect(toggleButton).toHaveAttribute("aria-expanded", "false");
+    expect(scrollToSection).not.toHaveBeenCalled();
+
+    vi.runAllTimers();
+
     expect(scrollToSection).toHaveBeenCalledWith("solutions");
-    await waitFor(() => {
-      expect(
-        screen.queryByRole("dialog", { name: /site navigation/i }),
-      ).not.toBeInTheDocument();
-    });
   });
 });
