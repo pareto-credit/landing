@@ -2,6 +2,15 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import SyntheticDollarSection from "./SyntheticDollarSection";
 
+const setViewportWidth = (width: number) => {
+  Object.defineProperty(window, "innerWidth", {
+    configurable: true,
+    writable: true,
+    value: width,
+  });
+  window.dispatchEvent(new Event("resize"));
+};
+
 describe("SyntheticDollarSection", () => {
   it("renders both synthetic asset cards with their metrics", () => {
     render(<SyntheticDollarSection />);
@@ -21,12 +30,23 @@ describe("SyntheticDollarSection", () => {
     expect(screen.getByText("8.18%")).toBeInTheDocument();
   });
 
-  it("renders the provided USP app link", () => {
+  it("renders the provided USP app link in the desktop header", () => {
     render(<SyntheticDollarSection />);
 
-    expect(
+    const link = screen.getByRole("link", { name: /explore/i });
+
+    expect(link).toHaveAttribute("href", "https://app.pareto.credit/usp");
+    expect(screen.getByTestId("synthetic-header-actions")).toContainElement(link);
+  });
+
+  it("renders the provided USP app link in the mobile footer", () => {
+    setViewportWidth(390);
+
+    render(<SyntheticDollarSection />);
+
+    expect(screen.getByTestId("synthetic-footer-actions")).toContainElement(
       screen.getByRole("link", { name: /explore/i }),
-    ).toHaveAttribute("href", "https://app.pareto.credit/usp");
+    );
   });
 
   it("renders the dedicated USP and sUSP card icons", () => {

@@ -53,7 +53,7 @@ const SolutionsSection = () => {
                     activeIndex={safeStudioIndex}
                     onHover={setActiveStudio}
                   />
-                  <div className="mt-6 flex justify-start xl:mt-7">
+                  <div className="mt-6 flex justify-center lg:justify-start xl:mt-7">
                     <Button
                       onClick={() => scrollToSection("contact")}
                       variant="ghost"
@@ -84,7 +84,7 @@ const SolutionsSection = () => {
                     activeIndex={safeWhiteLabelIndex}
                     onHover={setActiveWhiteLabel}
                   />
-                  <div className="mt-6 flex justify-start xl:mt-7">
+                  <div className="mt-6 flex justify-center lg:justify-start xl:mt-7">
                     <Button
                       onClick={() => scrollToSection("contact")}
                       variant="ghost"

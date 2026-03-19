@@ -1,0 +1,68 @@
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import Navbar from "./Navbar";
+
+const scrollToSection = vi.fn();
+
+vi.mock("../../lib/scrollToSection", () => ({
+  scrollToSection: (...args: unknown[]) => scrollToSection(...args),
+}));
+
+describe("Navbar", () => {
+  afterEach(() => {
+    scrollToSection.mockReset();
+    document.body.style.overflow = "";
+  });
+
+  it("opens a full-screen mobile menu and locks page scroll", () => {
+    render(<Navbar />);
+
+    fireEvent.click(screen.getByRole("button", { name: /toggle mobile menu/i }));
+
+    const dialog = screen.getByRole("dialog", { name: /site navigation/i });
+
+    expect(dialog).toHaveClass("fixed", "inset-0");
+    expect(document.body.style.overflow).toBe("hidden");
+  });
+
+  it("switches to the light logo while the mobile menu is open", () => {
+    render(<Navbar />);
+
+    fireEvent.click(screen.getByRole("button", { name: /toggle mobile menu/i }));
+
+    expect(screen.getByAltText("Pareto logo")).toHaveAttribute(
+      "src",
+      expect.stringContaining("pareto-logo-light.svg"),
+    );
+  });
+
+  it("closes the mobile menu on escape", async () => {
+    render(<Navbar />);
+
+    fireEvent.click(screen.getByRole("button", { name: /toggle mobile menu/i }));
+    fireEvent.keyDown(window, { key: "Escape" });
+
+    await waitFor(() => {
+      expect(
+        screen.queryByRole("dialog", { name: /site navigation/i }),
+      ).not.toBeInTheDocument();
+      expect(document.body.style.overflow).toBe("");
+    });
+  });
+
+  it("navigates to a section and closes the mobile menu", async () => {
+    render(<Navbar />);
+
+    fireEvent.click(screen.getByRole("button", { name: /toggle mobile menu/i }));
+    const dialog = screen.getByRole("dialog", { name: /site navigation/i });
+
+    fireEvent.click(within(dialog).getByRole("button", { name: /solutions/i }));
+
+    expect(scrollToSection).toHaveBeenCalledWith("solutions");
+    await waitFor(() => {
+      expect(
+        screen.queryByRole("dialog", { name: /site navigation/i }),
+      ).not.toBeInTheDocument();
+    });
+  });
+});

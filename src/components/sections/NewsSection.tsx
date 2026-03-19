@@ -2,6 +2,7 @@ import type { SyntheticEvent } from "react";
 import { MoveRight } from "lucide-react";
 import newsPlaceholder from "../../assets/svgs/news-placeholder.svg";
 import { PARAGRAPH_BLOG_URL } from "../../data/news";
+import { useMinWidth } from "../../hooks/useMinWidth";
 import { useParagraphFeed } from "../../hooks/useParagraphFeed";
 import { ButtonLink } from "../ui/Button";
 import { SectionContainer, SectionHeading } from "../ui/Section";
@@ -10,6 +11,7 @@ const NEWS_SKELETON_COUNT = 3;
 
 const NewsSection = () => {
   const { articles, isLoading } = useParagraphFeed(NEWS_SKELETON_COUNT);
+  const showHeaderCta = useMinWidth(768);
 
   const handleImageError = (event: SyntheticEvent<HTMLImageElement>) => {
     const image = event.currentTarget;
@@ -32,16 +34,21 @@ const NewsSection = () => {
             titleClassName="text-4xl text-[var(--color-text-primary)] md:text-4xl"
             descriptionClassName="text-[var(--color-text-secondary)]"
           />
-          <ButtonLink
-            href={PARAGRAPH_BLOG_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            variant="outline"
-            size="sm"
-            className="text-[var(--color-text-primary)]"
-          >
-            View All Articles
-          </ButtonLink>
+
+          {showHeaderCta ? (
+            <div data-testid="news-header-actions">
+              <ButtonLink
+                href={PARAGRAPH_BLOG_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="outline"
+                size="sm"
+                className="text-[var(--color-text-primary)]"
+              >
+                View All Articles
+              </ButtonLink>
+            </div>
+          ) : null}
         </div>
 
         <div className="grid gap-5 md:grid-cols-3 xl:gap-6">
@@ -114,6 +121,24 @@ const NewsSection = () => {
                 </a>
               ))}
         </div>
+
+        {!showHeaderCta ? (
+          <div
+            data-testid="news-footer-actions"
+            className="mt-10 flex justify-center md:mt-12 md:justify-end"
+          >
+            <ButtonLink
+              href={PARAGRAPH_BLOG_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="outline"
+              size="sm"
+              className="text-[var(--color-text-primary)]"
+            >
+              View All Articles
+            </ButtonLink>
+          </div>
+        ) : null}
       </SectionContainer>
     </section>
   );

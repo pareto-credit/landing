@@ -5,6 +5,7 @@ import suspIcon from "../../assets/svgs/sUSP.svg";
 import uspIcon from "../../assets/svgs/USP.svg";
 import { FALLBACK_SYNTHETIC_DOLLAR_DATA } from "../../data/syntheticDollar";
 import { cn } from "../../lib/cn";
+import { useMinWidth } from "../../hooks/useMinWidth";
 import type { SyntheticDollarDataPayload, SyntheticToken } from "../../types/syntheticDollar";
 import { ButtonLink } from "../ui/Button";
 import { SectionContainer, SectionHeading } from "../ui/Section";
@@ -75,6 +76,7 @@ const SyntheticDollarSection = ({
   data = FALLBACK_SYNTHETIC_DOLLAR_DATA,
   isLoading = false,
 }: SyntheticDollarSectionProps) => {
+  const showHeaderCta = useMinWidth(1024);
   const cards = TOKEN_ORDER.map((token) => ({
     content: syntheticDollarContent[token],
     icon: tokenIcons[token],
@@ -98,18 +100,20 @@ const SyntheticDollarSection = ({
             className="max-w-2xl"
           />
 
-          <div className="flex shrink-0 flex-wrap gap-4">
-            <ButtonLink
-              href={OPEN_IN_APP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              variant="outline"
-              size="md"
-              className="shadow-lg"
-            >
-              Explore
-            </ButtonLink>
-          </div>
+          {showHeaderCta ? (
+            <div data-testid="synthetic-header-actions">
+              <ButtonLink
+                href={OPEN_IN_APP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="outline"
+                size="md"
+                className="shadow-lg"
+              >
+                Explore
+              </ButtonLink>
+            </div>
+          ) : null}
         </div>
 
         <div className="grid gap-6 lg:grid-cols-2">
@@ -233,6 +237,24 @@ const SyntheticDollarSection = ({
             </article>
           ))}
         </div>
+
+        {!showHeaderCta ? (
+          <div
+            data-testid="synthetic-footer-actions"
+            className="mt-10 flex justify-center lg:mt-12 lg:justify-end"
+          >
+            <ButtonLink
+              href={OPEN_IN_APP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="outline"
+              size="md"
+              className="shadow-lg"
+            >
+              Explore
+            </ButtonLink>
+          </div>
+        ) : null}
       </SectionContainer>
     </section>
   );

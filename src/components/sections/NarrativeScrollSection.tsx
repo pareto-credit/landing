@@ -465,17 +465,11 @@ const NarrativeScrollSection = () => {
             {/* Contrast layer to keep frosty perceived opacity stable on bright/dark frames */}
             <motion.div
               style={{ opacity: splitScreenOpacity }}
-              className="pointer-events-none absolute inset-0 z-[5] bg-[color:rgb(2_5_4_/_0.25)]"
+              className="pointer-events-none absolute inset-0 z-[5] hidden bg-[color:rgb(2_5_4_/_0.25)] lg:block"
             ></motion.div>
 
             {/* Layer 2: Frosted glass mask */}
             <motion.div className="pointer-events-none absolute inset-0 z-10">
-              {/* Mobile: frosty layer full width */}
-              <motion.div
-                style={{ backgroundColor: frostyTint, opacity: splitScreenOpacity }}
-                className="absolute inset-0 backdrop-blur-2xl backdrop-saturate-150 lg:hidden"
-              ></motion.div>
-
               {/* Desktop: single frosty layer with rounded transparent cutout */}
               <motion.div
                 style={{

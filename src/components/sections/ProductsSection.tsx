@@ -4,6 +4,7 @@ import {
   getOperatorBackground,
   getOperatorLogo,
 } from "../../data/operatorLogos";
+import { useMinWidth } from "../../hooks/useMinWidth";
 import type { ProductVaultCard } from "../../types/products";
 import { ButtonLink } from "../ui/Button";
 import { SectionContainer, SectionHeading } from "../ui/Section";
@@ -58,6 +59,7 @@ const normalizeMarqueeScroll = (value: number, singleSetWidth: number) => {
 
 const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
   const shouldReduceMotion = useReducedMotion();
+  const showHeaderCta = useMinWidth(768);
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const singleSetRef = useRef<HTMLDivElement | null>(null);
   const didDragRef = useRef(false);
@@ -182,16 +184,20 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
             className="max-w-3xl"
           />
 
-          <ButtonLink
-            href="https://app.pareto.credit/"
-            target="_blank"
-            rel="noopener noreferrer"
-            variant="outline"
-            size="sm"
-            className="text-[var(--color-text-primary)]"
-          >
-            Explore Vaults
-          </ButtonLink>
+          {showHeaderCta ? (
+            <div data-testid="products-header-actions">
+              <ButtonLink
+                href="https://app.pareto.credit/"
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="outline"
+                size="sm"
+                className="text-[var(--color-text-primary)]"
+              >
+                Explore Vaults
+              </ButtonLink>
+            </div>
+          ) : null}
         </SectionContainer>
 
         {isVaultsLoading ? (
@@ -461,6 +467,23 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
             </div>
           </div>
         )}
+
+        {!showHeaderCta ? (
+          <div data-testid="products-footer-actions">
+            <SectionContainer className="mt-10 flex justify-center md:mt-12 md:justify-end">
+              <ButtonLink
+                href="https://app.pareto.credit/"
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="outline"
+                size="sm"
+                className="text-[var(--color-text-primary)]"
+              >
+                Explore Vaults
+              </ButtonLink>
+            </SectionContainer>
+          </div>
+        ) : null}
 
       </div>
     </section>
