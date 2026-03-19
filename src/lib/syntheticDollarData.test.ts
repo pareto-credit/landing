@@ -8,18 +8,18 @@ import {
 
 const buildVaultBlock = (): VaultBlock =>
   ({
-    totalSupply: "3700000000000000000000000",
+    totalSupply: "3600000000000000000000000",
     price: "1080000000000000000",
     APYs: {
       BASE: 0,
-      NET: 8.567,
+      NET: 8.18,
     },
     APRs: {
       BASE: 0,
     },
     paretoDollar: {
       staking: {
-        totalAssets: "2900000000000000000000000",
+        totalAssets: "2800000000000000000000000",
       },
     },
   }) as VaultBlock;
@@ -30,14 +30,31 @@ describe("mapVaultBlockToSyntheticDollarData", () => {
 
     expect(data.USP.stats).toEqual([
       { label: "Price", value: "$1.00" },
-      { label: "TVL", value: "$3.7M" },
-      { label: "Collateralization", value: "100%" },
+      { label: "TVL", value: "$3.6M" },
+      { label: "Coverage Ratio", value: "77%" },
     ]);
     expect(data.sUSP.stats).toEqual([
       { label: "Price", value: "$1.08" },
-      { label: "TVL", value: "$2.9M" },
-      { label: "APY", value: "8.57%" },
+      { label: "TVL", value: "$2.8M" },
+      { label: "APY", value: "8.18%" },
     ]);
+  });
+
+  it("derives the coverage ratio from sUSP TVL over USP TVL", () => {
+    const data = mapVaultBlockToSyntheticDollarData({
+      ...buildVaultBlock(),
+      totalSupply: "5000000000000000000000000",
+      paretoDollar: {
+        staking: {
+          totalAssets: "1250000000000000000000000",
+        },
+      },
+    } as VaultBlock);
+
+    expect(data.USP.stats).toContainEqual({
+      label: "Coverage Ratio",
+      value: "25%",
+    });
   });
 });
 

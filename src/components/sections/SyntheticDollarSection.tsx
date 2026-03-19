@@ -1,28 +1,16 @@
 import {
   CheckCircle2,
-  Droplets,
-  LineChart,
-  Network,
-  Puzzle,
-  ShieldCheck,
-  TrendingUp,
-  type LucideIcon,
 } from "lucide-react";
 import suspIcon from "../../assets/svgs/sUSP.svg";
 import uspIcon from "../../assets/svgs/USP.svg";
 import { FALLBACK_SYNTHETIC_DOLLAR_DATA } from "../../data/syntheticDollar";
 import { cn } from "../../lib/cn";
-import type {
-  SyntheticDollarDataPayload,
-  SyntheticToken,
-} from "../../types/syntheticDollar";
+import type { SyntheticDollarDataPayload, SyntheticToken } from "../../types/syntheticDollar";
 import { ButtonLink } from "../ui/Button";
 import { SectionContainer, SectionHeading } from "../ui/Section";
 
 interface SyntheticFeature {
   name: string;
-  description: string;
-  icon: LucideIcon;
 }
 
 interface SyntheticTokenContent {
@@ -43,55 +31,41 @@ const tokenIcons: Record<SyntheticToken, string> = {
   USP: uspIcon,
   sUSP: suspIcon,
 };
+const metricLabelClassName =
+  "font-mono text-[10px] font-semibold uppercase tracking-widest";
+const metricValueClassName =
+  "mt-2 whitespace-nowrap text-2xl font-bold tracking-tight";
 
 const syntheticDollarContent: Record<SyntheticToken, SyntheticTokenContent> = {
   USP: {
-    title: "USP, the credit-based<br />synthetic dollar",
+    title: "USP, the credit<br />index unit",
     description:
-      "USP is a synthetic dollar protocol backed by real-world institutional-grade private credit.",
+      "USP tracks a diversified basket of loans, offering a stable reference unit for onchain credit markets.",
     features: [
       {
         name: "Composable",
-        description:
-          "USP is a transferable, permissionless asset that integrates across DeFi and CeFi, streamlining capital deployment, risk management, and settlements.",
-        icon: Puzzle,
       },
       {
         name: "Capital Efficient",
-        description:
-          "Minted 1:1 against major stablecoins, USP is deployed into a diversified portfolio of liquid, short- and long-term credit to balance liquidity and yield.",
-        icon: LineChart,
       },
       {
-        name: "Protected",
-        description:
-          "USP holds senior priority in the capital stack and is shielded by a stability reserve, providing an added buffer against defaults and market stress.",
-        icon: ShieldCheck,
+        name: "Diversified",
       },
     ],
   },
   sUSP: {
-    title: "sUSP, the credit<br />savings rate",
+    title: "sUSP, the credit<br />index return",
     description:
-      "sUSP is the staking version of USP, acting like a savings account for RWA credit lines.",
+      "sUSP accrues the aggregate yield of the underlying credit index - giving holders passive exposure to credit returns.",
     features: [
       {
         name: "Yield Generating",
-        description:
-          "sUSP allows users to earn yield from Credit Vaults and participate in Pareto's long-term growth, designed for stable, risk-adjusted returns.",
-        icon: TrendingUp,
       },
       {
         name: "Liquid",
-        description:
-          "sUSP is fully liquid and non-custodial, allowing holders to exit at any time by simply unstaking without lockups or withdrawal restrictions.",
-        icon: Droplets,
       },
       {
         name: "Diversified",
-        description:
-          "sUSP provides exposure to a broad set of credit lines, reducing single-counterparty risk through structured diversification.",
-        icon: Network,
       },
     ],
   },
@@ -117,9 +91,9 @@ const SyntheticDollarSection = ({
       <SectionContainer className="relative z-10 py-24 lg:py-32">
         <div className="mb-16 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading
-            eyebrow="Synthetic Assets"
-            title="Building blocks of the new era"
-            description="Pareto introduces a stable unit of account and a yield-bearing savings asset, designed to work in tandem for optimal capital efficiency."
+            eyebrow="Indexes"
+            title="The credit market, made investable"
+            description="Pareto introduces a composable index unit and its yield-bearing counterpart, designed to give onchain access to private credit baskets."
             size="2xl"
             className="max-w-2xl"
           />
@@ -235,7 +209,7 @@ const SyntheticDollarSection = ({
                   >
                     <div
                       className={cn(
-                        "font-mono text-[10px] font-semibold uppercase tracking-widest",
+                        metricLabelClassName,
                         isDark
                           ? "text-[var(--color-text-muted-soft)]"
                           : "text-[var(--color-text-secondary)]",
@@ -243,7 +217,14 @@ const SyntheticDollarSection = ({
                     >
                       {stat.label}
                     </div>
-                    <div className="mt-2 text-2xl font-bold tracking-tight">
+                    <div
+                      className={cn(
+                        metricValueClassName,
+                        isDark
+                          ? "text-[var(--color-text-inverse)]"
+                          : "text-[var(--color-text-primary)]",
+                      )}
+                    >
                       {stat.value}
                     </div>
                   </div>

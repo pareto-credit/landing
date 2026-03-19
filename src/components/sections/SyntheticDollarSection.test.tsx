@@ -8,16 +8,17 @@ describe("SyntheticDollarSection", () => {
 
     expect(
       screen.getByRole("heading", {
-        name: /usp, the credit-based\s*synthetic dollar/i,
+        name: /usp, the credit\s*index unit/i,
       }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", {
-        name: /susp, the credit\s*savings rate/i,
+        name: /susp, the credit\s*index return/i,
       }),
     ).toBeInTheDocument();
-    expect(screen.getByText("$3.7M")).toBeInTheDocument();
-    expect(screen.getByText("8.57%")).toBeInTheDocument();
+    expect(screen.getByText("$3.6M")).toBeInTheDocument();
+    expect(screen.getByText("77%")).toBeInTheDocument();
+    expect(screen.getByText("8.18%")).toBeInTheDocument();
   });
 
   it("renders the provided USP app link", () => {
@@ -33,5 +34,21 @@ describe("SyntheticDollarSection", () => {
 
     expect(screen.getByAltText("USP icon")).toBeInTheDocument();
     expect(screen.getByAltText("sUSP icon")).toBeInTheDocument();
+  });
+
+  it("renders the updated section copy", () => {
+    render(<SyntheticDollarSection />);
+
+    expect(screen.getByText("Indexes")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        name: /the credit market, made investable/i,
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /pareto introduces a composable index unit and its yield-bearing counterpart/i,
+      ),
+    ).toBeInTheDocument();
   });
 });

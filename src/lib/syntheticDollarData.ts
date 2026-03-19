@@ -5,7 +5,6 @@ export const SYNTHETIC_DOLLAR_VAULT_ID = "68026ee6905992e056c85a75";
 
 const WAD_DECIMALS = 1e18;
 const USP_PRICE = 1;
-const USP_COLLATERALIZATION = "100%";
 
 const COMPACT_CURRENCY_FORMATTER = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -50,27 +49,52 @@ const formatPercent = (value: unknown): string => {
   return parsed === null ? "—" : `${parsed.toFixed(2)}%`;
 };
 
+const formatCoverageRatio = (
+  uspTvl: number | null,
+  suspTvl: number | null,
+): string => {
+  if (
+    uspTvl === null ||
+    suspTvl === null ||
+    uspTvl <= 0 ||
+    !Number.isFinite(uspTvl) ||
+    !Number.isFinite(suspTvl)
+  ) {
+    return "—";
+  }
+
+  return `${Math.floor((suspTvl / uspTvl) * 100)}%`;
+};
+
 export const mapVaultBlockToSyntheticDollarData = (
   vaultBlock: VaultBlock,
-): SyntheticDollarDataPayload => ({
-  USP: {
-    stats: [
-      { label: "Price", value: formatUsd(USP_PRICE) },
-      { label: "TVL", value: formatCompactUsd(fromWad(vaultBlock.totalSupply)) },
-      { label: "Collateralization", value: USP_COLLATERALIZATION },
-    ],
-  },
-  sUSP: {
-    stats: [
-      { label: "Price", value: formatUsd(fromWad(vaultBlock.price)) },
-      {
-        label: "TVL",
-        value: formatCompactUsd(fromWad(vaultBlock.paretoDollar?.staking?.totalAssets)),
-      },
-      { label: "APY", value: formatPercent(vaultBlock.APYs?.NET) },
-    ],
-  },
-});
+): SyntheticDollarDataPayload => {
+  const uspTvl = fromWad(vaultBlock.totalSupply);
+  const suspTvl = fromWad(vaultBlock.paretoDollar?.staking?.totalAssets);
+
+  return {
+    USP: {
+      stats: [
+        { label: "Price", value: formatUsd(USP_PRICE) },
+        { label: "TVL", value: formatCompactUsd(uspTvl) },
+        {
+          label: "Coverage Ratio",
+          value: formatCoverageRatio(uspTvl, suspTvl),
+        },
+      ],
+    },
+    sUSP: {
+      stats: [
+        { label: "Price", value: formatUsd(fromWad(vaultBlock.price)) },
+        {
+          label: "TVL",
+          value: formatCompactUsd(suspTvl),
+        },
+        { label: "APY", value: formatPercent(vaultBlock.APYs?.NET) },
+      ],
+    },
+  };
+};
 
 export const fetchSyntheticDollarData = async (
   apiClient: ApiClientType,
@@ -81,4 +105,3 @@ export const fetchSyntheticDollarData = async (
 
   return mapVaultBlockToSyntheticDollarData(latestVaultBlock);
 };
-
