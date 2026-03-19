@@ -1,4 +1,5 @@
 import bastionEco from "../../assets/images/operators/Bastion_Trading.svg";
+import adaptiveFrontierEco from "../../assets/images/operators/adaptivefrontier.png";
 import falconEco from "../../assets/images/operators/FalconX.svg";
 import digitalEco from "../../assets/images/operators/Fasanara_Digital.svg";
 import rockawayEco from "../../assets/images/operators/RockawayX_mark.svg";
@@ -47,6 +48,13 @@ const operators: Operator[] = [
     link: "https://www.maven11.com/",
     src: m11Eco,
     visualScale: 1.14,
+    verticalOffset: 0,
+  },
+  {
+    name: "Adaptive Frontier",
+    link: "https://www.adaptivefrontier.com/",
+    src: adaptiveFrontierEco,
+    visualScale: 1.08,
     verticalOffset: 0,
   },
 ];

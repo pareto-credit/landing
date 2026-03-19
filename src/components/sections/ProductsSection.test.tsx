@@ -122,4 +122,24 @@ describe("ProductsSection", () => {
       screen.getByRole("link", { name: /explore vaults/i }),
     );
   });
+
+  it("uses a non-clipping line height for vault card titles", () => {
+    class ResizeObserverMock {
+      observe() {}
+      disconnect() {}
+    }
+
+    Object.defineProperty(window, "ResizeObserver", {
+      configurable: true,
+      writable: true,
+      value: ResizeObserverMock,
+    });
+
+    render(<ProductsSection vaults={[vaultCard]} isVaultsLoading={false} />);
+
+    const [title] = screen.getAllByText("FalconX Credit Vault");
+
+    expect(title).not.toHaveClass("leading-none");
+    expect(title).toHaveClass("leading-[1.1]");
+  });
 });

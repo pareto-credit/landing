@@ -287,7 +287,10 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
                 if (!viewport) return;
 
                 const deltaX = event.clientX - pointerStartXRef.current;
-                if (!didDragRef.current && Math.abs(deltaX) <= DRAG_THRESHOLD_PX) {
+                if (
+                  !didDragRef.current &&
+                  Math.abs(deltaX) <= DRAG_THRESHOLD_PX
+                ) {
                   return;
                 }
 
@@ -399,18 +402,18 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
                                       )}
                                     </div>
                                     <div className="min-w-0 pt-0.5">
-                                      <p className="truncate whitespace-nowrap text-[1.55rem] font-semibold leading-none tracking-tight text-[var(--color-text-primary)] xl:text-[1.65rem]">
+                                      <p className="truncate whitespace-nowrap text-[1.55rem] font-semibold leading-[1.2] tracking-tight text-[var(--color-text-primary)] xl:text-[1.65rem]">
                                         {vault.name}
                                       </p>
                                       {vault.subtitle ? (
-                                        <p className="mt-1 truncate whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--color-text-secondary)]">
+                                        <p className="mt-0 truncate whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--color-text-secondary)]">
                                           {vault.subtitle}
                                         </p>
                                       ) : null}
                                     </div>
                                   </div>
                                 ) : (
-                                  <p className="truncate whitespace-nowrap text-[1.55rem] font-semibold leading-none tracking-tight text-[var(--color-text-primary)] xl:text-[1.65rem]">
+                                  <p className="truncate whitespace-nowrap text-[1.55rem] font-semibold leading-[1.2] tracking-tight text-[var(--color-text-primary)] xl:text-[1.65rem]">
                                     {vault.name}
                                   </p>
                                 )}
@@ -512,7 +515,6 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
             </SectionContainer>
           </div>
         ) : null}
-
       </div>
     </section>
   );
