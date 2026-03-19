@@ -18,7 +18,13 @@ const ContactSection = () => {
       <SectionContainer size="5xl" className="ui-section-shell relative z-10">
         <SectionHeading
           eyebrow="Contact"
-          title="Build on better credit infrastructure"
+          title={
+            <>
+              The infrastructure is ready.
+              <br />
+              Are you?
+            </>
+          }
           className="mx-auto mb-10 text-center lg:mb-12"
           titleClassName="text-[var(--color-text-primary)]"
           descriptionClassName="mx-auto max-w-3xl text-base text-[var(--color-text-secondary)]"
@@ -33,9 +39,7 @@ const ContactSection = () => {
           >
             <div className="grid gap-x-6 gap-y-5 lg:grid-cols-2">
               <div>
-                <label className={fieldLabelClassName}>
-                  Full name *
-                </label>
+                <label className={fieldLabelClassName}>Full name *</label>
                 <input
                   type="text"
                   name="fullName"
@@ -45,9 +49,7 @@ const ContactSection = () => {
               </div>
 
               <div>
-                <label className={fieldLabelClassName}>
-                  Email *
-                </label>
+                <label className={fieldLabelClassName}>Email *</label>
                 <input
                   type="email"
                   name="email"
@@ -59,9 +61,7 @@ const ContactSection = () => {
 
             <div className="grid gap-x-6 gap-y-5 lg:grid-cols-4">
               <div className="lg:col-span-2">
-                <label className={fieldLabelClassName}>
-                  Organization *
-                </label>
+                <label className={fieldLabelClassName}>Organization *</label>
                 <input
                   type="text"
                   name="organization"
@@ -108,9 +108,7 @@ const ContactSection = () => {
             </div>
 
             <div>
-              <label className={fieldLabelClassName}>
-                Message *
-              </label>
+              <label className={fieldLabelClassName}>Message *</label>
               <textarea
                 required
                 name="message"

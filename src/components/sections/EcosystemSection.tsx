@@ -55,7 +55,7 @@ const ecosystemSegments: EcosystemSegment[] = [
       "White-label UI",
       "Modular credit vaults",
       "Compliance orchestration",
-      "Fiat on/off ramps",
+      "Workflow automation",
     ],
   },
 ];

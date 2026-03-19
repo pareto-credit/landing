@@ -517,8 +517,8 @@ const NarrativeScrollSection = () => {
                 01. The Legacy
               </div>
               <h2 className={narrativeHeadingClassName}>
-                Private credit still runs on outdated infrastructure, stacked up
-                over the past 50 years.
+                Credit markets run on a stack of legacy systems, patched
+                together over decades
               </h2>
               {/* <p className="max-w-md text-lg leading-relaxed text-[var(--color-text-inverse)]/85">
                 Archaic databases and fragmented ledgers were never designed for
@@ -535,8 +535,8 @@ const NarrativeScrollSection = () => {
                 02. The Patchwork
               </div>
               <h2 className={narrativeHeadingClassName}>
-                Private credit markets have scaled over the years. Their
-                technology has not.
+                Trillions deployed. Still managed on spreadsheets and phone
+                calls
               </h2>
               {/* <p className="max-w-md text-lg leading-relaxed text-[var(--color-text-inverse)]/85">
                 Instead of rebuilding from the ground up, the industry has
@@ -554,7 +554,8 @@ const NarrativeScrollSection = () => {
                 03. The Friction
               </div>
               <h2 className={narrativeHeadingClassName}>
-                The result is a fragile system carrying unnecessary risk.
+                The result: a fragile system where opacity is the norm and risk
+                hides in the gaps
               </h2>
               {/* <p className="max-w-md text-lg leading-relaxed text-[var(--color-text-inverse)]/85">
                 The result is a fragile ecosystem plagued by T+2 settlement
@@ -598,7 +599,7 @@ const NarrativeScrollSection = () => {
               className="h-40 w-40 mx-auto mb-8 h-20 w-20 items-center justify-center"
             />
             <h2 className="text-5xl leading-none font-semibold tracking-tighter text-[var(--color-text-inverse)] drop-shadow-2xl md:text-7xl lg:text-8xl">
-              We are here to
+              Pareto is here to
               <br />
               <span className="bg-gradient-to-b from-[var(--color-text-inverse)] to-[var(--color-brand-alt)] bg-clip-text text-transparent">
                 set a new standard
