@@ -12,11 +12,11 @@
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
   --radius-2xl: 1rem;
-  --radius-3xl: 1.25rem;
-  --radius-4xl: 1.625rem;
-  --radius-control: var(--radius-lg);
-  --radius-panel: var(--radius-3xl);
-  --radius-card: var(--radius-4xl);
+  --radius-3xl: 1rem;
+  --radius-4xl: 1.375rem;
+  --radius-control: var(--radius-md);
+  --radius-panel: var(--radius-xl);
+  --radius-card: var(--radius-xl);
 }
 
 :root {

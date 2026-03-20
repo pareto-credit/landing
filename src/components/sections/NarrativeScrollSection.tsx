@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { startTransition, useEffect, useMemo, useRef, useState } from "react";
 import {
   motion,
   useMotionTemplate,
@@ -18,9 +18,10 @@ const WINDOW_TOP_PX = 64;
 const WINDOW_BOTTOM_PX = 64;
 const WINDOW_RIGHT_PX = 64;
 const WINDOW_LEFT_RATIO = 0.55;
-const WINDOW_RADIUS_PX = 32;
+export const WINDOW_RADIUS_PX = 18;
 const WINDOW_SAFE_TOP_PX = NAVBAR_OFFSET_PX + 16;
 const VIDEO_LOAD_AHEAD_MARGIN = "1200px 0px";
+const NARRATIVE_SCROLL_HEIGHT_CLASS = "h-[480vh]";
 
 type NarrativeVideoKey =
   | "serverRoom"
@@ -28,29 +29,18 @@ type NarrativeVideoKey =
   | "financialDocuments"
   | "hyperCity";
 
-const NARRATIVE_VIDEO_ASSETS: Record<
-  NarrativeVideoKey,
-  { poster: string; src: string }
-> = {
+const NARRATIVE_VIDEO_ASSETS: Record<NarrativeVideoKey, { src: string }> = {
   serverRoom: {
     src: financialMarketVideo,
-    poster:
-      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=1000",
   },
   tradingDesk: {
     src: tradingDeskVideo,
-    poster:
-      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1000",
   },
   financialDocuments: {
     src: financialDocumentsVideo,
-    poster:
-      "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=1000",
   },
   hyperCity: {
     src: hyperCityVideo,
-    poster:
-      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2000",
   },
 };
 
@@ -61,21 +51,30 @@ const NARRATIVE_VIDEO_KEYS: NarrativeVideoKey[] = [
   "hyperCity",
 ];
 
-const getVisibleVideoKeys = (progress: number): NarrativeVideoKey[] => {
-  if (progress < 0.15) return ["serverRoom"];
-  if (progress < 0.25) return ["serverRoom", "tradingDesk"];
-  if (progress < 0.45) return ["tradingDesk"];
-  if (progress < 0.55) return ["tradingDesk", "financialDocuments"];
-  if (progress < 0.75) return ["financialDocuments"];
-  if (progress < 0.82) return ["financialDocuments", "hyperCity"];
+const SLIDE_1_EXIT_START = 0.14;
+const SLIDE_1_EXIT_END = 0.2;
+const SLIDE_2_EXIT_START = 0.43;
+const SLIDE_2_EXIT_END = 0.49;
+const SLIDE_3_EXIT_START = 0.72;
+const SLIDE_3_EXIT_END = 0.78;
+const CLIMAX_FADE_IN_START = 0.76;
+const CLIMAX_FADE_IN_END = 0.83;
+
+export const getVisibleVideoKeys = (progress: number): NarrativeVideoKey[] => {
+  if (progress < SLIDE_1_EXIT_START) return ["serverRoom"];
+  if (progress < SLIDE_1_EXIT_END) return ["serverRoom", "tradingDesk"];
+  if (progress < SLIDE_2_EXIT_START) return ["tradingDesk"];
+  if (progress < SLIDE_2_EXIT_END) return ["tradingDesk", "financialDocuments"];
+  if (progress < SLIDE_3_EXIT_START) return ["financialDocuments"];
+  if (progress < SLIDE_3_EXIT_END) return ["financialDocuments", "hyperCity"];
 
   return ["hyperCity"];
 };
 
 const getPreloadVideoKeys = (progress: number): NarrativeVideoKey[] => {
-  if (progress < 0.25) return ["serverRoom", "tradingDesk"];
-  if (progress < 0.55) return ["tradingDesk", "financialDocuments"];
-  if (progress < 0.82) return ["financialDocuments", "hyperCity"];
+  if (progress < SLIDE_1_EXIT_END) return ["serverRoom", "tradingDesk"];
+  if (progress < SLIDE_2_EXIT_END) return ["tradingDesk", "financialDocuments"];
+  if (progress < SLIDE_3_EXIT_END) return ["financialDocuments", "hyperCity"];
 
   return ["hyperCity"];
 };
@@ -127,41 +126,79 @@ const NarrativeScrollSection = () => {
   });
 
   // Slide 1: The Legacy
-  const opacity1 = useTransform(scrollYProgress, [0, 0.15, 0.25], [1, 1, 0]);
-  const y1 = useTransform(scrollYProgress, [0, 0.25], [0, -40]);
-  const vidOpacity1 = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
+  const opacity1 = useTransform(
+    scrollYProgress,
+    [0, SLIDE_1_EXIT_START, SLIDE_1_EXIT_END],
+    [1, 1, 0],
+  );
+  const y1 = useTransform(scrollYProgress, [0, SLIDE_1_EXIT_END], [0, -40]);
+  const vidOpacity1 = useTransform(
+    scrollYProgress,
+    [0, SLIDE_1_EXIT_END],
+    [1, 0],
+  );
 
   // Slide 2: The Patchwork
   const opacity2 = useTransform(
     scrollYProgress,
-    [0.15, 0.25, 0.45, 0.55],
+    [
+      SLIDE_1_EXIT_START,
+      SLIDE_1_EXIT_END,
+      SLIDE_2_EXIT_START,
+      SLIDE_2_EXIT_END,
+    ],
     [0, 1, 1, 0],
   );
   const y2 = useTransform(
     scrollYProgress,
-    [0.15, 0.25, 0.45, 0.55],
+    [
+      SLIDE_1_EXIT_START,
+      SLIDE_1_EXIT_END,
+      SLIDE_2_EXIT_START,
+      SLIDE_2_EXIT_END,
+    ],
     [40, 0, 0, -40],
   );
   const vidOpacity2 = useTransform(
     scrollYProgress,
-    [0.15, 0.25, 0.45, 0.55],
+    [
+      SLIDE_1_EXIT_START,
+      SLIDE_1_EXIT_END,
+      SLIDE_2_EXIT_START,
+      SLIDE_2_EXIT_END,
+    ],
     [0, 1, 1, 0],
   );
 
   // Slide 3: The Friction
   const opacity3 = useTransform(
     scrollYProgress,
-    [0.45, 0.55, 0.7, 0.78],
+    [
+      SLIDE_2_EXIT_START,
+      SLIDE_2_EXIT_END,
+      SLIDE_3_EXIT_START,
+      CLIMAX_FADE_IN_START,
+    ],
     [0, 1, 1, 0],
   );
   const y3 = useTransform(
     scrollYProgress,
-    [0.45, 0.55, 0.7, 0.78],
+    [
+      SLIDE_2_EXIT_START,
+      SLIDE_2_EXIT_END,
+      SLIDE_3_EXIT_START,
+      CLIMAX_FADE_IN_START,
+    ],
     [40, 0, 0, -40],
   );
   const vidOpacity3 = useTransform(
     scrollYProgress,
-    [0.45, 0.55, 0.7, 0.78],
+    [
+      SLIDE_2_EXIT_START,
+      SLIDE_2_EXIT_END,
+      SLIDE_3_EXIT_START,
+      CLIMAX_FADE_IN_START,
+    ],
     [0, 1, 1, 0],
   );
 
@@ -187,10 +224,14 @@ const NarrativeScrollSection = () => {
   // Slide 4: Climax (Pareto - Full Screen)
   const climaxOpacity = useTransform(
     scrollYProgress,
-    [0.78, 0.85, 1],
+    [CLIMAX_FADE_IN_START, CLIMAX_FADE_IN_END, 1],
     [0, 1, 1],
   );
-  const climaxScale = useTransform(scrollYProgress, [0.78, 1], [0.95, 1]);
+  const climaxScale = useTransform(
+    scrollYProgress,
+    [CLIMAX_FADE_IN_START, 1],
+    [0.95, 1],
+  );
 
   useEffect(() => {
     const viewport = viewportRef.current;
@@ -237,19 +278,21 @@ const NarrativeScrollSection = () => {
     const initialActiveKeys = getVisibleVideoKeys(progress);
     const initialPreloadKeys = getPreloadVideoKeys(progress);
 
-    setActiveVideoKeys(initialActiveKeys);
-    setLoadedVideoKeys((current) => {
-      let changed = false;
-      const next = { ...current };
+    startTransition(() => {
+      setActiveVideoKeys(initialActiveKeys);
+      setLoadedVideoKeys((current) => {
+        let changed = false;
+        const next = { ...current };
 
-      for (const key of initialPreloadKeys) {
-        if (next[key]) continue;
+        for (const key of initialPreloadKeys) {
+          if (next[key]) continue;
 
-        next[key] = true;
-        changed = true;
-      }
+          next[key] = true;
+          changed = true;
+        }
 
-      return changed ? next : current;
+        return changed ? next : current;
+      });
     });
   }, [scrollYProgress, shouldLoadVideos]);
 
@@ -259,21 +302,23 @@ const NarrativeScrollSection = () => {
     const nextActiveKeys = getVisibleVideoKeys(latest);
     const nextPreloadKeys = getPreloadVideoKeys(latest);
 
-    setActiveVideoKeys((current) =>
-      sameVideoKeys(current, nextActiveKeys) ? current : nextActiveKeys,
-    );
-    setLoadedVideoKeys((current) => {
-      let changed = false;
-      const next = { ...current };
+    startTransition(() => {
+      setActiveVideoKeys((current) =>
+        sameVideoKeys(current, nextActiveKeys) ? current : nextActiveKeys,
+      );
+      setLoadedVideoKeys((current) => {
+        let changed = false;
+        const next = { ...current };
 
-      for (const key of nextPreloadKeys) {
-        if (next[key]) continue;
+        for (const key of nextPreloadKeys) {
+          if (next[key]) continue;
 
-        next[key] = true;
-        changed = true;
-      }
+          next[key] = true;
+          changed = true;
+        }
 
-      return changed ? next : current;
+        return changed ? next : current;
+      });
     });
   });
 
@@ -385,7 +430,10 @@ const NarrativeScrollSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative h-[500vh] bg-[var(--color-bg-narrative)]"
+      className={cn(
+        "relative bg-[var(--color-bg-narrative)]",
+        NARRATIVE_SCROLL_HEIGHT_CLASS,
+      )}
     >
       <div
         ref={viewportRef}
@@ -394,11 +442,11 @@ const NarrativeScrollSection = () => {
         {/* Layer 1: Full-screen background videos */}
         <motion.div
           style={{ opacity: splitScreenOpacity }}
-          className="absolute inset-0 z-0"
+          className="absolute inset-0 z-0 transform-gpu will-change-[opacity]"
         >
           <motion.div
             style={{ opacity: vidOpacity1 }}
-            className="absolute inset-0 h-full w-full"
+            className="absolute inset-0 h-full w-full transform-gpu will-change-[opacity]"
           >
             <video
               ref={(node) => {
@@ -409,7 +457,6 @@ const NarrativeScrollSection = () => {
                   ? NARRATIVE_VIDEO_ASSETS.serverRoom.src
                   : undefined
               }
-              poster={NARRATIVE_VIDEO_ASSETS.serverRoom.poster}
               loop
               muted
               playsInline
@@ -419,12 +466,12 @@ const NarrativeScrollSection = () => {
               disablePictureInPicture
               disableRemotePlayback
               aria-hidden="true"
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover [backface-visibility:hidden] [transform:translateZ(0)] will-change-transform"
             />
           </motion.div>
           <motion.div
             style={{ opacity: vidOpacity2 }}
-            className="absolute inset-0 h-full w-full"
+            className="absolute inset-0 h-full w-full transform-gpu will-change-[opacity]"
           >
             <video
               ref={(node) => {
@@ -435,7 +482,6 @@ const NarrativeScrollSection = () => {
                   ? NARRATIVE_VIDEO_ASSETS.tradingDesk.src
                   : undefined
               }
-              poster={NARRATIVE_VIDEO_ASSETS.tradingDesk.poster}
               loop
               muted
               playsInline
@@ -445,12 +491,12 @@ const NarrativeScrollSection = () => {
               disablePictureInPicture
               disableRemotePlayback
               aria-hidden="true"
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover [backface-visibility:hidden] [transform:translateZ(0)] will-change-transform"
             />
           </motion.div>
           <motion.div
             style={{ opacity: vidOpacity3 }}
-            className="absolute inset-0 h-full w-full"
+            className="absolute inset-0 h-full w-full transform-gpu will-change-[opacity]"
           >
             <video
               ref={(node) => {
@@ -461,7 +507,6 @@ const NarrativeScrollSection = () => {
                   ? NARRATIVE_VIDEO_ASSETS.financialDocuments.src
                   : undefined
               }
-              poster={NARRATIVE_VIDEO_ASSETS.financialDocuments.poster}
               loop
               muted
               playsInline
@@ -473,7 +518,7 @@ const NarrativeScrollSection = () => {
               disablePictureInPicture
               disableRemotePlayback
               aria-hidden="true"
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover [backface-visibility:hidden] [transform:translateZ(0)] will-change-transform"
             />
           </motion.div>
         </motion.div>
@@ -495,7 +540,7 @@ const NarrativeScrollSection = () => {
                   opacity: splitScreenOpacity,
                   clipPath: frostyDesktopClipPath,
                 }}
-                className="absolute inset-0 hidden backdrop-blur-2xl backdrop-saturate-150 lg:block"
+                className="absolute inset-0 hidden backdrop-blur-xl lg:block"
               ></motion.div>
 
               <motion.div
@@ -581,7 +626,7 @@ const NarrativeScrollSection = () => {
         {/* Layer 4: Pareto climax */}
         <motion.div
           style={{ opacity: climaxOpacity }}
-          className="absolute inset-0 z-30 flex items-center justify-center bg-[var(--color-bg-narrative)]"
+          className="absolute inset-0 z-30 flex items-center justify-center bg-[var(--color-bg-narrative)] transform-gpu will-change-[opacity]"
         >
           <video
             ref={(node) => {
@@ -592,7 +637,6 @@ const NarrativeScrollSection = () => {
                 ? NARRATIVE_VIDEO_ASSETS.hyperCity.src
                 : undefined
             }
-            poster={NARRATIVE_VIDEO_ASSETS.hyperCity.poster}
             loop
             muted
             playsInline
@@ -602,7 +646,7 @@ const NarrativeScrollSection = () => {
             disablePictureInPicture
             disableRemotePlayback
             aria-hidden="true"
-            className="absolute inset-0 h-full w-full scale-[1.08] object-cover object-center brightness-[0.58] contrast-110"
+            className="absolute inset-0 h-full w-full scale-[1.08] object-cover object-center brightness-[0.58] contrast-110 [backface-visibility:hidden] [transform:translateZ(0)] will-change-transform"
           />
 
           <div className="absolute inset-0 bg-gradient-to-t from-[color:rgb(5_11_8_/_0.45)] via-[color:rgb(5_11_8_/_0.08)] to-transparent"></div>
