@@ -21,8 +21,13 @@ describe("Navbar", () => {
     fireEvent.click(screen.getByRole("button", { name: /toggle mobile menu/i }));
 
     const dialog = screen.getByRole("dialog", { name: /site navigation/i });
+    const menuContent = screen.getByTestId("mobile-menu-content");
+    const menuNav = screen.getByTestId("mobile-menu-nav");
 
     expect(dialog).toHaveClass("fixed", "inset-0");
+    expect(dialog).toHaveClass("overflow-hidden");
+    expect(menuContent).toHaveClass("h-[100svh]");
+    expect(menuNav).not.toHaveClass("overflow-y-auto");
     expect(document.body.style.overflow).toBe("hidden");
   });
 

@@ -1,4 +1,7 @@
-import type { ApiClient as ApiClientType, VaultBlock } from "@idle-multiverse/data-access";
+import type {
+  ApiClient as ApiClientType,
+  VaultBlock,
+} from "@idle-multiverse/data-access";
 import type { SyntheticDollarDataPayload } from "../types/syntheticDollar";
 
 export const SYNTHETIC_DOLLAR_VAULT_ID = "68026ee6905992e056c85a75";
@@ -78,7 +81,7 @@ export const mapVaultBlockToSyntheticDollarData = (
         { label: "Price", value: formatUsd(USP_PRICE) },
         { label: "TVL", value: formatCompactUsd(uspTvl) },
         {
-          label: "Coverage Ratio",
+          label: "Coverage",
           value: formatCoverageRatio(uspTvl, suspTvl),
         },
       ],

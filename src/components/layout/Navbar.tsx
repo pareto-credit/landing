@@ -199,7 +199,7 @@ const Navbar = () => {
                 setMobileMenuOpen(false);
               }
             }}
-            className="fixed inset-0 z-[55] overflow-y-auto bg-[linear-gradient(180deg,rgb(5_12_9),rgb(8_18_14))] md:hidden"
+            className="fixed inset-0 z-[55] overflow-hidden bg-[linear-gradient(180deg,rgb(5_12_9),rgb(8_18_14))] md:hidden"
           >
             <div className="pointer-events-none absolute inset-0 overflow-hidden">
               <motion.div
@@ -258,19 +258,23 @@ const Navbar = () => {
                 duration: shouldReduceMotion ? 0.2 : 0.32,
                 ease: "easeOut",
               }}
-              className="relative z-10 flex min-h-full flex-col px-6 pb-8 pt-28"
+              data-testid="mobile-menu-content"
+              className="relative z-10 flex h-[100svh] flex-col px-5 pb-5 pt-24 sm:px-6 sm:pb-8 sm:pt-28"
             >
-              <div className="mb-8">
+              <div className="shrink-0">
                 <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[var(--color-brand-alt)]">
                   Navigate the credit stack
                 </p>
-                <p className="mt-3 max-w-xs text-sm leading-relaxed text-[var(--color-text-muted-softer)]">
+                <p className="mt-2 max-w-xs text-[13px] leading-relaxed text-[var(--color-text-muted-softer)] sm:mt-3 sm:text-sm">
                   Explore the platform, products, and research without losing the
                   thread.
                 </p>
               </div>
 
-              <div className="flex flex-1 flex-col gap-3 overflow-y-auto pb-6">
+              <div
+                data-testid="mobile-menu-nav"
+                className="flex flex-1 flex-col justify-center gap-2.5 py-5 sm:gap-3 sm:py-6"
+              >
                 {mobileNavigationItems.map((item, index) => (
                   <motion.button
                     key={item.id}
@@ -295,18 +299,18 @@ const Navbar = () => {
                       delay: shouldReduceMotion ? 0 : 0.04 * index,
                     }}
                     onClick={() => handleSectionScroll(item.id)}
-                    className="group flex min-h-14 items-center justify-between rounded-[1.6rem] border border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.035)] px-5 py-4 text-left shadow-[inset_0_1px_0_rgb(255_255_255_/_0.04)] backdrop-blur-sm transition-colors hover:border-[color:rgb(113_178_159_/_0.35)] hover:bg-[color:rgb(255_255_255_/_0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)]"
+                    className="group flex min-h-12 items-center justify-between rounded-[1.45rem] border border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.035)] px-4 py-3 text-left shadow-[inset_0_1px_0_rgb(255_255_255_/_0.04)] backdrop-blur-sm transition-colors hover:border-[color:rgb(113_178_159_/_0.35)] hover:bg-[color:rgb(255_255_255_/_0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)] sm:min-h-14 sm:rounded-[1.6rem] sm:px-5 sm:py-4"
                   >
                     <div>
                       <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--color-text-muted-soft)]">
                         {item.index}
                       </div>
-                      <div className="mt-1 text-[1.9rem] font-semibold leading-none tracking-[-0.04em] text-[var(--color-text-inverse)]">
+                      <div className="mt-1 text-[1.55rem] font-semibold leading-none tracking-[-0.04em] text-[var(--color-text-inverse)] sm:text-[1.9rem]">
                         {item.label}
                       </div>
                     </div>
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.04)] text-[var(--color-brand-alt)] transition-transform duration-300 group-hover:translate-x-1">
-                      <ArrowUpRight size={18} />
+                    <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.04)] text-[var(--color-brand-alt)] transition-transform duration-300 group-hover:translate-x-1 sm:h-10 sm:w-10">
+                      <ArrowUpRight size={17} />
                     </div>
                   </motion.button>
                 ))}
@@ -321,19 +325,19 @@ const Navbar = () => {
                   ease: "easeOut",
                   delay: shouldReduceMotion ? 0 : 0.18,
                 }}
-                className="mt-4 rounded-[1.75rem] border border-[color:rgb(255_255_255_/_0.09)] bg-[linear-gradient(180deg,rgb(255_255_255_/_0.05),rgb(255_255_255_/_0.02))] p-4 shadow-[0_24px_60px_rgb(0_0_0_/_0.22)] backdrop-blur-xl"
+                className="shrink-0 rounded-[1.5rem] border border-[color:rgb(255_255_255_/_0.09)] bg-[linear-gradient(180deg,rgb(255_255_255_/_0.05),rgb(255_255_255_/_0.02))] p-3.5 shadow-[0_24px_60px_rgb(0_0_0_/_0.22)] backdrop-blur-xl sm:rounded-[1.75rem] sm:p-4"
               >
-                <div className="mb-4 flex items-start justify-between gap-4">
+                <div className="mb-3 flex items-start justify-between gap-4 sm:mb-4">
                   <div>
                     <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--color-brand-alt)]">
                       Continue
                     </p>
-                    <p className="mt-2 text-sm leading-relaxed text-[var(--color-text-muted-softer)]">
+                    <p className="mt-1.5 text-[13px] leading-relaxed text-[var(--color-text-muted-softer)] sm:mt-2 sm:text-sm">
                       Open the app or review the docs before you dive deeper.
                     </p>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
                   <ButtonLink
                     href="https://docs.pareto.credit/"
                     target="_blank"

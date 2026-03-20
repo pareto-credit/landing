@@ -6,7 +6,7 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
-import serverRoomVideo from "../../assets/videos/server-room.mp4";
+import financialMarketVideo from "../../assets/videos/financial-market.mp4";
 import tradingDeskVideo from "../../assets/videos/trading-desk.mp4";
 import financialDocumentsVideo from "../../assets/videos/financial-docs.mp4";
 import hyperCityVideo from "../../assets/videos/hyper-city.mp4";
@@ -33,7 +33,7 @@ const NARRATIVE_VIDEO_ASSETS: Record<
   { poster: string; src: string }
 > = {
   serverRoom: {
-    src: serverRoomVideo,
+    src: financialMarketVideo,
     poster:
       "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=1000",
   },
@@ -83,7 +83,9 @@ const getPreloadVideoKeys = (progress: number): NarrativeVideoKey[] => {
 const sameVideoKeys = (
   current: NarrativeVideoKey[],
   next: NarrativeVideoKey[],
-) => current.length === next.length && current.every((key, index) => key === next[index]);
+) =>
+  current.length === next.length &&
+  current.every((key, index) => key === next[index]);
 
 const shouldEnableFullNarrative = (): boolean => {
   if (typeof window === "undefined") return false;
@@ -402,12 +404,18 @@ const NarrativeScrollSection = () => {
               ref={(node) => {
                 videoRefs.current.serverRoom = node;
               }}
-              src={loadedVideoKeys.serverRoom ? NARRATIVE_VIDEO_ASSETS.serverRoom.src : undefined}
+              src={
+                loadedVideoKeys.serverRoom
+                  ? NARRATIVE_VIDEO_ASSETS.serverRoom.src
+                  : undefined
+              }
               poster={NARRATIVE_VIDEO_ASSETS.serverRoom.poster}
               loop
               muted
               playsInline
-              preload={activeVideoKeys.includes("serverRoom") ? "auto" : "metadata"}
+              preload={
+                activeVideoKeys.includes("serverRoom") ? "auto" : "metadata"
+              }
               disablePictureInPicture
               disableRemotePlayback
               aria-hidden="true"
@@ -422,12 +430,18 @@ const NarrativeScrollSection = () => {
               ref={(node) => {
                 videoRefs.current.tradingDesk = node;
               }}
-              src={loadedVideoKeys.tradingDesk ? NARRATIVE_VIDEO_ASSETS.tradingDesk.src : undefined}
+              src={
+                loadedVideoKeys.tradingDesk
+                  ? NARRATIVE_VIDEO_ASSETS.tradingDesk.src
+                  : undefined
+              }
               poster={NARRATIVE_VIDEO_ASSETS.tradingDesk.poster}
               loop
               muted
               playsInline
-              preload={activeVideoKeys.includes("tradingDesk") ? "auto" : "metadata"}
+              preload={
+                activeVideoKeys.includes("tradingDesk") ? "auto" : "metadata"
+              }
               disablePictureInPicture
               disableRemotePlayback
               aria-hidden="true"
@@ -451,7 +465,11 @@ const NarrativeScrollSection = () => {
               loop
               muted
               playsInline
-              preload={activeVideoKeys.includes("financialDocuments") ? "auto" : "metadata"}
+              preload={
+                activeVideoKeys.includes("financialDocuments")
+                  ? "auto"
+                  : "metadata"
+              }
               disablePictureInPicture
               disableRemotePlayback
               aria-hidden="true"
@@ -569,12 +587,18 @@ const NarrativeScrollSection = () => {
             ref={(node) => {
               videoRefs.current.hyperCity = node;
             }}
-            src={loadedVideoKeys.hyperCity ? NARRATIVE_VIDEO_ASSETS.hyperCity.src : undefined}
+            src={
+              loadedVideoKeys.hyperCity
+                ? NARRATIVE_VIDEO_ASSETS.hyperCity.src
+                : undefined
+            }
             poster={NARRATIVE_VIDEO_ASSETS.hyperCity.poster}
             loop
             muted
             playsInline
-            preload={activeVideoKeys.includes("hyperCity") ? "auto" : "metadata"}
+            preload={
+              activeVideoKeys.includes("hyperCity") ? "auto" : "metadata"
+            }
             disablePictureInPicture
             disableRemotePlayback
             aria-hidden="true"

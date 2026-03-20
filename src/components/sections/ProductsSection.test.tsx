@@ -140,6 +140,25 @@ describe("ProductsSection", () => {
     const [title] = screen.getAllByText("FalconX Credit Vault");
 
     expect(title).not.toHaveClass("leading-none");
-    expect(title).toHaveClass("leading-[1.1]");
+    expect(title).toHaveClass("leading-[1.2]");
+  });
+
+  it("enables horizontal touch panning on mobile for the vault marquee", () => {
+    class ResizeObserverMock {
+      observe() {}
+      disconnect() {}
+    }
+
+    Object.defineProperty(window, "ResizeObserver", {
+      configurable: true,
+      writable: true,
+      value: ResizeObserverMock,
+    });
+
+    render(<ProductsSection vaults={[vaultCard]} isVaultsLoading={false} />);
+
+    const viewport = document.querySelector(".marquee-scroll");
+
+    expect(viewport).toHaveClass("touch-pan-x", "md:touch-pan-y");
   });
 });

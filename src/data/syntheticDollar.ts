@@ -12,7 +12,7 @@ export const FALLBACK_SYNTHETIC_DOLLAR_DATA: SyntheticDollarDataPayload = {
       { label: "Price", value: "$1.00" },
       { label: "TVL", value: "$3.6M" },
       {
-        label: "Coverage Ratio",
+        label: "Coverage",
         value: formatCoverageRatio(FALLBACK_SUSP_TVL, FALLBACK_USP_TVL),
       },
     ],

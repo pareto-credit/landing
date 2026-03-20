@@ -322,7 +322,7 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
               onLostPointerCapture={finishDragging}
               onPointerEnter={() => setIsTrackHovered(true)}
               onPointerLeave={() => setIsTrackHovered(false)}
-              className="marquee-scroll flex w-full cursor-grab overflow-x-auto py-4 touch-pan-y select-none active:cursor-grabbing xl:py-10"
+              className="marquee-scroll flex w-full cursor-grab overflow-x-auto py-4 touch-pan-x select-none active:cursor-grabbing md:touch-pan-y xl:py-10"
             >
               <div className="flex w-max px-8 md:px-10">
                 {[...Array(PRODUCTS_MARQUEE_SETS)].map((_, loopIndex) => (

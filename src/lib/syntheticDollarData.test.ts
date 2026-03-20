@@ -31,7 +31,7 @@ describe("mapVaultBlockToSyntheticDollarData", () => {
     expect(data.USP.stats).toEqual([
       { label: "Price", value: "$1.00" },
       { label: "TVL", value: "$3.6M" },
-      { label: "Coverage Ratio", value: "77%" },
+      { label: "Coverage", value: "77%" },
     ]);
     expect(data.sUSP.stats).toEqual([
       { label: "Price", value: "$1.08" },
@@ -52,7 +52,7 @@ describe("mapVaultBlockToSyntheticDollarData", () => {
     } as VaultBlock);
 
     expect(data.USP.stats).toContainEqual({
-      label: "Coverage Ratio",
+      label: "Coverage",
       value: "25%",
     });
   });
@@ -69,6 +69,8 @@ describe("fetchSyntheticDollarData", () => {
 
     await fetchSyntheticDollarData(apiClient);
 
-    expect(readOne).toHaveBeenCalledWith({ vaultId: SYNTHETIC_DOLLAR_VAULT_ID });
+    expect(readOne).toHaveBeenCalledWith({
+      vaultId: SYNTHETIC_DOLLAR_VAULT_ID,
+    });
   });
 });
