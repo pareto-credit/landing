@@ -1,5 +1,5 @@
-import { render, screen, within } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { fireEvent, render, screen, within } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 import SyntheticDollarSection from "./SyntheticDollarSection";
 
 const setViewportWidth = (width: number) => {
@@ -50,6 +50,8 @@ describe("SyntheticDollarSection", () => {
   });
 
   it("renders the dedicated USP and sUSP card icons", () => {
+    setViewportWidth(1280);
+
     render(<SyntheticDollarSection />);
 
     expect(screen.getByAltText("USP icon")).toBeInTheDocument();
@@ -57,6 +59,8 @@ describe("SyntheticDollarSection", () => {
   });
 
   it("renders clickable USP and sUSP cards that open the app in a new tab", () => {
+    setViewportWidth(1280);
+
     render(<SyntheticDollarSection />);
 
     const uspCardLink = screen.getByRole("link", { name: /open usp in app/i });
@@ -69,6 +73,8 @@ describe("SyntheticDollarSection", () => {
   });
 
   it("keeps the sUSP label and title readable on the dark card", () => {
+    setViewportWidth(1280);
+
     render(<SyntheticDollarSection />);
 
     const suspCardLink = screen.getByRole("link", { name: /open susp in app/i });
@@ -95,5 +101,100 @@ describe("SyntheticDollarSection", () => {
         /pareto introduces a composable index unit and its yield-bearing counterpart/i,
       ),
     ).toBeInTheDocument();
+  });
+
+  it("uses a mobile slider with hidden scrollbar for the synthetic cards", () => {
+    setViewportWidth(390);
+
+    render(<SyntheticDollarSection />);
+
+    expect(screen.getByTestId("synthetic-mobile-slider")).toHaveClass(
+      "marquee-scroll",
+      "overflow-x-auto",
+      "touch-pan-x",
+      "snap-x",
+      "snap-mandatory",
+      "lg:hidden",
+    );
+    expect(screen.getAllByRole("button", { name: /go to synthetic card/i })).toHaveLength(2);
+  });
+
+  it("keeps the desktop two-card grid on larger screens", () => {
+    setViewportWidth(1280);
+
+    render(<SyntheticDollarSection />);
+
+    expect(screen.getByTestId("synthetic-desktop-grid")).toHaveClass(
+      "hidden",
+      "lg:grid",
+      "lg:grid-cols-2",
+    );
+    expect(
+      screen.queryByRole("button", { name: /go to synthetic card/i }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("scrolls to the centered sUSP card when a mobile pagination dot is pressed", () => {
+    setViewportWidth(390);
+
+    render(<SyntheticDollarSection />);
+
+    const slider = screen.getByTestId("synthetic-mobile-slider") as HTMLDivElement;
+    const scrollTo = vi.fn();
+    slider.scrollTo = scrollTo;
+    Object.defineProperty(slider, "clientWidth", {
+      configurable: true,
+      value: 390,
+    });
+
+    const suspCard = screen.getByTestId("synthetic-mobile-card-1");
+    Object.defineProperty(suspCard, "offsetLeft", {
+      configurable: true,
+      value: 280,
+    });
+    Object.defineProperty(suspCard, "clientWidth", {
+      configurable: true,
+      value: 328,
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", { name: /go to synthetic card 2/i }),
+    );
+
+    expect(scrollTo).toHaveBeenCalledWith({
+      left: 249,
+      behavior: "smooth",
+    });
+  });
+
+  it("captures pointer drag on mobile to scroll the synthetic cards", () => {
+    setViewportWidth(390);
+
+    render(<SyntheticDollarSection />);
+
+    const slider = screen.getByTestId("synthetic-mobile-slider") as HTMLDivElement;
+    const setPointerCapture = vi.fn();
+
+    slider.setPointerCapture = setPointerCapture;
+    slider.releasePointerCapture = vi.fn();
+    slider.hasPointerCapture = vi.fn().mockReturnValue(false);
+
+    Object.defineProperty(slider, "scrollLeft", {
+      configurable: true,
+      writable: true,
+      value: 100,
+    });
+
+    fireEvent.pointerDown(screen.getByTestId("synthetic-mobile-card-0"), {
+      pointerId: 1,
+      clientX: 120,
+    });
+    fireEvent.pointerMove(slider, {
+      pointerId: 1,
+      clientX: 90,
+    });
+
+    expect(setPointerCapture).toHaveBeenCalledWith(1);
+    expect(slider.scrollLeft).toBe(130);
   });
 });

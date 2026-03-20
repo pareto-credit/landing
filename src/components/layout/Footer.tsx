@@ -5,11 +5,11 @@ import {
   MessagesSquare,
   NotebookPen,
   Send,
-  Twitter,
 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import paretoLogo from "../../assets/svgs/pareto-logo-light.svg";
 import paretoSignature from "../../assets/svgs/pareto-signature.svg";
+import xIcon from "../../assets/svgs/x.svg?raw";
 import { SectionContainer } from "../ui/Section";
 
 interface FooterLink {
@@ -20,7 +20,8 @@ interface FooterLink {
 }
 
 interface FooterSocialLink extends FooterLink {
-  icon: LucideIcon;
+  icon?: LucideIcon;
+  iconSrc?: string;
 }
 
 const platformLinks: FooterLink[] = [
@@ -55,7 +56,7 @@ const companyLinks: FooterLink[] = [
 ];
 
 const socialLinks: FooterSocialLink[] = [
-  { label: "X", href: "https://x.com/paretocredit", icon: Twitter },
+  { label: "X", href: "https://x.com/paretocredit", iconSrc: xIcon },
   {
     label: "Discord",
     href: "https://discord.com/invite/mpySAJp",
@@ -222,8 +223,6 @@ const Footer = () => {
               className="flex flex-wrap items-center justify-center gap-2 md:justify-end"
             >
               {socialLinks.map((link) => {
-                const Icon = link.icon;
-
                 return (
                   <a
                     key={link.label}
@@ -233,11 +232,19 @@ const Footer = () => {
                     aria-label={link.label}
                     className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[var(--color-border-inverse-soft)] bg-[var(--color-overlay-surface-03)] text-[var(--color-text-muted-soft)] transition-colors hover:border-[color:rgb(112_177_158_/_0.35)] hover:text-[var(--color-text-inverse)]"
                   >
-                    <Icon
-                      className="h-4 w-4"
-                      aria-hidden="true"
-                      strokeWidth={1.9}
-                    />
+                    {link.iconSrc ? (
+                      <span
+                        aria-hidden="true"
+                        className="h-4 w-4 [&_svg]:h-full [&_svg]:w-full [&_svg]:fill-current"
+                        dangerouslySetInnerHTML={{ __html: link.iconSrc }}
+                      />
+                    ) : link.icon ? (
+                      <link.icon
+                        className="h-4 w-4"
+                        aria-hidden="true"
+                        strokeWidth={1.9}
+                      />
+                    ) : null}
                   </a>
                 );
               })}

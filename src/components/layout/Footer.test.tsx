@@ -97,9 +97,16 @@ describe("Footer", () => {
   it("renders the updated social links", () => {
     render(<Footer />);
 
-    expect(screen.getByRole("link", { name: "X" })).toHaveAttribute(
+    const xLink = screen.getByRole("link", { name: "X" });
+
+    expect(xLink).toHaveAttribute(
       "href",
       "https://x.com/paretocredit",
+    );
+    expect(xLink.querySelector("span")).toHaveClass(
+      "[&_svg]:fill-current",
+      "[&_svg]:w-full",
+      "[&_svg]:h-full",
     );
     expect(screen.getByRole("link", { name: "Discord" })).toHaveAttribute(
       "href",

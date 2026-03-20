@@ -34,10 +34,10 @@ const WhiteLabelVisual = ({ activeIndex }: WhiteLabelVisualProps) => {
           transition={{ duration: 0.4 }}
           className="absolute inset-0 flex flex-col"
         >
-          <div className="relative flex h-full min-h-0 w-full flex-1 items-start justify-center px-2 pt-3 md:items-center md:px-0 md:pt-8">
+          <div className="relative flex h-full min-h-0 w-full flex-1 items-center justify-center px-2 pt-4 md:px-0 md:pt-8">
             <div
               data-testid="white-label-stage"
-              className="w-full max-w-[430px] origin-top scale-[0.86] md:scale-100"
+              className="w-full max-w-[360px] origin-center scale-[0.78] sm:max-w-[430px] sm:scale-[0.86] md:scale-100"
             >
             {activeIndex === 0 && (
               <div className="relative h-[320px] w-full max-w-[430px] overflow-hidden">
@@ -179,7 +179,10 @@ const WhiteLabelVisual = ({ activeIndex }: WhiteLabelVisualProps) => {
               </div>
             )}
             {activeIndex === 1 && (
-              <div className="flex h-48 items-end gap-3">
+              <div
+                data-testid="white-label-liquidity-visual"
+                className="flex h-48 w-full items-end justify-center gap-3"
+              >
                 {[40, 60, 80, 50, 90, 70, 40].map((height, idx) => (
                   <motion.div
                     key={`liquidity-bar-${idx}`}

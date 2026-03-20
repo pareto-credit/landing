@@ -1,6 +1,7 @@
 import {
   CheckCircle2,
 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import suspIcon from "../../assets/svgs/sUSP.svg";
 import uspIcon from "../../assets/svgs/USP.svg";
 import { FALLBACK_SYNTHETIC_DOLLAR_DATA } from "../../data/syntheticDollar";
@@ -36,6 +37,15 @@ const metricLabelClassName =
   "font-mono text-[10px] font-semibold uppercase tracking-widest";
 const metricValueClassName =
   "mt-2 whitespace-nowrap text-2xl font-bold tracking-tight";
+const DRAG_THRESHOLD_PX = 4;
+
+const isInteractiveMarqueeTarget = (target: EventTarget | null) =>
+  target instanceof Element &&
+  Boolean(
+    target.closest(
+      "a, button, input, select, textarea, summary, [role='button'], [role='link']",
+    ),
+  );
 
 const syntheticDollarContent: Record<SyntheticToken, SyntheticTokenContent> = {
   USP: {
@@ -77,6 +87,17 @@ const SyntheticDollarSection = ({
   isLoading = false,
 }: SyntheticDollarSectionProps) => {
   const showHeaderCta = useMinWidth(1024);
+  const isMobileSlider = !showHeaderCta;
+  const viewportRef = useRef<HTMLDivElement | null>(null);
+  const cardRefs = useRef<Array<HTMLElement | null>>([]);
+  const scrollFrameRef = useRef<number | null>(null);
+  const pointerIdRef = useRef<number | null>(null);
+  const pointerStartXRef = useRef(0);
+  const pointerStartScrollRef = useRef(0);
+  const pointerStartedOnInteractiveRef = useRef(false);
+  const didDragRef = useRef(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
   const cards = TOKEN_ORDER.map((token) => ({
     content: syntheticDollarContent[token],
     icon: tokenIcons[token],
@@ -84,6 +105,222 @@ const SyntheticDollarSection = ({
     stats: data[token].stats,
     token,
   }));
+
+  useEffect(() => {
+    if (!isMobileSlider) {
+      setActiveIndex(0);
+    }
+  }, [isMobileSlider]);
+
+  useEffect(
+    () => () => {
+      if (scrollFrameRef.current !== null) {
+        window.cancelAnimationFrame(scrollFrameRef.current);
+      }
+    },
+    [],
+  );
+
+  const getCenteredScrollLeft = (
+    viewport: HTMLDivElement,
+    card: HTMLElement,
+  ) => Math.max(0, card.offsetLeft - (viewport.clientWidth - card.clientWidth) / 2);
+
+  const syncActiveIndex = () => {
+    const viewport = viewportRef.current;
+    if (!viewport || !isMobileSlider) return;
+
+    const nearestIndex = cardRefs.current.reduce((closestIndex, card, index) => {
+      if (!card) return closestIndex;
+
+      const currentCard = cardRefs.current[closestIndex];
+      if (!currentCard) return index;
+
+      const currentDistance = Math.abs(
+        getCenteredScrollLeft(viewport, currentCard) - viewport.scrollLeft,
+      );
+      const nextDistance = Math.abs(
+        getCenteredScrollLeft(viewport, card) - viewport.scrollLeft,
+      );
+
+      return nextDistance < currentDistance ? index : closestIndex;
+    }, 0);
+
+    setActiveIndex(nearestIndex);
+  };
+
+  const finishDragging = () => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
+    if (
+      pointerIdRef.current !== null &&
+      typeof viewport.hasPointerCapture === "function" &&
+      viewport.hasPointerCapture(pointerIdRef.current)
+    ) {
+      viewport.releasePointerCapture(pointerIdRef.current);
+    }
+
+    pointerIdRef.current = null;
+    pointerStartedOnInteractiveRef.current = false;
+    didDragRef.current = false;
+    setIsDragging(false);
+    syncActiveIndex();
+  };
+
+  const renderCard = (
+    { content, icon, isDark, stats, token }: (typeof cards)[number],
+    index?: number,
+  ) => (
+    <a
+      key={token}
+      ref={
+        typeof index === "number"
+          ? (node) => {
+              cardRefs.current[index] = node;
+            }
+          : undefined
+      }
+      data-testid={typeof index === "number" ? `synthetic-mobile-card-${index}` : undefined}
+      href={OPEN_IN_APP_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`Open ${token} in app`}
+      draggable={false}
+      onClickCapture={(event) => {
+        if (didDragRef.current) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      }}
+      className={cn(
+        "ui-radius-card relative block overflow-hidden border p-10 no-underline shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgb(0,0,0,0.10)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)] focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--color-bg-light-alt)] md:p-12",
+        isDark
+          ? "border-[var(--color-border-inverse-soft)] bg-[var(--color-brand-mid)] text-[var(--color-text-inverse)]"
+          : "border-[var(--color-border-soft)] bg-[var(--color-surface)] text-[var(--color-text-primary)]",
+      )}
+    >
+      {!isDark ? (
+        <div className="pointer-events-none absolute right-0 top-0 h-64 w-64 rounded-full bg-[radial-gradient(circle_at_top_right,rgb(113_178_159_/_0.14),transparent_62%)] blur-3xl" />
+      ) : null}
+
+      <div className="relative z-10 flex items-center gap-4">
+        <div
+          className={cn(
+            "flex h-12 w-12 items-center justify-center overflow-hidden rounded-full shadow-sm",
+            isDark
+              ? "border-[var(--color-border-inverse-soft)] bg-[var(--color-bg-dark-alt)]"
+              : "border-[var(--color-border-soft)] bg-[var(--color-bg-light-alt)]",
+          )}
+        >
+          <img
+            src={icon}
+            alt={`${token} icon`}
+            draggable={false}
+            className="h-12 w-12 object-contain"
+          />
+        </div>
+        <span
+          className={cn(
+            "text-2xl font-bold tracking-tight",
+            isDark
+              ? "text-[var(--color-text-inverse)]"
+              : "text-[var(--color-text-primary)]",
+          )}
+        >
+          {token}
+        </span>
+      </div>
+
+      <h3
+        className={cn(
+          "relative z-10 mt-8 text-3xl font-bold leading-tight tracking-tight",
+          isDark
+            ? "text-[var(--color-text-inverse)]"
+            : "text-[var(--color-text-primary)]",
+        )}
+        dangerouslySetInnerHTML={{ __html: content.title }}
+      ></h3>
+      <p
+        className={cn(
+          "relative z-10 mt-4 text-base leading-relaxed",
+          isDark
+            ? "text-[var(--color-text-muted-softer)]"
+            : "text-[var(--color-text-secondary)]",
+        )}
+      >
+        {content.description}
+      </p>
+
+      <ul className="relative z-10 mt-10 space-y-4">
+        {content.features.map((feature) => (
+          <li key={feature.name} className="flex items-start gap-3">
+            <CheckCircle2
+              size={18}
+              className="mt-0.5 shrink-0 text-[var(--color-brand-alt)]"
+            />
+            <span
+              className={cn(
+                "text-sm leading-relaxed",
+                isDark
+                  ? "text-[var(--color-text-muted-softer)]"
+                  : "text-[var(--color-text-secondary)]",
+              )}
+            >
+              <span
+                className={cn(
+                  "font-semibold",
+                  isDark
+                    ? "text-[var(--color-text-inverse)]"
+                    : "text-[var(--color-text-primary)]",
+                )}
+              >
+                {feature.name}.
+              </span>
+            </span>
+          </li>
+        ))}
+      </ul>
+
+      <div
+        className={cn(
+          "relative z-10 mt-10 grid grid-cols-3 gap-6 border-t pt-10",
+          isDark
+            ? "border-[var(--color-border-inverse-soft)]"
+            : "border-[var(--color-border-soft)]",
+        )}
+        aria-busy={isLoading}
+      >
+        {stats.map((stat) => (
+          <div
+            key={stat.label}
+            className={isLoading ? "animate-pulse" : undefined}
+          >
+            <div
+              className={cn(
+                metricLabelClassName,
+                isDark
+                  ? "text-[var(--color-text-muted-soft)]"
+                  : "text-[var(--color-text-secondary)]",
+              )}
+            >
+              {stat.label}
+            </div>
+            <div
+              className={cn(
+                metricValueClassName,
+                isDark
+                  ? "text-[var(--color-text-inverse)]"
+                  : "text-[var(--color-text-primary)]",
+              )}
+            >
+              {stat.value}
+            </div>
+          </div>
+        ))}
+      </div>
+    </a>
+  );
 
   return (
     <section
@@ -116,143 +353,136 @@ const SyntheticDollarSection = ({
           ) : null}
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-2">
-          {cards.map(({ content, icon, isDark, stats, token }) => (
-            <a
-              key={token}
-              href={OPEN_IN_APP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Open ${token} in app`}
-              className={cn(
-                "ui-radius-card relative block overflow-hidden border p-10 no-underline shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgb(0,0,0,0.10)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)] focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--color-bg-light-alt)] md:p-12",
-                isDark
-                  ? "border-[var(--color-border-inverse-soft)] bg-[var(--color-brand-mid)] text-[var(--color-text-inverse)]"
-                  : "border-[var(--color-border-soft)] bg-[var(--color-surface)] text-[var(--color-text-primary)]",
-              )}
-            >
-              {!isDark ? (
-                <div className="pointer-events-none absolute right-0 top-0 h-64 w-64 rounded-full bg-[radial-gradient(circle_at_top_right,rgb(113_178_159_/_0.14),transparent_62%)] blur-3xl" />
-              ) : null}
-
-              <div className="relative z-10 flex items-center gap-4">
-                <div
-                  className={cn(
-                    "flex h-12 w-12 items-center justify-center overflow-hidden rounded-full shadow-sm",
-                    isDark
-                      ? "border-[var(--color-border-inverse-soft)] bg-[var(--color-bg-dark-alt)]"
-                      : "border-[var(--color-border-soft)] bg-[var(--color-bg-light-alt)]",
-                  )}
-                >
-                  <img
-                    src={icon}
-                    alt={`${token} icon`}
-                    draggable={false}
-                    className="h-12 w-12 object-contain"
-                  />
-                </div>
-                <span
-                  className={cn(
-                    "text-2xl font-bold tracking-tight",
-                    isDark
-                      ? "text-[var(--color-text-inverse)]"
-                      : "text-[var(--color-text-primary)]",
-                  )}
-                >
-                  {token}
-                </span>
-              </div>
-
-              <h3
-                className={cn(
-                  "relative z-10 mt-8 text-3xl font-bold leading-tight tracking-tight",
-                  isDark
-                    ? "text-[var(--color-text-inverse)]"
-                    : "text-[var(--color-text-primary)]",
-                )}
-                dangerouslySetInnerHTML={{ __html: content.title }}
-              ></h3>
-              <p
-                className={cn(
-                  "relative z-10 mt-4 text-base leading-relaxed",
-                  isDark
-                    ? "text-[var(--color-text-muted-softer)]"
-                    : "text-[var(--color-text-secondary)]",
-                )}
-              >
-                {content.description}
-              </p>
-
-              <ul className="relative z-10 mt-10 space-y-4">
-                {content.features.map((feature) => (
-                  <li key={feature.name} className="flex items-start gap-3">
-                    <CheckCircle2
-                      size={18}
-                      className="mt-0.5 shrink-0 text-[var(--color-brand-alt)]"
-                    />
-                    <span
-                      className={cn(
-                        "text-sm leading-relaxed",
-                        isDark
-                          ? "text-[var(--color-text-muted-softer)]"
-                          : "text-[var(--color-text-secondary)]",
-                      )}
-                    >
-                      <span
-                        className={cn(
-                          "font-semibold",
-                          isDark
-                            ? "text-[var(--color-text-inverse)]"
-                            : "text-[var(--color-text-primary)]",
-                        )}
-                      >
-                        {feature.name}.
-                      </span>
-                    </span>
-                  </li>
-                ))}
-              </ul>
-
-              <div
-                className={cn(
-                  "relative z-10 mt-10 grid grid-cols-3 gap-6 border-t pt-10",
-                  isDark
-                    ? "border-[var(--color-border-inverse-soft)]"
-                    : "border-[var(--color-border-soft)]",
-                )}
-                aria-busy={isLoading}
-              >
-                {stats.map((stat) => (
-                  <div
-                    key={stat.label}
-                    className={isLoading ? "animate-pulse" : undefined}
-                  >
-                    <div
-                      className={cn(
-                        metricLabelClassName,
-                        isDark
-                          ? "text-[var(--color-text-muted-soft)]"
-                          : "text-[var(--color-text-secondary)]",
-                      )}
-                    >
-                      {stat.label}
-                    </div>
-                    <div
-                      className={cn(
-                        metricValueClassName,
-                        isDark
-                          ? "text-[var(--color-text-inverse)]"
-                          : "text-[var(--color-text-primary)]",
-                      )}
-                    >
-                      {stat.value}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </a>
-          ))}
+        <div
+          data-testid="synthetic-desktop-grid"
+          className="hidden gap-6 lg:grid lg:grid-cols-2"
+        >
+          {cards.map((card) => renderCard(card))}
         </div>
+
+        {isMobileSlider ? (
+          <>
+            <div
+              ref={viewportRef}
+              data-testid="synthetic-mobile-slider"
+              onPointerDown={(event) => {
+                const viewport = viewportRef.current;
+                if (!viewport) return;
+
+                pointerIdRef.current = event.pointerId;
+                pointerStartXRef.current = event.clientX;
+                pointerStartScrollRef.current = viewport.scrollLeft;
+                pointerStartedOnInteractiveRef.current =
+                  isInteractiveMarqueeTarget(event.target);
+                didDragRef.current = false;
+                setIsDragging(false);
+              }}
+              onPointerMove={(event) => {
+                if (pointerIdRef.current !== event.pointerId) return;
+
+                const viewport = viewportRef.current;
+                if (!viewport) return;
+
+                const deltaX = event.clientX - pointerStartXRef.current;
+                if (!didDragRef.current && Math.abs(deltaX) <= DRAG_THRESHOLD_PX) {
+                  return;
+                }
+
+                if (!didDragRef.current) {
+                  didDragRef.current = true;
+                  setIsDragging(true);
+
+                  const hasPointerCapture =
+                    typeof viewport.hasPointerCapture === "function" &&
+                    viewport.hasPointerCapture(event.pointerId);
+
+                  if (!hasPointerCapture) {
+                    viewport.setPointerCapture(event.pointerId);
+                  }
+
+                  if (pointerStartedOnInteractiveRef.current) {
+                    event.preventDefault();
+                  }
+                }
+
+                viewport.scrollLeft = pointerStartScrollRef.current - deltaX;
+              }}
+              onScroll={() => {
+                if (scrollFrameRef.current !== null) {
+                  window.cancelAnimationFrame(scrollFrameRef.current);
+                }
+
+                scrollFrameRef.current = window.requestAnimationFrame(() => {
+                  syncActiveIndex();
+                  scrollFrameRef.current = null;
+                });
+              }}
+              onPointerUp={finishDragging}
+              onPointerCancel={finishDragging}
+              onLostPointerCapture={finishDragging}
+              className={`marquee-scroll -mx-6 flex overflow-x-auto pb-2 pt-1 touch-pan-x select-none snap-x snap-mandatory ${
+                isDragging ? "cursor-grabbing" : "cursor-grab"
+              } lg:hidden`}
+            >
+              <div
+                aria-hidden="true"
+                className="pointer-events-none shrink-0"
+                style={{ flexBasis: "calc(50% - min(42vw, 12.5rem))" }}
+              />
+              {cards.map((card, index) => (
+                <article
+                  key={card.token}
+                  className={`w-[84%] max-w-[25rem] shrink-0 snap-center ${
+                    index === cards.length - 1 ? "" : "mr-4"
+                  }`}
+                >
+                  {renderCard(card, index)}
+                </article>
+              ))}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none shrink-0"
+                style={{ flexBasis: "calc(50% - min(42vw, 12.5rem))" }}
+              />
+            </div>
+
+            <div className="mt-5 flex items-center justify-center gap-2 lg:hidden">
+              {cards.map((card, index) => {
+                const isActive = index === activeIndex;
+
+                return (
+                  <button
+                    key={card.token}
+                    type="button"
+                    aria-label={`Go to synthetic card ${index + 1}`}
+                    aria-current={isActive ? "true" : "false"}
+                    onClick={() => {
+                      const viewport = viewportRef.current;
+                      const currentCard = cardRefs.current[index];
+                      if (!viewport || !currentCard) return;
+
+                      const nextLeft = getCenteredScrollLeft(viewport, currentCard);
+                      setActiveIndex(index);
+
+                      if (typeof viewport.scrollTo === "function") {
+                        viewport.scrollTo({ left: nextLeft, behavior: "smooth" });
+                      } else {
+                        viewport.scrollLeft = nextLeft;
+                      }
+                    }}
+                    className={`h-2.5 rounded-full transition-all duration-300 ${
+                      isActive
+                        ? "w-10 bg-[var(--color-text-primary)]"
+                        : "w-6 bg-[color:rgb(14_24_19_/_0.16)]"
+                    }`}
+                  >
+                    <span className="sr-only">{card.token}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </>
+        ) : null}
 
         {!showHeaderCta ? (
           <div

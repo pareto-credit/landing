@@ -28,13 +28,13 @@ describe("solutions visuals", () => {
     const { container } = render(<StudioVisual activeIndex={0} />);
 
     expect(container.firstElementChild).toHaveClass("h-[380px]");
-    expect(
-      container.querySelector(".items-start.md\\:items-center"),
-    ).toHaveClass("items-start", "md:items-center");
-    expect(container.querySelector(".scale-\\[0\\.84\\]")).toHaveClass(
-      "scale-[0.84]",
+    expect(container.querySelector(".items-center")).toHaveClass("items-center");
+    expect(container.querySelector(".scale-\\[0\\.72\\]")).toHaveClass(
+      "scale-[0.72]",
+      "sm:scale-[0.84]",
       "md:scale-100",
     );
+    expect(container.querySelector(".origin-center")).toHaveClass("origin-center");
     expect(container.querySelector("h4")).toHaveClass("text-lg", "md:text-xl");
     expect(container.querySelector("h4")?.parentElement).toHaveClass(
       "p-4",
@@ -48,13 +48,13 @@ describe("solutions visuals", () => {
     const { container, getByTestId } = render(<WhiteLabelVisual activeIndex={0} />);
 
     expect(container.firstElementChild).toHaveClass("h-[410px]");
-    expect(
-      container.querySelector(".items-start.md\\:items-center"),
-    ).toHaveClass("items-start", "md:items-center");
-    expect(container.querySelector(".scale-\\[0\\.86\\]")).toHaveClass(
-      "scale-[0.86]",
+    expect(container.querySelector(".items-center")).toHaveClass("items-center");
+    expect(container.querySelector(".scale-\\[0\\.78\\]")).toHaveClass(
+      "scale-[0.78]",
+      "sm:scale-[0.86]",
       "md:scale-100",
     );
+    expect(container.querySelector(".origin-center")).toHaveClass("origin-center");
     expect(container.querySelector("h4")).toHaveClass("text-lg", "md:text-xl");
     expect(container.querySelector("h4")?.parentElement).toHaveClass(
       "p-4",
@@ -64,7 +64,17 @@ describe("solutions visuals", () => {
     );
     expect(getByTestId("white-label-stage")).toHaveClass(
       "w-full",
-      "max-w-[430px]",
+      "max-w-[360px]",
+      "sm:max-w-[430px]",
+    );
+  });
+
+  it("centers the curated liquidity animation horizontally inside the stage", () => {
+    const { getByTestId } = render(<WhiteLabelVisual activeIndex={1} />);
+
+    expect(getByTestId("white-label-liquidity-visual")).toHaveClass(
+      "w-full",
+      "justify-center",
     );
   });
 });

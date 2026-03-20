@@ -301,7 +301,7 @@ const Navbar = () => {
                       delay: shouldReduceMotion ? 0 : 0.04 * index,
                     }}
                     onClick={() => handleSectionScroll(item.id)}
-                    className="group flex min-h-12 items-center justify-between rounded-md border border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.035)] px-4 py-3 text-left shadow-[inset_0_1px_0_rgb(255_255_255_/_0.04)] backdrop-blur-sm transition-colors hover:border-[color:rgb(113_178_159_/_0.35)] hover:bg-[color:rgb(255_255_255_/_0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)] sm:min-h-14 sm:rounded-[1.6rem] sm:px-5 sm:py-4"
+                    className="group flex min-h-12 items-center justify-between rounded-md border border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.035)] px-4 py-3 text-left shadow-[inset_0_1px_0_rgb(255_255_255_/_0.04)] backdrop-blur-sm transition-colors hover:border-[color:rgb(113_178_159_/_0.35)] hover:bg-[color:rgb(255_255_255_/_0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)] sm:min-h-14 sm:px-5 sm:py-4"
                   >
                     <div>
                       <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--color-text-muted-soft)]">
@@ -333,7 +333,7 @@ const Navbar = () => {
                   ease: "easeOut",
                   delay: shouldReduceMotion ? 0 : 0.18,
                 }}
-                className="shrink-0 rounded-md border border-[color:rgb(255_255_255_/_0.09)] bg-[linear-gradient(180deg,rgb(255_255_255_/_0.05),rgb(255_255_255_/_0.02))] p-3.5 shadow-[0_24px_60px_rgb(0_0_0_/_0.22)] backdrop-blur-xl sm:rounded-[1.75rem] sm:p-4"
+                className="shrink-0 rounded-md border border-[color:rgb(255_255_255_/_0.09)] bg-[linear-gradient(180deg,rgb(255_255_255_/_0.05),rgb(255_255_255_/_0.02))] p-3.5 shadow-[0_24px_60px_rgb(0_0_0_/_0.22)] backdrop-blur-xl sm:p-4"
               >
                 <div className="mb-3 flex items-start justify-between gap-4 sm:mb-4">
                   <div>

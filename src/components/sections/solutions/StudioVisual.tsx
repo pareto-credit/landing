@@ -20,8 +20,8 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
           transition={{ duration: 0.4 }}
           className="absolute inset-0 flex flex-col"
         >
-          <div className="relative flex h-full min-h-0 w-full flex-1 items-start justify-center px-2 pt-3 md:items-center md:px-0 md:pt-8">
-            <div className="origin-top scale-[0.84] md:scale-100">
+          <div className="relative flex h-full min-h-0 w-full flex-1 items-center justify-center px-2 pt-4 md:px-0 md:pt-8">
+            <div className="origin-center scale-[0.72] sm:scale-[0.84] md:scale-100">
             {activeIndex === 0 && (
               <div className="w-full max-w-[430px] rounded-2xl border border-[var(--color-overlay-inverse-20)] bg-[color:rgb(8_18_14_/_0.92)] p-4 shadow-[0_24px_50px_rgba(0,0,0,0.45)]">
                 <div className="flex items-center justify-between border-b border-[var(--color-border-inverse-subtle)] pb-3">

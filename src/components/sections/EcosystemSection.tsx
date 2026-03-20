@@ -1,8 +1,10 @@
 import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { Activity, Building2, Network, type LucideIcon } from "lucide-react";
 import brokersImage from "../../assets/images/ecosystem/brokers-card.jpg";
 import fintechImage from "../../assets/images/ecosystem/fintech-card.jpg";
 import marketMakersImage from "../../assets/images/ecosystem/market-makers-card.jpg";
+import { useMinWidth } from "../../hooks/useMinWidth";
 import { SectionContainer, SectionHeading } from "../ui/Section";
 
 interface EcosystemSegment {
@@ -60,11 +62,75 @@ const ecosystemSegments: EcosystemSegment[] = [
   },
 ];
 
+const MOBILE_ECOSYSTEM_BREAKPOINT = 768;
+
 const EcosystemSection = () => {
   const shouldReduceMotion = useReducedMotion();
+  const isDesktop = useMinWidth(MOBILE_ECOSYSTEM_BREAKPOINT);
+  const viewportRef = useRef<HTMLDivElement | null>(null);
+  const cardRefs = useRef<Array<HTMLElement | null>>([]);
+  const pointerIdRef = useRef<number | null>(null);
+  const pointerStartXRef = useRef(0);
+  const pointerStartScrollRef = useRef(0);
+  const scrollFrameRef = useRef<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
   const mediaMotionClass = shouldReduceMotion
     ? ""
     : "transition-transform duration-700 ease-out group-hover:scale-105";
+  const isMobileCarousel = !isDesktop;
+
+  useEffect(() => {
+    if (isDesktop) {
+      setActiveIndex(0);
+    }
+  }, [isDesktop]);
+
+  useEffect(
+    () => () => {
+      if (scrollFrameRef.current !== null) {
+        window.cancelAnimationFrame(scrollFrameRef.current);
+      }
+    },
+    [],
+  );
+
+  const syncActiveIndex = () => {
+    const viewport = viewportRef.current;
+    if (!viewport || !isMobileCarousel) return;
+
+    const nearestIndex = cardRefs.current.reduce((closestIndex, card, index) => {
+      if (!card) return closestIndex;
+
+      const currentCard = cardRefs.current[closestIndex];
+      if (!currentCard) return index;
+
+      const currentDistance = Math.abs(currentCard.offsetLeft - viewport.scrollLeft);
+      const nextDistance = Math.abs(card.offsetLeft - viewport.scrollLeft);
+
+      return nextDistance < currentDistance ? index : closestIndex;
+    }, 0);
+
+    setActiveIndex(nearestIndex);
+  };
+
+  const finishDragging = () => {
+    if (!isMobileCarousel) return;
+
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
+    if (
+      pointerIdRef.current !== null &&
+      viewport.hasPointerCapture(pointerIdRef.current)
+    ) {
+      viewport.releasePointerCapture(pointerIdRef.current);
+    }
+
+    pointerIdRef.current = null;
+    setIsDragging(false);
+    syncActiveIndex();
+  };
 
   return (
     <section
@@ -83,10 +149,62 @@ const EcosystemSection = () => {
           size="3xl"
         />
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3 xl:gap-7">
+        <div
+          ref={viewportRef}
+          data-testid="ecosystem-track"
+          onPointerDown={(event) => {
+            if (!isMobileCarousel) return;
+
+            const viewport = viewportRef.current;
+            if (!viewport) return;
+
+            pointerIdRef.current = event.pointerId;
+            viewport.setPointerCapture(event.pointerId);
+            pointerStartXRef.current = event.clientX;
+            pointerStartScrollRef.current = viewport.scrollLeft;
+            setIsDragging(true);
+          }}
+          onPointerMove={(event) => {
+            if (!isMobileCarousel || pointerIdRef.current !== event.pointerId) {
+              return;
+            }
+
+            const viewport = viewportRef.current;
+            if (!viewport) return;
+
+            const deltaX = event.clientX - pointerStartXRef.current;
+            viewport.scrollLeft = pointerStartScrollRef.current - deltaX;
+          }}
+          onScroll={() => {
+            if (!isMobileCarousel) return;
+
+            if (scrollFrameRef.current !== null) {
+              window.cancelAnimationFrame(scrollFrameRef.current);
+            }
+
+            scrollFrameRef.current = window.requestAnimationFrame(() => {
+              syncActiveIndex();
+              scrollFrameRef.current = null;
+            });
+          }}
+          onPointerUp={finishDragging}
+          onPointerCancel={finishDragging}
+          onLostPointerCapture={finishDragging}
+          className={
+            isMobileCarousel
+              ? `marquee-scroll -mx-6 flex gap-4 overflow-x-auto px-6 pb-2 pt-1 touch-pan-x select-none snap-x snap-mandatory ${
+                  isDragging ? "cursor-grabbing" : "cursor-grab"
+                }`
+              : "grid grid-cols-3 gap-6 xl:gap-7"
+          }
+        >
           {ecosystemSegments.map((segment, idx) => (
             <motion.article
               key={segment.title}
+              ref={(node) => {
+                cardRefs.current[idx] = node;
+              }}
+              data-testid={`ecosystem-card-${idx}`}
               initial={shouldReduceMotion ? undefined : { opacity: 0, y: 20 }}
               whileInView={
                 shouldReduceMotion ? undefined : { opacity: 1, y: 0 }
@@ -96,7 +214,7 @@ const EcosystemSection = () => {
                 duration: 0.6,
                 delay: idx * 0.15,
               }}
-              className="ui-radius-card group relative flex flex-col overflow-hidden border border-[var(--color-border-soft)] bg-[var(--color-surface)] shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(14,24,19,0.06)]"
+              className="ui-radius-card group relative flex min-w-[84%] max-w-[25rem] shrink-0 snap-center flex-col overflow-hidden border border-[var(--color-border-soft)] bg-[var(--color-surface)] shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(14,24,19,0.06)] md:min-w-0 md:max-w-none md:flex-1 md:shrink md:snap-none"
             >
               <div className="relative h-[13rem] w-full overflow-hidden bg-[var(--color-bg-dark)] xl:h-[14rem]">
                 <div className="absolute inset-0 opacity-[0.08] [background-image:linear-gradient(rgb(255_255_255_/_0.24)_1px,transparent_1px),linear-gradient(90deg,rgb(255_255_255_/_0.24)_1px,transparent_1px)] [background-size:34px_34px]" />
@@ -151,6 +269,47 @@ const EcosystemSection = () => {
             </motion.article>
           ))}
         </div>
+
+        {isMobileCarousel ? (
+          <div
+            data-testid="ecosystem-pagination"
+            className="mt-5 flex items-center justify-center gap-2 md:hidden"
+          >
+            {ecosystemSegments.map((segment, idx) => {
+              const isActive = idx === activeIndex;
+
+              return (
+                <button
+                  key={segment.title}
+                  type="button"
+                  aria-label={`Go to ecosystem card ${idx + 1}`}
+                  aria-current={isActive ? "true" : "false"}
+                  onClick={() => {
+                    const viewport = viewportRef.current;
+                    const card = cardRefs.current[idx];
+                    if (!viewport || !card) return;
+
+                    const nextLeft = card.offsetLeft;
+                    setActiveIndex(idx);
+
+                    if (typeof viewport.scrollTo === "function") {
+                      viewport.scrollTo({ left: nextLeft, behavior: "smooth" });
+                    } else {
+                      viewport.scrollLeft = nextLeft;
+                    }
+                  }}
+                  className={`h-2.5 rounded-full transition-all duration-300 ${
+                    isActive
+                      ? "w-10 bg-[var(--color-text-primary)]"
+                      : "w-6 bg-[color:rgb(14_24_19_/_0.16)]"
+                  }`}
+                >
+                  <span className="sr-only">{segment.title.replace(/<br \/>/g, " ")}</span>
+                </button>
+              );
+            })}
+          </div>
+        ) : null}
       </SectionContainer>
     </section>
   );
