@@ -17,7 +17,7 @@ const ContactSection = () => {
       <div className="pointer-events-none absolute right-0 top-0 h-[380px] w-[380px] rounded-full bg-[color:rgb(59_130_246_/_0.06)] blur-[120px]" />
       <SectionContainer size="5xl" className="ui-section-shell relative z-10">
         <SectionHeading
-          eyebrow="Contact"
+          eyebrow="GET IN TOUCH"
           title={
             <>
               The infrastructure is ready.
@@ -37,10 +37,19 @@ const ContactSection = () => {
             action="https://formspree.io/f/xkgjlnwg"
             method="POST"
           >
-            <div className="grid gap-x-6 gap-y-5 lg:grid-cols-2">
-              <div>
-                <label className={fieldLabelClassName}>Full name *</label>
+            <div
+              data-testid="contact-primary-grid"
+              className="grid gap-x-6 gap-y-5 lg:grid-cols-4"
+            >
+              <div data-testid="contact-full-name-field" className="lg:col-span-2">
+                <label
+                  htmlFor="contact-full-name"
+                  className={fieldLabelClassName}
+                >
+                  Full name *
+                </label>
                 <input
+                  id="contact-full-name"
                   type="text"
                   name="fullName"
                   required
@@ -49,20 +58,44 @@ const ContactSection = () => {
               </div>
 
               <div>
-                <label className={fieldLabelClassName}>Email *</label>
+                <label htmlFor="contact-email" className={fieldLabelClassName}>
+                  Email *
+                </label>
                 <input
+                  id="contact-email"
                   type="email"
                   name="email"
                   required
                   className={fieldInputClassName}
                 />
               </div>
+
+              <div>
+                <label
+                  htmlFor="contact-tg-handle"
+                  className={fieldLabelClassName}
+                >
+                  TG handle
+                </label>
+                <input
+                  id="contact-tg-handle"
+                  type="text"
+                  name="tgHandle"
+                  className={fieldInputClassName}
+                />
+              </div>
             </div>
 
-            <div className="grid gap-x-6 gap-y-5 lg:grid-cols-4">
-              <div className="lg:col-span-2">
-                <label className={fieldLabelClassName}>Organization *</label>
+            <div className="grid gap-x-6 gap-y-5 lg:grid-cols-2">
+              <div>
+                <label
+                  htmlFor="contact-organization"
+                  className={fieldLabelClassName}
+                >
+                  Organization *
+                </label>
                 <input
+                  id="contact-organization"
                   type="text"
                   name="organization"
                   required
@@ -71,32 +104,21 @@ const ContactSection = () => {
               </div>
 
               <div>
-                <label className={fieldLabelClassName}>Role</label>
+                <label
+                  htmlFor="contact-interested-in"
+                  className={fieldLabelClassName}
+                >
+                  Interested in *
+                </label>
                 <div className="relative">
                   <select
-                    name="role"
+                    id="contact-interested-in"
+                    name="interestedIn"
                     className={`${fieldInputClassName} cursor-pointer appearance-none pr-10`}
                   >
-                    <option>Lender</option>
-                    <option>Borrower</option>
-                    <option>Partner</option>
-                  </select>
-                  <ChevronRight
-                    size={16}
-                    className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 rotate-90 text-[var(--color-text-muted)]"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className={fieldLabelClassName}>Inquiry type</label>
-                <div className="relative">
-                  <select
-                    name="inquiryType"
-                    className={`${fieldInputClassName} cursor-pointer appearance-none pr-10`}
-                  >
-                    <option>Borrower</option>
-                    <option>Lender</option>
+                    <option>Lending</option>
+                    <option>Borrowing</option>
+                    <option>Underwriting</option>
                     <option>Integration</option>
                   </select>
                   <ChevronRight
@@ -108,8 +130,11 @@ const ContactSection = () => {
             </div>
 
             <div>
-              <label className={fieldLabelClassName}>Message *</label>
+              <label htmlFor="contact-message" className={fieldLabelClassName}>
+                How can we help you? *
+              </label>
               <textarea
+                id="contact-message"
                 required
                 name="message"
                 rows={2}

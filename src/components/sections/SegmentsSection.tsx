@@ -1,9 +1,14 @@
 import bastionEco from "../../assets/images/operators/Bastion_Trading.svg";
 import adaptiveFrontierEco from "../../assets/images/operators/adaptivefrontier.png";
+import eulerEco from "../../assets/images/operators/euler.svg";
 import falconEco from "../../assets/images/operators/FalconX.svg";
 import digitalEco from "../../assets/images/operators/Fasanara_Digital.svg";
+import gauntletEco from "../../assets/images/operators/gauntletlogo.svg";
+import keyringEco from "../../assets/images/operators/keyring.svg";
 import rockawayEco from "../../assets/images/operators/RockawayX_mark.svg";
 import m11Eco from "../../assets/images/operators/m11.svg";
+import morphoEco from "../../assets/images/operators/morpho.svg";
+import steakhouseEco from "../../assets/images/operators/steakhouse.svg";
 import { SectionContainer, SectionHeading } from "../ui/Section";
 
 interface Operator {
@@ -12,6 +17,8 @@ interface Operator {
   src: string;
   visualScale: number;
   verticalOffset?: number;
+  imageClassName?: string;
+  hoverImageClassName?: string;
 }
 
 const operators: Operator[] = [
@@ -19,7 +26,7 @@ const operators: Operator[] = [
     name: "FalconX",
     link: "https://www.falconx.io/",
     src: falconEco,
-    visualScale: 1.12,
+    visualScale: 1.2,
     verticalOffset: -4,
   },
   {
@@ -56,6 +63,48 @@ const operators: Operator[] = [
     src: adaptiveFrontierEco,
     visualScale: 1.08,
     verticalOffset: 0,
+  },
+  {
+    name: "Gauntlet",
+    link: "https://www.gauntlet.xyz/",
+    src: gauntletEco,
+    visualScale: 0.8,
+    verticalOffset: 0,
+    imageClassName: "brightness-0 invert opacity-90",
+    hoverImageClassName: "group-hover/logo:brightness-100 group-hover/logo:invert-0",
+  },
+  {
+    name: "Steakhouse",
+    link: "https://www.steakhouse.financial/",
+    src: steakhouseEco,
+    visualScale: 0.8,
+    verticalOffset: 0,
+    imageClassName: "brightness-0 invert opacity-90",
+  },
+  {
+    name: "Morpho",
+    link: "https://morpho.org/",
+    src: morphoEco,
+    visualScale: 0.8,
+    verticalOffset: 0,
+    imageClassName: "opacity-90",
+  },
+  {
+    name: "Keyring",
+    link: "https://www.keyring.network/",
+    src: keyringEco,
+    visualScale: 0.8,
+    verticalOffset: 0,
+    imageClassName: "brightness-0 invert opacity-90",
+  },
+  {
+    name: "Euler",
+    link: "https://euler.finance/",
+    src: eulerEco,
+    visualScale: 0.6,
+    verticalOffset: 0,
+    imageClassName: "brightness-0 invert opacity-90",
+    hoverImageClassName: "group-hover/logo:brightness-100 group-hover/logo:invert-0",
   },
 ];
 
@@ -104,7 +153,7 @@ const SegmentsSection = () => {
                       transform: `translateY(${operator.verticalOffset ?? 0}px) scale(${operator.visualScale})`,
                       transformOrigin: "center center",
                     }}
-                    className="relative z-10 block h-full w-full object-contain px-2 pt-1 pb-2 md:pb-2.5 transition-[filter] duration-300 group-hover/logo:brightness-110"
+                    className={`relative z-10 block h-full w-full object-contain px-2 pt-1 pb-2 md:pb-2.5 transition-[filter,opacity] duration-300 group-hover/logo:brightness-110 ${operator.imageClassName ?? ""} ${operator.hoverImageClassName ?? ""}`}
                   />
                 </a>
               ))}

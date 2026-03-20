@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import TestimonialsSection from "./TestimonialsSection";
 
@@ -41,7 +41,9 @@ describe("TestimonialsSection", () => {
 
     render(<TestimonialsSection />);
 
-    const viewport = document.querySelector(".marquee-scroll") as HTMLDivElement;
+    const viewport = document.querySelector(
+      ".marquee-scroll",
+    ) as HTMLDivElement;
     const setPointerCapture = vi.fn();
     viewport.setPointerCapture = setPointerCapture;
 
@@ -68,7 +70,9 @@ describe("TestimonialsSection", () => {
 
     render(<TestimonialsSection />);
 
-    const viewport = document.querySelector(".marquee-scroll") as HTMLDivElement;
+    const viewport = document.querySelector(
+      ".marquee-scroll",
+    ) as HTMLDivElement;
     const setPointerCapture = vi.fn();
     viewport.setPointerCapture = setPointerCapture;
     viewport.hasPointerCapture = vi.fn().mockReturnValue(false);
