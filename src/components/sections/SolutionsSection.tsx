@@ -25,10 +25,12 @@ const MobileSolutionsSlider = ({
   const cardRefs = useRef<Array<HTMLElement | null>>([]);
   const pointerIdRef = useRef<number | null>(null);
   const pointerStartXRef = useRef(0);
+  const pointerStartYRef = useRef(0);
   const pointerStartScrollRef = useRef(0);
   const scrollFrameRef = useRef<number | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const DRAG_THRESHOLD_PX = 4;
 
   useEffect(
     () => () => {
@@ -93,10 +95,10 @@ const MobileSolutionsSlider = ({
           if (!viewport) return;
 
           pointerIdRef.current = event.pointerId;
-          viewport.setPointerCapture(event.pointerId);
           pointerStartXRef.current = event.clientX;
+          pointerStartYRef.current = event.clientY;
           pointerStartScrollRef.current = viewport.scrollLeft;
-          setIsDragging(true);
+          setIsDragging(false);
         }}
         onPointerMove={(event) => {
           if (pointerIdRef.current !== event.pointerId) return;
@@ -105,6 +107,32 @@ const MobileSolutionsSlider = ({
           if (!viewport) return;
 
           const deltaX = event.clientX - pointerStartXRef.current;
+          const deltaY = event.clientY - pointerStartYRef.current;
+          const absX = Math.abs(deltaX);
+          const absY = Math.abs(deltaY);
+
+          if (!isDragging) {
+            if (absX <= DRAG_THRESHOLD_PX && absY <= DRAG_THRESHOLD_PX) {
+              return;
+            }
+
+            if (absY > absX) {
+              pointerIdRef.current = null;
+              setIsDragging(false);
+              return;
+            }
+
+            const hasPointerCapture =
+              typeof viewport.hasPointerCapture === "function" &&
+              viewport.hasPointerCapture(event.pointerId);
+
+            if (!hasPointerCapture) {
+              viewport.setPointerCapture(event.pointerId);
+            }
+
+            setIsDragging(true);
+          }
+
           viewport.scrollLeft = pointerStartScrollRef.current - deltaX;
         }}
         onScroll={() => {
@@ -120,7 +148,7 @@ const MobileSolutionsSlider = ({
         onPointerUp={finishDragging}
         onPointerCancel={finishDragging}
         onLostPointerCapture={finishDragging}
-        className={`marquee-scroll -mx-6 flex overflow-x-auto pb-2 pt-1 touch-pan-x select-none snap-x snap-mandatory ${
+        className={`marquee-scroll -mx-6 flex overflow-x-auto overflow-y-hidden pb-2 pt-1 select-none snap-x snap-mandatory ${
           isDragging ? "cursor-grabbing" : "cursor-grab"
         } md:hidden`}
       >
@@ -136,7 +164,7 @@ const MobileSolutionsSlider = ({
               cardRefs.current[index] = node;
             }}
             data-testid={`${sliderTestId.replace("-slider", "")}-card-${index}`}
-            className={`w-[84%] max-w-[25rem] shrink-0 snap-center ${
+            className={`w-[84%] max-w-[25rem] shrink-0 snap-center snap-always ${
               index === features.length - 1 ? "" : "mr-4"
             }`}
           >

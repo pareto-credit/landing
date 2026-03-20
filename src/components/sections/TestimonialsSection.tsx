@@ -27,6 +27,7 @@ const TestimonialsSection = () => {
   const lastFrameTimeRef = useRef<number | null>(null);
   const pointerIdRef = useRef<number | null>(null);
   const pointerStartXRef = useRef(0);
+  const pointerStartYRef = useRef(0);
   const pointerStartScrollRef = useRef(0);
   const [singleSetWidth, setSingleSetWidth] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -146,11 +147,11 @@ const TestimonialsSection = () => {
               if (!viewport) return;
 
               pointerIdRef.current = event.pointerId;
-              viewport.setPointerCapture(event.pointerId);
               pointerStartXRef.current = event.clientX;
+              pointerStartYRef.current = event.clientY;
               pointerStartScrollRef.current = viewport.scrollLeft;
               didDragRef.current = false;
-              setIsDragging(true);
+              setIsDragging(false);
             }}
             onPointerMove={(event) => {
               if (pointerIdRef.current !== event.pointerId) return;
@@ -158,8 +159,31 @@ const TestimonialsSection = () => {
               if (!viewport) return;
 
               const deltaX = event.clientX - pointerStartXRef.current;
-              if (Math.abs(deltaX) > DRAG_THRESHOLD_PX) {
+              const deltaY = event.clientY - pointerStartYRef.current;
+              const absX = Math.abs(deltaX);
+              const absY = Math.abs(deltaY);
+
+              if (!didDragRef.current) {
+                if (absX <= DRAG_THRESHOLD_PX && absY <= DRAG_THRESHOLD_PX) {
+                  return;
+                }
+
+                if (absY > absX) {
+                  pointerIdRef.current = null;
+                  setIsDragging(false);
+                  return;
+                }
+
+                const hasPointerCapture =
+                  typeof viewport.hasPointerCapture === "function" &&
+                  viewport.hasPointerCapture(event.pointerId);
+
+                if (!hasPointerCapture) {
+                  viewport.setPointerCapture(event.pointerId);
+                }
+
                 didDragRef.current = true;
+                setIsDragging(true);
               }
 
               const next = pointerStartScrollRef.current - deltaX;
@@ -173,7 +197,7 @@ const TestimonialsSection = () => {
             onLostPointerCapture={finishDragging}
             onPointerEnter={() => setIsTrackHovered(true)}
             onPointerLeave={() => setIsTrackHovered(false)}
-            className="marquee-scroll flex w-full cursor-grab overflow-x-auto py-4 touch-pan-y select-none active:cursor-grabbing xl:py-10"
+            className="marquee-scroll flex w-full cursor-grab overflow-x-auto overflow-y-hidden py-4 select-none active:cursor-grabbing xl:py-10"
           >
             <div className="flex w-max px-8 md:px-10">
               {[...Array(TESTIMONIALS_MARQUEE_SETS)].map((_, arrayIndex) => (

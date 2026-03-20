@@ -143,7 +143,7 @@ describe("ProductsSection", () => {
     expect(title).toHaveClass("leading-[1.2]");
   });
 
-  it("enables horizontal touch panning on mobile for the vault marquee", () => {
+  it("keeps the vault marquee horizontally draggable without becoming vertically scrollable", () => {
     class ResizeObserverMock {
       observe() {}
       disconnect() {}
@@ -159,6 +159,7 @@ describe("ProductsSection", () => {
 
     const viewport = document.querySelector(".marquee-scroll");
 
-    expect(viewport).toHaveClass("touch-pan-x", "md:touch-pan-y");
+    expect(viewport).toHaveClass("overflow-x-auto", "overflow-y-hidden");
+    expect(viewport?.className).not.toMatch(/\btouch-pan-[xy]\b/);
   });
 });

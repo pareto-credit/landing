@@ -30,8 +30,7 @@ vi.mock("framer-motion", async () => {
               ...props
             },
             ref,
-          ) =>
-            React.createElement(tag, { ...props, ref }, children),
+          ) => React.createElement(tag, { ...props, ref }, children),
         ),
     },
   );
@@ -61,13 +60,16 @@ describe("EcosystemSection", () => {
 
     render(<EcosystemSection />);
 
-    expect(screen.getByTestId("ecosystem-track")).toHaveClass(
+    const slider = screen.getByTestId("ecosystem-track");
+
+    expect(slider).toHaveClass(
       "marquee-scroll",
       "overflow-x-auto",
-      "touch-pan-x",
+      "overflow-y-hidden",
       "snap-x",
       "snap-mandatory",
     );
+    expect(slider.className).not.toMatch(/\btouch-pan-[xy]\b/);
   });
 
   it("renders mobile pagination dots for the ecosystem slider", () => {
@@ -75,10 +77,33 @@ describe("EcosystemSection", () => {
 
     render(<EcosystemSection />);
 
-    const dots = screen.getAllByRole("button", { name: /go to ecosystem card/i });
+    const dots = screen.getAllByRole("button", {
+      name: /go to ecosystem card/i,
+    });
 
     expect(dots).toHaveLength(3);
     expect(dots[0]).toHaveAttribute("aria-current", "true");
+    expect(screen.getByTestId("ecosystem-card-0")).toHaveClass(
+      "snap-center",
+      "snap-always",
+    );
+  });
+
+  it("uses a shorter mobile header area for ecosystem cards", () => {
+    setViewportWidth(390);
+
+    render(<EcosystemSection />);
+
+    expect(screen.getByTestId("ecosystem-card-media-0")).toHaveClass(
+      "h-[9rem]",
+      "md:h-[13rem]",
+      "xl:h-[14rem]",
+    );
+    expect(screen.getByTestId("ecosystem-card-copy-0")).toHaveClass(
+      "p-5",
+      "md:p-6",
+      "xl:p-7",
+    );
   });
 
   it("keeps the desktop grid layout on larger screens", () => {
@@ -120,6 +145,9 @@ describe("EcosystemSection", () => {
       pointerId: 1,
       clientX: 120,
     });
+
+    expect(setPointerCapture).not.toHaveBeenCalled();
+
     fireEvent.pointerMove(track, {
       pointerId: 1,
       clientX: 90,

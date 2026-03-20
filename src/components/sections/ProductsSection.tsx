@@ -76,6 +76,7 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
   const lastFrameTimeRef = useRef<number | null>(null);
   const pointerIdRef = useRef<number | null>(null);
   const pointerStartXRef = useRef(0);
+  const pointerStartYRef = useRef(0);
   const pointerStartScrollRef = useRef(0);
   const [singleSetWidth, setSingleSetWidth] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -275,6 +276,7 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
 
                 pointerIdRef.current = event.pointerId;
                 pointerStartXRef.current = event.clientX;
+                pointerStartYRef.current = event.clientY;
                 pointerStartScrollRef.current = viewport.scrollLeft;
                 pointerStartedOnInteractiveRef.current =
                   isInteractiveMarqueeTarget(event.target);
@@ -287,14 +289,25 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
                 if (!viewport) return;
 
                 const deltaX = event.clientX - pointerStartXRef.current;
+                const deltaY = event.clientY - pointerStartYRef.current;
+                const absX = Math.abs(deltaX);
+                const absY = Math.abs(deltaY);
                 if (
                   !didDragRef.current &&
-                  Math.abs(deltaX) <= DRAG_THRESHOLD_PX
+                  absX <= DRAG_THRESHOLD_PX &&
+                  absY <= DRAG_THRESHOLD_PX
                 ) {
                   return;
                 }
 
                 if (!didDragRef.current) {
+                  if (absY > absX) {
+                    pointerIdRef.current = null;
+                    pointerStartedOnInteractiveRef.current = false;
+                    setIsDragging(false);
+                    return;
+                  }
+
                   didDragRef.current = true;
                   setIsDragging(true);
 
@@ -322,7 +335,7 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
               onLostPointerCapture={finishDragging}
               onPointerEnter={() => setIsTrackHovered(true)}
               onPointerLeave={() => setIsTrackHovered(false)}
-              className="marquee-scroll flex w-full cursor-grab overflow-x-auto py-4 touch-pan-x select-none active:cursor-grabbing md:touch-pan-y xl:py-10"
+              className="marquee-scroll flex w-full cursor-grab overflow-x-auto overflow-y-hidden py-4 select-none active:cursor-grabbing xl:py-10"
             >
               <div className="flex w-max px-8 md:px-10">
                 {[...Array(PRODUCTS_MARQUEE_SETS)].map((_, loopIndex) => (

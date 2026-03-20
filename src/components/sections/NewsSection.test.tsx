@@ -82,14 +82,17 @@ describe("NewsSection", () => {
 
     render(<NewsSection />);
 
-    expect(screen.getByTestId("news-mobile-slider")).toHaveClass(
+    const slider = screen.getByTestId("news-mobile-slider");
+
+    expect(slider).toHaveClass(
       "marquee-scroll",
       "overflow-x-auto",
-      "touch-pan-x",
+      "overflow-y-hidden",
       "snap-x",
       "snap-mandatory",
       "md:hidden",
     );
+    expect(slider.className).not.toMatch(/\btouch-pan-[xy]\b/);
   });
 
   it("renders mobile pagination dots for the news slider", () => {
@@ -102,6 +105,10 @@ describe("NewsSection", () => {
 
     expect(dots).toHaveLength(3);
     expect(dots[0]).toHaveAttribute("aria-current", "true");
+    expect(screen.getByTestId("news-mobile-card-0")).toHaveClass(
+      "snap-center",
+      "snap-always",
+    );
   });
 
   it("keeps the desktop news grid and hides mobile pagination on larger screens", () => {

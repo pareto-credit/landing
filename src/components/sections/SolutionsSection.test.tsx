@@ -33,33 +33,40 @@ describe("SolutionsSection", () => {
   it("uses mobile sliders instead of feature lists for Studio and White Label", () => {
     render(<SolutionsSection />);
 
-    expect(screen.getByTestId("studio-mobile-slider")).toHaveClass(
+    const studioSlider = screen.getByTestId("studio-mobile-slider");
+    const whiteLabelSlider = screen.getByTestId("white-label-mobile-slider");
+
+    expect(studioSlider).toHaveClass(
       "marquee-scroll",
       "overflow-x-auto",
-      "touch-pan-x",
+      "overflow-y-hidden",
       "snap-x",
       "snap-mandatory",
       "md:hidden",
     );
-    expect(screen.getByTestId("white-label-mobile-slider")).toHaveClass(
+    expect(whiteLabelSlider).toHaveClass(
       "marquee-scroll",
       "overflow-x-auto",
-      "touch-pan-x",
+      "overflow-y-hidden",
       "snap-x",
       "snap-mandatory",
       "md:hidden",
     );
+    expect(studioSlider.className).not.toMatch(/\btouch-pan-[xy]\b/);
+    expect(whiteLabelSlider.className).not.toMatch(/\btouch-pan-[xy]\b/);
     expect(screen.getByTestId("studio-feature-list")).toHaveClass("hidden", "md:block");
     expect(screen.getByTestId("white-label-feature-list")).toHaveClass("hidden", "md:block");
     expect(screen.getByTestId("studio-mobile-card-0")).toHaveClass(
       "w-[84%]",
       "shrink-0",
       "snap-center",
+      "snap-always",
     );
     expect(screen.getByTestId("white-label-mobile-card-0")).toHaveClass(
       "w-[84%]",
       "shrink-0",
       "snap-center",
+      "snap-always",
     );
   });
 
@@ -103,6 +110,38 @@ describe("SolutionsSection", () => {
       left: 529,
       behavior: "smooth",
     });
+  });
+
+  it("captures pointer drag on mobile only after a horizontal studio swipe begins", () => {
+    render(<SolutionsSection />);
+
+    const slider = screen.getByTestId("studio-mobile-slider") as HTMLDivElement;
+    const setPointerCapture = vi.fn();
+
+    slider.setPointerCapture = setPointerCapture;
+    slider.releasePointerCapture = vi.fn();
+    slider.hasPointerCapture = vi.fn().mockReturnValue(false);
+
+    Object.defineProperty(slider, "scrollLeft", {
+      configurable: true,
+      writable: true,
+      value: 100,
+    });
+
+    fireEvent.pointerDown(slider, {
+      pointerId: 1,
+      clientX: 120,
+    });
+
+    expect(setPointerCapture).not.toHaveBeenCalled();
+
+    fireEvent.pointerMove(slider, {
+      pointerId: 1,
+      clientX: 90,
+    });
+
+    expect(setPointerCapture).toHaveBeenCalledWith(1);
+    expect(slider.scrollLeft).toBe(130);
   });
 
   it("scrolls to the selected final White Label card when a mobile pagination dot is pressed", () => {

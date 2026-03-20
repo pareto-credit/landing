@@ -27,6 +27,7 @@ const NewsSection = () => {
   const scrollFrameRef = useRef<number | null>(null);
   const pointerIdRef = useRef<number | null>(null);
   const pointerStartXRef = useRef(0);
+  const pointerStartYRef = useRef(0);
   const pointerStartScrollRef = useRef(0);
   const pointerStartedOnInteractiveRef = useRef(false);
   const didDragRef = useRef(false);
@@ -226,6 +227,7 @@ const NewsSection = () => {
 
                 pointerIdRef.current = event.pointerId;
                 pointerStartXRef.current = event.clientX;
+                pointerStartYRef.current = event.clientY;
                 pointerStartScrollRef.current = viewport.scrollLeft;
                 pointerStartedOnInteractiveRef.current =
                   isInteractiveMarqueeTarget(event.target);
@@ -239,8 +241,21 @@ const NewsSection = () => {
                 if (!viewport) return;
 
                 const deltaX = event.clientX - pointerStartXRef.current;
-                if (!didDragRef.current && Math.abs(deltaX) <= DRAG_THRESHOLD_PX) {
-                  return;
+                const deltaY = event.clientY - pointerStartYRef.current;
+                const absX = Math.abs(deltaX);
+                const absY = Math.abs(deltaY);
+
+                if (!didDragRef.current) {
+                  if (absX <= DRAG_THRESHOLD_PX && absY <= DRAG_THRESHOLD_PX) {
+                    return;
+                  }
+
+                  if (absY > absX) {
+                    pointerIdRef.current = null;
+                    pointerStartedOnInteractiveRef.current = false;
+                    setIsDragging(false);
+                    return;
+                  }
                 }
 
                 if (!didDragRef.current) {
@@ -275,7 +290,7 @@ const NewsSection = () => {
               onPointerUp={finishDragging}
               onPointerCancel={finishDragging}
               onLostPointerCapture={finishDragging}
-              className={`marquee-scroll -mx-6 flex overflow-x-auto pb-2 pt-1 touch-pan-x select-none snap-x snap-mandatory ${
+              className={`marquee-scroll -mx-6 flex overflow-x-auto overflow-y-hidden pb-2 pt-1 select-none snap-x snap-mandatory ${
                 isDragging ? "cursor-grabbing" : "cursor-grab"
               } md:hidden`}
             >
@@ -291,7 +306,7 @@ const NewsSection = () => {
                     cardRefs.current[index] = node;
                   }}
                   data-testid={`news-mobile-card-${index}`}
-                  className={`w-[84%] max-w-[25rem] shrink-0 snap-center ${
+                  className={`w-[84%] max-w-[25rem] shrink-0 snap-center snap-always ${
                     index === articles.length - 1 ? "" : "mr-4"
                   }`}
                 >

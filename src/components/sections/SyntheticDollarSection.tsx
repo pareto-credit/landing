@@ -1,13 +1,14 @@
-import {
-  CheckCircle2,
-} from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import suspIcon from "../../assets/svgs/sUSP.svg";
 import uspIcon from "../../assets/svgs/USP.svg";
 import { FALLBACK_SYNTHETIC_DOLLAR_DATA } from "../../data/syntheticDollar";
 import { cn } from "../../lib/cn";
 import { useMinWidth } from "../../hooks/useMinWidth";
-import type { SyntheticDollarDataPayload, SyntheticToken } from "../../types/syntheticDollar";
+import type {
+  SyntheticDollarDataPayload,
+  SyntheticToken,
+} from "../../types/syntheticDollar";
 import { ButtonLink } from "../ui/Button";
 import { SectionContainer, SectionHeading } from "../ui/Section";
 
@@ -93,6 +94,7 @@ const SyntheticDollarSection = ({
   const scrollFrameRef = useRef<number | null>(null);
   const pointerIdRef = useRef<number | null>(null);
   const pointerStartXRef = useRef(0);
+  const pointerStartYRef = useRef(0);
   const pointerStartScrollRef = useRef(0);
   const pointerStartedOnInteractiveRef = useRef(false);
   const didDragRef = useRef(false);
@@ -121,30 +123,34 @@ const SyntheticDollarSection = ({
     [],
   );
 
-  const getCenteredScrollLeft = (
-    viewport: HTMLDivElement,
-    card: HTMLElement,
-  ) => Math.max(0, card.offsetLeft - (viewport.clientWidth - card.clientWidth) / 2);
+  const getCenteredScrollLeft = (viewport: HTMLDivElement, card: HTMLElement) =>
+    Math.max(
+      0,
+      card.offsetLeft - (viewport.clientWidth - card.clientWidth) / 2,
+    );
 
   const syncActiveIndex = () => {
     const viewport = viewportRef.current;
     if (!viewport || !isMobileSlider) return;
 
-    const nearestIndex = cardRefs.current.reduce((closestIndex, card, index) => {
-      if (!card) return closestIndex;
+    const nearestIndex = cardRefs.current.reduce(
+      (closestIndex, card, index) => {
+        if (!card) return closestIndex;
 
-      const currentCard = cardRefs.current[closestIndex];
-      if (!currentCard) return index;
+        const currentCard = cardRefs.current[closestIndex];
+        if (!currentCard) return index;
 
-      const currentDistance = Math.abs(
-        getCenteredScrollLeft(viewport, currentCard) - viewport.scrollLeft,
-      );
-      const nextDistance = Math.abs(
-        getCenteredScrollLeft(viewport, card) - viewport.scrollLeft,
-      );
+        const currentDistance = Math.abs(
+          getCenteredScrollLeft(viewport, currentCard) - viewport.scrollLeft,
+        );
+        const nextDistance = Math.abs(
+          getCenteredScrollLeft(viewport, card) - viewport.scrollLeft,
+        );
 
-      return nextDistance < currentDistance ? index : closestIndex;
-    }, 0);
+        return nextDistance < currentDistance ? index : closestIndex;
+      },
+      0,
+    );
 
     setActiveIndex(nearestIndex);
   };
@@ -168,20 +174,15 @@ const SyntheticDollarSection = ({
     syncActiveIndex();
   };
 
-  const renderCard = (
-    { content, icon, isDark, stats, token }: (typeof cards)[number],
-    index?: number,
-  ) => (
+  const renderCard = ({
+    content,
+    icon,
+    isDark,
+    stats,
+    token,
+  }: (typeof cards)[number]) => (
     <a
       key={token}
-      ref={
-        typeof index === "number"
-          ? (node) => {
-              cardRefs.current[index] = node;
-            }
-          : undefined
-      }
-      data-testid={typeof index === "number" ? `synthetic-mobile-card-${index}` : undefined}
       href={OPEN_IN_APP_URL}
       target="_blank"
       rel="noopener noreferrer"
@@ -194,7 +195,7 @@ const SyntheticDollarSection = ({
         }
       }}
       className={cn(
-        "ui-radius-card relative block overflow-hidden border p-10 no-underline shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgb(0,0,0,0.10)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)] focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--color-bg-light-alt)] md:p-12",
+        "ui-radius-card relative flex h-full flex-col overflow-hidden border p-8 no-underline shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgb(0,0,0,0.10)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)] focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--color-bg-light-alt)] md:p-12",
         isDark
           ? "border-[var(--color-border-inverse-soft)] bg-[var(--color-brand-mid)] text-[var(--color-text-inverse)]"
           : "border-[var(--color-border-soft)] bg-[var(--color-surface)] text-[var(--color-text-primary)]",
@@ -234,7 +235,7 @@ const SyntheticDollarSection = ({
 
       <h3
         className={cn(
-          "relative z-10 mt-8 text-3xl font-bold leading-tight tracking-tight",
+          "relative z-10 mt-5 text-2xl md:text-3xl font-bold leading-tight tracking-tight md:mt-5",
           isDark
             ? "text-[var(--color-text-inverse)]"
             : "text-[var(--color-text-primary)]",
@@ -243,7 +244,7 @@ const SyntheticDollarSection = ({
       ></h3>
       <p
         className={cn(
-          "relative z-10 mt-4 text-base leading-relaxed",
+          "relative z-10 mt-5 text-sm  md:text-base leading-relaxed",
           isDark
             ? "text-[var(--color-text-muted-softer)]"
             : "text-[var(--color-text-secondary)]",
@@ -252,7 +253,7 @@ const SyntheticDollarSection = ({
         {content.description}
       </p>
 
-      <ul className="relative z-10 mt-10 space-y-4">
+      <ul className="relative z-10 my-5 space-y-3 md:mt-5 md:space-y-4">
         {content.features.map((feature) => (
           <li key={feature.name} className="flex items-start gap-3">
             <CheckCircle2
@@ -284,7 +285,7 @@ const SyntheticDollarSection = ({
 
       <div
         className={cn(
-          "relative z-10 mt-10 grid grid-cols-3 gap-6 border-t pt-10",
+          "relative z-10 mt-auto grid grid-cols-3 gap-4 border-t pt-5 md:gap-6",
           isDark
             ? "border-[var(--color-border-inverse-soft)]"
             : "border-[var(--color-border-soft)]",
@@ -371,6 +372,7 @@ const SyntheticDollarSection = ({
 
                 pointerIdRef.current = event.pointerId;
                 pointerStartXRef.current = event.clientX;
+                pointerStartYRef.current = event.clientY;
                 pointerStartScrollRef.current = viewport.scrollLeft;
                 pointerStartedOnInteractiveRef.current =
                   isInteractiveMarqueeTarget(event.target);
@@ -384,8 +386,21 @@ const SyntheticDollarSection = ({
                 if (!viewport) return;
 
                 const deltaX = event.clientX - pointerStartXRef.current;
-                if (!didDragRef.current && Math.abs(deltaX) <= DRAG_THRESHOLD_PX) {
-                  return;
+                const deltaY = event.clientY - pointerStartYRef.current;
+                const absX = Math.abs(deltaX);
+                const absY = Math.abs(deltaY);
+
+                if (!didDragRef.current) {
+                  if (absX <= DRAG_THRESHOLD_PX && absY <= DRAG_THRESHOLD_PX) {
+                    return;
+                  }
+
+                  if (absY > absX) {
+                    pointerIdRef.current = null;
+                    pointerStartedOnInteractiveRef.current = false;
+                    setIsDragging(false);
+                    return;
+                  }
                 }
 
                 if (!didDragRef.current) {
@@ -420,7 +435,7 @@ const SyntheticDollarSection = ({
               onPointerUp={finishDragging}
               onPointerCancel={finishDragging}
               onLostPointerCapture={finishDragging}
-              className={`marquee-scroll -mx-6 flex overflow-x-auto pb-2 pt-1 touch-pan-x select-none snap-x snap-mandatory ${
+              className={`marquee-scroll -mx-6 flex overflow-x-auto overflow-y-hidden pb-2 pt-1 select-none snap-x snap-mandatory ${
                 isDragging ? "cursor-grabbing" : "cursor-grab"
               } lg:hidden`}
             >
@@ -432,11 +447,15 @@ const SyntheticDollarSection = ({
               {cards.map((card, index) => (
                 <article
                   key={card.token}
-                  className={`w-[84%] max-w-[25rem] shrink-0 snap-center ${
+                  ref={(node) => {
+                    cardRefs.current[index] = node;
+                  }}
+                  data-testid={`synthetic-mobile-card-${index}`}
+                  className={`h-[31rem] w-[84%] max-w-[25rem] shrink-0 snap-center snap-always md:h-auto ${
                     index === cards.length - 1 ? "" : "mr-4"
                   }`}
                 >
-                  {renderCard(card, index)}
+                  {renderCard(card)}
                 </article>
               ))}
               <div
@@ -461,11 +480,17 @@ const SyntheticDollarSection = ({
                       const currentCard = cardRefs.current[index];
                       if (!viewport || !currentCard) return;
 
-                      const nextLeft = getCenteredScrollLeft(viewport, currentCard);
+                      const nextLeft = getCenteredScrollLeft(
+                        viewport,
+                        currentCard,
+                      );
                       setActiveIndex(index);
 
                       if (typeof viewport.scrollTo === "function") {
-                        viewport.scrollTo({ left: nextLeft, behavior: "smooth" });
+                        viewport.scrollTo({
+                          left: nextLeft,
+                          behavior: "smooth",
+                        });
                       } else {
                         viewport.scrollLeft = nextLeft;
                       }

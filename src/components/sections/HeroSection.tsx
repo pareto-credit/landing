@@ -50,8 +50,7 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
           >
             It&apos;s time to upgrade <br className="hidden sm:block" />
             <span className="bg-gradient-to-r from-[var(--color-text-primary)] to-[var(--color-brand)] bg-clip-text text-transparent">
-              the credit operating
-              <br className="hidden sm:block" />
+              the credit operating <br className="hidden sm:block" />
               system
             </span>
           </motion.h1>
