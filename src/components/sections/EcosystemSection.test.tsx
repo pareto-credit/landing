@@ -4,12 +4,20 @@ import EcosystemSection from "./EcosystemSection";
 
 vi.mock("framer-motion", async () => {
   const React = await import("react");
+  type MotionMockProps = React.HTMLAttributes<HTMLElement> & {
+    initial?: unknown;
+    animate?: unknown;
+    exit?: unknown;
+    transition?: unknown;
+    viewport?: unknown;
+    whileInView?: unknown;
+  };
 
   const motion = new Proxy(
     {},
     {
       get: (_, tag: string) =>
-        React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
+        React.forwardRef<HTMLElement, MotionMockProps>(
           (
             {
               children,
