@@ -10,7 +10,7 @@ interface StudioVisualProps {
 
 const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
   return (
-    <VisualFrame className="h-[420px] md:h-[490px] xl:h-[530px]">
+    <VisualFrame className="h-[380px] md:h-[490px] xl:h-[530px]">
       <AnimatePresence mode="popLayout">
         <motion.div
           key={`st-container-${activeIndex}`}
@@ -20,7 +20,8 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
           transition={{ duration: 0.4 }}
           className="absolute inset-0 flex flex-col"
         >
-          <div className="relative flex h-full w-full flex-1 items-center justify-center pt-8">
+          <div className="relative flex h-full min-h-0 w-full flex-1 items-start justify-center px-2 pt-3 md:items-center md:px-0 md:pt-8">
+            <div className="origin-top scale-[0.84] md:scale-100">
             {activeIndex === 0 && (
               <div className="w-full max-w-[430px] rounded-2xl border border-[var(--color-overlay-inverse-20)] bg-[color:rgb(8_18_14_/_0.92)] p-4 shadow-[0_24px_50px_rgba(0,0,0,0.45)]">
                 <div className="flex items-center justify-between border-b border-[var(--color-border-inverse-subtle)] pb-3">
@@ -267,13 +268,14 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
                 </motion.div>
               </div>
             )}
+            </div>
           </div>
 
-          <div className="z-10 mt-auto bg-gradient-to-t from-[var(--color-bg-panel-dark)] via-[color:rgb(10_18_14_/_0.90)] to-transparent p-8 pt-12 text-center">
-            <h4 className="mb-2 text-xl font-bold text-[var(--color-text-inverse)]">
+          <div className="z-10 mt-auto bg-gradient-to-t from-[var(--color-bg-panel-dark)] via-[color:rgb(10_18_14_/_0.90)] to-transparent p-4 pt-6 text-center md:p-8 md:pt-12">
+            <h4 className="mb-1 text-lg font-bold text-[var(--color-text-inverse)] md:mb-2 md:text-xl">
               {studioFeatures[activeIndex].name}
             </h4>
-            <p className="mx-auto max-w-sm text-sm leading-relaxed text-[var(--color-text-muted)]">
+            <p className="mx-auto max-w-sm text-xs leading-relaxed text-[var(--color-text-muted)] md:text-sm">
               {studioFeatures[activeIndex].desc}
             </p>
           </div>

@@ -143,7 +143,7 @@ const InfrastructureSection = () => {
                         current === useCase.id ? null : useCase.id,
                       )
                     }
-                    className={`relative flex cursor-pointer flex-col gap-2 overflow-hidden rounded-2xl border p-6 text-left transition-all duration-300 ${
+                    className={`ui-radius-card relative flex cursor-pointer flex-col gap-2 overflow-hidden border p-6 text-left transition-all duration-300 ${
                       isActive
                         ? "border-[color:rgb(113_178_159_/_0.50)] bg-[var(--color-surface)] shadow-[0_10px_30px_rgba(113,178,159,0.15)]"
                         : isDimmed
@@ -243,7 +243,7 @@ const InfrastructureSection = () => {
                       />
                     </div>
 
-                    <div className="w-max max-w-[120px] rounded-lg border border-[var(--color-border-soft)] bg-[color:rgb(255_255_255_/_0.90)] px-3 py-1.5 text-center shadow-sm backdrop-blur-sm">
+                    <div className="ui-radius-panel w-max max-w-[120px] border border-[var(--color-border-soft)] bg-[color:rgb(255_255_255_/_0.90)] px-3 py-1.5 text-center shadow-sm backdrop-blur-sm">
                       <span
                         className={`block font-sans text-[11px] font-bold leading-tight ${
                           isActive && hoveredUseCase !== null

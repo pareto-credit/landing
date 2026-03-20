@@ -42,7 +42,7 @@ const NewsSection = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 variant="outline"
-                size="sm"
+                size="md"
                 className="text-[var(--color-text-primary)]"
               >
                 View All Articles
@@ -132,7 +132,7 @@ const NewsSection = () => {
               target="_blank"
               rel="noopener noreferrer"
               variant="outline"
-              size="sm"
+              size="md"
               className="text-[var(--color-text-primary)]"
             >
               View All Articles

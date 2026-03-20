@@ -69,7 +69,10 @@ const SolutionsSection = () => {
 
           <div className="flex flex-col justify-center py-10 md:py-14 lg:min-h-[100svh] lg:py-16 xl:py-20">
             <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14 xl:gap-16">
-              <div className="order-2 lg:order-1">
+              <div
+                data-testid="white-label-copy-slot"
+                className="order-1 lg:order-1"
+              >
                 <div>
                   <h3 className="mb-3 text-[1.9rem] font-bold tracking-tight text-[var(--color-text-inverse)] xl:text-[2rem]">
                     Pareto White Label
@@ -95,7 +98,10 @@ const SolutionsSection = () => {
                   </div>
                 </div>
               </div>
-              <div className="order-1 lg:order-2">
+              <div
+                data-testid="white-label-visual-slot"
+                className="order-2 mt-4 lg:order-2 lg:mt-0"
+              >
                 <WhiteLabelVisual activeIndex={safeWhiteLabelIndex} />
               </div>
             </div>

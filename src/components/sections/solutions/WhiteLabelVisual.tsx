@@ -24,7 +24,7 @@ const WhiteLabelVisual = ({ activeIndex }: WhiteLabelVisualProps) => {
   const activeFeature = wlFeatures[Math.min(activeIndex, wlFeatures.length - 1)] ?? wlFeatures[0]
 
   return (
-    <VisualFrame className="h-[420px] md:h-[490px] xl:h-[530px]">
+    <VisualFrame className="h-[410px] md:h-[490px] xl:h-[530px]">
       <AnimatePresence mode="popLayout">
         <motion.div
           key={`wl-container-${activeIndex}`}
@@ -34,7 +34,11 @@ const WhiteLabelVisual = ({ activeIndex }: WhiteLabelVisualProps) => {
           transition={{ duration: 0.4 }}
           className="absolute inset-0 flex flex-col"
         >
-          <div className="relative flex h-full w-full flex-1 items-center justify-center pt-8">
+          <div className="relative flex h-full min-h-0 w-full flex-1 items-start justify-center px-2 pt-3 md:items-center md:px-0 md:pt-8">
+            <div
+              data-testid="white-label-stage"
+              className="w-full max-w-[430px] origin-top scale-[0.86] md:scale-100"
+            >
             {activeIndex === 0 && (
               <div className="relative h-[320px] w-full max-w-[430px] overflow-hidden">
                 <div className="absolute left-0 top-7 w-28 space-y-3">
@@ -245,11 +249,12 @@ const WhiteLabelVisual = ({ activeIndex }: WhiteLabelVisualProps) => {
                 </div>
               </div>
             )}
+            </div>
           </div>
 
-          <div className="z-10 mt-auto bg-gradient-to-t from-[var(--color-bg-panel-dark)] via-[color:rgb(10_18_14_/_0.90)] to-transparent p-8 pt-12 text-center">
-            <h4 className="mb-2 text-xl font-bold text-[var(--color-text-inverse)]">{activeFeature.name}</h4>
-            <p className="mx-auto max-w-sm text-sm leading-relaxed text-[var(--color-text-muted)]">
+          <div className="z-10 mt-auto bg-gradient-to-t from-[var(--color-bg-panel-dark)] via-[color:rgb(10_18_14_/_0.90)] to-transparent p-4 pt-6 text-center md:p-8 md:pt-12">
+            <h4 className="mb-1 text-lg font-bold text-[var(--color-text-inverse)] md:mb-2 md:text-xl">{activeFeature.name}</h4>
+            <p className="mx-auto max-w-sm text-xs leading-relaxed text-[var(--color-text-muted)] md:text-sm">
               {activeFeature.desc}
             </p>
           </div>

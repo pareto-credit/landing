@@ -201,7 +201,7 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 variant="outline"
-                size="sm"
+                size="md"
                 className="text-[var(--color-text-primary)]"
               >
                 Explore Vaults
@@ -507,7 +507,7 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 variant="outline"
-                size="sm"
+                size="md"
                 className="text-[var(--color-text-primary)]"
               >
                 Explore Vaults

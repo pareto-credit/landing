@@ -34,7 +34,7 @@ vi.mock("framer-motion", async () => {
 
 describe("NarrativeScrollSection", () => {
   it("keeps the desktop narrative window radius aligned with the tighter UI radii", () => {
-    expect(WINDOW_RADIUS_PX).toBe(24);
+    expect(WINDOW_RADIUS_PX).toBe(18);
   });
 
   it("switches active videos over shorter scroll transition bands", () => {
@@ -94,8 +94,12 @@ describe("NarrativeScrollSection", () => {
 
     expect(container.querySelector("section")).toHaveClass("h-[480vh]");
 
-    expect(container.querySelector(".backdrop-blur-2xl")).not.toBeInTheDocument();
-    expect(container.querySelector(".backdrop-saturate-150")).not.toBeInTheDocument();
+    expect(
+      container.querySelector(".backdrop-blur-2xl"),
+    ).not.toBeInTheDocument();
+    expect(
+      container.querySelector(".backdrop-saturate-150"),
+    ).not.toBeInTheDocument();
 
     for (const video of container.querySelectorAll("video")) {
       expect(video).not.toHaveAttribute("poster");
@@ -103,6 +107,9 @@ describe("NarrativeScrollSection", () => {
 
     const firstVideoLayer = container.querySelector("video")?.parentElement;
 
-    expect(firstVideoLayer).toHaveClass("transform-gpu", "will-change-[opacity]");
+    expect(firstVideoLayer).toHaveClass(
+      "transform-gpu",
+      "will-change-[opacity]",
+    );
   });
 });
