@@ -263,6 +263,7 @@ input[type='reset'] {
   padding: 0;
 }
 
+.legal-content h1,
 .legal-content .title-h1,
 .legal-content .title-h2 {
   margin: 0 0 1.5rem;
@@ -276,6 +277,7 @@ input[type='reset'] {
   margin-top: 1.25rem;
 }
 
+.legal-content h2,
 .legal-content .title-h4 {
   margin: 0 0 0.65rem;
   color: var(--color-brand-alt);
@@ -285,6 +287,7 @@ input[type='reset'] {
   text-transform: uppercase;
 }
 
+.legal-content h3,
 .legal-content .subtitle-1 {
   margin: 0.9rem 0 0.45rem;
   color: color-mix(in srgb, var(--color-text-inverse) 96%, transparent);
@@ -302,6 +305,12 @@ input[type='reset'] {
 .legal-content ul {
   margin: 0.5rem 0 0.5rem 1.25rem;
   padding: 0;
+}
+
+.legal-content .for_boxes,
+.legal-content .unstyled {
+  list-style: none;
+  margin-left: 0;
 }
 
 .legal-content a {

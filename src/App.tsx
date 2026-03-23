@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 import HeroSection from './components/sections/HeroSection'
@@ -14,6 +15,7 @@ import NewsSection from './components/sections/NewsSection'
 import ContactSection from './components/sections/ContactSection'
 import { useProductsData } from './hooks/useProductsData'
 import { useSyntheticDollarData } from './hooks/useSyntheticDollarData'
+import { consumeLegalPageReturnScroll } from './lib/legalPageScroll'
 
 const shouldShowBanknoteSection = (): boolean => {
   if (typeof window === 'undefined') return false
@@ -28,6 +30,31 @@ const App = () => {
   const { metrics, vaults, isLoading: isProductsDataLoading } = useProductsData()
   const { data: syntheticDollarData, isLoading: isSyntheticDollarLoading } = useSyntheticDollarData()
   const showHowItWorksSection = shouldShowBanknoteSection()
+
+  useEffect(() => {
+    const scrollY = consumeLegalPageReturnScroll()
+
+    if (scrollY === null) {
+      return
+    }
+
+    const restoreScroll = () => {
+      window.scrollTo({ top: scrollY, behavior: 'auto' })
+    }
+
+    restoreScroll()
+
+    let nestedFrameId = 0
+    const frameId = window.requestAnimationFrame(() => {
+      restoreScroll()
+      nestedFrameId = window.requestAnimationFrame(restoreScroll)
+    })
+
+    return () => {
+      window.cancelAnimationFrame(frameId)
+      window.cancelAnimationFrame(nestedFrameId)
+    }
+  }, [])
 
   return (
     <div className="min-h-screen overflow-x-clip bg-[var(--color-bg-page)] font-sans text-[var(--color-text-inverse)] selection:bg-[var(--color-brand-alt)] selection:text-[var(--color-bg-page)]">

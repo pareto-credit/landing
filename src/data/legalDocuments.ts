@@ -1,23 +1,34 @@
-export type LegalDocumentType = 'terms' | 'privacy'
+import privacyPolicyContent from "../content/legal/privacy-policy.html?raw";
+import termsOfServiceContent from "../content/legal/terms-of-service.html?raw";
+
+export type LegalDocumentType = "terms" | "privacy";
 
 export interface LegalDocumentConfig {
-  title: string
-  sourceUrl: string
-  sectionSelector: string
-  loadingLabel: string
+  content: string;
+  sourceUrl: string;
+  title: string;
+}
+
+export interface LoadedLegalDocument extends LegalDocumentConfig {
+  documentType: LegalDocumentType;
 }
 
 export const LEGAL_DOCUMENTS: Record<LegalDocumentType, LegalDocumentConfig> = {
   terms: {
-    title: 'Terms of Service',
-    sourceUrl: 'https://pareto.credit/terms-of-service/',
-    sectionSelector: '.tos-section',
-    loadingLabel: 'Loading terms...',
+    title: "Terms of Service",
+    sourceUrl: "https://idle.finance/terms-of-service",
+    content: termsOfServiceContent,
   },
   privacy: {
-    title: 'Privacy Policy',
-    sourceUrl: 'https://pareto.credit/privacy-policy/',
-    sectionSelector: '.privacy-policy',
-    loadingLabel: 'Loading privacy policy...',
+    title: "Privacy Policy",
+    sourceUrl: "https://www.iubenda.com/privacy-policy/61211749",
+    content: privacyPolicyContent,
   },
-}
+};
+
+export const loadLegalDocument = (
+  documentType: LegalDocumentType,
+): LoadedLegalDocument => ({
+  documentType,
+  ...LEGAL_DOCUMENTS[documentType],
+});

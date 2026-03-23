@@ -1,25 +1,37 @@
 import type { ReactNode } from "react";
-import { render, screen, within } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { fireEvent, render, screen, within } from "@testing-library/react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import Footer from "./Footer";
+
+const saveLegalPageReturnScroll = vi.fn();
+
+vi.mock("../../lib/legalPageScroll", () => ({
+  saveLegalPageReturnScroll: () => saveLegalPageReturnScroll(),
+}));
 
 vi.mock("@tanstack/react-router", () => ({
   Link: ({
     to,
     children,
     className,
+    onClick,
   }: {
     to: string;
     children: ReactNode;
     className?: string;
+    onClick?: () => void;
   }) => (
-    <a href={to} className={className}>
+    <a href={to} className={className} onClick={onClick}>
       {children}
     </a>
   ),
 }));
 
 describe("Footer", () => {
+  beforeEach(() => {
+    saveLegalPageReturnScroll.mockReset();
+  });
+
   it("renders the updated platform, ecosystem, and company links", () => {
     render(<Footer />);
 
@@ -146,5 +158,13 @@ describe("Footer", () => {
       "Terms of Service",
     ]);
     expect(screen.queryByTestId("footer-actions")).not.toBeInTheDocument();
+  });
+
+  it("stores the current home scroll before opening a legal page", () => {
+    render(<Footer />);
+
+    fireEvent.click(screen.getByRole("link", { name: "Privacy Policy" }));
+
+    expect(saveLegalPageReturnScroll).toHaveBeenCalledTimes(1);
   });
 });

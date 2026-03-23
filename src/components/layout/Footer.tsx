@@ -10,6 +10,7 @@ import { Link } from "@tanstack/react-router";
 import paretoLogo from "../../assets/svgs/pareto-logo-light.svg";
 import paretoSignature from "../../assets/svgs/pareto-signature.svg";
 import xIcon from "../../assets/svgs/x.svg?raw";
+import { saveLegalPageReturnScroll } from "../../lib/legalPageScroll";
 import { SectionContainer } from "../ui/Section";
 
 interface FooterLink {
@@ -110,7 +111,16 @@ const renderFooterLink = (link: FooterLink) => {
 
   if (link.to) {
     return (
-      <Link key={link.label} to={link.to} className={footerLinkClassName}>
+      <Link
+        key={link.label}
+        to={link.to}
+        onClick={() => {
+          if (link.to === "/privacy-policy" || link.to === "/terms-of-service") {
+            saveLegalPageReturnScroll();
+          }
+        }}
+        className={footerLinkClassName}
+      >
         {content}
       </Link>
     );
