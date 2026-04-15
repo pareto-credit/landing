@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "postbuild": "node scripts/create-github-pages-fallback.js",
     "deploy:clean": "gh-pages-clean",
     "deploy": "npm run deploy:clean && gh-pages -d dist --cname pareto.credit --repo git@github.com:pareto-credit/landing.git",
     "build:deploy": "npm run build && npm run deploy",
