@@ -1,0 +1,573 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Pareto API",
+    "version": "1.0.0",
+    "description": "Public discovery description for the Pareto API. Full endpoint details are maintained in the Pareto developer documentation."
+  },
+  "servers": [
+    {
+      "url": "https://api.pareto.credit/v1"
+    }
+  ],
+  "externalDocs": {
+    "description": "Pareto API documentation",
+    "url": "https://docs.pareto.credit/developers/api"
+  },
+  "security": [
+    {
+      "bearerApiKey": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerApiKey": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "API keys are issued after approval and sent in the Authorization header as a Bearer token."
+      }
+    }
+  },
+  "paths": {
+    "/campaigns": {
+      "get": {
+        "summary": "List campaigns",
+        "tags": [
+          "campaigns"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of campaigns",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": true
+                      }
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "title": "campaigns list response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          }
+        }
+      }
+    },
+    "/chains": {
+      "get": {
+        "summary": "List chains",
+        "tags": [
+          "chains"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of chains",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": true
+                      }
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "title": "chains list response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          }
+        }
+      }
+    },
+    "/operators": {
+      "get": {
+        "summary": "List operators",
+        "tags": [
+          "operators"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of operators",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": true
+                      }
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "title": "operators list response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          }
+        }
+      }
+    },
+    "/token-blocks": {
+      "get": {
+        "summary": "List token-blocks",
+        "tags": [
+          "token-blocks"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of token-blocks",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": true
+                      }
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "title": "token-blocks list response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          }
+        }
+      }
+    },
+    "/tokens": {
+      "get": {
+        "summary": "List tokens",
+        "tags": [
+          "tokens"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of tokens",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": true
+                      }
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "title": "tokens list response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          }
+        }
+      }
+    },
+    "/transactions": {
+      "get": {
+        "summary": "List transactions",
+        "tags": [
+          "transactions"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of transactions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": true
+                      }
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "title": "transactions list response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          }
+        }
+      }
+    },
+    "/vaults": {
+      "get": {
+        "summary": "List vaults",
+        "tags": [
+          "vaults"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of vaults",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": true
+                      }
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "title": "vaults list response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          }
+        }
+      }
+    },
+    "/vault-blocks": {
+      "get": {
+        "summary": "List vault-blocks",
+        "tags": [
+          "vault-blocks"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of vault-blocks",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": true
+                      }
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "title": "vault-blocks list response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          }
+        }
+      }
+    },
+    "/vault-categories": {
+      "get": {
+        "summary": "List vault-categories",
+        "tags": [
+          "vault-categories"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of vault-categories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": true
+                      }
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "title": "vault-categories list response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          }
+        }
+      }
+    },
+    "/vault-epochs": {
+      "get": {
+        "summary": "List vault-epochs",
+        "tags": [
+          "vault-epochs"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of vault-epochs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": true
+                      }
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "title": "vault-epochs list response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          }
+        }
+      }
+    },
+    "/vault-performances": {
+      "get": {
+        "summary": "List vault-performances",
+        "tags": [
+          "vault-performances"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of vault-performances",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": true
+                      }
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "title": "vault-performances list response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          }
+        }
+      }
+    },
+    "/vault-types": {
+      "get": {
+        "summary": "List vault-types",
+        "tags": [
+          "vault-types"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of vault-types",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": true
+                      }
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "title": "vault-types list response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          }
+        }
+      }
+    }
+  }
+}

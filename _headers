@@ -1,0 +1,22 @@
+/
+  Link: </.well-known/api-catalog>; rel="api-catalog"
+  Link: </openapi.json>; rel="service-desc"; type="application/openapi+json"
+  Link: <https://docs.pareto.credit/developers/api>; rel="service-doc"; type="text/html"
+  Link: </sitemap.xml>; rel="describedby"; type="application/xml"
+  Vary: Accept
+
+/index.html
+  Link: </.well-known/api-catalog>; rel="api-catalog"
+  Link: </openapi.json>; rel="service-desc"; type="application/openapi+json"
+  Link: <https://docs.pareto.credit/developers/api>; rel="service-doc"; type="text/html"
+  Link: </sitemap.xml>; rel="describedby"; type="application/xml"
+  Vary: Accept
+
+/.well-known/api-catalog
+  Content-Type: application/linkset+json; charset=utf-8
+
+/.well-known/oauth-protected-resource
+  Content-Type: application/json; charset=utf-8
+
+/health
+  Content-Type: application/json; charset=utf-8
