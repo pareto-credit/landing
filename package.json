@@ -10,6 +10,8 @@
     "postbuild": "node scripts/create-github-pages-fallback.js",
     "deploy:clean": "gh-pages-clean",
     "deploy": "npm run deploy:clean && gh-pages -d dist --dotfiles --nojekyll --cname pareto.credit --repo git@github.com:pareto-credit/landing.git",
+    "deploy:worker": "npx wrangler deploy",
+    "deploy:all": "npm run build:deploy && npm run deploy:worker",
     "build:deploy": "npm run build && npm run deploy",
     "lint": "eslint .",
     "preview": "vite preview",

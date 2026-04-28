@@ -1,0 +1,8 @@
+name = "pareto-agent-discovery"
+main = "workers/agent-discovery-worker.js"
+compatibility_date = "2026-04-28"
+workers_dev = false
+
+routes = [
+  { pattern = "pareto.credit/*", zone_name = "pareto.credit" }
+]
