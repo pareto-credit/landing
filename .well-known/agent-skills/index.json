@@ -1,0 +1,12 @@
+{
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "skills": [
+    {
+      "name": "pareto-agent-discovery",
+      "type": "skill-md",
+      "description": "Discover Pareto public pages, API metadata, documentation, robots policy, and sitemap resources.",
+      "url": "https://pareto.credit/.well-known/agent-skills/pareto-agent-discovery/SKILL.md",
+      "digest": "sha256:3f2102d85773c618c07d3f3ca3997dd102349ffe11e77d4ebba6d09743437a7c"
+    }
+  ]
+}
