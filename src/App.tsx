@@ -16,6 +16,7 @@ import ContactSection from './components/sections/ContactSection'
 import { useProductsData } from './hooks/useProductsData'
 import { useSyntheticDollarData } from './hooks/useSyntheticDollarData'
 import { consumeLegalPageReturnScroll } from './lib/legalPageScroll'
+import { registerParetoWebMcp } from './lib/webMcp'
 
 const shouldShowBanknoteSection = (): boolean => {
   if (typeof window === 'undefined') return false
@@ -55,6 +56,8 @@ const App = () => {
       window.cancelAnimationFrame(nestedFrameId)
     }
   }, [])
+
+  useEffect(() => registerParetoWebMcp(), [])
 
   return (
     <div className="min-h-screen overflow-x-clip bg-[var(--color-bg-page)] font-sans text-[var(--color-text-inverse)] selection:bg-[var(--color-brand-alt)] selection:text-[var(--color-bg-page)]">

@@ -1,0 +1,47 @@
+User-agent: *
+Allow: /
+Allow: /privacy-policy
+Allow: /terms-of-service
+Allow: /.well-known/
+Allow: /sitemap.xml
+Allow: /openapi.json
+Disallow: /?showBanknote=
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+
+User-agent: OAI-SearchBot
+Allow: /
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+
+User-agent: Claude-Web
+Allow: /
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+
+User-agent: GPTBot
+Disallow: /
+Content-Signal: ai-train=no, search=no, ai-input=no
+
+User-agent: Google-Extended
+Disallow: /
+Content-Signal: ai-train=no, search=no, ai-input=no
+
+User-agent: Amazonbot
+Disallow: /
+Content-Signal: ai-train=no, search=no, ai-input=no
+
+User-agent: anthropic-ai
+Disallow: /
+Content-Signal: ai-train=no, search=no, ai-input=no
+
+User-agent: Bytespider
+Disallow: /
+Content-Signal: ai-train=no, search=no, ai-input=no
+
+User-agent: CCBot
+Disallow: /
+Content-Signal: ai-train=no, search=no, ai-input=no
+
+User-agent: Applebot-Extended
+Disallow: /
+Content-Signal: ai-train=no, search=no, ai-input=no
+
+Sitemap: https://pareto.credit/sitemap.xml

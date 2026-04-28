@@ -1,0 +1,23 @@
+{
+  "serverInfo": {
+    "name": "pareto-site",
+    "version": "1.0.0",
+    "description": "Pareto site discovery card for agents. Browser-based tools are exposed through WebMCP on the homepage."
+  },
+  "transport": {
+    "type": "streamable-http",
+    "endpoint": "https://pareto.credit/mcp"
+  },
+  "capabilities": {
+    "tools": {
+      "listChanged": false
+    },
+    "resources": {
+      "subscribe": false,
+      "listChanged": false
+    },
+    "prompts": {
+      "listChanged": false
+    }
+  }
+}

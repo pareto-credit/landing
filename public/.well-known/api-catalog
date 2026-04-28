@@ -1,0 +1,25 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://api.pareto.credit/",
+      "service-desc": [
+        {
+          "href": "https://pareto.credit/openapi.json",
+          "type": "application/openapi+json"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://docs.pareto.credit/developers/api",
+          "type": "text/html"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://pareto.credit/health",
+          "type": "application/json"
+        }
+      ]
+    }
+  ]
+}

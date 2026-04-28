@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prebuild": "node scripts/generate-agent-discovery.js",
     "build": "tsc -b && vite build",
     "postbuild": "node scripts/create-github-pages-fallback.js",
     "deploy:clean": "gh-pages-clean",
