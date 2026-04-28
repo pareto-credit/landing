@@ -1,6 +1,6 @@
 # Agent Discovery Worker
 
-GitHub Pages serves the generated static files in `public/`, but it cannot add homepage `Link` response headers or return a different representation for `Accept: text/markdown`.
+GitHub Pages serves the generated static files in `public/`, but it cannot add homepage `Link` response headers or return a different representation for `Accept: text/markdown`. The deploy script must publish dotfiles so `/.well-known/` discovery files are included.
 
 Deploy `agent-discovery-worker.js` in front of `pareto.credit` when those HTTP-layer checks need to pass in production. The worker:
 

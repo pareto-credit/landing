@@ -398,6 +398,7 @@ export function generateAgentDiscovery({
     generateSitemapXml(normalizedSiteUrl, generatedAt),
   );
   writeTextFile(resolve(publicDir, "index.md"), generateHomepageMarkdown(normalizedSiteUrl));
+  writeTextFile(resolve(publicDir, ".nojekyll"), "");
   writeTextFile(resolve(publicDir, ".well-known/api-catalog"), generateApiCatalog(normalizedSiteUrl));
   writeTextFile(resolve(publicDir, "openapi.json"), generateOpenApi());
   writeTextFile(resolve(publicDir, "health"), generateHealth(generatedAt));
