@@ -16,7 +16,7 @@ export interface LoadedLegalDocument extends LegalDocumentConfig {
 export const LEGAL_DOCUMENTS: Record<LegalDocumentType, LegalDocumentConfig> = {
   terms: {
     title: "Terms of Service",
-    sourceUrl: "https://idle.finance/terms-of-service",
+    sourceUrl: "https://pareto.credit/terms-of-service",
     content: termsOfServiceContent,
   },
   privacy: {

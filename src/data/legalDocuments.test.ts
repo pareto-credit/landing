@@ -8,7 +8,9 @@ describe("loadLegalDocument", () => {
     expect(document.title).toBe("Terms of Service");
     expect(document.content).toContain("Terms of Service");
     expect(document.content).toContain("Introduction");
-    expect(document.sourceUrl).toBe("https://idle.finance/terms-of-service");
+    expect(document.content).toContain("Ancillary Agreements");
+    expect(document.content).toContain("Credit Vaults");
+    expect(document.sourceUrl).toBe("https://pareto.credit/terms-of-service");
   });
 
   it("returns the local privacy policy content", () => {

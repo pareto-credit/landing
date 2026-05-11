@@ -307,6 +307,13 @@ input[type='reset'] {
   padding: 0;
 }
 
+.legal-content blockquote {
+  margin: 0.9rem 0;
+  border-left: 2px solid var(--color-brand-alt);
+  padding: 0.15rem 0 0.15rem 1rem;
+  background: color-mix(in srgb, var(--color-brand-alt) 8%, transparent);
+}
+
 .legal-content .for_boxes,
 .legal-content .unstyled {
   list-style: none;
