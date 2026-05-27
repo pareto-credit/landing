@@ -15,6 +15,10 @@ const COMPACT_CURRENCY_FORMATTER = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 1,
 });
 
+// Vault latest blocks expose TVL.*USD values as 6-decimal USD base units.
+// Always convert them directly; do not infer scaling from magnitude.
+const VAULT_BLOCK_USD_BASE_UNITS = 1_000_000;
+
 const getLocalizedText = (value: unknown): string => {
   if (typeof value === "string") return value;
   if (!value || typeof value !== "object") return "";
@@ -41,8 +45,13 @@ const toNumberSafe = (value: unknown): number => {
   return 0;
 };
 
-const normalizeUsdValue = (value: number): number =>
+// The performances endpoint is separate from vaultLatestBlocks and can return
+// either normalized USD values or 6-decimal values depending on the aggregate.
+const normalizePerformanceUsdValue = (value: number): number =>
   value > 1_000_000_000_000 ? value / 1_000_000 : value;
+
+const fromVaultBlockUsdBaseUnits = (value: unknown): number =>
+  toNumberSafe(value) / VAULT_BLOCK_USD_BASE_UNITS;
 
 const normalizeOperatorCode = (value: string): string =>
   value.toLowerCase().replace(/[^a-z0-9]/g, "");
@@ -158,14 +167,14 @@ const getApy = (vault: Vault, latestBlock?: VaultBlock): string => {
 
 const getTvl = (vault: Vault, latestByVaultId: Map<string, VaultBlock>): string => {
   const relatedVaultIds = [vault._id, ...(vault.siblings?.map((item) => item._id) ?? [])];
-  const totalRawUsd = relatedVaultIds.reduce((acc, vaultId) => {
+  const totalUsd = relatedVaultIds.reduce((acc, vaultId) => {
     const latestBlock = latestByVaultId.get(vaultId);
     if (!latestBlock?.TVL) return acc;
     const rawUsd = latestBlock.TVL.withRequestsUSD ?? latestBlock.TVL.USD;
-    return acc + toNumberSafe(rawUsd);
+    return acc + fromVaultBlockUsdBaseUnits(rawUsd);
   }, 0);
 
-  return COMPACT_CURRENCY_FORMATTER.format(normalizeUsdValue(totalRawUsd));
+  return COMPACT_CURRENCY_FORMATTER.format(totalUsd);
 };
 
 const getBorrowerOperator = (vault: Vault, operatorsById: Map<string, Operator>): Operator | null => {
@@ -305,8 +314,8 @@ export const fetchProductsData = async (
 
   return {
     metrics: {
-      outstandingLoans: normalizeUsdValue(toNumberSafe(performances.TVL)),
-      creditExtended: normalizeUsdValue(toNumberSafe(performances.creditExtended)),
+      outstandingLoans: normalizePerformanceUsdValue(toNumberSafe(performances.TVL)),
+      creditExtended: normalizePerformanceUsdValue(toNumberSafe(performances.creditExtended)),
     },
     vaults: publicVaults.map((vault) =>
       mapVaultToCard(vault, latestByVaultId, operatorsById, operatorsByCode, tokensById),

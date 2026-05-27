@@ -7,6 +7,8 @@ import falconxBackground from "../assets/images/operators/falconxBg.svg";
 import fasanaraLogo from "../assets/images/operators/fasanara.png";
 import fasanaraBackground from "../assets/images/operators/fasanaraBg.svg";
 import gauntletLogo from "../assets/images/operators/gauntlet.svg";
+import m1CapitalLogo from "../assets/images/operators/m1capital.png";
+import m1CapitalBackground from "../assets/images/operators/m1capitalBg.svg";
 import m11Logo from "../assets/images/operators/m11.png";
 import paretoLogo from "../assets/images/operators/pareto.png";
 import rockawayBackground from "../assets/images/operators/rockawayBg.svg";
@@ -18,6 +20,7 @@ const OPERATOR_LOGOS: Record<string, string> = {
   falconx: falconxLogo,
   fasanara: fasanaraLogo,
   gauntlet: gauntletLogo,
+  m1capital: m1CapitalLogo,
   m11: m11Logo,
   maven11: m11Logo,
   pareto: paretoLogo,
@@ -30,6 +33,7 @@ const OPERATOR_BACKGROUNDS: Record<string, string> = {
   bastion: bastionBackground,
   falconx: falconxBackground,
   fasanara: fasanaraBackground,
+  m1capital: m1CapitalBackground,
   rockaway: rockawayBackground,
   rockawayx: rockawayBackground,
 };
