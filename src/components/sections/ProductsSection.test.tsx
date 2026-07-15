@@ -36,6 +36,30 @@ afterEach(() => {
 });
 
 describe("ProductsSection", () => {
+  it("links vault cards using the vault address as a path segment", () => {
+    class ResizeObserverMock {
+      observe() {}
+      disconnect() {}
+    }
+
+    Object.defineProperty(window, "ResizeObserver", {
+      configurable: true,
+      writable: true,
+      value: ResizeObserverMock,
+    });
+
+    render(<ProductsSection vaults={[vaultCard]} isVaultsLoading={false} />);
+
+    for (const link of screen.getAllByRole("link", {
+      name: /open falconx credit vault vault/i,
+    })) {
+      expect(link).toHaveAttribute(
+        "href",
+        "https://app.pareto.credit/vault/0x123",
+      );
+    }
+  });
+
   it("does not arm marquee dragging when pressing a vault link", () => {
     class ResizeObserverMock {
       observe() {}

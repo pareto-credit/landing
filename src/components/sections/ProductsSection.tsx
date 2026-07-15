@@ -362,7 +362,7 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
                       const description = truncateDescription(
                         vault.description,
                       );
-                      const vaultLink = `https://app.pareto.credit/vault#${vault.address}`;
+                      const vaultLink = `https://app.pareto.credit/vault/${vault.address}`;
 
                       return (
                         <a
