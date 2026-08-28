@@ -1,10 +1,11 @@
 import { describe, expect, it, vi } from "vitest";
-import type { ApiClient, VaultBlock } from "@idle-multiverse/data-access";
+import type { VaultBlock } from "@idle-multiverse/data-access";
 import {
   SYNTHETIC_DOLLAR_VAULT_ID,
   fetchSyntheticDollarData,
   mapVaultBlockToSyntheticDollarData,
 } from "./syntheticDollarData";
+import type { ParetoPublicApiClient } from "./paretoPublicApi";
 
 const buildVaultBlock = (): VaultBlock =>
   ({
@@ -65,7 +66,7 @@ describe("fetchSyntheticDollarData", () => {
       vaultLatestBlocks: {
         readOne,
       },
-    } as unknown as ApiClient;
+    } as unknown as ParetoPublicApiClient;
 
     await fetchSyntheticDollarData(apiClient);
 

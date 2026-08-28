@@ -1,11 +1,11 @@
 import type {
-  ApiClient as ApiClientType,
   Operator,
   Token,
   Vault,
   VaultBlock,
 } from "@idle-multiverse/data-access";
 import type { ProductVaultCard, ProductsDataPayload } from "../types/products";
+import type { ParetoPublicApiClient } from "./paretoPublicApi";
 
 const COMPACT_CURRENCY_FORMATTER = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -240,7 +240,7 @@ const mapVaultToCard = (
 };
 
 export const fetchProductsData = async (
-  apiClient: ApiClientType,
+  apiClient: ParetoPublicApiClient,
 ): Promise<ProductsDataPayload> => {
   const [vaultsResult, performancesResult, operatorsResult] = await Promise.allSettled([
     apiClient.vaults.search({

@@ -1,8 +1,6 @@
-import type {
-  ApiClient as ApiClientType,
-  VaultBlock,
-} from "@idle-multiverse/data-access";
+import type { VaultBlock } from "@idle-multiverse/data-access";
 import type { SyntheticDollarDataPayload } from "../types/syntheticDollar";
+import type { ParetoPublicApiClient } from "./paretoPublicApi";
 
 export const SYNTHETIC_DOLLAR_VAULT_ID = "68026ee6905992e056c85a75";
 
@@ -100,7 +98,7 @@ export const mapVaultBlockToSyntheticDollarData = (
 };
 
 export const fetchSyntheticDollarData = async (
-  apiClient: ApiClientType,
+  apiClient: ParetoPublicApiClient,
 ): Promise<SyntheticDollarDataPayload> => {
   const latestVaultBlock = await apiClient.vaultLatestBlocks.readOne({
     vaultId: SYNTHETIC_DOLLAR_VAULT_ID,

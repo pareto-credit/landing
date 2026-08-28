@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
-import type { ApiClient, Operator, Vault, VaultBlock } from "@idle-multiverse/data-access";
+import type { Operator, Vault, VaultBlock } from "@idle-multiverse/data-access";
 import { fetchProductsData } from "./productsData";
+import type { ParetoPublicApiClient } from "./paretoPublicApi";
 
 const buildVault = (overrides: Partial<Vault> = {}): Vault =>
   ({
@@ -61,7 +62,7 @@ describe("fetchProductsData", () => {
           totalCount: 1,
         }),
       },
-    } as unknown as ApiClient;
+    } as unknown as ParetoPublicApiClient;
 
     const productsData = await fetchProductsData(apiClient);
 
@@ -173,7 +174,7 @@ describe("fetchProductsData", () => {
           totalCount: 1,
         }),
       },
-    } as unknown as ApiClient;
+    } as unknown as ParetoPublicApiClient;
 
     const productsData = await fetchProductsData(apiClient);
 

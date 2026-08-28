@@ -1,8 +1,8 @@
 import { createContext } from "react";
-import type { ApiClient as ApiClientType } from "@idle-multiverse/data-access";
+import type { ParetoPublicApiClient } from "../lib/paretoPublicApi";
 
 export interface ApiClientContextValue {
-  client: ApiClientType | null;
+  client: ParetoPublicApiClient | null;
   isReady: boolean;
   error: Error | null;
 }
