@@ -1,7 +1,15 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import ProductsSection from "./ProductsSection";
 import type { ProductVaultCard } from "../../types/products";
+
+const { motionPreference } = vi.hoisted(() => ({
+  motionPreference: { shouldReduce: true },
+}));
+
+vi.mock("framer-motion", () => ({
+  useReducedMotion: () => motionPreference.shouldReduce,
+}));
 
 const setViewportWidth = (width: number) => {
   Object.defineProperty(window, "innerWidth", {
@@ -32,6 +40,7 @@ const vaultCard: ProductVaultCard = {
 };
 
 afterEach(() => {
+  motionPreference.shouldReduce = true;
   vi.restoreAllMocks();
 });
 
@@ -185,5 +194,60 @@ describe("ProductsSection", () => {
 
     expect(viewport).toHaveClass("overflow-x-auto", "overflow-y-hidden");
     expect(viewport?.className).not.toMatch(/\btouch-pan-[xy]\b/);
+  });
+
+  it("retains fractional auto-scroll progress when the browser rounds scrollLeft", () => {
+    motionPreference.shouldReduce = false;
+    let nextFrame: FrameRequestCallback | undefined;
+
+    class ResizeObserverMock {
+      private readonly callback: ResizeObserverCallback;
+
+      constructor(callback: ResizeObserverCallback) {
+        this.callback = callback;
+      }
+
+      observe(target: Element) {
+        this.callback(
+          [{ target } as ResizeObserverEntry],
+          this as unknown as ResizeObserver,
+        );
+      }
+
+      disconnect() {}
+    }
+
+    Object.defineProperty(window, "ResizeObserver", {
+      configurable: true,
+      writable: true,
+      value: ResizeObserverMock,
+    });
+    vi.spyOn(HTMLElement.prototype, "scrollWidth", "get").mockReturnValue(1_000);
+    vi.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
+      nextFrame = callback;
+      return 1;
+    });
+    vi.spyOn(window, "cancelAnimationFrame").mockImplementation(() => {});
+
+    render(<ProductsSection vaults={[vaultCard]} isVaultsLoading={false} />);
+
+    const viewport = document.querySelector(".marquee-scroll") as HTMLDivElement;
+    let renderedScrollLeft = 0;
+    Object.defineProperty(viewport, "scrollLeft", {
+      configurable: true,
+      get: () => renderedScrollLeft,
+      set: (value: number) => {
+        renderedScrollLeft = Math.trunc(value);
+      },
+    });
+
+    act(() => {
+      nextFrame?.(0);
+      for (let frame = 1; frame <= 60; frame += 1) {
+        nextFrame?.((frame * 1_000) / 60);
+      }
+    });
+
+    expect(renderedScrollLeft).toBeGreaterThanOrEqual(49);
   });
 });

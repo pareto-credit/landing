@@ -7,6 +7,7 @@ import { SectionContainer, SectionHeading } from "../ui/Section";
 const TESTIMONIALS_MARQUEE_SPEED = 38;
 const TESTIMONIALS_MARQUEE_SETS = 2;
 const DRAG_THRESHOLD_PX = 4;
+const NATIVE_SCROLL_SYNC_THRESHOLD_PX = 2;
 
 const normalizeMarqueeScroll = (value: number, singleSetWidth: number) => {
   if (singleSetWidth <= 0) return 0;
@@ -29,6 +30,7 @@ const TestimonialsSection = () => {
   const pointerStartXRef = useRef(0);
   const pointerStartYRef = useRef(0);
   const pointerStartScrollRef = useRef(0);
+  const scrollPositionRef = useRef(0);
   const [singleSetWidth, setSingleSetWidth] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [isTrackHovered, setIsTrackHovered] = useState(false);
@@ -42,10 +44,12 @@ const TestimonialsSection = () => {
     const syncWidth = () => {
       const nextWidth = setNode.scrollWidth;
       setSingleSetWidth(nextWidth);
-      viewport.scrollLeft = normalizeMarqueeScroll(
+      const nextScrollPosition = normalizeMarqueeScroll(
         viewport.scrollLeft,
         nextWidth,
       );
+      scrollPositionRef.current = nextScrollPosition;
+      viewport.scrollLeft = nextScrollPosition;
     };
 
     syncWidth();
@@ -80,9 +84,21 @@ const TestimonialsSection = () => {
       lastFrameTimeRef.current = timestamp;
 
       if (!isDragging && !isTrackHovered) {
+        if (
+          Math.abs(viewport.scrollLeft - scrollPositionRef.current) >
+          NATIVE_SCROLL_SYNC_THRESHOLD_PX
+        ) {
+          scrollPositionRef.current = viewport.scrollLeft;
+        }
+
         const deltaPx = (TESTIMONIALS_MARQUEE_SPEED * delta) / 1000;
-        const next = viewport.scrollLeft + deltaPx;
-        viewport.scrollLeft = normalizeMarqueeScroll(next, singleSetWidth);
+        const next = scrollPositionRef.current + deltaPx;
+        const nextScrollPosition = normalizeMarqueeScroll(
+          next,
+          singleSetWidth,
+        );
+        scrollPositionRef.current = nextScrollPosition;
+        viewport.scrollLeft = nextScrollPosition;
       }
 
       rafRef.current = window.requestAnimationFrame(step);
@@ -112,10 +128,12 @@ const TestimonialsSection = () => {
 
     pointerIdRef.current = null;
     setIsDragging(false);
-    viewport.scrollLeft = normalizeMarqueeScroll(
+    const nextScrollPosition = normalizeMarqueeScroll(
       viewport.scrollLeft,
       singleSetWidth,
     );
+    scrollPositionRef.current = nextScrollPosition;
+    viewport.scrollLeft = nextScrollPosition;
     window.setTimeout(() => {
       didDragRef.current = false;
     }, 0);
@@ -150,6 +168,7 @@ const TestimonialsSection = () => {
               pointerStartXRef.current = event.clientX;
               pointerStartYRef.current = event.clientY;
               pointerStartScrollRef.current = viewport.scrollLeft;
+              scrollPositionRef.current = viewport.scrollLeft;
               didDragRef.current = false;
               setIsDragging(false);
             }}
@@ -187,10 +206,12 @@ const TestimonialsSection = () => {
               }
 
               const next = pointerStartScrollRef.current - deltaX;
-              viewport.scrollLeft = normalizeMarqueeScroll(
+              const nextScrollPosition = normalizeMarqueeScroll(
                 next,
                 singleSetWidth,
               );
+              scrollPositionRef.current = nextScrollPosition;
+              viewport.scrollLeft = nextScrollPosition;
             }}
             onPointerUp={finishDragging}
             onPointerCancel={finishDragging}
