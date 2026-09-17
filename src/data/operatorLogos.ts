@@ -13,6 +13,7 @@ import m11Logo from "../assets/images/operators/m11.png";
 import paretoLogo from "../assets/images/operators/pareto.png";
 import rockawayBackground from "../assets/images/operators/rockawayBg.svg";
 import rockawayLogo from "../assets/images/operators/rockawayx.png";
+import twoPrimeLogo from "../assets/images/operators/twoprime.svg";
 
 const OPERATOR_LOGOS: Record<string, string> = {
   adaptive: adaptiveLogo,
@@ -26,6 +27,7 @@ const OPERATOR_LOGOS: Record<string, string> = {
   pareto: paretoLogo,
   rockaway: rockawayLogo,
   rockawayx: rockawayLogo,
+  twoprime: twoPrimeLogo,
 };
 
 const OPERATOR_BACKGROUNDS: Record<string, string> = {
