@@ -14,6 +14,7 @@ import northbridgeLogo from "../assets/images/operators/northbridge.png";
 import paretoLogo from "../assets/images/operators/pareto.png";
 import rockawayBackground from "../assets/images/operators/rockawayBg.svg";
 import rockawayLogo from "../assets/images/operators/rockawayx.png";
+import twoPrimeBackground from "../assets/images/operators/twoprimeBg.svg";
 import twoPrimeLogo from "../assets/images/operators/twoprime.svg";
 
 const OPERATOR_LOGOS: Record<string, string> = {
@@ -40,6 +41,7 @@ const OPERATOR_BACKGROUNDS: Record<string, string> = {
   m1capital: m1CapitalBackground,
   rockaway: rockawayBackground,
   rockawayx: rockawayBackground,
+  twoprime: twoPrimeBackground,
 };
 
 const normalizeOperatorKey = (value?: string) =>

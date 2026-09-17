@@ -14,6 +14,10 @@ describe("operator logo resolution", () => {
     expect(getOperatorLogo("TWO_PRIME", "Two Prime")).toBeTruthy();
   });
 
+  it("resolves the TwoPrime background used by the vault card", () => {
+    expect(getOperatorBackground("TWO_PRIME", "Two Prime")).toBeTruthy();
+  });
+
   it("resolves the Northbridge API operator code used as a vault curator", () => {
     expect(getOperatorLogo("NORTHBRIDGE", "Northbridge")).toBeTruthy();
   });
