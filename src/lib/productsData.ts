@@ -101,6 +101,9 @@ const toCadenceLabel = (value: string): string | null => {
 };
 
 const getRateType = (vault: Vault): string | undefined => {
+  if (vault.cdoEpoch?.mode === "CREDIT") return "Fixed rate";
+  if (vault.cdoEpoch?.mode === "STRATEGY") return "Variable rate";
+
   const rateTypeSource = [
     getLocalizedText(vault.shortDescription),
     getLocalizedText(vault.description),

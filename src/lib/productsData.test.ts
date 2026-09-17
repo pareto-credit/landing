@@ -27,12 +27,52 @@ const buildVault = (overrides: Partial<Vault> = {}): Vault =>
   }) as unknown as Vault;
 
 describe("fetchProductsData", () => {
-  it("derives a fixed-rate chip from the long description when the short description omits it", async () => {
+  it("derives rate chips from cdoEpoch mode instead of description wording", async () => {
+    const twoPrimeVault = buildVault({
+      name: "Two Prime Axiom WBTC Yield",
+      shortDescription: {
+        en: "Institutional bitcoin-backed lending and investment strategies.",
+      },
+      description: {
+        en: "Serving corporate treasuries, miners, and institutional allocators.",
+      },
+      cdoEpoch: {
+        address: "0xtwoprimeepoch",
+        mode: "CREDIT",
+        borrower: {
+          address: "0xborrower",
+          operatorId: "operator-two-prime",
+        },
+        manager: {
+          address: "0xmanager",
+          operatorId: "operator-northbridge",
+        },
+      },
+    } as Partial<Vault>);
+    const strategyVault = buildVault({
+      _id: "vault-strategy",
+      name: "Strategy Vault",
+      shortDescription: {
+        en: "A fixed-rate phrase that must not override the vault mode.",
+      },
+      cdoEpoch: {
+        address: "0xstrategyepoch",
+        mode: "STRATEGY",
+        borrower: {
+          address: "0xstrategyborrower",
+          operatorId: "operator-strategy",
+        },
+        manager: {
+          address: "0xmanager",
+          operatorId: "operator-pareto",
+        },
+      },
+    } as Partial<Vault>);
     const apiClient = {
       vaults: {
         search: vi.fn().mockResolvedValue({
-          data: [buildVault()],
-          totalCount: 1,
+          data: [twoPrimeVault, strategyVault],
+          totalCount: 2,
         }),
         performances: vi.fn().mockResolvedValue({
           TVL: 0,
@@ -66,7 +106,18 @@ describe("fetchProductsData", () => {
 
     const productsData = await fetchProductsData(apiClient);
 
-    expect(productsData.vaults[0]?.type).toBe("Fixed rate");
+    expect(productsData.vaults).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          name: "Two Prime Axiom WBTC Yield",
+          type: "Fixed rate",
+        }),
+        expect.objectContaining({
+          name: "Strategy Vault",
+          type: "Variable rate",
+        }),
+      ]),
+    );
   });
 
   it("formats latest block TVLs from 6-decimal USD base units regardless of magnitude", async () => {

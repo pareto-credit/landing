@@ -46,7 +46,15 @@ const buildUrl = (apiUrl: string, route: string, params?: Query): URL => {
 
   for (const [key, value] of Object.entries(params ?? {})) {
     if (value === undefined || value === null) continue;
-    url.searchParams.set(key, Array.isArray(value) ? value.join(",") : String(value));
+
+    if (Array.isArray(value)) {
+      for (const item of value) {
+        url.searchParams.append(key, String(item));
+      }
+      continue;
+    }
+
+    url.searchParams.set(key, String(value));
   }
 
   return url;

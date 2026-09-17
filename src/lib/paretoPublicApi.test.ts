@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import { createParetoPublicApiClient } from "./paretoPublicApi";
 
 describe("createParetoPublicApiClient", () => {
-  it("requests Pareto public routes without an authorization header", async () => {
+  it("requests public routes with repeated array parameters and no authorization header", async () => {
     const fetchMock = vi.fn().mockResolvedValue({
       ok: true,
       json: vi.fn().mockResolvedValue({ data: [], totalCount: 0 }),
@@ -22,8 +22,8 @@ describe("createParetoPublicApiClient", () => {
       "https://api.pareto.credit/v1/public/vaults?status=READY&contractType=CDO_EPOCH",
       "https://api.pareto.credit/v1/public/vaults/performances?status=READY",
       "https://api.pareto.credit/v1/public/operators?limit=100",
-      "https://api.pareto.credit/v1/public/vault-latest-blocks?vaultId=vault-a%2Cvault-b",
-      "https://api.pareto.credit/v1/public/tokens?_id=token-a%2Ctoken-b&limit=100",
+      "https://api.pareto.credit/v1/public/vault-latest-blocks?vaultId=vault-a&vaultId=vault-b",
+      "https://api.pareto.credit/v1/public/tokens?_id=token-a&_id=token-b&limit=100",
     ]);
 
     for (const [, options] of fetchMock.mock.calls) {
