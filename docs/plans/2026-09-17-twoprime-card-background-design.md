@@ -13,6 +13,10 @@ shared muted watermark color `#BCC8C0`. Register it under the existing
 normalized `twoprime` background key. The carousel already renders this
 background at the lower right of each matching vault card.
 
+Match the background SVG canvas to the card's 1.2 aspect ratio and crop its
+right edge at the logomark's outermost path. This removes intrinsic SVG gutter
+and keeps the mark flush with the card's right edge.
+
 ## Verification
 
 Add a resolver test for the `TWO_PRIME` background, verify it fails before
