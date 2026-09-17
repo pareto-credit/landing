@@ -10,6 +10,7 @@ import gauntletLogo from "../assets/images/operators/gauntlet.svg";
 import m1CapitalLogo from "../assets/images/operators/m1capital.png";
 import m1CapitalBackground from "../assets/images/operators/m1capitalBg.svg";
 import m11Logo from "../assets/images/operators/m11.png";
+import northbridgeLogo from "../assets/images/operators/northbridge.png";
 import paretoLogo from "../assets/images/operators/pareto.png";
 import rockawayBackground from "../assets/images/operators/rockawayBg.svg";
 import rockawayLogo from "../assets/images/operators/rockawayx.png";
@@ -24,6 +25,7 @@ const OPERATOR_LOGOS: Record<string, string> = {
   m1capital: m1CapitalLogo,
   m11: m11Logo,
   maven11: m11Logo,
+  northbridge: northbridgeLogo,
   pareto: paretoLogo,
   rockaway: rockawayLogo,
   rockawayx: rockawayLogo,
