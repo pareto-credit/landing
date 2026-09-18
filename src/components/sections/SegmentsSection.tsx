@@ -9,6 +9,8 @@ import rockawayEco from "../../assets/images/operators/RockawayX_mark.svg";
 import m11Eco from "../../assets/images/operators/m11.svg";
 import morphoEco from "../../assets/images/operators/morpho.svg";
 import steakhouseEco from "../../assets/images/operators/steakhouse.svg";
+import redstoneEco from "../../assets/images/operators/redstone.svg";
+import twoPrimeEco from "../../assets/images/operators/twoprime-wordmark.svg";
 import { SectionContainer, SectionHeading } from "../ui/Section";
 
 interface Operator {
@@ -22,6 +24,21 @@ interface Operator {
 }
 
 const operators: Operator[] = [
+  {
+    name: "RedStone",
+    link: "https://www.redstone.finance/",
+    src: redstoneEco,
+    visualScale: 0.9,
+    imageClassName: "brightness-0 invert opacity-90",
+    hoverImageClassName: "group-hover/logo:brightness-100 group-hover/logo:invert-0",
+  },
+  {
+    name: "Two Prime",
+    link: "https://twoprime.com/",
+    src: twoPrimeEco,
+    visualScale: 1.1,
+    imageClassName: "opacity-90",
+  },
   {
     name: "FalconX",
     link: "https://www.falconx.io/",
