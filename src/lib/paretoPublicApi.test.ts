@@ -2,6 +2,20 @@ import { describe, expect, it, vi } from "vitest";
 import { createParetoPublicApiClient } from "./paretoPublicApi";
 
 describe("createParetoPublicApiClient", () => {
+  it("supports same-origin API requests through the development proxy", async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: vi.fn().mockResolvedValue({ data: [], totalCount: 0 }),
+    });
+    const client = createParetoPublicApiClient("/", fetchMock as typeof fetch);
+
+    await client.vaultLatestBlocks.search({ vaultId: ["vault-a", "vault-b"] });
+
+    expect(String(fetchMock.mock.calls[0][0])).toBe(
+      `${window.location.origin}/v1/public/vault-latest-blocks?vaultId=vault-a&vaultId=vault-b`,
+    );
+  });
+
   it("requests public routes with repeated array parameters and no authorization header", async () => {
     const fetchMock = vi.fn().mockResolvedValue({
       ok: true,

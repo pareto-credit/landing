@@ -42,7 +42,10 @@ const PUBLIC_ROUTES = {
 
 const buildUrl = (apiUrl: string, route: string, params?: Query): URL => {
   const baseUrl = apiUrl.endsWith("/") ? apiUrl : `${apiUrl}/`;
-  const url = new URL(route, baseUrl);
+  const resolvedBaseUrl = baseUrl.startsWith("/")
+    ? new URL(baseUrl, window.location.origin)
+    : baseUrl;
+  const url = new URL(route, resolvedBaseUrl);
 
   for (const [key, value] of Object.entries(params ?? {})) {
     if (value === undefined || value === null) continue;

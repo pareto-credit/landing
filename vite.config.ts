@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { defineConfig, type Plugin } from 'vite'
+import { defineConfig, loadEnv, type Plugin } from 'vite'
 
 const homepageLinkHeader = [
   '</.well-known/api-catalog>; rel="api-catalog"',
@@ -213,19 +213,37 @@ const agentDiscoveryPlugin = (): Plugin => ({
   },
 })
 
-export default defineConfig({
-  plugins: [agentDiscoveryPlugin(), TanStackRouterVite(), react(), tailwindcss()],
-  envPrefix: ['VITE_', 'PUBLIC_'],
-  test: {
-    environment: 'jsdom',
-    setupFiles: './src/test/setup.ts',
-  },
-  optimizeDeps: {
-    include: ['@idle-multiverse/data-access'],
-  },
-  build: {
-    commonjsOptions: {
-      include: [/node_modules/, /packages\/data-access/],
+export default defineConfig(({ command, mode, isPreview }) => {
+  const isDevServer = command === 'serve' && !isPreview
+  const env = loadEnv(mode, import.meta.dirname, 'PUBLIC_')
+
+  return {
+    // Like idle-multiverse's local gateway, forward API calls server-side.
+    // Override only the browser endpoint; keep the remote URL as the proxy target.
+    define: isDevServer
+      ? { 'import.meta.env.PUBLIC_API_ENDPOINT': JSON.stringify('/') }
+      : {},
+    server: {
+      proxy: isDevServer ? {
+        '/v1/public/': {
+          target: env.PUBLIC_API_ENDPOINT || 'https://api.pareto.credit/',
+          changeOrigin: true,
+        },
+      } : undefined,
     },
-  },
+    plugins: [agentDiscoveryPlugin(), TanStackRouterVite(), react(), tailwindcss()],
+    envPrefix: ['VITE_', 'PUBLIC_'],
+    test: {
+      environment: 'jsdom',
+      setupFiles: './src/test/setup.ts',
+    },
+    optimizeDeps: {
+      include: ['@idle-multiverse/data-access'],
+    },
+    build: {
+      commonjsOptions: {
+        include: [/node_modules/, /packages\/data-access/],
+      },
+    },
+  }
 })

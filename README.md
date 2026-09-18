@@ -1,4 +1,25 @@
-# React + TypeScript + Vite
+# Pareto landing
+
+## Local development
+
+```sh
+npm install
+npm run dev
+```
+
+The development server proxies `/v1/public/*` to `PUBLIC_API_ENDPOINT`
+(default: `https://api.pareto.credit/`). This follows idle-multiverse's local
+gateway approach: the browser calls its own origin and the server forwards
+requests to the remote API, avoiding browser CORS errors.
+
+To use another API, set `PUBLIC_API_ENDPOINT` in `.env.local` and restart
+`npm run dev`. No separate gateway process or credentials are needed for these
+public routes. Standard Vite flags still work, e.g. `npm run dev -- --port 5174`.
+
+Production builds and `npm run preview` use the configured remote endpoint
+directly; the proxy is only enabled for the development server.
+
+## Vite template notes
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
