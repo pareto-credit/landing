@@ -51,10 +51,10 @@ const solutionGroups: Array<{ title: string; items: SolutionItem[] }> = [
         target: { kind: "section", id: "agents" },
       },
       {
-        label: "Plans",
+        label: "Offering",
         description: "Core, Pro and White-Glove by NorthBridge.",
         icon: Layers,
-        target: { kind: "section", id: "plans" },
+        target: { kind: "section", id: "offering" },
       },
     ],
   },
@@ -79,7 +79,7 @@ const pageItems: NavItem[] = [
 const mobileNavigationItems: NavItem[] = [
   { label: "Studio", target: { kind: "section", id: "studio" } },
   { label: "Agents", target: { kind: "section", id: "agents" } },
-  { label: "Plans", target: { kind: "section", id: "plans" } },
+  { label: "Offering", target: { kind: "section", id: "offering" } },
   { label: "Vaults", target: { kind: "section", id: "products" } },
   ...pageItems,
   { label: "Contact", target: { kind: "section", id: "contact" } },

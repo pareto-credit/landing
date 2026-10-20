@@ -41,7 +41,7 @@ describe("UnderwritingSection", () => {
     render(<UnderwritingSection />);
 
     expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
-      "Underwritten offchain. Enforced onchain.",
+      "Credit infrastructure built for regulated capital.",
     );
     const pillars = within(screen.getByTestId("underwriting-pillars")).getAllByRole("article");
     expect(pillars).toHaveLength(3);

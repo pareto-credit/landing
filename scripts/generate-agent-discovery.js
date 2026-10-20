@@ -134,7 +134,7 @@ Pareto is credit underwriting infrastructure for compliant onchain finance. Lend
 - Pareto Studio: structure, launch and operate credit facilities (term, revolving, collateralized, asset-backed)
 - Credit Vaults: permissioned, MLA-governed onchain facilities with isolated accounting
 - Pareto MCP (early access): read-only access to facility data for Claude, Codex and other MCP clients
-- Plans: Core (self-serve Studio), Pro (guided launch and DeFi distribution), White-Glove (NorthBridge as curator)
+- Offering: Core (self-serve Studio), Pro (guided launch and DeFi distribution), White-Glove (NorthBridge as curator)
 - USP synthetic dollar products
 - Documentation, governance, and developer resources
 

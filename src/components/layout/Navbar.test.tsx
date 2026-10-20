@@ -87,7 +87,7 @@ describe("Navbar", () => {
 
     expect(solutions).toHaveAttribute("aria-expanded", "true");
     const menu = screen.getByTestId("solutions-menu");
-    for (const label of ["Pareto Studio", "Agents", "Plans", "Vaults"]) {
+    for (const label of ["Pareto Studio", "Agents", "Offering", "Vaults"]) {
       expect(within(menu).getByRole("button", { name: new RegExp(label) })).toBeInTheDocument();
     }
 

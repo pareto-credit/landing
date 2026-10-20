@@ -37,7 +37,7 @@ const siteSections = [
   "agents",
   "testimonials",
   "products",
-  "plans",
+  "offering",
   "news",
   "contact",
 ] as const;

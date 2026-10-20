@@ -65,8 +65,8 @@ const UnderwritingSection = () => {
               Underwriting infrastructure
             </div>
             <h2 className="text-4xl font-bold tracking-tight text-[var(--color-brand-dark)] md:text-5xl">
-              Underwritten offchain.
-              <span className="text-[var(--color-text-muted)]"> Enforced onchain.</span>
+              Credit infrastructure
+              <span className="text-[var(--color-text-muted)]"> built for regulated capital.</span>
             </h2>
           </div>
           <p className="max-w-md text-base leading-relaxed text-[var(--color-text-muted)] md:justify-self-end md:text-[0.95rem]">

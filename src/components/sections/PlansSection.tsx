@@ -62,7 +62,7 @@ const PlansSection = () => {
 
   return (
   <section
-    id="plans"
+    id="offering"
     className="relative overflow-hidden bg-[var(--color-bg-light)] text-[var(--color-text-primary)]"
   >
     <div className="pointer-events-none absolute left-1/2 top-0 h-[480px] w-[760px] -translate-x-1/2 rounded-full bg-[color:rgb(112_177_158_/_0.12)] blur-[140px]" />
@@ -70,21 +70,23 @@ const PlansSection = () => {
     <SectionContainer className="ui-section-shell relative z-10">
       <div className="mx-auto max-w-3xl text-center">
         <div className="mb-4 font-mono text-xs uppercase tracking-widest text-[var(--color-brand-alt)]">
-          Plans
+          Offering
         </div>
         <h2 className="text-4xl font-bold tracking-tight text-[var(--color-brand-dark)] md:text-5xl">
-          Start self-serve.
-          <span className="text-[var(--color-text-muted)]"> Scale to White‑Glove.</span>
+          From self-serve
+          <span className="block text-[var(--color-text-muted)]">to fully managed.</span>
         </h2>
         <p className="mt-4 text-lg leading-relaxed text-[var(--color-text-muted)]">
-          Every plan runs on the same audited Credit Vault infrastructure.
-          Pricing is set per facility.
+          Run facilities yourself in Studio, launch with our team beside you,
+          or hand the whole facility to NorthBridge. Every tier runs on the
+          same audited Credit Vault infrastructure, with pricing set per
+          facility.
         </p>
       </div>
 
       <div
         role="tablist"
-        aria-label="Plans"
+        aria-label="Offering"
         className="mx-auto mt-10 grid max-w-md grid-cols-3 gap-1 rounded-md border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-1 lg:hidden"
       >
         {plans.map((plan) => (
