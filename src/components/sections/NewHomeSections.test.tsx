@@ -41,7 +41,7 @@ describe("UnderwritingSection", () => {
     render(<UnderwritingSection />);
 
     expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
-      "Credit infrastructure built for regulated capital.",
+      "Credit infrastructure built for scrutiny.",
     );
     const pillars = within(screen.getByTestId("underwriting-pillars")).getAllByRole("article");
     expect(pillars).toHaveLength(3);

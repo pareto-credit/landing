@@ -132,7 +132,7 @@ about 17.9 to 15.5.
 
 ## Revision 3 (copy)
 
-- Underwriting headline changed to "Credit infrastructure built for regulated capital.", since "built for scrutiny" was too close to River. The intro now reads "Pareto provides credit underwriting infrastructure…", and the § A/B/C markers are removed.
+- Underwriting headline: tried several alternatives, then went back to "Credit infrastructure built for scrutiny." (Teo's call). The intro now reads "Pareto provides credit underwriting infrastructure…", and the § A/B/C markers are removed.
 - Structures:
   - chip now reads "Credit facilities"
   - headline: "One platform. Infinite credit opportunities."

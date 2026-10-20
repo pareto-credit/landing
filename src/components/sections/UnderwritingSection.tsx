@@ -66,7 +66,7 @@ const UnderwritingSection = () => {
             </div>
             <h2 className="text-4xl font-bold tracking-tight text-[var(--color-brand-dark)] md:text-5xl">
               Credit infrastructure
-              <span className="text-[var(--color-text-muted)]"> built for regulated capital.</span>
+              <span className="text-[var(--color-text-muted)]"> built for scrutiny.</span>
             </h2>
           </div>
           <p className="max-w-md text-base leading-relaxed text-[var(--color-text-muted)] md:justify-self-end md:text-[0.95rem]">
