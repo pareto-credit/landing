@@ -41,24 +41,24 @@ const tiles: BentoTile[] = [
   { icon: Coins, tone: "mint", placement: "col-span-2", visual: "assets" },
 ];
 
-const toneClass: Record<Tone, { card: string; muted: string; icon: string; number: string }> = {
+const toneClass: Record<Tone, { card: string; muted: string; icon: string; accent: string }> = {
   dark: {
     card: "bg-[var(--color-brand-mid)] text-[var(--color-text-inverse)] border-[color:rgb(255_255_255_/_0.06)]",
     muted: "text-[color:rgb(255_255_255_/_0.62)]",
     icon: "bg-[color:rgb(114_244_201_/_0.12)] text-[var(--color-brand-bright)]",
-    number: "text-[var(--color-brand-bright)]",
+    accent: "text-[var(--color-brand-bright)]",
   },
   mint: {
     card: "bg-[linear-gradient(140deg,#e3f4ec,#cdebdd)] text-[var(--color-brand-dark)] border-[color:rgb(37_72_57_/_0.12)]",
     muted: "text-[var(--color-text-secondary)]",
     icon: "bg-[var(--color-brand-deep)] text-[var(--color-text-inverse)]",
-    number: "text-[var(--color-brand-deep)]",
+    accent: "text-[var(--color-brand-deep)]",
   },
   light: {
     card: "bg-[var(--color-surface)] text-[var(--color-brand-dark)] border-[var(--color-border-soft)]",
     muted: "text-[var(--color-text-muted)]",
     icon: "bg-[color:rgb(112_177_158_/_0.16)] text-[var(--color-brand-deep)]",
-    number: "text-[var(--color-brand-alt)]",
+    accent: "text-[var(--color-brand-alt)]",
   },
 };
 
@@ -180,7 +180,6 @@ const StructureDetail = ({
             <span className={cn("flex h-11 w-11 items-center justify-center rounded-md", tone.icon)}>
               <tile.icon size={20} />
             </span>
-            <span className={cn("font-mono text-sm", tone.number)}>{number}</span>
           </motion.div>
           <button
             ref={closeRef}
@@ -276,7 +275,6 @@ const StructuresSection = () => {
     const tile = tiles[index];
     const tone = toneClass[tile.tone];
     const isLarge = tile.placement.includes("row-span-2");
-    const number = String(index + 1).padStart(2, "0");
 
     return (
       <motion.button
@@ -299,7 +297,6 @@ const StructuresSection = () => {
           <span className={cn("flex h-10 w-10 items-center justify-center rounded-md", tone.icon)}>
             <tile.icon size={18} />
           </span>
-          <span className={cn("font-mono text-sm", tone.number)}>{number}</span>
         </div>
 
         {tile.visual && isLarge ? (
@@ -335,7 +332,7 @@ const StructuresSection = () => {
         <span
           className={cn(
             "mt-4 inline-flex items-center gap-1.5 font-mono text-[10.5px] uppercase tracking-[0.14em] transition-transform group-hover:translate-x-0.5",
-            tone.number,
+            tone.accent,
           )}
         >
           <Plus size={13} /> Details
