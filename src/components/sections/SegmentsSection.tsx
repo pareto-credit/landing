@@ -1,17 +1,12 @@
 import { partners } from "../../data/partners";
-import { SectionContainer, SectionHeading } from "../ui/Section";
 
 const SegmentsSection = () => {
   return (
-    <section className="relative z-20 overflow-hidden border-b border-[var(--color-border-inverse-subtle)] bg-[var(--color-brand-mid)] py-8">
-      <SectionContainer className="mb-6 flex items-center justify-between gap-4">
-        <SectionHeading
-          eyebrow="Our partners"
-          title="Our partners"
-          className="max-w-none"
-          titleClassName="sr-only"
-        />
-      </SectionContainer>
+    <section
+      aria-label="Our partners"
+      className="relative z-20 overflow-hidden border-b border-[var(--color-border-inverse-subtle)] bg-[var(--color-brand-mid)] py-8"
+    >
+      <h2 className="sr-only">Our partners</h2>
 
       <div className="group marquee-container w-full">
         <div className="marquee-content">
