@@ -353,17 +353,18 @@ const StructuresSection = () => {
         <div className="grid gap-6 pb-8 md:grid-cols-[1.4fr_1fr] md:items-end md:gap-12 md:pb-10">
           <div>
             <div className="ui-frost-chip mb-5 inline-flex px-3 py-1 font-mono text-[10.5px] uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">
-              {creditStructures.length} credit structures
+              Credit facilities
             </div>
             <h2 className="text-4xl font-bold tracking-tight text-[var(--color-brand-dark)] md:text-5xl">
               One platform.
-              <span className="text-[var(--color-text-muted)]"> From term loans to revolving lines.</span>
+              <span className="text-[var(--color-text-muted)]"> Infinite credit opportunities.</span>
             </h2>
           </div>
           <p className="max-w-md text-base leading-relaxed text-[var(--color-text-muted)] md:justify-self-end md:text-[0.95rem]">
-            Credit Vaults run cycle-based and revolving facilities, with
-            collateral, controls and reporting set per deal. Open any
-            structure for the details.
+            If it can be underwritten, it can run on Pareto. Term loans,
+            revolving lines, receivables and beyond, each shaped around the
+            deal, with its own collateral, controls and reporting. Open any
+            card to explore.
           </p>
         </div>
 
@@ -383,7 +384,7 @@ const StructuresSection = () => {
         </LayoutGroup>
 
         <div className="mt-5 flex flex-wrap justify-between gap-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--color-text-muted)]">
-          <span>{creditStructures.length} credit structures</span>
+          <span>{creditStructures.length} facility types and counting</span>
           <span>Illustrative · not an offer of credit</span>
         </div>
       </SectionContainer>

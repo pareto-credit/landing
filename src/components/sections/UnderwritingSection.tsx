@@ -5,7 +5,6 @@ import structureImage from "../../assets/images/underwriting/structure.jpg";
 import { SectionContainer } from "../ui/Section";
 
 interface Pillar {
-  marker: string;
   title: string;
   description: string;
   image: string;
@@ -15,7 +14,6 @@ interface Pillar {
 
 const pillars: Pillar[] = [
   {
-    marker: "A",
     title: "Diligence before listing.",
     description:
       "Every borrower is reviewed and KYB'd before a facility reaches lenders. Nothing goes live without sign-off.",
@@ -27,7 +25,6 @@ const pillars: Pillar[] = [
     ],
   },
   {
-    marker: "B",
     title: "Ring-fenced facilities.",
     description:
       "Each facility runs in its own vault under a loan agreement, with permissioned lenders and isolated accounting.",
@@ -39,7 +36,6 @@ const pillars: Pillar[] = [
     ],
   },
   {
-    marker: "C",
     title: "Continuous monitoring.",
     description:
       "Draws, repayments and collateral are tracked onchain as they happen, with real-time contract monitoring.",
@@ -69,17 +65,14 @@ const UnderwritingSection = () => {
               Underwriting infrastructure
             </div>
             <h2 className="text-4xl font-bold tracking-tight text-[var(--color-brand-dark)] md:text-5xl">
-              Credit infrastructure
-              <span className="text-[var(--color-text-muted)]">
-                {" "}
-                built for scrutiny.
-              </span>
+              Underwritten offchain.
+              <span className="text-[var(--color-text-muted)]"> Enforced onchain.</span>
             </h2>
           </div>
           <p className="max-w-md text-base leading-relaxed text-[var(--color-text-muted)] md:justify-self-end md:text-[0.95rem]">
-            Pareto is credit underwriting infrastructure for compliant onchain
-            finance: the diligence, legal structure and oversight lenders
-            expect, enforced by code and visible onchain.
+            Pareto provides credit underwriting infrastructure for compliant
+            onchain finance: the diligence, legal structure and oversight
+            lenders expect, enforced by code and visible onchain.
           </p>
         </div>
 
@@ -105,12 +98,9 @@ const UnderwritingSection = () => {
                   shouldReduceMotion ? "" : "group-hover:scale-105"
                 } ${pillar.imageClassName}`}
               />
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgb(8_25_18_/_0.45)_0%,rgb(8_25_18_/_0.05)_22%,rgb(8_25_18_/_0.2)_50%,rgb(8_25_18_/_0.92)_100%)]" />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgb(8_25_18_/_0.05)_0%,rgb(8_25_18_/_0.2)_50%,rgb(8_25_18_/_0.92)_100%)]" />
 
-              <div className="relative flex h-full flex-col justify-between p-6 lg:p-7">
-                <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[color:rgb(255_255_255_/_0.75)]">
-                  § {pillar.marker}
-                </span>
+              <div className="relative flex h-full flex-col justify-end p-6 lg:p-7">
 
                 <div>
                   <h3 className="text-[1.65rem] font-semibold leading-tight tracking-tight text-[var(--color-text-inverse)] lg:text-[1.85rem]">

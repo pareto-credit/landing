@@ -278,7 +278,7 @@ const ThesisPage = () => {
             hash="structures"
             className="mt-6 inline-flex items-center gap-1 font-mono text-xs uppercase tracking-[0.14em] text-[var(--color-brand-deep)] hover:underline"
           >
-            See the credit structures we support <ArrowUpRight size={13} />
+            See the credit facilities we support <ArrowUpRight size={13} />
           </PageLink>
         </Chapter>
 
