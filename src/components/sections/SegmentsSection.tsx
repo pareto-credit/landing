@@ -4,17 +4,19 @@ const SegmentsSection = () => {
   return (
     <section
       aria-label="Our partners"
-      className="relative z-20 overflow-hidden border-b border-[var(--color-border-inverse-subtle)] bg-[var(--color-brand-mid)] py-8"
+      className="relative z-20 overflow-hidden border-y border-[var(--color-border-soft)] bg-[#f8faf9] py-8 md:py-10"
     >
-      <h2 className="sr-only">Our partners</h2>
+      <p className="mb-6 px-6 text-center text-sm text-[var(--color-text-muted)] md:mb-8 md:text-base">
+        Powering leading companies building the future of credit and global markets
+      </p>
 
-      <div className="group marquee-container w-full">
+      <div className="group marquee-container w-full [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]">
         <div className="marquee-content">
           {[0, 1].map((loopIndex) => (
             <div
               key={`operators-loop-${loopIndex}`}
               aria-hidden={loopIndex === 1}
-              className="marquee-group items-center gap-16 px-6 md:gap-24"
+              className="marquee-group items-center gap-12 px-6 md:gap-20"
             >
               {partners.map((operator) => (
                 <a
@@ -23,17 +25,9 @@ const SegmentsSection = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   tabIndex={loopIndex === 1 ? -1 : undefined}
-                  className="group/logo relative inline-flex h-12 w-[12.5rem] shrink-0 items-center justify-center opacity-55 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0 md:h-14 md:w-[14rem]"
+                  className="relative inline-flex h-10 w-[10rem] shrink-0 items-center justify-center opacity-50 transition-opacity duration-300 hover:opacity-90 focus-visible:opacity-90 focus-visible:outline-none md:h-12 md:w-[12rem]"
                   aria-label={`Visit ${operator.name}`}
                 >
-                  <span
-                    aria-hidden
-                    className="pointer-events-none absolute inset-x-0 bottom-0 opacity-0 transition-opacity duration-300 group-hover/logo:opacity-100"
-                  >
-                    <span className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--color-brand-alt)] to-transparent shadow-[0_0_28px_var(--color-brand-alt)]" />
-                    <span className="absolute inset-x-1 bottom-0 h-[7px] bg-gradient-to-r from-transparent via-[color:rgb(112_177_158_/_0.45)] to-transparent blur-[5px]" />
-                    <span className="absolute inset-x-2 bottom-0 h-[12px] bg-gradient-to-r from-transparent via-[color:rgb(141_248_224_/_0.24)] to-transparent blur-[12px]" />
-                  </span>
                   <img
                     src={operator.src}
                     alt={operator.name}
@@ -41,7 +35,7 @@ const SegmentsSection = () => {
                       transform: `translateY(${operator.verticalOffset ?? 0}px) scale(${operator.visualScale})`,
                       transformOrigin: "center center",
                     }}
-                    className={`relative z-10 block h-full w-full object-contain px-2 py-1.5 transition-[filter,opacity] duration-300 group-hover/logo:brightness-110 ${operator.imageClassName ?? ""} ${operator.hoverImageClassName ?? ""}`}
+                    className="block h-full w-full object-contain px-2 py-1.5 brightness-0"
                   />
                 </a>
               ))}
