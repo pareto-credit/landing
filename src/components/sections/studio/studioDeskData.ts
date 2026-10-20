@@ -50,6 +50,8 @@ export interface PersonaDesk {
   kpis: [DeskKpi, DeskKpi, DeskKpi, DeskKpi];
   list: DeskList;
   activity: DeskActivity[];
+  /** Events appended to the tape while the desk is on screen. */
+  liveFeed: Array<Pick<DeskActivity, "label" | "kind">>;
 }
 
 /** Illustrative figures only; they do not describe any real facility. */
@@ -102,6 +104,13 @@ export const personaDesks: PersonaDesk[] = [
       { time: "08:02", label: "Agent draft · lender report to sign", kind: "agent" },
       { time: "07:41", label: "Margin call cleared · LTV 58%", kind: "ok" },
     ],
+    liveFeed: [
+      { label: "Interest received · cycle 15", kind: "ok" },
+      { label: "Agent draft · borrowing-base report", kind: "agent" },
+      { label: "Covenant checks passed · 6/6", kind: "ok" },
+      { label: "Lender approved · KYB passed", kind: "doc" },
+      { label: "LTV refreshed · 57%", kind: "ok" },
+    ],
   },
   {
     id: "borrow",
@@ -147,6 +156,12 @@ export const personaDesks: PersonaDesk[] = [
       { time: "09:11", label: "Interest paid · cycle 13", kind: "ok" },
       { time: "08:25", label: "Q3 financials uploaded", kind: "doc" },
       { time: "07:58", label: "Lender capacity added · $3.0M", kind: "ok" },
+    ],
+    liveFeed: [
+      { label: "Draw request · $500k", kind: "pending" },
+      { label: "Collateral price update · LTV 57%", kind: "ok" },
+      { label: "Repayment scheduled · $1.0M", kind: "doc" },
+      { label: "Lender capacity added · $1.5M", kind: "ok" },
     ],
   },
   {
@@ -196,6 +211,12 @@ export const personaDesks: PersonaDesk[] = [
       { time: "08:44", label: "Deposit confirmed · $500k", kind: "ok" },
       { time: "08:10", label: "Withdrawal queued · next cycle", kind: "pending" },
       { time: "07:52", label: "Covenant checks passed", kind: "ok" },
+    ],
+    liveFeed: [
+      { label: "Interest accrued · $214", kind: "ok" },
+      { label: "Cycle 15 rates published", kind: "doc" },
+      { label: "Deposit window open · 3 facilities", kind: "pending" },
+      { label: "Agent summary · weekly exposure", kind: "agent" },
     ],
   },
 ];

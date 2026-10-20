@@ -46,6 +46,8 @@ describe("UnderwritingSection", () => {
     const pillars = within(screen.getByTestId("underwriting-pillars")).getAllByRole("article");
     expect(pillars).toHaveLength(3);
     expect(screen.getByText("Diligence before listing.")).toBeInTheDocument();
+    expect(screen.getByText("Built-in, per facility")).toBeInTheDocument();
+    expect(screen.queryByText("Keyring")).not.toBeInTheDocument();
     expect(screen.getByText("Ring-fenced facilities.")).toBeInTheDocument();
     expect(screen.getByText("Continuous monitoring.")).toBeInTheDocument();
   });
@@ -59,6 +61,7 @@ describe("StudioShowcaseSection", () => {
 
     const desk = screen.getByTestId("studio-desk");
     expect(within(desk).getByText(/curator desk/i)).toBeInTheDocument();
+    expect(screen.getByTestId("studio-overview")).toHaveTextContent(/structure, launch and run credit facilities/i);
 
     fireEvent.click(screen.getByRole("tab", { name: /borrow/i }));
     expect(screen.getByRole("tab", { name: /borrow/i })).toHaveAttribute("aria-selected", "true");
@@ -95,16 +98,33 @@ describe("StructuresSection", () => {
     expect(screen.getByText("Revolving credit lines")).toBeInTheDocument();
   });
 
-  it("opens one structure at a time", () => {
+  it("morphs a structure card into a detail dialog and back", async () => {
     render(<StructuresSection />);
 
-    const [first, second] = within(screen.getByTestId("structures-list")).getAllByRole("button");
-    expect(first).toHaveAttribute("aria-expanded", "true");
+    const card = screen.getByRole("button", { name: /revolving credit lines: show details/i });
+    fireEvent.click(card);
 
-    fireEvent.click(second);
+    const dialog = screen.getByRole("dialog", { name: "Revolving credit lines" });
+    expect(within(dialog).getByText("Undrawn capital")).toBeInTheDocument();
+    expect(card).toHaveClass("invisible");
+    expect(document.body.style.overflow).toBe("hidden");
 
-    expect(first).toHaveAttribute("aria-expanded", "false");
-    expect(second).toHaveAttribute("aria-expanded", "true");
+    // The exit morph is verified in a real browser; jsdom can't run layout animations.
+    fireEvent.keyDown(window, { key: "Escape" });
+
+    expect(card).not.toHaveClass("invisible");
+    expect(document.body.style.overflow).toBe("");
+  });
+
+  it("routes the detail CTA to the contact form", () => {
+    const capture = captureContactInterests();
+    render(<StructuresSection />);
+
+    fireEvent.click(screen.getByRole("button", { name: /term facilities: show details/i }));
+    fireEvent.click(screen.getByRole("button", { name: /discuss this structure/i }));
+
+    expect(capture.interests).toEqual(["Borrowing"]);
+    capture.stop();
   });
 });
 
@@ -123,7 +143,7 @@ describe("AgentsSection", () => {
     const capture = captureContactInterests();
     render(<AgentsSection />);
 
-    fireEvent.click(screen.getByRole("button", { name: /join mcp early access/i }));
+    fireEvent.click(screen.getByRole("button", { name: /^join early access$/i }));
 
     expect(capture.interests).toEqual([`${MCP_PRODUCT_NAME} early access`]);
     capture.stop();

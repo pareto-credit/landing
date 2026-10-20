@@ -13,6 +13,50 @@ const planIcons: Record<Plan["id"], LucideIcon> = {
   "white-glove": ShieldCheck,
 };
 
+type PlanTone = "light" | "mint" | "dark";
+
+const planTone: Record<Plan["id"], PlanTone> = {
+  core: "light",
+  pro: "mint",
+  "white-glove": "dark",
+};
+
+const toneStyles: Record<
+  PlanTone,
+  { card: string; icon: string; byline: string; muted: string; divider: string; inherit: string; check: string; tag: string }
+> = {
+  light: {
+    card: "bg-[var(--color-surface)]",
+    icon: "bg-[var(--color-brand-deep)] text-[var(--color-text-inverse)]",
+    byline: "text-[var(--color-brand-alt)]",
+    muted: "text-[var(--color-text-muted)]",
+    divider: "divide-[var(--color-border-soft)] border-[var(--color-border-soft)]",
+    inherit: "text-[var(--color-brand-deep)]",
+    check: "bg-[color:rgb(112_177_158_/_0.16)] text-[var(--color-brand-deep)]",
+    tag: "border-[var(--color-border-soft-strong)] text-[var(--color-text-muted)]",
+  },
+  mint: {
+    card: "bg-[linear-gradient(180deg,#e4f6ee_0%,#c9e9da_100%)] text-[var(--color-brand-dark)]",
+    icon: "bg-[linear-gradient(135deg,#2dd4bf,#254839)] text-[var(--color-text-inverse)]",
+    byline: "text-[var(--color-brand-deep)]",
+    muted: "text-[var(--color-text-secondary)]",
+    divider: "divide-[color:rgb(37_72_57_/_0.14)] border-[color:rgb(37_72_57_/_0.14)]",
+    inherit: "text-[#0f766e]",
+    check: "bg-[var(--color-brand-deep)] text-[var(--color-brand-bright)]",
+    tag: "border-[color:rgb(37_72_57_/_0.25)] text-[var(--color-text-secondary)]",
+  },
+  dark: {
+    card: "bg-[var(--color-brand-mid)] text-[var(--color-text-inverse)]",
+    icon: "bg-[color:rgb(114_244_201_/_0.12)] text-[var(--color-brand-bright)]",
+    byline: "text-[var(--color-brand-bright)]",
+    muted: "text-[color:rgb(255_255_255_/_0.65)]",
+    divider: "divide-[color:rgb(255_255_255_/_0.08)] border-[color:rgb(255_255_255_/_0.08)]",
+    inherit: "text-[var(--color-brand-bright)]",
+    check: "bg-[color:rgb(114_244_201_/_0.12)] text-[var(--color-brand-bright)]",
+    tag: "border-[color:rgb(255_255_255_/_0.2)] text-[color:rgb(255_255_255_/_0.7)]",
+  },
+};
+
 const PlansSection = () => {
   const [mobilePlan, setMobilePlan] = useState<Plan["id"]>("core");
 
@@ -68,7 +112,7 @@ const PlansSection = () => {
       >
         {plans.map((plan, index) => {
           const Icon = planIcons[plan.id];
-          const isDark = plan.id === "white-glove";
+          const tone = toneStyles[planTone[plan.id]];
 
           return (
             <article
@@ -78,18 +122,14 @@ const PlansSection = () => {
                 "flex-col lg:flex",
                 mobilePlan === plan.id ? "flex" : "hidden",
                 index > 0 && "lg:border-l lg:border-[var(--color-border-soft)]",
-                isDark
-                  ? "bg-[var(--color-brand-mid)] text-[var(--color-text-inverse)]"
-                  : "bg-[var(--color-surface)]",
+                tone.card,
               )}
             >
               <div className="p-6 lg:min-h-[17.5rem] lg:p-7">
                 <span
                   className={cn(
                     "flex h-11 w-11 items-center justify-center rounded-md",
-                    isDark
-                      ? "bg-[color:rgb(114_244_201_/_0.12)] text-[var(--color-brand-bright)]"
-                      : "bg-[var(--color-brand-deep)] text-[var(--color-text-inverse)]",
+                    tone.icon,
                   )}
                 >
                   <Icon size={20} />
@@ -100,7 +140,7 @@ const PlansSection = () => {
                     <span
                       className={cn(
                         "font-mono text-[11px] font-medium uppercase tracking-[0.16em]",
-                        isDark ? "text-[var(--color-brand-bright)]" : "text-[var(--color-brand-alt)]",
+                        tone.byline,
                       )}
                     >
                       {plan.byline}
@@ -110,7 +150,7 @@ const PlansSection = () => {
                 <p
                   className={cn(
                     "mt-2 text-sm leading-relaxed",
-                    isDark ? "text-[color:rgb(255_255_255_/_0.65)]" : "text-[var(--color-text-muted)]",
+                    tone.muted,
                   )}
                 >
                   {plan.description}
@@ -120,13 +160,17 @@ const PlansSection = () => {
               <div
                 className={cn(
                   "border-y px-6 py-5 lg:px-7",
-                  isDark ? "border-[color:rgb(255_255_255_/_0.08)]" : "border-[var(--color-border-soft)]",
+                  tone.divider,
                 )}
               >
                 <Button
                   variant="primary"
                   size="md"
-                  className="w-full"
+                  className={cn(
+                    "w-full",
+                    plan.id === "pro" &&
+                      "border-[var(--color-brand-deep)]! bg-[var(--color-brand-deep)]! text-[var(--color-text-inverse)]! hover:border-[#1b392d]! hover:bg-[#1b392d]!",
+                  )}
                   onClick={() => requestContact(plan.contactInterest)}
                 >
                   {plan.cta}
@@ -138,16 +182,14 @@ const PlansSection = () => {
                 <ul
                   className={cn(
                     "divide-y border-t",
-                    isDark
-                      ? "divide-[color:rgb(255_255_255_/_0.08)] border-[color:rgb(255_255_255_/_0.08)]"
-                      : "divide-[var(--color-border-soft)] border-[var(--color-border-soft)]",
+                    tone.divider,
                   )}
                 >
                   {plan.inheritsFrom ? (
                     <li
                       className={cn(
                         "py-3 text-sm font-medium",
-                        isDark ? "text-[var(--color-brand-bright)]" : "text-[var(--color-brand-deep)]",
+                        tone.inherit,
                       )}
                     >
                       Everything in {plan.inheritsFrom}, plus:
@@ -158,9 +200,7 @@ const PlansSection = () => {
                       <span
                         className={cn(
                           "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded",
-                          isDark
-                            ? "bg-[color:rgb(114_244_201_/_0.12)] text-[var(--color-brand-bright)]"
-                            : "bg-[color:rgb(112_177_158_/_0.16)] text-[var(--color-brand-deep)]",
+                          tone.check,
                         )}
                       >
                         <Check size={13} strokeWidth={2.5} />
@@ -171,9 +211,7 @@ const PlansSection = () => {
                           <span
                             className={cn(
                               "rounded-full border px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.14em]",
-                              isDark
-                                ? "border-[color:rgb(255_255_255_/_0.2)] text-[color:rgb(255_255_255_/_0.7)]"
-                                : "border-[var(--color-border-soft-strong)] text-[var(--color-text-muted)]",
+                              tone.tag,
                             )}
                           >
                             {feature.tag}

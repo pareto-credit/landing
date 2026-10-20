@@ -1,5 +1,6 @@
-import { motion, useReducedMotion } from "framer-motion";
-import { Bot, Check, FileSignature, PlugZap } from "lucide-react";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { Bot, Check, FileSignature, LoaderCircle, PlugZap } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { AI_PRODUCT_NAME, MCP_PRODUCT_NAME } from "../../data/brand";
 import { requestContact } from "../../lib/siteNavigation";
@@ -68,83 +69,186 @@ const answerRows: Array<[string, string, string, string]> = [
   ["BTC Credit I", "$230k", "Thu", "LTV 54% / 65%"],
 ];
 
-const AgentSession = () => (
-  <div
-    data-testid="agent-session"
-    className="overflow-hidden rounded-lg border border-[color:rgb(255_255_255_/_0.1)] bg-[#0b1511] shadow-[0_40px_90px_rgb(0_0_0_/_0.4)]"
-  >
-    <div className="flex items-center justify-between border-b border-[color:rgb(255_255_255_/_0.07)] px-4 py-3">
-      <div className="flex items-center gap-2">
-        <span className="h-2.5 w-2.5 rounded-full bg-[color:rgb(255_255_255_/_0.14)]" />
-        <span className="h-2.5 w-2.5 rounded-full bg-[color:rgb(255_255_255_/_0.14)]" />
-        <span className="h-2.5 w-2.5 rounded-full bg-[color:rgb(255_255_255_/_0.14)]" />
-        <span className="ml-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:rgb(196_214_206_/_0.7)]">
-          Your agent · Claude
+const PROMPT =
+  "Which of my facilities have payments due this week, and how much headroom do they have?";
+
+/** Demo timeline in milliseconds; the session loops while on screen. */
+const TIMELINE = {
+  typeStart: 400,
+  typeEnd: 2200,
+  toolStart: 2500,
+  toolStep: 750,
+  answer: 4900,
+  rowStart: 5200,
+  rowStep: 280,
+  followUp: 6200,
+  total: 11000,
+};
+const TICK_MS = 50;
+
+const useSessionClock = (isRunning: boolean) => {
+  const [elapsed, setElapsed] = useState(isRunning ? 0 : TIMELINE.total);
+
+  useEffect(() => {
+    if (!isRunning) return;
+
+    const intervalId = window.setInterval(() => {
+      setElapsed((current) => (current + TICK_MS >= TIMELINE.total ? 0 : current + TICK_MS));
+    }, TICK_MS);
+
+    return () => window.clearInterval(intervalId);
+  }, [isRunning]);
+
+  return isRunning ? elapsed : TIMELINE.total;
+};
+
+const reveal = (isVisible: boolean) =>
+  cn("transition-all duration-500 ease-out", isVisible ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0");
+
+const AgentSession = () => {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const isInView = useInView(ref, { amount: 0.35 });
+  const shouldReduceMotion = useReducedMotion();
+  const elapsed = useSessionClock(isInView && !shouldReduceMotion);
+
+  const typedLength = Math.round(
+    Math.min(1, Math.max(0, (elapsed - TIMELINE.typeStart) / (TIMELINE.typeEnd - TIMELINE.typeStart))) * PROMPT.length,
+  );
+  const isTyping = elapsed >= TIMELINE.typeStart && elapsed < TIMELINE.typeEnd;
+  const toolState = (index: number) => {
+    const start = TIMELINE.toolStart + index * TIMELINE.toolStep;
+    if (elapsed < start) return "idle";
+    if (elapsed < start + TIMELINE.toolStep) return "running";
+    return "done";
+  };
+  const isThinking = elapsed >= TIMELINE.typeEnd && elapsed < TIMELINE.answer;
+
+  return (
+    <div
+      ref={ref}
+      data-testid="agent-session"
+      className="relative flex h-full flex-col overflow-hidden rounded-lg border border-[color:rgb(255_255_255_/_0.1)] bg-[#0b1511] shadow-[0_40px_90px_rgb(0_0_0_/_0.4),0_0_60px_rgb(114_244_201_/_0.08)]"
+    >
+      <div className="flex items-center justify-between border-b border-[color:rgb(255_255_255_/_0.07)] bg-[linear-gradient(90deg,rgb(114_244_201_/_0.06),transparent_50%,rgb(167_139_250_/_0.06))] px-4 py-3">
+        <div className="flex items-center gap-2">
+          <span className="h-2.5 w-2.5 rounded-full bg-[color:rgb(255_255_255_/_0.14)]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[color:rgb(255_255_255_/_0.14)]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[color:rgb(255_255_255_/_0.14)]" />
+          <span className="ml-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:rgb(196_214_206_/_0.7)]">
+            Your agent · Claude
+          </span>
+        </div>
+        <span className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--color-brand-bright)]">
+          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--color-brand-bright)]" />
+          {MCP_PRODUCT_NAME} connected
         </span>
       </div>
-      <span className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--color-brand-bright)]">
-        <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-brand-bright)]" />
-        {MCP_PRODUCT_NAME} connected
-      </span>
-    </div>
 
-    <div className="space-y-4 p-4 sm:p-5">
-      <div className="ml-auto max-w-[85%] rounded-md bg-[color:rgb(255_255_255_/_0.06)] px-4 py-3 text-[13px] leading-relaxed text-[var(--color-text-inverse)]">
-        Which of my facilities have payments due this week, and how much
-        headroom do they have?
-      </div>
+      <div className="flex-1 space-y-4 p-4 sm:p-5">
+        <div
+          className={cn(
+            "relative ml-auto max-w-[85%] rounded-md bg-[color:rgb(255_255_255_/_0.06)] px-4 py-3 text-[13px] leading-relaxed text-[var(--color-text-inverse)]",
+            reveal(elapsed >= TIMELINE.typeStart),
+          )}
+        >
+          <span className="invisible" aria-hidden="true">
+            {PROMPT}
+          </span>
+          <span className="absolute inset-0 px-4 py-3">
+            {PROMPT.slice(0, typedLength)}
+            {isTyping ? (
+              <span className="ml-px inline-block h-3.5 w-[2px] translate-y-0.5 animate-pulse bg-[var(--color-brand-bright)]" />
+            ) : null}
+          </span>
+        </div>
 
-      <ul className="space-y-1.5">
-        {toolCalls.map((call) => (
-          <li
-            key={call.name}
-            className="flex items-center justify-between gap-3 rounded border border-[color:rgb(255_255_255_/_0.06)] bg-[color:rgb(255_255_255_/_0.02)] px-3 py-2 font-mono text-[11px]"
+        <ul className="space-y-1.5">
+          {toolCalls.map((call, index) => {
+            const state = toolState(index);
+            return (
+              <li
+                key={call.name}
+                className={cn(
+                  "flex items-center justify-between gap-3 rounded border px-3 py-2 font-mono text-[11px]",
+                  state === "running"
+                    ? "border-[color:rgb(56_189_248_/_0.35)] bg-[color:rgb(56_189_248_/_0.06)]"
+                    : "border-[color:rgb(255_255_255_/_0.06)] bg-[color:rgb(255_255_255_/_0.02)]",
+                  reveal(state !== "idle"),
+                )}
+              >
+                <span className="truncate text-[color:rgb(196_214_206_/_0.8)]">
+                  <span className="text-[var(--color-brand-bright)]">pareto</span> · {call.name}
+                </span>
+                <span className="flex shrink-0 items-center gap-1.5 text-[color:rgb(196_214_206_/_0.6)]">
+                  {state === "running" ? (
+                    <>
+                      <LoaderCircle size={12} className="animate-spin text-[#38bdf8]" />
+                      running
+                    </>
+                  ) : (
+                    <>
+                      <Check size={12} className="text-[var(--color-brand-bright)]" />
+                      {call.result}
+                    </>
+                  )}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+
+        <div className="relative text-[13px] leading-relaxed text-[color:rgb(255_255_255_/_0.85)]">
+          <div
+            className={cn(
+              "absolute left-0 top-0 flex items-center gap-1.5 font-mono text-[11px] text-[color:rgb(196_214_206_/_0.6)]",
+              reveal(isThinking),
+            )}
+            aria-hidden="true"
           >
-            <span className="truncate text-[color:rgb(196_214_206_/_0.8)]">
-              <span className="text-[var(--color-brand-bright)]">pareto</span> · {call.name}
-            </span>
-            <span className="flex shrink-0 items-center gap-1.5 text-[color:rgb(196_214_206_/_0.6)]">
-              <Check size={12} className="text-[var(--color-brand-bright)]" />
-              {call.result}
-            </span>
-          </li>
-        ))}
-      </ul>
-
-      <div className="text-[13px] leading-relaxed text-[color:rgb(255_255_255_/_0.85)]">
-        <p>Three facilities have payments due by Friday:</p>
-        <table className="mt-3 w-full text-left text-[12px]">
-          <thead>
-            <tr className="font-mono text-[9.5px] uppercase tracking-[0.14em] text-[color:rgb(196_214_206_/_0.6)]">
-              <th className="pb-2 font-normal">Facility</th>
-              <th className="pb-2 text-right font-normal">Due</th>
-              <th className="hidden pb-2 text-right font-normal sm:table-cell">Day</th>
-              <th className="pb-2 text-right font-normal">Headroom</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-[color:rgb(255_255_255_/_0.06)]">
-            {answerRows.map(([facility, due, day, headroom]) => (
-              <tr key={facility}>
-                <td className="py-2 text-[var(--color-text-inverse)]">{facility}</td>
-                <td className="py-2 text-right font-mono text-[11.5px] text-[var(--color-brand-bright)]">{due}</td>
-                <td className="hidden py-2 text-right text-[color:rgb(196_214_206_/_0.75)] sm:table-cell">{day}</td>
-                <td className="py-2 text-right text-[color:rgb(196_214_206_/_0.75)]">{headroom}</td>
+            <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[var(--color-brand-bright)]" />
+            <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[var(--color-brand-bright)] [animation-delay:120ms]" />
+            <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[var(--color-brand-bright)] [animation-delay:240ms]" />
+          </div>
+          <p className={reveal(elapsed >= TIMELINE.answer)}>Three facilities have payments due by Friday:</p>
+          <table className="mt-3 w-full text-left text-[12px]">
+            <thead className={reveal(elapsed >= TIMELINE.answer)}>
+              <tr className="font-mono text-[9.5px] uppercase tracking-[0.14em] text-[color:rgb(196_214_206_/_0.6)]">
+                <th className="pb-2 font-normal">Facility</th>
+                <th className="pb-2 text-right font-normal">Due</th>
+                <th className="hidden pb-2 text-right font-normal sm:table-cell">Day</th>
+                <th className="pb-2 text-right font-normal">Headroom</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        <p className="mt-3 text-[color:rgb(255_255_255_/_0.6)]">
-          Want me to draft the lender notices? I'll queue them for your
-          signature in Studio.
-        </p>
+            </thead>
+            <tbody>
+              {answerRows.map(([facility, due, day, headroom], index) => (
+                <tr
+                  key={facility}
+                  className={cn(
+                    "border-t border-[color:rgb(255_255_255_/_0.06)]",
+                    reveal(elapsed >= TIMELINE.rowStart + index * TIMELINE.rowStep),
+                  )}
+                >
+                  <td className="py-2 text-[var(--color-text-inverse)]">{facility}</td>
+                  <td className="py-2 text-right font-mono text-[11.5px] text-[var(--color-brand-bright)]">{due}</td>
+                  <td className="hidden py-2 text-right text-[color:rgb(196_214_206_/_0.75)] sm:table-cell">{day}</td>
+                  <td className="py-2 text-right text-[color:rgb(196_214_206_/_0.75)]">{headroom}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p className={cn("mt-3 text-[color:rgb(255_255_255_/_0.6)]", reveal(elapsed >= TIMELINE.followUp))}>
+            Want me to draft the lender notices? I'll queue them for your
+            signature in Studio.
+          </p>
+        </div>
+      </div>
+
+      <div className="border-t border-[color:rgb(255_255_255_/_0.07)] px-4 py-2.5 font-mono text-[9.5px] uppercase tracking-[0.16em] text-[color:rgb(196_214_206_/_0.5)]">
+        Illustrative session · read-only tools
       </div>
     </div>
-
-    <div className="border-t border-[color:rgb(255_255_255_/_0.07)] px-4 py-2.5 font-mono text-[9.5px] uppercase tracking-[0.16em] text-[color:rgb(196_214_206_/_0.5)]">
-      Illustrative session · read-only tools
-    </div>
-  </div>
-);
+  );
+};
 
 const AgentsSection = () => {
   const shouldReduceMotion = useReducedMotion();
@@ -174,8 +278,8 @@ const AgentsSection = () => {
           </p>
         </div>
 
-        <div className="mt-10 grid items-start gap-8 lg:mt-14 lg:grid-cols-[1fr_1.05fr] lg:gap-14">
-          <ol className="relative space-y-3 sm:space-y-4">
+        <div className="mt-10 grid items-stretch gap-8 lg:mt-14 lg:grid-cols-[1fr_1.05fr] lg:gap-14">
+          <ol className="relative flex flex-col gap-3 sm:gap-4">
             {steps.map((step, index) => (
               <motion.li
                 key={step.name}
@@ -184,7 +288,7 @@ const AgentsSection = () => {
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className={cn(
-                  "rounded-md border p-5 sm:p-6",
+                  "flex flex-1 flex-col rounded-md border p-5 sm:p-6",
                   index === 0
                     ? "border-[color:rgb(114_244_201_/_0.28)] bg-[color:rgb(114_244_201_/_0.05)]"
                     : "border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.025)]",
@@ -212,7 +316,7 @@ const AgentsSection = () => {
                   </span>
                 </div>
                 <p className="mt-4 text-sm leading-relaxed text-[color:rgb(255_255_255_/_0.68)]">{step.description}</p>
-                <ul className="mt-4 hidden flex-wrap gap-x-5 gap-y-2 sm:flex">
+                <ul className="mt-auto hidden flex-wrap gap-x-5 gap-y-2 pt-4 sm:flex">
                   {step.points.map((point) => (
                     <li key={point} className="flex items-center gap-2 text-[12.5px] text-[color:rgb(255_255_255_/_0.8)]">
                       <Check size={13} className="text-[var(--color-brand-alt)]" />
@@ -224,8 +328,10 @@ const AgentsSection = () => {
             ))}
           </ol>
 
-          <div className="lg:sticky lg:top-28">
-            <AgentSession />
+          <div className="flex flex-col">
+            <div className="flex-1">
+              <AgentSession />
+            </div>
             <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <p className="max-w-sm text-xs leading-relaxed text-[color:rgb(255_255_255_/_0.5)]">
                 Credit decisions stay with the facility's curator. Agents never
@@ -237,7 +343,7 @@ const AgentsSection = () => {
                 className="shrink-0"
                 onClick={() => requestContact(`${MCP_PRODUCT_NAME} early access`)}
               >
-                Join MCP early access
+                Join early access
               </Button>
             </div>
           </div>

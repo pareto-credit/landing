@@ -328,3 +328,31 @@ input[type='reset'] {
 .legal-content a:hover {
   text-decoration: underline;
 }
+
+/* Animated accents for highlighted showcases. Disabled for reduced motion. */
+@keyframes ui-shimmer {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.ui-text-shimmer {
+  background-image: linear-gradient(
+    90deg,
+    var(--color-brand-bright) 0%,
+    #38bdf8 30%,
+    #a7f3d0 55%,
+    var(--color-brand-bright) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: ui-shimmer 6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-text-shimmer {
+    animation: none;
+  }
+}

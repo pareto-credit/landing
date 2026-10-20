@@ -77,12 +77,40 @@ describe("Navbar", () => {
     expect(scrollToSection).toHaveBeenCalledWith("studio");
   });
 
-  it("lists the new homepage sections and pages in the desktop nav", () => {
+  it("groups homepage sections under a Solutions dropdown", () => {
     render(<Navbar />);
 
-    for (const label of ["Studio", "Agents", "Plans", "Vaults", "Ecosystem", "Thesis"]) {
-      expect(screen.getAllByRole("button", { name: label }).length).toBeGreaterThan(0);
+    expect(screen.queryByTestId("solutions-menu")).not.toBeInTheDocument();
+
+    const solutions = screen.getByRole("button", { name: /solutions/i });
+    fireEvent.click(solutions);
+
+    expect(solutions).toHaveAttribute("aria-expanded", "true");
+    const menu = screen.getByTestId("solutions-menu");
+    for (const label of ["Pareto Studio", "Agents", "Plans", "Vaults"]) {
+      expect(within(menu).getByRole("button", { name: new RegExp(label) })).toBeInTheDocument();
     }
+
+    fireEvent.click(within(menu).getByRole("button", { name: /vaults/i }));
+    expect(scrollToSection).toHaveBeenCalledWith("products");
+  });
+
+  it("closes the Solutions dropdown on escape", async () => {
+    render(<Navbar />);
+
+    fireEvent.click(screen.getByRole("button", { name: /solutions/i }));
+    fireEvent.keyDown(window, { key: "Escape" });
+
+    await waitFor(() => {
+      expect(screen.queryByTestId("solutions-menu")).not.toBeInTheDocument();
+    });
+  });
+
+  it("keeps Ecosystem and Thesis as top-level links", () => {
+    render(<Navbar />);
+
+    expect(screen.getByRole("button", { name: "Ecosystem" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Thesis" })).toBeInTheDocument();
   });
 
   it("falls back to a full navigation for pages when no router is mounted", () => {

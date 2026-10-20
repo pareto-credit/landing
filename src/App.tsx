@@ -67,12 +67,12 @@ const App = () => {
         {showHowItWorksSection ? <HowItWorksSection /> : null}
         <StructuresSection />
         <AgentsSection />
-        <TestimonialsSection />
         <ProductsSection vaults={vaults} isVaultsLoading={isProductsDataLoading} />
         {showIndexesSection ? (
           <SyntheticDollarSection data={syntheticDollarData} isLoading={isSyntheticDollarLoading} />
         ) : null}
         <PlansSection />
+        <TestimonialsSection />
         <NewsSection />
         <ContactSection />
       </main>

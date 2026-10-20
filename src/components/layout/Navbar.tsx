@@ -1,6 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import {
+  ArrowUpRight,
+  Bot,
+  ChevronDown,
+  ChevronRight,
+  Layers,
+  LayoutDashboard,
+  Menu,
+  Vault,
+  X,
+  type LucideIcon,
+} from "lucide-react";
 import paretoLogo from "../../assets/svgs/pareto-logo.svg";
 import paretoLogoLight from "../../assets/svgs/pareto-logo-light.svg";
 import { useRouter } from "@tanstack/react-router";
@@ -18,26 +29,111 @@ interface NavItem {
   target: NavTarget;
 }
 
-const navigationItems: NavItem[] = [
-  { label: "Studio", target: { kind: "section", id: "studio" } },
-  { label: "Agents", target: { kind: "section", id: "agents" } },
-  { label: "Plans", target: { kind: "section", id: "plans" } },
-  { label: "Vaults", target: { kind: "section", id: "products" } },
+interface SolutionItem extends NavItem {
+  description: string;
+  icon: LucideIcon;
+}
+
+const solutionGroups: Array<{ title: string; items: SolutionItem[] }> = [
+  {
+    title: "For issuers and underwriters",
+    items: [
+      {
+        label: "Pareto Studio",
+        description: "Structure, launch and run credit facilities from one desk.",
+        icon: LayoutDashboard,
+        target: { kind: "section", id: "studio" },
+      },
+      {
+        label: "Agents",
+        description: "Pareto MCP for Claude, Codex and your own agents. Early access.",
+        icon: Bot,
+        target: { kind: "section", id: "agents" },
+      },
+      {
+        label: "Plans",
+        description: "Core, Pro and White-Glove by NorthBridge.",
+        icon: Layers,
+        target: { kind: "section", id: "plans" },
+      },
+    ],
+  },
+  {
+    title: "For lenders",
+    items: [
+      {
+        label: "Vaults",
+        description: "Allocate to permissioned onchain credit facilities with live reporting.",
+        icon: Vault,
+        target: { kind: "section", id: "products" },
+      },
+    ],
+  },
+];
+
+const pageItems: NavItem[] = [
   { label: "Ecosystem", target: { kind: "page", to: "/ecosystem" } },
   { label: "Thesis", target: { kind: "page", to: "/thesis" } },
 ];
 
 const mobileNavigationItems: NavItem[] = [
-  ...navigationItems,
+  { label: "Studio", target: { kind: "section", id: "studio" } },
+  { label: "Agents", target: { kind: "section", id: "agents" } },
+  { label: "Plans", target: { kind: "section", id: "plans" } },
+  { label: "Vaults", target: { kind: "section", id: "products" } },
+  ...pageItems,
   { label: "Contact", target: { kind: "section", id: "contact" } },
 ];
+
+const SOLUTIONS_CLOSE_DELAY_MS = 140;
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [pendingTarget, setPendingTarget] = useState<NavTarget | null>(null);
+  const [solutionsOpen, setSolutionsOpen] = useState(false);
+  const solutionsRef = useRef<HTMLDivElement | null>(null);
+  const solutionsCloseTimer = useRef<number | null>(null);
   const shouldReduceMotion = useReducedMotion();
   const router = useRouter({ warn: false });
+
+  const cancelSolutionsClose = () => {
+    if (solutionsCloseTimer.current !== null) {
+      window.clearTimeout(solutionsCloseTimer.current);
+      solutionsCloseTimer.current = null;
+    }
+  };
+
+  const scheduleSolutionsClose = () => {
+    cancelSolutionsClose();
+    solutionsCloseTimer.current = window.setTimeout(
+      () => setSolutionsOpen(false),
+      SOLUTIONS_CLOSE_DELAY_MS,
+    );
+  };
+
+  useEffect(() => {
+    if (!solutionsOpen) return;
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!solutionsRef.current?.contains(event.target as Node)) {
+        setSolutionsOpen(false);
+      }
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setSolutionsOpen(false);
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [solutionsOpen]);
+
+  useEffect(() => () => cancelSolutionsClose(), []);
   const navLinkClass =
     "inline-flex items-center transition-colors hover:text-[var(--color-brand-alt)] focus-visible:text-[var(--color-brand-alt)] focus-visible:outline-none";
   const mobileToggleButtonClass = mobileMenuOpen
@@ -169,13 +265,122 @@ const Navbar = () => {
           </button>
 
           <div
-            className={`hidden items-center gap-6 font-mono text-sm lg:flex xl:gap-8 ${
+            className={`hidden items-center gap-8 font-mono text-sm lg:flex ${
               isScrolled
                 ? "text-[var(--color-text-primary)]"
                 : "text-[var(--color-text-secondary)]"
             }`}
           >
-            {navigationItems.map((item) => (
+            <div
+              ref={solutionsRef}
+              className="relative"
+              onMouseEnter={() => {
+                cancelSolutionsClose();
+                setSolutionsOpen(true);
+              }}
+              onMouseLeave={scheduleSolutionsClose}
+            >
+              <button
+                type="button"
+                aria-expanded={solutionsOpen}
+                aria-controls="solutions-menu"
+                onClick={(event) => {
+                  // Pointer users already opened it on hover; keyboard users toggle.
+                  if (event.detail === 0) {
+                    setSolutionsOpen((open) => !open);
+                  } else {
+                    cancelSolutionsClose();
+                    setSolutionsOpen(true);
+                  }
+                }}
+                className={`${navLinkClass} gap-1`}
+              >
+                Solutions
+                <ChevronDown
+                  size={15}
+                  className={`transition-transform duration-200 ${solutionsOpen ? "rotate-180" : ""}`}
+                />
+              </button>
+
+              <AnimatePresence>
+                {solutionsOpen ? (
+                  <motion.div
+                    id="solutions-menu"
+                    data-testid="solutions-menu"
+                    initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
+                    transition={{ duration: 0.18, ease: "easeOut" }}
+                    className="absolute left-1/2 top-full z-[61] w-[44rem] -translate-x-1/2 pt-5 font-sans"
+                  >
+                    <div className="overflow-hidden rounded-lg border border-[var(--color-border-soft)] bg-[var(--color-surface)] text-[var(--color-text-primary)] shadow-[0_24px_60px_rgb(14_24_19_/_0.16)]">
+                      <div className="grid grid-cols-[1.35fr_1fr]">
+                        {solutionGroups.map((group, groupIndex) => (
+                          <div
+                            key={group.title}
+                            className={`p-5 ${groupIndex > 0 ? "border-l border-[var(--color-border-soft)]" : ""}`}
+                          >
+                            <div className="mb-2 px-3 text-sm text-[var(--color-text-muted)]">{group.title}</div>
+                            <ul>
+                              {group.items.map((item) => (
+                                <li key={item.label}>
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      setSolutionsOpen(false);
+                                      handleNavigate(item.target);
+                                    }}
+                                    className="group flex w-full items-start gap-3 rounded-md px-3 py-3 text-left transition-colors hover:bg-[var(--color-surface-muted)] focus-visible:bg-[var(--color-surface-muted)] focus-visible:outline-none"
+                                  >
+                                    <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-[var(--color-brand-deep)] text-[var(--color-brand-bright)]">
+                                      <item.icon size={16} />
+                                    </span>
+                                    <span>
+                                      <span className="block text-[15px] font-semibold text-[var(--color-brand-dark)] group-hover:text-[var(--color-brand-deep)]">
+                                        {item.label}
+                                      </span>
+                                      <span className="mt-0.5 block text-[13px] leading-snug text-[var(--color-text-muted)]">
+                                        {item.description}
+                                      </span>
+                                    </span>
+                                  </button>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="flex items-center justify-between border-t border-[var(--color-border-soft)] bg-[var(--color-bg-light-alt)] px-8 py-4 text-sm">
+                        <span className="text-[var(--color-text-secondary)]">
+                          Not sure which fits?{" "}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setSolutionsOpen(false);
+                              handleNavigate({ kind: "section", id: "contact" });
+                            }}
+                            className="inline-flex items-center font-medium text-[var(--color-brand-deep)] underline-offset-4 hover:underline"
+                          >
+                            Contact us to discuss
+                            <ChevronRight size={14} />
+                          </button>
+                        </span>
+                        <a
+                          href="https://docs.pareto.credit/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-[0.12em] text-[var(--color-text-muted)] hover:text-[var(--color-brand-deep)]"
+                        >
+                          Docs <ArrowUpRight size={13} />
+                        </a>
+                      </div>
+                    </div>
+                  </motion.div>
+                ) : null}
+              </AnimatePresence>
+            </div>
+
+            {pageItems.map((item) => (
               <button
                 key={item.label}
                 type="button"

@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import paretoMark from "../../../assets/svgs/pareto-mark-white.svg";
 import { cn } from "../../../lib/cn";
@@ -13,7 +14,42 @@ const panelClass =
   "rounded-md border border-[color:rgb(255_255_255_/_0.07)] bg-[color:rgb(255_255_255_/_0.025)]";
 const labelClass =
   "font-mono text-[9.5px] uppercase tracking-[0.16em] text-[color:rgb(196_214_206_/_0.62)]";
-const mixColors = ["#72f4c9", "#70b19e", "#3f7a68", "#2b5546"];
+const mixColors = ["#72f4c9", "#38bdf8", "#2dd4bf", "#3f7a68"];
+const LIVE_FEED_INTERVAL_MS = 2600;
+
+/**
+ * Animates the numeric part of a formatted value such as "$48.2M" or "9.4%"
+ * once, when it mounts. Desks remount per persona, so each switch replays it.
+ */
+const CountUpValue = ({ value, animate }: { value: string; animate: boolean }) => {
+  const [progress, setProgress] = useState(animate ? 0 : 1);
+
+  useEffect(() => {
+    if (!animate) return;
+
+    const duration = 900;
+    let frame = 0;
+    const start = performance.now();
+
+    const tick = (now: number) => {
+      const elapsed = Math.min(1, (now - start) / duration);
+      setProgress(1 - Math.pow(1 - elapsed, 3));
+      if (elapsed < 1) frame = window.requestAnimationFrame(tick);
+    };
+
+    frame = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(frame);
+  }, [animate]);
+
+  const match = value.match(/^([^\d]*)([\d,]*\.?\d+)(.*)$/);
+  if (!match || progress >= 1) return <>{value}</>;
+
+  const [, prefix, numeric, suffix] = match;
+  const target = Number.parseFloat(numeric.replace(/,/g, ""));
+  const decimals = numeric.includes(".") ? numeric.split(".")[1].length : 0;
+
+  return <>{`${prefix}${(target * progress).toFixed(decimals)}${suffix}`}</>;
+};
 
 const buildSparkline = (series: number[], width = 100, height = 36) => {
   const min = Math.min(...series);
@@ -30,27 +66,55 @@ const buildSparkline = (series: number[], width = 100, height = 36) => {
   return { line, area, lastX, lastY };
 };
 
-const Sparkline = ({ series }: { series: number[] }) => {
+const Sparkline = ({ series, animate }: { series: number[]; animate: boolean }) => {
   const { line, area, lastX, lastY } = buildSparkline(series);
   return (
     <svg viewBox="0 0 100 36" preserveAspectRatio="none" className="h-24 w-full md:h-28" aria-hidden="true">
       <defs>
         <linearGradient id="studio-desk-area" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stopColor="#72f4c9" stopOpacity="0.28" />
+          <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.25" />
+          <stop offset="60%" stopColor="#72f4c9" stopOpacity="0.12" />
           <stop offset="100%" stopColor="#72f4c9" stopOpacity="0" />
+        </linearGradient>
+        <linearGradient id="studio-desk-line" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0%" stopColor="#2dd4bf" />
+          <stop offset="100%" stopColor="#72f4c9" />
         </linearGradient>
       </defs>
       {[9, 18, 27].map((y) => (
         <line key={y} x1="0" x2="100" y1={y} y2={y} stroke="rgb(255 255 255 / 0.05)" strokeWidth="0.3" />
       ))}
-      <path d={area} fill="url(#studio-desk-area)" />
-      <path d={line} fill="none" stroke="#72f4c9" strokeWidth="0.8" vectorEffect="non-scaling-stroke" />
-      <circle cx={lastX} cy={lastY} r="1.3" fill="#72f4c9" />
+      <motion.path
+        d={area}
+        fill="url(#studio-desk-area)"
+        initial={animate ? { opacity: 0 } : false}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.4 }}
+      />
+      <motion.path
+        d={line}
+        fill="none"
+        stroke="url(#studio-desk-line)"
+        strokeWidth="0.9"
+        vectorEffect="non-scaling-stroke"
+        initial={animate ? { pathLength: 0 } : false}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 1.1, ease: "easeOut" }}
+      />
+      <motion.circle
+        cx={lastX}
+        cy={lastY}
+        r="1.4"
+        fill="#72f4c9"
+        initial={animate ? { scale: 0 } : false}
+        animate={animate ? { scale: [0, 1.5, 1] } : { scale: 1 }}
+        transition={{ duration: 0.5, delay: 1.1 }}
+      />
     </svg>
   );
 };
 
-const SideCard = ({ card }: { card: DeskSideCard }) => {
+const SideCard = ({ card, animate }: { card: DeskSideCard; animate: boolean }) => {
   if (card.kind === "mix") {
     return (
       <div className={cn(panelClass, "flex w-full flex-col p-4")}>
@@ -58,9 +122,16 @@ const SideCard = ({ card }: { card: DeskSideCard }) => {
           <span className={labelClass}>{card.title}</span>
           <span className="font-mono text-[9.5px] text-[color:rgb(196_214_206_/_0.62)]">{card.note}</span>
         </div>
-        <div className="mt-4 flex h-2.5 overflow-hidden rounded-full">
+        <div className="mt-4 flex h-2.5 gap-0.5 overflow-hidden rounded-full">
           {card.items.map(([label, share], index) => (
-            <span key={label} style={{ width: `${share}%`, backgroundColor: mixColors[index] }} />
+            <motion.span
+              key={label}
+              initial={animate ? { width: 0 } : false}
+              animate={{ width: `${share}%` }}
+              transition={{ duration: 0.7, delay: 0.15 + index * 0.12, ease: "easeOut" }}
+              style={{ backgroundColor: mixColors[index] }}
+              className="h-full rounded-sm"
+            />
           ))}
         </div>
         <ul className="mt-4 space-y-2.5">
@@ -88,40 +159,37 @@ const SideCard = ({ card }: { card: DeskSideCard }) => {
         <span className="font-mono text-[9.5px] text-[color:rgb(196_214_206_/_0.62)]">{card.note}</span>
       </div>
       <div className="mt-3 text-[2rem] font-light leading-none tracking-tight text-[var(--color-text-inverse)]">
-        {card.current}%
+        <CountUpValue value={`${card.current}%`} animate={animate} />
       </div>
       <div className="relative mt-5 h-2.5 rounded-full bg-[color:rgb(255_255_255_/_0.06)]">
-        <span className="absolute inset-y-0 left-0 rounded-full bg-[#72f4c9]" style={{ width: pct(card.current) }} />
+        <motion.span
+          className="absolute inset-y-0 left-0 rounded-full bg-[linear-gradient(90deg,#2dd4bf,#72f4c9)]"
+          initial={animate ? { width: 0 } : false}
+          animate={{ width: pct(card.current) }}
+          transition={{ duration: 0.9, ease: "easeOut" }}
+        />
         <span className="absolute -top-1.5 h-5 w-px bg-[var(--color-accent-yellow)]" style={{ left: pct(card.marginCall) }} />
         <span className="absolute -top-1.5 h-5 w-px bg-[var(--color-accent-red)]" style={{ left: pct(card.liquidation) }} />
       </div>
       <ul className="mt-5 space-y-2.5 text-[12px] text-[color:rgb(255_255_255_/_0.82)]">
-        <li className="flex items-center justify-between">
-          <span className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-[var(--color-accent-yellow)]" /> Margin call
-          </span>
-          <span className="font-mono text-[11px] text-[color:rgb(196_214_206_/_0.75)]">{card.marginCall}%</span>
-        </li>
-        <li className="flex items-center justify-between">
-          <span className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-[var(--color-accent-red)]" /> Liquidation
-          </span>
-          <span className="font-mono text-[11px] text-[color:rgb(196_214_206_/_0.75)]">{card.liquidation}%</span>
-        </li>
-        <li className="flex items-center justify-between">
-          <span className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-[#72f4c9]" /> Headroom
-          </span>
-          <span className="font-mono text-[11px] text-[color:rgb(196_214_206_/_0.75)]">
-            {card.marginCall - card.current} pts
-          </span>
-        </li>
+        {[
+          ["Margin call", `${card.marginCall}%`, "bg-[var(--color-accent-yellow)]"],
+          ["Liquidation", `${card.liquidation}%`, "bg-[var(--color-accent-red)]"],
+          ["Headroom", `${card.marginCall - card.current} pts`, "bg-[#72f4c9]"],
+        ].map(([label, value, dot]) => (
+          <li key={label} className="flex items-center justify-between">
+            <span className="flex items-center gap-2">
+              <span className={cn("h-2 w-2 rounded-full", dot)} /> {label}
+            </span>
+            <span className="font-mono text-[11px] text-[color:rgb(196_214_206_/_0.75)]">{value}</span>
+          </li>
+        ))}
       </ul>
     </div>
   );
 };
 
-const ListPanel = ({ list }: { list: DeskList }) => (
+const ListPanel = ({ list, animate }: { list: DeskList; animate: boolean }) => (
   <div className={cn(panelClass, "p-4")}>
     <div className="mb-3 flex items-center justify-between">
       <span className={labelClass}>{list.title}</span>
@@ -130,7 +198,7 @@ const ListPanel = ({ list }: { list: DeskList }) => (
 
     {list.kind === "pipeline" ? (
       <ul className="divide-y divide-[color:rgb(255_255_255_/_0.06)]">
-        {list.rows.map((row) => (
+        {list.rows.map((row, rowIndex) => (
           <li key={row.name} className="py-3">
             <div className="flex items-baseline justify-between gap-3">
               <div>
@@ -140,32 +208,35 @@ const ListPanel = ({ list }: { list: DeskList }) => (
               <span
                 className={cn(
                   "font-mono text-[9.5px] uppercase tracking-[0.16em]",
-                  row.stage === list.stages.length - 1 ? "text-[#72f4c9]" : "text-[color:rgb(196_214_206_/_0.7)]",
+                  row.stage === list.stages.length - 1 ? "text-[#72f4c9]" : "text-[#7dd3fc]",
                 )}
               >
                 {list.stages[row.stage]}
               </span>
             </div>
-            <div className="mt-2.5 flex items-center">
-              {list.stages.map((stage, index) => (
-                <div key={stage} className="flex flex-1 items-center last:flex-none">
+            <div className="relative mt-2.5 flex items-center">
+              <span className="absolute inset-x-1 top-1/2 h-px -translate-y-1/2 bg-[color:rgb(255_255_255_/_0.1)]" />
+              <motion.span
+                className="absolute left-1 top-1/2 h-px -translate-y-1/2 bg-[linear-gradient(90deg,#2dd4bf,#72f4c9)]"
+                initial={animate ? { width: 0 } : false}
+                animate={{ width: `calc(${(row.stage / (list.stages.length - 1)) * 100}% - 0.5rem)` }}
+                transition={{ duration: 0.8, delay: 0.2 + rowIndex * 0.12, ease: "easeOut" }}
+              />
+              <div className="relative flex w-full justify-between">
+                {list.stages.map((stage, index) => (
                   <span
+                    key={stage}
                     className={cn(
-                      "h-2 w-2 shrink-0 rounded-full",
-                      index <= row.stage ? "bg-[#72f4c9]" : "bg-[color:rgb(255_255_255_/_0.14)]",
-                      index === row.stage && "ring-4 ring-[color:rgb(114_244_201_/_0.15)]",
+                      "relative h-2 w-2 rounded-full",
+                      index <= row.stage ? "bg-[#72f4c9]" : "bg-[color:rgb(255_255_255_/_0.16)]",
                     )}
-                  />
-                  {index < list.stages.length - 1 ? (
-                    <span
-                      className={cn(
-                        "h-px flex-1",
-                        index < row.stage ? "bg-[#72f4c9]" : "bg-[color:rgb(255_255_255_/_0.1)]",
-                      )}
-                    />
-                  ) : null}
-                </div>
-              ))}
+                  >
+                    {index === row.stage && animate ? (
+                      <span className="absolute -inset-1 animate-ping rounded-full bg-[color:rgb(114_244_201_/_0.35)] motion-reduce:animate-none" />
+                    ) : null}
+                  </span>
+                ))}
+              </div>
             </div>
           </li>
         ))}
@@ -175,18 +246,20 @@ const ListPanel = ({ list }: { list: DeskList }) => (
         <thead>
           <tr>
             {list.columns.map((column, index) => (
-              <th
-                key={column}
-                className={cn(labelClass, "pb-2 font-normal", index >= 2 && "text-right")}
-              >
+              <th key={column} className={cn(labelClass, "pb-2 font-normal", index >= 2 && "text-right")}>
                 {column}
               </th>
             ))}
           </tr>
         </thead>
         <tbody className="divide-y divide-[color:rgb(255_255_255_/_0.06)]">
-          {list.rows.map((row) => (
-            <tr key={row.join("-")}>
+          {list.rows.map((row, rowIndex) => (
+            <motion.tr
+              key={row.join("-")}
+              initial={animate ? { opacity: 0, x: -8 } : false}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.35, delay: 0.15 + rowIndex * 0.08 }}
+            >
               {row.map((cell, index) => (
                 <td
                   key={`${cell}-${index}`}
@@ -200,7 +273,7 @@ const ListPanel = ({ list }: { list: DeskList }) => (
                   {cell}
                 </td>
               ))}
-            </tr>
+            </motion.tr>
           ))}
         </tbody>
       </table>
@@ -210,44 +283,85 @@ const ListPanel = ({ list }: { list: DeskList }) => (
 
 const activityDotClass: Record<DeskActivity["kind"], string> = {
   ok: "bg-[#72f4c9]",
-  agent: "bg-[var(--color-state-info)]",
-  doc: "bg-[color:rgb(255_255_255_/_0.55)]",
+  agent: "bg-[#a78bfa]",
+  doc: "bg-[#38bdf8]",
   pending: "bg-[var(--color-accent-yellow)]",
 };
 
-const ActivityPanel = ({ items }: { items: DeskActivity[] }) => (
-  <div className={cn(panelClass, "p-4")}>
-    <div className="mb-3 flex items-center justify-between">
-      <span className={labelClass}>Activity · onchain tape</span>
-      <span className="flex items-center gap-1.5 font-mono text-[9.5px] uppercase tracking-[0.16em] text-[#72f4c9]">
-        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#72f4c9]" /> Live
-      </span>
+const addMinutes = (time: string, minutes: number) => {
+  const [hours, mins] = time.split(":").map(Number);
+  const total = (hours * 60 + mins + minutes) % (24 * 60);
+  return `${String(Math.floor(total / 60)).padStart(2, "0")}:${String(total % 60).padStart(2, "0")}`;
+};
+
+const ActivityPanel = ({ desk, live }: { desk: PersonaDesk; live: boolean }) => {
+  const [items, setItems] = useState<Array<DeskActivity & { id: string }>>(() =>
+    desk.activity.map((item, index) => ({ ...item, id: `${desk.id}-base-${index}` })),
+  );
+  const feedIndex = useRef(0);
+
+  useEffect(() => {
+    if (!live) return;
+
+    const intervalId = window.setInterval(() => {
+      setItems((current) => {
+        const next = desk.liveFeed[feedIndex.current % desk.liveFeed.length];
+        feedIndex.current += 1;
+        const time = addMinutes(current[0]?.time ?? "09:00", 1 + (feedIndex.current % 3));
+        return [{ ...next, time, id: `${desk.id}-live-${feedIndex.current}` }, ...current].slice(0, 5);
+      });
+    }, LIVE_FEED_INTERVAL_MS);
+
+    return () => window.clearInterval(intervalId);
+  }, [desk, live]);
+
+  return (
+    <div className={cn(panelClass, "p-4")}>
+      <div className="mb-3 flex items-center justify-between">
+        <span className={labelClass}>Activity · onchain tape</span>
+        <span className="flex items-center gap-1.5 font-mono text-[9.5px] uppercase tracking-[0.16em] text-[#72f4c9]">
+          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#72f4c9]" /> Live
+        </span>
+      </div>
+      <ul className="relative overflow-hidden">
+        <AnimatePresence initial={false} mode="popLayout">
+          {items.map((item) => (
+            <motion.li
+              key={item.id}
+              layout="position"
+              initial={{ opacity: 0, y: -14, backgroundColor: "rgba(114,244,201,0.12)" }}
+              animate={{ opacity: 1, y: 0, backgroundColor: "rgba(114,244,201,0)" }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.45, backgroundColor: { duration: 1.6 } }}
+              className="flex items-center gap-3 border-b border-[color:rgb(255_255_255_/_0.06)] px-1 py-2.5 text-[12px] last:border-b-0"
+            >
+              <span className="w-10 shrink-0 font-mono text-[11px] text-[color:rgb(196_214_206_/_0.62)]">{item.time}</span>
+              <span className={cn("h-1.5 w-1.5 shrink-0 rounded-full", activityDotClass[item.kind])} />
+              <span className="min-w-0 truncate text-[color:rgb(255_255_255_/_0.85)]">{item.label}</span>
+            </motion.li>
+          ))}
+        </AnimatePresence>
+      </ul>
     </div>
-    <ul className="divide-y divide-[color:rgb(255_255_255_/_0.06)]">
-      {items.map((item) => (
-        <li key={`${item.time}-${item.label}`} className="flex items-center gap-3 py-2.5 text-[12px]">
-          <span className="w-10 shrink-0 font-mono text-[11px] text-[color:rgb(196_214_206_/_0.62)]">{item.time}</span>
-          <span className={cn("h-1.5 w-1.5 shrink-0 rounded-full", activityDotClass[item.kind])} />
-          <span className="min-w-0 truncate text-[color:rgb(255_255_255_/_0.85)]">{item.label}</span>
-        </li>
-      ))}
-    </ul>
-  </div>
-);
+  );
+};
 
 interface StudioDeskProps {
   desk: PersonaDesk;
+  /** True while the desk is on screen; drives the live tape. */
+  isLive?: boolean;
 }
 
-const StudioDesk = ({ desk }: StudioDeskProps) => {
+const StudioDesk = ({ desk, isLive = false }: StudioDeskProps) => {
   const shouldReduceMotion = useReducedMotion();
+  const animate = !shouldReduceMotion;
 
   return (
     <div
       data-testid="studio-desk"
-      className="overflow-hidden rounded-lg border border-[color:rgb(255_255_255_/_0.1)] bg-[#0b1511] text-left shadow-[0_40px_90px_rgb(0_0_0_/_0.45)]"
+      className="overflow-hidden rounded-[7px] bg-[#0b1511] text-left"
     >
-      <div className="flex items-center justify-between gap-3 border-b border-[color:rgb(255_255_255_/_0.07)] px-4 py-3">
+      <div className="flex items-center justify-between gap-3 border-b border-[color:rgb(255_255_255_/_0.07)] bg-[linear-gradient(90deg,rgb(114_244_201_/_0.06),transparent_40%,rgb(56_189_248_/_0.05))] px-4 py-3">
         <div className="flex min-w-0 items-center gap-3">
           <img src={paretoMark} alt="" className="h-5 w-5 shrink-0" />
           <span className="truncate font-mono text-[10px] uppercase tracking-[0.18em] text-[color:rgb(196_214_206_/_0.7)]">
@@ -264,7 +378,7 @@ const StudioDesk = ({ desk }: StudioDeskProps) => {
                 className={cn(
                   "rounded px-1.5 py-0.5",
                   range === "30D"
-                    ? "bg-[color:rgb(114_244_201_/_0.12)] text-[#72f4c9]"
+                    ? "bg-[color:rgb(114_244_201_/_0.14)] text-[#72f4c9]"
                     : "text-[color:rgb(196_214_206_/_0.55)]",
                 )}
               >
@@ -291,15 +405,20 @@ const StudioDesk = ({ desk }: StudioDeskProps) => {
                     <li
                       key={item.label}
                       className={cn(
-                        "flex items-center justify-between rounded px-2 py-1.5 text-[12px]",
-                        isActive
-                          ? "bg-[color:rgb(114_244_201_/_0.1)] text-[#72f4c9]"
-                          : "text-[color:rgb(255_255_255_/_0.6)]",
+                        "relative flex items-center justify-between rounded px-2 py-1.5 text-[12px] transition-colors duration-300",
+                        isActive ? "text-[#72f4c9]" : "text-[color:rgb(255_255_255_/_0.6)]",
                       )}
                     >
-                      {item.label}
+                      {isActive ? (
+                        <motion.span
+                          layoutId="studio-desk-nav-active"
+                          className="absolute inset-0 rounded bg-[linear-gradient(90deg,rgb(114_244_201_/_0.16),rgb(56_189_248_/_0.08))]"
+                          transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                        />
+                      ) : null}
+                      <span className="relative">{item.label}</span>
                       {item.badge ? (
-                        <span className="rounded-full bg-[color:rgb(147_197_253_/_0.18)] px-1.5 font-mono text-[9.5px] text-[var(--color-state-info)]">
+                        <span className="relative rounded-full bg-[color:rgb(167_139_250_/_0.2)] px-1.5 font-mono text-[9.5px] text-[#c4b5fd]">
                           {item.badge}
                         </span>
                       ) : null}
@@ -314,54 +433,63 @@ const StudioDesk = ({ desk }: StudioDeskProps) => {
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={desk.id}
-            initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 8 }}
+            initial={animate ? { opacity: 0, y: 10 } : { opacity: 1 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
+            exit={animate ? { opacity: 0, y: -8 } : { opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
             className="grid gap-3 p-3 sm:p-4"
           >
             <div className="grid gap-3 md:grid-cols-[1.6fr_1fr]">
-              <div className={cn(panelClass, "p-4")}>
+              <div
+                className={cn(
+                  panelClass,
+                  "relative overflow-hidden p-4 bg-[radial-gradient(120%_120%_at_100%_0%,rgb(56_189_248_/_0.10),transparent_55%),radial-gradient(90%_90%_at_0%_100%,rgb(114_244_201_/_0.08),transparent_60%)]",
+                )}
+              >
                 <div className="flex items-start justify-between gap-3">
                   <span className={labelClass}>{desk.hero.label}</span>
-                  <span className="font-mono text-[10.5px] text-[#72f4c9]">{desk.hero.delta}</span>
+                  <span className="rounded-full bg-[color:rgb(114_244_201_/_0.12)] px-2 py-0.5 font-mono text-[10.5px] text-[#72f4c9]">
+                    {desk.hero.delta}
+                  </span>
                 </div>
                 <div className="mt-2 text-[2.6rem] font-light leading-none tracking-tight text-[var(--color-text-inverse)] md:text-[3.2rem]">
-                  {desk.hero.value}
+                  <CountUpValue value={desk.hero.value} animate={animate} />
                 </div>
                 <div className="mt-3">
-                  <Sparkline series={desk.hero.series} />
+                  <Sparkline series={desk.hero.series} animate={animate} />
                 </div>
               </div>
               <div className="hidden md:flex">
-                <div className="flex w-full">
-                  <SideCard card={desk.side} />
-                </div>
+                <SideCard card={desk.side} animate={animate} />
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-              {desk.kpis.map((kpi) => (
-                <div key={kpi.label} className={cn(panelClass, "p-3.5")}>
+              {desk.kpis.map((kpi, index) => (
+                <motion.div
+                  key={kpi.label}
+                  initial={animate ? { opacity: 0, y: 8 } : false}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35, delay: 0.1 + index * 0.06 }}
+                  className={cn(panelClass, "p-3.5")}
+                >
                   <div className="flex items-center justify-between gap-2">
                     <span className={cn(labelClass, "truncate")}>{kpi.label}</span>
                     {kpi.note ? (
-                      <span className="shrink-0 font-mono text-[9.5px] text-[color:rgb(196_214_206_/_0.62)]">
-                        {kpi.note}
-                      </span>
+                      <span className="shrink-0 font-mono text-[9.5px] text-[#7dd3fc]">{kpi.note}</span>
                     ) : null}
                   </div>
                   <div className="mt-2 text-xl font-light tracking-tight text-[var(--color-text-inverse)] md:text-2xl">
-                    {kpi.value}
+                    <CountUpValue value={kpi.value} animate={animate} />
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
 
             <div className="grid gap-3 md:grid-cols-[1.25fr_1fr]">
-              <ListPanel list={desk.list} />
+              <ListPanel list={desk.list} animate={animate} />
               <div className="hidden md:block">
-                <ActivityPanel items={desk.activity} />
+                <ActivityPanel key={desk.id} desk={desk} live={isLive && animate} />
               </div>
             </div>
           </motion.div>

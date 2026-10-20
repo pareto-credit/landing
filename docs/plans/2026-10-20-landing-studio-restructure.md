@@ -109,3 +109,23 @@ about 17.9 to 15.5.
 - Refresh the Thesis market stats periodically, since they're static.
 - Optional: lazy-load the /thesis and /ecosystem routes. The main chunk was
   already above 500 kB on `main`.
+
+## Revision 2 (same day, Teo's feedback)
+
+- Hero copy restored to "It's time to upgrade the credit operating system" plus the original subline. The Studio CTAs and the MCP chip are kept.
+- Underwriting cards: tags now sit on two rows on every card, and "Keyring" is replaced by "Built-in, per facility".
+- Studio is now colourful and animated:
+  - aurora background, shimmer headline and a travelling-light border on the desk
+  - persona tabs autoplay every 9s with a progress bar, stopping on click
+  - count-up figures, a sparkline that draws in, animated mix bars, and a live activity tape while in view
+  - all animation is disabled under `prefers-reduced-motion`
+- The "Structure, launch and run…" copy and CTA moved under the desk, merged into one panel with the four lifecycle steps.
+- Credit structures is now a bento grid (4 columns on desktop, 2 on mobile). Clicking a tile morphs it into a detail dialog (framer-motion `layoutId`), with a "Discuss this structure" CTA. Esc, the X button or the backdrop close it.
+- Agents: the demo is animated in a loop while in view (typing, tool calls running, then a streamed answer). The left cards and the right column (demo, disclaimer and CTA) stretch to equal height. The CTA now reads "Join early access".
+- Plans: Pro has its own mint gradient with a dark CTA.
+- Order: … Agents → Vaults → Plans → Testimonials → Insights → Contact.
+- Header: a "Solutions" dropdown in the Centrifuge style, with "For issuers and underwriters" (Pareto Studio, Agents, Plans) and "For lenders" (Vaults), plus a footer link to contact us. Ecosystem and Thesis stay at the top level. It opens on hover; the keyboard toggles it; Esc or an outside click closes it.
+- Validation:
+  - 118 tests pass, with the same 3 failures already on `main`.
+  - No lint findings in touched files, and the build passes.
+  - Browser-checked: the dropdown, the bento open and close, the demo loop, equal column heights, and the 390px layouts.

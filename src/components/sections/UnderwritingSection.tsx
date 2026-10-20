@@ -22,7 +22,7 @@ const pillars: Pillar[] = [
     image: diligenceImage,
     imageClassName: "object-[40%_30%]",
     tags: [
-      ["KYB", "Keyring"],
+      ["KYB", "Built-in, per facility"],
       ["Review", "Named curator"],
     ],
   },
@@ -119,10 +119,10 @@ const UnderwritingSection = () => {
                   <p className="mt-3 text-sm leading-relaxed text-[color:rgb(255_255_255_/_0.78)]">
                     {pillar.description}
                   </p>
-                  <dl className="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-[color:rgb(255_255_255_/_0.14)] pt-4">
+                  <dl className="mt-5 flex flex-col gap-2 border-t border-[color:rgb(255_255_255_/_0.14)] pt-4">
                     {pillar.tags.map(([label, value]) => (
                       <div key={label} className="flex items-baseline gap-2">
-                        <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-[color:rgb(255_255_255_/_0.55)]">
+                        <dt className="w-20 shrink-0 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:rgb(255_255_255_/_0.55)]">
                           {label}
                         </dt>
                         <dd className="text-xs text-[var(--color-text-inverse)]">

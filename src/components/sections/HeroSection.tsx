@@ -5,7 +5,7 @@ import { SectionContainer } from "../ui/Section";
 import { ArrowRight } from "lucide-react";
 import { scrollToSection } from "../../lib/scrollToSection";
 import { requestContact } from "../../lib/siteNavigation";
-import { MCP_PRODUCT_NAME, STUDIO_PRODUCT_NAME } from "../../data/brand";
+import { MCP_PRODUCT_NAME } from "../../data/brand";
 import { AirportBoardNumber } from "../ui/AirportBoardNumber";
 import type { VanityMetrics } from "../../types/products";
 
@@ -58,10 +58,10 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
             data-testid="hero-title"
             className="mb-4 text-[clamp(2.35rem,11vw,4.2rem)] font-semibold leading-[0.98] tracking-tight sm:mb-7 sm:text-[clamp(3.4rem,12vw,5rem)] sm:leading-[1.03] lg:text-7xl"
           >
-            Turn a term sheet <br className="hidden sm:block" />
+            It&apos;s time to upgrade <br className="hidden sm:block" />
             <span className="bg-gradient-to-r from-[var(--color-text-primary)] to-[var(--color-brand)] bg-clip-text text-transparent">
-              into a live credit <br className="hidden sm:block" />
-              facility
+              the credit operating <br className="hidden sm:block" />
+              system
             </span>
           </motion.h1>
 
@@ -72,9 +72,9 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
             className="ui-copy-muted mx-auto mb-5 max-w-[20rem] text-[0.9rem] font-medium leading-relaxed sm:mb-8 sm:max-w-2xl sm:text-lg md:text-xl"
             style={{ textShadow: "0 2px 10px rgba(232, 235, 230, 0.8)" }}
           >
-            Credit underwriting infrastructure for compliant onchain finance.
-            <br className="hidden sm:block" />{" "}
-            Structure, launch and run facilities in {STUDIO_PRODUCT_NAME}.
+            Transparent credit infrastructure. Enterprise-grade compliance.
+            <br />
+            Built for the way capital flows today.
           </motion.p>
 
           <motion.div
