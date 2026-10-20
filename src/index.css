@@ -224,7 +224,7 @@ input[type='reset'] {
   display: flex;
   width: max-content;
   will-change: transform;
-  animation: marquee 36s linear infinite;
+  animation: marquee 64s linear infinite;
 }
 
 .marquee-group {

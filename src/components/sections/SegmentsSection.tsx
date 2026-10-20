@@ -4,7 +4,7 @@ const SegmentsSection = () => {
   return (
     <section
       aria-label="Our partners"
-      className="relative z-20 overflow-hidden border-y border-[var(--color-border-soft)] bg-[#f8faf9] py-8 md:py-10"
+      className="relative z-20 overflow-hidden bg-[var(--color-bg-light-alt)] py-8 md:py-10"
     >
       <p className="mb-6 px-6 text-center text-sm text-[var(--color-text-muted)] md:mb-8 md:text-base">
         Powering leading companies building the future of credit and global markets
