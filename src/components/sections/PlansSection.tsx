@@ -78,9 +78,7 @@ const PlansSection = () => {
         </h2>
         <p className="mt-4 text-lg leading-relaxed text-[var(--color-text-muted)]">
           Run facilities yourself in Studio, launch with our team beside you,
-          or hand the whole facility to NorthBridge. Every tier runs on the
-          same audited Credit Vault infrastructure, with pricing set per
-          facility.
+          or hand the whole facility to NorthBridge.
         </p>
       </div>
 
