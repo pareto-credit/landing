@@ -11,6 +11,7 @@ export const CURATOR_PARTNER_NAME = "NorthBridge";
 export const PARETO_APP_URL = "https://app.pareto.credit/";
 export const PARETO_DOCS_URL = "https://docs.pareto.credit/";
 export const PARETO_BLOG_URL = "https://paragraph.com/@pareto";
+export const NORTHBRIDGE_URL = "https://northbridge.management/";
 
 /** Options offered by the contact form's "Interested in" field. */
 export const CONTACT_INTERESTS = [

@@ -41,7 +41,7 @@ const SegmentsSection = () => {
                       transform: `translateY(${operator.verticalOffset ?? 0}px) scale(${operator.visualScale})`,
                       transformOrigin: "center center",
                     }}
-                    className={`relative z-10 block h-full w-full object-contain px-2 pt-1 pb-2 md:pb-2.5 transition-[filter,opacity] duration-300 group-hover/logo:brightness-110 ${operator.imageClassName ?? ""} ${operator.hoverImageClassName ?? ""}`}
+                    className={`relative z-10 block h-full w-full object-contain px-2 py-1.5 transition-[filter,opacity] duration-300 group-hover/logo:brightness-110 ${operator.imageClassName ?? ""} ${operator.hoverImageClassName ?? ""}`}
                   />
                 </a>
               ))}

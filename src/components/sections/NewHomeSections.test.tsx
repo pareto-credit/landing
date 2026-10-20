@@ -161,7 +161,14 @@ describe("PlansSection", () => {
     const whiteGlove = screen.getByTestId("plan-white-glove");
     expect(within(whiteGlove).getByText("by NorthBridge")).toBeInTheDocument();
     expect(within(whiteGlove).getByText("Everything in Pro, plus:")).toBeInTheDocument();
-    expect(within(screen.getByTestId("plan-core")).getByText(`${AI_PRODUCT_NAME} credit assessment`)).toBeInTheDocument();
+    expect(within(whiteGlove).getByRole("link", { name: /northbridge/i })).toHaveAttribute(
+      "href",
+      "https://northbridge.management/",
+    );
+    expect(within(whiteGlove).getByRole("img", { name: "NorthBridge" })).toBeInTheDocument();
+    expect(within(screen.getByTestId("plan-pro")).getByText(`${AI_PRODUCT_NAME} credit assessment`)).toBeInTheDocument();
+    expect(within(screen.getByTestId("plan-core")).queryByText(`${AI_PRODUCT_NAME} credit assessment`)).not.toBeInTheDocument();
+    expect(screen.queryByText(/keyring/i)).not.toBeInTheDocument();
   });
 
   it("shows one plan at a time on mobile via tabs", () => {

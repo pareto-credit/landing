@@ -1,8 +1,10 @@
-import { AI_PRODUCT_NAME, MCP_PRODUCT_NAME, type ContactInterest } from "./brand";
+import { AI_PRODUCT_NAME, MCP_PRODUCT_NAME, NORTHBRIDGE_URL, type ContactInterest } from "./brand";
 
 export interface PlanFeature {
   label: string;
   tag?: string;
+  /** Part of the label to render as an external link. */
+  link?: { text: string; href: string };
 }
 
 export interface Plan {
@@ -21,15 +23,14 @@ export const plans: Plan[] = [
     id: "core",
     name: "Core",
     description:
-      "Self-serve access to Pareto Studio to structure, launch and run credit facilities, with AI-assisted credit assessment.",
+      "Self-serve access to Pareto Studio to structure, launch and run credit facilities.",
     cta: "Request access",
     contactInterest: "Pareto Studio (Core)",
     features: [
       { label: "Pareto Studio access" },
       { label: "Credit Vault deployment, term or revolving" },
-      { label: `${AI_PRODUCT_NAME} credit assessment`, tag: "Beta" },
       { label: `${MCP_PRODUCT_NAME} read access`, tag: "Early access" },
-      { label: "Lender KYC/KYB via Keyring" },
+      { label: "Built-in lender KYC/KYB" },
       { label: "Onchain reporting and lender dashboards" },
       { label: "Standard legal templates" },
       { label: "Listing on the Pareto app, after review" },
@@ -39,11 +40,12 @@ export const plans: Plan[] = [
     id: "pro",
     name: "Pro",
     description:
-      "A guided launch with priority support and distribution across DeFi, for teams scaling a credit program.",
+      "A guided launch with AI credit assessment, priority support and distribution across DeFi, for teams scaling a credit program.",
     cta: "Talk to us",
     contactInterest: "Pro plan",
     inheritsFrom: "Core",
     features: [
+      { label: `${AI_PRODUCT_NAME} credit assessment`, tag: "Beta" },
       { label: "Priority support, dedicated channel" },
       { label: "Structuring and launch guidance" },
       { label: "DeFi distribution on Morpho and Pendle" },
@@ -62,7 +64,10 @@ export const plans: Plan[] = [
     contactInterest: "White-Glove by NorthBridge",
     inheritsFrom: "Pro",
     features: [
-      { label: "NorthBridge as named curator" },
+      {
+        label: "NorthBridge as named curator",
+        link: { text: "NorthBridge", href: NORTHBRIDGE_URL },
+      },
       { label: "Borrower due diligence and KYB" },
       { label: "Facility terms and legal documentation" },
       { label: "Cycle operations and repayment monitoring" },

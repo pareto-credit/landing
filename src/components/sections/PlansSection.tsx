@@ -1,16 +1,17 @@
 import { useState } from "react";
-import { Check, Compass, Layers, ShieldCheck } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
-import { plans, type Plan } from "../../data/plans";
+import type { ComponentType } from "react";
+import { ArrowUpRight, Check, Compass, Layers } from "lucide-react";
+import NorthBridgeMark from "../brand/NorthBridgeMark";
+import { plans, type Plan, type PlanFeature } from "../../data/plans";
 import { requestContact } from "../../lib/siteNavigation";
 import { cn } from "../../lib/cn";
 import { Button } from "../ui/Button";
 import { SectionContainer } from "../ui/Section";
 
-const planIcons: Record<Plan["id"], LucideIcon> = {
+const planIcons: Record<Plan["id"], ComponentType<{ size?: number; className?: string }>> = {
   core: Layers,
   pro: Compass,
-  "white-glove": ShieldCheck,
+  "white-glove": NorthBridgeMark,
 };
 
 type PlanTone = "light" | "mint" | "dark";
@@ -55,6 +56,27 @@ const toneStyles: Record<
     check: "bg-[color:rgb(114_244_201_/_0.12)] text-[var(--color-brand-bright)]",
     tag: "border-[color:rgb(255_255_255_/_0.2)] text-[color:rgb(255_255_255_/_0.7)]",
   },
+};
+
+const renderFeatureLabel = (feature: PlanFeature) => {
+  if (!feature.link) return feature.label;
+
+  const [before, after] = feature.label.split(feature.link.text);
+  return (
+    <>
+      {before}
+      <a
+        href={feature.link.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-0.5 underline decoration-[color:rgb(114_244_201_/_0.5)] underline-offset-4 transition-colors hover:text-[var(--color-brand-bright)] hover:decoration-[var(--color-brand-bright)]"
+      >
+        {feature.link.text}
+        <ArrowUpRight size={13} aria-hidden="true" />
+      </a>
+      {after}
+    </>
+  );
 };
 
 const PlansSection = () => {
@@ -206,7 +228,7 @@ const PlansSection = () => {
                         <Check size={13} strokeWidth={2.5} />
                       </span>
                       <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                        {feature.label}
+                        <span>{renderFeatureLabel(feature)}</span>
                         {feature.tag ? (
                           <span
                             className={cn(
