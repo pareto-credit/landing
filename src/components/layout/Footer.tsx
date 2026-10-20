@@ -42,6 +42,8 @@ const ecosystemLinks: FooterLink[] = [
 ];
 
 const companyLinks: FooterLink[] = [
+  { label: "Thesis", to: "/thesis" },
+  { label: "Ecosystem", to: "/ecosystem" },
   {
     label: "Security Audits",
     href: "https://docs.pareto.credit/developers/security/audits",
@@ -149,8 +151,8 @@ const Footer = () => {
                 />
               </div>
               <p className="max-w-sm text-lg leading-relaxed text-[var(--color-text-muted)]">
-                Programmable institutional credit built for the way capital
-                flows today.
+                Credit underwriting infrastructure for compliant onchain
+                finance.
               </p>
             </div>
             <div className="mt-12 hidden lg:block">

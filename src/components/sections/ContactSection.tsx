@@ -1,4 +1,10 @@
+import { useEffect, useState } from "react";
 import { ChevronRight } from "lucide-react";
+import { CONTACT_INTERESTS, type ContactInterest } from "../../data/brand";
+import {
+  CONTACT_INTEREST_EVENT,
+  consumePendingContactInterest,
+} from "../../lib/siteNavigation";
 import { Button } from "../ui/Button";
 import { SectionContainer, SectionHeading } from "../ui/Section";
 
@@ -7,7 +13,25 @@ const fieldLabelClassName =
 const fieldInputClassName =
   "ui-radius-control w-full border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] transition-colors focus:border-[var(--color-brand-alt)] focus:outline-none";
 
+const isContactInterest = (value: unknown): value is ContactInterest =>
+  typeof value === "string" &&
+  (CONTACT_INTERESTS as readonly string[]).includes(value);
+
 const ContactSection = () => {
+  const [interest, setInterest] = useState<ContactInterest>(
+    () => consumePendingContactInterest() ?? CONTACT_INTERESTS[0],
+  );
+
+  useEffect(() => {
+    const handleInterest = (event: Event) => {
+      const detail = (event as CustomEvent<unknown>).detail;
+      if (isContactInterest(detail)) setInterest(detail);
+    };
+
+    window.addEventListener(CONTACT_INTEREST_EVENT, handleInterest);
+    return () => window.removeEventListener(CONTACT_INTEREST_EVENT, handleInterest);
+  }, []);
+
   return (
     <section
       id="contact"
@@ -28,7 +52,7 @@ const ContactSection = () => {
           className="mx-auto mb-10 text-center lg:mb-12"
           titleClassName="text-[var(--color-text-primary)]"
           descriptionClassName="mx-auto max-w-3xl text-base text-[var(--color-text-secondary)]"
-          description="Whether you're launching a facility, allocating capital, or embedding credit infrastructure, we'll help you assess the right setup."
+          description="Tell us whether you're launching a facility, allocating capital or connecting your agents, and we'll help you pick the right plan and setup."
         />
 
         <div className="ui-radius-panel mx-auto border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-6 shadow-[0_20px_42px_rgb(14_24_19_/_0.08)] md:p-8 lg:p-9">
@@ -114,12 +138,19 @@ const ContactSection = () => {
                   <select
                     id="contact-interested-in"
                     name="interestedIn"
+                    value={interest}
+                    onChange={(event) => {
+                      if (isContactInterest(event.target.value)) {
+                        setInterest(event.target.value);
+                      }
+                    }}
                     className={`${fieldInputClassName} cursor-pointer appearance-none pr-10`}
                   >
-                    <option>Lending</option>
-                    <option>Borrowing</option>
-                    <option>Underwriting</option>
-                    <option>Integration</option>
+                    {CONTACT_INTERESTS.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
                   </select>
                   <ChevronRight
                     size={16}

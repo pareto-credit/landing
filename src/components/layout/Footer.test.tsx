@@ -142,7 +142,7 @@ describe("Footer", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("renders legal links in the Company column under Media Kit", () => {
+  it("renders page and legal links in the Company column", () => {
     render(<Footer />);
 
     const companyLinks = within(
@@ -152,6 +152,8 @@ describe("Footer", () => {
     expect(
       companyLinks.map((link) => link.textContent?.replace("›", "")),
     ).toEqual([
+      "Thesis",
+      "Ecosystem",
       "Security Audits",
       "Media Kit",
       "Privacy Policy",

@@ -1,5 +1,6 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+import { CONTACT_INTEREST_EVENT, setPendingContactInterest } from "../../lib/siteNavigation";
 import ContactSection from "./ContactSection";
 
 describe("ContactSection", () => {
@@ -55,5 +56,42 @@ describe("ContactSection", () => {
     expect(screen.getByTestId("contact-full-name-field")).toHaveClass(
       "lg:col-span-2",
     );
+  });
+});
+
+describe("ContactSection interest pre-selection", () => {
+  it("lists the plan and MCP interests", () => {
+    render(<ContactSection />);
+
+    for (const option of ["Pareto Studio (Core)", "Pro plan", "White-Glove by NorthBridge", "Pareto MCP early access"]) {
+      expect(screen.getByRole("option", { name: option })).toBeInTheDocument();
+    }
+  });
+
+  it("selects the interest requested by a CTA elsewhere on the page", () => {
+    render(<ContactSection />);
+
+    act(() => {
+      window.dispatchEvent(new CustomEvent(CONTACT_INTEREST_EVENT, { detail: "Pro plan" }));
+    });
+
+    expect(screen.getByRole("combobox", { name: /interested in/i })).toHaveValue("Pro plan");
+  });
+
+  it("ignores unknown interests", () => {
+    render(<ContactSection />);
+
+    act(() => {
+      window.dispatchEvent(new CustomEvent(CONTACT_INTEREST_EVENT, { detail: "Something else" }));
+    });
+
+    expect(screen.getByRole("combobox", { name: /interested in/i })).toHaveValue("Pareto Studio (Core)");
+  });
+
+  it("uses an interest chosen on another page", () => {
+    setPendingContactInterest("Borrowing");
+    render(<ContactSection />);
+
+    expect(screen.getByRole("combobox", { name: /interested in/i })).toHaveValue("Borrowing");
   });
 });

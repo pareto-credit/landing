@@ -2,7 +2,10 @@ import { motion } from "framer-motion";
 import Earth3D from "../three/Earth3D";
 import { Button } from "../ui/Button";
 import { SectionContainer } from "../ui/Section";
+import { ArrowRight } from "lucide-react";
 import { scrollToSection } from "../../lib/scrollToSection";
+import { requestContact } from "../../lib/siteNavigation";
+import { MCP_PRODUCT_NAME, STUDIO_PRODUCT_NAME } from "../../data/brand";
 import { AirportBoardNumber } from "../ui/AirportBoardNumber";
 import type { VanityMetrics } from "../../types/products";
 
@@ -31,15 +34,22 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
         className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center pb-44 pt-24 text-center sm:pb-48 sm:pt-28 md:min-h-screen md:pb-20 lg:pb-36 lg:pt-32"
       >
         <div className="flex w-full max-w-3xl flex-col items-center">
-          {/* <motion.div
+          <motion.button
+            type="button"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="ui-frost-chip mb-8 inline-flex items-center gap-2 px-4 py-2 font-mono text-xs font-semibold uppercase tracking-wider text-[var(--color-brand)] shadow-sm"
+            onClick={() => scrollToSection("agents")}
+            data-testid="hero-announcement"
+            className="ui-frost-chip group mb-6 inline-flex items-center gap-2 px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-wider text-[var(--color-brand-deep)] shadow-sm transition-colors hover:text-[var(--color-text-primary)] sm:mb-8 sm:text-xs"
           >
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--color-brand)] shadow-[0_0_8px_var(--color-brand)]" />
-            Onchain credit solutions
-          </motion.div> */}
+            New: {MCP_PRODUCT_NAME} early access
+            <ArrowRight
+              size={14}
+              className="transition-transform duration-300 group-hover:translate-x-0.5"
+            />
+          </motion.button>
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -48,10 +58,10 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
             data-testid="hero-title"
             className="mb-4 text-[clamp(2.35rem,11vw,4.2rem)] font-semibold leading-[0.98] tracking-tight sm:mb-7 sm:text-[clamp(3.4rem,12vw,5rem)] sm:leading-[1.03] lg:text-7xl"
           >
-            It&apos;s time to upgrade <br className="hidden sm:block" />
+            Turn a term sheet <br className="hidden sm:block" />
             <span className="bg-gradient-to-r from-[var(--color-text-primary)] to-[var(--color-brand)] bg-clip-text text-transparent">
-              the credit operating <br className="hidden sm:block" />
-              system
+              into a live credit <br className="hidden sm:block" />
+              facility
             </span>
           </motion.h1>
 
@@ -62,9 +72,9 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
             className="ui-copy-muted mx-auto mb-5 max-w-[20rem] text-[0.9rem] font-medium leading-relaxed sm:mb-8 sm:max-w-2xl sm:text-lg md:text-xl"
             style={{ textShadow: "0 2px 10px rgba(232, 235, 230, 0.8)" }}
           >
-            Transparent credit infrastructure. Enterprise-grade compliance.
-            <br />
-            Built for the way capital flows today.
+            Credit underwriting infrastructure for compliant onchain finance.
+            <br className="hidden sm:block" />{" "}
+            Structure, launch and run facilities in {STUDIO_PRODUCT_NAME}.
           </motion.p>
 
           <motion.div
@@ -78,9 +88,9 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
               variant="primary"
               size="lg"
               className="w-full px-6 py-3 text-sm font-semibold sm:w-auto sm:px-8 sm:py-4 sm:text-base"
-              onClick={() => scrollToSection("contact")}
+              onClick={() => requestContact("Pareto Studio (Core)")}
             >
-              Build a Credit Line
+              Request Studio access
             </Button>
             <Button
               variant="white"
@@ -88,7 +98,7 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
               className="w-full px-6 py-3 text-sm sm:w-auto sm:px-8 sm:py-4 sm:text-base"
               onClick={() => scrollToSection("products")}
             >
-              Explore Vaults
+              Explore live vaults
             </Button>
           </motion.div>
         </div>

@@ -1,0 +1,73 @@
+import { AI_PRODUCT_NAME, MCP_PRODUCT_NAME, type ContactInterest } from "./brand";
+
+export interface PlanFeature {
+  label: string;
+  tag?: string;
+}
+
+export interface Plan {
+  id: "core" | "pro" | "white-glove";
+  name: string;
+  byline?: string;
+  description: string;
+  cta: string;
+  contactInterest: ContactInterest;
+  inheritsFrom?: string;
+  features: PlanFeature[];
+}
+
+export const plans: Plan[] = [
+  {
+    id: "core",
+    name: "Core",
+    description:
+      "Self-serve access to Pareto Studio to structure, launch and run credit facilities, with AI-assisted credit assessment.",
+    cta: "Request access",
+    contactInterest: "Pareto Studio (Core)",
+    features: [
+      { label: "Pareto Studio access" },
+      { label: "Credit Vault deployment, term or revolving" },
+      { label: `${AI_PRODUCT_NAME} credit assessment`, tag: "Beta" },
+      { label: `${MCP_PRODUCT_NAME} read access`, tag: "Early access" },
+      { label: "Lender KYC/KYB via Keyring" },
+      { label: "Onchain reporting and lender dashboards" },
+      { label: "Standard legal templates" },
+      { label: "Listing on the Pareto app, after review" },
+    ],
+  },
+  {
+    id: "pro",
+    name: "Pro",
+    description:
+      "A guided launch with priority support and distribution across DeFi, for teams scaling a credit program.",
+    cta: "Talk to us",
+    contactInterest: "Pro plan",
+    inheritsFrom: "Core",
+    features: [
+      { label: "Priority support, dedicated channel" },
+      { label: "Structuring and launch guidance" },
+      { label: "DeFi distribution on Morpho and Pendle" },
+      { label: "Leverage and exit-liquidity partners" },
+      { label: "Multichain deployment" },
+      { label: "Co-marketing at launch" },
+    ],
+  },
+  {
+    id: "white-glove",
+    name: "White-Glove",
+    byline: "by NorthBridge",
+    description:
+      "NorthBridge underwrites and runs the facility end to end, as its named, accountable curator.",
+    cta: "Talk to NorthBridge",
+    contactInterest: "White-Glove by NorthBridge",
+    inheritsFrom: "Pro",
+    features: [
+      { label: "NorthBridge as named curator" },
+      { label: "Borrower due diligence and KYB" },
+      { label: "Facility terms and legal documentation" },
+      { label: "Cycle operations and repayment monitoring" },
+      { label: "Collateral and covenant monitoring" },
+      { label: "Acts for lenders on events of default" },
+    ],
+  },
+];

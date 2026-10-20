@@ -3,23 +3,41 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import paretoLogo from "../../assets/svgs/pareto-logo.svg";
 import paretoLogoLight from "../../assets/svgs/pareto-logo-light.svg";
+import { useRouter } from "@tanstack/react-router";
 import { ButtonLink } from "../ui/Button";
 import { SectionContainer } from "../ui/Section";
 import { scrollToSection } from "../../lib/scrollToSection";
+import { isHomePath } from "../../lib/siteNavigation";
 
-const mobileNavigationItems = [
-  { id: "ecosystem", label: "Ecosystem", index: "01" },
-  { id: "products", label: "Product", index: "02" },
-  { id: "solutions", label: "Solutions", index: "03" },
-  { id: "news", label: "News", index: "04" },
-  { id: "contact", label: "Contact", index: "05" },
-] as const;
+type NavTarget =
+  | { kind: "section"; id: string }
+  | { kind: "page"; to: "/thesis" | "/ecosystem" };
+
+interface NavItem {
+  label: string;
+  target: NavTarget;
+}
+
+const navigationItems: NavItem[] = [
+  { label: "Studio", target: { kind: "section", id: "studio" } },
+  { label: "Agents", target: { kind: "section", id: "agents" } },
+  { label: "Plans", target: { kind: "section", id: "plans" } },
+  { label: "Vaults", target: { kind: "section", id: "products" } },
+  { label: "Ecosystem", target: { kind: "page", to: "/ecosystem" } },
+  { label: "Thesis", target: { kind: "page", to: "/thesis" } },
+];
+
+const mobileNavigationItems: NavItem[] = [
+  ...navigationItems,
+  { label: "Contact", target: { kind: "section", id: "contact" } },
+];
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [pendingSectionId, setPendingSectionId] = useState<string | null>(null);
+  const [pendingTarget, setPendingTarget] = useState<NavTarget | null>(null);
   const shouldReduceMotion = useReducedMotion();
+  const router = useRouter({ warn: false });
   const navLinkClass =
     "inline-flex items-center transition-colors hover:text-[var(--color-brand-alt)] focus-visible:text-[var(--color-brand-alt)] focus-visible:outline-none";
   const mobileToggleButtonClass = mobileMenuOpen
@@ -70,7 +88,7 @@ const Navbar = () => {
     if (!mobileMenuOpen) return;
 
     const handleResize = () => {
-      if (window.innerWidth >= 768) {
+      if (window.innerWidth >= 1024) {
         setMobileMenuOpen(false);
       }
     };
@@ -80,26 +98,50 @@ const Navbar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, [mobileMenuOpen]);
 
+  const goTo = (target: NavTarget) => {
+    if (target.kind === "section" && isHomePath()) {
+      scrollToSection(target.id);
+      return;
+    }
+
+    const destination =
+      target.kind === "section" ? { to: "/" as const, hash: target.id } : { to: target.to };
+
+    if (router) {
+      void router.navigate(destination);
+      return;
+    }
+
+    window.location.assign(
+      target.kind === "section" ? `/#${target.id}` : target.to,
+    );
+  };
+
   useEffect(() => {
-    if (mobileMenuOpen || !pendingSectionId) return;
+    if (mobileMenuOpen || !pendingTarget) return;
 
     const timeoutId = window.setTimeout(() => {
-      scrollToSection(pendingSectionId);
-      setPendingSectionId(null);
+      goTo(pendingTarget);
+      setPendingTarget(null);
     }, 40);
 
     return () => window.clearTimeout(timeoutId);
-  }, [mobileMenuOpen, pendingSectionId]);
+    // goTo only depends on the router instance, which is stable.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mobileMenuOpen, pendingTarget]);
 
-  const handleSectionScroll = (id: string) => {
+  const handleNavigate = (target: NavTarget) => {
     if (mobileMenuOpen) {
-      setPendingSectionId(id);
+      setPendingTarget(target);
       setMobileMenuOpen(false);
       return;
     }
 
-    scrollToSection(id);
+    goTo(target);
   };
+
+  const handleSectionScroll = (id: string) =>
+    handleNavigate({ kind: "section", id });
 
   return (
     <>
@@ -127,39 +169,25 @@ const Navbar = () => {
           </button>
 
           <div
-            className={`hidden items-center gap-8 font-mono text-sm md:flex ${
+            className={`hidden items-center gap-6 font-mono text-sm lg:flex xl:gap-8 ${
               isScrolled
                 ? "text-[var(--color-text-primary)]"
                 : "text-[var(--color-text-secondary)]"
             }`}
           >
-            <button
-              onClick={() => handleSectionScroll("ecosystem")}
-              className={navLinkClass}
-            >
-              Ecosystem
-            </button>
-            <button
-              onClick={() => handleSectionScroll("products")}
-              className={navLinkClass}
-            >
-              Product
-            </button>
-            <button
-              onClick={() => handleSectionScroll("solutions")}
-              className={navLinkClass}
-            >
-              Solutions
-            </button>
-            <button
-              onClick={() => handleSectionScroll("news")}
-              className={navLinkClass}
-            >
-              News
-            </button>
+            {navigationItems.map((item) => (
+              <button
+                key={item.label}
+                type="button"
+                onClick={() => handleNavigate(item.target)}
+                className={navLinkClass}
+              >
+                {item.label}
+              </button>
+            ))}
           </div>
 
-          <div className="hidden items-center gap-4 md:flex">
+          <div className="hidden items-center gap-4 md:ml-auto md:mr-3 md:flex lg:ml-0 lg:mr-0">
             <ButtonLink
               href="https://app.pareto.credit/"
               target="_blank"
@@ -173,7 +201,7 @@ const Navbar = () => {
           </div>
 
           <button
-            className={`ui-radius-control relative z-[60] flex h-11 w-11 items-center justify-center border backdrop-blur-md transition-[border-color,background-color,color,box-shadow] duration-300 md:hidden ${mobileToggleButtonClass}`}
+            className={`ui-radius-control relative z-[60] flex h-11 w-11 items-center justify-center border backdrop-blur-md transition-[border-color,background-color,color,box-shadow] duration-300 lg:hidden ${mobileToggleButtonClass}`}
             onClick={() => setMobileMenuOpen((open) => !open)}
             aria-label="Toggle mobile menu"
             aria-expanded={mobileMenuOpen}
@@ -199,7 +227,7 @@ const Navbar = () => {
                 setMobileMenuOpen(false);
               }
             }}
-            className="fixed inset-0 z-[55] overflow-hidden bg-[linear-gradient(180deg,rgb(5_12_9),rgb(8_18_14))] md:hidden"
+            className="fixed inset-0 z-[55] overflow-hidden bg-[linear-gradient(180deg,rgb(5_12_9),rgb(8_18_14))] lg:hidden"
           >
             <div className="pointer-events-none absolute inset-0 overflow-hidden">
               <motion.div
@@ -281,7 +309,7 @@ const Navbar = () => {
               >
                 {mobileNavigationItems.map((item, index) => (
                   <motion.button
-                    key={item.id}
+                    key={item.label}
                     initial={
                       shouldReduceMotion
                         ? { opacity: 1 }
@@ -300,12 +328,12 @@ const Navbar = () => {
                       ease: "easeOut",
                       delay: shouldReduceMotion ? 0 : 0.04 * index,
                     }}
-                    onClick={() => handleSectionScroll(item.id)}
+                    onClick={() => handleNavigate(item.target)}
                     className="group flex min-h-12 items-center justify-between rounded-md border border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.035)] px-4 py-3 text-left shadow-[inset_0_1px_0_rgb(255_255_255_/_0.04)] backdrop-blur-sm transition-colors hover:border-[color:rgb(113_178_159_/_0.35)] hover:bg-[color:rgb(255_255_255_/_0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)] sm:min-h-14 sm:px-5 sm:py-4"
                   >
                     <div>
                       <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--color-text-muted-soft)]">
-                        {item.index}
+                        {String(index + 1).padStart(2, "0")}
                       </div>
                       <div className="mt-1 text-[1.55rem] font-semibold leading-none tracking-[-0.04em] text-[var(--color-text-inverse)] sm:text-[1.9rem]">
                         {item.label}

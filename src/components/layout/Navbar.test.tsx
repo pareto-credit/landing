@@ -67,13 +67,32 @@ describe("Navbar", () => {
     fireEvent.click(toggleButton);
     const dialog = screen.getByRole("dialog", { name: /site navigation/i });
 
-    fireEvent.click(within(dialog).getByRole("button", { name: /solutions/i }));
+    fireEvent.click(within(dialog).getByRole("button", { name: /studio/i }));
 
     expect(toggleButton).toHaveAttribute("aria-expanded", "false");
     expect(scrollToSection).not.toHaveBeenCalled();
 
     vi.runAllTimers();
 
-    expect(scrollToSection).toHaveBeenCalledWith("solutions");
+    expect(scrollToSection).toHaveBeenCalledWith("studio");
+  });
+
+  it("lists the new homepage sections and pages in the desktop nav", () => {
+    render(<Navbar />);
+
+    for (const label of ["Studio", "Agents", "Plans", "Vaults", "Ecosystem", "Thesis"]) {
+      expect(screen.getAllByRole("button", { name: label }).length).toBeGreaterThan(0);
+    }
+  });
+
+  it("falls back to a full navigation for pages when no router is mounted", () => {
+    const assign = vi.fn();
+    vi.stubGlobal("location", { ...window.location, pathname: "/", assign });
+
+    render(<Navbar />);
+    fireEvent.click(screen.getAllByRole("button", { name: "Thesis" })[0]);
+
+    expect(assign).toHaveBeenCalledWith("/thesis");
+    vi.unstubAllGlobals();
   });
 });

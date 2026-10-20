@@ -1,19 +1,23 @@
 # Pareto
 
-Pareto builds transparent credit infrastructure with enterprise-grade compliance for modern capital markets.
+Pareto is credit underwriting infrastructure for compliant onchain finance. Lenders, borrowers and underwriters structure, launch and run credit facilities in Pareto Studio, with terms enforced onchain.
 
 ## Primary Pages
 
 - [Home](https://pareto.credit/)
+- [Thesis](https://pareto.credit/thesis)
+- [Ecosystem](https://pareto.credit/ecosystem)
 - [Privacy Policy](https://pareto.credit/privacy-policy)
 - [Terms of Service](https://pareto.credit/terms-of-service)
 
 ## Product Areas
 
-- Tokenized credit vaults for institutional credit products
+- Pareto Studio: structure, launch and operate credit facilities (term, revolving, collateralized, asset-backed)
+- Credit Vaults: permissioned, MLA-governed onchain facilities with isolated accounting
+- Pareto MCP (early access): read-only access to facility data for Claude, Codex and other MCP clients
+- Plans: Core (self-serve Studio), Pro (guided launch and DeFi distribution), White-Glove (NorthBridge as curator)
 - USP synthetic dollar products
-- White-label and studio tooling for credit infrastructure
-- Ecosystem, operator, documentation, governance, and developer resources
+- Documentation, governance, and developer resources
 
 ## Developer Resources
 
