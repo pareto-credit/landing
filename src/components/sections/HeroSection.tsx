@@ -43,7 +43,7 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
             data-testid="hero-announcement"
             className="ui-frost-chip group mb-6 inline-flex items-center gap-2 px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-wider text-[var(--color-brand-deep)] shadow-sm transition-colors hover:text-[var(--color-text-primary)] sm:mb-8 sm:text-xs"
           >
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--color-brand)] shadow-[0_0_8px_var(--color-brand)]" />
+            <span className="h-1.5 w-1.5 animate-pulse motion-reduce:animate-none rounded-full bg-[var(--color-brand)] shadow-[0_0_8px_var(--color-brand)]" />
             New: {MCP_PRODUCT_NAME} early access
             <ArrowRight
               size={14}

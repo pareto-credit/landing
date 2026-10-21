@@ -19,6 +19,25 @@ public routes. Standard Vite flags still work, e.g. `npm run dev -- --port 5174`
 Production builds and `npm run preview` use the configured remote endpoint
 directly; the proxy is only enabled for the development server.
 
+## Landing content and navigation
+
+The homepage presents underwriting, Pareto Studio, credit facilities, agents,
+live vaults and the Core/Pro/White-Glove offering. Long-form content lives at
+`/thesis` and `/ecosystem`. USP/sUSP remain available for preview with
+`/?showIndexes=1`; they are hidden by default.
+
+- Product names: `src/data/brand.ts`.
+- Offering features: `src/data/plans.ts` (Cura AI assessment Beta belongs to Pro).
+- Shared partner roster: `src/data/partners.ts`.
+- Internal links: `PageLink` delegates hash scrolling to the router; section
+  scroll margins account for the fixed navbar. Avoid delayed scroll corrections.
+- Structure details use a body portal, keyboard focus containment and an inert
+  background. Dismissal restores tile focus; the contact CTA focuses the form.
+
+Run `npm test`, `npm run lint` and `npm run build` before shipping changes.
+Current implementation decisions, review findings and baseline check failures
+are recorded in [the Studio restructure notes](docs/plans/2026-10-20-landing-studio-restructure.md).
+
 ## Vite template notes
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

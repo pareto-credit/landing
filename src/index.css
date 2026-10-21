@@ -200,6 +200,11 @@ body {
   color: var(--color-text-inverse);
 }
 
+/* The router owns hash scrolling; reserve space for the fixed site header. */
+main section[id] {
+  scroll-margin-top: 5.5rem;
+}
+
 a {
   color: inherit;
   text-decoration: inherit;

@@ -2,15 +2,8 @@ import { fireEvent, render, screen, waitFor, within } from "@testing-library/rea
 import { afterEach, describe, expect, it, vi } from "vitest";
 import Navbar from "./Navbar";
 
-const scrollToSection = vi.fn();
-
-vi.mock("../../lib/scrollToSection", () => ({
-  scrollToSection: (...args: unknown[]) => scrollToSection(...args),
-}));
-
 describe("Navbar", () => {
   afterEach(() => {
-    scrollToSection.mockReset();
     document.body.style.overflow = "";
     vi.useRealTimers();
   });
@@ -57,7 +50,6 @@ describe("Navbar", () => {
   });
 
   it("navigates to a section and closes the mobile menu", async () => {
-    vi.useFakeTimers();
     render(<Navbar />);
 
     const toggleButton = screen.getByRole("button", {
@@ -67,14 +59,12 @@ describe("Navbar", () => {
     fireEvent.click(toggleButton);
     const dialog = screen.getByRole("dialog", { name: /site navigation/i });
 
-    fireEvent.click(within(dialog).getByRole("button", { name: /studio/i }));
+    const studio = within(dialog).getByRole("link", { name: /studio/i });
+    expect(studio).toHaveAttribute("href", "/#studio");
+    fireEvent.click(studio);
 
     expect(toggleButton).toHaveAttribute("aria-expanded", "false");
-    expect(scrollToSection).not.toHaveBeenCalled();
-
-    vi.runAllTimers();
-
-    expect(scrollToSection).toHaveBeenCalledWith("studio");
+    expect(document.body.style.overflow).toBe("");
   });
 
   it("groups homepage sections under a Solutions dropdown", () => {
@@ -88,11 +78,11 @@ describe("Navbar", () => {
     expect(solutions).toHaveAttribute("aria-expanded", "true");
     const menu = screen.getByTestId("solutions-menu");
     for (const label of ["Pareto Studio", "Agents", "Offering", "Vaults"]) {
-      expect(within(menu).getByRole("button", { name: new RegExp(label) })).toBeInTheDocument();
+      expect(within(menu).getByRole("link", { name: new RegExp(label) })).toBeInTheDocument();
     }
 
-    fireEvent.click(within(menu).getByRole("button", { name: /vaults/i }));
-    expect(scrollToSection).toHaveBeenCalledWith("products");
+    fireEvent.click(within(menu).getByRole("link", { name: /vaults/i }));
+    expect(within(menu).getByRole("link", { name: /vaults/i })).toHaveAttribute("href", "/#products");
   });
 
   it("closes the Solutions dropdown on escape", async () => {
@@ -109,18 +99,20 @@ describe("Navbar", () => {
   it("keeps Ecosystem and Thesis as top-level links", () => {
     render(<Navbar />);
 
-    expect(screen.getByRole("button", { name: "Ecosystem" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Thesis" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Ecosystem" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Thesis" })).toBeInTheDocument();
   });
 
-  it("falls back to a full navigation for pages when no router is mounted", () => {
-    const assign = vi.fn();
-    vi.stubGlobal("location", { ...window.location, pathname: "/", assign });
-
+  it("keeps ordinary URLs available without a router", () => {
     render(<Navbar />);
-    fireEvent.click(screen.getAllByRole("button", { name: "Thesis" })[0]);
+    expect(screen.getByRole("link", { name: "Thesis" })).toHaveAttribute("href", "/thesis");
+    expect(screen.getByRole("link", { name: "Ecosystem" })).toHaveAttribute("href", "/ecosystem");
+  });
 
-    expect(assign).toHaveBeenCalledWith("/thesis");
-    vi.unstubAllGlobals();
+  it("dismisses the dropdown when scrolling away", async () => {
+    render(<Navbar />);
+    fireEvent.click(screen.getByRole("button", { name: /solutions/i }));
+    fireEvent.scroll(window);
+    await waitFor(() => expect(screen.queryByTestId("solutions-menu")).not.toBeInTheDocument());
   });
 });

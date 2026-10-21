@@ -141,4 +141,3 @@ export const partners: Partner[] = [
     hoverImageClassName: "group-hover/logo:brightness-100 group-hover/logo:invert-0",
   },
 ];
-

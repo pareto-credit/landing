@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
+import { createPortal } from "react-dom";
+import { AnimatePresence, LayoutGroup, motion, useIsPresent, useReducedMotion } from "framer-motion";
 import {
   Building2,
   CalendarRange,
@@ -139,22 +140,62 @@ const TileVisual = ({ kind, tone }: { kind: NonNullable<BentoTile["visual"]>; to
 const StructureDetail = ({
   index,
   onClose,
+  returnFocus,
 }: {
   index: number;
   onClose: () => void;
+  returnFocus: RefObject<HTMLButtonElement | null>;
 }) => {
   const structure = creditStructures[index];
   const tile = tiles[index];
   const tone = toneClass[tile.tone];
   const closeRef = useRef<HTMLButtonElement | null>(null);
+  const dialogRef = useRef<HTMLDivElement | null>(null);
+  const restoreTriggerFocus = useRef(true);
   const shouldReduceMotion = useReducedMotion();
+  const isPresent = useIsPresent();
   const number = String(index + 1).padStart(2, "0");
 
   useEffect(() => {
-    closeRef.current?.focus();
-  }, []);
+    const dialog = dialogRef.current;
+    if (!dialog || !isPresent) return;
+    const trigger = returnFocus.current;
 
-  return (
+    const background = Array.from(document.body.children)
+      .filter((element): element is HTMLElement => element instanceof HTMLElement && !element.contains(dialog))
+      .map((element) => ({ element, wasInert: element.inert }));
+    background.forEach(({ element }) => { element.inert = true; });
+    closeRef.current?.focus({ preventScroll: true });
+
+    const keepFocusInside = (event: FocusEvent) => {
+      if (!dialog.contains(event.target as Node)) closeRef.current?.focus({ preventScroll: true });
+    };
+    const trapTab = (event: KeyboardEvent) => {
+      if (event.key !== "Tab") return;
+      const controls = Array.from(dialog.querySelectorAll<HTMLElement>(
+        'button:not(:disabled), a[href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex="0"]',
+      )).filter((element) => element.tabIndex >= 0);
+      const first = controls[0];
+      const last = controls[controls.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first?.focus();
+      }
+    };
+    document.addEventListener("focusin", keepFocusInside);
+    dialog.addEventListener("keydown", trapTab);
+    return () => {
+      document.removeEventListener("focusin", keepFocusInside);
+      dialog.removeEventListener("keydown", trapTab);
+      background.forEach(({ element, wasInert }) => { element.inert = wasInert; });
+      if (restoreTriggerFocus.current) trigger?.focus({ preventScroll: true });
+    };
+  }, [returnFocus, isPresent]);
+
+  return createPortal(
     <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 sm:p-6">
       <motion.div
         aria-hidden="true"
@@ -165,18 +206,19 @@ const StructureDetail = ({
         onClick={onClose}
       />
       <motion.div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby={`structure-detail-title-${number}`}
         layoutId={shouldReduceMotion ? undefined : `structure-card-${index}`}
-        transition={{ type: "spring", stiffness: 260, damping: 30 }}
+        transition={shouldReduceMotion ? { duration: 0 } : { type: "spring", stiffness: 260, damping: 30 }}
         className={cn(
-          "relative z-10 w-full max-w-2xl overflow-hidden rounded-xl border p-6 shadow-[0_40px_120px_rgb(0_0_0_/_0.35)] sm:p-8",
+          "relative z-10 max-h-[calc(100dvh-2rem)] w-full max-w-2xl overflow-y-auto overscroll-contain rounded-xl border p-6 shadow-[0_40px_120px_rgb(0_0_0_/_0.35)] sm:max-h-[calc(100dvh-3rem)] sm:p-8",
           tone.card,
         )}
       >
         <div className="flex items-start justify-between gap-4">
-          <motion.div layout="position" className="flex items-center gap-3">
+          <motion.div layout={shouldReduceMotion ? false : "position"} className="flex items-center gap-3">
             <span className={cn("flex h-11 w-11 items-center justify-center rounded-md", tone.icon)}>
               <tile.icon size={20} />
             </span>
@@ -198,7 +240,7 @@ const StructureDetail = ({
         </div>
 
         <motion.h3
-          layout="position"
+          layout={shouldReduceMotion ? false : "position"}
           id={`structure-detail-title-${number}`}
           className="mt-6 text-3xl font-bold tracking-tight"
         >
@@ -206,10 +248,10 @@ const StructureDetail = ({
         </motion.h3>
 
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.3, delay: shouldReduceMotion ? 0 : 0.18 }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.3, delay: shouldReduceMotion ? 0 : 0.18 }}
         >
           <p className={cn("mt-3 text-base leading-relaxed", tone.muted)}>{structure.lede}</p>
           {tile.visual ? (
@@ -237,6 +279,7 @@ const StructureDetail = ({
               variant="primary"
               size="md"
               onClick={() => {
+                restoreTriggerFocus.current = false;
                 onClose();
                 requestContact("Borrowing");
               }}
@@ -246,12 +289,14 @@ const StructureDetail = ({
           </div>
         </motion.div>
       </motion.div>
-    </div>
+    </div>,
+    document.body,
   );
 };
 
 const StructuresSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
   const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
@@ -281,7 +326,10 @@ const StructuresSection = () => {
         key={structure.name}
         type="button"
         layoutId={shouldReduceMotion ? undefined : `structure-card-${index}`}
-        onClick={() => setOpenIndex(index)}
+        onClick={(event) => {
+          triggerRef.current = event.currentTarget;
+          setOpenIndex(index);
+        }}
         aria-haspopup="dialog"
         aria-label={`${structure.name}: show details`}
         transition={{ type: "spring", stiffness: 260, damping: 30 }}
@@ -375,7 +423,7 @@ const StructuresSection = () => {
 
           <AnimatePresence>
             {openIndex !== null ? (
-              <StructureDetail key={openIndex} index={openIndex} onClose={() => setOpenIndex(null)} />
+              <StructureDetail key={openIndex} index={openIndex} returnFocus={triggerRef} onClose={() => setOpenIndex(null)} />
             ) : null}
           </AnimatePresence>
         </LayoutGroup>

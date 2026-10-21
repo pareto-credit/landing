@@ -6,10 +6,6 @@ export const CONTACT_INTEREST_EVENT = "pareto:contact-interest";
 /** Interest chosen on another page, consumed by the contact form on mount. */
 let pendingContactInterest: ContactInterest | null = null;
 
-export const isHomePath = () =>
-  typeof window !== "undefined" &&
-  (window.location.pathname === "/" || window.location.pathname === "/index.html");
-
 export const setPendingContactInterest = (interest: ContactInterest | null) => {
   pendingContactInterest = interest;
 };
@@ -33,23 +29,8 @@ export const requestContact = (interest?: ContactInterest) => {
   }
 
   scrollToSection("contact");
-};
-
-/**
- * After a cross-page navigation to `/#section`, scroll once the section has
- * rendered, then correct once more after async content settles.
- */
-export const scrollToHashSection = () => {
-  if (typeof window === "undefined") return () => {};
-
-  const id = decodeURIComponent(window.location.hash.replace(/^#/, ""));
-  if (!id) return () => {};
-
-  const timers = [80, 600].map((delay) =>
-    window.setTimeout(() => {
-      if (document.getElementById(id)) scrollToSection(id);
-    }, delay),
-  );
-
-  return () => timers.forEach((timer) => window.clearTimeout(timer));
+  // Wait for a closing dialog to release its inert background before focusing.
+  window.requestAnimationFrame(() => {
+    document.getElementById("contact-interested-in")?.focus({ preventScroll: true });
+  });
 };

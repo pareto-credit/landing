@@ -320,7 +320,7 @@ const ActivityPanel = ({ desk, live }: { desk: PersonaDesk; live: boolean }) => 
       <div className="mb-3 flex items-center justify-between">
         <span className={labelClass}>Activity · onchain tape</span>
         <span className="flex items-center gap-1.5 font-mono text-[9.5px] uppercase tracking-[0.16em] text-[#72f4c9]">
-          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#72f4c9]" /> Live
+          <span className="h-1.5 w-1.5 animate-pulse motion-reduce:animate-none rounded-full bg-[#72f4c9]" /> Live
         </span>
       </div>
       <ul className="relative overflow-hidden">
@@ -411,7 +411,7 @@ const StudioDesk = ({ desk, isLive = false }: StudioDeskProps) => {
                     >
                       {isActive ? (
                         <motion.span
-                          layoutId="studio-desk-nav-active"
+                          layoutId={animate ? "studio-desk-nav-active" : undefined}
                           className="absolute inset-0 rounded bg-[linear-gradient(90deg,rgb(114_244_201_/_0.16),rgb(56_189_248_/_0.08))]"
                           transition={{ type: "spring", stiffness: 380, damping: 32 }}
                         />
@@ -436,7 +436,7 @@ const StudioDesk = ({ desk, isLive = false }: StudioDeskProps) => {
             initial={animate ? { opacity: 0, y: 10 } : { opacity: 1 }}
             animate={{ opacity: 1, y: 0 }}
             exit={animate ? { opacity: 0, y: -8 } : { opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
+            transition={{ duration: animate ? 0.3 : 0, ease: "easeOut" }}
             className="grid gap-3 p-3 sm:p-4"
           >
             <div className="grid gap-3 md:grid-cols-[1.6fr_1fr]">

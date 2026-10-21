@@ -14,11 +14,9 @@ import {
 } from "lucide-react";
 import paretoLogo from "../../assets/svgs/pareto-logo.svg";
 import paretoLogoLight from "../../assets/svgs/pareto-logo-light.svg";
-import { useRouter } from "@tanstack/react-router";
 import { ButtonLink } from "../ui/Button";
 import { SectionContainer } from "../ui/Section";
-import { scrollToSection } from "../../lib/scrollToSection";
-import { isHomePath } from "../../lib/siteNavigation";
+import { PageLink } from "../ui/PageLink";
 
 type NavTarget =
   | { kind: "section"; id: string }
@@ -85,17 +83,19 @@ const mobileNavigationItems: NavItem[] = [
   { label: "Contact", target: { kind: "section", id: "contact" } },
 ];
 
+const pageDestination = (target: NavTarget) => target.kind === "section"
+  ? { to: "/" as const, hash: target.id }
+  : { to: target.to };
+
 const SOLUTIONS_CLOSE_DELAY_MS = 140;
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [pendingTarget, setPendingTarget] = useState<NavTarget | null>(null);
   const [solutionsOpen, setSolutionsOpen] = useState(false);
   const solutionsRef = useRef<HTMLDivElement | null>(null);
   const solutionsCloseTimer = useRef<number | null>(null);
   const shouldReduceMotion = useReducedMotion();
-  const router = useRouter({ warn: false });
 
   const cancelSolutionsClose = () => {
     if (solutionsCloseTimer.current !== null) {
@@ -124,10 +124,13 @@ const Navbar = () => {
       if (event.key === "Escape") setSolutionsOpen(false);
     };
 
+    const closeOnScroll = () => setSolutionsOpen(false);
+    window.addEventListener("scroll", closeOnScroll, { passive: true });
     document.addEventListener("pointerdown", handlePointerDown);
     window.addEventListener("keydown", handleKeyDown);
 
     return () => {
+      window.removeEventListener("scroll", closeOnScroll);
       document.removeEventListener("pointerdown", handlePointerDown);
       window.removeEventListener("keydown", handleKeyDown);
     };
@@ -154,7 +157,6 @@ const Navbar = () => {
 
   useEffect(() => {
     if (!mobileMenuOpen) {
-      document.body.style.overflow = "";
       return;
     }
 
@@ -194,56 +196,11 @@ const Navbar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, [mobileMenuOpen]);
 
-  const goTo = (target: NavTarget) => {
-    if (target.kind === "section" && isHomePath()) {
-      scrollToSection(target.id);
-      return;
-    }
-
-    const destination =
-      target.kind === "section" ? { to: "/" as const, hash: target.id } : { to: target.to };
-
-    if (router) {
-      void router.navigate(destination);
-      return;
-    }
-
-    window.location.assign(
-      target.kind === "section" ? `/#${target.id}` : target.to,
-    );
-  };
-
-  useEffect(() => {
-    if (mobileMenuOpen || !pendingTarget) return;
-
-    const timeoutId = window.setTimeout(() => {
-      goTo(pendingTarget);
-      setPendingTarget(null);
-    }, 40);
-
-    return () => window.clearTimeout(timeoutId);
-    // goTo only depends on the router instance, which is stable.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mobileMenuOpen, pendingTarget]);
-
-  const handleNavigate = (target: NavTarget) => {
-    if (mobileMenuOpen) {
-      setPendingTarget(target);
-      setMobileMenuOpen(false);
-      return;
-    }
-
-    goTo(target);
-  };
-
-  const handleSectionScroll = (id: string) =>
-    handleNavigate({ kind: "section", id });
-
   return (
     <>
       <nav
         data-site-navbar
-        className={`fixed z-[60] w-full border-b transition-[background-color,border-color,padding,backdrop-filter,box-shadow,color] duration-300 ${
+        className={`fixed inset-x-0 top-0 z-[60] w-full border-b transition-[background-color,border-color,padding,backdrop-filter,box-shadow,color] duration-300 ${
           mobileMenuOpen
             ? "border-transparent bg-transparent py-6 text-[var(--color-text-inverse)] shadow-none backdrop-blur-0"
             : isScrolled
@@ -252,8 +209,10 @@ const Navbar = () => {
         }`}
       >
         <SectionContainer className="relative z-[60] flex items-center justify-between">
-          <button
-            onClick={() => handleSectionScroll("hero")}
+          <PageLink
+            to="/"
+            hash="hero"
+            onClick={() => setMobileMenuOpen(false)}
             className="ui-radius-control flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)]"
             aria-label="Scroll to top"
           >
@@ -262,7 +221,7 @@ const Navbar = () => {
               alt="Pareto logo"
               className="h-8 w-auto"
             />
-          </button>
+          </PageLink>
 
           <div
             className={`hidden items-center gap-8 font-mono text-sm lg:flex ${
@@ -324,12 +283,9 @@ const Navbar = () => {
                             <ul>
                               {group.items.map((item) => (
                                 <li key={item.label}>
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      setSolutionsOpen(false);
-                                      handleNavigate(item.target);
-                                    }}
+                                  <PageLink
+                                    {...pageDestination(item.target)}
+                                    onClick={() => setSolutionsOpen(false)}
                                     className="group flex w-full items-start gap-3 rounded-md px-3 py-3 text-left transition-colors hover:bg-[var(--color-surface-muted)] focus-visible:bg-[var(--color-surface-muted)] focus-visible:outline-none"
                                   >
                                     <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-[var(--color-brand-deep)] text-[var(--color-brand-bright)]">
@@ -343,7 +299,7 @@ const Navbar = () => {
                                         {item.description}
                                       </span>
                                     </span>
-                                  </button>
+                                  </PageLink>
                                 </li>
                               ))}
                             </ul>
@@ -353,17 +309,15 @@ const Navbar = () => {
                       <div className="flex items-center justify-between border-t border-[var(--color-border-soft)] bg-[var(--color-bg-light-alt)] px-8 py-4 text-sm">
                         <span className="text-[var(--color-text-secondary)]">
                           Not sure which fits?{" "}
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setSolutionsOpen(false);
-                              handleNavigate({ kind: "section", id: "contact" });
-                            }}
+                          <PageLink
+                            to="/"
+                            hash="contact"
+                            onClick={() => setSolutionsOpen(false)}
                             className="inline-flex items-center font-medium text-[var(--color-brand-deep)] underline-offset-4 hover:underline"
                           >
                             Contact us to discuss
                             <ChevronRight size={14} />
-                          </button>
+                          </PageLink>
                         </span>
                         <a
                           href="https://docs.pareto.credit/"
@@ -381,14 +335,13 @@ const Navbar = () => {
             </div>
 
             {pageItems.map((item) => (
-              <button
+              <PageLink
                 key={item.label}
-                type="button"
-                onClick={() => handleNavigate(item.target)}
+                {...pageDestination(item.target)}
                 className={navLinkClass}
               >
                 {item.label}
-              </button>
+              </PageLink>
             ))}
           </div>
 
@@ -496,7 +449,7 @@ const Navbar = () => {
                 ease: "easeOut",
               }}
               data-testid="mobile-menu-content"
-              className="relative z-10 flex h-[100svh] flex-col px-5 pb-5 pt-24 sm:px-6 sm:pb-8 sm:pt-28"
+              className="relative z-10 flex h-[100svh] flex-col overflow-y-auto overscroll-contain px-5 pb-5 pt-24 sm:px-6 sm:pb-8 sm:pt-28"
             >
               <div className="shrink-0">
                 <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[var(--color-brand-alt)]">
@@ -513,7 +466,7 @@ const Navbar = () => {
                 className="flex flex-1 flex-col justify-center gap-2.5 py-5 sm:gap-3 sm:py-6"
               >
                 {mobileNavigationItems.map((item, index) => (
-                  <motion.button
+                  <motion.div
                     key={item.label}
                     initial={
                       shouldReduceMotion
@@ -533,21 +486,25 @@ const Navbar = () => {
                       ease: "easeOut",
                       delay: shouldReduceMotion ? 0 : 0.04 * index,
                     }}
-                    onClick={() => handleNavigate(item.target)}
-                    className="group flex min-h-12 items-center justify-between rounded-md border border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.035)] px-4 py-3 text-left shadow-[inset_0_1px_0_rgb(255_255_255_/_0.04)] backdrop-blur-sm transition-colors hover:border-[color:rgb(113_178_159_/_0.35)] hover:bg-[color:rgb(255_255_255_/_0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)] sm:min-h-14 sm:px-5 sm:py-4"
                   >
-                    <div>
-                      <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--color-text-muted-soft)]">
-                        {String(index + 1).padStart(2, "0")}
+                    <PageLink
+                      {...pageDestination(item.target)}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="group flex min-h-12 items-center justify-between rounded-md border border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.035)] px-4 py-3 text-left shadow-[inset_0_1px_0_rgb(255_255_255_/_0.04)] backdrop-blur-sm transition-colors hover:border-[color:rgb(113_178_159_/_0.35)] hover:bg-[color:rgb(255_255_255_/_0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)] sm:min-h-14 sm:px-5 sm:py-4"
+                    >
+                      <div>
+                        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--color-text-muted-soft)]">
+                          {String(index + 1).padStart(2, "0")}
+                        </div>
+                        <div className="mt-1 text-[1.55rem] font-semibold leading-none tracking-[-0.04em] text-[var(--color-text-inverse)] sm:text-[1.9rem]">
+                          {item.label}
+                        </div>
                       </div>
-                      <div className="mt-1 text-[1.55rem] font-semibold leading-none tracking-[-0.04em] text-[var(--color-text-inverse)] sm:text-[1.9rem]">
-                        {item.label}
+                      <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.04)] text-[var(--color-brand-alt)] transition-transform duration-300 group-hover:translate-x-1 sm:h-10 sm:w-10">
+                        <ArrowUpRight size={17} />
                       </div>
-                    </div>
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.04)] text-[var(--color-brand-alt)] transition-transform duration-300 group-hover:translate-x-1 sm:h-10 sm:w-10">
-                      <ArrowUpRight size={17} />
-                    </div>
-                  </motion.button>
+                    </PageLink>
+                  </motion.div>
                 ))}
               </div>
 

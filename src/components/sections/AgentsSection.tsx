@@ -103,7 +103,7 @@ const useSessionClock = (isRunning: boolean) => {
 };
 
 const reveal = (isVisible: boolean) =>
-  cn("transition-all duration-500 ease-out", isVisible ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0");
+  cn("transition-[opacity,transform] duration-500 ease-out motion-reduce:transition-none", isVisible ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0");
 
 const AgentSession = () => {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -139,7 +139,7 @@ const AgentSession = () => {
           </span>
         </div>
         <span className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--color-brand-bright)]">
-          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--color-brand-bright)]" />
+          <span className="h-1.5 w-1.5 animate-pulse motion-reduce:animate-none rounded-full bg-[var(--color-brand-bright)]" />
           {MCP_PRODUCT_NAME} connected
         </span>
       </div>

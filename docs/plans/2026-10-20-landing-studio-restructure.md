@@ -1,4 +1,4 @@
-# Landing restructure: Studio-first, agents, plans (2026-10-20)
+# Landing restructure: Studio-first, agents and offering (2026-10-20)
 
 Branch: `feat/landing-studio-restructure` (from `main` @ 15d905b). Not deployed.
 
@@ -10,12 +10,13 @@ agentic underwriting (Pareto MCP first, then the AI agent), supported credit
 structures, and three plans. Shorten the homepage and move long-form content to
 dedicated pages.
 
-## Homepage, new order
+## Current homepage (updated 2026-10-21)
 
-1. Hero: "Turn a term sheet into a live credit facility", with the CTAs Request
-   Studio access and Explore live vaults. It also has a "Pareto MCP early access"
+1. Hero: "It's time to upgrade the credit operating system", with the CTAs
+   Request Studio access and Explore live vaults. It also has a "Pareto MCP early access"
    chip and keeps the live metrics.
-2. Partner marquee (unchanged).
+2. Partner marquee: caption, monochrome logos and faded edges on the page
+   background, with a 64-second loop. The accessible section name is "Our partners".
 3. `UnderwritingSection` (`#underwriting`): "Credit infrastructure built for
    scrutiny", with three pillars: diligence, ring-fenced facilities and
    monitoring.
@@ -23,15 +24,15 @@ dedicated pages.
    Allocate) over an illustrative Studio desk, followed by the four lifecycle
    steps and a link to /ecosystem.
 5. `StructuresSection` (`#structures`): eight structures, including revolving.
-   Each one expands to a spec table.
+   The bento tiles open a detail dialog with specs and a contact CTA.
 6. `AgentsSection` (`#agents`), in three steps:
    - Pareto MCP (early access)
    - agent-prepared actions (next)
    - Pareto Cura AI (coming soon)
-7. Testimonials, moved up.
-8. Live vaults.
-9. `PlansSection` (`#plans`): Core, Pro and White-Glove by NorthBridge. On mobile
-   one plan shows at a time, chosen with tabs.
+7. Live vaults.
+8. `PlansSection` (public name **Offering**, `#offering`): Core, Pro and
+   White-Glove by NorthBridge. On mobile one plan shows at a time, chosen with tabs.
+9. Testimonials.
 10. Insights and Contact. The plan, MCP and role CTAs pre-select the matching
     "Interested in" option.
 
@@ -64,7 +65,8 @@ about 17.9 to 15.5.
 - Plans are Core, Pro and White-Glove. No prices are published; "pricing is set
   per facility".
 - Status labels: the MCP is "Early access" and the AI is "Coming soon". In the
-  Core plan, AI assessment is tagged "Beta".
+  Pro offering, AI assessment is tagged "Beta"; Core does not include it.
+  White-Glove inherits Pro features. This reflects commit `6eae21b`.
 - Revolving is listed because the factory has a dedicated revolving path
   (idle-tranches 539dba6). Native senior/junior tranching is **not** listed.
 - The NorthBridge footnote says it "acts as curator under its own agreements",
@@ -73,14 +75,18 @@ about 17.9 to 15.5.
 
 ## Navigation and plumbing
 
-- Navbar: Studio · Agents · Plans · Vaults · Ecosystem · Thesis. It works from
-  any page through `useRouter({ warn: false })` with a full-navigation fallback.
-  The desktop links now start at `lg`.
+- Navbar: Solutions (Pareto Studio, Agents, Offering and Vaults), plus Ecosystem
+  and Thesis. All destinations are real links, including mobile navigation and
+  the logo. Desktop links start at `lg`; modified clicks and new tabs retain
+  normal browser behavior.
 - `src/lib/siteNavigation.ts` handles contact pre-selection (an event on the
-  homepage, a pending value across pages) and scrolls to the hash after
-  navigating.
+  homepage and a pending value across client-side page navigation).
 - `src/components/ui/PageLink.tsx` provides internal links that use the router
-  when it's mounted.
+  when it's mounted, with ordinary anchor navigation as the fallback. Hash
+  scrolling runs once through the router after the destination renders; the
+  previous 80/600ms correction timers have been removed. Same-page links scroll
+  smoothly unless reduced motion is requested; cross-page anchors position
+  immediately. Section scroll margins reserve space for the fixed navbar.
 - `src/data/partners.ts` holds the partner list shared by the marquee and
   /ecosystem.
 - SEO and discovery: the title and description in `index.html` are updated.
@@ -88,7 +94,7 @@ about 17.9 to 15.5.
   `/?showIndexes=` is disallowed. The product areas in `public/index.md` and the
   WebMCP section list are updated.
 
-## Validation
+## Validation before the 2026-10-21 fixes (historical)
 
 - `npm run build` passes.
 - Vitest: 115 tests pass. The 3 failures were already failing on `main`
@@ -105,7 +111,7 @@ about 17.9 to 15.5.
 - Confirm the public wording on NorthBridge's relationship to Pareto: the DDQs
   call it affiliated, while the NorthBridge site says independent.
 - Confirm these plan claims: multichain deployment, co-marketing, white-label on
-  Pro/White-Glove, standard legal templates, and the AI assessment beta in Core.
+  Pro/White-Glove, standard legal templates, and the AI assessment beta in Pro.
 - Refresh the Thesis market stats periodically, since they're static.
 - Optional: lazy-load the /thesis and /ecosystem routes. The main chunk was
   already above 500 kB on `main`.
@@ -139,3 +145,50 @@ about 17.9 to 15.5.
   - intro rewritten ("If it can be underwritten, it can run on Pareto…")
 - Plans was renamed to **Offering**: the section eyebrow, the Solutions dropdown item, the mobile menu and the section id (`#offering`).
 - New title: "From self-serve to fully managed." The intro now describes the three tiers.
+
+## Revision 4 (2026-10-21, review fixes)
+
+- Offering now documents Cura AI assessment Beta in Pro, inherited by White-Glove.
+  NorthBridge has its own mark and an external link in its feature list.
+- The latest partner-band styling and current homepage order are recorded above.
+- Structure dialogs render in a body portal above the navbar. Background content
+  is inert while open, Tab/Shift+Tab stay inside, and closing restores focus to
+  the tile without scrolling the page. The "Discuss this structure" CTA instead
+  focuses the contact form's interest selector, preselected to Borrowing.
+  The dialog is constrained to the dynamic
+  viewport and scrolls internally on short screens; Escape, close and backdrop
+  dismissal remain available.
+- The Studio activity pulse, Agents connection pulse and hero announcement pulse
+  stop under reduced motion. The Studio navigation highlight and desk transitions
+  also respect that preference.
+- Navbar destinations use PageLink anchors; Solutions closes when scrolling away.
+  The mobile drawer scrolls internally so its Docs/App controls remain reachable
+  on small viewports while the background stays locked.
+  Duplicate hash-scroll corrections and the mobile navigation delay are removed.
+- Recording investigation: the supplied 10.24-second GIF shows a roughly 39px
+  reverse movement after manual scrolling below the hero, with the navbar fixed.
+  Manual-scroll checks at 1748×985 and 1864×1003 did not reproduce an unsolicited
+  jump: scroll position, hero height, underwriting position and document height
+  remained stable. The user confirmed Chrome. The exact recording symptom is
+  still unconfirmed; the hash-scroll cleanup addresses a separate reproducible
+  source of repeated positioning during route navigation.
+
+### Verification after review fixes
+
+- Production build and TypeScript pass. The existing large-chunk warning remains
+  (main JavaScript bundle about 1.32 MB before gzip).
+- Vitest: 123 tests pass, with the same three pre-existing failures verified on
+  `main`: SyntheticDollar mobile height, NarrativeScroll radius and shared radius
+  tokens. No new test failures.
+- ESLint: 579 errors and one warning, with diagnostics matching `main` exactly.
+  Changed and new files are clean. `git diff --check` passes.
+- Regression coverage includes modal focus containment/restoration, focus transfer
+  from the structure CTA into the contact form, dropdown dismissal on scroll,
+  native link behavior and one router-owned cross-page anchor scroll.
+- Browser checks verified modal layering, Tab/Shift+Tab, Escape and focus return;
+  an 844×390 viewport confirmed internal scrolling and a reachable detail CTA.
+  Chrome independently verified that Tab after the contact CTA stays in the form.
+  Cross-page contact navigation preserved Underwriting and stayed at the anchor;
+  390×844 mobile navigation reached Offering and released the page scroll lock.
+- The manual-scroll movement in the supplied Chrome GIF remains unconfirmed,
+  as described above; it is not counted as a verified fix.

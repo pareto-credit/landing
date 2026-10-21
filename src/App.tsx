@@ -18,7 +18,6 @@ import { useProductsData } from './hooks/useProductsData'
 import { useSyntheticDollarData } from './hooks/useSyntheticDollarData'
 import { consumeLegalPageReturnScroll } from './lib/legalPageScroll'
 import { registerParetoWebMcp } from './lib/webMcp'
-import { scrollToHashSection } from './lib/siteNavigation'
 import { isQueryFlagEnabled } from './lib/queryFlags'
 
 const App = () => {
@@ -53,8 +52,6 @@ const App = () => {
   }, [])
 
   useEffect(() => registerParetoWebMcp(), [])
-
-  useEffect(() => scrollToHashSection(), [])
 
   return (
     <div className="min-h-screen overflow-x-clip bg-[var(--color-bg-page)] font-sans text-[var(--color-text-inverse)] selection:bg-[var(--color-brand-alt)] selection:text-[var(--color-bg-page)]">

@@ -25,13 +25,23 @@ export const PageLink = ({ to, hash, onClick, children, ...props }: PageLinkProp
       event.metaKey ||
       event.ctrlKey ||
       event.shiftKey ||
-      event.altKey
+      event.altKey ||
+      (props.target && props.target !== "_self") ||
+      props.download !== undefined
     ) {
       return;
     }
 
     event.preventDefault();
-    void router.navigate({ to, hash });
+    void router.navigate({
+      to,
+      hash,
+      hashScrollIntoView: hash ? {
+        block: "start",
+        behavior: router.state.location.pathname === to &&
+          !window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "smooth" : "instant",
+      } : undefined,
+    });
   };
 
   return (

@@ -1,9 +1,10 @@
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { AI_PRODUCT_NAME, MCP_PRODUCT_NAME } from "../../data/brand";
 import { creditStructures } from "../../data/structures";
 import { CONTACT_INTEREST_EVENT } from "../../lib/siteNavigation";
 import AgentsSection from "./AgentsSection";
+import ContactSection from "./ContactSection";
 import PlansSection from "./PlansSection";
 import StructuresSection from "./StructuresSection";
 import StudioShowcaseSection from "./StudioShowcaseSection";
@@ -92,6 +93,37 @@ describe("StudioShowcaseSection", () => {
 });
 
 describe("StructuresSection", () => {
+  it("moves focus to the contact form when discussing a structure", async () => {
+    render(<><StructuresSection /><ContactSection /></>);
+    fireEvent.click(screen.getByRole("button", { name: /term facilities: show details/i }));
+    fireEvent.click(screen.getByRole("button", { name: /discuss this structure/i }));
+    const interest = screen.getByRole("combobox", { name: /interested in/i });
+    expect(interest).toHaveValue("Borrowing");
+    await waitFor(() => expect(interest).toHaveFocus());
+  });
+
+  it("isolates the dialog from the page and restores focus when closed", async () => {
+    const { container } = render(<StructuresSection />);
+    const card = screen.getByRole("button", { name: /term facilities: show details/i });
+    card.focus();
+    fireEvent.click(card);
+
+    const dialog = screen.getByRole("dialog", { name: "Term facilities" });
+    expect(container).not.toContainElement(dialog);
+    expect(container.inert).toBe(true);
+    const close = within(dialog).getByRole("button", { name: /close details/i });
+    const cta = within(dialog).getByRole("button", { name: /discuss this structure/i });
+    expect(close).toHaveFocus();
+    fireEvent.keyDown(close, { key: "Tab", shiftKey: true });
+    expect(cta).toHaveFocus();
+    fireEvent.keyDown(cta, { key: "Tab" });
+    expect(close).toHaveFocus();
+
+    fireEvent.click(close);
+    await waitFor(() => expect(container.inert).not.toBe(true));
+    expect(card).toHaveFocus();
+  });
+
   it("lists every supported structure, including revolving lines", () => {
     render(<StructuresSection />);
 
