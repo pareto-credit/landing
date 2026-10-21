@@ -6,7 +6,7 @@ import {
   consumePendingContactInterest,
 } from "../../lib/siteNavigation";
 import { Button } from "../ui/Button";
-import { SectionContainer, SectionHeading } from "../ui/Section";
+import { SectionContainer, SectionHeader } from "../ui/Section";
 
 const fieldLabelClassName =
   "mb-2 block text-sm text-[var(--color-text-secondary)]";
@@ -39,23 +39,15 @@ const ContactSection = () => {
     >
       <div className="pointer-events-none absolute bottom-0 left-0 h-[500px] w-[500px] rounded-full bg-[color:rgb(112_177_158_/_0.08)] blur-[150px]" />
       <div className="pointer-events-none absolute right-0 top-0 h-[380px] w-[380px] rounded-full bg-[color:rgb(59_130_246_/_0.06)] blur-[120px]" />
-      <SectionContainer size="5xl" className="ui-section-shell relative z-10">
-        <SectionHeading
+      <SectionContainer className="ui-section-shell relative z-10">
+        <SectionHeader
+          variant="centered"
           eyebrow="GET IN TOUCH"
-          title={
-            <>
-              The infrastructure is ready.
-              <br />
-              Are you?
-            </>
-          }
-          className="mx-auto mb-10 text-center lg:mb-12"
-          titleClassName="text-[var(--color-text-primary)]"
-          descriptionClassName="mx-auto max-w-3xl text-base text-[var(--color-text-secondary)]"
+          title={<>The infrastructure is ready.<br /><span className="text-[var(--color-text-muted)]">Are you?</span></>}
           description="Tell us whether you're launching a facility, allocating capital or connecting your agents, and we'll help you pick the right plan and setup."
         />
 
-        <div className="ui-radius-panel mx-auto border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-6 shadow-[0_20px_42px_rgb(14_24_19_/_0.08)] md:p-8 lg:p-9">
+        <div className="ui-radius-panel mx-auto max-w-5xl border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-6 shadow-[0_20px_42px_rgb(14_24_19_/_0.08)] md:p-8 lg:p-9">
           <form
             className="space-y-5"
             action="https://formspree.io/f/xkgjlnwg"

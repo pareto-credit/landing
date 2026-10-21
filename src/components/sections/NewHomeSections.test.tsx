@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { AI_PRODUCT_NAME, MCP_PRODUCT_NAME } from "../../data/brand";
 import { creditStructures } from "../../data/structures";
@@ -213,6 +213,90 @@ describe("PlansSection", () => {
 
     expect(screen.getByTestId("plan-pro")).toHaveClass("flex");
     expect(screen.getByTestId("plan-core")).toHaveClass("hidden", "lg:flex");
+  });
+
+  it("supports keyboard selection and associates tabs with their panels", () => {
+    render(<PlansSection />);
+    const core = screen.getByRole("tab", { name: "Core" });
+    core.focus();
+    fireEvent.keyDown(core, { key: "ArrowRight" });
+    const pro = screen.getByRole("tab", { name: "Pro" });
+    expect(pro).toHaveFocus();
+    expect(pro).toHaveAttribute("aria-selected", "true");
+    expect(pro).toHaveAttribute("aria-controls", screen.getByTestId("plan-pro").id);
+    fireEvent.keyDown(pro, { key: "End" });
+    expect(screen.getByRole("tab", { name: "White-Glove" })).toHaveFocus();
+    fireEvent.keyDown(screen.getByRole("tab", { name: "White-Glove" }), { key: "ArrowRight" });
+    expect(core).toHaveFocus();
+  });
+
+  it("reveals tier descriptions on demand and dismisses them without losing the trigger", () => {
+    render(<PlansSection />);
+    const core = within(screen.getByTestId("plan-core"));
+    const trigger = core.getByRole("button", { name: "How Core works" });
+    const description = document.getElementById(trigger.getAttribute("aria-controls")!)!;
+    expect(description).not.toBeVisible();
+    expect(trigger).toHaveAttribute("aria-controls", description.id);
+
+    fireEvent.pointerEnter(trigger, { pointerType: "mouse" });
+    expect(description).toBeVisible();
+    vi.useFakeTimers();
+    try {
+      fireEvent.pointerLeave(trigger);
+      fireEvent.pointerEnter(description);
+      act(() => vi.advanceTimersByTime(200));
+      expect(description).toBeVisible();
+      fireEvent.pointerLeave(description);
+      act(() => vi.advanceTimersByTime(200));
+      expect(description).not.toBeVisible();
+    } finally {
+      vi.useRealTimers();
+    }
+    fireEvent.pointerEnter(trigger, { pointerType: "mouse" });
+    fireEvent.keyDown(trigger, { key: "Escape" });
+    expect(description).not.toBeVisible();
+
+    fireEvent.click(trigger);
+    expect(description).toBeVisible();
+    fireEvent.pointerDown(document.body);
+    expect(description).not.toBeVisible();
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("keeps one explanation open even when the previous note was pinned", () => {
+    render(<PlansSection />);
+    const core = within(screen.getByTestId("plan-core")).getByRole("button", { name: "How Core works" });
+    const pro = within(screen.getByTestId("plan-pro")).getByRole("button", { name: /about white-label/i });
+    fireEvent.click(core);
+    expect(core).toHaveAttribute("aria-expanded", "true");
+    fireEvent.pointerEnter(pro, { pointerType: "mouse" });
+    expect(core).toHaveAttribute("aria-expanded", "false");
+    expect(pro).toHaveAttribute("aria-expanded", "true");
+    expect(document.getElementById(core.getAttribute("aria-controls")!)).not.toBeVisible();
+    fireEvent.keyDown(pro, { key: "Escape" });
+    expect(pro).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("explains white-label availability and curator risk within the relevant tiers", () => {
+    render(<PlansSection />);
+    const core = within(screen.getByTestId("plan-core"));
+    const pro = within(screen.getByTestId("plan-pro"));
+    const whiteGlove = within(screen.getByTestId("plan-white-glove"));
+    expect(core.queryByRole("button", { name: /about white-label/i })).not.toBeInTheDocument();
+
+    const whiteLabel = pro.getByRole("button", { name: /about white-label/i });
+    const availability = document.getElementById(whiteLabel.getAttribute("aria-controls")!)!;
+    expect(availability).not.toBeVisible();
+    fireEvent.click(whiteLabel);
+    expect(whiteLabel).toHaveAttribute("aria-expanded", "true");
+    expect(whiteLabel).toHaveAttribute("aria-controls", availability.id);
+    expect(availability).toBeVisible();
+    fireEvent.keyDown(whiteLabel, { key: "Escape" });
+    expect(availability).not.toBeVisible();
+
+    expect(whiteGlove.getByRole("button", { name: /about white-label/i })).toBeInTheDocument();
+    fireEvent.click(whiteGlove.getByRole("button", { name: /about northbridge as named curator/i }));
+    expect(screen.getByText(/curation does not guarantee repayment; credit risk remains with lenders/i)).toBeVisible();
   });
 
   it("pre-selects the matching plan in the contact form", () => {

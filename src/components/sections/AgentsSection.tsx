@@ -6,7 +6,7 @@ import { AI_PRODUCT_NAME, MCP_PRODUCT_NAME } from "../../data/brand";
 import { requestContact } from "../../lib/siteNavigation";
 import { cn } from "../../lib/cn";
 import { Button } from "../ui/Button";
-import { SectionContainer } from "../ui/Section";
+import { SectionContainer, SectionHeader } from "../ui/Section";
 
 interface AgentStep {
   icon: LucideIcon;
@@ -262,23 +262,14 @@ const AgentsSection = () => {
       <div className="pointer-events-none absolute -right-20 bottom-0 h-[420px] w-[420px] rounded-full bg-[color:rgb(59_130_246_/_0.07)] blur-[130px]" />
 
       <SectionContainer className="ui-section-shell relative z-10">
-        <div className="max-w-3xl">
-          <div className="mb-4 font-mono text-xs uppercase tracking-widest text-[var(--color-brand-alt)]">
-            Agentic credit underwriting
-          </div>
-          <h2 className="text-4xl font-bold tracking-tight md:text-5xl lg:text-[3.5rem]">
-            Agents draft.
-            <span className="text-[color:rgb(255_255_255_/_0.45)]"> Humans sign.</span>
-          </h2>
-          <p className="mt-5 text-base leading-relaxed text-[color:rgb(255_255_255_/_0.65)] sm:text-lg">
-            Underwriters already work in Claude and Codex. Pareto brings
-            facility data, and soon facility actions, into those workflows, so
-            agents take on the back office while a named curator stays
-            accountable for the credit.
-          </p>
-        </div>
+        <SectionHeader
+          eyebrow="Agentic credit underwriting"
+          title={<>Agents draft. <span className="text-[color:rgb(255_255_255_/_0.65)]">Humans sign.</span></>}
+          description="Underwriters already work in Claude and Codex. Pareto brings facility data, and soon facility actions, into those workflows, so agents take on the back office while a named curator stays accountable for the credit."
+          tone="dark"
+        />
 
-        <div className="mt-10 grid items-stretch gap-8 lg:mt-14 lg:grid-cols-[1fr_1.05fr] lg:gap-14">
+        <div className="grid items-stretch gap-8 lg:grid-cols-[1fr_1.05fr] lg:gap-14">
           <ol className="relative flex flex-col gap-3 sm:gap-4">
             {steps.map((step, index) => (
               <motion.li

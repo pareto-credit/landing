@@ -18,7 +18,7 @@ import { creditStructures } from "../../data/structures";
 import { requestContact } from "../../lib/siteNavigation";
 import { cn } from "../../lib/cn";
 import { Button } from "../ui/Button";
-import { SectionContainer } from "../ui/Section";
+import { SectionContainer, SectionHeader } from "../ui/Section";
 
 type Tone = "dark" | "mint" | "light";
 
@@ -395,23 +395,11 @@ const StructuresSection = () => {
       className="relative overflow-hidden bg-[var(--color-bg-light-alt)] text-[var(--color-text-primary)]"
     >
       <SectionContainer className="ui-section-shell relative z-10">
-        <div className="grid gap-6 pb-8 md:grid-cols-[1.4fr_1fr] md:items-end md:gap-12 md:pb-10">
-          <div>
-            <div className="ui-frost-chip mb-5 inline-flex px-3 py-1 font-mono text-[10.5px] uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">
-              Credit facilities
-            </div>
-            <h2 className="text-4xl font-bold tracking-tight text-[var(--color-brand-dark)] md:text-5xl">
-              One platform.
-              <span className="text-[var(--color-text-muted)]"> Infinite credit opportunities.</span>
-            </h2>
-          </div>
-          <p className="max-w-md text-base leading-relaxed text-[var(--color-text-muted)] md:justify-self-end md:text-[0.95rem]">
-            If it can be underwritten, it can run on Pareto. Term loans,
-            revolving lines, receivables and beyond, each shaped around the
-            deal, with its own collateral, controls and reporting. Open any
-            card to explore.
-          </p>
-        </div>
+        <SectionHeader
+          eyebrow="Credit facilities"
+          title={<>One platform. <span className="text-[var(--color-text-muted)]">Infinite credit opportunities.</span></>}
+          description="If it can be underwritten, it can run on Pareto. Term loans, revolving lines, receivables and beyond, each shaped around the deal, with its own collateral, controls and reporting. Open any card to explore."
+        />
 
         <LayoutGroup>
           <div

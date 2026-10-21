@@ -2,7 +2,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import diligenceImage from "../../assets/images/underwriting/diligence.jpg";
 import monitoringImage from "../../assets/images/underwriting/monitoring.jpg";
 import structureImage from "../../assets/images/underwriting/structure.jpg";
-import { SectionContainer } from "../ui/Section";
+import { SectionContainer, SectionHeader } from "../ui/Section";
 
 interface Pillar {
   title: string;
@@ -59,26 +59,15 @@ const UnderwritingSection = () => {
       <div className="pointer-events-none absolute right-0 top-0 h-[520px] w-[520px] rounded-full bg-[var(--color-glow-brand)] blur-[120px]" />
 
       <SectionContainer className="ui-section-shell relative z-10">
-        <div className="grid gap-6 border-b border-[var(--color-border-soft)] pb-8 md:grid-cols-[1.4fr_1fr] md:items-end md:gap-12 md:pb-10">
-          <div>
-            <div className="mb-4 font-mono text-xs uppercase tracking-widest text-[var(--color-brand-alt)]">
-              Underwriting infrastructure
-            </div>
-            <h2 className="text-4xl font-bold tracking-tight text-[var(--color-brand-dark)] md:text-5xl">
-              Credit infrastructure
-              <span className="text-[var(--color-text-muted)]"> built for scrutiny.</span>
-            </h2>
-          </div>
-          <p className="max-w-md text-base leading-relaxed text-[var(--color-text-muted)] md:justify-self-end md:text-[0.95rem]">
-            Pareto provides credit underwriting infrastructure for compliant
-            onchain finance: the diligence, legal structure and oversight
-            lenders expect, enforced by code and visible onchain.
-          </p>
-        </div>
+        <SectionHeader
+          eyebrow="Underwriting infrastructure"
+          title={<>Credit infrastructure <span className="text-[var(--color-text-muted)]">built for scrutiny.</span></>}
+          description="Pareto provides credit underwriting infrastructure for compliant onchain finance: the diligence, legal structure and oversight lenders expect, enforced by code and visible onchain."
+        />
 
         <div
           data-testid="underwriting-pillars"
-          className="marquee-scroll -mx-6 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2 md:mx-0 md:mt-10 md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0 md:pb-0"
+          className="marquee-scroll -mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2 md:mx-0 md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0 md:pb-0"
         >
           {pillars.map((pillar, index) => (
             <motion.article

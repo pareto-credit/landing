@@ -7,7 +7,7 @@ import {
 import { useMinWidth } from "../../hooks/useMinWidth";
 import type { ProductVaultCard } from "../../types/products";
 import { ButtonLink } from "../ui/Button";
-import { SectionContainer, SectionHeading } from "../ui/Section";
+import { SectionContainer, SectionHeader } from "../ui/Section";
 
 interface ProductsSectionProps {
   vaults: ProductVaultCard[];
@@ -205,28 +205,20 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
       <div className="pointer-events-none absolute left-1/2 top-0 h-[400px] w-[800px] -translate-x-1/2 rounded-full blur-[100px]" />
 
       <div className="relative z-10 w-full ui-section-shell">
-        <SectionContainer className="mb-10 flex flex-col items-end justify-between gap-4 md:flex-row xl:mb-12">
-          <SectionHeading
+        <SectionContainer>
+          <SectionHeader
+            variant="collection"
             eyebrow="Live Vaults"
-            title="Tokenized credit, built for scale"
+            title={<>Tokenized credit, <span className="text-[var(--color-text-muted)]">built for scale</span></>}
             description="A modern fixed-income stack with the oversight, compliance, and reliability institutions expect."
-            className="max-w-3xl"
+            action={showHeaderCta ? (
+              <div data-testid="products-header-actions">
+                <ButtonLink href="https://app.pareto.credit/" target="_blank" rel="noopener noreferrer" variant="outline" size="md" className="text-[var(--color-text-primary)]">
+                  Explore Vaults
+                </ButtonLink>
+              </div>
+            ) : undefined}
           />
-
-          {showHeaderCta ? (
-            <div data-testid="products-header-actions">
-              <ButtonLink
-                href="https://app.pareto.credit/"
-                target="_blank"
-                rel="noopener noreferrer"
-                variant="outline"
-                size="md"
-                className="text-[var(--color-text-primary)]"
-              >
-                Explore Vaults
-              </ButtonLink>
-            </div>
-          ) : null}
         </SectionContainer>
 
         {isVaultsLoading ? (

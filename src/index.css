@@ -170,6 +170,15 @@
   backdrop-filter: blur(12px);
 }
 
+/* Frosted announcement treatment adapted to a dark section. */
+.ui-frost-chip--dark {
+  border-color: rgb(114 244 201 / 0.24);
+  background: linear-gradient(135deg, rgb(37 72 57 / 0.64), rgb(10 35 24 / 0.88));
+  box-shadow:
+    0 0 24px rgb(114 244 201 / 0.06),
+    inset 0 1px 0 rgb(189 231 215 / 0.10);
+}
+
 .ui-section-fit {
   display: flex;
   align-items: center;

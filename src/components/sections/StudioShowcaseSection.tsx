@@ -6,7 +6,7 @@ import { requestContact } from "../../lib/siteNavigation";
 import { cn } from "../../lib/cn";
 import { Button } from "../ui/Button";
 import { PageLink } from "../ui/PageLink";
-import { SectionContainer } from "../ui/Section";
+import { SectionContainer, SectionHeader } from "../ui/Section";
 import StudioDesk from "./studio/StudioDesk";
 import { personaDesks, type PersonaId } from "./studio/studioDeskData";
 
@@ -88,23 +88,22 @@ const StudioShowcaseSection = () => {
       </div>
 
       <SectionContainer className="ui-section-shell relative z-10">
-        <div className="mx-auto max-w-3xl text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[color:rgb(114_244_201_/_0.3)] bg-[color:rgb(114_244_201_/_0.08)] px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--color-brand-bright)]">
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inset-0 animate-ping rounded-full bg-[var(--color-brand-bright)] opacity-70 motion-reduce:animate-none" />
-              <span className="relative h-1.5 w-1.5 rounded-full bg-[var(--color-brand-bright)]" />
+        <SectionHeader
+          variant="centered"
+          eyebrow={
+            <span className="ui-frost-chip ui-frost-chip--dark inline-flex items-center gap-2 px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-wider text-[var(--color-brand-soft)] sm:text-xs">
+              <span aria-hidden="true" className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--color-brand-bright)] shadow-[0_0_8px_var(--color-brand-bright)] motion-reduce:animate-none" />
+              {STUDIO_PRODUCT_NAME}
             </span>
-            {STUDIO_PRODUCT_NAME}
-          </div>
-          <h2 className="mt-6 text-4xl font-bold tracking-tight md:text-6xl">
-            Every facility, <span className="ui-text-shimmer">one desk.</span>
-          </h2>
-        </div>
+          }
+          title={<>Every facility, <span className="ui-text-shimmer">one desk.</span></>}
+          tone="dark"
+        />
 
         <div
           role="tablist"
           aria-label="Studio desks"
-          className="mt-10 grid grid-cols-3 border-t border-[color:rgb(255_255_255_/_0.1)] md:mt-12"
+          className="grid grid-cols-3 border-t border-[color:rgb(255_255_255_/_0.1)]"
         >
           {personaDesks.map((item, index) => {
             const isActive = item.id === activePersona;

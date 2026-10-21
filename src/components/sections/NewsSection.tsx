@@ -6,7 +6,7 @@ import { useMinWidth } from "../../hooks/useMinWidth";
 import { useParagraphFeed } from "../../hooks/useParagraphFeed";
 import type { NewsArticle } from "../../types/news";
 import { ButtonLink } from "../ui/Button";
-import { SectionContainer, SectionHeading } from "../ui/Section";
+import { SectionContainer, SectionHeader } from "../ui/Section";
 
 const NEWS_SKELETON_COUNT = 3;
 const DRAG_THRESHOLD_PX = 4;
@@ -162,30 +162,18 @@ const NewsSection = () => {
     >
       <div className="pointer-events-none absolute right-0 top-0 h-[420px] w-[420px] rounded-full blur-[120px]" />
       <SectionContainer className="ui-section-shell">
-        <div className="mb-8 flex flex-col items-end justify-between gap-4 md:flex-row xl:mb-10">
-          <SectionHeading
-            eyebrow="Insights"
-            title="Research, market structure, and onchain credit"
-            size="2xl"
-            titleClassName="text-4xl text-[var(--color-text-primary)] md:text-4xl"
-            descriptionClassName="text-[var(--color-text-secondary)]"
-          />
-
-          {showHeaderCta ? (
+        <SectionHeader
+          variant="collection"
+          eyebrow="Insights"
+          title={<>Research, market structure, <span className="text-[var(--color-text-muted)]">and onchain credit</span></>}
+          action={showHeaderCta ? (
             <div data-testid="news-header-actions">
-              <ButtonLink
-                href={PARAGRAPH_BLOG_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                variant="outline"
-                size="md"
-                className="text-[var(--color-text-primary)]"
-              >
+              <ButtonLink href={PARAGRAPH_BLOG_URL} target="_blank" rel="noopener noreferrer" variant="outline" size="md" className="text-[var(--color-text-primary)]">
                 View All Articles
               </ButtonLink>
             </div>
-          ) : null}
-        </div>
+          ) : undefined}
+        />
 
         <div data-testid="news-grid" className="hidden gap-5 md:grid md:grid-cols-3 xl:gap-6">
           {isLoading
