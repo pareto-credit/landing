@@ -34,7 +34,7 @@ vi.mock("framer-motion", async () => {
 
 describe("NarrativeScrollSection", () => {
   it("keeps the desktop narrative window radius aligned with the tighter UI radii", () => {
-    expect(WINDOW_RADIUS_PX).toBe(18);
+    expect(WINDOW_RADIUS_PX).toBe(6);
   });
 
   it("switches active videos over shorter scroll transition bands", () => {

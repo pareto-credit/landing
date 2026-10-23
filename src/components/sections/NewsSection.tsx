@@ -118,7 +118,7 @@ const NewsSection = () => {
       }}
       className="group block cursor-pointer"
     >
-      <div className="relative mb-5 h-40 w-full overflow-hidden rounded border border-[var(--color-border-soft)] bg-[var(--color-surface-muted)] transition-colors group-hover:border-[color:rgb(112_177_158_/_0.50)] xl:h-44">
+      <div className="relative mb-5 h-40 w-full overflow-hidden ui-radius-control border border-[var(--color-border-soft)] bg-[var(--color-surface-muted)] transition-colors group-hover:border-[color:rgb(112_177_158_/_0.50)] xl:h-44">
         <img
           src={article.image || newsPlaceholder}
           alt={article.title}
@@ -183,20 +183,20 @@ const NewsSection = () => {
                   role="status"
                   className="animate-pulse"
                 >
-                  <div className="mb-5 h-40 w-full rounded border border-[var(--color-border-soft)] bg-[var(--color-surface-muted)] xl:h-44" />
+                  <div className="mb-5 h-40 w-full ui-radius-control border border-[var(--color-border-soft)] bg-[var(--color-surface-muted)] xl:h-44" />
                   <div className="mb-3 flex items-center justify-between gap-3">
                     <div className="h-3 w-24 rounded-full bg-[var(--color-surface-muted)]" />
-                    <div className="h-5 w-20 rounded bg-[var(--color-surface-muted)]" />
+                    <div className="h-5 w-20 ui-radius-control bg-[var(--color-surface-muted)]" />
                   </div>
-                  <div className="mb-3 h-6 w-11/12 rounded bg-[var(--color-surface-muted)]" />
-                  <div className="mb-3 h-6 w-8/12 rounded bg-[var(--color-surface-muted)]" />
+                  <div className="mb-3 h-6 w-11/12 ui-radius-control bg-[var(--color-surface-muted)]" />
+                  <div className="mb-3 h-6 w-8/12 ui-radius-control bg-[var(--color-surface-muted)]" />
                   <div className="mb-4 space-y-2">
-                    <div className="h-3 w-full rounded bg-[var(--color-surface-muted)]" />
-                    <div className="h-3 w-10/12 rounded bg-[var(--color-surface-muted)]" />
+                    <div className="h-3 w-full ui-radius-control bg-[var(--color-surface-muted)]" />
+                    <div className="h-3 w-10/12 ui-radius-control bg-[var(--color-surface-muted)]" />
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="h-4 w-24 rounded bg-[var(--color-surface-muted)]" />
-                    <div className="h-4 w-14 rounded bg-[var(--color-surface-muted)]" />
+                    <div className="h-4 w-24 ui-radius-control bg-[var(--color-surface-muted)]" />
+                    <div className="h-4 w-14 ui-radius-control bg-[var(--color-surface-muted)]" />
                   </div>
                   <span className="sr-only">Loading...</span>
                 </div>

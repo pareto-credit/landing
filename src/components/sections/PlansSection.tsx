@@ -1,12 +1,13 @@
 import { useRef, useState, type KeyboardEvent } from "react";
-import { ArrowUpRight, Check, Info, ChevronDown } from "lucide-react";
+import { ArrowUpRight, Check, Info } from "lucide-react";
 import NorthBridgeMark from "../brand/NorthBridgeMark";
 import { plans, type Plan, type PlanFeature } from "../../data/plans";
-import { requestContact } from "../../lib/siteNavigation";
 import { cn } from "../../lib/cn";
 import { SectionContainer, SectionHeader } from "../ui/Section";
 import OfferingArchitecture from "./offering/OfferingArchitecture";
 import OfferingTooltip from "./offering/OfferingTooltip";
+import OfferingOverview from "./offering/OfferingOverview";
+import OfferingCta from "./offering/OfferingCta";
 import "./offering/offering.css";
 
 const FeatureLabel = ({ feature }: { feature: PlanFeature }) => {
@@ -17,20 +18,19 @@ const FeatureLabel = ({ feature }: { feature: PlanFeature }) => {
   </a>{after}</>;
 };
 
-const TierHeading = ({ plan }: { plan: Plan }) => (
+const TierHeading = ({ plan, open, onOpenChange }: { plan: Plan; open: boolean; onOpenChange: (id: Plan["id"] | null) => void }) => (
   <div className="offering-card__title">
     <h3 id={`offering-name-${plan.id}`}>{plan.name}</h3>
     <div className="offering-card__caption">
       <span className="offering-card__subtitle">{plan.byline ? <><NorthBridgeMark size={16} />{plan.byline}</> : plan.subtitle}</span>
-      <OfferingTooltip label={`How ${plan.name} works`} heading={plan.name} variant="overview" content={plan.description} className="offering-tier-trigger">
-        How it works<ChevronDown size={12} aria-hidden="true" />
-      </OfferingTooltip>
+      <OfferingOverview plan={plan} open={open} onOpenChange={onOpenChange} />
     </div>
   </div>
 );
 
 const PlansSection = () => {
   const [mobilePlan, setMobilePlan] = useState<Plan["id"]>("core");
+  const [overviewPlan, setOverviewPlan] = useState<Plan["id"] | null>(null);
   const [hoveredPlan, setHoveredPlan] = useState<Plan["id"] | null>(null);
   const [focusedPlan, setFocusedPlan] = useState<Plan["id"] | null>(null);
   const tabs = useRef<Array<HTMLButtonElement | null>>([]);
@@ -43,6 +43,7 @@ const PlansSection = () => {
     else if (event.key === "End") next = plans.length - 1;
     else return;
     event.preventDefault();
+    setOverviewPlan(null);
     setMobilePlan(plans[next].id);
     tabs.current[next]?.focus();
   };
@@ -68,7 +69,7 @@ const PlansSection = () => {
               aria-controls={`offering-panel-${plan.id}`}
               aria-selected={mobilePlan === plan.id}
               tabIndex={mobilePlan === plan.id ? 0 : -1}
-              onClick={() => setMobilePlan(plan.id)}
+              onClick={() => { setOverviewPlan(null); setMobilePlan(plan.id); }}
               onKeyDown={(event) => handleTabKey(event, index)}
             >{plan.name}</button>
           ))}
@@ -85,6 +86,7 @@ const PlansSection = () => {
                 aria-labelledby={`offering-tab-${plan.id}`}
                 data-testid={`plan-${plan.id}`}
                 data-active={active || undefined}
+                data-overview-open={overviewPlan === plan.id || undefined}
                 className={cn("offering-card flex-col lg:flex", mobilePlan === plan.id ? "flex" : "hidden", `offering-card--${plan.id}`)}
                 onPointerEnter={(event) => { if (event.pointerType !== "touch") setHoveredPlan(plan.id); }}
                 onPointerLeave={() => setHoveredPlan(null)}
@@ -93,10 +95,10 @@ const PlansSection = () => {
               >
                 <div className="offering-card__visual">
                   <OfferingArchitecture id={plan.id} active={active} />
-                  <TierHeading plan={plan} />
+                  <TierHeading plan={plan} open={overviewPlan === plan.id} onOpenChange={setOverviewPlan} />
                 </div>
 
-                <div className="offering-card__body">
+                <div className="offering-card__body" inert={overviewPlan === plan.id} aria-hidden={overviewPlan === plan.id || undefined}>
                   <div className="offering-card__includes">
                     <span>{plan.inheritsFrom ? <>Everything in {plan.inheritsFrom}, plus:</> : "Included in Core"}</span>
                   </div>
@@ -109,16 +111,7 @@ const PlansSection = () => {
                     ))}
                   </ul>
                   <div className="offering-card__action">
-                    <button type="button" className="offering-cta"
-                      onPointerMove={(event) => {
-                        if (event.pointerType === "touch") return;
-                        const bounds = event.currentTarget.getBoundingClientRect();
-                        event.currentTarget.style.setProperty("--button-x", `${event.clientX - bounds.left}px`);
-                        event.currentTarget.style.setProperty("--button-y", `${event.clientY - bounds.top}px`);
-                      }}
-                      onClick={() => requestContact(plan.contactInterest)}>
-                      {plan.cta}<ArrowUpRight size={17} aria-hidden="true" />
-                    </button>
+                    <OfferingCta plan={plan} />
                   </div>
                 </div>
               </article>

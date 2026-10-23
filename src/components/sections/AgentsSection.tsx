@@ -127,7 +127,7 @@ const AgentSession = () => {
     <div
       ref={ref}
       data-testid="agent-session"
-      className="relative flex h-full flex-col overflow-hidden rounded-lg border border-[color:rgb(255_255_255_/_0.1)] bg-[#0b1511] shadow-[0_40px_90px_rgb(0_0_0_/_0.4),0_0_60px_rgb(114_244_201_/_0.08)]"
+      className="relative flex h-full flex-col overflow-hidden ui-radius-panel border border-[color:rgb(255_255_255_/_0.1)] bg-[#0b1511] shadow-[0_40px_90px_rgb(0_0_0_/_0.4),0_0_60px_rgb(114_244_201_/_0.08)]"
     >
       <div className="flex items-center justify-between border-b border-[color:rgb(255_255_255_/_0.07)] bg-[linear-gradient(90deg,rgb(114_244_201_/_0.06),transparent_50%,rgb(167_139_250_/_0.06))] px-4 py-3">
         <div className="flex items-center gap-2">
@@ -147,7 +147,7 @@ const AgentSession = () => {
       <div className="flex-1 space-y-4 p-4 sm:p-5">
         <div
           className={cn(
-            "relative ml-auto max-w-[85%] rounded-md bg-[color:rgb(255_255_255_/_0.06)] px-4 py-3 text-[13px] leading-relaxed text-[var(--color-text-inverse)]",
+            "relative ml-auto max-w-[85%] ui-radius-card bg-[color:rgb(255_255_255_/_0.06)] px-4 py-3 text-[13px] leading-relaxed text-[var(--color-text-inverse)]",
             reveal(elapsed >= TIMELINE.typeStart),
           )}
         >
@@ -169,7 +169,7 @@ const AgentSession = () => {
               <li
                 key={call.name}
                 className={cn(
-                  "flex items-center justify-between gap-3 rounded border px-3 py-2 font-mono text-[11px]",
+                  "flex items-center justify-between gap-3 ui-radius-control border px-3 py-2 font-mono text-[11px]",
                   state === "running"
                     ? "border-[color:rgb(56_189_248_/_0.35)] bg-[color:rgb(56_189_248_/_0.06)]"
                     : "border-[color:rgb(255_255_255_/_0.06)] bg-[color:rgb(255_255_255_/_0.02)]",
@@ -279,7 +279,7 @@ const AgentsSection = () => {
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className={cn(
-                  "flex flex-1 flex-col rounded-md border p-5 sm:p-6",
+                  "flex flex-1 flex-col ui-radius-card border p-5 sm:p-6",
                   index === 0
                     ? "border-[color:rgb(114_244_201_/_0.28)] bg-[color:rgb(114_244_201_/_0.05)]"
                     : "border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.025)]",
@@ -287,7 +287,7 @@ const AgentsSection = () => {
               >
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-[color:rgb(255_255_255_/_0.1)] bg-[color:rgb(255_255_255_/_0.04)] text-[var(--color-brand-bright)]">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center ui-radius-card border border-[color:rgb(255_255_255_/_0.1)] bg-[color:rgb(255_255_255_/_0.04)] text-[var(--color-brand-bright)]">
                       <step.icon size={18} />
                     </span>
                     <div>

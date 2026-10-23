@@ -28,6 +28,9 @@ live vaults and the Core/Pro/White-Glove offering. Long-form content lives at
 
 - Product names: `src/data/brand.ts`.
 - Offering features: `src/data/plans.ts` (Cura AI assessment Beta belongs to Pro).
+- Rectangular UI surfaces share the Live Vaults 6px radius through the semantic
+  card, panel and control tokens; circles and chart geometry retain their shapes.
+- Current Offering interaction and validation: [overview and radius notes](docs/plans/2026-10-23-offering-overview-and-radius-alignment.md).
 - Shared partner roster: `src/data/partners.ts`.
 - Internal links: `PageLink` delegates hash scrolling to the router; section
   scroll margins account for the fixed navbar. Avoid delayed scroll corrections.

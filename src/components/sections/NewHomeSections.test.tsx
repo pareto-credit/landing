@@ -25,6 +25,12 @@ beforeAll(() => {
     }
   }
   vi.stubGlobal("IntersectionObserver", IntersectionObserverStub);
+  class ResizeObserverStub {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  }
+  vi.stubGlobal("ResizeObserver", ResizeObserverStub);
 });
 
 const captureContactInterests = () => {
@@ -140,6 +146,9 @@ describe("StructuresSection", () => {
 
     const dialog = screen.getByRole("dialog", { name: "Revolving credit lines" });
     expect(within(dialog).getByText("Undrawn capital")).toBeInTheDocument();
+    expect(within(dialog).getByRole("img", { name: /drawing increases the balance, repayment reduces it/i })).toBeInTheDocument();
+    expect(within(dialog).getByText("Credit limit")).toBeInTheDocument();
+    expect(within(dialog).getByText("Redraw")).toBeInTheDocument();
     expect(card).toHaveClass("invisible");
     expect(document.body.style.overflow).toBe("hidden");
 
@@ -263,6 +272,39 @@ describe("PlansSection", () => {
     expect(trigger).toHaveAttribute("aria-expanded", "false");
   });
 
+  it("replaces covered features with accessible details and restores focus when closed", () => {
+    render(<PlansSection />);
+    const card = screen.getByTestId("plan-core");
+    const trigger = within(card).getByRole("button", { name: "How Core works" });
+    const body = card.querySelector(".offering-card__body")!;
+    fireEvent.click(trigger);
+    const overview = within(card).getByRole("region", { name: "Core overview" });
+    expect(body).toHaveAttribute("inert");
+    expect(body).toHaveAttribute("aria-hidden", "true");
+    expect(within(overview).getByText(/your team sets the terms/i)).toBeVisible();
+    const action = within(overview).getByRole("button", { name: "Request access" });
+    act(() => action.focus());
+    fireEvent.keyDown(action, { key: "Escape" });
+    expect(trigger).toHaveFocus();
+    expect(overview).not.toBeVisible();
+    expect(body).not.toHaveAttribute("inert");
+    expect(body).not.toHaveAttribute("aria-hidden");
+  });
+
+  it("routes the overview CTA to the selected tier and closes on a mobile tab change", () => {
+    const capture = captureContactInterests();
+    render(<PlansSection />);
+    const trigger = within(screen.getByTestId("plan-pro")).getByRole("button", { name: "How Pro works" });
+    fireEvent.click(trigger);
+    fireEvent.click(within(screen.getByRole("region", { name: "Pro overview" })).getByRole("button", { name: "Talk to us" }));
+    expect(capture.interests).toEqual(["Pro plan"]);
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+    fireEvent.click(trigger);
+    fireEvent.click(screen.getByRole("tab", { name: "Core" }));
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+    capture.stop();
+  });
+
   it("keeps one explanation open even when the previous note was pinned", () => {
     render(<PlansSection />);
     const core = within(screen.getByTestId("plan-core")).getByRole("button", { name: "How Core works" });
@@ -295,8 +337,10 @@ describe("PlansSection", () => {
     expect(availability).not.toBeVisible();
 
     expect(whiteGlove.getByRole("button", { name: /about white-label/i })).toBeInTheDocument();
-    fireEvent.click(whiteGlove.getByRole("button", { name: /about northbridge as named curator/i }));
-    expect(screen.getByText(/curation does not guarantee repayment; credit risk remains with lenders/i)).toBeVisible();
+    const curatorNote = whiteGlove.getByRole("button", { name: /about northbridge as named curator/i });
+    fireEvent.click(curatorNote);
+    expect(document.getElementById(curatorNote.getAttribute("aria-controls")!)).toHaveTextContent(/curation does not guarantee repayment; credit risk remains with lenders/i);
+    expect(document.getElementById(curatorNote.getAttribute("aria-controls")!)).toBeVisible();
   });
 
   it("pre-selects the matching plan in the contact form", () => {

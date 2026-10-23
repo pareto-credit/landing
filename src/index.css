@@ -4,7 +4,8 @@
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-  /* Shared radius scale for Tailwind utilities and semantic UI classes. */
+  /* Rectangular UI surfaces use the Live Vaults 6px radius via semantic tokens.
+     Circles, pills and chart geometry keep their purpose-specific radii. */
   --radius: 0.25rem;
   --radius-xs: 0.125rem;
   --radius-sm: 0.25rem;

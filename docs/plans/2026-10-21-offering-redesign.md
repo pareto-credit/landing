@@ -1,5 +1,9 @@
 # Offering redesign — 2026-10-21
 
+> Current overview behavior and shared radius policy are documented in
+> [the 2026-10-23 update](2026-10-23-offering-overview-and-radius-alignment.md).
+> The explanation treatments and check results below describe the earlier revision.
+
 ## Direction
 
 The current direction uses isometric financial buildings in mint wireframe,
@@ -73,7 +77,7 @@ down from roughly 1,537 KB / 444 KB gzip with the metallic sculptures. The
 existing large-chunk warning remains. The last full-suite run recorded three
 known baseline failures; that historical result is recorded below.
 
-## Clean contextual explanations (current)
+## Clean contextual explanations (2026-10-21; tier overviews superseded)
 
 The final explanation styling uses a light sage surface (`#e7f0e9`), dark forest
 body text (`#284333`), a subtle border/shadow and an 8px radius. Both heading and

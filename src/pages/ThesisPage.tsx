@@ -155,7 +155,7 @@ const ThesisPage = () => {
           }
           lead="Stablecoins have created a deep pool of onchain dollars looking for real yield. Private credit has the yield, but reaches lenders through slow, opaque, manual processes. The gap between them is not demand. It's infrastructure."
         >
-          <div className="grid gap-px overflow-hidden rounded-md border border-[var(--color-border-soft)] bg-[var(--color-border-soft)] md:grid-cols-3">
+          <div className="grid gap-px overflow-hidden ui-radius-card border border-[var(--color-border-soft)] bg-[var(--color-border-soft)] md:grid-cols-3">
             {thesisStats.map((stat) => (
               <figure key={stat.value} className="flex flex-col bg-[var(--color-surface)] p-6">
                 <div className="text-5xl font-light tracking-tight text-[var(--color-brand-dark)]">{stat.value}</div>
@@ -210,7 +210,7 @@ const ThesisPage = () => {
             {thesisSafeguards.map((item, index) => (
               <div
                 key={item.title}
-                className="rounded-md border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-6"
+                className="ui-radius-card border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-6"
               >
                 <div className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[var(--color-brand-alt)]">
                   {String.fromCharCode(65 + index)}
@@ -241,7 +241,7 @@ const ThesisPage = () => {
             ].map(([title, copy]) => (
               <div
                 key={title}
-                className="rounded-md border border-[color:rgb(255_255_255_/_0.1)] bg-[color:rgb(255_255_255_/_0.03)] p-6"
+                className="ui-radius-card border border-[color:rgb(255_255_255_/_0.1)] bg-[color:rgb(255_255_255_/_0.03)] p-6"
               >
                 <h3 className="text-lg font-semibold tracking-tight">{title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-[color:rgb(255_255_255_/_0.65)]">{copy}</p>
@@ -262,7 +262,7 @@ const ThesisPage = () => {
             </>
           }
         >
-          <ol className="grid gap-px overflow-hidden rounded-md border border-[var(--color-border-soft)] bg-[var(--color-border-soft)] sm:grid-cols-2 lg:grid-cols-5">
+          <ol className="grid gap-px overflow-hidden ui-radius-card border border-[var(--color-border-soft)] bg-[var(--color-border-soft)] sm:grid-cols-2 lg:grid-cols-5">
             {thesisStages.map((stage, index) => (
               <li key={stage.title} className="bg-[var(--color-surface)] p-5">
                 <div className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[var(--color-brand-alt)]">
@@ -295,7 +295,7 @@ const ThesisPage = () => {
             {thesisRoadmap.map((item) => (
               <div
                 key={item.name}
-                className="rounded-md border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-6"
+                className="ui-radius-card border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-6"
               >
                 <span className="inline-flex rounded-full border border-[var(--color-border-soft-strong)] px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.14em] text-[var(--color-text-muted)]">
                   {item.status}

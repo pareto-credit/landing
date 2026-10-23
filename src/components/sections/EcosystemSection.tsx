@@ -266,7 +266,7 @@ const EcosystemSection = () => {
                 <div className="absolute inset-0 z-10 bg-gradient-to-t from-[color:rgb(8_25_18_/_0.96)] via-[color:rgb(8_25_18_/_0.34)] to-transparent" />
 
                 <div className="absolute bottom-4 left-4 right-4 z-20 md:bottom-6 md:left-6 md:right-6 xl:bottom-7 xl:left-7 xl:right-7">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[var(--color-overlay-inverse-30)] bg-[color:rgb(255_255_255_/_0.20)] shadow-[0_8px_32px_rgba(0,0,0,0.3)] backdrop-blur-xl transition-colors duration-500 group-hover:bg-[color:rgb(255_255_255_/_0.28)] xl:h-14 xl:w-14">
+                  <div className="flex h-12 w-12 items-center justify-center ui-radius-control border border-[var(--color-overlay-inverse-30)] bg-[color:rgb(255_255_255_/_0.20)] shadow-[0_8px_32px_rgba(0,0,0,0.3)] backdrop-blur-xl transition-colors duration-500 group-hover:bg-[color:rgb(255_255_255_/_0.28)] xl:h-14 xl:w-14">
                     <segment.icon
                       className="text-[var(--color-text-inverse)] drop-shadow-md"
                       size={24}

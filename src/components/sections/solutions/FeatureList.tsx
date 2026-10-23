@@ -21,7 +21,7 @@ const FeatureListItem = ({
   <li
     onMouseEnter={onHover}
     className={cn(
-      "flex cursor-pointer items-center gap-3 rounded-md p-3.5 transition-all duration-300 xl:gap-4 xl:p-4",
+      "flex cursor-pointer items-center gap-3 ui-radius-control p-3.5 transition-all duration-300 xl:gap-4 xl:p-4",
       isActive
         ? "border border-[var(--color-border-inverse-soft)] bg-[var(--color-overlay-surface-05)] shadow-lg"
         : "border border-transparent hover:bg-[var(--color-overlay-surface-02)]",

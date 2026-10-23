@@ -1,17 +1,16 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 
-type Position = { left: number; top: number; placement: "top" | "bottom" | "illustration" };
+type Position = { left: number; top: number; placement: "top" | "bottom" };
 
 const OPEN_EVENT = "offering:explanation-open";
 
-const OfferingTooltip = ({ label, heading, children, content, className, variant = "note" }: {
+const OfferingTooltip = ({ label, heading, children, content, className }: {
   label: string;
   heading?: string;
   children: ReactNode;
   content: string;
   className: string;
-  variant?: "overview" | "note";
 }) => {
   const [open, setOpen] = useState(false);
   const [pinned, setPinned] = useState(false);
@@ -67,26 +66,19 @@ const OfferingTooltip = ({ label, heading, children, content, className, variant
       panel.current.style.width = `${width}px`;
       const { height } = panel.current.getBoundingClientRect();
       const preferredLeft = cardRect?.width
-        ? variant === "overview"
-          ? cardRect.left + (cardRect.width - width) / 2
-          : Math.max(cardRect.left + inset, Math.min(rect.right - width + 16, cardRect.right - inset - width))
+        ? Math.max(cardRect.left + inset, Math.min(rect.right - width + 16, cardRect.right - inset - width))
         : rect.right - width;
       const left = Math.max(12, Math.min(preferredLeft, viewportWidth - width - 12));
-      const illustration = variant === "overview" ? card?.querySelector(".offering-illustration")?.getBoundingClientRect() : null;
-      const illustrationTop = illustration ? illustration.bottom - height : 0;
       const above = rect.top - height - 12;
       const below = rect.bottom + 12;
       const features = card?.querySelector(".offering-features")?.getBoundingClientRect();
       const action = card?.querySelector(".offering-card__action")?.getBoundingClientRect();
       let placement: Position["placement"];
       let top: number;
-      if (illustration && cardRect && illustrationTop >= Math.max(80, cardRect.top + 8) && illustration.bottom < window.innerHeight - 12) {
-        placement = "illustration";
-        top = illustrationTop;
-      } else if (variant === "note" && features && above >= Math.max(80, features.top)) {
+      if (features && above >= Math.max(80, features.top)) {
         placement = "top";
         top = above;
-      } else if (variant === "note" && action && below + height <= Math.min(window.innerHeight - 12, action.top - 12)) {
+      } else if (action && below + height <= Math.min(window.innerHeight - 12, action.top - 12)) {
         // Notes near the first feature open downwards, preserving the tier heading.
         placement = "bottom";
         top = below;
@@ -107,7 +99,7 @@ const OfferingTooltip = ({ label, heading, children, content, className, variant
       window.removeEventListener("resize", update);
       window.removeEventListener("scroll", update, true);
     };
-  }, [open, variant]);
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -146,7 +138,6 @@ const OfferingTooltip = ({ label, heading, children, content, className, variant
       hidden={!open}
       className="offering-tooltip"
       data-placement={position?.placement}
-      data-variant={variant}
       style={{ left: position?.left ?? 0, top: position?.top ?? 0, visibility: position ? "visible" : "hidden" }}
       onPointerEnter={cancelClose}
       onPointerLeave={scheduleClose}

@@ -19,6 +19,7 @@ import { requestContact } from "../../lib/siteNavigation";
 import { cn } from "../../lib/cn";
 import { Button } from "../ui/Button";
 import { SectionContainer, SectionHeader } from "../ui/Section";
+import RevolvingCreditDiagram from "./structures/RevolvingCreditDiagram";
 
 type Tone = "dark" | "mint" | "light";
 
@@ -63,8 +64,7 @@ const toneClass: Record<Tone, { card: string; muted: string; icon: string; accen
   },
 };
 
-const TileVisual = ({ kind, tone }: { kind: NonNullable<BentoTile["visual"]>; tone: Tone }) => {
-  const stroke = tone === "dark" ? "#72f4c9" : "#254839";
+const TileVisual = ({ kind, expanded = false }: { kind: NonNullable<BentoTile["visual"]>; expanded?: boolean }) => {
 
   if (kind === "cycles") {
     return (
@@ -83,20 +83,7 @@ const TileVisual = ({ kind, tone }: { kind: NonNullable<BentoTile["visual"]>; to
   }
 
   if (kind === "revolver") {
-    return (
-      <svg aria-hidden="true" viewBox="0 0 200 50" className="h-14 w-full" preserveAspectRatio="none">
-        <line x1="0" x2="200" y1="8" y2="8" stroke={stroke} strokeOpacity="0.35" strokeDasharray="3 3" />
-        <path
-          d="M0,44 C20,40 30,20 50,22 C70,24 80,38 100,36 C120,34 130,14 150,16 C170,18 180,30 200,26"
-          fill="none"
-          stroke={stroke}
-          strokeWidth="2"
-        />
-        <text x="196" y="6" textAnchor="end" fontSize="6" fill={stroke} fillOpacity="0.6" fontFamily="monospace">
-          LIMIT
-        </text>
-      </svg>
-    );
+    return <RevolvingCreditDiagram expanded={expanded} />;
   }
 
   if (kind === "receivables") {
@@ -110,7 +97,7 @@ const TileVisual = ({ kind, tone }: { kind: NonNullable<BentoTile["visual"]>; to
         ].map(([id, amount, status]) => (
           <li
             key={id}
-            className="flex items-center justify-between rounded border border-[color:rgb(255_255_255_/_0.07)] bg-[color:rgb(255_255_255_/_0.03)] px-2.5 py-1.5 text-[color:rgb(255_255_255_/_0.75)]"
+            className="flex items-center justify-between ui-radius-control border border-[color:rgb(255_255_255_/_0.07)] bg-[color:rgb(255_255_255_/_0.03)] px-2.5 py-1.5 text-[color:rgb(255_255_255_/_0.75)]"
           >
             <span>{id}</span>
             <span>{amount}</span>
@@ -213,13 +200,13 @@ const StructureDetail = ({
         layoutId={shouldReduceMotion ? undefined : `structure-card-${index}`}
         transition={shouldReduceMotion ? { duration: 0 } : { type: "spring", stiffness: 260, damping: 30 }}
         className={cn(
-          "relative z-10 max-h-[calc(100dvh-2rem)] w-full max-w-2xl overflow-y-auto overscroll-contain rounded-xl border p-6 shadow-[0_40px_120px_rgb(0_0_0_/_0.35)] sm:max-h-[calc(100dvh-3rem)] sm:p-8",
+          "relative z-10 max-h-[calc(100dvh-2rem)] w-full max-w-2xl overflow-y-auto overscroll-contain ui-radius-card border p-6 shadow-[0_40px_120px_rgb(0_0_0_/_0.35)] sm:max-h-[calc(100dvh-3rem)] sm:p-8",
           tone.card,
         )}
       >
         <div className="flex items-start justify-between gap-4">
           <motion.div layout={shouldReduceMotion ? false : "position"} className="flex items-center gap-3">
-            <span className={cn("flex h-11 w-11 items-center justify-center rounded-md", tone.icon)}>
+            <span className={cn("flex h-11 w-11 items-center justify-center ui-radius-control", tone.icon)}>
               <tile.icon size={20} />
             </span>
           </motion.div>
@@ -256,7 +243,7 @@ const StructureDetail = ({
           <p className={cn("mt-3 text-base leading-relaxed", tone.muted)}>{structure.lede}</p>
           {tile.visual ? (
             <div className="mt-6">
-              <TileVisual kind={tile.visual} tone={tile.tone} />
+              <TileVisual kind={tile.visual} expanded />
             </div>
           ) : null}
           <dl className="mt-6 grid gap-x-8 sm:grid-cols-2">
@@ -335,21 +322,21 @@ const StructuresSection = () => {
         transition={{ type: "spring", stiffness: 260, damping: 30 }}
         whileHover={shouldReduceMotion ? undefined : { y: -4 }}
         className={cn(
-          "group relative flex min-h-[10rem] flex-col overflow-hidden rounded-xl border p-4 text-left sm:p-5 lg:min-h-[13rem] shadow-[var(--shadow-soft)] transition-shadow hover:shadow-[var(--shadow-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)] sm:p-6",
+          "group relative flex min-h-[10rem] flex-col overflow-hidden ui-radius-card border p-4 text-left sm:p-5 lg:min-h-[13rem] shadow-[var(--shadow-soft)] transition-shadow hover:shadow-[var(--shadow-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)] sm:p-6",
           tone.card,
           tile.placement,
           openIndex === index && "invisible",
         )}
       >
         <div className="flex items-start justify-between">
-          <span className={cn("flex h-10 w-10 items-center justify-center rounded-md", tone.icon)}>
+          <span className={cn("flex h-10 w-10 items-center justify-center ui-radius-control", tone.icon)}>
             <tile.icon size={18} />
           </span>
         </div>
 
         {tile.visual && isLarge ? (
           <div className="mt-6 flex-1 lg:mt-8">
-            <TileVisual kind={tile.visual} tone={tile.tone} />
+            <TileVisual kind={tile.visual} />
           </div>
         ) : (
           <div className="flex-1" />
@@ -372,7 +359,7 @@ const StructuresSection = () => {
           </div>
           {tile.visual && !isLarge ? (
             <div className="hidden sm:block">
-              <TileVisual kind={tile.visual} tone={tile.tone} />
+              <TileVisual kind={tile.visual} />
             </div>
           ) : null}
         </div>
@@ -416,10 +403,7 @@ const StructuresSection = () => {
           </AnimatePresence>
         </LayoutGroup>
 
-        <div className="mt-5 flex flex-wrap justify-between gap-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--color-text-muted)]">
-          <span>{creditStructures.length} facility types and counting</span>
-          <span>Illustrative · not an offer of credit</span>
-        </div>
+
       </SectionContainer>
     </section>
   );

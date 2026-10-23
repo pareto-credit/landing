@@ -152,10 +152,10 @@ const StudioShowcaseSection = () => {
           })}
         </div>
 
-        <div className="relative rounded-lg p-px shadow-[0_40px_120px_rgb(0_0_0_/_0.5),0_0_80px_rgb(114_244_201_/_0.12)]">
-          <div aria-hidden="true" className="absolute inset-0 overflow-hidden rounded-lg">
+        <div className="relative ui-radius-panel p-px shadow-[0_40px_120px_rgb(0_0_0_/_0.5),0_0_80px_rgb(114_244_201_/_0.12)]">
+          <div aria-hidden="true" className="absolute inset-0 overflow-hidden ui-radius-panel">
             <div className="absolute left-1/2 top-1/2 aspect-square w-[200%] -translate-x-1/2 -translate-y-1/2 animate-[spin_9s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0deg,transparent_250deg,#2dd4bf_290deg,#72f4c9_320deg,#38bdf8_345deg,transparent_360deg)] motion-reduce:animate-none" />
-            <div className="absolute inset-0 rounded-lg border border-[color:rgb(255_255_255_/_0.1)]" />
+            <div className="absolute inset-0 ui-radius-panel border border-[color:rgb(255_255_255_/_0.1)]" />
           </div>
           <div id="studio-desk-panel" role="tabpanel" aria-labelledby={`studio-tab-${desk.id}`} className="relative">
             <StudioDesk desk={desk} isLive={isInView} />
@@ -164,7 +164,7 @@ const StudioShowcaseSection = () => {
 
         <div
           data-testid="studio-overview"
-          className="mt-8 overflow-hidden rounded-lg border border-[color:rgb(255_255_255_/_0.09)] bg-[color:rgb(255_255_255_/_0.03)] backdrop-blur-sm"
+          className="mt-8 overflow-hidden ui-radius-panel border border-[color:rgb(255_255_255_/_0.09)] bg-[color:rgb(255_255_255_/_0.03)] backdrop-blur-sm"
         >
           <div className="flex flex-col gap-5 border-b border-[color:rgb(255_255_255_/_0.08)] p-6 md:flex-row md:items-center md:justify-between md:gap-10 lg:p-7">
             <p className="max-w-2xl text-lg leading-relaxed text-[color:rgb(255_255_255_/_0.85)] md:text-xl">

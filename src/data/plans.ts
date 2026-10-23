@@ -14,11 +14,15 @@ export interface Plan {
   byline?: string;
   subtitle?: string;
   description: string;
+  overviewContext: string;
   cta: string;
   contactInterest: ContactInterest;
   inheritsFrom?: string;
   features: PlanFeature[];
 }
+
+const CURATOR_EXPLANATION =
+  "NorthBridge acts as curator under its own agreements. Curation does not guarantee repayment; credit risk remains with lenders.";
 
 const WHITE_LABEL_EXPLANATION =
   "Need it under your own brand? A white-label lender app is available on Pro and White-Glove.";
@@ -30,6 +34,7 @@ export const plans: Plan[] = [
     subtitle: "Self-serve",
     description:
       "Self-serve access to Pareto Studio to structure, launch and run credit facilities.",
+    overviewContext: "Your team sets the terms and runs the facility, with standard legal templates and built-in lender KYC/KYB.",
     cta: "Request access",
     contactInterest: "Pareto Studio (Core)",
     features: [
@@ -48,6 +53,7 @@ export const plans: Plan[] = [
     subtitle: "Guided launch",
     description:
       "A guided launch with AI credit assessment, priority support and distribution across DeFi, for teams scaling a credit program.",
+    overviewContext: "Get structuring and launch guidance, a dedicated support channel, and distribution on Morpho and Pendle.",
     cta: "Talk to us",
     contactInterest: "Pro plan",
     inheritsFrom: "Core",
@@ -68,6 +74,7 @@ export const plans: Plan[] = [
     byline: "by NorthBridge",
     description:
       "NorthBridge underwrites and runs the facility end to end, as its named, accountable curator.",
+    overviewContext: CURATOR_EXPLANATION,
     cta: "Talk to NorthBridge",
     contactInterest: "White-Glove by NorthBridge",
     inheritsFrom: "Pro",
@@ -75,7 +82,7 @@ export const plans: Plan[] = [
       {
         label: "NorthBridge as named curator",
         link: { text: "NorthBridge", href: NORTHBRIDGE_URL },
-        explanation: "NorthBridge acts as curator under its own agreements. Curation does not guarantee repayment; credit risk remains with lenders.",
+        explanation: CURATOR_EXPLANATION,
       },
       { label: "Borrower due diligence and KYB" },
       { label: "Facility terms and legal documentation" },

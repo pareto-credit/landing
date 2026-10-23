@@ -446,7 +446,7 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
                               </div>
 
                               <span
-                                className={`inline-flex h-8 shrink-0 items-center whitespace-nowrap rounded-lg px-3 font-mono text-[9px] font-bold uppercase tracking-widest leading-none shadow-sm ${statusClassName}`}
+                                className={`inline-flex h-8 shrink-0 items-center whitespace-nowrap ui-radius-control px-3 font-mono text-[9px] font-bold uppercase tracking-widest leading-none shadow-sm ${statusClassName}`}
                               >
                                 {formatStatusLabel(vault.status)}
                               </span>
@@ -454,7 +454,7 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
 
                             <div className="mb-5 flex flex-wrap gap-2">
                               {vault.curatorName ? (
-                                <span className="inline-flex h-7 items-center gap-2 rounded-lg border border-[var(--color-border-soft)] bg-white px-3 font-mono text-[10px] font-semibold uppercase tracking-widest leading-none text-[var(--color-chip-text)]">
+                                <span className="inline-flex h-7 items-center gap-2 ui-radius-control border border-[var(--color-border-soft)] bg-white px-3 font-mono text-[10px] font-semibold uppercase tracking-widest leading-none text-[var(--color-chip-text)]">
                                   <span className="flex h-5 w-5 items-center justify-center overflow-hidden rounded-full border border-[var(--color-border-soft)]">
                                     {curatorLogo ? (
                                       <img
@@ -475,12 +475,12 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
                                 </span>
                               ) : null}
 
-                              <span className="inline-flex h-7 items-center rounded-lg border border-[var(--color-border-soft)] bg-white px-3 font-mono text-[10px] font-semibold uppercase tracking-widest leading-none text-[var(--color-chip-text)]">
+                              <span className="inline-flex h-7 items-center ui-radius-control border border-[var(--color-border-soft)] bg-white px-3 font-mono text-[10px] font-semibold uppercase tracking-widest leading-none text-[var(--color-chip-text)]">
                                 {vault.asset}
                               </span>
 
                               {vault.type ? (
-                                <span className="inline-flex h-7 items-center rounded-lg border border-[var(--color-border-soft)] bg-white px-3 font-mono text-[10px] font-semibold uppercase tracking-widest leading-none text-[var(--color-chip-text)]">
+                                <span className="inline-flex h-7 items-center ui-radius-control border border-[var(--color-border-soft)] bg-white px-3 font-mono text-[10px] font-semibold uppercase tracking-widest leading-none text-[var(--color-chip-text)]">
                                   {vault.type}
                                 </span>
                               ) : null}

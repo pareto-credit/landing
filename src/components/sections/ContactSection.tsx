@@ -11,7 +11,7 @@ import { SectionContainer, SectionHeader } from "../ui/Section";
 const fieldLabelClassName =
   "mb-2 block text-sm text-[var(--color-text-secondary)]";
 const fieldInputClassName =
-  "ui-radius-control w-full border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] transition-colors focus:border-[var(--color-brand-alt)] focus:outline-none";
+  "ui-radius-control w-full border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] placeholder:opacity-100 transition-colors focus:border-[var(--color-brand-alt)] focus:outline-none";
 
 const isContactInterest = (value: unknown): value is ContactInterest =>
   typeof value === "string" &&
@@ -68,6 +68,7 @@ const ContactSection = () => {
                   id="contact-full-name"
                   type="text"
                   name="fullName"
+                  placeholder="Alex Morgan"
                   required
                   className={fieldInputClassName}
                 />
@@ -81,6 +82,7 @@ const ContactSection = () => {
                   id="contact-email"
                   type="email"
                   name="email"
+                  placeholder="you@company.com"
                   required
                   className={fieldInputClassName}
                 />
@@ -97,6 +99,7 @@ const ContactSection = () => {
                   id="contact-tg-handle"
                   type="text"
                   name="tgHandle"
+                  placeholder="@yourhandle"
                   className={fieldInputClassName}
                 />
               </div>
@@ -114,6 +117,7 @@ const ContactSection = () => {
                   id="contact-organization"
                   type="text"
                   name="organization"
+                  placeholder="Company or fund name"
                   required
                   className={fieldInputClassName}
                 />
@@ -160,6 +164,7 @@ const ContactSection = () => {
                 id="contact-message"
                 required
                 name="message"
+                placeholder="Share your goals, use case and timeline."
                 rows={2}
                 className={`${fieldInputClassName} resize-y`}
               />

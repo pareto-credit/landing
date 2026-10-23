@@ -104,9 +104,9 @@ const EcosystemPage = () => {
               {roles.map((role) => (
                 <article
                   key={role.title}
-                  className="flex flex-col rounded-md border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-6 shadow-[var(--shadow-soft)]"
+                  className="flex flex-col ui-radius-card border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-6 shadow-[var(--shadow-soft)]"
                 >
-                  <span className="flex h-10 w-10 items-center justify-center rounded-md bg-[var(--color-brand-deep)] text-[var(--color-text-inverse)]">
+                  <span className="flex h-10 w-10 items-center justify-center ui-radius-card bg-[var(--color-brand-deep)] text-[var(--color-text-inverse)]">
                     <role.icon size={18} />
                   </span>
                   <h2 className="mt-5 text-xl font-bold tracking-tight text-[var(--color-brand-dark)]">{role.title}</h2>

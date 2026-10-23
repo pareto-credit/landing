@@ -11,7 +11,7 @@ import {
 } from "./studioDeskData";
 
 const panelClass =
-  "rounded-md border border-[color:rgb(255_255_255_/_0.07)] bg-[color:rgb(255_255_255_/_0.025)]";
+  "ui-radius-card border border-[color:rgb(255_255_255_/_0.07)] bg-[color:rgb(255_255_255_/_0.025)]";
 const labelClass =
   "font-mono text-[9.5px] uppercase tracking-[0.16em] text-[color:rgb(196_214_206_/_0.62)]";
 const mixColors = ["#72f4c9", "#38bdf8", "#2dd4bf", "#3f7a68"];
@@ -359,7 +359,7 @@ const StudioDesk = ({ desk, isLive = false }: StudioDeskProps) => {
   return (
     <div
       data-testid="studio-desk"
-      className="overflow-hidden rounded-[7px] bg-[#0b1511] text-left"
+      className="overflow-hidden ui-radius-panel bg-[#0b1511] text-left"
     >
       <div className="flex items-center justify-between gap-3 border-b border-[color:rgb(255_255_255_/_0.07)] bg-[linear-gradient(90deg,rgb(114_244_201_/_0.06),transparent_40%,rgb(56_189_248_/_0.05))] px-4 py-3">
         <div className="flex min-w-0 items-center gap-3">
