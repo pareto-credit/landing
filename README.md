@@ -36,6 +36,12 @@ live vaults and the Core/Pro/White-Glove offering. Long-form content lives at
   logo interactions are documented in [the Ecosystem design notes](docs/plans/2026-10-23-ecosystem-redesign.md).
 - The navbar follows router location: page links use `aria-current="page"`,
   homepage solution links use `aria-current="location"` for the selected hash.
+- The Thesis places its path graphic below the introduction and groups chapter
+  links inside the main header on every page, without chapter counters.
+  [Hero and navigation notes](docs/plans/2026-10-23-thesis-hero-and-contents.md)
+  describe its reading index, scroll offsets and validation.
+  [Chapter design notes](docs/plans/2026-10-23-thesis-sections-redesign.md) cover the
+  shared section layouts, lifecycle explorer and vector illustrations.
 - Internal links: `PageLink` delegates hash scrolling to the router; section
   scroll margins account for the fixed navbar. Avoid delayed scroll corrections.
 - Structure details use a body portal, keyboard focus containment and an inert

@@ -1,6 +1,6 @@
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
-import { thesisStats } from "../data/thesis";
+import { thesisChapters, thesisStats } from "../data/thesis";
 import { consumePendingContactInterest } from "../lib/siteNavigation";
 import EcosystemPage from "./EcosystemPage";
 import ThesisPage from "./ThesisPage";
@@ -35,7 +35,7 @@ describe("ThesisPage", () => {
       /credit is moving onchain\.underwriting decides how fast\./i,
     );
     expect(screen.getByTestId("narrative-scroll")).toBeInTheDocument();
-    expect(within(screen.getByRole("navigation", { name: /thesis chapters/i })).getAllByRole("link")).toHaveLength(6);
+    expect(screen.getByRole("figure", { name: /path from fragmented workflows/i })).toBeInTheDocument();
   });
 
   it("cites a dated source for every market figure", () => {
@@ -48,6 +48,27 @@ describe("ThesisPage", () => {
         stat.url,
       );
     }
+  });
+
+  it("keeps the reading-index destinations focusable after the section redesign", () => {
+    render(<ThesisPage />);
+    for (const chapter of thesisChapters.filter(({ id }) => id !== "legacy")) {
+      const section = document.getElementById(chapter.id);
+      const heading = document.getElementById(`${chapter.id}-title`);
+      expect(section).toHaveAttribute("aria-labelledby", heading?.id);
+      expect(heading).toHaveAttribute("tabindex", "-1");
+    }
+  });
+
+  it.each([
+    ["Request early access", "Pareto MCP early access"],
+    ["Request Studio access", "Pareto Studio (Core)"],
+  ])("carries %s to the appropriate contact inquiry", (label, interest) => {
+    render(<ThesisPage />);
+    const cta = screen.getByRole("link", { name: label });
+    expect(cta).toHaveAttribute("href", "/#contact");
+    fireEvent.click(cta);
+    expect(consumePendingContactInterest()).toBe(interest);
   });
 
   it("shows live Pareto figures", () => {

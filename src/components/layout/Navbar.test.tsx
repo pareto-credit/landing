@@ -110,16 +110,17 @@ describe("Navbar", () => {
     });
   });
 
-  it("keeps Ecosystem and Thesis as top-level links", () => {
+  it("keeps Ecosystem and the Thesis disclosure at the top level", () => {
     render(<Navbar />);
 
     expect(screen.getByRole("link", { name: "Ecosystem" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Thesis" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Thesis chapters" })).toBeInTheDocument();
   });
 
   it("keeps ordinary URLs available without a router", () => {
     render(<Navbar />);
-    expect(screen.getByRole("link", { name: "Thesis" })).toHaveAttribute("href", "/thesis");
+    fireEvent.click(screen.getByRole("button", { name: "Thesis chapters" }));
+    expect(screen.getByRole("link", { name: "Read the overview" })).toHaveAttribute("href", "/thesis#hero");
     expect(screen.getByRole("link", { name: "Ecosystem" })).toHaveAttribute("href", "/ecosystem");
   });
 
@@ -134,13 +135,24 @@ describe("Navbar", () => {
     renderAt("/ecosystem");
     const ecosystem = await screen.findByRole("link", { name: "Ecosystem" });
     expect(ecosystem).toHaveAttribute("aria-current", "page");
-    const thesis = screen.getByRole("link", { name: "Thesis" });
+    const thesis = screen.getByRole("button", { name: "Thesis chapters" });
     expect(thesis).not.toHaveAttribute("aria-current");
 
     fireEvent.click(thesis);
-    await waitFor(() => expect(thesis).toHaveAttribute("aria-current", "page"));
+    fireEvent.click(screen.getByRole("link", { name: "Read the overview" }));
+    await waitFor(() => expect(screen.getByRole("button", { name: /thesis chapters/i })).toHaveAttribute("aria-current", "page"));
     expect(ecosystem).not.toHaveAttribute("aria-current");
     expect(screen.getByRole("button", { name: /solutions/i })).not.toHaveAttribute("data-active");
+  });
+
+  it.each(["/", "/ecosystem", "/thesis"])("offers Thesis chapters from %s without a counter", async (entry) => {
+    renderAt(entry);
+    const toggle = await screen.findByRole("button", { name: /thesis chapters/i });
+    expect(toggle).not.toHaveTextContent(/7 chapters|\d+\s*\/\s*07/);
+    if (entry === "/thesis") expect(toggle).toHaveAttribute("aria-current", "page");
+    else expect(toggle).not.toHaveAttribute("aria-current");
+    fireEvent.click(toggle);
+    expect(screen.getByRole("link", { name: "Why onchain" })).toHaveAttribute("href", "/thesis#rails");
   });
 
   it("identifies the current page in the mobile menu", async () => {
@@ -159,5 +171,17 @@ describe("Navbar", () => {
     const menu = screen.getByTestId("solutions-menu");
     expect(within(menu).getByRole("link", { name: /offering/i })).toHaveAttribute("aria-current", "location");
     expect(within(menu).getByRole("link", { name: /vaults/i })).not.toHaveAttribute("aria-current");
+  });
+
+  it("integrates the reading index into Thesis and coordinates it with Solutions", async () => {
+    renderAt("/thesis");
+    const chapters = await screen.findByRole("button", { name: /thesis chapters/i });
+    fireEvent.click(chapters);
+    const index = screen.getByRole("navigation", { name: "Thesis chapters" });
+    expect(within(index).getByRole("link", { name: "The legacy" })).toHaveAttribute("href", "/thesis#legacy");
+    expect(within(index).getAllByRole("link")).toHaveLength(8);
+    fireEvent.mouseEnter(screen.getByRole("button", { name: /solutions/i }).parentElement!);
+    expect(chapters).toHaveAttribute("aria-expanded", "false");
+    expect(screen.getByTestId("solutions-menu")).toBeInTheDocument();
   });
 });

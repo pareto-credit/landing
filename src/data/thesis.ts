@@ -1,5 +1,17 @@
 import { AI_PRODUCT_NAME, MCP_PRODUCT_NAME } from "./brand";
 
+export const thesisChapters = [
+  { id: "legacy", group: "Context", label: "The legacy" },
+  { id: "opportunity", group: "Context", label: "Opportunity" },
+  { id: "constraint", group: "Context", label: "The constraint" },
+  { id: "rails", group: "Foundations", label: "Why onchain" },
+  { id: "accountability", group: "Foundations", label: "Accountability" },
+  { id: "platform", group: "Execution", label: "One platform" },
+  { id: "next", group: "Execution", label: "What's next" },
+] as const;
+
+export type ThesisChapterId = (typeof thesisChapters)[number]["id"];
+
 export interface ThesisStat {
   value: string;
   label: string;
@@ -80,11 +92,11 @@ export const thesisSafeguards = [
 ];
 
 export const thesisStages = [
-  { title: "Originate", copy: "Borrower diligence, KYB and data-room review, with AI assistance." },
-  { title: "Structure", copy: "Terms, collateral rules and cycles or a revolving limit, set in Studio." },
-  { title: "Launch", copy: "A dedicated Credit Vault, with permissioned lenders onboarded." },
-  { title: "Operate", copy: "Draws, repayments, margin calls and reporting, onchain." },
-  { title: "Distribute", copy: "Listed on Pareto, then extended to DeFi venues." },
+  { title: "Originate", copy: "Borrower diligence, KYB and data-room review, with AI assistance.", detail: "Start with the borrower and the credit information. Agents can assist with the review; the curator remains accountable for the credit decision." },
+  { title: "Structure", copy: "Terms, collateral rules and cycles or a revolving limit, set in Studio.", detail: "Translate the credit decision into facility terms. The legal agreement comes first; the vault is configured around those rules." },
+  { title: "Launch", copy: "A dedicated Credit Vault, with permissioned lenders onboarded.", detail: "Each facility has its own vault and accounting. Approved, KYC’d lenders participate within the permissions set for that facility." },
+  { title: "Operate", copy: "Draws, repayments, margin calls and reporting, onchain.", detail: "Servicing follows the facility’s terms. Curators oversee the credit while onchain records make positions and repayments visible as they happen." },
+  { title: "Distribute", copy: "Listed on Pareto, then extended to DeFi venues.", detail: "Facility positions can connect to venues such as Morpho and Pendle, extending distribution beyond the arranger’s own network." },
 ];
 
 export const thesisRoadmap = [

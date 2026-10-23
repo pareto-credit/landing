@@ -19,6 +19,7 @@ import paretoLogoLight from "../../assets/svgs/pareto-logo-light.svg";
 import { ButtonLink } from "../ui/Button";
 import { SectionContainer } from "../ui/Section";
 import { PageLink } from "../ui/PageLink";
+import ThesisChapterNav from "../sections/thesis/ThesisChapterNav";
 
 type NavTarget =
   | { kind: "section"; id: string }
@@ -101,6 +102,12 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [solutionsOpen, setSolutionsOpen] = useState(false);
+  const [chaptersOpen, setChaptersOpen] = useState(false);
+  const isThesisPage = location.pathname.replace(/\/$/, "") === "/thesis";
+  const changeChapterMenu = (open: boolean) => {
+    setChaptersOpen(open);
+    if (open) setSolutionsOpen(false);
+  };
   const solutionsRef = useRef<HTMLDivElement | null>(null);
   const solutionsCloseTimer = useRef<number | null>(null);
   const shouldReduceMotion = useReducedMotion();
@@ -232,7 +239,7 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
           </PageLink>
 
           <div
-            className={`hidden items-center gap-8 font-mono text-sm lg:flex ${
+            className={`contents items-center gap-8 font-mono text-sm lg:flex ${
               isScrolled
                 ? "text-[var(--color-text-primary)]"
                 : "text-[var(--color-text-secondary)]"
@@ -240,8 +247,9 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
           >
             <div
               ref={solutionsRef}
-              className="relative"
+              className="relative hidden lg:block"
               onMouseEnter={() => {
+                setChaptersOpen(false);
                 cancelSolutionsClose();
                 setSolutionsOpen(true);
               }}
@@ -253,6 +261,7 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
                 data-active={location.pathname === "/" || undefined}
                 aria-controls="solutions-menu"
                 onClick={(event) => {
+                  setChaptersOpen(false);
                   // Pointer users already opened it on hover; keyboard users toggle.
                   if (event.detail === 0) {
                     setSolutionsOpen((open) => !open);
@@ -344,15 +353,18 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
               </AnimatePresence>
             </div>
 
-            {pageItems.map((item) => (
+            {pageItems.map((item) => item.label === "Thesis" ? (
+              <ThesisChapterNav isCurrentPage={isThesisPage} key={item.label} open={chaptersOpen} onOpenChange={changeChapterMenu} hidden={mobileMenuOpen} />
+            ) : (
+              <span key={item.label} className="hidden lg:inline-flex">
               <PageLink
-                key={item.label}
                 {...pageDestination(item.target)}
                 className={navLinkClass}
                 aria-current={isCurrentTarget(item.target, location) ? "page" : undefined}
               >
                 {item.label}
               </PageLink>
+              </span>
             ))}
           </div>
 
@@ -371,7 +383,10 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
 
           <button
             className={`ui-radius-control relative z-[60] flex h-11 w-11 items-center justify-center border backdrop-blur-md transition-[border-color,background-color,color,box-shadow] duration-300 lg:hidden ${mobileToggleButtonClass}`}
-            onClick={() => setMobileMenuOpen((open) => !open)}
+            onClick={() => {
+              setChaptersOpen(false);
+              setMobileMenuOpen((open) => !open);
+            }}
             aria-label="Toggle mobile menu"
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-navigation-dialog"

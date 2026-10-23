@@ -1,0 +1,44 @@
+.thesis-header-nav { position: relative; }
+.thesis-header-nav[hidden] { display: none; }
+.thesis-header-nav__toggle { display: inline-flex; min-height: 36px; align-items: center; gap: 6px; cursor: pointer; }
+.thesis-header-nav__mobile-label { display: none; }
+.thesis-header-nav__toggle > svg { transition: transform 180ms; }
+.thesis-header-nav__chevron--open { transform: rotate(180deg); }
+.thesis-header-nav__index { position: absolute; z-index: 61; top: calc(100% + 20px); left: 50%; width: min(640px, calc(100vw - 48px)); padding: 20px; overflow-y: auto; overscroll-behavior: contain; transform: translateX(-50%); border: 1px solid var(--color-border-soft); border-radius: var(--radius-panel); background: var(--color-surface); color: var(--color-brand-dark); box-shadow: 0 20px 48px rgb(14 24 19 / .14); font-family: var(--font-sans); }
+.thesis-header-nav__index[hidden] { display: none; }
+.thesis-header-nav__summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--color-border-soft); font-size: 12px; }
+.thesis-header-nav__summary > span:first-child { color: var(--color-text-muted); }
+.thesis-header-nav__summary > span:last-child { font-weight: 500; }
+.thesis-header-nav__groups { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; padding-block: 16px; }
+.thesis-header-nav__group-label { padding: 0 8px 6px; color: var(--color-brand-deep); font: 400 10px var(--font-mono); letter-spacing: .1em; text-transform: uppercase; }
+.thesis-header-nav__groups a { display: flex; min-height: 44px; align-items: center; gap: 8px; padding: 8px; border-radius: var(--radius-control); font-size: 13px; line-height: 1.4; text-decoration: none; transition: background-color 180ms; }
+.thesis-header-nav__number { flex-shrink: 0; color: var(--color-text-muted); font: 400 10px var(--font-mono); }
+.thesis-header-nav__groups a > svg { flex-shrink: 0; margin-left: auto; color: var(--color-brand-deep); }
+.thesis-header-nav__groups a:hover { background: var(--color-surface-muted); }
+.thesis-header-nav__groups a[aria-current] { background: rgb(113 178 159 / .14); font-weight: 600; }
+.thesis-header-nav__groups a[aria-current] .thesis-header-nav__number { color: var(--color-brand-deep); }
+.thesis-header-nav__overview { display: flex; min-height: 44px; align-items: center; justify-content: space-between; gap: 16px; border-top: 1px solid var(--color-border-soft); font-size: 12px; text-decoration: none; }
+.thesis-header-nav__overview:hover { color: var(--color-brand-deep); }
+.thesis-header-nav__toggle:focus-visible, .thesis-header-nav__index a:focus-visible { outline: 2px solid var(--color-brand-deep); outline-offset: 3px; border-radius: var(--radius-control); }
+
+@media (max-width: 1023px) {
+  .thesis-header-nav { position: static; }
+  .thesis-header-nav__toggle { position: absolute; top: 50%; right: 80px; min-height: 44px; padding-inline: 4px; transform: translateY(-50%); font-size: 12px; }
+  .thesis-header-nav__toggle::after { display: none; }
+  .thesis-header-nav__desktop-label { display: none; }
+  .thesis-header-nav__mobile-label { display: inline; }
+  .thesis-header-nav__index { top: calc(100% + 12px); right: 24px; left: 24px; width: auto; transform: none; }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) { .thesis-header-nav__toggle { right: 204px; } }
+@media (max-width: 359px) { [data-site-navbar] img { height: 28px; } }
+@media (max-width: 639px) {
+  .thesis-header-nav__index { padding: 16px; }
+  .thesis-header-nav__groups { grid-template-columns: minmax(0, 1fr); gap: 10px; padding-block: 12px; }
+  .thesis-header-nav__group-label { padding-bottom: 2px; }
+  .thesis-header-nav__groups ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .thesis-header-nav__groups a { gap: 6px; padding-inline: 6px; font-size: 12px; }
+  .thesis-header-nav__groups a > span:nth-child(2) { min-width: 0; overflow-wrap: anywhere; }
+}
+
+@media (prefers-reduced-motion: reduce) { .thesis-header-nav__toggle > svg, .thesis-header-nav__groups a { transition: none; } }
