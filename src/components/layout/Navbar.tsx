@@ -1,27 +1,159 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { useRouter, useRouterState } from "@tanstack/react-router";
+import "./navbar.css";
+import {
+  ArrowUpRight,
+  Bot,
+  ChevronDown,
+  ChevronRight,
+  Layers,
+  LayoutDashboard,
+  Menu,
+  Vault,
+  X,
+  type LucideIcon,
+} from "lucide-react";
 import paretoLogo from "../../assets/svgs/pareto-logo.svg";
 import paretoLogoLight from "../../assets/svgs/pareto-logo-light.svg";
 import { ButtonLink } from "../ui/Button";
 import { SectionContainer } from "../ui/Section";
-import { scrollToSection } from "../../lib/scrollToSection";
+import { PageLink } from "../ui/PageLink";
+import ThesisChapterNav from "../sections/thesis/ThesisChapterNav";
 
-const mobileNavigationItems = [
-  { id: "ecosystem", label: "Ecosystem", index: "01" },
-  { id: "products", label: "Product", index: "02" },
-  { id: "solutions", label: "Solutions", index: "03" },
-  { id: "news", label: "News", index: "04" },
-  { id: "contact", label: "Contact", index: "05" },
-] as const;
+type NavTarget =
+  | { kind: "section"; id: string }
+  | { kind: "page"; to: "/thesis" | "/ecosystem" };
 
-const Navbar = () => {
+interface NavItem {
+  label: string;
+  target: NavTarget;
+}
+
+interface SolutionItem extends NavItem {
+  description: string;
+  icon: LucideIcon;
+}
+
+const solutionGroups: Array<{ title: string; items: SolutionItem[] }> = [
+  {
+    title: "For issuers and underwriters",
+    items: [
+      {
+        label: "Pareto Studio",
+        description: "Structure, launch and run credit facilities from one desk.",
+        icon: LayoutDashboard,
+        target: { kind: "section", id: "studio" },
+      },
+      {
+        label: "Agents",
+        description: "Pareto MCP for Claude, Codex and your own agents. Early access.",
+        icon: Bot,
+        target: { kind: "section", id: "agents" },
+      },
+      {
+        label: "Offering",
+        description: "Core, Pro and White-Glove by NorthBridge.",
+        icon: Layers,
+        target: { kind: "section", id: "offering" },
+      },
+    ],
+  },
+  {
+    title: "For lenders",
+    items: [
+      {
+        label: "Vaults",
+        description: "Allocate to permissioned onchain credit facilities with live reporting.",
+        icon: Vault,
+        target: { kind: "section", id: "products" },
+      },
+    ],
+  },
+];
+
+const pageItems: NavItem[] = [
+  { label: "Ecosystem", target: { kind: "page", to: "/ecosystem" } },
+  { label: "Thesis", target: { kind: "page", to: "/thesis" } },
+];
+
+const mobileNavigationItems: NavItem[] = [
+  { label: "Studio", target: { kind: "section", id: "studio" } },
+  { label: "Agents", target: { kind: "section", id: "agents" } },
+  { label: "Offering", target: { kind: "section", id: "offering" } },
+  { label: "Vaults", target: { kind: "section", id: "products" } },
+  ...pageItems,
+  { label: "Contact", target: { kind: "section", id: "contact" } },
+];
+
+const pageDestination = (target: NavTarget) => target.kind === "section"
+  ? { to: "/" as const, hash: target.id }
+  : { to: target.to };
+
+const SOLUTIONS_CLOSE_DELAY_MS = 140;
+
+interface NavLocation { pathname: string; hash: string }
+
+const isCurrentTarget = (target: NavTarget, location: NavLocation) => target.kind === "page"
+  ? location.pathname.replace(/\/$/, "") === target.to
+  : location.pathname === "/" && location.hash.replace(/^#/, "") === target.id;
+
+const NavbarContent = ({ location }: { location: NavLocation }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [pendingSectionId, setPendingSectionId] = useState<string | null>(null);
+  const [solutionsOpen, setSolutionsOpen] = useState(false);
+  const [chaptersOpen, setChaptersOpen] = useState(false);
+  const isThesisPage = location.pathname.replace(/\/$/, "") === "/thesis";
+  const changeChapterMenu = (open: boolean) => {
+    setChaptersOpen(open);
+    if (open) setSolutionsOpen(false);
+  };
+  const solutionsRef = useRef<HTMLDivElement | null>(null);
+  const solutionsCloseTimer = useRef<number | null>(null);
   const shouldReduceMotion = useReducedMotion();
+
+  const cancelSolutionsClose = () => {
+    if (solutionsCloseTimer.current !== null) {
+      window.clearTimeout(solutionsCloseTimer.current);
+      solutionsCloseTimer.current = null;
+    }
+  };
+
+  const scheduleSolutionsClose = () => {
+    cancelSolutionsClose();
+    solutionsCloseTimer.current = window.setTimeout(
+      () => setSolutionsOpen(false),
+      SOLUTIONS_CLOSE_DELAY_MS,
+    );
+  };
+
+  useEffect(() => {
+    if (!solutionsOpen) return;
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!solutionsRef.current?.contains(event.target as Node)) {
+        setSolutionsOpen(false);
+      }
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setSolutionsOpen(false);
+    };
+
+    const closeOnScroll = () => setSolutionsOpen(false);
+    window.addEventListener("scroll", closeOnScroll, { passive: true });
+    document.addEventListener("pointerdown", handlePointerDown);
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("scroll", closeOnScroll);
+      document.removeEventListener("pointerdown", handlePointerDown);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [solutionsOpen]);
+
+  useEffect(() => () => cancelSolutionsClose(), []);
   const navLinkClass =
-    "inline-flex items-center transition-colors hover:text-[var(--color-brand-alt)] focus-visible:text-[var(--color-brand-alt)] focus-visible:outline-none";
+    "site-nav-link inline-flex items-center transition-colors hover:text-[var(--color-brand-alt)] focus-visible:text-[var(--color-brand-alt)] focus-visible:outline-none";
   const mobileToggleButtonClass = mobileMenuOpen
     ? "border-[color:rgb(255_255_255_/_0.16)] bg-[color:rgb(255_255_255_/_0.04)] text-[var(--color-text-inverse)] shadow-[0_10px_30px_rgb(0,0,0,0.18)]"
     : isScrolled
@@ -40,7 +172,6 @@ const Navbar = () => {
 
   useEffect(() => {
     if (!mobileMenuOpen) {
-      document.body.style.overflow = "";
       return;
     }
 
@@ -70,7 +201,7 @@ const Navbar = () => {
     if (!mobileMenuOpen) return;
 
     const handleResize = () => {
-      if (window.innerWidth >= 768) {
+      if (window.innerWidth >= 1024) {
         setMobileMenuOpen(false);
       }
     };
@@ -80,32 +211,11 @@ const Navbar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, [mobileMenuOpen]);
 
-  useEffect(() => {
-    if (mobileMenuOpen || !pendingSectionId) return;
-
-    const timeoutId = window.setTimeout(() => {
-      scrollToSection(pendingSectionId);
-      setPendingSectionId(null);
-    }, 40);
-
-    return () => window.clearTimeout(timeoutId);
-  }, [mobileMenuOpen, pendingSectionId]);
-
-  const handleSectionScroll = (id: string) => {
-    if (mobileMenuOpen) {
-      setPendingSectionId(id);
-      setMobileMenuOpen(false);
-      return;
-    }
-
-    scrollToSection(id);
-  };
-
   return (
     <>
       <nav
         data-site-navbar
-        className={`fixed z-[60] w-full border-b transition-[background-color,border-color,padding,backdrop-filter,box-shadow,color] duration-300 ${
+        className={`fixed inset-x-0 top-0 z-[60] w-full border-b transition-[background-color,border-color,padding,backdrop-filter,box-shadow,color] duration-300 ${
           mobileMenuOpen
             ? "border-transparent bg-transparent py-6 text-[var(--color-text-inverse)] shadow-none backdrop-blur-0"
             : isScrolled
@@ -114,8 +224,10 @@ const Navbar = () => {
         }`}
       >
         <SectionContainer className="relative z-[60] flex items-center justify-between">
-          <button
-            onClick={() => handleSectionScroll("hero")}
+          <PageLink
+            to="/"
+            hash="hero"
+            onClick={() => setMobileMenuOpen(false)}
             className="ui-radius-control flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)]"
             aria-label="Scroll to top"
           >
@@ -124,42 +236,139 @@ const Navbar = () => {
               alt="Pareto logo"
               className="h-8 w-auto"
             />
-          </button>
+          </PageLink>
 
           <div
-            className={`hidden items-center gap-8 font-mono text-sm md:flex ${
+            className={`contents items-center gap-8 font-mono text-sm lg:flex ${
               isScrolled
                 ? "text-[var(--color-text-primary)]"
                 : "text-[var(--color-text-secondary)]"
             }`}
           >
-            <button
-              onClick={() => handleSectionScroll("ecosystem")}
-              className={navLinkClass}
+            <div
+              ref={solutionsRef}
+              className="relative hidden lg:block"
+              onMouseEnter={() => {
+                setChaptersOpen(false);
+                cancelSolutionsClose();
+                setSolutionsOpen(true);
+              }}
+              onMouseLeave={scheduleSolutionsClose}
             >
-              Ecosystem
-            </button>
-            <button
-              onClick={() => handleSectionScroll("products")}
-              className={navLinkClass}
-            >
-              Product
-            </button>
-            <button
-              onClick={() => handleSectionScroll("solutions")}
-              className={navLinkClass}
-            >
-              Solutions
-            </button>
-            <button
-              onClick={() => handleSectionScroll("news")}
-              className={navLinkClass}
-            >
-              News
-            </button>
+              <button
+                type="button"
+                aria-expanded={solutionsOpen}
+                data-active={location.pathname === "/" || undefined}
+                aria-controls="solutions-menu"
+                onClick={(event) => {
+                  setChaptersOpen(false);
+                  // Pointer users already opened it on hover; keyboard users toggle.
+                  if (event.detail === 0) {
+                    setSolutionsOpen((open) => !open);
+                  } else {
+                    cancelSolutionsClose();
+                    setSolutionsOpen(true);
+                  }
+                }}
+                className={`${navLinkClass} gap-1`}
+              >
+                Solutions
+                <ChevronDown
+                  size={15}
+                  className={`transition-transform duration-200 ${solutionsOpen ? "rotate-180" : ""}`}
+                />
+              </button>
+
+              <AnimatePresence>
+                {solutionsOpen ? (
+                  <motion.div
+                    id="solutions-menu"
+                    data-testid="solutions-menu"
+                    initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
+                    transition={{ duration: 0.18, ease: "easeOut" }}
+                    className="absolute left-1/2 top-full z-[61] w-[44rem] -translate-x-1/2 pt-5 font-sans"
+                  >
+                    <div className="overflow-hidden ui-radius-panel border border-[var(--color-border-soft)] bg-[var(--color-surface)] text-[var(--color-text-primary)] shadow-[0_24px_60px_rgb(14_24_19_/_0.16)]">
+                      <div className="grid grid-cols-[1.35fr_1fr]">
+                        {solutionGroups.map((group, groupIndex) => (
+                          <div
+                            key={group.title}
+                            className={`p-5 ${groupIndex > 0 ? "border-l border-[var(--color-border-soft)]" : ""}`}
+                          >
+                            <div className="mb-2 px-3 text-sm text-[var(--color-text-muted)]">{group.title}</div>
+                            <ul>
+                              {group.items.map((item) => (
+                                <li key={item.label}>
+                                  <PageLink
+                                    {...pageDestination(item.target)}
+                                    onClick={() => setSolutionsOpen(false)}
+                                    aria-current={isCurrentTarget(item.target, location) ? "location" : undefined}
+                                    className="site-nav-destination group flex w-full items-start gap-3 ui-radius-control px-3 py-3 text-left transition-colors hover:bg-[var(--color-surface-muted)] focus-visible:bg-[var(--color-surface-muted)] focus-visible:outline-none"
+                                  >
+                                    <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center ui-radius-control bg-[var(--color-brand-deep)] text-[var(--color-brand-bright)]">
+                                      <item.icon size={16} />
+                                    </span>
+                                    <span>
+                                      <span className="block text-[15px] font-semibold text-[var(--color-brand-dark)] group-hover:text-[var(--color-brand-deep)]">
+                                        {item.label}
+                                      </span>
+                                      <span className="mt-0.5 block text-[13px] leading-snug text-[var(--color-text-muted)]">
+                                        {item.description}
+                                      </span>
+                                    </span>
+                                  </PageLink>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="flex items-center justify-between border-t border-[var(--color-border-soft)] bg-[var(--color-bg-light-alt)] px-8 py-4 text-sm">
+                        <span className="text-[var(--color-text-secondary)]">
+                          Not sure which fits?{" "}
+                          <PageLink
+                            to="/"
+                            hash="contact"
+                            onClick={() => setSolutionsOpen(false)}
+                            className="inline-flex items-center font-medium text-[var(--color-brand-deep)] underline-offset-4 hover:underline"
+                          >
+                            Contact us to discuss
+                            <ChevronRight size={14} />
+                          </PageLink>
+                        </span>
+                        <a
+                          href="https://docs.pareto.credit/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-[0.12em] text-[var(--color-text-muted)] hover:text-[var(--color-brand-deep)]"
+                        >
+                          Docs <ArrowUpRight size={13} />
+                        </a>
+                      </div>
+                    </div>
+                  </motion.div>
+                ) : null}
+              </AnimatePresence>
+            </div>
+
+            {pageItems.map((item) => item.label === "Thesis" ? (
+              <ThesisChapterNav isCurrentPage={isThesisPage} key={item.label} open={chaptersOpen} onOpenChange={changeChapterMenu} hidden={mobileMenuOpen} />
+            ) : (
+              <span key={item.label} className="hidden lg:inline-flex">
+              <PageLink
+                {...pageDestination(item.target)}
+                className={navLinkClass}
+                aria-current={isCurrentTarget(item.target, location) ? "page" : undefined}
+              >
+                {item.label}
+              </PageLink>
+              </span>
+            ))}
           </div>
 
-          <div className="hidden items-center gap-4 md:flex">
+          <div className="hidden items-center gap-4 md:ml-auto md:mr-3 md:flex lg:ml-0 lg:mr-0">
             <ButtonLink
               href="https://app.pareto.credit/"
               target="_blank"
@@ -173,8 +382,11 @@ const Navbar = () => {
           </div>
 
           <button
-            className={`ui-radius-control relative z-[60] flex h-11 w-11 items-center justify-center border backdrop-blur-md transition-[border-color,background-color,color,box-shadow] duration-300 md:hidden ${mobileToggleButtonClass}`}
-            onClick={() => setMobileMenuOpen((open) => !open)}
+            className={`ui-radius-control relative z-[60] flex h-11 w-11 items-center justify-center border backdrop-blur-md transition-[border-color,background-color,color,box-shadow] duration-300 lg:hidden ${mobileToggleButtonClass}`}
+            onClick={() => {
+              setChaptersOpen(false);
+              setMobileMenuOpen((open) => !open);
+            }}
             aria-label="Toggle mobile menu"
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-navigation-dialog"
@@ -199,7 +411,7 @@ const Navbar = () => {
                 setMobileMenuOpen(false);
               }
             }}
-            className="fixed inset-0 z-[55] overflow-hidden bg-[linear-gradient(180deg,rgb(5_12_9),rgb(8_18_14))] md:hidden"
+            className="fixed inset-0 z-[55] overflow-hidden bg-[linear-gradient(180deg,rgb(5_12_9),rgb(8_18_14))] lg:hidden"
           >
             <div className="pointer-events-none absolute inset-0 overflow-hidden">
               <motion.div
@@ -263,7 +475,7 @@ const Navbar = () => {
                 ease: "easeOut",
               }}
               data-testid="mobile-menu-content"
-              className="relative z-10 flex h-[100svh] flex-col px-5 pb-5 pt-24 sm:px-6 sm:pb-8 sm:pt-28"
+              className="relative z-10 flex h-[100svh] flex-col overflow-y-auto overscroll-contain px-5 pb-5 pt-24 sm:px-6 sm:pb-8 sm:pt-28"
             >
               <div className="shrink-0">
                 <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[var(--color-brand-alt)]">
@@ -280,8 +492,8 @@ const Navbar = () => {
                 className="flex flex-1 flex-col justify-center gap-2.5 py-5 sm:gap-3 sm:py-6"
               >
                 {mobileNavigationItems.map((item, index) => (
-                  <motion.button
-                    key={item.id}
+                  <motion.div
+                    key={item.label}
                     initial={
                       shouldReduceMotion
                         ? { opacity: 1 }
@@ -300,21 +512,26 @@ const Navbar = () => {
                       ease: "easeOut",
                       delay: shouldReduceMotion ? 0 : 0.04 * index,
                     }}
-                    onClick={() => handleSectionScroll(item.id)}
-                    className="group flex min-h-12 items-center justify-between rounded-md border border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.035)] px-4 py-3 text-left shadow-[inset_0_1px_0_rgb(255_255_255_/_0.04)] backdrop-blur-sm transition-colors hover:border-[color:rgb(113_178_159_/_0.35)] hover:bg-[color:rgb(255_255_255_/_0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)] sm:min-h-14 sm:px-5 sm:py-4"
                   >
-                    <div>
-                      <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--color-text-muted-soft)]">
-                        {item.index}
+                    <PageLink
+                      {...pageDestination(item.target)}
+                      onClick={() => setMobileMenuOpen(false)}
+                      aria-current={isCurrentTarget(item.target, location) ? item.target.kind === "page" ? "page" : "location" : undefined}
+                      className="site-nav-mobile-link group flex min-h-12 items-center justify-between ui-radius-control border border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.035)] px-4 py-3 text-left shadow-[inset_0_1px_0_rgb(255_255_255_/_0.04)] backdrop-blur-sm transition-colors hover:border-[color:rgb(113_178_159_/_0.35)] hover:bg-[color:rgb(255_255_255_/_0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)] sm:min-h-14 sm:px-5 sm:py-4"
+                    >
+                      <div>
+                        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--color-text-muted-soft)]">
+                          {String(index + 1).padStart(2, "0")}
+                        </div>
+                        <div className="mt-1 text-[1.55rem] font-semibold leading-none tracking-[-0.04em] text-[var(--color-text-inverse)] sm:text-[1.9rem]">
+                          {item.label}
+                        </div>
                       </div>
-                      <div className="mt-1 text-[1.55rem] font-semibold leading-none tracking-[-0.04em] text-[var(--color-text-inverse)] sm:text-[1.9rem]">
-                        {item.label}
+                      <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.04)] text-[var(--color-brand-alt)] transition-transform duration-300 group-hover:translate-x-1 sm:h-10 sm:w-10">
+                        <ArrowUpRight size={17} />
                       </div>
-                    </div>
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.04)] text-[var(--color-brand-alt)] transition-transform duration-300 group-hover:translate-x-1 sm:h-10 sm:w-10">
-                      <ArrowUpRight size={17} />
-                    </div>
-                  </motion.button>
+                    </PageLink>
+                  </motion.div>
                 ))}
               </div>
 
@@ -333,7 +550,7 @@ const Navbar = () => {
                   ease: "easeOut",
                   delay: shouldReduceMotion ? 0 : 0.18,
                 }}
-                className="shrink-0 rounded-md border border-[color:rgb(255_255_255_/_0.09)] bg-[linear-gradient(180deg,rgb(255_255_255_/_0.05),rgb(255_255_255_/_0.02))] p-3.5 shadow-[0_24px_60px_rgb(0_0_0_/_0.22)] backdrop-blur-xl sm:p-4"
+                className="shrink-0 ui-radius-control border border-[color:rgb(255_255_255_/_0.09)] bg-[linear-gradient(180deg,rgb(255_255_255_/_0.05),rgb(255_255_255_/_0.02))] p-3.5 shadow-[0_24px_60px_rgb(0_0_0_/_0.22)] backdrop-blur-xl sm:p-4"
               >
                 <div className="mb-3 flex items-start justify-between gap-4 sm:mb-4">
                   <div>
@@ -376,6 +593,16 @@ const Navbar = () => {
       </AnimatePresence>
     </>
   );
+};
+
+const RoutedNavbar = () => {
+  const location = useRouterState({ select: (state) => state.location });
+  return <NavbarContent location={location} />;
+};
+
+const Navbar = () => {
+  const router = useRouter({ warn: false });
+  return router ? <RoutedNavbar /> : <NavbarContent location={{ pathname: window.location.pathname, hash: window.location.hash }} />;
 };
 
 export default Navbar;

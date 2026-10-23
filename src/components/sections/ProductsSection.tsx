@@ -7,7 +7,7 @@ import {
 import { useMinWidth } from "../../hooks/useMinWidth";
 import type { ProductVaultCard } from "../../types/products";
 import { ButtonLink } from "../ui/Button";
-import { SectionContainer, SectionHeading } from "../ui/Section";
+import { SectionContainer, SectionHeader } from "../ui/Section";
 
 interface ProductsSectionProps {
   vaults: ProductVaultCard[];
@@ -205,28 +205,20 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
       <div className="pointer-events-none absolute left-1/2 top-0 h-[400px] w-[800px] -translate-x-1/2 rounded-full blur-[100px]" />
 
       <div className="relative z-10 w-full ui-section-shell">
-        <SectionContainer className="mb-10 flex flex-col items-end justify-between gap-4 md:flex-row xl:mb-12">
-          <SectionHeading
+        <SectionContainer>
+          <SectionHeader
+            variant="collection"
             eyebrow="Live Vaults"
-            title="Tokenized credit, built for scale"
+            title={<>Tokenized credit, <span className="text-[var(--color-text-muted)]">built for scale</span></>}
             description="A modern fixed-income stack with the oversight, compliance, and reliability institutions expect."
-            className="max-w-3xl"
+            action={showHeaderCta ? (
+              <div data-testid="products-header-actions">
+                <ButtonLink href="https://app.pareto.credit/" target="_blank" rel="noopener noreferrer" variant="outline" size="md" className="text-[var(--color-text-primary)]">
+                  Explore Vaults
+                </ButtonLink>
+              </div>
+            ) : undefined}
           />
-
-          {showHeaderCta ? (
-            <div data-testid="products-header-actions">
-              <ButtonLink
-                href="https://app.pareto.credit/"
-                target="_blank"
-                rel="noopener noreferrer"
-                variant="outline"
-                size="md"
-                className="text-[var(--color-text-primary)]"
-              >
-                Explore Vaults
-              </ButtonLink>
-            </div>
-          ) : null}
         </SectionContainer>
 
         {isVaultsLoading ? (
@@ -454,7 +446,7 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
                               </div>
 
                               <span
-                                className={`inline-flex h-8 shrink-0 items-center whitespace-nowrap rounded-lg px-3 font-mono text-[9px] font-bold uppercase tracking-widest leading-none shadow-sm ${statusClassName}`}
+                                className={`inline-flex h-8 shrink-0 items-center whitespace-nowrap ui-radius-control px-3 font-mono text-[9px] font-bold uppercase tracking-widest leading-none shadow-sm ${statusClassName}`}
                               >
                                 {formatStatusLabel(vault.status)}
                               </span>
@@ -462,7 +454,7 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
 
                             <div className="mb-5 flex flex-wrap gap-2">
                               {vault.curatorName ? (
-                                <span className="inline-flex h-7 items-center gap-2 rounded-lg border border-[var(--color-border-soft)] bg-white px-3 font-mono text-[10px] font-semibold uppercase tracking-widest leading-none text-[var(--color-chip-text)]">
+                                <span className="inline-flex h-7 items-center gap-2 ui-radius-control border border-[var(--color-border-soft)] bg-white px-3 font-mono text-[10px] font-semibold uppercase tracking-widest leading-none text-[var(--color-chip-text)]">
                                   <span className="flex h-5 w-5 items-center justify-center overflow-hidden rounded-full border border-[var(--color-border-soft)]">
                                     {curatorLogo ? (
                                       <img
@@ -483,12 +475,12 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
                                 </span>
                               ) : null}
 
-                              <span className="inline-flex h-7 items-center rounded-lg border border-[var(--color-border-soft)] bg-white px-3 font-mono text-[10px] font-semibold uppercase tracking-widest leading-none text-[var(--color-chip-text)]">
+                              <span className="inline-flex h-7 items-center ui-radius-control border border-[var(--color-border-soft)] bg-white px-3 font-mono text-[10px] font-semibold uppercase tracking-widest leading-none text-[var(--color-chip-text)]">
                                 {vault.asset}
                               </span>
 
                               {vault.type ? (
-                                <span className="inline-flex h-7 items-center rounded-lg border border-[var(--color-border-soft)] bg-white px-3 font-mono text-[10px] font-semibold uppercase tracking-widest leading-none text-[var(--color-chip-text)]">
+                                <span className="inline-flex h-7 items-center ui-radius-control border border-[var(--color-border-soft)] bg-white px-3 font-mono text-[10px] font-semibold uppercase tracking-widest leading-none text-[var(--color-chip-text)]">
                                   {vault.type}
                                 </span>
                               ) : null}

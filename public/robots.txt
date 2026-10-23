@@ -2,10 +2,13 @@ User-agent: *
 Allow: /
 Allow: /privacy-policy
 Allow: /terms-of-service
+Allow: /thesis
+Allow: /ecosystem
 Allow: /.well-known/
 Allow: /sitemap.xml
 Allow: /openapi.json
 Disallow: /?showBanknote=
+Disallow: /?showIndexes=
 Content-Signal: ai-train=no, search=yes, ai-input=yes
 
 User-agent: OAI-SearchBot

@@ -23,7 +23,7 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
           <div className="relative flex h-full min-h-0 w-full flex-1 items-center justify-center px-2 pt-4 md:px-0 md:pt-8">
             <div className="origin-center scale-[0.72] sm:scale-[0.84] md:scale-100">
             {activeIndex === 0 && (
-              <div className="w-full max-w-[430px] rounded-2xl border border-[var(--color-overlay-inverse-20)] bg-[color:rgb(8_18_14_/_0.92)] p-4 shadow-[0_24px_50px_rgba(0,0,0,0.45)]">
+              <div className="w-full max-w-[430px] ui-radius-panel border border-[var(--color-overlay-inverse-20)] bg-[color:rgb(8_18_14_/_0.92)] p-4 shadow-[0_24px_50px_rgba(0,0,0,0.45)]">
                 <div className="flex items-center justify-between border-b border-[var(--color-border-inverse-subtle)] pb-3">
                   <img
                     src={paretoLogoLight}
@@ -45,7 +45,7 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
                 </div>
 
                 <div className="mt-3 grid grid-cols-[1.3fr_0.7fr] gap-3">
-                  <div className="rounded-xl border border-[var(--color-border-inverse-soft)] bg-[color:rgb(255_255_255_/_0.02)] p-3">
+                  <div className="ui-radius-panel border border-[var(--color-border-inverse-soft)] bg-[color:rgb(255_255_255_/_0.02)] p-3">
                     <div className="mb-2 font-mono text-[10px] uppercase tracking-widest text-[var(--color-text-muted)]">
                       Vault Setup
                     </div>
@@ -73,7 +73,7 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
                   </div>
 
                   <div className="space-y-3">
-                    <div className="rounded-xl border border-[var(--color-border-inverse-soft)] bg-[color:rgb(255_255_255_/_0.02)] p-3">
+                    <div className="ui-radius-panel border border-[var(--color-border-inverse-soft)] bg-[color:rgb(255_255_255_/_0.02)] p-3">
                       <div className="font-mono text-[9px] uppercase tracking-widest text-[var(--color-text-muted)]">
                         LTV cap
                       </div>
@@ -81,7 +81,7 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
                         65%
                       </div>
                     </div>
-                    <div className="rounded-xl border border-[var(--color-border-inverse-soft)] bg-[color:rgb(255_255_255_/_0.02)] p-3">
+                    <div className="ui-radius-panel border border-[var(--color-border-inverse-soft)] bg-[color:rgb(255_255_255_/_0.02)] p-3">
                       <div className="font-mono text-[9px] uppercase tracking-widest text-[var(--color-text-muted)]">
                         Trigger
                       </div>
@@ -100,7 +100,7 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
                   ].map(([label, value]) => (
                     <div
                       key={label}
-                      className="rounded-xl border border-[var(--color-border-inverse-soft)] bg-[color:rgb(255_255_255_/_0.02)] p-2.5"
+                      className="ui-radius-panel border border-[var(--color-border-inverse-soft)] bg-[color:rgb(255_255_255_/_0.02)] p-2.5"
                     >
                       <div className="font-mono text-[9px] uppercase tracking-widest text-[var(--color-text-muted)]">
                         {label}
@@ -200,7 +200,7 @@ const StudioVisual = ({ activeIndex }: StudioVisualProps) => {
               </div>
             )}
             {activeIndex === 4 && (
-              <div className="w-full max-w-sm overflow-hidden rounded-xl border border-[var(--color-border-inverse-soft)] bg-black/60 p-6 font-mono text-left text-sm text-[var(--color-brand-alt)] shadow-2xl">
+              <div className="w-full max-w-sm overflow-hidden ui-radius-panel border border-[var(--color-border-inverse-soft)] bg-black/60 p-6 font-mono text-left text-sm text-[var(--color-brand-alt)] shadow-2xl">
                 <div className="mb-4 flex gap-2">
                   <div className="h-3 w-3 rounded-full bg-[var(--color-accent-red-soft)]" />
                   <div className="h-3 w-3 rounded-full bg-[var(--color-accent-yellow-soft)]" />

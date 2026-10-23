@@ -9,6 +9,8 @@ export const API_DOCS_URL = "https://docs.pareto.credit/developers/api";
 
 const PUBLIC_PAGES = [
   { path: "/", priority: "1.0", changefreq: "weekly" },
+  { path: "/thesis", priority: "0.7", changefreq: "monthly" },
+  { path: "/ecosystem", priority: "0.7", changefreq: "monthly" },
   { path: "/privacy-policy", priority: "0.3", changefreq: "yearly" },
   { path: "/terms-of-service", priority: "0.3", changefreq: "yearly" },
 ];
@@ -49,10 +51,13 @@ const generateRobotsTxt = (siteUrl) => {
     "Allow: /",
     "Allow: /privacy-policy",
     "Allow: /terms-of-service",
+    "Allow: /thesis",
+    "Allow: /ecosystem",
     "Allow: /.well-known/",
     "Allow: /sitemap.xml",
     "Allow: /openapi.json",
     "Disallow: /?showBanknote=",
+    "Disallow: /?showIndexes=",
     contentSignal,
     "",
     "User-agent: OAI-SearchBot",
@@ -114,20 +119,24 @@ ${urls}
 
 const generateHomepageMarkdown = (siteUrl) => `# Pareto
 
-Pareto builds transparent credit infrastructure with enterprise-grade compliance for modern capital markets.
+Pareto is credit underwriting infrastructure for compliant onchain finance. Lenders, borrowers and underwriters structure, launch and run credit facilities in Pareto Studio, with terms enforced onchain.
 
 ## Primary Pages
 
 - [Home](${canonicalUrl(siteUrl, "/")})
+- [Thesis](${canonicalUrl(siteUrl, "/thesis")})
+- [Ecosystem](${canonicalUrl(siteUrl, "/ecosystem")})
 - [Privacy Policy](${canonicalUrl(siteUrl, "/privacy-policy")})
 - [Terms of Service](${canonicalUrl(siteUrl, "/terms-of-service")})
 
 ## Product Areas
 
-- Tokenized credit vaults for institutional credit products
+- Pareto Studio: structure, launch and operate credit facilities (term, revolving, collateralized, asset-backed)
+- Credit Vaults: permissioned, MLA-governed onchain facilities with isolated accounting
+- Pareto MCP (early access): read-only access to facility data for Claude, Codex and other MCP clients
+- Offering: Core (self-serve Studio), Pro (guided launch and DeFi distribution), White-Glove (NorthBridge as curator)
 - USP synthetic dollar products
-- White-label and studio tooling for credit infrastructure
-- Ecosystem, operator, documentation, governance, and developer resources
+- Documentation, governance, and developer resources
 
 ## Developer Resources
 

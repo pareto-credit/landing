@@ -18,7 +18,8 @@ const WINDOW_TOP_PX = 64;
 const WINDOW_BOTTOM_PX = 64;
 const WINDOW_RIGHT_PX = 64;
 const WINDOW_LEFT_RATIO = 0.55;
-export const WINDOW_RADIUS_PX = 10;
+// SVG path geometry uses the same 6px radius as --radius-card (Live Vaults).
+export const WINDOW_RADIUS_PX = 6;
 const WINDOW_SAFE_TOP_PX = NAVBAR_OFFSET_PX + 16;
 const VIDEO_LOAD_AHEAD_MARGIN = "1200px 0px";
 const NARRATIVE_SCROLL_HEIGHT_CLASS = "h-[480vh]";
@@ -97,7 +98,7 @@ const shouldEnableFullNarrative = (): boolean => {
   return !["0", "false", "no", "off"].includes(value.trim().toLowerCase());
 };
 
-const NarrativeScrollSection = () => {
+const NarrativeScrollSection = ({ id }: { id?: string }) => {
   const isFullNarrativeEnabled = useMemo(() => shouldEnableFullNarrative(), []);
   const containerRef = useRef<HTMLElement | null>(null);
   const viewportRef = useRef<HTMLDivElement | null>(null);
@@ -429,6 +430,7 @@ const NarrativeScrollSection = () => {
 
   return (
     <section
+      id={id}
       ref={containerRef}
       className={cn(
         "relative bg-[var(--color-bg-narrative)]",
@@ -573,7 +575,7 @@ const NarrativeScrollSection = () => {
                 <span className="h-px w-8 bg-[color:rgb(112_177_158_/_0.50)]"></span>{" "}
                 01. The Legacy
               </div>
-              <h2 className={narrativeHeadingClassName}>
+              <h2 id={id ? `${id}-title` : undefined} tabIndex={id ? -1 : undefined} className={narrativeHeadingClassName}>
                 Credit markets run on a stack of legacy systems, patched
                 together over decades
               </h2>
