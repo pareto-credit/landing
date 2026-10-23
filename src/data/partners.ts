@@ -1,13 +1,13 @@
-import bastionEco from "../assets/images/operators/Bastion_Trading.svg";
+import bastionEco from "../assets/images/partners/bastion.svg";
 import adaptiveFrontierEco from "../assets/images/operators/adaptivefrontier.png";
 import eulerEco from "../assets/images/operators/euler.svg";
-import falconEco from "../assets/images/operators/FalconX.svg";
-import digitalEco from "../assets/images/operators/Fasanara_Digital.svg";
+import falconEco from "../assets/images/partners/falconx.svg";
+import digitalEco from "../assets/images/partners/fasanara.png";
 import gauntletEco from "../assets/images/operators/gauntletlogo.svg";
 import keyringEco from "../assets/images/operators/keyring.svg";
-import rockawayEco from "../assets/images/operators/RockawayX_mark.svg";
-import m11Eco from "../assets/images/operators/m11.svg";
-import morphoEco from "../assets/images/operators/morpho.svg";
+import rockawayEco from "../assets/images/partners/rockawayx.svg";
+import m11Eco from "../assets/images/partners/m11credit.svg";
+import morphoEco from "../assets/images/partners/morpho.svg";
 import steakhouseEco from "../assets/images/operators/steakhouse.svg";
 import redstoneEco from "../assets/images/operators/redstone.svg";
 import twoPrimeEco from "../assets/images/operators/twoprime-wordmark.svg";
@@ -21,8 +21,8 @@ export interface Partner {
   src: string;
   visualScale: number;
   verticalOffset?: number;
-  imageClassName?: string;
-  hoverImageClassName?: string;
+  /** Backing needed to keep the original wordmark readable when its colors return. */
+  colorSurface?: "light" | "dark";
 }
 
 export const partners: Partner[] = [
@@ -33,8 +33,6 @@ export const partners: Partner[] = [
     src: redstoneEco,
     verticalOffset: 0.5,
     visualScale: 0.9,
-    imageClassName: "brightness-0 invert opacity-90",
-    hoverImageClassName: "group-hover/logo:brightness-100 group-hover/logo:invert-0",
   },
   {
     group: "credit",
@@ -43,11 +41,11 @@ export const partners: Partner[] = [
     src: twoPrimeEco,
     verticalOffset: 1.5,
     visualScale: 1.1,
-    imageClassName: "opacity-90",
   },
   {
     group: "credit",
     name: "FalconX",
+    colorSurface: "light",
     link: "https://www.falconx.io/",
     src: falconEco,
     visualScale: 1.2,
@@ -56,6 +54,7 @@ export const partners: Partner[] = [
   {
     group: "credit",
     name: "RockawayX",
+    colorSurface: "light",
     link: "https://www.rockawayx.com/",
     src: rockawayEco,
     visualScale: 1.16,
@@ -100,35 +99,33 @@ export const partners: Partner[] = [
     src: gauntletEco,
     visualScale: 0.8,
     verticalOffset: 1,
-    imageClassName: "brightness-0 invert opacity-90",
-    hoverImageClassName: "group-hover/logo:brightness-100 group-hover/logo:invert-0",
   },
   {
     group: "infrastructure",
     name: "Steakhouse",
+    colorSurface: "light",
     link: "https://www.steakhouse.financial/",
     src: steakhouseEco,
     visualScale: 0.8,
     verticalOffset: 1,
-    imageClassName: "brightness-0 invert opacity-90",
   },
   {
     group: "infrastructure",
     name: "Morpho",
+    colorSurface: "light",
     link: "https://morpho.org/",
     src: morphoEco,
     visualScale: 0.8,
     verticalOffset: 1,
-    imageClassName: "opacity-90",
   },
   {
     group: "infrastructure",
     name: "Keyring",
+    colorSurface: "light",
     link: "https://www.keyring.network/",
     src: keyringEco,
     visualScale: 0.8,
     verticalOffset: 1,
-    imageClassName: "brightness-0 invert opacity-90",
   },
   {
     group: "infrastructure",
@@ -137,7 +134,5 @@ export const partners: Partner[] = [
     src: eulerEco,
     visualScale: 0.6,
     verticalOffset: 1,
-    imageClassName: "brightness-0 invert opacity-90",
-    hoverImageClassName: "group-hover/logo:brightness-100 group-hover/logo:invert-0",
   },
 ];

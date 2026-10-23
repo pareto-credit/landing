@@ -1,0 +1,73 @@
+/* A compact editorial opening, with the same type and surface scale as the landing. */
+.eco-intro { padding-top: 128px; padding-bottom: 32px; }
+.eco-intro__eyebrow { margin-bottom: 16px; color: var(--color-brand-deep); font: 400 12px var(--font-mono); letter-spacing: .16em; text-transform: uppercase; }
+.eco-intro__heading { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); align-items: end; gap: 64px; }
+.eco-intro h1 { color: var(--color-brand-dark); font-size: clamp(36px, 4vw, 48px); font-weight: 700; line-height: 1.06; letter-spacing: -.045em; }
+.eco-intro h1 span { display: block; color: var(--color-text-muted); }
+.eco-intro__heading > p { max-width: 440px; color: var(--color-text-muted); font-size: 15px; line-height: 1.65; }
+.eco-roles-shell { padding-bottom: 64px; }
+.eco-roles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.eco-role-card { --eco-ink: #10271d; --eco-copy: #405b4e; --eco-accent: #386e54; --eco-line: rgb(37 72 57 / .16); position: relative; display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); grid-template-rows: auto 1fr auto; gap: 14px 24px; min-width: 0; padding: 24px; overflow: hidden; border: 1px solid var(--eco-line); border-radius: var(--radius-card); background: #f9fcfa; color: var(--eco-ink); transition: border-color 240ms, box-shadow 240ms; }
+.eco-role-card--dark { --eco-ink: #eef8f1; --eco-copy: #bad0c3; --eco-accent: #a3e5bc; --eco-line: rgb(178 214 193 / .18); background: #10271d; }
+.eco-role-card--mint { background: #dfeee5; }
+.eco-role-card--dark:last-child { background: #19382b; }
+.eco-role-card::after { content: ""; position: absolute; inset-block: 24px; left: calc(58.333% - 6px); width: 1px; background: var(--eco-line); pointer-events: none; }
+.eco-role-card__heading { grid-column: 1; grid-row: 1; align-self: center; }
+.eco-role-card__number { display: block; margin-bottom: 8px; color: var(--eco-accent); font: 400 11px var(--font-mono); letter-spacing: .1em; }
+.eco-role-card h2 { font-size: clamp(23px, 2vw, 27px); font-weight: 600; line-height: 1.12; letter-spacing: -.04em; }
+.eco-role-card__who { margin-top: 7px; color: var(--eco-copy); font-size: 13px; line-height: 1.5; }
+.eco-role-card__copy { grid-column: 1; grid-row: 2; color: var(--eco-copy); font-size: 14px; line-height: 1.65; }
+.eco-role-card__features { grid-column: 2; grid-row: 2 / 4; display: flex; flex-direction: column; justify-content: flex-start; gap: 11px; padding-left: 12px; color: var(--eco-copy); }
+.eco-role-card__features li { display: flex; align-items: flex-start; gap: 7px; font-size: 13px; line-height: 1.5; }
+.eco-role-card__features svg { flex-shrink: 0; margin-top: 3px; color: var(--eco-accent); }
+.eco-role-diagram { grid-column: 2; grid-row: 1; align-self: center; min-width: 0; padding-left: 12px; color: var(--eco-accent); }
+.eco-role-diagram svg { display: block; width: 100%; height: 96px; transition: transform 300ms; }
+.eco-role-signal { stroke-dasharray: 3 15; opacity: .5; animation: eco-role-flow 1.6s linear infinite paused; }
+.eco-role-card__cta { grid-column: 1; grid-row: 3; display: flex; width: fit-content; min-height: 44px; align-items: center; gap: 16px; padding-top: 8px; border-bottom: 1px solid var(--eco-line); color: var(--eco-ink); font-size: 13px; font-weight: 500; text-decoration: none; transition: border-color 200ms, color 200ms; }
+.eco-role-card__cta svg { transition: transform 200ms; }
+.eco-role-card__cta:hover { border-color: var(--eco-accent); }
+.eco-role-card__cta:hover svg { transform: translate(2px, -2px); }
+.eco-role-card__cta:focus-visible { outline: 2px solid var(--eco-accent); outline-offset: 5px; border-radius: var(--radius-control); }
+.eco-role-card:focus-within { border-color: var(--eco-accent); }
+.eco-role-card:focus-within .eco-role-signal { opacity: 1; animation-play-state: running; }
+@media (hover: hover) and (pointer: fine) {
+  .eco-role-card:hover { border-color: var(--eco-accent); box-shadow: 0 12px 28px -24px rgb(12 41 25 / .5); }
+  .eco-role-card:hover .eco-role-signal { opacity: 1; animation-play-state: running; }
+  .eco-role-card:hover .eco-role-diagram svg { transform: translateY(-2px); }
+}
+@keyframes eco-role-flow { to { stroke-dashoffset: -36; } }
+@media (max-width: 1023px) {
+  .eco-intro { padding-top: 112px; }
+  .eco-intro__heading { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .eco-intro__heading > p { max-width: 640px; font-size: 16px; }
+  .eco-roles { grid-template-columns: minmax(0, 1fr); }
+  .eco-role-card h2 { font-size: 28px; }
+  .eco-role-card__copy { font-size: 16px; }
+  .eco-role-card__features li { font-size: 14px; }
+}
+@media (max-width: 639px) {
+  .eco-intro { padding-top: 104px; padding-bottom: 28px; }
+  .eco-intro h1 { font-size: 36px; }
+  .eco-roles-shell { padding-bottom: 48px; }
+  .eco-role-card { grid-template-columns: minmax(0, 1fr) 96px; grid-template-rows: auto auto auto auto; gap: 18px 8px; padding: 22px; }
+  .eco-role-card::after { display: none; }
+  .eco-role-card h2 { font-size: 26px; }
+  .eco-role-card__who { font-size: 14px; }
+  .eco-role-card__copy { grid-column: 1 / -1; grid-row: 2; }
+  .eco-role-card__features { grid-column: 1 / -1; grid-row: 3; gap: 9px; padding: 0; }
+  .eco-role-card__features li { font-size: 14px; }
+  .eco-role-diagram { align-self: start; margin-top: 12px; padding: 0; }
+  .eco-role-diagram svg { height: 80px; }
+  .eco-role-card__cta { grid-column: 1 / -1; grid-row: 4; font-size: 14px; }
+}
+@media (max-width: 359px) {
+  .eco-intro h1 { font-size: 32px; }
+  .eco-role-card { grid-template-columns: minmax(0, 1fr) 72px; padding: 18px; }
+  .eco-role-card h2 { font-size: 24px; }
+  .eco-role-diagram svg { height: 68px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .eco-role-card, .eco-role-card__cta, .eco-role-card__cta svg, .eco-role-diagram svg { transition: none; }
+  .eco-role-signal { animation: none; }
+  .eco-role-card:hover .eco-role-diagram svg, .eco-role-card__cta:hover svg { transform: none; }
+}

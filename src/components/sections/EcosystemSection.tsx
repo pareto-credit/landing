@@ -149,7 +149,7 @@ const EcosystemSection = () => {
 
       <SectionContainer className="ui-section-shell relative z-10">
         <SectionHeading
-          eyebrow="Ecosystem"
+          eyebrow="Built for institutions"
           title="Engineered for global scale"
           description="The modern credit infrastructure the market deserves — rebuilt for a transparent, programmable era."
           className="mx-auto mb-12 text-center xl:mb-14"

@@ -1,0 +1,8 @@
+.site-nav-link { position: relative; min-height: 36px; }
+.site-nav-link::after { content: ""; position: absolute; right: 0; bottom: 0; left: 0; height: 2px; border-radius: var(--radius-control); background: var(--color-brand-deep); transform: scaleX(0); transition: transform 180ms; }
+.site-nav-link[aria-current], .site-nav-link[data-active] { color: var(--color-brand-deep); font-weight: 500; }
+.site-nav-link[aria-current]::after, .site-nav-link[data-active]::after { transform: scaleX(1); }
+.site-nav-link:focus-visible { outline: 2px solid var(--color-brand-alt); outline-offset: 5px; border-radius: var(--radius-control); }
+.site-nav-destination[aria-current] { background: var(--color-surface-muted); box-shadow: inset 3px 0 var(--color-brand-alt); }
+.site-nav-mobile-link[aria-current] { border-color: rgb(113 178 159 / .6); background: rgb(113 178 159 / .16); box-shadow: inset 3px 0 var(--color-brand-alt); }
+@media (prefers-reduced-motion: reduce) { .site-nav-link::after { transition: none; } }

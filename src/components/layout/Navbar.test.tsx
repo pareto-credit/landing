@@ -1,6 +1,20 @@
 import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { createMemoryHistory, createRootRoute, createRoute, createRouter, RouterProvider } from "@tanstack/react-router";
 import Navbar from "./Navbar";
+
+const renderAt = (entry: string) => {
+  const root = createRootRoute({ component: Navbar });
+  const routes = ["/", "/ecosystem", "/thesis"].map((path) =>
+    createRoute({ getParentRoute: () => root, path, component: () => null }),
+  );
+  const router = createRouter({
+    routeTree: root.addChildren(routes),
+    history: createMemoryHistory({ initialEntries: [entry] }),
+    defaultPendingMinMs: 0,
+  });
+  render(<RouterProvider router={router} />);
+};
 
 describe("Navbar", () => {
   afterEach(() => {
@@ -114,5 +128,36 @@ describe("Navbar", () => {
     fireEvent.click(screen.getByRole("button", { name: /solutions/i }));
     fireEvent.scroll(window);
     await waitFor(() => expect(screen.queryByTestId("solutions-menu")).not.toBeInTheDocument());
+  });
+
+  it("moves the current-page state after client navigation", async () => {
+    renderAt("/ecosystem");
+    const ecosystem = await screen.findByRole("link", { name: "Ecosystem" });
+    expect(ecosystem).toHaveAttribute("aria-current", "page");
+    const thesis = screen.getByRole("link", { name: "Thesis" });
+    expect(thesis).not.toHaveAttribute("aria-current");
+
+    fireEvent.click(thesis);
+    await waitFor(() => expect(thesis).toHaveAttribute("aria-current", "page"));
+    expect(ecosystem).not.toHaveAttribute("aria-current");
+    expect(screen.getByRole("button", { name: /solutions/i })).not.toHaveAttribute("data-active");
+  });
+
+  it("identifies the current page in the mobile menu", async () => {
+    renderAt("/ecosystem");
+    fireEvent.click(await screen.findByRole("button", { name: /toggle mobile menu/i }));
+    const dialog = screen.getByRole("dialog", { name: /site navigation/i });
+    expect(within(dialog).getByRole("link", { name: /ecosystem/i })).toHaveAttribute("aria-current", "page");
+    expect(within(dialog).getByRole("link", { name: /thesis/i })).not.toHaveAttribute("aria-current");
+  });
+
+  it("marks the homepage group and the selected solution", async () => {
+    renderAt("/#offering");
+    const solutions = await screen.findByRole("button", { name: /solutions/i });
+    expect(solutions).toHaveAttribute("data-active", "true");
+    fireEvent.click(solutions);
+    const menu = screen.getByTestId("solutions-menu");
+    expect(within(menu).getByRole("link", { name: /offering/i })).toHaveAttribute("aria-current", "location");
+    expect(within(menu).getByRole("link", { name: /vaults/i })).not.toHaveAttribute("aria-current");
   });
 });

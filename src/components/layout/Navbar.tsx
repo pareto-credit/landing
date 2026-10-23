@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useRouter, useRouterState } from "@tanstack/react-router";
+import "./navbar.css";
 import {
   ArrowUpRight,
   Bot,
@@ -89,7 +91,13 @@ const pageDestination = (target: NavTarget) => target.kind === "section"
 
 const SOLUTIONS_CLOSE_DELAY_MS = 140;
 
-const Navbar = () => {
+interface NavLocation { pathname: string; hash: string }
+
+const isCurrentTarget = (target: NavTarget, location: NavLocation) => target.kind === "page"
+  ? location.pathname.replace(/\/$/, "") === target.to
+  : location.pathname === "/" && location.hash.replace(/^#/, "") === target.id;
+
+const NavbarContent = ({ location }: { location: NavLocation }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [solutionsOpen, setSolutionsOpen] = useState(false);
@@ -138,7 +146,7 @@ const Navbar = () => {
 
   useEffect(() => () => cancelSolutionsClose(), []);
   const navLinkClass =
-    "inline-flex items-center transition-colors hover:text-[var(--color-brand-alt)] focus-visible:text-[var(--color-brand-alt)] focus-visible:outline-none";
+    "site-nav-link inline-flex items-center transition-colors hover:text-[var(--color-brand-alt)] focus-visible:text-[var(--color-brand-alt)] focus-visible:outline-none";
   const mobileToggleButtonClass = mobileMenuOpen
     ? "border-[color:rgb(255_255_255_/_0.16)] bg-[color:rgb(255_255_255_/_0.04)] text-[var(--color-text-inverse)] shadow-[0_10px_30px_rgb(0,0,0,0.18)]"
     : isScrolled
@@ -242,6 +250,7 @@ const Navbar = () => {
               <button
                 type="button"
                 aria-expanded={solutionsOpen}
+                data-active={location.pathname === "/" || undefined}
                 aria-controls="solutions-menu"
                 onClick={(event) => {
                   // Pointer users already opened it on hover; keyboard users toggle.
@@ -286,7 +295,8 @@ const Navbar = () => {
                                   <PageLink
                                     {...pageDestination(item.target)}
                                     onClick={() => setSolutionsOpen(false)}
-                                    className="group flex w-full items-start gap-3 ui-radius-control px-3 py-3 text-left transition-colors hover:bg-[var(--color-surface-muted)] focus-visible:bg-[var(--color-surface-muted)] focus-visible:outline-none"
+                                    aria-current={isCurrentTarget(item.target, location) ? "location" : undefined}
+                                    className="site-nav-destination group flex w-full items-start gap-3 ui-radius-control px-3 py-3 text-left transition-colors hover:bg-[var(--color-surface-muted)] focus-visible:bg-[var(--color-surface-muted)] focus-visible:outline-none"
                                   >
                                     <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center ui-radius-control bg-[var(--color-brand-deep)] text-[var(--color-brand-bright)]">
                                       <item.icon size={16} />
@@ -339,6 +349,7 @@ const Navbar = () => {
                 key={item.label}
                 {...pageDestination(item.target)}
                 className={navLinkClass}
+                aria-current={isCurrentTarget(item.target, location) ? "page" : undefined}
               >
                 {item.label}
               </PageLink>
@@ -490,7 +501,8 @@ const Navbar = () => {
                     <PageLink
                       {...pageDestination(item.target)}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="group flex min-h-12 items-center justify-between ui-radius-control border border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.035)] px-4 py-3 text-left shadow-[inset_0_1px_0_rgb(255_255_255_/_0.04)] backdrop-blur-sm transition-colors hover:border-[color:rgb(113_178_159_/_0.35)] hover:bg-[color:rgb(255_255_255_/_0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)] sm:min-h-14 sm:px-5 sm:py-4"
+                      aria-current={isCurrentTarget(item.target, location) ? item.target.kind === "page" ? "page" : "location" : undefined}
+                      className="site-nav-mobile-link group flex min-h-12 items-center justify-between ui-radius-control border border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.035)] px-4 py-3 text-left shadow-[inset_0_1px_0_rgb(255_255_255_/_0.04)] backdrop-blur-sm transition-colors hover:border-[color:rgb(113_178_159_/_0.35)] hover:bg-[color:rgb(255_255_255_/_0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)] sm:min-h-14 sm:px-5 sm:py-4"
                     >
                       <div>
                         <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--color-text-muted-soft)]">
@@ -566,6 +578,16 @@ const Navbar = () => {
       </AnimatePresence>
     </>
   );
+};
+
+const RoutedNavbar = () => {
+  const location = useRouterState({ select: (state) => state.location });
+  return <NavbarContent location={location} />;
+};
+
+const Navbar = () => {
+  const router = useRouter({ warn: false });
+  return router ? <RoutedNavbar /> : <NavbarContent location={{ pathname: window.location.pathname, hash: window.location.hash }} />;
 };
 
 export default Navbar;

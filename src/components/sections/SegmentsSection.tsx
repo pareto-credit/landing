@@ -1,3 +1,4 @@
+import PartnerLogo from "../ui/PartnerLogo";
 import { partners } from "../../data/partners";
 
 const SegmentsSection = () => {
@@ -10,7 +11,7 @@ const SegmentsSection = () => {
         Powering leading companies building the future of credit and global markets
       </p>
 
-      <div className="group marquee-container w-full [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]">
+      <div className="group marquee-container w-full [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)] [&:focus-within_.marquee-content]:[animation-play-state:paused]">
         <div className="marquee-content">
           {[0, 1].map((loopIndex) => (
             <div
@@ -19,25 +20,13 @@ const SegmentsSection = () => {
               className="marquee-group items-center gap-12 px-6 md:gap-20"
             >
               {partners.map((operator) => (
-                <a
+                <PartnerLogo
                   key={`${loopIndex}-${operator.name}`}
-                  href={operator.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  tabIndex={loopIndex === 1 ? -1 : undefined}
-                  className="relative inline-flex h-10 w-[10rem] shrink-0 items-center justify-center opacity-50 transition-opacity duration-300 hover:opacity-90 focus-visible:opacity-90 focus-visible:outline-none md:h-12 md:w-[12rem]"
-                  aria-label={`Visit ${operator.name}`}
-                >
-                  <img
-                    src={operator.src}
-                    alt={operator.name}
-                    style={{
-                      transform: `translateY(${operator.verticalOffset ?? 0}px) scale(${operator.visualScale})`,
-                      transformOrigin: "center center",
-                    }}
-                    className="block h-full w-full object-contain px-2 py-1.5 brightness-0"
-                  />
-                </a>
+                  partner={operator}
+                  tone="light"
+                  presentation="marquee"
+                  duplicate={loopIndex === 1}
+                />
               ))}
             </div>
           ))}

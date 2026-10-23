@@ -32,6 +32,10 @@ live vaults and the Core/Pro/White-Glove offering. Long-form content lives at
   card, panel and control tokens; circles and chart geometry retain their shapes.
 - Current Offering interaction and validation: [overview and radius notes](docs/plans/2026-10-23-offering-overview-and-radius-alignment.md).
 - Shared partner roster: `src/data/partners.ts`.
+- Ecosystem roles: `src/data/ecosystem.ts`; compact role panels and original-color
+  logo interactions are documented in [the Ecosystem design notes](docs/plans/2026-10-23-ecosystem-redesign.md).
+- The navbar follows router location: page links use `aria-current="page"`,
+  homepage solution links use `aria-current="location"` for the selected hash.
 - Internal links: `PageLink` delegates hash scrolling to the router; section
   scroll margins account for the fixed navbar. Avoid delayed scroll corrections.
 - Structure details use a body portal, keyboard focus containment and an inert

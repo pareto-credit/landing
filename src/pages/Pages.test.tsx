@@ -71,14 +71,19 @@ describe("EcosystemPage", () => {
     expect(screen.getByTestId("products-section")).toBeInTheDocument();
   });
 
-  it("carries the chosen role into the homepage contact form", () => {
+  it.each([
+    ["Raise a facility", "Borrowing"],
+    ["Curate on Pareto", "Underwriting"],
+    ["Start lending", "Lending"],
+    ["Integrate", "Integration"],
+  ])("carries %s into the homepage contact form", (label, interest) => {
     render(<EcosystemPage />);
 
-    const cta = screen.getByRole("link", { name: /curate on pareto/i });
+    const cta = screen.getByRole("link", { name: label });
     expect(cta).toHaveAttribute("href", "/#contact");
 
     fireEvent.click(cta);
 
-    expect(consumePendingContactInterest()).toBe("Underwriting");
+    expect(consumePendingContactInterest()).toBe(interest);
   });
 });
