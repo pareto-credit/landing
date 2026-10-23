@@ -4,6 +4,8 @@ Allow: /privacy-policy
 Allow: /terms-of-service
 Allow: /thesis
 Allow: /ecosystem
+Allow: /ecosystem/originators
+Allow: /ecosystem/capital-providers
 Allow: /.well-known/
 Allow: /sitemap.xml
 Allow: /openapi.json

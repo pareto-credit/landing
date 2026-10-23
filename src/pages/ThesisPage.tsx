@@ -1,9 +1,8 @@
-import ThesisPathGraphic from "../components/sections/thesis/ThesisPathGraphic";
+import ThesisIndex from "../components/sections/thesis/ThesisIndex";
 import ThesisSections from "../components/sections/thesis/ThesisSections";
 import "../components/sections/thesis/thesis.css";
 import Footer from "../components/layout/Footer";
 import Navbar from "../components/layout/Navbar";
-import NarrativeScrollSection from "../components/sections/NarrativeScrollSection";
 import { SectionContainer } from "../components/ui/Section";
 import { useProductsData } from "../hooks/useProductsData";
 
@@ -34,11 +33,9 @@ const ThesisPage = () => {
                 </p>
               </div>
             </div>
-            <ThesisPathGraphic />
+            <ThesisIndex />
           </SectionContainer>
         </section>
-
-        <NarrativeScrollSection id="legacy" />
 
         <ThesisSections
           creditServiced={metrics.creditExtended}

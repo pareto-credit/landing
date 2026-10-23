@@ -57,41 +57,41 @@ describe("ThesisChapterNav", () => {
     act(() => vi.runOnlyPendingTimers());
     expect(screen.getByRole("button", { name: /thesis chapters.*overview/i })).toBeInTheDocument();
 
-    chapterTops.set("opportunity", -300);
-    chapterTops.set("constraint", 100);
+    chapterTops.set("constraints", -300);
+    chapterTops.set("opportunity", 100);
     updateScroll();
-    fireEvent.click(screen.getByRole("button", { name: /thesis chapters.*the constraint/i }));
-    expect(screen.getByRole("link", { name: "The constraint" })).toHaveAttribute("aria-current", "location");
-    expect(screen.getByRole("link", { name: "Opportunity" })).not.toHaveAttribute("aria-current");
+    fireEvent.click(screen.getByRole("button", { name: /thesis chapters.*the opportunity/i }));
+    expect(screen.getByRole("link", { name: "The opportunity" })).toHaveAttribute("aria-current", "location");
+    expect(screen.getByRole("link", { name: "The constraints" })).not.toHaveAttribute("aria-current");
     expect(replaceState).not.toHaveBeenCalled();
 
-    chapterTops.set("constraint", 800);
-    chapterTops.set("opportunity", 400);
+    chapterTops.set("opportunity", 800);
+    chapterTops.set("constraints", 400);
     updateScroll();
     expect(screen.getByRole("button", { name: /thesis chapters.*overview/i })).toHaveAttribute("aria-expanded", "false");
   });
 
-  it("tracks the carousel as the first chapter", () => {
-    chapterTops.set("legacy", 100);
+  it("tracks the first chapter", () => {
+    chapterTops.set("structured-credit", 100);
     renderContents();
     act(() => vi.runOnlyPendingTimers());
-    const toggle = screen.getByRole("button", { name: /thesis chapters.*the legacy/i });
-    expect(toggle).not.toHaveTextContent(/7 chapters|01\s*\/\s*07/);
+    const toggle = screen.getByRole("button", { name: /thesis chapters.*structured credit/i });
+    expect(toggle).not.toHaveTextContent(/5 chapters|01\s*\/\s*05/);
     fireEvent.click(toggle);
-    expect(screen.getByRole("link", { name: "The legacy" })).toHaveAttribute("aria-current", "location");
+    expect(screen.getByRole("link", { name: "Structured credit" })).toHaveAttribute("aria-current", "location");
   });
 
   it("does not track matching section ids or focus another page's headings", () => {
-    chapterTops.set("legacy", 100);
+    chapterTops.set("structured-credit", 100);
     renderContents(false);
     act(() => vi.runOnlyPendingTimers());
     const toggle = screen.getByRole("button", { name: "Thesis chapters" });
     expect(toggle).not.toHaveAttribute("aria-current");
     fireEvent.click(toggle);
-    expect(screen.getByRole("link", { name: "The legacy" })).not.toHaveAttribute("aria-current");
-    fireEvent.click(screen.getByRole("link", { name: "Why onchain" }));
+    expect(screen.getByRole("link", { name: "Structured credit" })).not.toHaveAttribute("aria-current");
+    fireEvent.click(screen.getByRole("link", { name: "Why Pareto" }));
     act(() => vi.runOnlyPendingTimers());
-    expect(screen.getByRole("heading", { name: "Why onchain" })).not.toHaveFocus();
+    expect(screen.getByRole("heading", { name: "Why Pareto" })).not.toHaveFocus();
   });
 
   it("dismisses expanded contents with Escape and returns focus to its button", () => {
@@ -99,7 +99,7 @@ describe("ThesisChapterNav", () => {
     const toggle = screen.getByRole("button", { name: /thesis chapters/i });
     fireEvent.click(toggle);
     expect(toggle).toHaveAttribute("aria-expanded", "true");
-    screen.getByRole("link", { name: "Why onchain" }).focus();
+    screen.getByRole("link", { name: "Why Pareto" }).focus();
     fireEvent.keyDown(window, { key: "Escape" });
     expect(toggle).toHaveAttribute("aria-expanded", "false");
     expect(toggle).toHaveFocus();
@@ -109,10 +109,10 @@ describe("ThesisChapterNav", () => {
     renderContents();
     const toggle = screen.getByRole("button", { name: /thesis chapters/i });
     fireEvent.click(toggle);
-    fireEvent.click(screen.getByRole("link", { name: "Why onchain" }));
+    fireEvent.click(screen.getByRole("link", { name: "Why Pareto" }));
     act(() => vi.runOnlyPendingTimers());
     expect(toggle).toHaveAttribute("aria-expanded", "false");
-    expect(screen.getByRole("heading", { name: "Why onchain" })).toHaveFocus();
+    expect(screen.getByRole("heading", { name: "Why Pareto" })).toHaveFocus();
   });
 
   it("closes expanded contents after a pointer interaction outside it", () => {
@@ -127,7 +127,7 @@ describe("ThesisChapterNav", () => {
     renderContents();
     const toggle = screen.getByRole("button", { name: /thesis chapters/i });
     fireEvent.click(toggle);
-    screen.getByRole("link", { name: "The legacy" }).focus();
+    screen.getByRole("link", { name: "Structured credit" }).focus();
     fireEvent.scroll(window);
     expect(toggle).toHaveAttribute("aria-expanded", "false");
     expect(toggle).toHaveFocus();

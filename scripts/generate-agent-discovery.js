@@ -11,6 +11,8 @@ const PUBLIC_PAGES = [
   { path: "/", priority: "1.0", changefreq: "weekly" },
   { path: "/thesis", priority: "0.7", changefreq: "monthly" },
   { path: "/ecosystem", priority: "0.7", changefreq: "monthly" },
+  { path: "/ecosystem/originators", priority: "0.7", changefreq: "monthly" },
+  { path: "/ecosystem/capital-providers", priority: "0.7", changefreq: "monthly" },
   { path: "/privacy-policy", priority: "0.3", changefreq: "yearly" },
   { path: "/terms-of-service", priority: "0.3", changefreq: "yearly" },
 ];
@@ -53,6 +55,8 @@ const generateRobotsTxt = (siteUrl) => {
     "Allow: /terms-of-service",
     "Allow: /thesis",
     "Allow: /ecosystem",
+    "Allow: /ecosystem/originators",
+    "Allow: /ecosystem/capital-providers",
     "Allow: /.well-known/",
     "Allow: /sitemap.xml",
     "Allow: /openapi.json",
@@ -126,6 +130,8 @@ Pareto is credit underwriting infrastructure for compliant onchain finance. Lend
 - [Home](${canonicalUrl(siteUrl, "/")})
 - [Thesis](${canonicalUrl(siteUrl, "/thesis")})
 - [Ecosystem](${canonicalUrl(siteUrl, "/ecosystem")})
+- [For originators](${canonicalUrl(siteUrl, "/ecosystem/originators")})
+- [For capital providers](${canonicalUrl(siteUrl, "/ecosystem/capital-providers")})
 - [Privacy Policy](${canonicalUrl(siteUrl, "/privacy-policy")})
 - [Terms of Service](${canonicalUrl(siteUrl, "/terms-of-service")})
 

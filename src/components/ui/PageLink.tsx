@@ -1,7 +1,12 @@
 import type { AnchorHTMLAttributes, MouseEvent } from "react";
 import { useRouter } from "@tanstack/react-router";
 
-export type SitePagePath = "/" | "/thesis" | "/ecosystem";
+export type SitePagePath =
+  | "/"
+  | "/thesis"
+  | "/ecosystem"
+  | "/ecosystem/originators"
+  | "/ecosystem/capital-providers";
 
 interface PageLinkProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href"> {
   to: SitePagePath;

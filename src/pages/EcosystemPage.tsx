@@ -2,14 +2,12 @@ import { ArrowRight } from "lucide-react";
 import PartnerLogo from "../components/ui/PartnerLogo";
 import Footer from "../components/layout/Footer";
 import Navbar from "../components/layout/Navbar";
-import EcosystemSection from "../components/sections/EcosystemSection";
-import ProductsSection from "../components/sections/ProductsSection";
-import TestimonialsSection from "../components/sections/TestimonialsSection";
+import { PageLink } from "../components/ui/PageLink";
 import { SectionContainer } from "../components/ui/Section";
 import { PARETO_BLOG_URL } from "../data/brand";
 import { partners, type PartnerGroup } from "../data/partners";
-import { useProductsData } from "../hooks/useProductsData";
 import { ecosystemRoles } from "../data/ecosystem";
+import { personaPages } from "../data/personas";
 import EcosystemRoleCard from "../components/sections/ecosystem/EcosystemRoleCard";
 import "../components/sections/ecosystem/ecosystem.css";
 
@@ -27,8 +25,6 @@ const partnerGroups: Array<{ id: PartnerGroup; title: string; copy: string }> = 
 ];
 
 const EcosystemPage = () => {
-  const { vaults, isLoading } = useProductsData();
-
   return (
     <div className="min-h-screen overflow-x-clip bg-[var(--color-bg-page)] font-sans text-[var(--color-text-inverse)]">
       <Navbar />
@@ -50,6 +46,15 @@ const EcosystemPage = () => {
                 and DeFi lenders fund them, and partners carry them further.
               </p>
             </div>
+            <nav className="eco-personas" aria-label="Pages for each audience">
+              {personaPages.map((page) => (
+                <PageLink key={page.id} to={page.path} hash="hero" className="eco-persona-link">
+                  <span className="eco-persona-link__label">For {page.navLabel.toLowerCase()}</span>
+                  <span className="eco-persona-link__copy">{page.navDescription}</span>
+                  <ArrowRight size={18} aria-hidden="true" />
+                </PageLink>
+              ))}
+            </nav>
           </SectionContainer>
 
           <SectionContainer className="eco-roles-shell">
@@ -94,9 +99,6 @@ const EcosystemPage = () => {
           </SectionContainer>
         </section>
 
-        <EcosystemSection />
-        <ProductsSection vaults={vaults} isVaultsLoading={isLoading} />
-        <TestimonialsSection />
       </main>
       <Footer />
     </div>

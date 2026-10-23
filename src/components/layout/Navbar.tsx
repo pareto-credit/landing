@@ -5,11 +5,14 @@ import "./navbar.css";
 import {
   ArrowUpRight,
   Bot,
+  Building2,
   ChevronDown,
   ChevronRight,
+  Landmark,
   Layers,
   LayoutDashboard,
   Menu,
+  Network,
   Vault,
   X,
   type LucideIcon,
@@ -20,24 +23,36 @@ import { ButtonLink } from "../ui/Button";
 import { SectionContainer } from "../ui/Section";
 import { PageLink } from "../ui/PageLink";
 import ThesisChapterNav from "../sections/thesis/ThesisChapterNav";
+import { personaPages, type PersonaPath } from "../../data/personas";
+
+type PagePath = "/thesis" | "/ecosystem" | PersonaPath;
 
 type NavTarget =
   | { kind: "section"; id: string }
-  | { kind: "page"; to: "/thesis" | "/ecosystem" };
+  | { kind: "page"; to: PagePath };
 
 interface NavItem {
   label: string;
   target: NavTarget;
 }
 
-interface SolutionItem extends NavItem {
+interface MenuItem extends NavItem {
   description: string;
   icon: LucideIcon;
 }
 
-const solutionGroups: Array<{ title: string; items: SolutionItem[] }> = [
+type MenuId = "solutions" | "ecosystem";
+
+interface MenuDefinition {
+  id: MenuId;
+  label: string;
+  groups: Array<{ title: string; items: MenuItem[] }>;
+  isActive: (pathname: string) => boolean;
+}
+
+const solutionGroups: MenuDefinition["groups"] = [
   {
-    title: "For issuers and underwriters",
+    title: "Platform",
     items: [
       {
         label: "Pareto Studio",
@@ -52,6 +67,17 @@ const solutionGroups: Array<{ title: string; items: SolutionItem[] }> = [
         target: { kind: "section", id: "agents" },
       },
       {
+        label: "Vaults",
+        description: "Live, permissioned credit facilities open to approved lenders.",
+        icon: Vault,
+        target: { kind: "section", id: "products" },
+      },
+    ],
+  },
+  {
+    title: "Plans",
+    items: [
+      {
         label: "Offering",
         description: "Core, Pro and White-Glove by NorthBridge.",
         icon: Layers,
@@ -59,22 +85,44 @@ const solutionGroups: Array<{ title: string; items: SolutionItem[] }> = [
       },
     ],
   },
+];
+
+const personaIcons: Record<(typeof personaPages)[number]["id"], LucideIcon> = {
+  originators: Building2,
+  "capital-providers": Landmark,
+};
+
+const ecosystemGroups: MenuDefinition["groups"] = [
   {
-    title: "For lenders",
+    title: "Who we serve",
+    items: personaPages.map((page) => ({
+      label: page.navLabel,
+      description: page.navDescription,
+      icon: personaIcons[page.id],
+      target: { kind: "page", to: page.path },
+    })),
+  },
+  {
+    title: "Network",
     items: [
       {
-        label: "Vaults",
-        description: "Allocate to permissioned onchain credit facilities with live reporting.",
-        icon: Vault,
-        target: { kind: "section", id: "products" },
+        label: "Roles & partners",
+        description: "The four roles on Pareto and the partners behind them.",
+        icon: Network,
+        target: { kind: "page", to: "/ecosystem" },
       },
     ],
   },
 ];
 
-const pageItems: NavItem[] = [
-  { label: "Ecosystem", target: { kind: "page", to: "/ecosystem" } },
-  { label: "Thesis", target: { kind: "page", to: "/thesis" } },
+const menus: MenuDefinition[] = [
+  { id: "solutions", label: "Solutions", groups: solutionGroups, isActive: (pathname) => pathname === "/" },
+  {
+    id: "ecosystem",
+    label: "Ecosystem",
+    groups: ecosystemGroups,
+    isActive: (pathname) => pathname.replace(/\/$/, "").startsWith("/ecosystem"),
+  },
 ];
 
 const mobileNavigationItems: NavItem[] = [
@@ -82,7 +130,9 @@ const mobileNavigationItems: NavItem[] = [
   { label: "Agents", target: { kind: "section", id: "agents" } },
   { label: "Offering", target: { kind: "section", id: "offering" } },
   { label: "Vaults", target: { kind: "section", id: "products" } },
-  ...pageItems,
+  ...personaPages.map((page): NavItem => ({ label: page.navLabel, target: { kind: "page", to: page.path } })),
+  { label: "Ecosystem", target: { kind: "page", to: "/ecosystem" } },
+  { label: "Thesis", target: { kind: "page", to: "/thesis" } },
   { label: "Contact", target: { kind: "section", id: "contact" } },
 ];
 
@@ -90,7 +140,7 @@ const pageDestination = (target: NavTarget) => target.kind === "section"
   ? { to: "/" as const, hash: target.id }
   : { to: target.to };
 
-const SOLUTIONS_CLOSE_DELAY_MS = 140;
+const MENU_CLOSE_DELAY_MS = 140;
 
 interface NavLocation { pathname: string; hash: string }
 
@@ -101,45 +151,45 @@ const isCurrentTarget = (target: NavTarget, location: NavLocation) => target.kin
 const NavbarContent = ({ location }: { location: NavLocation }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [solutionsOpen, setSolutionsOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState<MenuId | null>(null);
   const [chaptersOpen, setChaptersOpen] = useState(false);
   const isThesisPage = location.pathname.replace(/\/$/, "") === "/thesis";
   const changeChapterMenu = (open: boolean) => {
     setChaptersOpen(open);
-    if (open) setSolutionsOpen(false);
+    if (open) setOpenMenu(null);
   };
-  const solutionsRef = useRef<HTMLDivElement | null>(null);
-  const solutionsCloseTimer = useRef<number | null>(null);
+  const menuRefs = useRef<Partial<Record<MenuId, HTMLDivElement | null>>>({});
+  const menuCloseTimer = useRef<number | null>(null);
   const shouldReduceMotion = useReducedMotion();
 
-  const cancelSolutionsClose = () => {
-    if (solutionsCloseTimer.current !== null) {
-      window.clearTimeout(solutionsCloseTimer.current);
-      solutionsCloseTimer.current = null;
+  const cancelMenuClose = () => {
+    if (menuCloseTimer.current !== null) {
+      window.clearTimeout(menuCloseTimer.current);
+      menuCloseTimer.current = null;
     }
   };
 
-  const scheduleSolutionsClose = () => {
-    cancelSolutionsClose();
-    solutionsCloseTimer.current = window.setTimeout(
-      () => setSolutionsOpen(false),
-      SOLUTIONS_CLOSE_DELAY_MS,
+  const scheduleMenuClose = () => {
+    cancelMenuClose();
+    menuCloseTimer.current = window.setTimeout(
+      () => setOpenMenu(null),
+      MENU_CLOSE_DELAY_MS,
     );
   };
 
   useEffect(() => {
-    if (!solutionsOpen) return;
+    if (!openMenu) return;
 
     const handlePointerDown = (event: PointerEvent) => {
-      if (!solutionsRef.current?.contains(event.target as Node)) {
-        setSolutionsOpen(false);
+      if (!menuRefs.current[openMenu]?.contains(event.target as Node)) {
+        setOpenMenu(null);
       }
     };
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setSolutionsOpen(false);
+      if (event.key === "Escape") setOpenMenu(null);
     };
 
-    const closeOnScroll = () => setSolutionsOpen(false);
+    const closeOnScroll = () => setOpenMenu(null);
     window.addEventListener("scroll", closeOnScroll, { passive: true });
     document.addEventListener("pointerdown", handlePointerDown);
     window.addEventListener("keydown", handleKeyDown);
@@ -149,9 +199,9 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
       document.removeEventListener("pointerdown", handlePointerDown);
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [solutionsOpen]);
+  }, [openMenu]);
 
-  useEffect(() => () => cancelSolutionsClose(), []);
+  useEffect(() => () => cancelMenuClose(), []);
   const navLinkClass =
     "site-nav-link inline-flex items-center transition-colors hover:text-[var(--color-brand-alt)] focus-visible:text-[var(--color-brand-alt)] focus-visible:outline-none";
   const mobileToggleButtonClass = mobileMenuOpen
@@ -245,127 +295,123 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
                 : "text-[var(--color-text-secondary)]"
             }`}
           >
-            <div
-              ref={solutionsRef}
-              className="relative hidden lg:block"
-              onMouseEnter={() => {
-                setChaptersOpen(false);
-                cancelSolutionsClose();
-                setSolutionsOpen(true);
-              }}
-              onMouseLeave={scheduleSolutionsClose}
-            >
-              <button
-                type="button"
-                aria-expanded={solutionsOpen}
-                data-active={location.pathname === "/" || undefined}
-                aria-controls="solutions-menu"
-                onClick={(event) => {
-                  setChaptersOpen(false);
-                  // Pointer users already opened it on hover; keyboard users toggle.
-                  if (event.detail === 0) {
-                    setSolutionsOpen((open) => !open);
-                  } else {
-                    cancelSolutionsClose();
-                    setSolutionsOpen(true);
-                  }
-                }}
-                className={`${navLinkClass} gap-1`}
-              >
-                Solutions
-                <ChevronDown
-                  size={15}
-                  className={`transition-transform duration-200 ${solutionsOpen ? "rotate-180" : ""}`}
-                />
-              </button>
-
-              <AnimatePresence>
-                {solutionsOpen ? (
-                  <motion.div
-                    id="solutions-menu"
-                    data-testid="solutions-menu"
-                    initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
-                    transition={{ duration: 0.18, ease: "easeOut" }}
-                    className="absolute left-1/2 top-full z-[61] w-[44rem] -translate-x-1/2 pt-5 font-sans"
+            {menus.map((menu) => {
+              const isOpen = openMenu === menu.id;
+              return (
+                <div
+                  key={menu.id}
+                  ref={(node) => {
+                    menuRefs.current[menu.id] = node;
+                  }}
+                  className="relative hidden lg:block"
+                  onMouseEnter={() => {
+                    setChaptersOpen(false);
+                    cancelMenuClose();
+                    setOpenMenu(menu.id);
+                  }}
+                  onMouseLeave={scheduleMenuClose}
+                >
+                  <button
+                    type="button"
+                    aria-expanded={isOpen}
+                    data-active={menu.isActive(location.pathname) || undefined}
+                    aria-controls={`${menu.id}-menu`}
+                    onClick={(event) => {
+                      setChaptersOpen(false);
+                      // Pointer users already opened it on hover; keyboard users toggle.
+                      if (event.detail === 0) {
+                        setOpenMenu((current) => current === menu.id ? null : menu.id);
+                      } else {
+                        cancelMenuClose();
+                        setOpenMenu(menu.id);
+                      }
+                    }}
+                    className={`${navLinkClass} gap-1`}
                   >
-                    <div className="overflow-hidden ui-radius-panel border border-[var(--color-border-soft)] bg-[var(--color-surface)] text-[var(--color-text-primary)] shadow-[0_24px_60px_rgb(14_24_19_/_0.16)]">
-                      <div className="grid grid-cols-[1.35fr_1fr]">
-                        {solutionGroups.map((group, groupIndex) => (
-                          <div
-                            key={group.title}
-                            className={`p-5 ${groupIndex > 0 ? "border-l border-[var(--color-border-soft)]" : ""}`}
-                          >
-                            <div className="mb-2 px-3 text-sm text-[var(--color-text-muted)]">{group.title}</div>
-                            <ul>
-                              {group.items.map((item) => (
-                                <li key={item.label}>
-                                  <PageLink
-                                    {...pageDestination(item.target)}
-                                    onClick={() => setSolutionsOpen(false)}
-                                    aria-current={isCurrentTarget(item.target, location) ? "location" : undefined}
-                                    className="site-nav-destination group flex w-full items-start gap-3 ui-radius-control px-3 py-3 text-left transition-colors hover:bg-[var(--color-surface-muted)] focus-visible:bg-[var(--color-surface-muted)] focus-visible:outline-none"
-                                  >
-                                    <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center ui-radius-control bg-[var(--color-brand-deep)] text-[var(--color-brand-bright)]">
-                                      <item.icon size={16} />
-                                    </span>
-                                    <span>
-                                      <span className="block text-[15px] font-semibold text-[var(--color-brand-dark)] group-hover:text-[var(--color-brand-deep)]">
-                                        {item.label}
-                                      </span>
-                                      <span className="mt-0.5 block text-[13px] leading-snug text-[var(--color-text-muted)]">
-                                        {item.description}
-                                      </span>
-                                    </span>
-                                  </PageLink>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        ))}
-                      </div>
-                      <div className="flex items-center justify-between border-t border-[var(--color-border-soft)] bg-[var(--color-bg-light-alt)] px-8 py-4 text-sm">
-                        <span className="text-[var(--color-text-secondary)]">
-                          Not sure which fits?{" "}
-                          <PageLink
-                            to="/"
-                            hash="contact"
-                            onClick={() => setSolutionsOpen(false)}
-                            className="inline-flex items-center font-medium text-[var(--color-brand-deep)] underline-offset-4 hover:underline"
-                          >
-                            Contact us to discuss
-                            <ChevronRight size={14} />
-                          </PageLink>
-                        </span>
-                        <a
-                          href="https://docs.pareto.credit/"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-[0.12em] text-[var(--color-text-muted)] hover:text-[var(--color-brand-deep)]"
-                        >
-                          Docs <ArrowUpRight size={13} />
-                        </a>
-                      </div>
-                    </div>
-                  </motion.div>
-                ) : null}
-              </AnimatePresence>
-            </div>
+                    {menu.label}
+                    <ChevronDown
+                      size={15}
+                      className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                    />
+                  </button>
 
-            {pageItems.map((item) => item.label === "Thesis" ? (
-              <ThesisChapterNav isCurrentPage={isThesisPage} key={item.label} open={chaptersOpen} onOpenChange={changeChapterMenu} hidden={mobileMenuOpen} />
-            ) : (
-              <span key={item.label} className="hidden lg:inline-flex">
-              <PageLink
-                {...pageDestination(item.target)}
-                className={navLinkClass}
-                aria-current={isCurrentTarget(item.target, location) ? "page" : undefined}
-              >
-                {item.label}
-              </PageLink>
-              </span>
-            ))}
+                  <AnimatePresence>
+                    {isOpen ? (
+                      <motion.div
+                        id={`${menu.id}-menu`}
+                        data-testid={`${menu.id}-menu`}
+                        initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
+                        transition={{ duration: 0.18, ease: "easeOut" }}
+                        className="absolute left-1/2 top-full z-[61] w-[44rem] -translate-x-1/2 pt-5 font-sans"
+                      >
+                        <div className="overflow-hidden ui-radius-panel border border-[var(--color-border-soft)] bg-[var(--color-surface)] text-[var(--color-text-primary)] shadow-[0_24px_60px_rgb(14_24_19_/_0.16)]">
+                          <div className="grid grid-cols-[1.35fr_1fr]">
+                            {menu.groups.map((group, groupIndex) => (
+                              <div
+                                key={group.title}
+                                className={`p-5 ${groupIndex > 0 ? "border-l border-[var(--color-border-soft)]" : ""}`}
+                              >
+                                <div className="mb-2 px-3 text-sm text-[var(--color-text-muted)]">{group.title}</div>
+                                <ul>
+                                  {group.items.map((item) => (
+                                    <li key={item.label}>
+                                      <PageLink
+                                        {...pageDestination(item.target)}
+                                        onClick={() => setOpenMenu(null)}
+                                        aria-current={isCurrentTarget(item.target, location) ? item.target.kind === "page" ? "page" : "location" : undefined}
+                                        className="site-nav-destination group flex w-full items-start gap-3 ui-radius-control px-3 py-3 text-left transition-colors hover:bg-[var(--color-surface-muted)] focus-visible:bg-[var(--color-surface-muted)] focus-visible:outline-none"
+                                      >
+                                        <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center ui-radius-control bg-[var(--color-brand-deep)] text-[var(--color-brand-bright)]">
+                                          <item.icon size={16} />
+                                        </span>
+                                        <span>
+                                          <span className="block text-[15px] font-semibold text-[var(--color-brand-dark)] group-hover:text-[var(--color-brand-deep)]">
+                                            {item.label}
+                                          </span>
+                                          <span className="mt-0.5 block text-[13px] leading-snug text-[var(--color-text-muted)]">
+                                            {item.description}
+                                          </span>
+                                        </span>
+                                      </PageLink>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            ))}
+                          </div>
+                          <div className="flex items-center justify-between border-t border-[var(--color-border-soft)] bg-[var(--color-bg-light-alt)] px-8 py-4 text-sm">
+                            <span className="text-[var(--color-text-secondary)]">
+                              Not sure which fits?{" "}
+                              <PageLink
+                                to="/"
+                                hash="contact"
+                                onClick={() => setOpenMenu(null)}
+                                className="inline-flex items-center font-medium text-[var(--color-brand-deep)] underline-offset-4 hover:underline"
+                              >
+                                Contact us to discuss
+                                <ChevronRight size={14} />
+                              </PageLink>
+                            </span>
+                            <a
+                              href="https://docs.pareto.credit/"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-[0.12em] text-[var(--color-text-muted)] hover:text-[var(--color-brand-deep)]"
+                            >
+                              Docs <ArrowUpRight size={13} />
+                            </a>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ) : null}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+
+            <ThesisChapterNav isCurrentPage={isThesisPage} open={chaptersOpen} onOpenChange={changeChapterMenu} hidden={mobileMenuOpen} />
           </div>
 
           <div className="hidden items-center gap-4 md:ml-auto md:mr-3 md:flex lg:ml-0 lg:mr-0">

@@ -7,6 +7,8 @@ Pareto is credit underwriting infrastructure for compliant onchain finance. Lend
 - [Home](https://pareto.credit/)
 - [Thesis](https://pareto.credit/thesis)
 - [Ecosystem](https://pareto.credit/ecosystem)
+- [For originators](https://pareto.credit/ecosystem/originators)
+- [For capital providers](https://pareto.credit/ecosystem/capital-providers)
 - [Privacy Policy](https://pareto.credit/privacy-policy)
 - [Terms of Service](https://pareto.credit/terms-of-service)
 

@@ -1,4 +1,5 @@
 import type { ContactInterest } from "./brand";
+import type { PersonaPath } from "./personas";
 
 export interface EcosystemRole {
   id: "borrowers" | "underwriters" | "lenders" | "distribution";
@@ -9,6 +10,8 @@ export interface EcosystemRole {
   gets: string[];
   cta: string;
   interest: ContactInterest;
+  /** Persona page that explains this role in depth, when there is one. */
+  page?: { path: PersonaPath; label: string };
 }
 
 export const ecosystemRoles: EcosystemRole[] = [
@@ -21,6 +24,7 @@ export const ecosystemRoles: EcosystemRole[] = [
     gets: ["Term or revolving facilities", "Draws and repayments in Studio", "Access to a wider lender base"],
     cta: "Raise a facility",
     interest: "Borrowing",
+    page: { path: "/ecosystem/originators", label: "For originators" },
   },
   {
     id: "underwriters",
@@ -31,6 +35,7 @@ export const ecosystemRoles: EcosystemRole[] = [
     gets: ["Curator desk in Studio", "Pareto MCP for your agents", "Earn fees on the facilities you run"],
     cta: "Curate on Pareto",
     interest: "Underwriting",
+    page: { path: "/ecosystem/originators", label: "For originators" },
   },
   {
     id: "lenders",
@@ -41,6 +46,7 @@ export const ecosystemRoles: EcosystemRole[] = [
     gets: ["KYC'd, permissioned access", "Real-time positions", "Cycle-based liquidity"],
     cta: "Start lending",
     interest: "Lending",
+    page: { path: "/ecosystem/capital-providers", label: "For capital providers" },
   },
   {
     id: "distribution",

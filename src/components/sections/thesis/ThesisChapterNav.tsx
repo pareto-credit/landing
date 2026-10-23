@@ -11,7 +11,7 @@ interface ThesisChapterNavProps {
   hidden?: boolean;
 }
 
-const groups = ["Context", "Foundations", "Execution"] as const;
+const groups = [...new Set(thesisChapters.map((chapter) => chapter.group))];
 
 const ThesisChapterNav = ({ isCurrentPage, open, onOpenChange, hidden = false }: ThesisChapterNavProps) => {
   const [activeChapter, setActiveChapter] = useState<ThesisChapterId | null>(null);
