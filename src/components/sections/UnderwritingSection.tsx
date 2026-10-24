@@ -56,7 +56,7 @@ const UnderwritingSection = () => {
       id="underwriting"
       className="relative overflow-hidden bg-[var(--color-bg-light-alt)] text-[var(--color-text-primary)]"
     >
-      <div className="pointer-events-none absolute right-0 top-0 h-[520px] w-[520px] rounded-full bg-[var(--color-glow-brand)] blur-[120px]" />
+      <div className="pointer-events-none absolute -right-32 top-48 h-[520px] w-[520px] rounded-full bg-[var(--color-glow-brand)] blur-[120px]" />
 
       <SectionContainer className="ui-section-shell relative z-10">
         <SectionHeader

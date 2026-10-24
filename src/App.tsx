@@ -58,8 +58,8 @@ const App = () => {
       <Navbar />
       <main>
         <HeroSection metrics={metrics} isMetricsLoading={isProductsDataLoading} />
-        <SegmentsSection />
         <UnderwritingSection />
+        <SegmentsSection />
         <StudioShowcaseSection />
         {showHowItWorksSection ? <HowItWorksSection /> : null}
         <StructuresSection />

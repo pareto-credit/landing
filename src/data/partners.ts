@@ -21,7 +21,11 @@ export interface Partner {
   src: string;
   visualScale: number;
   verticalOffset?: number;
-  /** Backing needed to keep the original wordmark readable when its colors return. */
+  /**
+   * Background the original artwork is drawn for (default dark). Colours only
+   * return on hover where the logo sits on a matching background; elsewhere
+   * the monochrome mark simply strengthens.
+   */
   colorSurface?: "light" | "dark";
 }
 
@@ -29,6 +33,7 @@ export const partners: Partner[] = [
   {
     group: "infrastructure",
     name: "RedStone",
+    colorSurface: "light",
     link: "https://www.redstone.finance/",
     src: redstoneEco,
     verticalOffset: 0.5,
