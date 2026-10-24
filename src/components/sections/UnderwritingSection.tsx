@@ -6,6 +6,7 @@ import { SectionContainer, SectionHeader } from "../ui/Section";
 
 interface Pillar {
   title: string;
+  /** One-line summary revealed on hover; always shown on touch screens. */
   description: string;
   image: string;
   imageClassName: string;
@@ -14,9 +15,9 @@ interface Pillar {
 
 const pillars: Pillar[] = [
   {
-    title: "Institutional diligence.",
+    title: "Full diligence.",
     description:
-      "Every borrower and lender is KYC/KYB-verified, and every facility is underwritten before launch: the same standards institutions apply today.",
+      "The diligence standards banks already apply.",
     image: diligenceImage,
     imageClassName: "object-[40%_30%]",
     tags: [
@@ -27,18 +28,18 @@ const pillars: Pillar[] = [
   {
     title: "Isolated facilities.",
     description:
-      "Each loan has its own vault, lenders and accounting. Nothing is pooled, so one borrower's problems can't spread to another facility.",
+      "Nothing pooled, so no contagion across loans.",
     image: structureImage,
     imageClassName: "object-center",
     tags: [
       ["Structure", "One vault per facility"],
-      ["Exposure", "No shared pool"],
+      ["Legal", "Own loan agreement"],
     ],
   },
   {
     title: "Automated oversight.",
     description:
-      "Draws, repayments and collateral checks run onchain as they happen, with live, machine-readable data instead of monthly reconciliation.",
+      "Real-time checks replace manual reconciliation.",
     image: monitoringImage,
     imageClassName: "object-[60%_40%]",
     tags: [
@@ -60,7 +61,7 @@ const UnderwritingSection = () => {
 
       <SectionContainer className="ui-section-shell relative z-10">
         <SectionHeader
-          eyebrow="Safeguards"
+          eyebrow="Institutional grade"
           title={<>Credit infrastructure <span className="text-[var(--color-text-muted)]">you can verify.</span></>}
           description="Pareto is the underwriting layer for compliant onchain finance: the diligence, legal structure and oversight lenders expect, enforced by code and visible onchain."
         />
@@ -95,9 +96,11 @@ const UnderwritingSection = () => {
                   <h3 className="text-[1.65rem] font-semibold leading-tight tracking-tight text-[var(--color-text-inverse)] lg:text-[1.85rem]">
                     {pillar.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-[color:rgb(255_255_255_/_0.78)]">
-                    {pillar.description}
-                  </p>
+                  <div className="grid grid-rows-[0fr] opacity-0 transition-[grid-template-rows,opacity] duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:grid-rows-[1fr] group-hover:opacity-100 group-focus-within:grid-rows-[1fr] group-focus-within:opacity-100 motion-reduce:transition-none [@media(hover:none)]:grid-rows-[1fr] [@media(hover:none)]:opacity-100">
+                    <p className="overflow-hidden text-sm leading-relaxed text-[color:rgb(255_255_255_/_0.82)]">
+                      <span className="block pt-2">{pillar.description}</span>
+                    </p>
+                  </div>
                   <dl className="mt-5 flex flex-col gap-2 border-t border-[color:rgb(255_255_255_/_0.14)] pt-4">
                     {pillar.tags.map(([label, value]) => (
                       <div key={label} className="flex items-baseline gap-2">
