@@ -60,9 +60,9 @@ const UnderwritingSection = () => {
 
       <SectionContainer className="ui-section-shell relative z-10">
         <SectionHeader
-          eyebrow="Underwriting infrastructure"
+          eyebrow="Safeguards"
           title={<>Credit infrastructure <span className="text-[var(--color-text-muted)]">you can verify.</span></>}
-          description="Pareto provides credit underwriting infrastructure for compliant onchain finance: the diligence, legal structure and oversight lenders expect, enforced by code and visible onchain."
+          description="Pareto is the underwriting layer for compliant onchain finance: the diligence, legal structure and oversight lenders expect, enforced by code and visible onchain."
         />
 
         <div

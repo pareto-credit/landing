@@ -55,7 +55,7 @@ describe("UnderwritingSection", () => {
     expect(screen.getByText("Institutional diligence.")).toBeInTheDocument();
     expect(screen.getByText("Every counterparty")).toBeInTheDocument();
     expect(screen.queryByText(/§/)).not.toBeInTheDocument();
-    expect(screen.getByText(/pareto provides credit underwriting infrastructure/i)).toBeInTheDocument();
+    expect(screen.getByText(/pareto is the underwriting layer for compliant onchain finance/i)).toBeInTheDocument();
     expect(screen.queryByText("Keyring")).not.toBeInTheDocument();
     expect(screen.getByText("Isolated facilities.")).toBeInTheDocument();
     expect(screen.getByText("No shared pool")).toBeInTheDocument();
