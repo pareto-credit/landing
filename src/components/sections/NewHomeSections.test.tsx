@@ -52,14 +52,14 @@ describe("UnderwritingSection", () => {
     );
     const pillars = within(screen.getByTestId("underwriting-pillars")).getAllByRole("article");
     expect(pillars).toHaveLength(3);
-    expect(screen.getByText("Full diligence.")).toBeInTheDocument();
+    expect(screen.getByText("Diligence before listing.")).toBeInTheDocument();
     expect(screen.getByText("Every counterparty")).toBeInTheDocument();
     expect(screen.queryByText(/§/)).not.toBeInTheDocument();
     expect(screen.getByText(/pareto is the underwriting layer for compliant onchain finance/i)).toBeInTheDocument();
     expect(screen.queryByText("Keyring")).not.toBeInTheDocument();
-    expect(screen.getByText("Isolated facilities.")).toBeInTheDocument();
-    expect(screen.getByText("Nothing pooled, so no contagion across loans.")).toBeInTheDocument();
-    expect(screen.getByText("Automated oversight.")).toBeInTheDocument();
+    expect(screen.getByText("Ring-fenced facilities.")).toBeInTheDocument();
+    expect(screen.getByText("No contagion: bankruptcy-remote SPVs per loan.")).toBeInTheDocument();
+    expect(screen.getByText("Continuous monitoring.")).toBeInTheDocument();
   });
 });
 

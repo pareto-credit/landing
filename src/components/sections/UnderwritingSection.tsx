@@ -15,7 +15,7 @@ interface Pillar {
 
 const pillars: Pillar[] = [
   {
-    title: "Full diligence.",
+    title: "Diligence before listing.",
     description:
       "The diligence standards banks already apply.",
     image: diligenceImage,
@@ -26,9 +26,9 @@ const pillars: Pillar[] = [
     ],
   },
   {
-    title: "Isolated facilities.",
+    title: "Ring-fenced facilities.",
     description:
-      "Nothing pooled, so no contagion across loans.",
+      "No contagion: bankruptcy-remote SPVs per loan.",
     image: structureImage,
     imageClassName: "object-center",
     tags: [
@@ -37,7 +37,7 @@ const pillars: Pillar[] = [
     ],
   },
   {
-    title: "Automated oversight.",
+    title: "Continuous monitoring.",
     description:
       "Real-time checks replace manual reconciliation.",
     image: monitoringImage,
