@@ -48,17 +48,18 @@ describe("UnderwritingSection", () => {
     render(<UnderwritingSection />);
 
     expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
-      "Credit infrastructure built for scrutiny.",
+      "Credit infrastructure you can verify.",
     );
     const pillars = within(screen.getByTestId("underwriting-pillars")).getAllByRole("article");
     expect(pillars).toHaveLength(3);
-    expect(screen.getByText("Diligence before listing.")).toBeInTheDocument();
-    expect(screen.getByText("Built-in, per facility")).toBeInTheDocument();
+    expect(screen.getByText("Institutional diligence.")).toBeInTheDocument();
+    expect(screen.getByText("Every counterparty")).toBeInTheDocument();
     expect(screen.queryByText(/§/)).not.toBeInTheDocument();
     expect(screen.getByText(/pareto provides credit underwriting infrastructure/i)).toBeInTheDocument();
     expect(screen.queryByText("Keyring")).not.toBeInTheDocument();
-    expect(screen.getByText("Ring-fenced facilities.")).toBeInTheDocument();
-    expect(screen.getByText("Continuous monitoring.")).toBeInTheDocument();
+    expect(screen.getByText("Isolated facilities.")).toBeInTheDocument();
+    expect(screen.getByText("No shared pool")).toBeInTheDocument();
+    expect(screen.getByText("Automated oversight.")).toBeInTheDocument();
   });
 });
 

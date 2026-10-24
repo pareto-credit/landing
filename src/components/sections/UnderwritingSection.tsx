@@ -14,36 +14,36 @@ interface Pillar {
 
 const pillars: Pillar[] = [
   {
-    title: "Diligence before listing.",
+    title: "Institutional diligence.",
     description:
-      "Every borrower is reviewed and KYB'd before a facility reaches lenders. Nothing goes live without sign-off.",
+      "Every borrower and lender is KYC/KYB-verified, and every facility is underwritten before launch: the same standards institutions apply today.",
     image: diligenceImage,
     imageClassName: "object-[40%_30%]",
     tags: [
-      ["KYB", "Built-in, per facility"],
-      ["Review", "Named curator"],
+      ["KYC/KYB", "Every counterparty"],
+      ["Credit", "Underwritten, signed off"],
     ],
   },
   {
-    title: "Ring-fenced facilities.",
+    title: "Isolated facilities.",
     description:
-      "Each facility runs in its own vault under a loan agreement, with permissioned lenders and isolated accounting.",
+      "Each loan has its own vault, lenders and accounting. Nothing is pooled, so one borrower's problems can't spread to another facility.",
     image: structureImage,
     imageClassName: "object-center",
     tags: [
       ["Structure", "One vault per facility"],
-      ["Legal", "MLA-governed"],
+      ["Exposure", "No shared pool"],
     ],
   },
   {
-    title: "Continuous monitoring.",
+    title: "Automated oversight.",
     description:
-      "Draws, repayments and collateral are tracked onchain as they happen, with real-time contract monitoring.",
+      "Draws, repayments and collateral checks run onchain as they happen, with live, machine-readable data instead of monthly reconciliation.",
     image: monitoringImage,
     imageClassName: "object-[60%_40%]",
     tags: [
-      ["Surfaces", "Repayments · LTV"],
-      ["Guards", "Automated alerts"],
+      ["Servicing", "Automated, onchain"],
+      ["Data", "Live, machine-readable"],
     ],
   },
 ];
@@ -61,7 +61,7 @@ const UnderwritingSection = () => {
       <SectionContainer className="ui-section-shell relative z-10">
         <SectionHeader
           eyebrow="Underwriting infrastructure"
-          title={<>Credit infrastructure <span className="text-[var(--color-text-muted)]">built for scrutiny.</span></>}
+          title={<>Credit infrastructure <span className="text-[var(--color-text-muted)]">you can verify.</span></>}
           description="Pareto provides credit underwriting infrastructure for compliant onchain finance: the diligence, legal structure and oversight lenders expect, enforced by code and visible onchain."
         />
 
