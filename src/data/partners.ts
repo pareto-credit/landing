@@ -11,6 +11,11 @@ import morphoEco from "../assets/images/partners/morpho.svg";
 import steakhouseEco from "../assets/images/operators/steakhouse.svg";
 import redstoneEco from "../assets/images/operators/redstone.svg";
 import twoPrimeEco from "../assets/images/operators/twoprime-wordmark.svg";
+import pendleEco from "../assets/images/partners/pendle.png";
+import threeFEco from "../assets/images/partners/3f.png";
+import etherfiEco from "../assets/images/partners/etherfi.png";
+import sygnumEco from "../assets/images/partners/sygnum.png";
+import nestEco from "../assets/images/partners/nest.svg";
 
 export type PartnerGroup = "credit" | "infrastructure";
 
@@ -29,24 +34,12 @@ export interface Partner {
   colorSurface?: "light" | "dark";
 }
 
+/**
+ * Display order for the carousel and the Ecosystem grid: credit and
+ * institutional partners first, then integrators and infrastructure, then DeFi
+ * venues and curators. Groups are not labelled in the carousel.
+ */
 export const partners: Partner[] = [
-  {
-    group: "infrastructure",
-    name: "RedStone",
-    colorSurface: "light",
-    link: "https://www.redstone.finance/",
-    src: redstoneEco,
-    verticalOffset: 0.5,
-    visualScale: 0.9,
-  },
-  {
-    group: "credit",
-    name: "Two Prime",
-    link: "https://twoprime.com/",
-    src: twoPrimeEco,
-    verticalOffset: 1.5,
-    visualScale: 1.1,
-  },
   {
     group: "credit",
     name: "FalconX",
@@ -75,11 +68,11 @@ export const partners: Partner[] = [
   },
   {
     group: "credit",
-    name: "Bastion Trading",
-    link: "https://bastiontrading.com/",
-    src: bastionEco,
-    visualScale: 1.08,
-    verticalOffset: 2,
+    name: "Two Prime",
+    link: "https://twoprime.com/",
+    src: twoPrimeEco,
+    verticalOffset: 1.5,
+    visualScale: 1.1,
   },
   {
     group: "credit",
@@ -91,11 +84,81 @@ export const partners: Partner[] = [
   },
   {
     group: "credit",
+    name: "Bastion Trading",
+    link: "https://bastiontrading.com/",
+    src: bastionEco,
+    visualScale: 1.08,
+    verticalOffset: 2,
+  },
+  {
+    group: "credit",
     name: "Adaptive Frontier",
     link: "https://www.adaptivefrontier.com/",
     src: adaptiveFrontierEco,
     visualScale: 1.08,
     verticalOffset: 0,
+  },
+  {
+    group: "infrastructure",
+    name: "Sygnum",
+    colorSurface: "light",
+    link: "https://www.sygnum.com/",
+    src: sygnumEco,
+    visualScale: 0.85,
+    verticalOffset: 0.5,
+  },
+  {
+    group: "infrastructure",
+    name: "ether.fi",
+    colorSurface: "light",
+    link: "https://www.ether.fi/",
+    src: etherfiEco,
+    visualScale: 1,
+    verticalOffset: 1,
+  },
+  {
+    group: "infrastructure",
+    name: "Nest",
+    link: "https://nest.credit/",
+    src: nestEco,
+    visualScale: 0.95,
+    verticalOffset: 1.5,
+  },
+  {
+    group: "infrastructure",
+    name: "Keyring",
+    colorSurface: "light",
+    link: "https://www.keyring.network/",
+    src: keyringEco,
+    visualScale: 0.8,
+    verticalOffset: 1,
+  },
+  {
+    group: "infrastructure",
+    name: "RedStone",
+    colorSurface: "light",
+    link: "https://www.redstone.finance/",
+    src: redstoneEco,
+    verticalOffset: 0.5,
+    visualScale: 0.9,
+  },
+  {
+    group: "infrastructure",
+    name: "Pendle",
+    colorSurface: "light",
+    link: "https://www.pendle.finance/",
+    src: pendleEco,
+    visualScale: 0.95,
+    verticalOffset: 0.5,
+  },
+  {
+    group: "infrastructure",
+    name: "Morpho",
+    colorSurface: "light",
+    link: "https://morpho.org/",
+    src: morphoEco,
+    visualScale: 0.8,
+    verticalOffset: 1,
   },
   {
     group: "infrastructure",
@@ -116,20 +179,11 @@ export const partners: Partner[] = [
   },
   {
     group: "infrastructure",
-    name: "Morpho",
+    name: "3F",
     colorSurface: "light",
-    link: "https://morpho.org/",
-    src: morphoEco,
-    visualScale: 0.8,
-    verticalOffset: 1,
-  },
-  {
-    group: "infrastructure",
-    name: "Keyring",
-    colorSurface: "light",
-    link: "https://www.keyring.network/",
-    src: keyringEco,
-    visualScale: 0.8,
+    link: "https://3f.xyz/",
+    src: threeFEco,
+    visualScale: 0.9,
     verticalOffset: 1,
   },
   {

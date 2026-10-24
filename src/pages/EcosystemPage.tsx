@@ -20,7 +20,7 @@ const partnerGroups: Array<{ id: PartnerGroup; title: string; copy: string }> = 
   {
     id: "infrastructure",
     title: "Infrastructure & distribution",
-    copy: "Compliance, oracle and DeFi partners the facilities plug into.",
+    copy: "Integrators, compliance, oracle and DeFi partners the facilities plug into.",
   },
 ];
 
