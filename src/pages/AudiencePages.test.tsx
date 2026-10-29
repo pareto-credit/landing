@@ -201,6 +201,14 @@ describe("audience pages", () => {
         name: "Your questions answered",
       });
       expect(faq.querySelectorAll("details").length).toBeGreaterThanOrEqual(5);
+      const answers = Array.from(faq.querySelectorAll<HTMLDetailsElement>("details"));
+      fireEvent.click(answers[0].querySelector("summary")!);
+      expect(answers[0]).toHaveAttribute("open");
+      fireEvent.click(answers[1].querySelector("summary")!);
+      expect(answers[1]).toHaveAttribute("open");
+      expect(answers[0]).not.toHaveAttribute("open");
+      fireEvent.click(answers[1].querySelector("summary")!);
+      expect(answers.some((answer) => answer.open)).toBe(false);
       expect(
         screen.getByRole("heading", { name: "Credit in practice." })
       ).toBeInTheDocument();

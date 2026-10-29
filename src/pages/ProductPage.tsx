@@ -8,6 +8,7 @@ import AudienceReveal from "../components/sections/persona/AudienceReveal";
 import PlansSection from "../components/sections/PlansSection";
 import ContactSection from "../components/sections/ContactSection";
 import { SectionContainer, SectionHeader } from "../components/ui/Section";
+import FaqAccordion from "../components/ui/FaqAccordion";
 import { PARETO_DOCS_URL } from "../data/brand";
 import { productQuestions, type ProductPageId } from "../data/productPages";
 import "../components/sections/persona/persona.css";
@@ -76,17 +77,7 @@ export default function ProductPage({ id }: { id: ProductPageId }) {
                   Read the documentation <span aria-hidden="true">↗</span>
                 </a>
               </div>
-              <div>
-                {productQuestions[id].map(({ question, answer }) => (
-                  <details key={question}>
-                    <summary>
-                      {question}
-                      <span aria-hidden="true">+</span>
-                    </summary>
-                    <p>{answer}</p>
-                  </details>
-                ))}
-              </div>
+              <FaqAccordion key={id} items={productQuestions[id]} />
             </AudienceReveal>
           </SectionContainer>
         </section>

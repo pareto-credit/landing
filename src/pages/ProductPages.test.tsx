@@ -101,6 +101,16 @@ describe("dedicated product pages", () => {
       expect(container.querySelectorAll("#agents")).toHaveLength(1);
       expect(container.querySelectorAll("#contact")).toHaveLength(1);
       expect(container.querySelectorAll("#questions details")).toHaveLength(6);
+      const answers = Array.from(
+        container.querySelectorAll<HTMLDetailsElement>("#questions details")
+      );
+      fireEvent.click(answers[0].querySelector("summary")!);
+      expect(answers[0]).toHaveAttribute("open");
+      fireEvent.click(answers[1].querySelector("summary")!);
+      expect(answers[1]).toHaveAttribute("open");
+      expect(answers[0]).not.toHaveAttribute("open");
+      fireEvent.click(answers[1].querySelector("summary")!);
+      expect(answers.some((answer) => answer.open)).toBe(false);
       expect(container.querySelector("form")).toHaveAttribute(
         "action",
         "https://formspree.io/f/xkgjlnwg"
@@ -161,17 +171,16 @@ describe("dedicated product pages", () => {
     ).toHaveTextContent(/^Different businesses/);
   });
 
-  it("keeps the explanatory panel fixed while every template updates only the architecture", () => {
-    const { container } = render(<ProductPage id="credit-vaults" />);
+  it("switches every template in place without navigating or scrolling", () => {
+    render(<ProductPage id="credit-vaults" />);
     const group = screen.getByRole("group", { name: "Facility templates" });
     const diagram = screen.getByRole("group", {
       name: "Credit Vault configuration",
     });
-    const panel = container.querySelector(".cv-module-detail")!;
-    const explanation = panel.textContent;
+    const startingHash = window.location.hash;
+    vi.mocked(window.scrollTo).mockClear();
     for (const template of within(group).getAllByRole("button")) {
       fireEvent.click(template);
-      expect(panel.textContent).toBe(explanation);
       expect(diagram).toHaveAccessibleDescription(
         new RegExp(
           template.querySelector("span:nth-child(2)")!.textContent!,
@@ -179,6 +188,8 @@ describe("dedicated product pages", () => {
         )
       );
     }
+    expect(window.location.hash).toBe(startingHash);
+    expect(window.scrollTo).not.toHaveBeenCalled();
   });
 
   it("gives Credit Vaults the same agent workflow as Studio with a working early-access inquiry", () => {
@@ -192,11 +203,10 @@ describe("dedicated product pages", () => {
     ).toHaveValue("Pareto MCP early access");
   });
 
-  it("lets visitors customize individual modules and restore a template without changing the explanation", () => {
-    const { container } = render(<ProductPage id="credit-vaults" />);
+  it("lets visitors customize individual modules and restore a template", () => {
+    render(<ProductPage id="credit-vaults" />);
     const diagram = screen.getByRole("group", { name: "Credit Vault configuration" });
     const templates = screen.getByRole("group", { name: "Facility templates" });
-    const explanation = container.querySelector(".cv-module-detail")!.textContent;
     expect(within(diagram).getAllByRole("checkbox")).toHaveLength(14);
     const otc = within(diagram).getByRole("checkbox", { name: "OTC desk" });
     const tranches = within(diagram).getByRole("checkbox", { name: "Senior / junior" });
@@ -212,7 +222,6 @@ describe("dedicated product pages", () => {
     fireEvent.click(tranches);
     expect(tranches).toBeChecked();
     expect(diagram).toHaveAccessibleDescription(/Senior \/ junior/);
-    expect(container.querySelector(".cv-module-detail")!.textContent).toBe(explanation);
 
     fireEvent.click(within(templates).getByRole("button", { name: "Prime brokerage" }));
     expect(otc).toBeChecked();

@@ -9,6 +9,7 @@ import "../components/sections/persona/persona.css";
 import { buttonClassName } from "../components/ui/buttonStyles";
 import { PageLink } from "../components/ui/PageLink";
 import { SectionContainer } from "../components/ui/Section";
+import FaqAccordion from "../components/ui/FaqAccordion";
 import { PARETO_DOCS_URL, type ContactInterest } from "../data/brand";
 import { getPersonaPage, type PersonaPageId } from "../data/personas";
 import { setPendingContactInterest } from "../lib/siteNavigation";
@@ -200,17 +201,7 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
                   <Arrow />
                 </a>
               </div>
-              <div>
-                {page.questions.map(({ question, answer }) => (
-                  <details key={question}>
-                    <summary>
-                      {question}
-                      <span aria-hidden="true">+</span>
-                    </summary>
-                    <p>{answer}</p>
-                  </details>
-                ))}
-              </div>
+              <FaqAccordion key={id} items={page.questions} />
             </AudienceReveal>
           </SectionContainer>
         </section>
