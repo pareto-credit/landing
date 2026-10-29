@@ -15,7 +15,6 @@ interface ProductsSectionProps {
 }
 
 const PRODUCTS_SKELETON_COUNT = 4;
-const PRODUCTS_DESCRIPTION = "A modern fixed-income stack with the oversight, compliance, and reliability institutions expect.";
 
 const getStatusClassName = (status: string) => {
   const normalized = status.toLowerCase();
@@ -84,7 +83,6 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
   const [singleSetWidth, setSingleSetWidth] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [isTrackHovered, setIsTrackHovered] = useState(false);
-  const [isTrackFocused, setIsTrackFocused] = useState(false);
 
   useEffect(() => {
     if (isVaultsLoading || vaults.length === 0) return;
@@ -119,7 +117,6 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
     const viewport = viewportRef.current;
     if (
       !viewport ||
-      !showHeaderCta ||
       shouldReduceMotion ||
       isVaultsLoading ||
       vaults.length === 0 ||
@@ -136,7 +133,7 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
       const delta = timestamp - lastFrameTimeRef.current;
       lastFrameTimeRef.current = timestamp;
 
-      if (!isDragging && !isTrackHovered && !isTrackFocused) {
+      if (!isDragging && !isTrackHovered) {
         if (
           Math.abs(viewport.scrollLeft - scrollPositionRef.current) >
           NATIVE_SCROLL_SYNC_THRESHOLD_PX
@@ -173,8 +170,6 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
     singleSetWidth,
     isDragging,
     isTrackHovered,
-    isTrackFocused,
-    showHeaderCta,
   ]);
 
   const finishDragging = () => {
@@ -215,7 +210,7 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
             variant="collection"
             eyebrow="Live Vaults"
             title={<>Tokenized credit, <span className="text-[var(--color-text-muted)]">built for scale</span></>}
-            description={showHeaderCta ? PRODUCTS_DESCRIPTION : undefined}
+            description="A modern fixed-income stack with the oversight, compliance, and reliability institutions expect."
             action={showHeaderCta ? (
               <div data-testid="products-header-actions">
                 <ButtonLink href="https://app.pareto.credit/" target="_blank" rel="noopener noreferrer" variant="outline" size="md" className="text-[var(--color-text-primary)]">
@@ -285,17 +280,7 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
           <div className="w-full">
             <div
               ref={viewportRef}
-              role="region"
-              aria-label="Live credit vaults"
-              tabIndex={0}
-              onFocusCapture={() => setIsTrackFocused(true)}
-              onBlurCapture={(event) => {
-                if (!event.currentTarget.contains(event.relatedTarget)) {
-                  setIsTrackFocused(false);
-                }
-              }}
               onPointerDown={(event) => {
-                if (!showHeaderCta) return;
                 const viewport = viewportRef.current;
                 if (!viewport) return;
 
@@ -533,14 +518,6 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
                         </a>
                       );
                     })}
-                    {!showHeaderCta && loopIndex === 0 ? (
-                      <article className="home-vault-intro ui-radius-card border border-[var(--color-border-soft)] bg-[var(--color-surface)] text-[var(--color-text-primary)]">
-                        <h3 className="text-xl font-semibold">Built for institutional credit</h3>
-                        <p className="mt-3 text-base leading-relaxed text-[var(--color-text-secondary)]">
-                          {PRODUCTS_DESCRIPTION}
-                        </p>
-                      </article>
-                    ) : null}
                   </div>
                 ))}
               </div>

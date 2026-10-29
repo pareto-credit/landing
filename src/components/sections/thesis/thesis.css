@@ -1,10 +1,10 @@
 .thesis-main {
-  --thesis-nav-top: 5.5rem;
+  --thesis-nav-top: 5rem;
   background: var(--color-bg-light-alt);
 }
 
 .thesis-hero-shell { position: relative; isolation: isolate; overflow: hidden; background: #07160f; color: #edfaed; }
-.thesis-hero-shell .thesis-hero { position: relative; min-height: min(820px, 100svh); padding-bottom: clamp(48px, 8svh, 80px); }
+.thesis-hero-shell .thesis-hero { position: relative; min-height: min(960px, 96svh); padding-bottom: 96px; }
 .thesis-hero-shell .thesis-hero h1 { color: #edf9ed; text-shadow: 0 4px 40px #0005; }
 .thesis-hero-shell .thesis-hero__read { color: #d6ebd8; border-bottom: 1px solid #c3edc44d; padding-bottom: 6px; }
 .thesis-hero-shell .thesis-hero__read:hover { color: #c6f3b8; }
@@ -21,12 +21,12 @@
 
 .thesis-hero {
   display: flex;
-  min-height: min(820px, 100svh);
+  min-height: min(900px, 92svh);
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: clamp(28px, 5svh, 48px);
-  padding-top: calc(var(--thesis-nav-top) + clamp(24px, 4svh, 48px));
+  gap: 48px;
+  padding-top: 152px;
   padding-bottom: 80px;
   text-align: center;
 }
@@ -49,14 +49,16 @@
 .thesis-chapter[id] { scroll-margin-top: calc(var(--thesis-nav-top) + 16px); }
 .thesis-main h2[tabindex="-1"]:focus-visible { outline: 2px solid var(--color-brand-alt); outline-offset: 8px; border-radius: var(--radius-control); }
 
+@media (min-width: 1024px) { .thesis-main { --thesis-nav-top: 4.5rem; } }
+
 @media (max-width: 1023px) {
-  .thesis-hero { padding-bottom: 48px; }
+  .thesis-hero { min-height: 84svh; padding-top: 136px; padding-bottom: 64px; }
 }
 
 @media (max-width: 639px) {
-  .thesis-hero { gap: 28px; padding-top: 112px; padding-bottom: 56px; }
+  .thesis-hero { gap: 36px; min-height: 82svh; padding-top: 120px; padding-bottom: 56px; }
   .thesis-hero h1 { font-size: clamp(60px, 13.5vw, 86px); }
-  .thesis-hero-shell .thesis-hero { min-height: 100svh; padding-bottom: 72px; }
+  .thesis-hero-shell .thesis-hero { min-height: 90svh; padding-bottom: 96px; }
   .thesis-hero-motion-toggle { right: 20px; bottom: 20px; }
 }
 

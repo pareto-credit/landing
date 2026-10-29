@@ -5,7 +5,6 @@ import './index.css'
 import { router } from './router'
 import { ApiClientProvider } from './providers/ApiClientProvider'
 import { QueryProvider } from './providers/QueryProvider'
-import './viewport-shared.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

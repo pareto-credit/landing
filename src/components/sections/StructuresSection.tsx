@@ -425,16 +425,16 @@ const StructuresSection = () => {
         </div>
 
         {tile.visual && isLarge ? (
-          <div className="home-structure-visual mt-6 flex-1 lg:mt-8">
+          <div className="mt-6 flex-1 lg:mt-8">
             <TileVisual kind={tile.visual} />
           </div>
         ) : (
-          <div className="home-structure-spacer flex-1" />
+          <div className="flex-1" />
         )}
 
         <div
           className={cn(
-            "home-structure-summary mt-6",
+            "mt-6",
             tile.visual &&
               !isLarge &&
               "grid gap-5 sm:grid-cols-[1fr_1.1fr] sm:items-end"
@@ -463,7 +463,7 @@ const StructuresSection = () => {
             </p>
           </div>
           {tile.visual && !isLarge ? (
-            <div className="home-structure-visual hidden sm:block">
+            <div className="hidden sm:block">
               <TileVisual kind={tile.visual} />
             </div>
           ) : null}
@@ -511,9 +511,6 @@ const StructuresSection = () => {
         <LayoutGroup>
           <div
             data-testid="structures-list"
-            role="region"
-            aria-label="Credit facility structures"
-            tabIndex={0}
             className="grid auto-rows-[minmax(10rem,auto)] grid-cols-2 gap-3 sm:gap-4 lg:auto-rows-[minmax(13rem,auto)] lg:grid-cols-4"
           >
             {creditStructures.map((_, index) => renderTile(index))}

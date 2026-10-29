@@ -88,8 +88,7 @@ export default function MacroOutlook() {
   const { benchmarks, treasury, protocolRates } = useMacroMarkets();
   const curveSlope = treasuryCurveSlopeBps(treasury.data);
   return (
-    <>
-    <section className="macro-outlook" aria-labelledby="macro-outlook-title">
+    <section className="macro-outlook" aria-labelledby="macro-outlook-title" {...motion}>
       <SectionContainer>
         <div className="macro-outlook__heading">
           <div>
@@ -173,12 +172,8 @@ export default function MacroOutlook() {
           </span>
         </div>
 
-      </SectionContainer>
-    </section>
-    <section className="macro-outlook macro-outlook--lending" aria-labelledby="macro-lending-title" {...motion}>
-      <SectionContainer>
         <div className="macro-outlook__lending-heading">
-          <h2 id="macro-lending-title">Stablecoin lending</h2>
+          <h3>Stablecoin lending</h3>
           <span>Ethereum · supply and borrow APY</span>
         </div>
         <div
@@ -303,6 +298,5 @@ export default function MacroOutlook() {
         </div>
       </SectionContainer>
     </section>
-    </>
   );
 }

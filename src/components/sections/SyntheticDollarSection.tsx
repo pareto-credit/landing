@@ -195,7 +195,7 @@ const SyntheticDollarSection = ({
         }
       }}
       className={cn(
-        "home-index-card ui-radius-card relative flex h-full flex-col overflow-hidden border p-8 no-underline shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgb(0,0,0,0.10)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)] focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--color-bg-light-alt)] md:p-12",
+        "ui-radius-card relative flex h-full flex-col overflow-hidden border p-8 no-underline shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgb(0,0,0,0.10)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)] focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--color-bg-light-alt)] md:p-12",
         isDark
           ? "border-[var(--color-border-inverse-soft)] bg-[var(--color-brand-mid)] text-[var(--color-text-inverse)]"
           : "border-[var(--color-border-soft)] bg-[var(--color-surface)] text-[var(--color-text-primary)]",
@@ -205,7 +205,7 @@ const SyntheticDollarSection = ({
         <div className="pointer-events-none absolute right-0 top-0 h-64 w-64 rounded-full bg-[radial-gradient(circle_at_top_right,rgb(113_178_159_/_0.14),transparent_62%)] blur-3xl" />
       ) : null}
 
-      <div className="home-index-token relative z-10 flex items-center gap-4">
+      <div className="relative z-10 flex items-center gap-4">
         <div
           className={cn(
             "flex h-12 w-12 items-center justify-center overflow-hidden rounded-full shadow-sm",
@@ -328,8 +328,8 @@ const SyntheticDollarSection = ({
       id="synthetic-dollar"
       className="relative overflow-hidden border-b border-[var(--color-border-soft)] bg-[var(--color-bg-light-alt)] text-[var(--color-text-primary)]"
     >
-      <SectionContainer className="home-index-shell relative z-10 py-24 lg:py-32">
-        <div className="home-index-header mb-16 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+      <SectionContainer className="relative z-10 py-24 lg:py-32">
+        <div className="mb-16 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading
             eyebrow="Indexes"
             title="The credit market, made investable"
@@ -366,9 +366,6 @@ const SyntheticDollarSection = ({
             <div
               ref={viewportRef}
               data-testid="synthetic-mobile-slider"
-              role="region"
-              aria-label="Credit index tokens"
-              tabIndex={0}
               onPointerDown={(event) => {
                 const viewport = viewportRef.current;
                 if (!viewport) return;
@@ -468,7 +465,7 @@ const SyntheticDollarSection = ({
               />
             </div>
 
-            <div className="home-index-controls mt-5 flex items-center justify-center gap-2 lg:hidden">
+            <div className="mt-5 flex items-center justify-center gap-2 lg:hidden">
               {cards.map((card, index) => {
                 const isActive = index === activeIndex;
 

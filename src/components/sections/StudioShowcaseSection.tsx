@@ -33,51 +33,40 @@ export default function StudioShowcaseSection() {
           description="A connected operating environment for the people behind every credit facility."
           tone="dark"
         />
+        <StudioPreview />
         <div
-          className="home-studio-panels"
-          role="region"
-          aria-label="Studio preview and access"
-          tabIndex={0}
+          data-testid="studio-overview"
+          className="mt-8 overflow-hidden rounded-[6px] border border-white/15"
         >
-          <div className="home-studio-demo">
-            <StudioPreview />
-          </div>
-          <div className="home-studio-info">
-            <div
-              data-testid="studio-overview"
-              className="mt-8 overflow-hidden rounded-[6px] border border-white/15"
+          <div className="flex flex-col gap-5 p-6 md:flex-row md:items-center md:justify-between lg:p-7">
+            <p className="max-w-2xl text-lg leading-relaxed text-white/80">
+              Structure, launch and run credit facilities from one place. Bring
+              your team, participants and facility operations into a shared
+              environment.
+            </p>
+            <Button
+              variant="primary"
+              size="md"
+              className="shrink-0 self-start md:self-center"
+              onClick={() => requestContact("Pareto Studio (Core)")}
             >
-              <div className="flex flex-col gap-5 p-6 md:flex-row md:items-center md:justify-between lg:p-7">
-                <p className="max-w-2xl text-lg leading-relaxed text-white/80">
-                  Structure, launch and run credit facilities from one place. Bring
-                  your team, participants and facility operations into a shared
-                  environment.
-                </p>
-                <Button
-                  variant="primary"
-                  size="md"
-                  className="shrink-0 self-start md:self-center"
-                  onClick={() => requestContact("Pareto Studio (Core)")}
-                >
-                  Request Studio access
-                </Button>
-              </div>
-            </div>
-            <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3">
-              <PageLink
-                to="/studio"
-                className="inline-flex min-h-11 items-center gap-3 text-sm text-[#c8dbbb] transition-colors hover:text-white"
-              >
-                Explore Pareto Studio <span aria-hidden="true">↗</span>
-              </PageLink>
-              <PageLink
-                to="/originators"
-                className="inline-flex min-h-11 items-center gap-3 text-sm text-[#c8dbbb] transition-colors hover:text-white"
-              >
-                For originators<span aria-hidden="true">↗</span>
-              </PageLink>
-            </div>
+              Request Studio access
+            </Button>
           </div>
+        </div>
+        <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3">
+          <PageLink
+            to="/studio"
+            className="inline-flex min-h-11 items-center gap-3 text-sm text-[#c8dbbb] transition-colors hover:text-white"
+          >
+            Explore Pareto Studio <span aria-hidden="true">↗</span>
+          </PageLink>
+          <PageLink
+            to="/originators"
+            className="inline-flex min-h-11 items-center gap-3 text-sm text-[#c8dbbb] transition-colors hover:text-white"
+          >
+            For originators<span aria-hidden="true">↗</span>
+          </PageLink>
         </div>
       </SectionContainer>
     </section>

@@ -5,7 +5,7 @@
   color: #dceee3;
 }
 .studio-feature-tour__screen {
-  height: calc(var(--studio-viewport-height, min(660px, 78svh)) + 4px);
+  height: calc(min(660px, 78svh) + 4px);
   overflow: clip;
   border-radius: 8px;
   background: #0b241e;
@@ -157,9 +157,6 @@
   .product-preview__content {
   display: flex;
   flex-direction: column;
-}
-.studio-feature-tour .product-preview {
-  height: var(--studio-viewport-height, min(660px, 78svh));
 }
 .studio-feature-tour
   .product-preview[data-workspace-view]

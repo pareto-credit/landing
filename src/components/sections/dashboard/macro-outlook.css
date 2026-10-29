@@ -174,7 +174,7 @@
   font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
-.macro-outlook__lending-heading h2 {
+.macro-outlook__lending-heading h3 {
   margin: 0;
   color: var(--color-brand-dark);
   font-size: 15px;

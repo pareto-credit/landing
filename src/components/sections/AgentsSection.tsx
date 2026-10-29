@@ -69,12 +69,7 @@ function BriefAgentsSection() {
   return (
     <section id="agents" className="agent-brief-section">
       <SectionContainer className="ui-section-shell">
-        <div
-          className="agent-brief-layout"
-          role="region"
-          aria-label="Agent capabilities and illustrative session"
-          tabIndex={0}
-        >
+        <div className="agent-brief-layout">
           <div className="agent-brief-copy">
             <p className="agent-context-kicker">Agentic Credit Operations</p>
             <h2>Credit infrastructure for the AI era.</h2>

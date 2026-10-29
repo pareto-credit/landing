@@ -192,11 +192,6 @@ export default function DataDashboardPage() {
               )}
             </div>
 
-          </SectionContainer>
-        </section>
-
-        <section className="data-dashboard-overview" aria-label="Protocol metrics">
-          <SectionContainer>
             <dl
               className="data-dashboard-metrics"
               aria-label="Protocol overview"
@@ -245,11 +240,6 @@ export default function DataDashboardPage() {
                 isLoading={isPremiumLoading}
               />
             </dl>
-          </SectionContainer>
-        </section>
-
-        <section className="data-dashboard-history" aria-label="Historical credit activity">
-          <SectionContainer>
             <CreditHistoryChart {...history} />
           </SectionContainer>
         </section>

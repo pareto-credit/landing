@@ -68,9 +68,6 @@ const UnderwritingSection = () => {
 
         <div
           data-testid="underwriting-pillars"
-          role="region"
-          aria-label="Underwriting pillars"
-          tabIndex={0}
           className="marquee-scroll -mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2 md:mx-0 md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0 md:pb-0"
         >
           {pillars.map((pillar, index) => (

@@ -229,11 +229,13 @@
   gap: 1rem;
 }
 .cv-facility-card {
+  --facility-card-padding: clamp(1.4rem, 2.4vw, 2rem);
+  position: relative;
   display: flex;
   grid-column: span 4;
   min-width: 0;
   flex-direction: column;
-  padding: clamp(1.4rem, 2.4vw, 2rem);
+  padding: var(--facility-card-padding);
   border: 1px solid var(--color-border-soft);
   border-radius: 6px;
   background: #f8faf7;
@@ -253,6 +255,9 @@
   color: var(--color-brand-deep);
 }
 .cv-facility-card__number {
+  position: absolute;
+  top: var(--facility-card-padding);
+  right: var(--facility-card-padding);
   color: var(--color-text-muted-2);
   font-family: var(--font-mono);
   font-size: 0.65rem;

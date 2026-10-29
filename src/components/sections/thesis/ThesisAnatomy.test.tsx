@@ -13,10 +13,6 @@ describe("ThesisAnatomy", () => {
     const application = screen.getByRole("region", { name: "Application module" });
     expect(application).toHaveTextContent("Pareto Studio");
     expect(application).toHaveTextContent("Pareto Lender App");
-    const description = within(application).getByText(/Run facility operations in Pareto Studio/);
-    expect(description).not.toBeVisible();
-    fireEvent.click(within(application).getByText("Module details"));
-    expect(description).toBeVisible();
     expect(screen.getByRole("status")).toHaveTextContent("6 modules connected");
 
     fireEvent.click(screen.getByRole("checkbox", { name: "Credit terms module" }));

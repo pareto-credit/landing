@@ -12,17 +12,17 @@ const moduleArt = {
   distribution: GitBranch,
 };
 const desktopWires = [
-  "M280 38H308Q328 38 328 58V86Q328 106 348 106H360",
-  "M720 38H692Q672 38 672 58V86Q672 106 652 106H640",
-  "M280 130H360",
-  "M720 130H640",
-  "M280 222H308Q328 222 328 202V174Q328 154 348 154H360",
-  "M720 222H692Q672 222 672 202V174Q672 154 652 154H640",
+  "M280 56H308Q328 56 328 76V160Q328 180 348 180H360",
+  "M720 56H692Q672 56 672 76V160Q672 180 652 180H640",
+  "M280 204H360",
+  "M720 204H640",
+  "M280 352H308Q328 352 328 332V248Q328 228 348 228H360",
+  "M720 352H692Q672 352 672 332V248Q672 228 652 228H640",
 ];
 const mobileWires = [
-  "M500 124H460", "M500 124H540",
-  "M500 188H460", "M500 188H540",
-  "M500 252H460", "M500 252H540",
+  "M500 308H460", "M500 308H540",
+  "M500 436H460", "M500 436H540",
+  "M500 564H460", "M500 564H540",
 ];
 
 /** Six independently connectable modules, all wired to the same facility. */
@@ -75,8 +75,8 @@ export const ThesisAnatomy = () => {
         </div>
         <div className="thesis-facility__canvas" role="group" aria-label="Connect modules to Credit Vault" aria-describedby={`${instanceId}-hint`}>
           {(["desktop", "mobile"] as const).map(layout => (
-            <svg key={layout} className={`thesis-facility__wires thesis-facility__wires--${layout}`} viewBox={layout === "desktop" ? "0 0 1000 260" : "0 0 1000 288"} preserveAspectRatio="none" fill="none" aria-hidden="true" focusable="false">
-              {layout === "mobile" ? <path className="thesis-facility__trunk" d="M500 88V252" vectorEffect="non-scaling-stroke" /> : null}
+            <svg key={layout} className={`thesis-facility__wires thesis-facility__wires--${layout}`} viewBox={layout === "desktop" ? "0 0 1000 408" : "0 0 1000 640"} preserveAspectRatio="none" fill="none" aria-hidden="true" focusable="false">
+              {layout === "mobile" ? <path className="thesis-facility__trunk" d="M500 236V564" vectorEffect="non-scaling-stroke" /> : null}
               {thesisFacilityLayers.map((layer, index) => (
                 <path key={layer.id} d={(layout === "desktop" ? desktopWires : mobileWires)[index]} data-connected={connected.has(layer.id)} data-active={active === index} vectorEffect="non-scaling-stroke" />
               ))}
@@ -127,15 +127,15 @@ export const ThesisAnatomy = () => {
       <section id={panelId} role="region" aria-labelledby={controlId(selected.id)} tabIndex={0} className="thesis-facility__panel">
         <div className="thesis-facility__description">
           <h3>{selected.summary}</h3>
-        </div>
-        <details className="thesis-facility__details">
-          <summary>Module details</summary>
           <p>{selected.detail}</p>
           {selected.id === "terms" ? (
             <ul className="thesis-facility__options" aria-label="Facility options">
               {thesisFacilityOptions.map(option => <li key={option}>{option}</li>)}
             </ul>
           ) : null}
+        </div>
+        <details className="thesis-facility__details">
+          <summary>Module details</summary>
           <dl>{selected.points.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
         </details>
       </section>
