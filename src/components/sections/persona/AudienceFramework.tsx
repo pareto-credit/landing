@@ -10,11 +10,11 @@ export default function AudienceFramework({
 }) {
   const [active, setActive] = useState(0);
   const refs = useRef<Array<HTMLButtonElement | null>>([]);
-  const detailsRef = useRef<HTMLDivElement>(null);
+  const panelAreaRef = useRef<HTMLDivElement>(null);
   const prefix = useId();
   const preview = (index: number) => {
-    // Hover must not remove a disclosure that someone is using with the keyboard.
-    if (!detailsRef.current?.contains(document.activeElement)) setActive(index);
+    // Keep a selected summary in place while it has keyboard focus.
+    if (!panelAreaRef.current?.contains(document.activeElement)) setActive(index);
   };
   const select = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
     let next: number;
@@ -69,7 +69,7 @@ export default function AudienceFramework({
           ))}
         </div>
       </div>
-      <div className="audience-framework__details-area" ref={detailsRef}>
+      <div className="audience-framework__summary-area" ref={panelAreaRef}>
         {items.map((layer, index) => (
           <div
             key={layer.id}
@@ -80,17 +80,7 @@ export default function AudienceFramework({
             tabIndex={0}
             className="audience-framework__panel"
           >
-            {active === index && (
-              <details key={layer.id} className="audience-framework__details">
-                <summary>Explore this layer <span aria-hidden="true">+</span></summary>
-                <p>{layer.detail}</p>
-                <dl>
-                  {layer.points.map(([label, value]) => (
-                    <div key={label}><dt>{label}</dt><dd>{value}</dd></div>
-                  ))}
-                </dl>
-              </details>
-            )}
+            <p>{layer.summary}</p>
           </div>
         ))}
       </div>

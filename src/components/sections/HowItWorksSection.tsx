@@ -93,8 +93,8 @@ const InteractiveBanknote = ({
       : "scale(1)";
 
   return (
-    <div className="mt-12 flex w-full flex-col items-center">
-      <div className="relative mb-12 hidden w-full justify-center overflow-visible lg:flex">
+    <div className="home-banknote-diagram mt-12 flex w-full flex-col items-center">
+      <div className="home-banknote-image relative mb-12 hidden w-full justify-center overflow-visible lg:flex">
         <svg
           viewBox="0 0 1200 800"
           className="ui-radius-card h-[min(68vh,780px)] w-auto max-w-full shadow-lg"
@@ -696,34 +696,44 @@ const InteractiveBanknote = ({
         </svg>
       </div>
 
-      <div className="flex w-full flex-col gap-4 lg:hidden">
+      <div
+        className="home-banknote-rail flex w-full flex-col gap-4 lg:hidden"
+        role="region"
+        aria-label="Credit vault roles"
+        tabIndex={0}
+      >
         {Object.values(diagramNodes).map((node) => {
           const isActive = activeNode === node.id;
 
           return (
-            <div
+            <article
               key={node.id}
-              onClick={() => setActiveNode(isActive ? null : node.id)}
               className={`ui-radius-card cursor-pointer border p-6 transition-[background-color,border-color,box-shadow] duration-200 ease-out ${isActive ? "border-[var(--color-brand)] bg-[var(--color-bg-light)] shadow-lg" : "border-[color:rgb(26_51_38_/_0.10)] bg-[var(--color-bg-light-mint)]"}`}
             >
-              <div className="flex items-center gap-4">
-                <h4
-                  className={`font-sans text-xl font-bold tracking-tight ${isActive ? "text-[var(--color-text-primary)]" : "text-[var(--color-text-secondary)]"}`}
+              <h4>
+                <button
+                  type="button"
+                  aria-expanded={isActive}
+                  aria-controls={`banknote-role-${node.id}`}
+                  onClick={() => setActiveNode(isActive ? null : node.id)}
+                  className={`flex min-h-11 w-full items-center gap-4 text-left font-sans text-xl font-bold tracking-tight ${isActive ? "text-[var(--color-text-primary)]" : "text-[var(--color-text-secondary)]"}`}
                 >
                   {node.label}
-                </h4>
-                <ChevronRight
-                  size={20}
-                  className={`ml-auto transition-transform ${isActive ? "rotate-90 text-[var(--color-brand)]" : "text-[color:rgb(26_51_38_/_0.50)]"}`}
-                />
-              </div>
+                  <ChevronRight
+                    size={20}
+                    className={`ml-auto transition-transform ${isActive ? "rotate-90 text-[var(--color-brand)]" : "text-[color:rgb(26_51_38_/_0.50)]"}`}
+                  />
+                </button>
+              </h4>
 
               <AnimatePresence>
                 {isActive ? (
                   <motion.div
-                    initial={{ height: 0, opacity: 0 }}
+                    id={`banknote-role-${node.id}`}
+                    initial={reduceMotion ? false : { height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: reduceMotion ? 0 : 0.2 }}
                     className="overflow-hidden"
                   >
                     <div className="mt-4 border-t border-[color:rgb(26_51_38_/_0.10)] pt-4">
@@ -737,7 +747,7 @@ const InteractiveBanknote = ({
                   </motion.div>
                 ) : null}
               </AnimatePresence>
-            </div>
+            </article>
           );
         })}
       </div>

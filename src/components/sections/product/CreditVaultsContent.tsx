@@ -2,6 +2,8 @@ import { useRef } from "react";
 import { useInView, useReducedMotion } from "framer-motion";
 import {
   ArrowDown,
+  ArrowLeft,
+  ArrowRight,
   ArrowUpRight,
   Building2,
   CalendarRange,
@@ -130,7 +132,17 @@ function CreditVaultHeroAccent() {
   );
 }
 
-const CreditVaultsContent = () => (
+const CreditVaultsContent = () => {
+  const facilitiesRef = useRef<HTMLDivElement>(null);
+  const reduced = useReducedMotion();
+  const browseFacilities = (direction: number) => {
+    const rail = facilitiesRef.current;
+    if (rail) rail.scrollBy({
+      left: direction * (rail.clientWidth + 16),
+      behavior: reduced ? "auto" : "smooth",
+    });
+  };
+  return (
   <>
     <section
       id="hero"
@@ -193,11 +205,7 @@ const CreditVaultsContent = () => (
       </div>
     </section>
 
-    <section
-      id="facilities"
-      className="product-section cv-facilities"
-      aria-labelledby="cv-facilities-title"
-    >
+    <section className="product-section cv-facility-intro" aria-label="Facilities built around your business">
       <div className="cv-product-shell">
         <div className="cv-editorial-intro">
           <p className="product-kicker cv-product-kicker">
@@ -210,6 +218,15 @@ const CreditVaultsContent = () => (
           />
         </div>
 
+      </div>
+    </section>
+
+    <section
+      id="facilities"
+      className="product-section cv-facilities"
+      aria-labelledby="cv-facilities-title"
+    >
+      <div className="cv-product-shell">
         <div className="cv-facilities__heading">
           <h2 id="cv-facilities-title">One framework. Many forms of credit.</h2>
           <p>
@@ -219,7 +236,12 @@ const CreditVaultsContent = () => (
           </p>
         </div>
 
-        <div className="cv-facility-grid">
+        <div className="cv-facility-navigation" role="group" aria-label="Browse credit structures">
+          <span>{creditStructures.length} facility structures</span>
+          <button type="button" aria-label="Previous credit structures" aria-controls="credit-facility-collection" onClick={() => browseFacilities(-1)}><ArrowLeft size={17} aria-hidden="true" /></button>
+          <button type="button" aria-label="Next credit structures" aria-controls="credit-facility-collection" onClick={() => browseFacilities(1)}><ArrowRight size={17} aria-hidden="true" /></button>
+        </div>
+        <div ref={facilitiesRef} id="credit-facility-collection" className="cv-facility-grid" role="region" aria-label="Credit facility structures" tabIndex={0}>
           {creditStructures.map((facility, index) => {
             const story = facilityStories[index];
             const Icon = story.icon;
@@ -227,6 +249,7 @@ const CreditVaultsContent = () => (
               <article
                 className={`cv-facility-card ${story.className ?? ""}`}
                 key={facility.name}
+                tabIndex={0}
               >
                 <div className="cv-facility-card__top">
                   <Icon size={23} strokeWidth={1.5} aria-hidden="true" />
@@ -262,6 +285,7 @@ const CreditVaultsContent = () => (
     <FacilityModules />
     <AgentsSection variant="credit-vaults" />
   </>
-);
+  );
+};
 
 export default CreditVaultsContent;

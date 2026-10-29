@@ -119,7 +119,7 @@ export default function FacilityModules() {
               className="cv-module-figure__scroller"
               tabIndex={0}
               role="region"
-              aria-label="Facility architecture; scroll horizontally on smaller screens"
+              aria-label="Facility architecture; scroll to inspect modules on smaller screens"
             >
               <svg
                 id={`${id}-diagram`}

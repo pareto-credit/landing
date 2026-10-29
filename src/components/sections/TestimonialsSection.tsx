@@ -2,6 +2,7 @@ import { useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { getOperatorLogo } from "../../data/operatorLogos";
 import { testimonialList } from "../../data/testimonials";
+import { useMinWidth } from "../../hooks/useMinWidth";
 import { SectionContainer, SectionHeader } from "../ui/Section";
 
 const TESTIMONIALS_MARQUEE_SPEED = 38;
@@ -21,6 +22,7 @@ const normalizeMarqueeScroll = (value: number, singleSetWidth: number) => {
 
 const TestimonialsSection = () => {
   const shouldReduceMotion = useReducedMotion();
+  const useMarquee = useMinWidth(768);
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const singleSetRef = useRef<HTMLDivElement | null>(null);
   const didDragRef = useRef(false);
@@ -34,6 +36,7 @@ const TestimonialsSection = () => {
   const [singleSetWidth, setSingleSetWidth] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [isTrackHovered, setIsTrackHovered] = useState(false);
+  const [isTrackFocused, setIsTrackFocused] = useState(false);
 
   useEffect(() => {
     if (testimonialList.length === 0) return;
@@ -68,6 +71,7 @@ const TestimonialsSection = () => {
     const viewport = viewportRef.current;
     if (
       !viewport ||
+      !useMarquee ||
       shouldReduceMotion ||
       testimonialList.length === 0 ||
       singleSetWidth <= 0
@@ -83,7 +87,7 @@ const TestimonialsSection = () => {
       const delta = timestamp - lastFrameTimeRef.current;
       lastFrameTimeRef.current = timestamp;
 
-      if (!isDragging && !isTrackHovered) {
+      if (!isDragging && !isTrackHovered && !isTrackFocused) {
         if (
           Math.abs(viewport.scrollLeft - scrollPositionRef.current) >
           NATIVE_SCROLL_SYNC_THRESHOLD_PX
@@ -113,7 +117,7 @@ const TestimonialsSection = () => {
       }
       lastFrameTimeRef.current = null;
     };
-  }, [shouldReduceMotion, singleSetWidth, isDragging, isTrackHovered]);
+  }, [shouldReduceMotion, singleSetWidth, isDragging, isTrackHovered, isTrackFocused, useMarquee]);
 
   const finishDragging = () => {
     const viewport = viewportRef.current;
@@ -158,7 +162,17 @@ const TestimonialsSection = () => {
         <div className="w-full">
           <div
             ref={viewportRef}
+            role="region"
+            aria-label="Client testimonials"
+            tabIndex={0}
+            onFocusCapture={() => setIsTrackFocused(true)}
+            onBlurCapture={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget)) {
+                setIsTrackFocused(false);
+              }
+            }}
             onPointerDown={(event) => {
+              if (!useMarquee) return;
               const viewport = viewportRef.current;
               if (!viewport) return;
 

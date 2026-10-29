@@ -1,4 +1,7 @@
 /* Thesis uses the landing's section headers, surfaces and Live Vaults radii. */
+.thesis-chapter > .ui-section-shell, .thesis-closing > .ui-section-shell { padding-block: clamp(28px, 4.5svh, 48px); }
+.thesis-chapter [data-section-header] { gap: 24px; margin-bottom: 24px; }
+.thesis-chapter [data-section-header] > div > div { margin-bottom: 10px; }
 .thesis-chapter--light { background: var(--color-bg-light-alt); color: var(--color-text-primary); }
 .thesis-chapter--dark, .thesis-closing { background: var(--color-brand-mid); color: var(--color-text-inverse); }
 .thesis-chapter [data-section-header] h2, .thesis-closing [data-section-header] h2 { line-height: 1.06; letter-spacing: -.045em; text-wrap: balance; }
@@ -69,6 +72,20 @@
 .thesis-closing__primary:hover { background: var(--color-brand-alt); }
 .thesis-closing__disclaimer { max-width: 850px; margin: 40px auto 0; padding-top: 24px; border-top: 1px solid rgb(178 214 193 / .18); color: #a7c0b2; font-size: 12px; line-height: 1.7; }
 
+@media (min-width: 1024px) {
+  .thesis-chapter--structured-credit > .ui-section-shell {
+    display: grid;
+    grid-template-columns: minmax(0, .65fr) minmax(0, 1.35fr);
+    grid-template-rows: auto auto 1fr;
+    column-gap: clamp(28px, 4vw, 56px);
+    align-items: start;
+  }
+  .thesis-chapter--structured-credit [data-section-header] { grid-column: 1; grid-row: 1; grid-template-columns: minmax(0, 1fr); }
+  .thesis-chapter--structured-credit .thesis-writeup { grid-column: 1; grid-row: 2; margin: 0; font-size: 18px; line-height: 1.6; }
+  .thesis-chapter--structured-credit .thesis-facility { grid-column: 2; grid-row: 1 / 4; }
+  .thesis-chapter--structured-credit .thesis-section-action { grid-column: 1; grid-row: 3; justify-content: flex-start; }
+}
+
 @media (max-width: 1023px) {
   .thesis-responsibilities { gap: 12px; }
   .thesis-responsibilities li { padding: 22px; }
@@ -79,6 +96,11 @@
 }
 
 @media (max-width: 767px) {
+  .thesis-chapter > .ui-section-shell, .thesis-closing > .ui-section-shell { padding-block: 24px; }
+  .thesis-chapter [data-section-header] { gap: 12px; margin-bottom: 20px; }
+  .thesis-chapter [data-section-header] h2, .thesis-closing [data-section-header] h2 { font-size: clamp(28px, 7.4vw, 36px); }
+  .thesis-chapter [data-section-header] p { font-size: 15px; line-height: 1.5; }
+  .thesis-closing__disclaimer { margin-top: 24px; padding-top: 20px; }
   .thesis-responsibilities { grid-template-columns: minmax(0, 1fr); gap: 16px; }
   .thesis-responsibilities li { display: grid; grid-template-columns: minmax(0, 1fr) 100px; gap: 12px; padding: 24px; }
   .thesis-responsibilities .thesis-kicker { grid-column: 1; }

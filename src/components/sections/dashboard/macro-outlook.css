@@ -38,36 +38,25 @@
   gap: 10px;
 }
 .macro-outlook__rate {
-  --rate-color: #257351;
-  --rate-tint: #edf8f1;
+  --rate-color: var(--color-brand-deep);
+  --rate-tint: #edf2e9;
   min-width: 0;
   padding: 24px 20px 20px;
-  border: 1px solid #d5e4db;
+  border: 1px solid var(--color-border-soft-strong);
   border-radius: var(--radius-panel);
-  background: linear-gradient(150deg, #ffffff 15%, var(--rate-tint));
+  background: linear-gradient(150deg, #fafcf8 15%, var(--rate-tint));
   transition: transform 220ms ease, box-shadow 220ms ease;
 }
 .macro-outlook__rate:nth-child(2) {
-  --rate-color: #347267;
-  --rate-tint: #e8f7f3;
   animation-delay: 60ms;
 }
 .macro-outlook__rate:nth-child(3) {
-  --rate-color: #856322;
-  --rate-tint: #fcf6e8;
-  border-color: #e8dfcd;
   animation-delay: 120ms;
 }
 .macro-outlook__rate:nth-child(4) {
-  --rate-color: #35669d;
-  --rate-tint: #edf4ff;
-  border-color: #d4dff0;
   animation-delay: 180ms;
 }
 .macro-outlook__rate:nth-child(5) {
-  --rate-color: #7160a4;
-  --rate-tint: #f3effb;
-  border-color: #dfd9ed;
   animation-delay: 240ms;
 }
 .macro-outlook__rate > dt {
@@ -167,9 +156,9 @@
   gap: 8px 20px;
   margin-top: 14px;
   padding: 14px 18px;
-  border: 1px solid #d4e3ed;
+  border: 1px solid var(--color-border-soft-strong);
   border-radius: var(--radius-control);
-  background: linear-gradient(110deg, #eaf5f1, #eaf1fb);
+  background: #edf2e9;
   color: var(--color-text-muted);
   font-size: 10px;
   line-height: 1.6;
@@ -185,7 +174,7 @@
   font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
-.macro-outlook__lending-heading h3 {
+.macro-outlook__lending-heading h2 {
   margin: 0;
   color: var(--color-brand-dark);
   font-size: 15px;
@@ -202,22 +191,17 @@
   gap: 12px;
 }
 .macro-outlook__protocol {
-  --protocol-color: #7753a4;
-  --protocol-tint: #f2ecfa;
+  --protocol-color: var(--color-brand-deep);
+  --protocol-tint: #edf2e9;
   min-width: 0;
   position: relative;
   overflow: hidden;
   padding: 20px;
-  border: 1px solid #e0d7ee;
+  border: 1px solid var(--color-border-soft-strong);
   border-radius: var(--radius-card);
-  background: linear-gradient(145deg, #ffffff, var(--protocol-tint));
+  background: linear-gradient(145deg, #fafcf8, var(--protocol-tint));
   box-shadow: 0 4px 18px #243c5a04;
   transition: transform 240ms ease, box-shadow 240ms ease, border-color 240ms ease;
-}
-.macro-outlook__protocol[data-protocol="Morpho"] {
-  --protocol-color: #3374bd;
-  --protocol-tint: #eaf2ff;
-  border-color: #ccddf4;
 }
 .macro-outlook__protocol::before {
   position: absolute;
@@ -279,8 +263,8 @@
   border-radius: 4px;
   background: #ffffffa6;
 }
-.macro-outlook__protocol-values > div:first-child dd { color: #206e50; }
-.macro-outlook__protocol-values > div:last-child dd { color: #3569a5; }
+.macro-outlook__protocol-values > div:first-child dd { color: var(--color-brand-deep); }
+.macro-outlook__protocol-values > div:last-child dd { color: var(--color-text-secondary); }
 .macro-outlook__protocol-values dt {
   color: var(--color-text-muted);
   font: 400 9px var(--font-mono);

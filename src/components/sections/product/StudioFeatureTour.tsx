@@ -109,11 +109,13 @@ export default function StudioFeatureTour() {
         const target = visual.querySelector<HTMLElement>(
           `[data-tour-target="${item.id}"]`
         );
-        const icon = target?.firstElementChild ?? target;
-        const point = icon?.getBoundingClientRect();
+        const point = target?.getBoundingClientRect();
         const sidebar = target?.closest("aside")?.getBoundingClientRect();
-        const x = point ? point.left + point.width / 2 - bounds.left - 22 : 0;
-        const y = point ? point.top + point.height / 2 - bounds.top - 22 : 0;
+        const width = point?.width ?? 44;
+        const height = point?.height ?? 44;
+        const hitHeight = Math.max(44, height);
+        const x = point ? point.left - bounds.left : 0;
+        const y = point ? point.top + height / 2 - bounds.top - hitHeight / 2 : 0;
         const visible = Boolean(
           point?.width &&
             point.height &&
@@ -124,10 +126,10 @@ export default function StudioFeatureTour() {
             point.bottom <= Math.min(sidebar.bottom, screenBounds.bottom) &&
             x >= 0 &&
             y >= 0 &&
-            x + 44 <= bounds.width &&
-            y + 44 <= bounds.height
+            x + width <= bounds.width &&
+            y + hitHeight <= bounds.height
         );
-        return { control, x, y, visible };
+        return { control, x, y, width, height, visible };
       });
       // Read all geometry before writing, so resize does not alternate layouts.
       if (frame)
@@ -135,15 +137,19 @@ export default function StudioFeatureTour() {
           "--studio-border-size",
           `${Math.ceil(Math.hypot(bounds.width, bounds.height) * 1.1)}px`
         );
-      for (const { control, x, y, visible } of placements) {
+      for (const { control, x, y, width, height, visible } of placements) {
         if (!control) continue;
         if (visible) {
           control.style.setProperty("--hotspot-x", `${x}px`);
           control.style.setProperty("--hotspot-y", `${y}px`);
+          control.style.setProperty("--hotspot-width", `${width}px`);
+          control.style.setProperty("--hotspot-height", `${height}px`);
           control.dataset.anchored = "true";
         } else {
           control.style.removeProperty("--hotspot-x");
           control.style.removeProperty("--hotspot-y");
+          control.style.removeProperty("--hotspot-width");
+          control.style.removeProperty("--hotspot-height");
           control.dataset.anchored = "false";
         }
       }

@@ -137,14 +137,14 @@ const renderFooterLink = (link: FooterLink) => {
 
 const Footer = () => {
   return (
-    <footer className="relative flex flex-col justify-between overflow-hidden border-t border-[var(--color-border-inverse-subtle)] bg-[var(--color-bg-page-alt)] pb-8 pt-32">
+    <footer className="site-footer relative flex flex-col justify-between overflow-hidden border-t border-[var(--color-border-inverse-subtle)] bg-[var(--color-bg-page-alt)] pb-8 pt-32">
       <div className="pointer-events-none absolute bottom-0 left-1/2 h-[2px] w-full max-w-4xl -translate-x-1/2 bg-gradient-to-r from-transparent via-[var(--color-brand-alt)] to-transparent shadow-[0_0_52px_var(--color-brand-alt)]" />
       <div className="pointer-events-none absolute bottom-0 left-1/2 h-[8px] w-full max-w-5xl -translate-x-1/2 bg-gradient-to-r from-transparent via-[color:rgb(112_177_158_/_0.50)] to-transparent blur-[6px]" />
       <div className="pointer-events-none absolute bottom-0 left-1/2 h-[14px] w-full max-w-6xl -translate-x-1/2 bg-gradient-to-r from-transparent via-[color:rgb(141_248_224_/_0.28)] to-transparent blur-[16px]" />
       <div className="pointer-events-none absolute -bottom-[200px] left-1/2 h-[420px] w-[82vw] -translate-x-1/2 rounded-full bg-[color:rgb(112_177_158_/_0.22)] blur-[130px]" />
 
       <SectionContainer className="relative z-10 flex-1">
-        <div className="mb-20 grid gap-16 lg:grid-cols-12">
+        <div className="site-footer__main mb-20 grid gap-16 lg:grid-cols-12">
           <div className="flex flex-col justify-between lg:col-span-5">
             <div>
               <div className="mb-8 flex items-center">
@@ -170,15 +170,15 @@ const Footer = () => {
           </div>
 
           <div className="lg:col-span-7">
-            <div className="grid grid-cols-2 gap-8 md:grid-cols-3 md:gap-12">
-              <div className="space-y-6">
+            <div className="site-footer__links grid grid-cols-2 gap-8 md:grid-cols-3 md:gap-12">
+              <div className="site-footer__column space-y-6">
                 <h4 className="mb-6 border-b border-[var(--color-border-inverse-soft)] pb-4 font-mono text-xs uppercase tracking-widest text-[var(--color-text-inverse)]">
                   Platform
                 </h4>
                 {platformLinks.map(renderFooterLink)}
               </div>
 
-              <div className="space-y-6">
+              <div className="site-footer__column space-y-6">
                 <h4 className="mb-6 border-b border-[var(--color-border-inverse-soft)] pb-4 font-mono text-xs uppercase tracking-widest text-[var(--color-text-inverse)]">
                   Resources
                 </h4>
@@ -187,7 +187,7 @@ const Footer = () => {
 
               <div
                 data-testid="footer-company-links"
-                className="col-span-2 space-y-6 md:col-span-1"
+                className="site-footer__column site-footer__company col-span-2 space-y-6 md:col-span-1"
               >
                 <h4 className="mb-6 border-b border-[var(--color-border-inverse-soft)] pb-4 font-mono text-xs uppercase tracking-widest text-[var(--color-text-inverse)]">
                   Company
@@ -208,7 +208,7 @@ const Footer = () => {
         </div>
       </SectionContainer>
 
-      <div className="relative z-0 mt-auto -mb-20 flex w-full select-none items-end justify-center overflow-hidden pointer-events-none">
+      <div className="site-footer__signature relative z-0 mt-auto -mb-20 flex w-full select-none items-end justify-center overflow-hidden pointer-events-none">
         <img
           src={paretoSignature}
           alt=""

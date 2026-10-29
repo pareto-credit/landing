@@ -19,6 +19,7 @@ import { useSyntheticDollarData } from './hooks/useSyntheticDollarData'
 import { consumeLegalPageReturnScroll } from './lib/legalPageScroll'
 import { registerParetoWebMcp } from './lib/webMcp'
 import { isQueryFlagEnabled } from './lib/queryFlags'
+import './viewport-home.css'
 
 const App = () => {
   const { metrics, vaults, isLoading: isProductsDataLoading } = useProductsData()
@@ -54,7 +55,7 @@ const App = () => {
   useEffect(() => registerParetoWebMcp(), [])
 
   return (
-    <div className="min-h-screen overflow-x-clip bg-[var(--color-bg-page)] font-sans text-[var(--color-text-inverse)] selection:bg-[var(--color-brand-alt)] selection:text-[var(--color-bg-page)]">
+    <div className="landing-home min-h-screen overflow-x-clip bg-[var(--color-bg-page)] font-sans text-[var(--color-text-inverse)] selection:bg-[var(--color-brand-alt)] selection:text-[var(--color-bg-page)]">
       <Navbar />
       <main>
         <HeroSection metrics={metrics} isMetricsLoading={isProductsDataLoading} />

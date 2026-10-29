@@ -64,7 +64,7 @@ export default function AudienceStories() {
             delay={index * 0.06}
             className="audience-story"
           >
-            <article aria-label={`${story.company} story`}>
+            <article aria-label={`${story.company} story`} tabIndex={story.href ? undefined : 0}>
               {story.href ? (
                 <a className="audience-story__content" href={story.href} target="_blank" rel="noopener noreferrer">
                   {content}

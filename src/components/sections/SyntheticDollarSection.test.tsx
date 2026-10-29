@@ -227,7 +227,7 @@ describe("SyntheticDollarSection", () => {
     expect(stats).toHaveClass("mt-auto", "gap-4", "pt-5", "md:gap-6");
   });
 
-  it("keeps the mobile synthetic cards at a shared fixed height", () => {
+  it("keeps both mobile cards in the rail with their full content and metrics", () => {
     setViewportWidth(390);
 
     render(<SyntheticDollarSection />);
@@ -237,9 +237,10 @@ describe("SyntheticDollarSection", () => {
     const uspCardLink = within(uspSlide).getByRole("link", { name: /open usp in app/i });
     const uspStats = within(uspCardLink).getByText("Price").closest("div[aria-busy='false']");
 
-    expect(uspSlide).toHaveClass("h-[36rem]", "md:h-auto");
-    expect(suspSlide).toHaveClass("h-[36rem]", "md:h-auto");
-    expect(uspCardLink).toHaveClass("flex", "h-full", "flex-col");
-    expect(uspStats).toHaveClass("mt-auto");
+    expect(uspSlide.parentElement).toBe(suspSlide.parentElement);
+    expect(uspSlide).toHaveTextContent(/USP tracks a diversified basket of loans/i);
+    expect(suspSlide).toHaveTextContent(/sUSP accrues the aggregate yield/i);
+    expect(uspCardLink).toHaveAttribute("href", "https://app.pareto.credit/usp");
+    expect(uspStats).toHaveAttribute("aria-busy", "false");
   });
 });

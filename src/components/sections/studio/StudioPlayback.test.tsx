@@ -65,7 +65,7 @@ afterEach(() => {
 });
 
 describe("Studio preview playback and exploration", () => {
-  it("keeps guides in the frame when their sidebar target is clipped", () => {
+  it("covers the full sidebar row and keeps clipped guides in the frame", () => {
     vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(
       function (this: HTMLElement) {
         if (
@@ -76,6 +76,13 @@ describe("Studio preview playback and exploration", () => {
           return new DOMRect(0, 0, 1200, 420);
         if (this.classList.contains("product-preview__sidebar"))
           return new DOMRect(5, 30, 164, 360);
+        if (this.dataset.tourTarget)
+          return new DOMRect(
+            20,
+            this.dataset.tourTarget === "participants" ? 440 : 176,
+            132,
+            24
+          );
         if (this.parentElement?.dataset.tourTarget)
           return new DOMRect(
             30,
@@ -94,9 +101,14 @@ describe("Studio preview playback and exploration", () => {
     });
     expect(participants).toHaveAttribute("data-anchored", "false");
     expect(participants.style.getPropertyValue("--hotspot-y")).toBe("");
-    expect(
-      screen.getByRole("button", { name: "Explore facility structuring" })
-    ).toHaveAttribute("data-anchored", "true");
+    const structuring = screen.getByRole("button", {
+      name: "Explore facility structuring",
+    });
+    expect(structuring).toHaveAttribute("data-anchored", "true");
+    expect(structuring.style.getPropertyValue("--hotspot-x")).toBe("20px");
+    expect(structuring.style.getPropertyValue("--hotspot-width")).toBe("132px");
+    expect(structuring.style.getPropertyValue("--hotspot-height")).toBe("24px");
+    expect(participants.style.getPropertyValue("--hotspot-width")).toBe("");
   });
 
   it("retains the operating queue when moving between native workspace pages", () => {

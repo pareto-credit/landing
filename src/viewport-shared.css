@@ -1,0 +1,162 @@
+/* Keep the content of each presentation block within a comfortable screenful.
+   Text grows naturally; only illustrative canvases and data tables have budgets. */
+.offering-section > .ui-section-shell,
+main #contact > .ui-section-shell {
+  padding-block: clamp(28px, 5svh, 56px);
+}
+.offering-section [data-section-header],
+#contact [data-section-header] { margin-bottom: 24px; }
+.offering-section [data-section-header] h2,
+#contact [data-section-header] h2 { font-size: clamp(28px, 3.3vw, 42px); }
+.offering-section .offering-illustration { height: clamp(88px, 15svh, 140px); }
+.offering-section .offering-card__title h3 { font-size: clamp(28px, 2.8vw, 36px); }
+.offering-section .offering-features { gap: 7px; padding-block: 12px; }
+.offering-section .offering-features li { font-size: 12px; line-height: 1.5; }
+
+#contact.ui-section-fit { min-height: 0; }
+#contact form { display: grid; gap: 14px; }
+#contact form > * { margin-block: 0; }
+#contact form > .grid { gap: 12px 18px; }
+#contact label { margin-bottom: 5px; font-size: 12px; }
+#contact :is(input:not([type="checkbox"]), select, textarea) { min-height: 44px; padding: 10px 12px; font-size: 14px; }
+#contact textarea { min-height: 66px; }
+
+.site-footer { padding-top: clamp(32px, 5svh, 56px); }
+.site-footer .site-footer__main { gap: 32px; margin-bottom: 28px; }
+.site-footer .site-footer__column { display: grid; align-content: start; gap: 4px; }
+.site-footer .site-footer__column > * { margin-block: 0; }
+.site-footer .site-footer__column h4 { margin-bottom: 8px; padding-bottom: 10px; }
+.site-footer .site-footer__column a { min-height: 28px; font-size: 12px; }
+.site-footer .site-footer__signature { max-height: 128px; margin-bottom: -32px; }
+.site-footer .site-footer__signature img { max-height: 128px; object-fit: contain; }
+
+.product-page .product-section { padding-block: clamp(28px, 4.5svh, 56px); }
+.product-page .cv-product-hero { padding-block: clamp(112px, 17svh, 152px) 40px; }
+.product-page .cv-product-hero h1 { font-size: clamp(44px, 6.4vw, 88px); }
+.product-page .cv-product-hero__bottom { margin-top: 28px; gap: 32px; }
+.product-page .cv-editorial-intro { margin-bottom: 0; }
+.product-page .cv-editorial-statement { font-size: clamp(28px, 3.4vw, 44px); }
+.product-page .cv-facilities__heading { margin-bottom: 16px; gap: 20px; }
+.product-page .cv-facilities__heading h2 { font-size: clamp(26px, 3vw, 36px); }
+.product-page .cv-facilities__heading > p { font-size: 13px; }
+.product-page .cv-facility-navigation { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-bottom: 16px; }
+.cv-facility-navigation > span { margin-right: auto; color: var(--color-text-muted); font: 10px var(--font-mono); }
+.cv-facility-navigation button { display: grid; width: 44px; height: 44px; place-items: center; border: 1px solid var(--color-border-soft-strong); border-radius: 4px; color: var(--color-brand-deep); cursor: pointer; }
+.cv-facility-navigation button:hover { background: #e7eee2; }
+.product-page .cv-facility-grid {
+  grid-template-columns: none;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 16px) / 2);
+  gap: 16px;
+  overflow-x: auto;
+  padding: 4px 4px 12px;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 4px;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #8aa18f #e8ebe6;
+}
+.product-page .cv-facility-card {
+  --facility-card-padding: 20px;
+  position: relative;
+  display: flex;
+  grid-column: auto;
+  grid-row: auto;
+  gap: 0;
+  padding: var(--facility-card-padding);
+  scroll-snap-align: start;
+}
+.product-page .cv-facility-card__top,
+.product-page .cv-facility-card--assets .cv-facility-card__top { height: auto; margin: 0 0 12px; }
+.product-page .cv-facility-card__number { position: absolute; top: var(--facility-card-padding); right: var(--facility-card-padding); }
+.product-page .cv-facility-card__copy h3 { margin-bottom: 10px; font-size: 23px; }
+.product-page .cv-facility-card__copy > p { font-size: 13px; line-height: 1.6; }
+.product-page .cv-facility-art { flex-shrink: 0; height: 140px; margin-top: 16px; }
+.product-page .cv-facility-card__footer,
+.product-page .cv-facility-card--assets .cv-facility-card__footer { margin-top: auto; padding: 14px 0 0; border: 0; }
+.product-page .cv-facility-card__configuration { margin-top: 12px; padding-top: 10px; }
+.product-page .cv-facilities__note { margin-top: 12px; }
+.product-page .cv-modules__intro { gap: 24px; margin-bottom: 24px; }
+.product-page .cv-modules__intro h2 { font-size: clamp(27px, 3vw, 38px); }
+.product-page .cv-modules__intro > p { font-size: 13px; }
+.product-page .studio-product-hero__inner { padding-block: clamp(112px, 17svh, 152px) 32px; }
+.product-page .studio-product-hero h1 { font-size: clamp(44px, 8.4vw, 112px); }
+.product-page .studio-product-workspace { --studio-viewport-height: min(600px, calc(100svh - 12rem)); padding-top: 0; }
+.product-page .studio-product-narrative__statement { font-size: clamp(28px, 3.5vw, 46px); }
+.product-page .studio-product-narrative__foot { margin-top: 24px; padding-top: 14px; }
+.product-page .studio-product-capabilities__heading { margin-bottom: 24px; }
+.product-page .studio-product-card__art { height: clamp(124px, 20svh, 180px); }
+.product-page .studio-product-card__copy { padding: 16px 18px 20px; }
+.product-page .studio-product-card__copy h3 { margin-top: 10px; font-size: clamp(20px, 2vw, 25px); }
+.product-page .studio-product-card__copy > p:not(.product-kicker) { margin-top: 12px; line-height: 1.6; }
+.product-page #agents > .ui-section-shell { padding-block: 36px; }
+.cv-facility-grid:focus-visible,
+.cv-facility-card:focus-visible,
+.cv-facility-navigation button:focus-visible { outline: 2px solid var(--color-brand); outline-offset: 3px; }
+
+.data-dashboard-main .data-dashboard-hero { padding-block: 120px 24px; }
+.data-dashboard-main .data-dashboard-source { margin-top: 24px; padding-block: 12px; }
+.data-dashboard-overview { padding-block: 8px 28px; }
+.data-dashboard-overview .data-dashboard-metrics { margin-top: 0; }
+.data-dashboard-main .data-dashboard-metric { padding: 22px; }
+.data-dashboard-history { padding-block: 8px 36px; }
+.data-dashboard-history .credit-history { margin: 0; padding: 24px; }
+.data-dashboard-main .macro-outlook { padding-block: 24px 36px; }
+.data-dashboard-main .macro-outlook__rate { padding: 20px 16px 16px; }
+.data-dashboard-main .macro-outlook__lending-heading { margin-top: 0; }
+.data-dashboard-main .data-dashboard-facilities { padding-block: 24px 40px; }
+.data-dashboard-main .data-dashboard-table-wrap { max-height: calc(100svh - 18rem); overflow: auto; overscroll-behavior: contain; }
+.data-dashboard-main .data-dashboard-table-wrap :is(th, td) { padding: 16px; }
+.data-dashboard-table-wrap thead th { position: sticky; z-index: 1; top: 0; }
+
+@media (max-width: 1023px) {
+  .offering-section .offering-card__visual { display: grid; grid-template-columns: 112px minmax(0, 1fr); align-items: center; gap: 16px; padding: 12px 20px; }
+  .offering-section .offering-illustration { height: 110px; margin: 0; }
+  .offering-section .offering-card__body { padding: 8px 20px 18px; }
+  .site-footer .site-footer__links { gap: 16px; }
+  .site-footer .site-footer__main { gap: 24px; }
+  .product-page .studio-product-capabilities__grid { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(0, 46%); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 12px; }
+  .product-page .studio-product-card { scroll-snap-align: start; }
+  .product-page .cv-module-workbench { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); gap: 12px; height: calc(100svh - 9rem); }
+  .product-page .cv-module-controls { position: static; }
+  .product-page .cv-module-figure { display: flex; min-height: 0; height: 100%; flex-direction: column; margin-top: 0; }
+  .product-page .cv-module-figure__caption { flex-shrink: 0; padding: 12px 16px; }
+  .product-page .cv-module-figure__scroller { min-height: 0; flex: 1; overflow: auto; }
+}
+@media (max-width: 767px) {
+  .site-footer .site-footer__main { margin-bottom: 20px; }
+  .site-footer .site-footer__links { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .site-footer .site-footer__company { grid-column: auto; }
+  .site-footer .site-footer__column a { font-size: 11px; line-height: 1.4; }
+  .site-footer .site-footer__signature { display: none; }
+  .product-page .cv-facility-grid { grid-auto-columns: 92%; }
+  .product-page .studio-product-capabilities__grid { grid-auto-columns: 88%; }
+  .product-page .cv-facilities__heading { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .product-page .cv-product-hero__bottom { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .product-page .cv-product-hero__principles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding-left: 0; border-left: 0; }
+  .product-page .cv-product-hero__principles p { align-items: flex-start; gap: 8px; font-size: 10px; }
+  .product-page .cv-modules__intro { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  #contact .contact-primary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #contact .contact-full-name-field { grid-column: 1 / -1; }
+  #contact form > .grid:not(.contact-primary-grid) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #contact form > .flex > span { font-size: 12px; }
+  .data-dashboard-main .data-dashboard-hero { padding-top: 108px; }
+  .data-dashboard-main .data-dashboard-hero__layout { gap: 18px; }
+  .data-dashboard-main .data-dashboard-hero__intro { font-size: 14px; }
+  .data-dashboard-main .data-dashboard-metric { padding: 18px 14px; }
+  .data-dashboard-history .credit-history { padding: 18px; }
+  .data-dashboard-main .macro-outlook__benchmarks { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 70%; overflow-x: auto; padding-bottom: 10px; scroll-snap-type: x mandatory; }
+  .data-dashboard-main .macro-outlook__rate { grid-column: auto; scroll-snap-align: start; }
+  .data-dashboard-main .macro-outlook__lending { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 88%; overflow-x: auto; padding-bottom: 10px; scroll-snap-type: x mandatory; }
+  .data-dashboard-main .macro-outlook__protocol { scroll-snap-align: start; }
+  .data-dashboard-main .data-dashboard-table-wrap { max-height: calc(100svh - 22rem); }
+}
+@media (max-height: 700px) {
+  .offering-section .offering-illustration { height: 84px; }
+  .offering-section .offering-card__visual { padding-top: 8px; }
+  .offering-section .offering-card__title h3 { font-size: 28px; }
+  .offering-section .offering-features { gap: 5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cv-facility-grid { scroll-behavior: auto; }
+}

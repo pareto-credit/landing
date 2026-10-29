@@ -5,8 +5,8 @@ import { carryForwardCreditHistory } from "../../../lib/creditHistory";
 import "./credit-history-chart.css";
 
 const series = [
-  { key: "creditExtendedUsd", label: "Credit Extended", color: "#3479da" },
-  { key: "tvlUsd", label: "Outstanding Loans", color: "#15835f" },
+  { key: "creditExtendedUsd", label: "Credit Extended", color: "#254839" },
+  { key: "tvlUsd", label: "Outstanding Loans", color: "#6d9983" },
 ] as const;
 type SeriesKey = (typeof series)[number]["key"];
 const ranges = ["1M", "3M", "1Y", "All"] as const;
@@ -116,6 +116,13 @@ export default function CreditHistoryChart({
       connected = true;
     }
     return path.trim();
+  };
+  const area = (key: SeriesKey) => {
+    const observations = visible.filter((point) => point[key] !== null);
+    const first = observations[0];
+    const last = observations.at(-1);
+    if (!first || !last) return "";
+    return `${line(key)} L${x(last.date).toFixed(2)},${y(0).toFixed(2)} H${x(first.date).toFixed(2)}Z`;
   };
   const rangeDescription = visible.length
     ? `${fullDate(visible[0].date)} to ${fullDate(visible.at(-1)!.date)}.`
@@ -287,6 +294,30 @@ export default function CreditHistoryChart({
               observations. Missing values carry forward the last known value;
               values before the first report remain unavailable.
             </desc>
+            <defs>
+              {enabled.map((item) => (
+                <linearGradient
+                  key={item.key}
+                  id={`${id}-${item.key}-fill`}
+                  x1="0%"
+                  y1="0%"
+                  x2="0%"
+                  y2="100%"
+                >
+                  <stop offset="0%" stopColor={item.color} stopOpacity="0.16" />
+                  <stop offset="100%" stopColor={item.color} stopOpacity="0.01" />
+                </linearGradient>
+              ))}
+            </defs>
+            {enabled.map((item) => (
+              <path
+                key={`${item.key}-${range}-area`}
+                className="credit-history-area"
+                d={area(item.key)}
+                fill={`url(#${id}-${item.key}-fill)`}
+                aria-hidden="true"
+              />
+            ))}
             {[0, 0.25, 0.5, 0.75, 1].map((ratio) => (
               <g key={ratio} aria-hidden="true">
                 <line
@@ -310,26 +341,33 @@ export default function CreditHistoryChart({
               (ratio, index, ticks) => {
                 const date = new Date(start + ratio * (finish - start));
                 return (
-                  <text
-                    key={ratio}
-                    x={margin.left + ratio * plotWidth}
-                    y={height - 12}
-                    textAnchor={
-                      index === 0
-                        ? "start"
-                        : index === ticks.length - 1
-                        ? "end"
-                        : "middle"
-                    }
-                    className="credit-history-axis"
-                    aria-hidden="true"
-                  >
-                    {date.toLocaleDateString("en-US", {
-                      month: "short",
-                      year: "2-digit",
-                      timeZone: "UTC",
-                    })}
-                  </text>
+                  <g key={ratio} aria-hidden="true">
+                    <line
+                      x1={margin.left + ratio * plotWidth}
+                      x2={margin.left + ratio * plotWidth}
+                      y1={margin.top}
+                      y2={height - margin.bottom}
+                      className="credit-history-grid credit-history-grid--vertical"
+                    />
+                    <text
+                      x={margin.left + ratio * plotWidth}
+                      y={height - 12}
+                      textAnchor={
+                        index === 0
+                          ? "start"
+                          : index === ticks.length - 1
+                          ? "end"
+                          : "middle"
+                      }
+                      className="credit-history-axis"
+                    >
+                      {date.toLocaleDateString("en-US", {
+                        month: "short",
+                        year: "2-digit",
+                        timeZone: "UTC",
+                      })}
+                    </text>
+                  </g>
                 );
               }
             )}

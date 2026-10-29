@@ -1,5 +1,5 @@
 .data-dashboard-main {
-  background: #f6f9f8;
+  background: var(--color-bg-light-alt);
   color: var(--color-text-primary);
   color-scheme: light;
 }
@@ -16,9 +16,8 @@
   z-index: -1;
   inset: 30px -8% 15%;
   background:
-    radial-gradient(ellipse at 88% 12%, #b8d9fb70, transparent 38%),
-    radial-gradient(ellipse at 16% 32%, #b4efdc60, transparent 42%),
-    radial-gradient(ellipse at 66% 65%, #dfd7fa40, transparent 40%);
+    radial-gradient(ellipse at 88% 12%, #c9d6ce70, transparent 44%),
+    radial-gradient(ellipse at 16% 32%, #d9e5d560, transparent 48%);
   content: "";
   pointer-events: none;
   animation: dashboard-ambient 18s ease-in-out infinite alternate paused;
@@ -29,7 +28,7 @@
 }
 
 .data-dashboard-title-accent {
-  background: linear-gradient(110deg, #15583f 12%, #267fa1 43%, #655bb1 68%, #15583f 94%);
+  background: linear-gradient(110deg, #254839 12%, #5d8d75 52%, #254839 94%);
   background-size: 240% 100%;
   background-clip: text;
   -webkit-background-clip: text;
@@ -125,37 +124,28 @@
 }
 
 .data-dashboard-metric {
-  --metric-accent: #167351;
-  --metric-tint: #e0f5e9;
+  --metric-accent: var(--color-brand-deep);
+  --metric-tint: #edf2e9;
   position: relative;
   min-width: 0;
   overflow: hidden;
   padding: 28px;
-  border: 1px solid #c4dfd1;
+  border: 1px solid var(--color-border-soft-strong);
   border-radius: var(--radius-panel);
-  background: linear-gradient(140deg, #fafffc, var(--metric-tint));
+  background: linear-gradient(140deg, #fafcf8, var(--metric-tint));
   box-shadow: 0 4px 16px #1b503805;
   transition: transform 240ms ease, box-shadow 240ms ease, border-color 240ms ease;
 }
 
 .data-dashboard-metric:nth-child(2) {
-  --metric-accent: #2e65af;
-  --metric-tint: #e0edff;
-  border-color: #ccdcef;
   animation-delay: 70ms;
 }
 
 .data-dashboard-metric:nth-child(3) {
-  --metric-accent: #7060aa;
-  --metric-tint: #eee6fa;
-  border-color: #dfd6ed;
   animation-delay: 140ms;
 }
 
 .data-dashboard-metric:nth-child(4) {
-  --metric-accent: #996818;
-  --metric-tint: #fcf0d7;
-  border-color: #e9ddc2;
   animation-delay: 210ms;
 }
 
@@ -293,7 +283,7 @@
 .data-dashboard-table-wrap thead th {
   padding-top: 18px;
   padding-bottom: 18px;
-  background: linear-gradient(100deg, #eaf5ef, #eff4fc);
+  background: #edf2e9;
   color: var(--color-text-muted);
   font: 400 10px var(--font-mono);
   letter-spacing: 0.08em;
@@ -332,24 +322,12 @@
   height: 30px;
   flex-shrink: 0;
   place-items: center;
-  border: 1px solid #c9e6d7;
+  border: 1px solid #cad7c9;
   border-radius: 6px;
-  background: #e4f4eb;
-  color: #1d7351 !important;
+  background: #e7eee2;
+  color: var(--color-brand-deep) !important;
   font: 500 12px var(--font-mono);
   transition: transform 220ms ease;
-}
-
-.data-dashboard-table-wrap tr:nth-child(3n + 2) .data-dashboard-facility-mark {
-  border-color: #d0e0f6;
-  background: #e6effd;
-  color: #3568a9 !important;
-}
-
-.data-dashboard-table-wrap tr:nth-child(3n) .data-dashboard-facility-mark {
-  border-color: #e0d7f1;
-  background: #f0eafb;
-  color: #7159aa !important;
 }
 
 .data-dashboard-tvl-rail {
@@ -366,7 +344,7 @@
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, #54c49b, #4592c6);
+  background: linear-gradient(90deg, #537d65, #91ae99);
   transform-origin: left;
 }
 
@@ -397,17 +375,10 @@
   align-items: center;
   padding: 5px 8px;
   border-radius: 4px;
-  background: #eef2f3;
-  color: #49616c;
+  background: var(--color-bg-light);
+  color: var(--color-text-secondary);
   font: 400 11px var(--font-mono);
 }
-
-.data-dashboard-asset[data-asset="USDC"] { background: #e8f1ff; color: #2f659f; }
-.data-dashboard-asset[data-asset="USDT"] { background: #e0f5ed; color: #1b755a; }
-.data-dashboard-asset[data-asset="WBTC"],
-.data-dashboard-asset[data-asset="BTC"] { background: #fff0d7; color: #8f6113; }
-.data-dashboard-asset[data-asset="WETH"],
-.data-dashboard-asset[data-asset="ETH"] { background: #eeeafa; color: #66549d; }
 
 .data-dashboard-status {
   display: inline-block;

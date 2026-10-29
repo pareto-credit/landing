@@ -77,11 +77,11 @@ const ContactSection = ({
           >
             <div
               data-testid="contact-primary-grid"
-              className="grid gap-x-6 gap-y-5 lg:grid-cols-4"
+              className="contact-primary-grid grid gap-x-6 gap-y-5 lg:grid-cols-4"
             >
               <div
                 data-testid="contact-full-name-field"
-                className="lg:col-span-2"
+                className="contact-full-name-field lg:col-span-2"
               >
                 <label
                   htmlFor="contact-full-name"

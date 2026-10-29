@@ -116,7 +116,7 @@ const NewsSection = () => {
           event.stopPropagation();
         }
       }}
-      className="group block cursor-pointer"
+      className="home-news-card group block cursor-pointer"
     >
       <div className="relative mb-5 h-40 w-full overflow-hidden ui-radius-control border border-[var(--color-border-soft)] bg-[var(--color-surface-muted)] transition-colors group-hover:border-[color:rgb(112_177_158_/_0.50)] xl:h-44">
         <img
@@ -209,6 +209,9 @@ const NewsSection = () => {
             <div
               ref={viewportRef}
               data-testid="news-mobile-slider"
+              role="region"
+              aria-label="Latest articles"
+              tabIndex={0}
               onPointerDown={(event) => {
                 const viewport = viewportRef.current;
                 if (!viewport) return;
@@ -308,7 +311,7 @@ const NewsSection = () => {
               />
             </div>
 
-            <div className="mt-5 flex items-center justify-center gap-2 md:hidden">
+            <div className="home-news-controls mt-5 flex items-center justify-center gap-2 md:hidden">
               {articles.map((article, index) => {
                 const isActive = index === activeIndex;
 

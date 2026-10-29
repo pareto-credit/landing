@@ -3,16 +3,16 @@
   overflow: hidden;
   margin: 32px 0 0;
   padding: clamp(20px, 3vw, 32px);
-  border: 1px solid #d5e4e3;
+  border: 1px solid var(--color-border-soft-strong);
   border-radius: 6px;
-  background: linear-gradient(145deg, #ffffff 45%, #edf6fd 100%);
-  box-shadow: 0 10px 40px #24576206;
+  background: #fafcf8;
+  box-shadow: 0 10px 40px #25483906;
 }
 .credit-history::before {
   position: absolute;
   inset: 0 0 auto;
-  height: 3px;
-  background: linear-gradient(90deg, #78b6f4, #78cfb0 56%, #c2b2ee);
+  height: 2px;
+  background: #8baa96;
   content: "";
 }
 .credit-history-heading {
@@ -54,8 +54,8 @@
 }
 .credit-history-ranges button[aria-pressed="true"] {
   color: #f8faf7;
-  background: #305fa1;
-  box-shadow: 0 2px 6px #305fa124;
+  background: var(--color-brand-deep);
+  box-shadow: 0 2px 6px #25483918;
 }
 .credit-history-legend {
   display: flex;
@@ -78,13 +78,8 @@
   transition: background 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
 }
 .credit-history-legend button[aria-pressed="true"] {
-  background: #eaf2ff;
-  border-color: #b9cfee;
-  box-shadow: 0 2px 7px #3479da06;
-}
-.credit-history-legend button[data-series="tvlUsd"][aria-pressed="true"] {
-  background: #e6f7ee;
-  border-color: #acd8c3;
+  background: #eaf0e6;
+  border-color: #b9cbbb;
 }
 .credit-history-legend button > span:first-child {
   width: 7px;
@@ -126,11 +121,18 @@
   overflow: visible;
 }
 .credit-history-grid {
-  stroke: #e2eaf0;
+  stroke: #d8e1d6;
   stroke-width: 1;
+  stroke-dasharray: 3 5;
+}
+.credit-history-grid--vertical {
+  stroke-opacity: 0.7;
+}
+.credit-history-area {
+  pointer-events: none;
 }
 .credit-history-series {
-  filter: drop-shadow(0 3px 4px #276bb215);
+  filter: drop-shadow(0 3px 4px #25483910);
 }
 .credit-history[data-entered="true"] .credit-history-series {
   stroke-dasharray: 1;
@@ -161,11 +163,9 @@
   color: #4f6657;
   font-size: 13px;
   text-align: center;
-  border: 1px dashed #cfdfeb;
+  border: 1px dashed #ccd9c8;
   border-radius: 5px;
-  background:
-    radial-gradient(ellipse at 25% 70%, #d7f2e63d, transparent 60%),
-    radial-gradient(ellipse at 85% 20%, #e0eaff80, transparent 60%);
+  background: #edf2e9;
 }
 .credit-history-placeholder p {
   color: #6b7d70;

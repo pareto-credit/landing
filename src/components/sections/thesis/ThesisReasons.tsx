@@ -11,7 +11,7 @@ const ThesisReasons = () => {
   const pageVisible = usePageVisibility();
 
   return (
-    <ol ref={ref} className="thesis-reasons" data-animate={inView && pageVisible && !reducedMotion || undefined}>
+    <ol ref={ref} className="thesis-reasons" aria-label="Reasons to build with Pareto" tabIndex={0} data-animate={inView && pageVisible && !reducedMotion || undefined}>
       {thesisReasons.map((reason) => (
         <li key={reason.title} className={`thesis-reason thesis-reason--${reason.title.toLowerCase()}`}>
           <div className="thesis-reason__visual"><ThesisDiagram kind={reason.diagram} /></div>

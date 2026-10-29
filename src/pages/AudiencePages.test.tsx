@@ -83,15 +83,13 @@ describe("audience pages", () => {
     expect(screen.getByRole("tabpanel", { name: "Eligibility" })).toBeVisible();
   });
 
-  it("keeps focused layer details in place when another plane is hovered", () => {
+  it("keeps the focused layer summary in place when another plane is hovered", () => {
     render(<PersonaPage id="originators" />);
     const panel = screen.getByRole("tabpanel", { name: /application/i });
-    const disclosure = within(panel).getByText("Explore this layer");
-    fireEvent.click(disclosure);
-    disclosure.focus();
+    panel.focus();
     const eligibility = screen.getByRole("tab", { name: "Eligibility" });
     fireEvent.mouseEnter(eligibility);
-    expect(disclosure).toHaveFocus();
+    expect(panel).toHaveFocus();
     expect(panel).toBeVisible();
     expect(eligibility).toHaveAttribute("aria-selected", "false");
 
@@ -158,7 +156,7 @@ describe("audience pages", () => {
       name: "Understand every layer.",
     });
     fireEvent.click(within(tabs).getByRole("tab", { name: /servicing/i }));
-    expect(screen.getByRole("tabpanel")).toHaveTextContent(/withdrawal/i);
+    expect(screen.getByRole("tabpanel")).toHaveTextContent("Follow your position through its lifecycle.");
     expect(screen.queryByTestId("studio-desk")).not.toBeInTheDocument();
     expect(
       screen.getByText(/lending involves credit risk/i)
@@ -166,30 +164,19 @@ describe("audience pages", () => {
   });
 
   it.each(["originators", "capital-providers"] as const)(
-    "keeps secondary layer information available on demand for %s",
+    "shows the selected concise summary without a layer disclosure for %s",
     (id) => {
       render(<PersonaPage id={id} />);
       const panel = screen.getByRole("tabpanel", { name: /application/i });
-      const explanation = within(panel).getByText(
-        id === "originators"
-          ? /Run facility operations in Pareto Studio/
-          : /Use Pareto’s Lender App to explore available Credit Vaults/
-      );
-      expect(explanation).not.toBeVisible();
-      const disclosure = within(panel).getByText("Explore this layer");
-      fireEvent.click(disclosure);
-      expect(explanation).toBeVisible();
-
+      const layers = personaPages.find((page) => page.id === id)!.framework.items;
+      expect(panel).toHaveTextContent(layers[0].summary);
+      expect(panel.querySelector("details")).toBeNull();
+      expect(screen.queryByText("Explore this layer")).not.toBeInTheDocument();
       const tabs = screen.getByRole("tablist");
       fireEvent.click(within(tabs).getByRole("tab", { name: /eligibility/i }));
+      expect(screen.getByRole("tabpanel", { name: /eligibility/i })).toHaveTextContent(layers[1].summary);
       fireEvent.click(within(tabs).getByRole("tab", { name: /application/i }));
-      expect(
-        within(screen.getByRole("tabpanel")).getByText(
-          id === "originators"
-            ? /Run facility operations in Pareto Studio/
-            : /Use Pareto’s Lender App to explore available Credit Vaults/
-        )
-      ).not.toBeVisible();
+      expect(screen.getByRole("tabpanel", { name: /application/i })).toHaveTextContent(layers[0].summary);
     }
   );
 
@@ -200,15 +187,18 @@ describe("audience pages", () => {
       const faq = screen.getByRole("region", {
         name: "Your questions answered",
       });
-      expect(faq.querySelectorAll("details").length).toBeGreaterThanOrEqual(5);
-      const answers = Array.from(faq.querySelectorAll<HTMLDetailsElement>("details"));
-      fireEvent.click(answers[0].querySelector("summary")!);
-      expect(answers[0]).toHaveAttribute("open");
-      fireEvent.click(answers[1].querySelector("summary")!);
-      expect(answers[1]).toHaveAttribute("open");
-      expect(answers[0]).not.toHaveAttribute("open");
-      fireEvent.click(answers[1].querySelector("summary")!);
-      expect(answers.some((answer) => answer.open)).toBe(false);
+      const answers = within(faq).getAllByRole("button");
+      expect(answers.length).toBeGreaterThanOrEqual(5);
+      fireEvent.click(answers[0]);
+      expect(answers[0]).toHaveAttribute("aria-expanded", "true");
+      fireEvent.click(answers[1]);
+      expect(answers[1]).toHaveAttribute("aria-expanded", "true");
+      expect(answers[0]).toHaveAttribute("aria-expanded", "false");
+      expect(document.getElementById(answers[0].getAttribute("aria-controls")!))
+        .toHaveAttribute("aria-hidden", "true");
+      fireEvent.click(answers[1]);
+      expect(answers.every((answer) => answer.getAttribute("aria-expanded") === "false"))
+        .toBe(true);
       expect(
         screen.getByRole("heading", { name: "Credit in practice." })
       ).toBeInTheDocument();
@@ -239,6 +229,8 @@ describe("audience pages", () => {
       }
       expect(within(articles[2]).getByText("COMING SOON")).toBeVisible();
       expect(within(articles[2]).queryByRole("link")).not.toBeInTheDocument();
+      articles[2].focus();
+      expect(articles[2]).toHaveFocus();
       expect(articles.map((article) => within(article).getByRole("img").getAttribute("alt"))).toEqual([
         "RockawayX",
         "M11 Credit",

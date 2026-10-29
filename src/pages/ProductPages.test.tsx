@@ -100,17 +100,19 @@ describe("dedicated product pages", () => {
       expect(container.querySelectorAll("#pricing")).toHaveLength(1);
       expect(container.querySelectorAll("#agents")).toHaveLength(1);
       expect(container.querySelectorAll("#contact")).toHaveLength(1);
-      expect(container.querySelectorAll("#questions details")).toHaveLength(6);
-      const answers = Array.from(
-        container.querySelectorAll<HTMLDetailsElement>("#questions details")
-      );
-      fireEvent.click(answers[0].querySelector("summary")!);
-      expect(answers[0]).toHaveAttribute("open");
-      fireEvent.click(answers[1].querySelector("summary")!);
-      expect(answers[1]).toHaveAttribute("open");
-      expect(answers[0]).not.toHaveAttribute("open");
-      fireEvent.click(answers[1].querySelector("summary")!);
-      expect(answers.some((answer) => answer.open)).toBe(false);
+      const faq = container.querySelector("#questions") as HTMLElement;
+      const answers = within(faq).getAllByRole("button");
+      expect(answers).toHaveLength(6);
+      fireEvent.click(answers[0]);
+      expect(answers[0]).toHaveAttribute("aria-expanded", "true");
+      fireEvent.click(answers[1]);
+      expect(answers[1]).toHaveAttribute("aria-expanded", "true");
+      expect(answers[0]).toHaveAttribute("aria-expanded", "false");
+      expect(document.getElementById(answers[0].getAttribute("aria-controls")!))
+        .toHaveAttribute("aria-hidden", "true");
+      fireEvent.click(answers[1]);
+      expect(answers.every((answer) => answer.getAttribute("aria-expanded") === "false"))
+        .toBe(true);
       expect(container.querySelector("form")).toHaveAttribute(
         "action",
         "https://formspree.io/f/xkgjlnwg"
