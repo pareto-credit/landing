@@ -1,0 +1,455 @@
+.lender-portfolio {
+  --portfolio-cyan: #8fd9ef;
+  --portfolio-mint: #8de2bb;
+  --portfolio-blue: #a8c1ee;
+  color: #e2efe9;
+}
+.lender-portfolio__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 0 14px;
+}
+.lender-portfolio__heading .product-preview__micro {
+  display: none;
+}
+.lender-portfolio__heading h3 {
+  font-size: clamp(24px, 2.6cqw, 30px);
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+.lender-portfolio__heading h3 + p {
+  margin-top: 4px;
+  color: #a7beb3;
+  font-size: 11px;
+}
+.lender-portfolio__network {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border: 1px solid #3d5a54;
+  border-radius: 4px;
+  color: #b6cddd;
+  font-size: 9px;
+}
+.lender-portfolio__network > span {
+  color: var(--portfolio-blue);
+  font-size: 15px;
+}
+.lender-portfolio__summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 12px;
+}
+.lender-portfolio__funds,
+.lender-portfolio__allocation {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid #386056;
+  border-radius: 6px;
+}
+.lender-portfolio__funds {
+  background: linear-gradient(130deg, #193d3e, #122f29 80%);
+}
+.lender-portfolio__label,
+.lender-portfolio__allocation h4 {
+  color: #b9d1c8;
+  font-size: 11px;
+  font-weight: 400;
+}
+.lender-portfolio__total {
+  margin-top: 8px;
+  color: #d3f3ef;
+  font-size: clamp(23px, 3cqw, 32px);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.045em;
+  font-variant-numeric: tabular-nums;
+}
+.lender-portfolio__capital-bar {
+  display: flex;
+  gap: 3px;
+  height: 3px;
+  overflow: hidden;
+  margin-top: 10px;
+  border-radius: 2px;
+  transform-origin: left;
+}
+.lender-portfolio__capital-bar > span,
+.lender-portfolio__legend i {
+  background: var(--portfolio-cyan);
+}
+.lender-portfolio__capital-bar > span:nth-child(2),
+.lender-portfolio__legend li:nth-child(2) i {
+  background: var(--portfolio-mint);
+}
+.lender-portfolio__capital-bar > span:nth-child(3),
+.lender-portfolio__legend li:nth-child(3) i {
+  background: var(--portfolio-blue);
+}
+.lender-portfolio__pending {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 12px;
+}
+.lender-portfolio__pending dt {
+  color: #a4beb3;
+  font-size: 9px;
+}
+.lender-portfolio__pending dt > span {
+  margin-right: 4px;
+  color: #91c9d1;
+}
+.lender-portfolio__pending dd {
+  margin-top: 5px;
+  color: #d7e8df;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.lender-portfolio__fund-note {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-height: 14px;
+  margin-top: 8px;
+  color: #a9c1b5;
+  font-size: 8px;
+  line-height: 1.6;
+}
+.lender-portfolio__fund-note[data-available="true"] {
+  color: var(--portfolio-mint);
+}
+.lender-portfolio__allocation {
+  background: linear-gradient(135deg, #183a31, #112c27);
+}
+.lender-portfolio__allocation-body {
+  display: grid;
+  grid-template-columns: minmax(100px, 0.9fr) minmax(0, 1.15fr);
+  align-items: center;
+  gap: 20px;
+  margin-top: 12px;
+}
+.lender-portfolio__donut {
+  position: relative;
+  width: 100%;
+  max-width: 120px;
+  aspect-ratio: 1;
+}
+.lender-portfolio__donut svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.lender-portfolio__ring-segments {
+  transform-origin: 60px 60px;
+}
+.lender-portfolio__ring--0 {
+  stroke: var(--portfolio-cyan);
+}
+.lender-portfolio__ring--1 {
+  stroke: var(--portfolio-mint);
+}
+.lender-portfolio__ring--2 {
+  stroke: var(--portfolio-blue);
+}
+.lender-portfolio__donut > span {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+.lender-portfolio__donut strong {
+  color: #def0e8;
+  font-size: 25px;
+  font-weight: 400;
+}
+.lender-portfolio__donut small {
+  color: #9eb9ac;
+  font-size: 8px;
+}
+.lender-portfolio__legend {
+  display: grid;
+  gap: 14px;
+}
+.lender-portfolio__legend li {
+  display: grid;
+  grid-template-columns: 6px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  color: #b6ccc0;
+  font-size: 9px;
+}
+.lender-portfolio__legend i {
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+}
+.lender-portfolio__legend strong {
+  color: #deece5;
+  font: 10px var(--font-mono);
+}
+.lender-portfolio__performance {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+.lender-portfolio__earnings,
+.lender-portfolio__stat {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #31574b;
+  border-radius: 6px;
+  background: #122f27;
+}
+.lender-portfolio__earnings {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(110deg, #153d2d, #122e28);
+}
+.lender-portfolio__performance dt {
+  color: #acc7b7;
+  font-size: 10px;
+}
+.lender-portfolio__performance dd {
+  position: relative;
+  z-index: 1;
+  margin-top: 6px;
+  font-size: clamp(20px, 2.3cqw, 25px);
+  line-height: 1.2;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+.lender-portfolio__earnings dd,
+.lender-portfolio__stat:nth-child(2) dd {
+  color: var(--portfolio-mint);
+}
+.lender-portfolio__stat:nth-child(3) dd {
+  color: var(--portfolio-blue);
+}
+.lender-portfolio__stat dd > span {
+  margin-left: 2px;
+  font-size: 17px;
+}
+.lender-portfolio__stat > small {
+  display: block;
+  margin-top: 4px;
+  color: #8daf9e;
+  font-size: 7px;
+}
+.lender-portfolio .lender-portfolio__earnings-chart {
+  position: absolute;
+  inset: auto 20px 0 auto;
+  width: 38%;
+  height: 75%;
+  gap: 4px;
+  margin: 0;
+  color: #73c89b;
+  opacity: 0.22;
+}
+.lender-portfolio__vaults {
+  margin-top: 16px;
+}
+.lender-portfolio__table-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 10px;
+}
+.lender-portfolio__table-heading h4 {
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+.lender-portfolio__table-heading > span {
+  color: #9fc1b2;
+  font-size: 9px;
+}
+.lender-portfolio__table-scroll {
+  border-block: 1px solid #315548;
+}
+.product-preview .lender-portfolio table {
+  min-width: 760px;
+  font-size: 11px;
+}
+.product-preview .lender-portfolio th {
+  height: 28px;
+  padding-inline: 10px;
+  color: #9ebcaf;
+  font-size: 9px;
+}
+.product-preview .lender-portfolio td {
+  height: 42px;
+  padding: 6px 10px;
+  color: #dae9e1;
+  font-size: 10px;
+}
+.product-preview .lender-portfolio td:nth-child(4),
+.product-preview .lender-portfolio td:nth-child(5) {
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+.product-preview .lender-portfolio tbody tr:last-child td {
+  border-bottom: 0;
+}
+.lender-portfolio__vault-name {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.lender-portfolio__monogram {
+  display: grid;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 1px solid #437582;
+  border-radius: 5px;
+  background: #1a4147;
+  color: var(--portfolio-cyan);
+  font-size: 12px;
+}
+.lender-portfolio__monogram--1 {
+  background: #1b4130;
+  border-color: #3e6b50;
+  color: var(--portfolio-mint);
+}
+.lender-portfolio__monogram--2 {
+  background: #253d4b;
+  border-color: #4b6580;
+  color: var(--portfolio-blue);
+}
+.lender-portfolio__vault-name strong {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+}
+.lender-portfolio__vault-name small {
+  display: block;
+  margin-top: 2px;
+  color: #8fb09f;
+  font-size: 8px;
+}
+.lender-portfolio__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #a2d6b6;
+  font-size: 9px;
+}
+.lender-portfolio__status i {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #85cc9b;
+}
+.lender-portfolio__asset {
+  color: #bdd5d5;
+  font: 9px var(--font-mono);
+}
+.lender-portfolio__update {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #c8be96;
+  font-size: 9px;
+}
+.lender-portfolio__update[data-new="true"] {
+  color: var(--portfolio-cyan);
+}
+.lender-portfolio__update[data-available="true"] {
+  color: var(--portfolio-mint);
+}
+.lender-portfolio__update b {
+  padding: 3px 4px;
+  border: 1px solid #426d7d;
+  border-radius: 3px;
+  background: #1e434e;
+  font: 7px var(--font-mono);
+  text-transform: uppercase;
+}
+.lender-portfolio__muted,
+.lender-portfolio__table-note {
+  color: #91ad9e;
+  font-size: 9px;
+}
+.lender-portfolio__table-note {
+  margin-top: 8px;
+  line-height: 1.6;
+}
+@container (max-width: 900px) {
+  .lender-portfolio__funds,
+  .lender-portfolio__allocation {
+    padding: 14px;
+  }
+  .lender-portfolio__allocation-body {
+    gap: 12px;
+  }
+  .lender-portfolio__legend li {
+    gap: 5px;
+    font-size: 8px;
+  }
+  .lender-portfolio__earnings,
+  .lender-portfolio__stat {
+    padding: 12px;
+  }
+}
+@container (max-width: 650px) {
+  .lender-portfolio__summary {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .lender-portfolio__total {
+    font-size: clamp(24px, 7.4cqw, 36px);
+  }
+  .lender-portfolio__allocation-body {
+    grid-template-columns: minmax(72px, 0.65fr) minmax(0, 1.35fr);
+    gap: 16px;
+    margin-top: 12px;
+  }
+  .lender-portfolio__donut {
+    max-width: 110px;
+    margin-inline: auto;
+  }
+  .lender-portfolio__legend li {
+    gap: 10px;
+    font-size: 10px;
+  }
+  .lender-portfolio__performance {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .lender-portfolio__earnings {
+    grid-column: 1 / -1;
+    min-height: 80px;
+  }
+  .lender-portfolio__performance dd {
+    font-size: 25px;
+  }
+  .lender-portfolio__heading {
+    margin-bottom: 14px;
+  }
+  .lender-portfolio__heading h3 + p {
+    max-width: 24ch;
+    font-size: 10px;
+    line-height: 1.6;
+  }
+  .lender-portfolio__network {
+    padding: 6px;
+    gap: 4px;
+    font-size: 8px;
+  }
+  .lender-portfolio__vaults {
+    margin-top: 18px;
+  }
+}

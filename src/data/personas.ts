@@ -1,251 +1,382 @@
-import type { PersonaId } from "../components/sections/studio/studioDeskData";
 import type { ContactInterest } from "./brand";
 
 export type PersonaPageId = "originators" | "capital-providers";
-export type PersonaPath = "/ecosystem/originators" | "/ecosystem/capital-providers";
-
-export interface PersonaProblem {
-  /** Short mono label naming the area the friction sits in. */
-  signal: string;
+export type PersonaPath = "/originators" | "/capital-providers";
+export interface FrameworkItem {
+  id: string;
   title: string;
-  copy: string;
+  summary: string;
+  detail: string;
+  points: Array<[string, string]>;
 }
-
-export interface PersonaComparisonRow {
-  topic: string;
-  traditional: string;
-  pareto: string;
-}
-
-export interface PersonaStep {
-  title: string;
-  copy: string;
-}
-
 export interface PersonaPageContent {
   id: PersonaPageId;
   path: PersonaPath;
-  /** Label and one-liner used in the Ecosystem menu. */
   navLabel: string;
   navDescription: string;
-  eyebrow: string;
   title: string;
   titleMuted: string;
   intro: string;
-  audience: string[];
-  primaryCta: { label: string; interest: ContactInterest };
-  secondaryCta: { label: string; interest?: ContactInterest; hash?: string };
-  desk: PersonaId;
-  problem: { title: string; titleMuted: string; description: string; items: PersonaProblem[] };
-  comparison: { title: string; titleMuted: string; description: string; rows: PersonaComparisonRow[] };
-  steps: { title: string; titleMuted: string; description: string; items: PersonaStep[] };
-  /** Testimonial author names from `testimonialList`, in display order. */
-  testimonials: string[];
-  closing: { title: string; titleMuted: string; copy: string };
+  primaryCta: {
+    label: string;
+    interest?: ContactInterest;
+    hash?: string;
+    href?: string;
+  };
+  secondaryCta: {
+    label: string;
+    interest?: ContactInterest;
+    hash?: string;
+    home?: boolean;
+  };
+  benefits: {
+    title: string;
+    intro: string;
+    items: Array<{ title: string; copy: string }>;
+  };
+  framework: { title: string; intro: string; items: FrameworkItem[] };
+  frameworkCta: { label: string; interest: ContactInterest };
+  questions: Array<{ question: string; answer: string }>;
+  closing: {
+    title: string;
+    copy: string;
+    cta: string;
+    interest: ContactInterest;
+  };
   disclaimer?: string;
 }
 
 export const personaPages: PersonaPageContent[] = [
   {
     id: "originators",
-    path: "/ecosystem/originators",
+    path: "/originators",
     navLabel: "Originators",
-    navDescription: "Borrowers and underwriters raising and running credit facilities.",
-    eyebrow: "Originators",
-    title: "Raise a facility.",
-    titleMuted: "Run it from one desk.",
+    navDescription: "Establish, operate and grow credit facilities.",
+    title: "Financing built around",
+    titleMuted: "your business.",
     intro:
-      "Structure terms in Pareto Studio, reach institutional and DeFi lenders, and service every draw and repayment onchain, whether you borrow for your own book or underwrite for others.",
-    audience: ["Credit funds", "Trading firms", "Fintech lenders", "Underwriters & curators"],
-    primaryCta: { label: "Raise a facility", interest: "Borrowing" },
-    secondaryCta: { label: "Curate on Pareto", interest: "Underwriting" },
-    desk: "borrow",
-    problem: {
-      title: "Credit facilities still run",
-      titleMuted: "on email and spreadsheets.",
-      description:
-        "Raising and servicing a facility means weeks of back-and-forth with a short list of lenders, then every cycle reconciled by hand.",
+      "Connect with institutional and onchain capital through credit infrastructure built around your business.",
+    primaryCta: {
+      label: "Discuss your financing needs",
+      interest: "Borrowing",
+    },
+    secondaryCta: {
+      label: "Explore Pareto Studio",
+      hash: "studio",
+      home: true,
+    },
+    benefits: {
+      title: "A foundation for growth.",
+      intro:
+        "The infrastructure to establish your credit program and help it grow.",
       items: [
         {
-          signal: "Distribution",
-          title: "A short list of lenders",
-          copy: "Your lender base is whoever your arranger can call. Every new facility starts the outreach again.",
+          title: "Flexible structuring",
+          copy: "Shape facility mechanics, participation and reporting around your financing needs.",
         },
         {
-          signal: "Operations",
-          title: "Servicing by hand",
-          copy: "Draws, interest, borrowing-base updates and repayments are reconciled across email, PDFs and spreadsheets.",
+          title: "Broader capital access",
+          copy: "Connect with institutional and onchain lenders, subject to facility eligibility.",
         },
         {
-          signal: "Reporting",
-          title: "Reports lenders can't verify",
-          copy: "Lenders get monthly packs they have to take on trust, so the diligence questions never stop.",
+          title: "Coordinated operations",
+          copy: "Connect facility setup, lender onboarding and onchain servicing.",
         },
         {
-          signal: "Compliance",
-          title: "Compliance bolted on",
-          copy: "KYC, lender permissions and legal terms sit in systems separate from the money they govern.",
+          title: "Distribution opportunities",
+          copy: "Explore branded access and supported DeFi integrations.",
         },
       ],
     },
-    comparison: {
-      title: "Same credit discipline.",
-      titleMuted: "Less operational drag.",
-      description: "The legal agreement and the curator stay. The manual work around them moves into Studio and onchain.",
-      rows: [
-        {
-          topic: "Lender access",
-          traditional: "Your arranger's network",
-          pareto: "Institutional and DeFi lenders, plus distribution on Morpho and Pendle",
-        },
-        {
-          topic: "Facility setup",
-          traditional: "Bespoke documents and accounts per deal",
-          pareto: "A dedicated Credit Vault per facility, governed by the loan agreement, with standard legal templates",
-        },
-        {
-          topic: "Lender onboarding",
-          traditional: "Manual KYC, lender by lender",
-          pareto: "Built-in KYC/KYB with permissioned access",
-        },
-        {
-          topic: "Draws and repayments",
-          traditional: "Wires and manual reconciliation",
-          pareto: "Executed and recorded onchain, visible to every lender",
-        },
-        {
-          topic: "Interest and cycles",
-          traditional: "Calculated in spreadsheets",
-          pareto: "Programmatic cycles or a revolving limit, set in Studio",
-        },
-        {
-          topic: "Lender reporting",
-          traditional: "Monthly PDFs",
-          pareto: "Live positions and onchain lender dashboards",
-        },
-      ],
-    },
-    steps: {
-      title: "From diligence",
-      titleMuted: "to distribution.",
-      description: "Five stages, one workflow in Pareto Studio.",
+    framework: {
+      title: "Build around every layer.",
+      intro:
+        "Connect the layers your financing program needs.",
       items: [
-        { title: "Diligence", copy: "Borrower review and KYB by the facility's curator: your team, or NorthBridge." },
-        { title: "Structure", copy: "Terms, collateral rules, rate model, and cycles or a revolving limit." },
-        { title: "Launch", copy: "A dedicated Credit Vault goes live with permissioned, KYC'd lenders." },
-        { title: "Operate", copy: "Draws, repayments, margin calls and lender reporting, run onchain." },
-        { title: "Distribute", copy: "List on Pareto, extend to Morpho and Pendle, or run it under your own brand." },
+        {
+          id: "application",
+          title: "Application",
+          summary: "Your credit offering. A connected experience.",
+          detail:
+            "Run facility operations in Pareto Studio and give eligible lenders access through the Pareto Lender App. Discuss a branded application as your program develops.",
+          points: [
+            ["Operations", "Pareto Studio"],
+            ["Lender experience", "Pareto Lender App"],
+            ["Brand", "White-label options where available"],
+          ],
+        },
+        {
+          id: "eligibility",
+          title: "Eligibility",
+          summary: "Bring the right participants together.",
+          detail:
+            "Establish facility-specific onboarding requirements and configure supported access permissions for approved participants.",
+          points: [
+            ["Participation", "Facility-specific eligibility"],
+            ["Onboarding", "KYC/KYB and required documents"],
+            ["Access", "Permissions for approved wallets"],
+          ],
+        },
+        {
+          id: "underwriting",
+          title: "Underwriting",
+          summary: "Credit expertise at the centre.",
+          detail:
+            "Bring your own underwriting team or discuss curation support through NorthBridge. Credit assessment, monitoring and responsibilities are agreed for each facility.",
+          points: [
+            ["Expertise", "Your team or an appointed curator"],
+            ["Assessment", "Borrower, exposure and credit support"],
+            ["Responsibilities", "Defined in the applicable agreements"],
+          ],
+        },
+        {
+          id: "terms",
+          title: "Credit terms",
+          summary: "A facility shaped around the financing need.",
+          detail:
+            "Agree commercial terms and choose supported facility mechanics in coordination with the borrower and underwriter. Legal rights and credit support are established in the relevant agreements.",
+          points: [
+            ["Economics", "Asset, rate model and facility size"],
+            ["Mechanics", "Term cycles or revolving credit"],
+            [
+              "Credit support",
+              "Collateral, guarantees or other arrangements, where applicable",
+            ],
+          ],
+        },
+        {
+          id: "servicing",
+          title: "Servicing",
+          summary: "A connected operating foundation.",
+          detail:
+            "Coordinate draws, repayments and lender requests through the facility’s supported mechanics. Follow onchain activity alongside the reporting required by the underwriter.",
+          points: [
+            ["Operations", "Draws, repayments and lender requests"],
+            ["Reporting", "Onchain records and separate borrower disclosures"],
+            ["Liquidity", "Notice periods and withdrawal procedures"],
+          ],
+        },
+        {
+          id: "distribution",
+          title: "Distribution",
+          summary: "Connect your facility to a wider network.",
+          detail:
+            "Explore lender access and supported integrations with venues such as Morpho and Pendle. Availability depends on the facility, venue and relevant eligibility requirements.",
+          points: [
+            ["Access", "Institutional and onchain participants"],
+            ["Integrations", "Supported DeFi venues"],
+            ["Availability", "Subject to facility and venue requirements"],
+          ],
+        },
       ],
     },
-    testimonials: ["Bob Rutherford", "Thibault Labidi", "Han Chang"],
+    frameworkCta: {
+      label: "Build your credit infrastructure",
+      interest: "Underwriting",
+    },
+    questions: [
+      {
+        question: "Who provides the financing?",
+        answer:
+          "Participating lenders provide the capital. Pareto supplies the infrastructure; access to financing depends on lender interest, eligibility and the terms of the facility.",
+      },
+      {
+        question: "Who is responsible for underwriting?",
+        answer:
+          "The appointed underwriter or curator assesses the borrower and carries out the responsibilities agreed for the facility. Your team may take this role, or you can discuss curation support through NorthBridge.",
+      },
+      {
+        question: "What can be configured?",
+        answer:
+          "Supported options include facility mechanics, participation permissions, servicing parameters and reporting. The configuration must reflect the agreed terms and the capabilities of the selected implementation.",
+      },
+      {
+        question: "What support does Pareto provide?",
+        answer:
+          "Depending on the engagement, support can include Studio access, facility setup, launch guidance, distribution integrations and a branded lender application. Curation is a distinct service with its own scope.",
+      },
+      {
+        question: "How are fees determined?",
+        answer:
+          "Fees depend on the infrastructure, support and curation services required. Our team can provide a proposal after discussing the facility and the intended operating model.",
+      },
+      {
+        question: "What is recorded onchain?",
+        answer:
+          "The vault records its onchain operations and positions. Borrower financials, offchain assets and legal enforcement require separate information and processes.",
+      },
+    ],
     closing: {
-      title: "Bring us",
-      titleMuted: "a facility.",
-      copy: "Tell us what you're raising or underwriting. We'll suggest the structure and the plan that fit.",
+      title: "Let’s build around your business.",
+      copy: "Tell us about your financing needs and the credit program you want to develop.",
+      cta: "Talk to us",
+      interest: "Borrowing",
     },
   },
   {
     id: "capital-providers",
-    path: "/ecosystem/capital-providers",
-    navLabel: "Capital providers",
-    navDescription: "Funds, treasuries and DeFi allocators lending to permissioned facilities.",
-    eyebrow: "Capital providers",
-    title: "Lend to real credit.",
-    titleMuted: "See every position onchain.",
+    path: "/capital-providers",
+    navLabel: "Capital Allocators",
+    navDescription: "Assess, access and oversee credit exposure.",
+    title: "A broader perspective",
+    titleMuted: "on credit.",
     intro:
-      "Allocate to permissioned credit facilities with a named curator, terms governed by a loan agreement, and positions you can verify as they move.",
-    audience: ["Funds & asset managers", "Treasuries", "DeFi allocators", "Vault curators"],
-    primaryCta: { label: "Start lending", interest: "Lending" },
-    secondaryCta: { label: "See live vaults", hash: "products" },
-    desk: "allocate",
-    problem: {
-      title: "Private credit asks lenders",
-      titleMuted: "to trust a monthly PDF.",
-      description: "The yield is there. Visibility, isolation and liquidity usually aren't.",
+      "Explore credit opportunities, review facility terms and follow onchain activity in one connected experience.",
+    primaryCta: {
+      label: "Explore live facilities",
+      href: "https://app.pareto.credit/",
+    },
+    secondaryCta: { label: "Speak with our team", interest: "Lending" },
+    benefits: {
+      title: "A clearer view of credit.",
+      intro:
+        "From your first review to ongoing oversight.",
       items: [
         {
-          signal: "Visibility",
-          title: "Yesterday's picture",
-          copy: "Positions arrive in monthly reports, after the fact, in documents you can't verify independently.",
+          title: "Facility selection",
+          copy: "Find opportunities that fit your mandate, eligibility and liquidity needs.",
         },
         {
-          signal: "Isolation",
-          title: "Shared exposure",
-          copy: "Pooled vehicles mean one borrower's problem can reach every lender in the pool.",
+          title: "Named participants",
+          copy: "Know the borrower, curator and each party’s documented responsibilities.",
         },
         {
-          signal: "Liquidity",
-          title: "Capital locked in",
-          copy: "Long lockups and no secondary market make it hard to rebalance when strategies change.",
+          title: "Documented terms",
+          copy: "Review pricing, credit support and withdrawal terms in each facility’s agreements.",
         },
         {
-          signal: "Onboarding",
-          title: "Paperwork per facility",
-          copy: "Every new facility brings new documents, new checks and a new reporting format.",
+          title: "Onchain activity",
+          copy: "Follow positions and transactions alongside borrower and curator reporting.",
         },
       ],
     },
-    comparison: {
-      title: "Institutional credit.",
-      titleMuted: "Onchain transparency.",
-      description: "The safeguards credit committees expect, with positions you can check yourself.",
-      rows: [
-        {
-          topic: "Visibility",
-          traditional: "Monthly or quarterly reports",
-          pareto: "Live positions, draws and repayments onchain",
-        },
-        {
-          topic: "Risk isolation",
-          traditional: "Pooled vehicles",
-          pareto: "One Credit Vault per facility, with isolated accounting",
-        },
-        {
-          topic: "Oversight",
-          traditional: "Manager discretion",
-          pareto: "A named curator accountable for each facility",
-        },
-        {
-          topic: "Legal terms",
-          traditional: "Fund documents and side letters",
-          pareto: "A loan agreement per facility; code enforces its terms",
-        },
-        {
-          topic: "Liquidity",
-          traditional: "Lockups, no secondary market",
-          pareto: "Cycle-based entry and exit; positions can extend into Morpho and Pendle",
-        },
-        {
-          topic: "Onboarding",
-          traditional: "Separate paperwork per facility",
-          pareto: "Built-in KYC/KYB and permissioned access in the Pareto app",
-        },
-      ],
-    },
-    steps: {
-      title: "From verified",
-      titleMuted: "to allocated.",
-      description: "How lending on Pareto works.",
+    framework: {
+      title: "Understand every layer.",
+      intro:
+        "See how access, credit assessment and operations connect.",
       items: [
-        { title: "Get verified", copy: "Complete KYC/KYB in the Pareto app to access permissioned facilities." },
-        { title: "Review", copy: "Check each facility's terms, curator, borrower profile and live performance." },
-        { title: "Allocate", copy: "Deposit into the facility's Credit Vault during an open cycle." },
-        { title: "Track", copy: "Interest accrues each cycle; positions and repayments are visible as they happen." },
-        { title: "Exit or extend", copy: "Withdraw at the end of a cycle, or use the position in DeFi venues such as Morpho and Pendle." },
+        {
+          id: "application",
+          title: "Application",
+          summary: "One place to explore and follow credit.",
+          detail:
+            "Use Pareto’s Lender App to explore available Credit Vaults, review facility information and follow your positions and transaction history.",
+          points: [
+            ["Discovery", "Available Credit Vaults"],
+            ["Portfolio", "Positions and pending requests"],
+            ["Records", "Facility and transaction history"],
+          ],
+        },
+        {
+          id: "eligibility",
+          title: "Eligibility",
+          summary: "Access with clear participation requirements.",
+          detail:
+            "Understand the eligibility criteria for each facility and complete the required onboarding before participating. Access depends on the facility and jurisdiction.",
+          points: [
+            ["Eligibility", "Facility-specific investor requirements"],
+            ["Onboarding", "KYC/KYB and documentation"],
+            ["Participation", "Approval by the relevant parties"],
+          ],
+        },
+        {
+          id: "underwriting",
+          title: "Underwriting",
+          summary: "Know who assesses the credit.",
+          detail:
+            "Identify the borrower and appointed curator, review their responsibilities and understand the information supporting the assessment. Curation does not guarantee repayment.",
+          points: [
+            ["Counterparty", "Borrower and underlying activity"],
+            ["Curator", "Assessment and oversight responsibilities"],
+            ["Information", "Diligence and ongoing reporting"],
+          ],
+        },
+        {
+          id: "terms",
+          title: "Credit terms",
+          summary: "Assess the economics in their full context.",
+          detail:
+            "Evaluate the rate, fees, credit support and agreements for each opportunity. These terms are established by the facility; choose exposure that fits your mandate.",
+          points: [
+            ["Return basis", "Rates, fees and any temporary incentives"],
+            [
+              "Credit support",
+              "Collateral or other protections, where applicable",
+            ],
+            ["Documentation", "Rights and responsibilities in the agreements"],
+          ],
+        },
+        {
+          id: "servicing",
+          title: "Servicing",
+          summary: "Follow your position through its lifecycle.",
+          detail:
+            "Monitor deposits, payments and withdrawal requests. Review notice periods, request windows and settlement conditions before allocating; cycle frequency alone is not a promise of liquidity.",
+          points: [
+            ["Activity", "Positions and onchain transactions"],
+            ["Reporting", "Borrower and curator disclosures"],
+            ["Withdrawals", "Facility-specific notice and settlement terms"],
+          ],
+        },
+        {
+          id: "distribution",
+          title: "Integrations",
+          summary: "Explore supported ways to participate.",
+          detail:
+            "Some positions connect with venues such as Morpho or Pendle. Review availability, eligibility, market depth and venue-specific risks. Integrations do not guarantee liquidity.",
+          points: [
+            ["Venues", "Supported onchain applications"],
+            ["Access", "Position-specific requirements"],
+            ["Assessment", "Venue and underlying credit risks"],
+          ],
+        },
       ],
     },
-    testimonials: ["Adam Bilko", "Carson Brown"],
+    frameworkCta: { label: "Discuss your allocation", interest: "Lending" },
+    questions: [
+      {
+        question: "Who can participate?",
+        answer:
+          "Eligibility is determined per facility and jurisdiction. Participation may require professional or accredited investor status, KYC/KYB, documentation and approval by the relevant parties.",
+      },
+      {
+        question: "What should I review before allocating?",
+        answer:
+          "Review the facility documents, borrower information, curator responsibilities, applicable credit support, fees, return basis and withdrawal terms. The public overview is a starting point for this assessment.",
+      },
+      {
+        question: "When can I withdraw?",
+        answer:
+          "Notice periods, request windows and settlement conditions differ by facility. A monthly or weekly cycle is not a promise of payment on that schedule. Review the relevant documents and current facility information.",
+      },
+      {
+        question: "What happens if a borrower fails to repay?",
+        answer:
+          "The applicable agreements and facility mechanics determine the default and recovery process. Recovery may take time and may not cover the full amount owed; investors can lose principal.",
+      },
+      {
+        question: "What information is visible onchain?",
+        answer:
+          "Onchain records show vault positions and transactions. Borrower financials, offchain collateral and other underlying exposures depend on separate reporting and verification.",
+      },
+      {
+        question: "Can positions be used in other applications?",
+        answer:
+          "Some facilities support integrations with venues such as Morpho or Pendle. Availability, eligibility, market depth and risks depend on the position and venue; these integrations do not guarantee liquidity.",
+      },
+    ],
     closing: {
-      title: "Put capital",
-      titleMuted: "to work in real credit.",
-      copy: "Tell us what you allocate and how. We'll walk you through the live facilities and onboarding.",
+      title: "Find the right starting point.",
+      copy: "Discuss your allocation requirements or explore the facilities available on Pareto.",
+      cta: "Talk to us",
+      interest: "Lending",
     },
     disclaimer:
-      "Lending involves credit risk, including the risk of losing principal. Curation does not guarantee repayment. Nothing on this page is an offer or solicitation to lend or invest.",
+      "Lending involves credit risk, including the risk of losing principal. Curation does not guarantee repayment. Information on this page is not an offer or solicitation to lend or invest.",
   },
 ];
 
-export const getPersonaPage = (id: PersonaPageId) => {
+export const getPersonaPage = (id: PersonaPageId): PersonaPageContent => {
   const page = personaPages.find((item) => item.id === id);
   if (!page) throw new Error(`Unknown persona page: ${id}`);
   return page;

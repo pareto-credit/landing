@@ -1,8 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
-import PersonaPage from "../pages/PersonaPage";
-
-const CapitalProvidersPage = () => <PersonaPage id="capital-providers" />;
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import { resolveLegacyAudienceHash } from "../lib/audienceNavigation";
 
 export const Route = createFileRoute("/ecosystem_/capital-providers")({
-  component: CapitalProvidersPage,
+  beforeLoad: ({ location }) => {
+    throw redirect({ to: "/capital-providers", hash: resolveLegacyAudienceHash(location.hash), search: location.search, replace: true });
+  },
 });

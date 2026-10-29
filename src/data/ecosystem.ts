@@ -24,7 +24,7 @@ export const ecosystemRoles: EcosystemRole[] = [
     gets: ["Term or revolving facilities", "Draws and repayments in Studio", "Access to a wider lender base"],
     cta: "Raise a facility",
     interest: "Borrowing",
-    page: { path: "/ecosystem/originators", label: "For originators" },
+    page: { path: "/originators", label: "For originators" },
   },
   {
     id: "underwriters",
@@ -35,7 +35,7 @@ export const ecosystemRoles: EcosystemRole[] = [
     gets: ["Curator desk in Studio", "Pareto MCP for your agents", "Earn fees on the facilities you run"],
     cta: "Curate on Pareto",
     interest: "Underwriting",
-    page: { path: "/ecosystem/originators", label: "For originators" },
+    page: { path: "/originators", label: "For originators" },
   },
   {
     id: "lenders",
@@ -46,7 +46,7 @@ export const ecosystemRoles: EcosystemRole[] = [
     gets: ["KYC'd, permissioned access", "Real-time positions", "Cycle-based liquidity"],
     cta: "Start lending",
     interest: "Lending",
-    page: { path: "/ecosystem/capital-providers", label: "For capital providers" },
+    page: { path: "/capital-providers", label: "For capital providers" },
   },
   {
     id: "distribution",

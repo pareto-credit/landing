@@ -1,6 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import EcosystemPage from "../pages/EcosystemPage";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/ecosystem")({
-  component: EcosystemPage,
+  beforeLoad: ({ location }) => { throw redirect({ to: "/", search: location.search, replace: true }); },
 });

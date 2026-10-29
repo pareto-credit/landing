@@ -17,20 +17,24 @@ export const consumePendingContactInterest = (): ContactInterest | null => {
 };
 
 /**
- * Pre-selects an interest in the contact form and scrolls to it. Only works on
- * the homepage; other pages navigate to `/#contact` after calling
+ * Pre-selects an interest in the contact form mounted on the current page and
+ * scrolls to it. Pages without a form navigate to `/#contact` after calling
  * `setPendingContactInterest`.
  */
 export const requestContact = (interest?: ContactInterest) => {
   if (interest && typeof window !== "undefined") {
     window.dispatchEvent(
-      new CustomEvent<ContactInterest>(CONTACT_INTEREST_EVENT, { detail: interest }),
+      new CustomEvent<ContactInterest>(CONTACT_INTEREST_EVENT, {
+        detail: interest,
+      })
     );
   }
 
   scrollToSection("contact");
   // Wait for a closing dialog to release its inert background before focusing.
   window.requestAnimationFrame(() => {
-    document.getElementById("contact-interested-in")?.focus({ preventScroll: true });
+    document
+      .getElementById("contact-interested-in")
+      ?.focus({ preventScroll: true });
   });
 };

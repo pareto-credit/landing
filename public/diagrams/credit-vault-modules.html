@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Credit Vault configuration</title><style>:root{--font-sans:Inter,ui-sans-serif,system-ui,sans-serif;--font-mono:"IBM Plex Mono",ui-monospace,monospace;--color-text-primary:#0e1813;--color-text-secondary:#293b33;--color-text-muted-2:#4d625a;--color-border-soft:#d8dfd6;--color-border-soft-strong:#c6d1c2}*{box-sizing:border-box}body{margin:0;padding:clamp(20px,5vw,64px);background:#f8faf7;color:#0e1813;font-family:var(--font-sans)}main{max-width:1200px;margin:auto;min-width:0}.eyebrow{font:10px/1.6 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:#4d625a}h1{margin:12px 0 20px;font-size:clamp(28px,4vw,42px);font-weight:500;letter-spacing:-.04em}.intro,.notes{max-width:740px;color:#4d625a;font-size:13px;line-height:1.8}.intro{margin-bottom:24px}.notes{margin-top:24px;padding-top:20px;border-top:1px solid #d8dfd6}.cv-modules {
+  padding-block: clamp(4rem, 8vw, 7rem);
+  background: #f8faf7;
+  color: var(--color-text-primary);
+  scroll-margin-top: 5.5rem;
+}
+.cv-modules__intro {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  align-items: end;
+  gap: 4rem;
+  margin-bottom: 3rem;
+}
+.cv-modules__intro .cv-product-kicker {
+  margin-bottom: 1.25rem;
+  color: var(--color-text-muted-2);
+}
+.cv-modules__intro h2 {
+  margin: 0;
+  font-size: clamp(2.2rem, 4vw, 3.6rem);
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 1.12;
+}
+.cv-modules__intro > p {
+  max-width: 26rem;
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.75;
+}
+.cv-module-figure {
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  border: 1px solid var(--color-border-soft-strong);
+  border-radius: 6px;
+}
+.cv-module-figure__caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--color-border-soft);
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.cv-module-figure__count,
+.cv-module-figure__template {
+  color: var(--color-text-muted-2);
+}
+.cv-module-figure__scroller {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  border-radius: 0 0 6px 6px;
+  scrollbar-color: #70b19e #e8ebe6;
+  scrollbar-width: thin;
+}
+.cv-module-figure__scroller:focus-visible {
+  outline: 2px solid #254839;
+  outline-offset: 3px;
+}
+.cv-module-svg {
+  display: block;
+  width: 100%;
+  min-width: 960px;
+  font-family: var(--font-sans);
+}
+.cv-module-connector {
+  stroke: #7d9484;
+  stroke-width: 1.2;
+}
+.cv-module-group__box {
+  fill: #f8faf7;
+  stroke: #d2dcd0;
+}
+.cv-module-node__box {
+  fill: #e2eddd;
+  opacity: 0;
+  transition: opacity 180ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.cv-module-node.is-included .cv-module-node__box {
+  opacity: 1;
+}
+.cv-module-svg[data-running="false"] .cv-module-node__box {
+  transition: none;
+}
+.cv-module-svg__tag {
+  fill: #4d625a;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.07em;
+}
+.cv-module-svg__tag--core {
+  fill: #c1d9b1;
+  font-size: 9px;
+}
+.cv-module-svg__name {
+  fill: #53645b;
+  font-size: 13px;
+  font-weight: 500;
+}
+.cv-module-node.is-included .cv-module-svg__name {
+  fill: #183328;
+  font-weight: 600;
+}
+.cv-module-svg__sublabel {
+  fill: #53645b;
+  font-size: 9.5px;
+}
+.cv-module-svg__core-name {
+  fill: #f8faf7;
+  font-size: 23px;
+  font-weight: 500;
+  letter-spacing: -0.6px;
+}
+.cv-module-svg__core-description {
+  fill: #d4e1d5;
+  font-size: 13px;
+}
+.cv-module-svg__core-count {
+  fill: #c1d9b1;
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+.cv-module-node__status {
+  fill: none;
+  stroke: #a4b1a6;
+}
+.cv-module-node.is-included .cv-module-node__status {
+  fill: #254839;
+  stroke: #254839;
+}
+.cv-module-node__check {
+  stroke: #f8faf7;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.cv-module-svg[data-running="true"] .cv-module-node__check {
+  animation: cv-module-arrive 200ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+.cv-module-svg__legend {
+  fill: #4d625a;
+  font-family: var(--font-mono);
+  font-size: 9px;
+}
+.cv-module-controls__heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin: 1.5rem 0 1rem;
+}
+.cv-module-controls__heading > p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+.cv-module-controls__heading > span {
+  color: var(--color-text-muted-2);
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.cv-module-templates {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+.cv-module-template {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  min-width: 0;
+  min-height: 64px;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid #cbd5c8;
+  border-radius: 6px;
+  background: transparent;
+  color: #293b33;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.77rem;
+  font-weight: 500;
+  line-height: 1.45;
+  transition: transform 140ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.cv-module-template::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background: #e2eddd;
+  opacity: 0;
+  transition: opacity 160ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.cv-module-template[aria-pressed="true"] {
+  border-color: #254839;
+}
+.cv-module-template[aria-pressed="true"]::before {
+  opacity: 1;
+}
+.cv-module-template:active {
+  transform: scale(0.98);
+}
+.cv-module-template:focus-visible {
+  outline: 2px solid #254839;
+  outline-offset: 4px;
+}
+.cv-module-template__index {
+  color: #607366;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+}
+.cv-module-template__check {
+  flex-shrink: 0;
+  margin-left: auto;
+  color: #254839;
+  opacity: 0;
+}
+.cv-module-template[aria-pressed="true"] .cv-module-template__check {
+  opacity: 1;
+}
+.cv-module-detail {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  align-items: center;
+  gap: 4rem;
+  min-height: 220px;
+  margin-top: 1.5rem;
+  padding: 2rem;
+  border: 1px solid #c3d1c0;
+  border-radius: 6px;
+  background: #edf2e9;
+}
+.cv-module-detail__title > .cv-product-kicker {
+  color: #254839;
+  font-size: 0.59rem;
+}
+.cv-module-detail__title > .cv-product-kicker > span {
+  color: #4d625a;
+}
+.cv-module-detail h3 {
+  max-width: 26rem;
+  margin: 1rem 0 0;
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1.2;
+}
+.cv-module-detail__copy > p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.83rem;
+  line-height: 1.75;
+}
+.cv-module-detail__copy > .cv-module-detail__choices {
+  margin-top: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: #254839;
+}
+.cv-modules__footer {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+.cv-modules__footer > p {
+  max-width: 39rem;
+  margin: 0;
+  color: var(--color-text-muted-2);
+  font-size: 0.71rem;
+  line-height: 1.75;
+}
+.cv-modules__footer > a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 1.2rem;
+  color: #254839;
+  font-size: 0.78rem;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  white-space: nowrap;
+}
+.cv-modules__footer > a:focus-visible {
+  outline: 2px solid #254839;
+  outline-offset: 4px;
+}
+@keyframes cv-module-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(1px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .cv-module-template:hover::before {
+    opacity: 0.5;
+  }
+  .cv-module-template[aria-pressed="true"]:hover::before {
+    opacity: 1;
+  }
+  .cv-modules__footer > a:hover {
+    color: #0c271e;
+  }
+}
+@media (max-width: 900px) {
+  .cv-modules__intro {
+    gap: 2rem;
+  }
+  .cv-module-templates {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .cv-module-detail {
+    gap: 2rem;
+    padding: 1.5rem;
+  }
+  .cv-modules__footer {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+@media (max-width: 600px) {
+  .cv-modules__intro {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .cv-module-figure__caption {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 1rem;
+  }
+  .cv-module-figure__template {
+    display: block;
+    margin-top: 0.4rem;
+  }
+  .cv-module-template {
+    min-height: 64px;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    font-size: 0.72rem;
+  }
+  .cv-module-template__index {
+    display: none;
+  }
+  .cv-module-detail {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    min-height: 280px;
+  }
+  .cv-module-detail__title > .cv-product-kicker > span {
+    display: block;
+    margin-top: 0.25rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cv-module-svg[data-running="true"] .cv-module-node__check {
+    animation: none;
+  }
+  .cv-module-node__box,
+  .cv-module-template,
+  .cv-module-template::before {
+    transition: none;
+  }
+}
+@media print {
+  .cv-module-figure__scroller {
+    overflow-x: visible;
+  }
+  .cv-module-svg {
+    min-width: 0;
+  }
+}
+</style></head><body><main><p class="eyebrow">Pareto / Configurable by design</p><h1>Credit Vault configuration</h1><p class="intro">14 design choices. One common core. This prime brokerage example connects a revolving facility with NAV-based pricing, collateral arrangements, DeFi adapters and a legal framework.</p><figure class="cv-module-figure" aria-labelledby="credit-vault-modules-caption"><figcaption class="cv-module-figure__caption" id="credit-vault-modules-caption"><span>Facility architecture <span class="cv-module-figure__template">/ Prime brokerage</span></span><span class="cv-module-figure__count">11 / 14 modules included</span></figcaption><div class="cv-module-figure__scroller" tabindex="0" role="region" aria-label="Facility architecture; scroll horizontally on smaller screens"><svg xmlns="http://www.w3.org/2000/svg" data-motion-mode="none" id="credit-vault-modules-diagram" class="cv-module-svg" viewBox="0 0 960 608" role="img" aria-labelledby="credit-vault-modules-title credit-vault-modules-desc" data-running="false"><title id="credit-vault-modules-title">Credit Vault configuration</title><desc id="credit-vault-modules-desc">Prime brokerage: Revolving facility, NAV-based pricing, Callback module, DeFi adapters, Lender eligibility, Collateral &amp; custody, OTC desk, Legal &amp; compliance, Borrowing base, Portfolio reporting, Servicing &amp; recovery. 11 of 14 modules included in this illustrative example.</desc><rect width="960" height="608" fill="#f8faf7"></rect><path d="M360 248 H348 Q340 248 340 240 V160 Q340 152 332 152 H320" class="cv-module-connector" fill="none"></path><path d="M600 248 H612 Q620 248 620 240 V160 Q620 152 628 152 H640" class="cv-module-connector" fill="none"></path><path d="M360 344 H348 Q340 344 340 352 V416 Q340 424 332 424 H320" class="cv-module-connector" fill="none"></path><path d="M600 344 H612 Q620 344 620 352 V416 Q620 424 628 424 H640" class="cv-module-connector" fill="none"></path><g class="cv-module-core"><rect x="360" y="216" width="240" height="160" rx="6" fill="#0c271e"></rect><text class="cv-module-svg__tag cv-module-svg__tag--core" x="480" y="248" text-anchor="middle">COMMON CORE</text><text class="cv-module-svg__core-name" x="480" y="284" text-anchor="middle">Credit Vault</text><text class="cv-module-svg__core-description" x="480" y="310" text-anchor="middle">Asset · rate · fees</text><text class="cv-module-svg__core-count" x="480" y="344" text-anchor="middle">11 modules included</text></g><g class="cv-module-group"><rect x="32" y="32" width="288" height="240" rx="6" fill="#f8faf7"></rect><rect x="32" y="32" width="288" height="240" rx="6" class="cv-module-group__box"></rect><text x="52" y="60" class="cv-module-svg__tag">STRUCTURE &amp; CAPITAL</text><g class="cv-module-node "><rect x="44" y="80" width="264" height="52" rx="4" class="cv-module-node__box"></rect><text x="56" y="101" class="cv-module-svg__name">Term facility</text><text x="56" y="119" class="cv-module-svg__sublabel">Defined lending cycles</text><rect x="276" y="90" width="16" height="16" rx="3" class="cv-module-node__status"></rect></g><g class="cv-module-node is-included"><rect x="44" y="140" width="264" height="52" rx="4" class="cv-module-node__box"></rect><text x="56" y="161" class="cv-module-svg__name">Revolving facility</text><text x="56" y="179" class="cv-module-svg__sublabel">Draw · repay · redraw</text><rect x="276" y="150" width="16" height="16" rx="3" class="cv-module-node__status"></rect><path d="M280 158 l3 3 5-6" class="cv-module-node__check" fill="none"></path></g><g class="cv-module-node "><rect x="44" y="200" width="264" height="52" rx="4" class="cv-module-node__box"></rect><text x="56" y="221" class="cv-module-svg__name">Senior / junior</text><text x="56" y="239" class="cv-module-svg__sublabel">Separate lending classes</text><rect x="276" y="210" width="16" height="16" rx="3" class="cv-module-node__status"></rect></g></g><g class="cv-module-group"><rect x="640" y="32" width="288" height="240" rx="6" fill="#f8faf7"></rect><rect x="640" y="32" width="288" height="240" rx="6" class="cv-module-group__box"></rect><text x="660" y="60" class="cv-module-svg__tag">RETURNS &amp; LIQUIDITY</text><g class="cv-module-node is-included"><rect x="652" y="72" width="264" height="44" rx="4" class="cv-module-node__box"></rect><text x="664" y="90" class="cv-module-svg__name">NAV-based pricing</text><text x="664" y="106" class="cv-module-svg__sublabel">Returns reflected in vault value</text><rect x="884" y="82" width="16" height="16" rx="3" class="cv-module-node__status"></rect><path d="M888 90 l3 3 5-6" class="cv-module-node__check" fill="none"></path></g><g class="cv-module-node "><rect x="652" y="120" width="264" height="44" rx="4" class="cv-module-node__box"></rect><text x="664" y="138" class="cv-module-svg__name">Interest paid each cycle</text><text x="664" y="154" class="cv-module-svg__sublabel">Scheduled cash settlement</text><rect x="884" y="130" width="16" height="16" rx="3" class="cv-module-node__status"></rect></g><g class="cv-module-node is-included"><rect x="652" y="168" width="264" height="44" rx="4" class="cv-module-node__box"></rect><text x="664" y="186" class="cv-module-svg__name">Callback module</text><text x="664" y="202" class="cv-module-svg__sublabel">Notice · request · settlement</text><rect x="884" y="178" width="16" height="16" rx="3" class="cv-module-node__status"></rect><path d="M888 186 l3 3 5-6" class="cv-module-node__check" fill="none"></path></g><g class="cv-module-node is-included"><rect x="652" y="216" width="264" height="44" rx="4" class="cv-module-node__box"></rect><text x="664" y="234" class="cv-module-svg__name">DeFi adapters</text><text x="664" y="250" class="cv-module-svg__sublabel">Morpho · Aave · Pendle</text><rect x="884" y="226" width="16" height="16" rx="3" class="cv-module-node__status"></rect><path d="M888 234 l3 3 5-6" class="cv-module-node__check" fill="none"></path></g></g><g class="cv-module-group"><rect x="32" y="304" width="288" height="240" rx="6" fill="#f8faf7"></rect><rect x="32" y="304" width="288" height="240" rx="6" class="cv-module-group__box"></rect><text x="52" y="332" class="cv-module-svg__tag">ACCESS &amp; COMPLIANCE</text><g class="cv-module-node is-included"><rect x="44" y="344" width="264" height="44" rx="4" class="cv-module-node__box"></rect><text x="56" y="362" class="cv-module-svg__name">Lender eligibility</text><text x="56" y="378" class="cv-module-svg__sublabel">Credentials &amp; access policy</text><rect x="276" y="354" width="16" height="16" rx="3" class="cv-module-node__status"></rect><path d="M280 362 l3 3 5-6" class="cv-module-node__check" fill="none"></path></g><g class="cv-module-node is-included"><rect x="44" y="392" width="264" height="44" rx="4" class="cv-module-node__box"></rect><text x="56" y="410" class="cv-module-svg__name">Collateral &amp; custody</text><text x="56" y="426" class="cv-module-svg__sublabel">Coverage &amp; account arrangements</text><rect x="276" y="402" width="16" height="16" rx="3" class="cv-module-node__status"></rect><path d="M280 410 l3 3 5-6" class="cv-module-node__check" fill="none"></path></g><g class="cv-module-node is-included"><rect x="44" y="440" width="264" height="44" rx="4" class="cv-module-node__box"></rect><text x="56" y="458" class="cv-module-svg__name">OTC desk</text><text x="56" y="474" class="cv-module-svg__sublabel">Execution &amp; settlement integration</text><rect x="276" y="450" width="16" height="16" rx="3" class="cv-module-node__status"></rect><path d="M280 458 l3 3 5-6" class="cv-module-node__check" fill="none"></path></g><g class="cv-module-node is-included"><rect x="44" y="488" width="264" height="44" rx="4" class="cv-module-node__box"></rect><text x="56" y="506" class="cv-module-svg__name">Legal &amp; compliance</text><text x="56" y="522" class="cv-module-svg__sublabel">Agreements · KYC / AML</text><rect x="276" y="498" width="16" height="16" rx="3" class="cv-module-node__status"></rect><path d="M280 506 l3 3 5-6" class="cv-module-node__check" fill="none"></path></g></g><g class="cv-module-group"><rect x="640" y="304" width="288" height="240" rx="6" fill="#f8faf7"></rect><rect x="640" y="304" width="288" height="240" rx="6" class="cv-module-group__box"></rect><text x="660" y="332" class="cv-module-svg__tag">PORTFOLIO &amp; OPERATIONS</text><g class="cv-module-node is-included"><rect x="652" y="352" width="264" height="52" rx="4" class="cv-module-node__box"></rect><text x="664" y="373" class="cv-module-svg__name">Borrowing base</text><text x="664" y="391" class="cv-module-svg__sublabel">Eligible assets &amp; advance rates</text><rect x="884" y="362" width="16" height="16" rx="3" class="cv-module-node__status"></rect><path d="M888 370 l3 3 5-6" class="cv-module-node__check" fill="none"></path></g><g class="cv-module-node is-included"><rect x="652" y="412" width="264" height="52" rx="4" class="cv-module-node__box"></rect><text x="664" y="433" class="cv-module-svg__name">Portfolio reporting</text><text x="664" y="451" class="cv-module-svg__sublabel">Facility &amp; underlying asset data</text><rect x="884" y="422" width="16" height="16" rx="3" class="cv-module-node__status"></rect><path d="M888 430 l3 3 5-6" class="cv-module-node__check" fill="none"></path></g><g class="cv-module-node is-included"><rect x="652" y="472" width="264" height="52" rx="4" class="cv-module-node__box"></rect><text x="664" y="493" class="cv-module-svg__name">Servicing &amp; recovery</text><text x="664" y="511" class="cv-module-svg__sublabel">Roles &amp; exception handling</text><rect x="884" y="482" width="16" height="16" rx="3" class="cv-module-node__status"></rect><path d="M888 490 l3 3 5-6" class="cv-module-node__check" fill="none"></path></g></g><g class="cv-module-svg__legend"><line x1="32" y1="568" x2="928" y2="568" stroke="#d8dfd6"></line><rect x="32" y="584" width="12" height="12" rx="2" fill="#254839"></rect><text x="52" y="594">Included in this template</text><rect x="252" y="584" width="12" height="12" rx="2" fill="none" stroke="#a4b1a6"></rect><text x="272" y="594">Other configuration options</text><text x="928" y="594" text-anchor="end">Configuration links, not fund flows</text></g></svg></div></figure><p class="notes">Illustrative configuration. Other example templates: Working capital, Market maker, Trading note, Receivables financing, PayFi financing, Payday loans, BNPL providers. Some modules use vault settings; others involve integrations and facility agreements. Final configuration is defined for each facility.</p></main></body></html>

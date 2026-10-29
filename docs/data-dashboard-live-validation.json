@@ -1,0 +1,197 @@
+{
+  "verifiedAt": "2026-10-29T11:38:18.827Z",
+  "aave": {
+    "requests": [
+      {
+        "url": "https://api.v3.aave.com/graphql",
+        "status": 200,
+        "cors": "*"
+      }
+    ],
+    "rates": [
+      {
+        "protocol": "Aave",
+        "asset": "USDC",
+        "supplyApy": 4.18,
+        "borrowApy": 4.95,
+        "asOf": null,
+        "retrievedAt": "2026-10-29T11:38:18.826Z",
+        "marketCount": 1,
+        "coverage": "Aave V3 · Ethereum Core market · base APY, excluding incentives",
+        "sourceUrl": "https://app.aave.com/"
+      },
+      {
+        "protocol": "Aave",
+        "asset": "USDT",
+        "supplyApy": 4.47,
+        "borrowApy": 5.38,
+        "asOf": null,
+        "retrievedAt": "2026-10-29T11:38:18.826Z",
+        "marketCount": 1,
+        "coverage": "Aave V3 · Ethereum Core market · base APY, excluding incentives",
+        "sourceUrl": "https://app.aave.com/"
+      }
+    ]
+  },
+  "history": {
+    "source": "Pareto public API · 7 credit facilities",
+    "retrievedAt": "2026-10-29T11:36:12.158Z",
+    "asOf": "2026-10-29",
+    "scope": {
+      "vaultIds": [
+        "69c505bec479494376635285",
+        "6825b4363ac7644d17e2bffd",
+        "684149d45a56723ad4eff591",
+        "6aa2b5dacbaa03cb8d7bf0b7",
+        "6703f887115a372bcf5936ea",
+        "687e1219e1d966cdc7a5d64a",
+        "685bca345e94ec3584eb3ca2"
+      ],
+      "vaultNames": [
+        "M1 Capital",
+        "Bastion Trading",
+        "Adaptive Frontier",
+        "Two Prime",
+        "Fasanara Digital",
+        "RockawayX",
+        "FalconX USDC"
+      ],
+      "description": "Current published credit-vault cohort; excludes index wrappers, private facilities and unlisted siblings. Each facility enters coverage at its first indexed snapshot."
+    },
+    "points": 641,
+    "first": {
+      "date": "2024-10-07",
+      "tvlUsd": 1000000,
+      "creditExtendedUsd": 1000000
+    },
+    "latest": {
+      "date": "2026-10-29",
+      "tvlUsd": 229621955.213853,
+      "creditExtendedUsd": 3544957547.532455
+    },
+    "creditGaps": 47,
+    "tvlGaps": 2,
+    "parserValidated": {
+      "inputPoints": 641,
+      "parsedPoints": 641,
+      "allDatesIncreasing": true,
+      "allAmountsValid": true
+    }
+  },
+  "portfolioMetrics": {
+    "verifiedAt": "2026-10-29T11:45:09.375Z",
+    "requests": [
+      {
+        "url": "https://api.pareto.credit/v1/public/operators?limit=50",
+        "status": 200,
+        "cors": "https://pareto.credit"
+      },
+      {
+        "url": "https://api.pareto.credit/v1/public/vaults?status=READY&contractType=CDO_EPOCH",
+        "status": 200,
+        "cors": "https://pareto.credit"
+      },
+      {
+        "url": "https://api.pareto.credit/v1/public/vaults/performances?status=READY",
+        "status": 200,
+        "cors": "https://pareto.credit"
+      },
+      {
+        "url": "https://api.pareto.credit/v1/public/tokens?_id=6659eccf659c936e48d8dd4d&_id=667ae384865300234b79b626&limit=50",
+        "status": 200,
+        "cors": "https://pareto.credit"
+      },
+      {
+        "url": "https://api.pareto.credit/v1/public/vault-latest-blocks?vaultId=69c505bec479494376635285&vaultId=6825b4363ac7644d17e2bffd&vaultId=684149d45a56723ad4eff591&vaultId=6aa2b5dacbaa03cb8d7bf0b7&vaultId=6703f887115a372bcf5936ea&vaultId=687e1219e1d966cdc7a5d64a&vaultId=685bca345e94ec3584eb3ca2&vaultId=6aad2e60ed2d6951d0648878&vaultId=6aba21f364d8800024174eca",
+        "status": 200,
+        "cors": "https://pareto.credit"
+      }
+    ],
+    "nativeAprs": {
+      "MIN": 0,
+      "MAX": 12.10803574214737,
+      "AVG": 7.842736407823771
+    },
+    "weightedAverageApr": 7.842736407823771,
+    "benchmarks": {
+      "sofr30d": {
+        "value": 3.89522,
+        "asOf": "2026-10-28"
+      },
+      "sofr": {
+        "value": 3.95,
+        "asOf": "2026-10-27"
+      },
+      "effr": {
+        "value": 3.88,
+        "asOf": "2026-10-27"
+      }
+    },
+    "premiumBps": 394.7516407823771,
+    "vaults": [
+      {
+        "name": "M1 Capital",
+        "asset": "USDC",
+        "operatorName": "M1 Capital",
+        "tvlUsd": 255772.894634
+      },
+      {
+        "name": "Bastion Trading",
+        "asset": "USDC",
+        "operatorName": "Bastion Trading",
+        "tvlUsd": 11098391.923041
+      },
+      {
+        "name": "Adaptive Frontier",
+        "asset": "USDC",
+        "operatorName": "Adaptive Frontier",
+        "tvlUsd": 2018973.844754
+      },
+      {
+        "name": "Two Prime",
+        "asset": "WBTC",
+        "operatorName": "Two Prime",
+        "tvlUsd": 12118796.149492
+      },
+      {
+        "name": "Fasanara Digital",
+        "asset": "USDC",
+        "operatorName": "Fasanara Digital",
+        "tvlUsd": 12015790.77544
+      },
+      {
+        "name": "RockawayX",
+        "asset": "USDC",
+        "operatorName": "RockawayX",
+        "tvlUsd": 21961905.508406
+      },
+      {
+        "name": "FalconX USDC",
+        "asset": "USDC",
+        "operatorName": "FalconX",
+        "tvlUsd": 170152327.669512
+      }
+    ],
+    "availability": {
+      "metrics": {
+        "outstandingLoans": true,
+        "creditExtended": true
+      },
+      "vaultTvl": true
+    },
+    "errors": [],
+    "initialErrors": [
+      {
+        "source": 1,
+        "error": "This operation was aborted"
+      }
+    ],
+    "benchmarkVerifiedAt": "2026-10-29T11:46:20.984Z",
+    "benchmarkCorsCheck": {
+      "url": "https://markets.newyorkfed.org/api/rates/all/latest.json",
+      "status": 200,
+      "cors": "https://pareto.credit",
+      "note": "Separate Origin-header check succeeded after an initial 12-second runtime timeout. Final exported benchmark fetcher then succeeded."
+    }
+  }
+}

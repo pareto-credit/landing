@@ -1,18 +1,18 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type AnchorHTMLAttributes } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useRouter, useRouterState } from "@tanstack/react-router";
 import "./navbar.css";
 import {
   ArrowUpRight,
-  Bot,
+  BookOpen,
   Building2,
+  ChartNoAxesCombined,
   ChevronDown,
   ChevronRight,
   Landmark,
-  Layers,
   LayoutDashboard,
   Menu,
-  Network,
+  Palette,
   Vault,
   X,
   type LucideIcon,
@@ -22,18 +22,25 @@ import paretoLogoLight from "../../assets/svgs/pareto-logo-light.svg";
 import { ButtonLink } from "../ui/Button";
 import { SectionContainer } from "../ui/Section";
 import { PageLink } from "../ui/PageLink";
-import ThesisChapterNav from "../sections/thesis/ThesisChapterNav";
 import { personaPages, type PersonaPath } from "../../data/personas";
 
-type PagePath = "/thesis" | "/ecosystem" | PersonaPath;
+type PagePath =
+  | "/thesis"
+  | "/credit-vaults"
+  | "/studio"
+  | "/data"
+  | PersonaPath;
 
 type NavTarget =
   | { kind: "section"; id: string }
-  | { kind: "page"; to: PagePath };
+  | { kind: "page"; to: PagePath }
+  | { kind: "external"; href: string };
 
 interface NavItem {
   label: string;
   target: NavTarget;
+  description?: string;
+  icon?: LucideIcon;
 }
 
 interface MenuItem extends NavItem {
@@ -41,7 +48,7 @@ interface MenuItem extends NavItem {
   icon: LucideIcon;
 }
 
-type MenuId = "solutions" | "ecosystem";
+type MenuId = "solutions" | "audiences" | "about";
 
 interface MenuDefinition {
   id: MenuId;
@@ -55,33 +62,18 @@ const solutionGroups: MenuDefinition["groups"] = [
     title: "Platform",
     items: [
       {
-        label: "Pareto Studio",
-        description: "Structure, launch and run credit facilities from one desk.",
-        icon: LayoutDashboard,
-        target: { kind: "section", id: "studio" },
-      },
-      {
-        label: "Agents",
-        description: "Pareto MCP for Claude, Codex and your own agents. Early access.",
-        icon: Bot,
-        target: { kind: "section", id: "agents" },
-      },
-      {
-        label: "Vaults",
-        description: "Live, permissioned credit facilities open to approved lenders.",
+        label: "Credit Vaults",
+        description:
+          "Explore onchain credit facilities and lending opportunities.",
         icon: Vault,
-        target: { kind: "section", id: "products" },
+        target: { kind: "page", to: "/credit-vaults" },
       },
-    ],
-  },
-  {
-    title: "Plans",
-    items: [
       {
-        label: "Offering",
-        description: "Core, Pro and White-Glove by NorthBridge.",
-        icon: Layers,
-        target: { kind: "section", id: "offering" },
+        label: "Pareto Studio",
+        description:
+          "Structure, launch and run credit facilities from one desk.",
+        icon: LayoutDashboard,
+        target: { kind: "page", to: "/studio" },
       },
     ],
   },
@@ -92,9 +84,9 @@ const personaIcons: Record<(typeof personaPages)[number]["id"], LucideIcon> = {
   "capital-providers": Landmark,
 };
 
-const ecosystemGroups: MenuDefinition["groups"] = [
+const audienceGroups: MenuDefinition["groups"] = [
   {
-    title: "Who we serve",
+    title: "Clients",
     items: personaPages.map((page) => ({
       label: page.navLabel,
       description: page.navDescription,
@@ -102,65 +94,118 @@ const ecosystemGroups: MenuDefinition["groups"] = [
       target: { kind: "page", to: page.path },
     })),
   },
+];
+
+const aboutGroups: MenuDefinition["groups"] = [
   {
-    title: "Network",
+    title: "About Pareto",
     items: [
       {
-        label: "Roles & partners",
-        description: "The four roles on Pareto and the partners behind them.",
-        icon: Network,
-        target: { kind: "page", to: "/ecosystem" },
+        label: "Thesis",
+        description: "Our vision for the future of onchain credit.",
+        icon: BookOpen,
+        target: { kind: "page", to: "/thesis" },
+      },
+      {
+        label: "Data Dashboard",
+        description: "Explore protocol metrics and credit activity.",
+        icon: ChartNoAxesCombined,
+        target: { kind: "page", to: "/data" },
+      },
+      {
+        label: "Brand",
+        description: "Pareto brand assets and visual guidelines.",
+        icon: Palette,
+        target: {
+          kind: "external",
+          href: "https://docs.pareto.credit/resources/media-kit",
+        },
       },
     ],
   },
 ];
 
 const menus: MenuDefinition[] = [
-  { id: "solutions", label: "Solutions", groups: solutionGroups, isActive: (pathname) => pathname === "/" },
   {
-    id: "ecosystem",
-    label: "Ecosystem",
-    groups: ecosystemGroups,
-    isActive: (pathname) => pathname.replace(/\/$/, "").startsWith("/ecosystem"),
+    id: "solutions",
+    label: "Solutions",
+    groups: solutionGroups,
+    isActive: (pathname) =>
+      pathname === "/" ||
+      ["/credit-vaults", "/studio"].includes(pathname.replace(/\/$/, "")),
+  },
+  {
+    id: "audiences",
+    label: "Clients",
+    groups: audienceGroups,
+    isActive: (pathname) =>
+      personaPages.some((page) => page.path === pathname.replace(/\/$/, "")),
+  },
+  {
+    id: "about",
+    label: "About",
+    groups: aboutGroups,
+    isActive: (pathname) =>
+      ["/thesis", "/data"].includes(pathname.replace(/\/$/, "")),
   },
 ];
 
 const mobileNavigationItems: NavItem[] = [
-  { label: "Studio", target: { kind: "section", id: "studio" } },
-  { label: "Agents", target: { kind: "section", id: "agents" } },
-  { label: "Offering", target: { kind: "section", id: "offering" } },
-  { label: "Vaults", target: { kind: "section", id: "products" } },
-  ...personaPages.map((page): NavItem => ({ label: page.navLabel, target: { kind: "page", to: page.path } })),
-  { label: "Ecosystem", target: { kind: "page", to: "/ecosystem" } },
-  { label: "Thesis", target: { kind: "page", to: "/thesis" } },
+  ...solutionGroups.flatMap((group) => group.items),
+  ...audienceGroups.flatMap((group) => group.items),
+  ...aboutGroups.flatMap((group) => group.items),
   { label: "Contact", target: { kind: "section", id: "contact" } },
 ];
 
-const pageDestination = (target: NavTarget) => target.kind === "section"
-  ? { to: "/" as const, hash: target.id }
-  : { to: target.to };
+interface NavDestinationProps
+  extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href" | "target"> {
+  destination: NavTarget;
+}
+
+const NavDestination = ({ destination, ...props }: NavDestinationProps) => {
+  if (destination.kind === "external") {
+    return (
+      <a
+        {...props}
+        href={destination.href}
+        target="_blank"
+        rel="noopener noreferrer"
+      />
+    );
+  }
+  return destination.kind === "section" ? (
+    <PageLink {...props} to="/" hash={destination.id} />
+  ) : (
+    <PageLink {...props} to={destination.to} />
+  );
+};
 
 const MENU_CLOSE_DELAY_MS = 140;
 
-interface NavLocation { pathname: string; hash: string }
+interface NavLocation {
+  pathname: string;
+  hash: string;
+}
 
-const isCurrentTarget = (target: NavTarget, location: NavLocation) => target.kind === "page"
-  ? location.pathname.replace(/\/$/, "") === target.to
-  : location.pathname === "/" && location.hash.replace(/^#/, "") === target.id;
+const isCurrentTarget = (target: NavTarget, location: NavLocation) =>
+  target.kind === "page"
+    ? location.pathname.replace(/\/$/, "") === target.to
+    : target.kind === "section" &&
+      location.pathname === "/" &&
+      location.hash.replace(/^#/, "") === target.id;
 
 const NavbarContent = ({ location }: { location: NavLocation }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState<MenuId | null>(null);
-  const [chaptersOpen, setChaptersOpen] = useState(false);
-  const isThesisPage = location.pathname.replace(/\/$/, "") === "/thesis";
-  const changeChapterMenu = (open: boolean) => {
-    setChaptersOpen(open);
-    if (open) setOpenMenu(null);
-  };
   const menuRefs = useRef<Partial<Record<MenuId, HTMLDivElement | null>>>({});
+  const menuButtonRefs = useRef<
+    Partial<Record<MenuId, HTMLButtonElement | null>>
+  >({});
+  const suppressMenuFocus = useRef(false);
   const menuCloseTimer = useRef<number | null>(null);
   const shouldReduceMotion = useReducedMotion();
+  const isDarkHero = location.pathname.replace(/\/$/, "") === "/thesis" && !isScrolled;
 
   const cancelMenuClose = () => {
     if (menuCloseTimer.current !== null) {
@@ -173,7 +218,7 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
     cancelMenuClose();
     menuCloseTimer.current = window.setTimeout(
       () => setOpenMenu(null),
-      MENU_CLOSE_DELAY_MS,
+      MENU_CLOSE_DELAY_MS
     );
   };
 
@@ -186,7 +231,14 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
       }
     };
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpenMenu(null);
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      setOpenMenu(null);
+      if (menuRefs.current[openMenu]?.contains(document.activeElement)) {
+        suppressMenuFocus.current = true;
+        menuButtonRefs.current[openMenu]?.focus();
+        suppressMenuFocus.current = false;
+      }
     };
 
     const closeOnScroll = () => setOpenMenu(null);
@@ -207,8 +259,8 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
   const mobileToggleButtonClass = mobileMenuOpen
     ? "border-[color:rgb(255_255_255_/_0.16)] bg-[color:rgb(255_255_255_/_0.04)] text-[var(--color-text-inverse)] shadow-[0_10px_30px_rgb(0,0,0,0.18)]"
     : isScrolled
-      ? "border-[color:rgb(14_24_19_/_0.08)] bg-transparent text-[var(--color-text-primary)] shadow-none"
-      : "border-[color:rgb(255_255_255_/_0.12)] bg-transparent text-[var(--color-text-primary)] shadow-none";
+    ? "border-[color:rgb(14_24_19_/_0.08)] bg-transparent text-[var(--color-text-primary)] shadow-none"
+    : "border-[color:rgb(255_255_255_/_0.12)] bg-transparent text-[var(--color-text-primary)] shadow-none";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -265,12 +317,14 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
     <>
       <nav
         data-site-navbar
+        data-mobile-open={mobileMenuOpen}
+        data-hero-tone={isDarkHero ? "dark" : undefined}
         className={`fixed inset-x-0 top-0 z-[60] w-full border-b transition-[background-color,border-color,padding,backdrop-filter,box-shadow,color] duration-300 ${
           mobileMenuOpen
             ? "border-transparent bg-transparent py-6 text-[var(--color-text-inverse)] shadow-none backdrop-blur-0"
             : isScrolled
-              ? "border-[color:rgb(14_24_19_/_0.05)] bg-[var(--color-overlay-surface-80)] py-4 text-[var(--color-text-primary)] shadow-sm backdrop-blur-xl"
-              : "border-black/0 bg-transparent py-6 text-[var(--color-text-primary)]"
+            ? "border-[color:rgb(14_24_19_/_0.05)] bg-[var(--color-overlay-surface-80)] py-4 text-[var(--color-text-primary)] shadow-sm backdrop-blur-xl"
+            : "border-black/0 bg-transparent py-6 text-[var(--color-text-primary)]"
         }`}
       >
         <SectionContainer className="relative z-[60] flex items-center justify-between">
@@ -282,7 +336,7 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
             aria-label="Scroll to top"
           >
             <img
-              src={mobileMenuOpen ? paretoLogoLight : paretoLogo}
+              src={mobileMenuOpen || isDarkHero ? paretoLogoLight : paretoLogo}
               alt="Pareto logo"
               className="h-8 w-auto"
             />
@@ -305,33 +359,45 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
                   }}
                   className="relative hidden lg:block"
                   onMouseEnter={() => {
-                    setChaptersOpen(false);
                     cancelMenuClose();
                     setOpenMenu(menu.id);
                   }}
                   onMouseLeave={scheduleMenuClose}
+                  onFocus={() => {
+                    if (suppressMenuFocus.current) return;
+                    cancelMenuClose();
+                    setOpenMenu(menu.id);
+                  }}
+                  onBlur={(event) => {
+                    if (!event.currentTarget.contains(event.relatedTarget)) {
+                      setOpenMenu(null);
+                    }
+                  }}
                 >
                   <button
+                    ref={(node) => {
+                      menuButtonRefs.current[menu.id] = node;
+                    }}
                     type="button"
                     aria-expanded={isOpen}
                     data-active={menu.isActive(location.pathname) || undefined}
                     aria-controls={`${menu.id}-menu`}
                     onClick={(event) => {
-                      setChaptersOpen(false);
-                      // Pointer users already opened it on hover; keyboard users toggle.
-                      if (event.detail === 0) {
-                        setOpenMenu((current) => current === menu.id ? null : menu.id);
-                      } else {
-                        cancelMenuClose();
-                        setOpenMenu(menu.id);
-                      }
+                      cancelMenuClose();
+                      setOpenMenu((current) =>
+                        event.detail === 0 && current === menu.id
+                          ? null
+                          : menu.id
+                      );
                     }}
                     className={`${navLinkClass} gap-1`}
                   >
                     {menu.label}
                     <ChevronDown
                       size={15}
-                      className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                      className={`transition-transform duration-200 ${
+                        isOpen ? "rotate-180" : ""
+                      }`}
                     />
                   </button>
 
@@ -340,41 +406,81 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
                       <motion.div
                         id={`${menu.id}-menu`}
                         data-testid={`${menu.id}-menu`}
-                        initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
+                        initial={
+                          shouldReduceMotion
+                            ? { opacity: 0 }
+                            : { opacity: 0, y: -6 }
+                        }
                         animate={{ opacity: 1, y: 0 }}
-                        exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
+                        exit={
+                          shouldReduceMotion
+                            ? { opacity: 0 }
+                            : { opacity: 0, y: -6 }
+                        }
                         transition={{ duration: 0.18, ease: "easeOut" }}
-                        className="absolute left-1/2 top-full z-[61] w-[44rem] -translate-x-1/2 pt-5 font-sans"
+                        className={`absolute left-1/2 top-full z-[61] -translate-x-1/2 pt-5 font-sans ${
+                          menu.id === "audiences"
+                            ? "w-[34rem]"
+                            : "w-[30rem]"
+                        }`}
                       >
                         <div className="overflow-hidden ui-radius-panel border border-[var(--color-border-soft)] bg-[var(--color-surface)] text-[var(--color-text-primary)] shadow-[0_24px_60px_rgb(14_24_19_/_0.16)]">
-                          <div className="grid grid-cols-[1.35fr_1fr]">
+                          <div
+                            className={
+                              menu.groups.length === 1
+                                ? "grid grid-cols-1"
+                                : "grid grid-cols-[1.35fr_1fr]"
+                            }
+                          >
                             {menu.groups.map((group, groupIndex) => (
                               <div
                                 key={group.title}
-                                className={`p-5 ${groupIndex > 0 ? "border-l border-[var(--color-border-soft)]" : ""}`}
+                                className={`p-5 ${
+                                  groupIndex > 0
+                                    ? "border-l border-[var(--color-border-soft)]"
+                                    : ""
+                                }`}
                               >
-                                <div className="mb-2 px-3 text-sm text-[var(--color-text-muted)]">{group.title}</div>
+                                <div className="mb-2 px-3 text-sm text-[var(--color-text-muted)]">
+                                  {group.title}
+                                </div>
                                 <ul>
                                   {group.items.map((item) => (
                                     <li key={item.label}>
-                                      <PageLink
-                                        {...pageDestination(item.target)}
+                                      <NavDestination
+                                        destination={item.target}
                                         onClick={() => setOpenMenu(null)}
-                                        aria-current={isCurrentTarget(item.target, location) ? item.target.kind === "page" ? "page" : "location" : undefined}
+                                        aria-current={
+                                          isCurrentTarget(item.target, location)
+                                            ? item.target.kind === "page"
+                                              ? "page"
+                                              : "location"
+                                            : undefined
+                                        }
                                         className="site-nav-destination group flex w-full items-start gap-3 ui-radius-control px-3 py-3 text-left transition-colors hover:bg-[var(--color-surface-muted)] focus-visible:bg-[var(--color-surface-muted)] focus-visible:outline-none"
                                       >
                                         <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center ui-radius-control bg-[var(--color-brand-deep)] text-[var(--color-brand-bright)]">
-                                          <item.icon size={16} />
+                                          <item.icon
+                                            size={16}
+                                            strokeWidth={1.5}
+                                          />
                                         </span>
                                         <span>
-                                          <span className="block text-[15px] font-semibold text-[var(--color-brand-dark)] group-hover:text-[var(--color-brand-deep)]">
+                                          <span className="flex items-center gap-1.5 text-[15px] font-semibold text-[var(--color-brand-dark)] group-hover:text-[var(--color-brand-deep)]">
                                             {item.label}
+                                            {item.target.kind ===
+                                              "external" && (
+                                              <ArrowUpRight
+                                                size={13}
+                                                aria-hidden="true"
+                                              />
+                                            )}
                                           </span>
                                           <span className="mt-0.5 block text-[13px] leading-snug text-[var(--color-text-muted)]">
                                             {item.description}
                                           </span>
                                         </span>
-                                      </PageLink>
+                                      </NavDestination>
                                     </li>
                                   ))}
                                 </ul>
@@ -383,7 +489,9 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
                           </div>
                           <div className="flex items-center justify-between border-t border-[var(--color-border-soft)] bg-[var(--color-bg-light-alt)] px-8 py-4 text-sm">
                             <span className="text-[var(--color-text-secondary)]">
-                              Not sure which fits?{" "}
+                              {menu.id === "about"
+                                ? "Want to learn more?"
+                                : "Not sure which fits?"}{" "}
                               <PageLink
                                 to="/"
                                 hash="contact"
@@ -410,8 +518,6 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
                 </div>
               );
             })}
-
-            <ThesisChapterNav isCurrentPage={isThesisPage} open={chaptersOpen} onOpenChange={changeChapterMenu} hidden={mobileMenuOpen} />
           </div>
 
           <div className="hidden items-center gap-4 md:ml-auto md:mr-3 md:flex lg:ml-0 lg:mr-0">
@@ -430,7 +536,7 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
           <button
             className={`ui-radius-control relative z-[60] flex h-11 w-11 items-center justify-center border backdrop-blur-md transition-[border-color,background-color,color,box-shadow] duration-300 lg:hidden ${mobileToggleButtonClass}`}
             onClick={() => {
-              setChaptersOpen(false);
+              setOpenMenu(null);
               setMobileMenuOpen((open) => !open);
             }}
             aria-label="Toggle mobile menu"
@@ -559,24 +665,39 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
                       delay: shouldReduceMotion ? 0 : 0.04 * index,
                     }}
                   >
-                    <PageLink
-                      {...pageDestination(item.target)}
+                    <NavDestination
+                      destination={item.target}
                       onClick={() => setMobileMenuOpen(false)}
-                      aria-current={isCurrentTarget(item.target, location) ? item.target.kind === "page" ? "page" : "location" : undefined}
+                      aria-current={
+                        isCurrentTarget(item.target, location)
+                          ? item.target.kind === "page"
+                            ? "page"
+                            : "location"
+                          : undefined
+                      }
                       className="site-nav-mobile-link group flex min-h-12 items-center justify-between ui-radius-control border border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.035)] px-4 py-3 text-left shadow-[inset_0_1px_0_rgb(255_255_255_/_0.04)] backdrop-blur-sm transition-colors hover:border-[color:rgb(113_178_159_/_0.35)] hover:bg-[color:rgb(255_255_255_/_0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)] sm:min-h-14 sm:px-5 sm:py-4"
                     >
-                      <div>
+                      <div className="min-w-0 pr-3">
                         <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--color-text-muted-soft)]">
                           {String(index + 1).padStart(2, "0")}
                         </div>
-                        <div className="mt-1 text-[1.55rem] font-semibold leading-none tracking-[-0.04em] text-[var(--color-text-inverse)] sm:text-[1.9rem]">
+                        <div className="mt-1 text-xl font-semibold leading-tight tracking-[-0.03em] text-[var(--color-text-inverse)] sm:text-2xl">
                           {item.label}
                         </div>
+                        {item.description && (
+                          <p className="mt-1 text-xs leading-relaxed text-[var(--color-text-muted-softer)] sm:text-[13px]">
+                            {item.description}
+                          </p>
+                        )}
                       </div>
-                      <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.04)] text-[var(--color-brand-alt)] transition-transform duration-300 group-hover:translate-x-1 sm:h-10 sm:w-10">
-                        <ArrowUpRight size={17} />
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center ui-radius-control border border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.04)] text-[var(--color-brand-alt)] transition-transform duration-300 group-hover:translate-x-1 sm:h-10 sm:w-10">
+                        {item.icon ? (
+                          <item.icon size={20} strokeWidth={1.5} />
+                        ) : (
+                          <ArrowUpRight size={17} />
+                        )}
                       </div>
-                    </PageLink>
+                    </NavDestination>
                   </motion.div>
                 ))}
               </div>
@@ -648,7 +769,16 @@ const RoutedNavbar = () => {
 
 const Navbar = () => {
   const router = useRouter({ warn: false });
-  return router ? <RoutedNavbar /> : <NavbarContent location={{ pathname: window.location.pathname, hash: window.location.hash }} />;
+  return router ? (
+    <RoutedNavbar />
+  ) : (
+    <NavbarContent
+      location={{
+        pathname: window.location.pathname,
+        hash: window.location.hash,
+      }}
+    />
+  );
 };
 
 export default Navbar;

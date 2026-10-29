@@ -9,7 +9,7 @@ const focusChapter = (event: MouseEvent<HTMLAnchorElement>, id: ThesisChapterId)
   window.requestAnimationFrame(() => document.getElementById(`${id}-title`)?.focus({ preventScroll: true }));
 };
 
-/** Five-part contents under the hero, in the style of a principles list. */
+/** Compact jump links after the thesis write-up; the hero stays focused on one claim. */
 const ThesisIndex = () => (
   <nav className="thesis-index" aria-label="Contents">
     <ol>
@@ -23,8 +23,6 @@ const ThesisIndex = () => (
           >
             <span className="thesis-index__number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
             <span className="thesis-index__title">{chapter.label}</span>
-            <span className="thesis-index__summary">{chapter.summary}</span>
-            <span className="thesis-index__tag">{chapter.tag}</span>
             <ArrowDownRight size={20} aria-hidden="true" className="thesis-index__arrow" />
           </PageLink>
         </li>

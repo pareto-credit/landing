@@ -4,13 +4,12 @@ import { ArrowUpRight } from "lucide-react";
 import { SectionContainer, SectionHeader } from "../../ui/Section";
 import { ButtonLink } from "../../ui/Button";
 import { PageLink } from "../../ui/PageLink";
-import { MCP_PRODUCT_NAME, PARETO_DOCS_URL } from "../../../data/brand";
-import { thesisChapters, thesisReasons, thesisRoadmap, thesisStats, type ThesisStat } from "../../../data/thesis";
+import { PARETO_DOCS_URL } from "../../../data/brand";
+import { thesisChapters, thesisStats, type ThesisStat } from "../../../data/thesis";
 import { setPendingContactInterest } from "../../../lib/siteNavigation";
-import { ThesisAnatomy, ThesisMapping } from "./ThesisAnatomy";
-import ThesisDiagram from "./ThesisDiagram";
-import ThesisLifecycle from "./ThesisLifecycle";
+import { ThesisAnatomy } from "./ThesisAnatomy";
 import ThesisProblemStory from "./ThesisProblemStory";
+import ThesisReasons from "./ThesisReasons";
 import "./thesis-sections.css";
 import "./thesis-chapters.css";
 
@@ -43,17 +42,9 @@ const Chapter = ({ id, title, description, tone = "light", children }: ChapterPr
 
 const SourceLink = ({ stat }: { stat: ThesisStat }) => (
   <a href={stat.url} target="_blank" rel="noopener noreferrer" className="thesis-source">
-    {stat.source}<ArrowUpRight size={13} aria-hidden="true" />
+    {stat.source}<ArrowUpRight size={8} aria-hidden="true" />
   </a>
 );
-
-const responsibilities = [
-  { title: "Agents prepare", role: "Preparation", diagram: "records", copy: "Document review, tape reconciliation, borrowing-base and covenant calculations, lender reports." },
-  { title: "Curators decide", role: "Human sign-off", diagram: "signature", copy: "Credit approval, terms, exceptions and enforcement stay with a named, accountable curator." },
-  { title: "Code enforces", role: "Execution", diagram: "code", copy: "Signed decisions move capital onchain; nothing changes in a vault without a signature." },
-] as const;
-
-const compactCurrency = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", notation: "compact", minimumFractionDigits: 0, maximumFractionDigits: 1 });
 
 /** Bars drawn to true scale against the largest market, so the gap is visible. */
 const OpportunityScale = () => {
@@ -99,65 +90,31 @@ const OpportunityScale = () => {
   );
 };
 
-const RoadmapTimeline = () => (
-  <ol className="thesis-timeline">
-    {thesisRoadmap.map((stage) => (
-      <li key={stage.status} className={`thesis-timeline__stage thesis-timeline__stage--${stage.status}`}>
-        <div className="thesis-timeline__marker">
-          <span className="thesis-timeline__dot" aria-hidden="true" />
-          <span className="thesis-kicker">{stage.statusLabel}</span>
-        </div>
-        <div className="thesis-timeline__items">
-          {stage.items.map((item) => (
-            <article key={item.name}>
-              <h3>{item.name}</h3>
-              <p>{item.copy}</p>
-            </article>
-          ))}
-          {stage.status === "early-access" ? (
-            <PageLink
-              to="/"
-              hash="contact"
-              onClick={() => setPendingContactInterest(`${MCP_PRODUCT_NAME} early access`)}
-              className="thesis-text-link"
-            >
-              Join early access<ArrowUpRight size={16} aria-hidden="true" />
-            </PageLink>
-          ) : null}
-        </div>
-      </li>
-    ))}
-  </ol>
-);
-
-interface ThesisSectionsProps {
-  creditServiced: number;
-  activeLoans: number;
-  isLoading: boolean;
-}
-
-const ThesisSections = ({ creditServiced, activeLoans, isLoading }: ThesisSectionsProps) => (
+const ThesisSections = () => (
   <>
     <Chapter
       id="structured-credit"
-      title={<>What we mean by structured credit.<br /><span className="thesis-heading-secondary">And how we build it onchain.</span></>}
-      description="Structured credit is lending under a written structure: who borrows, against what, on which terms, and what happens if something goes wrong. Pareto keeps that structure and runs it onchain, one facility at a time."
+      title="The business comes first."
     >
+      <p className="thesis-writeup">
+        Pareto brings applications, eligibility, underwriting, credit terms,
+        servicing and distribution into one connected facility. Each layer is
+        shaped around the business, the participants and the relevant agreements.
+      </p>
       <ThesisAnatomy />
-      <ThesisMapping />
       <div className="thesis-section-action">
         <PageLink to="/" hash="structures" className="thesis-text-link">See the credit facilities we support<ArrowUpRight size={16} aria-hidden="true" /></PageLink>
       </div>
     </Chapter>
 
-    <Chapter
+    <section
       id="constraints"
-      tone="dark"
-      title={<>Trillions in credit.<br /><span className="thesis-heading-secondary">Still run on PDFs and phone calls.</span></>}
-      description="Three problems keep private credit slow, opaque and hard to reach. They sit in the work between a credit decision and a funded facility."
+      aria-labelledby="constraints-title"
+      className="thesis-chapter thesis-chapter--constraints thesis-chapter--dark"
     >
+      <h2 id="constraints-title" tabIndex={-1} className="sr-only">The constraints</h2>
       <ThesisProblemStory />
-    </Chapter>
+    </section>
 
     <Chapter
       id="opportunity"
@@ -169,56 +126,10 @@ const ThesisSections = ({ creditServiced, activeLoans, isLoading }: ThesisSectio
 
     <Chapter
       id="why-pareto"
-      title={<>Familiar safeguards.<br /><span className="thesis-heading-secondary">Enforced by code.</span></>}
-      description="Pareto doesn't reinvent credit. It keeps the structure credit committees already trust and removes the manual work around it."
+      title="A better foundation for credit."
+      description="Keep the structure credit teams know. Connect the work around it."
     >
-      <ol className="thesis-reasons">
-        {thesisReasons.map((reason, index) => (
-          <li key={reason.title}>
-            <span className="thesis-kicker">{String(index + 1).padStart(2, "0")} · {reason.label}</span>
-            <h3>{reason.title}</h3>
-            <p>{reason.copy}</p>
-          </li>
-        ))}
-      </ol>
-      <div className="thesis-subsection">
-        <h3 className="thesis-subheading">Five stages. <span className="thesis-heading-secondary">One connected platform.</span></h3>
-        <p className="thesis-subsection__lead">From borrower diligence to distribution, each stage belongs to the same facility workflow. Select a stage to explore.</p>
-        <ThesisLifecycle />
-      </div>
-    </Chapter>
-
-    <section className="thesis-chapter thesis-chapter--dark thesis-accountability" aria-labelledby="accountability-title">
-      <SectionContainer className="ui-section-shell">
-        <SectionHeader
-          variant="centered"
-          tone="dark"
-          eyebrow="Accountability"
-          title={<>Agents prepare, curators decide.<br /><span className="thesis-heading-secondary">Code enforces.</span></>}
-          description="AI can prepare the back office. A named curator, your team or NorthBridge, remains accountable for the credit decision."
-          titleId="accountability-title"
-        />
-        <ol className="thesis-responsibilities">
-          {responsibilities.map((item) => <li key={item.title} className={item.diagram === "signature" ? "thesis-responsibilities__decision" : undefined}>
-            <span className="thesis-kicker">{item.role}</span>
-            <ThesisDiagram kind={item.diagram} />
-            <h3>{item.title}</h3><p>{item.copy}</p>
-          </li>)}
-        </ol>
-        <dl className="thesis-proof">
-          <div><dt>Credit serviced</dt><dd>{isLoading ? "—" : compactCurrency.format(creditServiced)}</dd></div>
-          <div><dt>Active loans</dt><dd>{isLoading ? "—" : compactCurrency.format(activeLoans)}</dd></div>
-        </dl>
-        <p className="thesis-risk-note">Pareto figures are read live from the Pareto API. Curation does not guarantee repayment; credit risk remains with lenders.</p>
-      </SectionContainer>
-    </section>
-
-    <Chapter
-      id="roadmap"
-      title={<>Where it goes next.<br /><span className="thesis-heading-secondary">Agents in the loop.</span></>}
-      description="Facilities and distribution are live today. Next, agents take on more of the back office, with a person signing every change."
-    >
-      <RoadmapTimeline />
+      <ThesisReasons />
     </Chapter>
 
     <section className="thesis-closing" aria-labelledby="thesis-closing-title">
@@ -228,7 +139,7 @@ const ThesisSections = ({ creditServiced, activeLoans, isLoading }: ThesisSectio
           <PageLink to="/" hash="contact" onClick={() => setPendingContactInterest("Pareto Studio (Core)")} className="thesis-closing__primary">Request Studio access<ArrowUpRight size={16} aria-hidden="true" /></PageLink>
           <ButtonLink href={PARETO_DOCS_URL} target="_blank" rel="noopener noreferrer" variant="ghost" size="md">Read the docs<ArrowUpRight size={16} aria-hidden="true" /></ButtonLink>
         </div>
-        <p className="thesis-closing__disclaimer">This page is for information only and is not an offer or solicitation to lend, borrow or invest. Market figures are third-party estimates as of the dates shown; Pareto figures are read live from the Pareto API.</p>
+        <p className="thesis-closing__disclaimer">This page is for information only and is not an offer or solicitation to lend, borrow or invest. Market figures are third-party estimates as of the dates shown.</p>
       </SectionContainer>
     </section>
   </>

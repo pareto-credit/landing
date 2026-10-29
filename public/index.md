@@ -5,10 +5,13 @@ Pareto is credit underwriting infrastructure for compliant onchain finance. Lend
 ## Primary Pages
 
 - [Home](https://pareto.credit/)
+- [Credit Vaults](https://pareto.credit/credit-vaults)
+- [Pareto Studio](https://pareto.credit/studio)
 - [Thesis](https://pareto.credit/thesis)
-- [Ecosystem](https://pareto.credit/ecosystem)
-- [For originators](https://pareto.credit/ecosystem/originators)
-- [For capital providers](https://pareto.credit/ecosystem/capital-providers)
+- [Data Dashboard](https://pareto.credit/data)
+- [Brand assets](https://docs.pareto.credit/resources/media-kit)
+- [For originators](https://pareto.credit/originators)
+- [For capital allocators](https://pareto.credit/capital-providers)
 - [Privacy Policy](https://pareto.credit/privacy-policy)
 - [Terms of Service](https://pareto.credit/terms-of-service)
 
@@ -16,7 +19,7 @@ Pareto is credit underwriting infrastructure for compliant onchain finance. Lend
 
 - Pareto Studio: structure, launch and operate credit facilities (term, revolving, collateralized, asset-backed)
 - Credit Vaults: permissioned, MLA-governed onchain facilities with isolated accounting
-- Pareto MCP (early access): read-only access to facility data for Claude, Codex and other MCP clients
+- AI within Credit Vaults and Studio: Pareto MCP (early access) provides read-only facility data to Claude, Codex and other MCP clients; operational actions are planned. Pareto Cura AI supports credit assessment as an underwriting companion.
 - Offering: Core (self-serve Studio), Pro (guided launch and DeFi distribution), White-Glove (NorthBridge as curator)
 - USP synthetic dollar products
 - Documentation, governance, and developer resources

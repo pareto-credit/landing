@@ -5,10 +5,14 @@ export type SitePagePath =
   | "/"
   | "/thesis"
   | "/ecosystem"
-  | "/ecosystem/originators"
-  | "/ecosystem/capital-providers";
+  | "/originators"
+  | "/capital-providers"
+  | "/credit-vaults"
+  | "/studio"
+  | "/data";
 
-interface PageLinkProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href"> {
+interface PageLinkProps
+  extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href"> {
   to: SitePagePath;
   hash?: string;
 }
@@ -17,7 +21,13 @@ interface PageLinkProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "h
  * Internal link that uses client-side routing when a router is mounted and
  * falls back to a normal link otherwise (e.g. in isolated component tests).
  */
-export const PageLink = ({ to, hash, onClick, children, ...props }: PageLinkProps) => {
+export const PageLink = ({
+  to,
+  hash,
+  onClick,
+  children,
+  ...props
+}: PageLinkProps) => {
   const router = useRouter({ warn: false });
   const href = hash ? `${to}#${hash}` : to;
 
@@ -41,11 +51,16 @@ export const PageLink = ({ to, hash, onClick, children, ...props }: PageLinkProp
     void router.navigate({
       to,
       hash,
-      hashScrollIntoView: hash ? {
-        block: "start",
-        behavior: router.state.location.pathname === to &&
-          !window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "smooth" : "instant",
-      } : undefined,
+      hashScrollIntoView: hash
+        ? {
+            block: "start",
+            behavior:
+              router.state.location.pathname === to &&
+              !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+                ? "smooth"
+                : "instant",
+          }
+        : undefined,
     });
   };
 

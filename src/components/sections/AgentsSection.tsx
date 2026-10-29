@@ -1,18 +1,19 @@
-import { motion, useInView, useReducedMotion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-import { Bot, Check, FileSignature, LoaderCircle, PlugZap } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+import { Bot, Check, FileSignature, PlugZap } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { AI_PRODUCT_NAME, MCP_PRODUCT_NAME } from "../../data/brand";
 import { requestContact } from "../../lib/siteNavigation";
 import { cn } from "../../lib/cn";
 import { Button } from "../ui/Button";
 import { SectionContainer, SectionHeader } from "../ui/Section";
+import AgentSession from "./agents/AgentSession";
+import "./product/agent-context.css";
 
 interface AgentStep {
   icon: LucideIcon;
   name: string;
   status: string;
-  statusTone: "live" | "next" | "soon";
+  statusTone: "live" | "upcoming" | "soon";
   description: string;
   points: string[];
 }
@@ -34,224 +35,97 @@ const steps: AgentStep[] = [
   {
     icon: FileSignature,
     name: "Agent-prepared actions",
-    status: "Next",
-    statusTone: "next",
+    status: "Upcoming",
+    statusTone: "upcoming",
     description:
       "Agents draft lender reports, borrowing-base updates and covenant attestations. Your team reviews and signs in Studio before anything reaches the vault.",
-    points: ["Drafts land in a Studio signing inbox", "Wallet or multisig approval for every change"],
+    points: [
+      "Drafts land in a Studio signing inbox",
+      "Wallet or multisig approval for every change",
+    ],
   },
   {
     icon: Bot,
     name: AI_PRODUCT_NAME,
-    status: "Coming soon",
-    statusTone: "soon",
+    status: "Beta",
+    statusTone: "live",
     description:
-      "Pareto's own credit assessment agent: it reviews borrower documents, drafts the credit memo and keeps watching the facility after launch.",
-    points: ["Document review and risk flags", "Credit memo drafts", "Ongoing monitoring alerts"],
+      "An underwriting companion for borrower-document review and credit-memo drafts. Ongoing facility monitoring is planned.",
+    points: [
+      "Document review and risk flags",
+      "Credit memo drafts",
+      "Ongoing monitoring planned",
+    ],
   },
 ];
 
 const statusClass: Record<AgentStep["statusTone"], string> = {
   live: "border-[color:rgb(114_244_201_/_0.4)] bg-[color:rgb(114_244_201_/_0.1)] text-[var(--color-brand-bright)]",
-  next: "border-[color:rgb(147_197_253_/_0.35)] bg-[color:rgb(147_197_253_/_0.08)] text-[var(--color-state-info)]",
+  upcoming: "border-[color:rgb(147_197_253_/_0.35)] bg-[color:rgb(147_197_253_/_0.08)] text-[var(--color-state-info)]",
   soon: "border-[color:rgb(255_255_255_/_0.18)] bg-[color:rgb(255_255_255_/_0.04)] text-[color:rgb(255_255_255_/_0.7)]",
 };
 
-const toolCalls = [
-  { name: "list_facilities", result: "6 facilities" },
-  { name: "get_repayment_schedule", result: "3 due this week" },
-  { name: "get_vault_state", result: "LTV and headroom" },
-];
-
-const answerRows: Array<[string, string, string, string]> = [
-  ["Trade Finance II", "$412k", "Fri", "Borrowing base OK"],
-  ["Market Maker Line", "$96k", "Wed", "$3.2M undrawn"],
-  ["BTC Credit I", "$230k", "Thu", "LTV 54% / 65%"],
-];
-
-const PROMPT =
-  "Which of my facilities have payments due this week, and how much headroom do they have?";
-
-/** Demo timeline in milliseconds; the session loops while on screen. */
-const TIMELINE = {
-  typeStart: 400,
-  typeEnd: 2200,
-  toolStart: 2500,
-  toolStep: 750,
-  answer: 4900,
-  rowStart: 5200,
-  rowStep: 280,
-  followUp: 6200,
-  total: 11000,
-};
-const TICK_MS = 50;
-
-const useSessionClock = (isRunning: boolean) => {
-  const [elapsed, setElapsed] = useState(isRunning ? 0 : TIMELINE.total);
-
-  useEffect(() => {
-    if (!isRunning) return;
-
-    const intervalId = window.setInterval(() => {
-      setElapsed((current) => (current + TICK_MS >= TIMELINE.total ? 0 : current + TICK_MS));
-    }, TICK_MS);
-
-    return () => window.clearInterval(intervalId);
-  }, [isRunning]);
-
-  return isRunning ? elapsed : TIMELINE.total;
-};
-
-const reveal = (isVisible: boolean) =>
-  cn("transition-[opacity,transform] duration-500 ease-out motion-reduce:transition-none", isVisible ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0");
-
-const AgentSession = () => {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const isInView = useInView(ref, { amount: 0.35 });
-  const shouldReduceMotion = useReducedMotion();
-  const elapsed = useSessionClock(isInView && !shouldReduceMotion);
-
-  const typedLength = Math.round(
-    Math.min(1, Math.max(0, (elapsed - TIMELINE.typeStart) / (TIMELINE.typeEnd - TIMELINE.typeStart))) * PROMPT.length,
-  );
-  const isTyping = elapsed >= TIMELINE.typeStart && elapsed < TIMELINE.typeEnd;
-  const toolState = (index: number) => {
-    const start = TIMELINE.toolStart + index * TIMELINE.toolStep;
-    if (elapsed < start) return "idle";
-    if (elapsed < start + TIMELINE.toolStep) return "running";
-    return "done";
-  };
-  const isThinking = elapsed >= TIMELINE.typeEnd && elapsed < TIMELINE.answer;
-
+function BriefAgentsSection() {
   return (
-    <div
-      ref={ref}
-      data-testid="agent-session"
-      className="relative flex h-full flex-col overflow-hidden ui-radius-panel border border-[color:rgb(255_255_255_/_0.1)] bg-[#0b1511] shadow-[0_40px_90px_rgb(0_0_0_/_0.4),0_0_60px_rgb(114_244_201_/_0.08)]"
-    >
-      <div className="flex items-center justify-between border-b border-[color:rgb(255_255_255_/_0.07)] bg-[linear-gradient(90deg,rgb(114_244_201_/_0.06),transparent_50%,rgb(167_139_250_/_0.06))] px-4 py-3">
-        <div className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-[color:rgb(255_255_255_/_0.14)]" />
-          <span className="h-2.5 w-2.5 rounded-full bg-[color:rgb(255_255_255_/_0.14)]" />
-          <span className="h-2.5 w-2.5 rounded-full bg-[color:rgb(255_255_255_/_0.14)]" />
-          <span className="ml-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:rgb(196_214_206_/_0.7)]">
-            Your agent · Claude
-          </span>
-        </div>
-        <span className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--color-brand-bright)]">
-          <span className="h-1.5 w-1.5 animate-pulse motion-reduce:animate-none rounded-full bg-[var(--color-brand-bright)]" />
-          {MCP_PRODUCT_NAME} connected
-        </span>
-      </div>
-
-      <div className="flex-1 space-y-4 p-4 sm:p-5">
-        <div
-          className={cn(
-            "relative ml-auto max-w-[85%] ui-radius-card bg-[color:rgb(255_255_255_/_0.06)] px-4 py-3 text-[13px] leading-relaxed text-[var(--color-text-inverse)]",
-            reveal(elapsed >= TIMELINE.typeStart),
-          )}
-        >
-          <span className="invisible" aria-hidden="true">
-            {PROMPT}
-          </span>
-          <span className="absolute inset-0 px-4 py-3">
-            {PROMPT.slice(0, typedLength)}
-            {isTyping ? (
-              <span className="ml-px inline-block h-3.5 w-[2px] translate-y-0.5 animate-pulse bg-[var(--color-brand-bright)]" />
-            ) : null}
-          </span>
-        </div>
-
-        <ul className="space-y-1.5">
-          {toolCalls.map((call, index) => {
-            const state = toolState(index);
-            return (
-              <li
-                key={call.name}
-                className={cn(
-                  "flex items-center justify-between gap-3 ui-radius-control border px-3 py-2 font-mono text-[11px]",
-                  state === "running"
-                    ? "border-[color:rgb(56_189_248_/_0.35)] bg-[color:rgb(56_189_248_/_0.06)]"
-                    : "border-[color:rgb(255_255_255_/_0.06)] bg-[color:rgb(255_255_255_/_0.02)]",
-                  reveal(state !== "idle"),
-                )}
-              >
-                <span className="truncate text-[color:rgb(196_214_206_/_0.8)]">
-                  <span className="text-[var(--color-brand-bright)]">pareto</span> · {call.name}
-                </span>
-                <span className="flex shrink-0 items-center gap-1.5 text-[color:rgb(196_214_206_/_0.6)]">
-                  {state === "running" ? (
-                    <>
-                      <LoaderCircle size={12} className="animate-spin text-[#38bdf8]" />
-                      running
-                    </>
-                  ) : (
-                    <>
-                      <Check size={12} className="text-[var(--color-brand-bright)]" />
-                      {call.result}
-                    </>
-                  )}
-                </span>
-              </li>
-            );
-          })}
-        </ul>
-
-        <div className="relative text-[13px] leading-relaxed text-[color:rgb(255_255_255_/_0.85)]">
-          <div
-            className={cn(
-              "absolute left-0 top-0 flex items-center gap-1.5 font-mono text-[11px] text-[color:rgb(196_214_206_/_0.6)]",
-              reveal(isThinking),
-            )}
-            aria-hidden="true"
-          >
-            <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[var(--color-brand-bright)]" />
-            <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[var(--color-brand-bright)] [animation-delay:120ms]" />
-            <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[var(--color-brand-bright)] [animation-delay:240ms]" />
+    <section id="agents" className="agent-brief-section">
+      <SectionContainer className="ui-section-shell">
+        <div className="agent-brief-layout">
+          <div className="agent-brief-copy">
+            <p className="agent-context-kicker">Agentic Credit Operations</p>
+            <h2>Credit infrastructure for the AI era.</h2>
+            <p className="agent-brief-intro">
+              Connect your data, your agents and your credit team.
+            </p>
+            <dl className="agent-brief-capabilities">
+              <div>
+                <dt>
+                  <span>{MCP_PRODUCT_NAME}</span>{" "}
+                  <span className="agent-status agent-status--access">
+                    Early access
+                  </span>
+                </dt>
+                <dd>Facility data, connected to your workflow.</dd>
+              </div>
+              <div>
+                <dt>
+                  <span>Pareto Agents</span>{" "}
+                  <span className="agent-status agent-status--upcoming">
+                    Upcoming
+                  </span>
+                </dt>
+                <dd>Operational support, reviewed by your team.</dd>
+              </div>
+              <div>
+                <dt>
+                  <span>{AI_PRODUCT_NAME}</span>{" "}
+                  <span className="agent-status agent-status--beta">Beta</span>
+                </dt>
+                <dd>Your AI underwriting companion.</dd>
+              </div>
+            </dl>
+            <Button
+              variant="primary"
+              size="md"
+              onClick={() => requestContact(`${MCP_PRODUCT_NAME} early access`)}
+            >
+              Join early access
+            </Button>
           </div>
-          <p className={reveal(elapsed >= TIMELINE.answer)}>Three facilities have payments due by Friday:</p>
-          <table className="mt-3 w-full text-left text-[12px]">
-            <thead className={reveal(elapsed >= TIMELINE.answer)}>
-              <tr className="font-mono text-[9.5px] uppercase tracking-[0.14em] text-[color:rgb(196_214_206_/_0.6)]">
-                <th className="pb-2 font-normal">Facility</th>
-                <th className="pb-2 text-right font-normal">Due</th>
-                <th className="hidden pb-2 text-right font-normal sm:table-cell">Day</th>
-                <th className="pb-2 text-right font-normal">Headroom</th>
-              </tr>
-            </thead>
-            <tbody>
-              {answerRows.map(([facility, due, day, headroom], index) => (
-                <tr
-                  key={facility}
-                  className={cn(
-                    "border-t border-[color:rgb(255_255_255_/_0.06)]",
-                    reveal(elapsed >= TIMELINE.rowStart + index * TIMELINE.rowStep),
-                  )}
-                >
-                  <td className="py-2 text-[var(--color-text-inverse)]">{facility}</td>
-                  <td className="py-2 text-right font-mono text-[11.5px] text-[var(--color-brand-bright)]">{due}</td>
-                  <td className="hidden py-2 text-right text-[color:rgb(196_214_206_/_0.75)] sm:table-cell">{day}</td>
-                  <td className="py-2 text-right text-[color:rgb(196_214_206_/_0.75)]">{headroom}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <p className={cn("mt-3 text-[color:rgb(255_255_255_/_0.6)]", reveal(elapsed >= TIMELINE.followUp))}>
-            Want me to draft the lender notices? I'll queue them for your
-            signature in Studio.
-          </p>
+          <AgentSession />
         </div>
-      </div>
-
-      <div className="border-t border-[color:rgb(255_255_255_/_0.07)] px-4 py-2.5 font-mono text-[9.5px] uppercase tracking-[0.16em] text-[color:rgb(196_214_206_/_0.5)]">
-        Illustrative session · read-only tools
-      </div>
-    </div>
+      </SectionContainer>
+    </section>
   );
-};
+}
 
-const AgentsSection = () => {
+const AgentsSection = ({
+  variant = "compact",
+}: {
+  variant?: "compact" | "studio" | "credit-vaults";
+}) => {
   const shouldReduceMotion = useReducedMotion();
+
+  if (variant === "compact") return <BriefAgentsSection />;
 
   return (
     <section
@@ -263,9 +137,16 @@ const AgentsSection = () => {
 
       <SectionContainer className="ui-section-shell relative z-10">
         <SectionHeader
-          eyebrow="Agentic credit underwriting"
-          title={<>Agents draft. <span className="text-[color:rgb(255_255_255_/_0.65)]">Humans sign.</span></>}
-          description="Underwriters already work in Claude and Codex. Pareto brings facility data, and soon facility actions, into those workflows, so agents take on the back office while a named curator stays accountable for the credit."
+          eyebrow="Agentic Credit Operations"
+          title={
+            <>
+              Credit infrastructure{" "}
+              <span className="text-[color:rgb(255_255_255_/_0.65)]">
+                for the AI era.
+              </span>
+            </>
+          }
+          description="Bring AI agents, connected data and human expertise into one workflow – helping credit teams work more efficiently, make informed decisions and focus on what comes next."
           tone="dark"
         />
 
@@ -275,14 +156,16 @@ const AgentsSection = () => {
               <motion.li
                 key={step.name}
                 initial={shouldReduceMotion ? undefined : { opacity: 0, y: 16 }}
-                whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+                whileInView={
+                  shouldReduceMotion ? undefined : { opacity: 1, y: 0 }
+                }
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className={cn(
                   "flex flex-1 flex-col ui-radius-card border p-5 sm:p-6",
                   index === 0
                     ? "border-[color:rgb(114_244_201_/_0.28)] bg-[color:rgb(114_244_201_/_0.05)]"
-                    : "border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.025)]",
+                    : "border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.025)]"
                 )}
               >
                 <div className="flex items-start justify-between gap-4">
@@ -294,23 +177,33 @@ const AgentsSection = () => {
                       <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:rgb(255_255_255_/_0.45)]">
                         Step 0{index + 1}
                       </div>
-                      <h3 className="text-lg font-semibold tracking-tight">{step.name}</h3>
+                      <h3 className="text-lg font-semibold tracking-tight">
+                        {step.name}
+                      </h3>
                     </div>
                   </div>
                   <span
                     className={cn(
                       "shrink-0 rounded-full border px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.14em]",
-                      statusClass[step.statusTone],
+                      statusClass[step.statusTone]
                     )}
                   >
                     {step.status}
                   </span>
                 </div>
-                <p className="mt-4 text-sm leading-relaxed text-[color:rgb(255_255_255_/_0.68)]">{step.description}</p>
+                <p className="mt-4 text-sm leading-relaxed text-[color:rgb(255_255_255_/_0.68)]">
+                  {step.description}
+                </p>
                 <ul className="mt-auto hidden flex-wrap gap-x-5 gap-y-2 pt-4 sm:flex">
                   {step.points.map((point) => (
-                    <li key={point} className="flex items-center gap-2 text-[12.5px] text-[color:rgb(255_255_255_/_0.8)]">
-                      <Check size={13} className="text-[var(--color-brand-alt)]" />
+                    <li
+                      key={point}
+                      className="flex items-center gap-2 text-[12.5px] text-[color:rgb(255_255_255_/_0.8)]"
+                    >
+                      <Check
+                        size={13}
+                        className="text-[var(--color-brand-alt)]"
+                      />
                       {point}
                     </li>
                   ))}
@@ -332,7 +225,9 @@ const AgentsSection = () => {
                 variant="primary"
                 size="md"
                 className="shrink-0"
-                onClick={() => requestContact(`${MCP_PRODUCT_NAME} early access`)}
+                onClick={() =>
+                  requestContact(`${MCP_PRODUCT_NAME} early access`)
+                }
               >
                 Join early access
               </Button>

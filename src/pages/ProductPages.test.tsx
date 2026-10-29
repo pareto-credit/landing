@@ -1,0 +1,239 @@
+import { fireEvent, render, screen, within } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import ProductPage from "./ProductPage";
+
+vi.mock("../components/layout/Navbar", () => ({ default: () => <nav /> }));
+vi.mock("../components/layout/Footer", () => ({ default: () => <footer /> }));
+vi.mock("framer-motion", async (original) => ({
+  ...(await original<typeof import("framer-motion")>()),
+  useReducedMotion: () => true,
+  useInView: () => true,
+}));
+
+beforeEach(() => {
+  vi.stubGlobal(
+    "matchMedia",
+    vi.fn().mockImplementation((query: string) => ({
+      matches: true,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    }))
+  );
+  vi.spyOn(window, "scrollTo").mockImplementation(() => undefined);
+});
+afterEach(() => {
+  vi.unstubAllGlobals();
+  vi.restoreAllMocks();
+});
+
+describe("dedicated product pages", () => {
+  it("lets Studio visitors explore functions inside the mockup without scrolling the page", () => {
+    const { container } = render(<ProductPage id="studio" />);
+    expect(
+      screen.getByRole("heading", { level: 1, name: "Pareto Studio" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        level: 2,
+        name: "Every facility. One operating environment.",
+      })
+    ).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("link", { name: /^request access/i }));
+    expect(
+      screen.getByRole("combobox", { name: /interested in/i })
+    ).toHaveValue("Pareto Studio (Core)");
+
+    const tour = screen.getByRole("region", {
+      name: "Interactive Studio walkthrough",
+    });
+    const startingHash = window.location.hash;
+    vi.mocked(window.scrollTo).mockClear();
+    expect(within(tour).queryByRole("link")).not.toBeInTheDocument();
+    for (const label of [
+      "Facility structuring",
+      "Connected operations",
+      "Participant views",
+      "Reporting & visibility",
+    ]) {
+      const hotspot = within(tour).getByRole("button", {
+        name: `Explore ${label.toLowerCase()}`,
+      });
+      fireEvent.click(hotspot);
+      expect(hotspot).toHaveAttribute("aria-pressed", "true");
+      const preview = within(tour).getByRole("img", {
+        name: `${label} preview`,
+      });
+      expect(preview).toHaveAttribute(
+        "id",
+        hotspot.getAttribute("aria-controls")
+      );
+      expect(preview.querySelector("[inert]")).toBeInTheDocument();
+      expect(within(preview).queryByRole("button")).not.toBeInTheDocument();
+    }
+    fireEvent.click(
+      within(tour).getByRole("button", { name: "Workspace overview" })
+    );
+    expect(
+      within(tour).getByRole("img", { name: "Workspace overview preview" })
+    ).toBeInTheDocument();
+    expect(window.location.hash).toBe(startingHash);
+    expect(window.scrollTo).not.toHaveBeenCalled();
+    expect(
+      screen.queryByRole("tablist", { name: "Studio desks" })
+    ).not.toBeInTheDocument();
+    expect(
+      container.querySelectorAll(".studio-product-capabilities__grid > article")
+    ).toHaveLength(4);
+  });
+
+  it.each(["credit-vaults", "studio"] as const)(
+    "gives %s pricing, practical answers and a working local contact form",
+    (id) => {
+      const { container } = render(<ProductPage id={id} />);
+      expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
+      expect(container.querySelectorAll("video")).toHaveLength(0);
+      expect(container.querySelectorAll("#pricing")).toHaveLength(1);
+      expect(container.querySelectorAll("#agents")).toHaveLength(1);
+      expect(container.querySelectorAll("#contact")).toHaveLength(1);
+      expect(container.querySelectorAll("#questions details")).toHaveLength(6);
+      expect(container.querySelector("form")).toHaveAttribute(
+        "action",
+        "https://formspree.io/f/xkgjlnwg"
+      );
+      const select = screen.getByRole("combobox", { name: /interested in/i });
+      expect(select).toHaveValue(
+        id === "studio" ? "Pareto Studio (Core)" : "Borrowing"
+      );
+      fireEvent.click(
+        within(screen.getByTestId("plan-pro")).getByRole("button", {
+          name: /^talk to us/i,
+        })
+      );
+      expect(select).toHaveValue("Pro plan");
+      const ids = Array.from(container.querySelectorAll("[id]")).map(
+        (node) => node.id
+      );
+      expect(new Set(ids).size).toBe(ids.length);
+    }
+  );
+
+  it("replaces the complete facility configuration when a visitor chooses a template", () => {
+    const { container } = render(<ProductPage id="credit-vaults" />);
+    const group = screen.getByRole("group", {
+      name: "Facility templates",
+    });
+    const diagram = screen.getByRole("group", {
+      name: "Credit Vault configuration",
+    });
+    expect(diagram).toHaveAccessibleDescription(
+      /Prime brokerage.*Revolving facility.*NAV-based pricing.*DeFi adapters.*OTC desk.*Legal & compliance/i
+    );
+    expect(diagram).toHaveTextContent("Morpho · Aave · Pendle");
+    const credit = within(group).getByRole("button", {
+      name: "Working capital",
+    });
+    fireEvent.focus(credit);
+    expect(credit).toHaveAttribute("aria-pressed", "false");
+    fireEvent.click(credit);
+    expect(credit).toHaveAttribute("aria-pressed", "true");
+    expect(diagram).toHaveAccessibleDescription(
+      /Working capital.*Term facility.*Interest paid each cycle/i
+    );
+    expect(diagram).not.toHaveAccessibleDescription(
+      /Revolving facility|NAV-based pricing|OTC desk/i
+    );
+    expect(
+      within(group).getAllByRole("button", { pressed: true })
+    ).toHaveLength(1);
+    expect(
+      screen.queryByRole("group", { name: "Facility design options" })
+    ).not.toBeInTheDocument();
+    expect(
+      container.querySelectorAll(".product-scroll-highlight")
+    ).toHaveLength(1);
+    expect(
+      container.querySelector(".product-scroll-highlight")
+    ).toHaveTextContent(/^Different businesses/);
+  });
+
+  it("keeps the explanatory panel fixed while every template updates only the architecture", () => {
+    const { container } = render(<ProductPage id="credit-vaults" />);
+    const group = screen.getByRole("group", { name: "Facility templates" });
+    const diagram = screen.getByRole("group", {
+      name: "Credit Vault configuration",
+    });
+    const panel = container.querySelector(".cv-module-detail")!;
+    const explanation = panel.textContent;
+    for (const template of within(group).getAllByRole("button")) {
+      fireEvent.click(template);
+      expect(panel.textContent).toBe(explanation);
+      expect(diagram).toHaveAccessibleDescription(
+        new RegExp(
+          template.querySelector("span:nth-child(2)")!.textContent!,
+          "i"
+        )
+      );
+    }
+  });
+
+  it("gives Credit Vaults the same agent workflow as Studio with a working early-access inquiry", () => {
+    render(<ProductPage id="credit-vaults" />);
+    expect(screen.getByText("Agent-prepared actions")).toBeInTheDocument();
+    expect(screen.getByText("Upcoming")).toBeInTheDocument();
+    expect(screen.getByTestId("agent-session")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /join early access/i }));
+    expect(
+      screen.getByRole("combobox", { name: /interested in/i })
+    ).toHaveValue("Pareto MCP early access");
+  });
+
+  it("lets visitors customize individual modules and restore a template without changing the explanation", () => {
+    const { container } = render(<ProductPage id="credit-vaults" />);
+    const diagram = screen.getByRole("group", { name: "Credit Vault configuration" });
+    const templates = screen.getByRole("group", { name: "Facility templates" });
+    const explanation = container.querySelector(".cv-module-detail")!.textContent;
+    expect(within(diagram).getAllByRole("checkbox")).toHaveLength(14);
+    const otc = within(diagram).getByRole("checkbox", { name: "OTC desk" });
+    const tranches = within(diagram).getByRole("checkbox", { name: "Senior / junior" });
+
+    expect(otc).toBeChecked();
+    expect(otc).toHaveAccessibleDescription("Execution & settlement integration");
+    expect(tranches).not.toBeChecked();
+    fireEvent.click(otc);
+    expect(otc).not.toBeChecked();
+    expect(diagram).toHaveAccessibleDescription(/Custom configuration/);
+    expect(diagram).not.toHaveAccessibleDescription(/OTC desk/);
+    expect(within(templates).queryAllByRole("button", { pressed: true })).toHaveLength(0);
+    fireEvent.click(tranches);
+    expect(tranches).toBeChecked();
+    expect(diagram).toHaveAccessibleDescription(/Senior \/ junior/);
+    expect(container.querySelector(".cv-module-detail")!.textContent).toBe(explanation);
+
+    fireEvent.click(within(templates).getByRole("button", { name: "Prime brokerage" }));
+    expect(otc).toBeChecked();
+    expect(tranches).not.toBeChecked();
+    expect(diagram).toHaveAccessibleDescription(/Prime brokerage/);
+    expect(diagram).not.toHaveAccessibleDescription(/Custom configuration/);
+  });
+
+  it("supports Space and Enter on a focused module without losing keyboard focus", () => {
+    render(<ProductPage id="credit-vaults" />);
+    const otc = screen.getByRole("checkbox", { name: "OTC desk" });
+    otc.focus();
+    fireEvent.keyDown(otc, { key: " " });
+    expect(otc).not.toBeChecked();
+    expect(otc).toHaveFocus();
+    fireEvent.keyDown(otc, { key: " ", repeat: true });
+    expect(otc).not.toBeChecked();
+    fireEvent.keyDown(otc, { key: "Enter" });
+    expect(otc).toBeChecked();
+    expect(otc).toHaveFocus();
+    fireEvent.keyDown(otc, { key: "Tab" });
+    expect(otc).toBeChecked();
+  });
+});

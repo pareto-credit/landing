@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { ChevronRight } from "lucide-react";
 import { CONTACT_INTERESTS, type ContactInterest } from "../../data/brand";
 import {
@@ -17,9 +17,19 @@ const isContactInterest = (value: unknown): value is ContactInterest =>
   typeof value === "string" &&
   (CONTACT_INTERESTS as readonly string[]).includes(value);
 
-const ContactSection = () => {
+interface ContactSectionProps {
+  defaultInterest?: ContactInterest;
+  title?: ReactNode;
+  description?: string;
+}
+
+const ContactSection = ({
+  defaultInterest = CONTACT_INTERESTS[0],
+  title,
+  description,
+}: ContactSectionProps) => {
   const [interest, setInterest] = useState<ContactInterest>(
-    () => consumePendingContactInterest() ?? CONTACT_INTERESTS[0],
+    () => consumePendingContactInterest() ?? defaultInterest
   );
 
   useEffect(() => {
@@ -29,7 +39,8 @@ const ContactSection = () => {
     };
 
     window.addEventListener(CONTACT_INTEREST_EVENT, handleInterest);
-    return () => window.removeEventListener(CONTACT_INTEREST_EVENT, handleInterest);
+    return () =>
+      window.removeEventListener(CONTACT_INTEREST_EVENT, handleInterest);
   }, []);
 
   return (
@@ -43,8 +54,19 @@ const ContactSection = () => {
         <SectionHeader
           variant="centered"
           eyebrow="GET IN TOUCH"
-          title={<>The infrastructure is ready.<br /><span className="text-[var(--color-text-muted)]">Are you?</span></>}
-          description="Tell us whether you're launching a facility, allocating capital or connecting your agents, and we'll help you pick the right plan and setup."
+          title={
+            title ?? (
+              <>
+                The infrastructure is ready.
+                <br />
+                <span className="text-[var(--color-text-muted)]">Are you?</span>
+              </>
+            )
+          }
+          description={
+            description ??
+            "Tell us whether you're launching a facility, allocating capital or connecting your agents, and we'll help you pick the right plan and setup."
+          }
         />
 
         <div className="ui-radius-panel mx-auto max-w-5xl border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-6 shadow-[0_20px_42px_rgb(14_24_19_/_0.08)] md:p-8 lg:p-9">
@@ -57,7 +79,10 @@ const ContactSection = () => {
               data-testid="contact-primary-grid"
               className="grid gap-x-6 gap-y-5 lg:grid-cols-4"
             >
-              <div data-testid="contact-full-name-field" className="lg:col-span-2">
+              <div
+                data-testid="contact-full-name-field"
+                className="lg:col-span-2"
+              >
                 <label
                   htmlFor="contact-full-name"
                   className={fieldLabelClassName}
@@ -68,7 +93,7 @@ const ContactSection = () => {
                   id="contact-full-name"
                   type="text"
                   name="fullName"
-                  placeholder="Alex Morgan"
+                  placeholder="Ray Dalio"
                   required
                   className={fieldInputClassName}
                 />

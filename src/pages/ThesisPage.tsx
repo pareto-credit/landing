@@ -1,47 +1,40 @@
-import ThesisIndex from "../components/sections/thesis/ThesisIndex";
+import { ArrowDown } from "lucide-react";
 import ThesisSections from "../components/sections/thesis/ThesisSections";
 import "../components/sections/thesis/thesis.css";
 import Footer from "../components/layout/Footer";
 import Navbar from "../components/layout/Navbar";
 import { SectionContainer } from "../components/ui/Section";
-import { useProductsData } from "../hooks/useProductsData";
+import { PageLink } from "../components/ui/PageLink";
+import ThesisHeroBackground from "../components/sections/thesis/ThesisHeroBackground";
 
 const ThesisPage = () => {
-  const { metrics, isLoading } = useProductsData();
-
   return (
     <div className="min-h-screen overflow-x-clip bg-[var(--color-bg-page)] font-sans text-[var(--color-text-inverse)]">
       <Navbar />
       <main className="thesis-main">
         <section
           id="hero"
-          className="relative overflow-hidden bg-[var(--color-bg-light-alt)] text-[var(--color-text-primary)]"
+          className="thesis-hero-shell"
+          aria-labelledby="hero-title"
         >
           <SectionContainer className="thesis-hero">
-            <div className="thesis-hero__eyebrow">Thesis</div>
-            <div className="thesis-hero__layout">
-              <h1 id="hero-title" tabIndex={-1}>
-                Credit is moving onchain.
-                <span>Underwriting decides how fast.</span>
-              </h1>
-              <div className="thesis-hero__intro">
-                <p>
-                  Private credit still runs on PDFs, email threads and spreadsheets.
-                  Onchain rails improve settlement and transparency, but underwriting
-                  needs someone to diligence the borrower, set the terms and stand
-                  behind the facility. Pareto is built around that job.
-                </p>
-              </div>
-            </div>
-            <ThesisIndex />
+            <h1 id="hero-title" tabIndex={-1}>Credit is moving onchain.</h1>
+            <PageLink
+              to="/thesis"
+              hash="structured-credit"
+              className="thesis-hero__read"
+              onClick={(event) => {
+                if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                window.requestAnimationFrame(() => document.getElementById("structured-credit-title")?.focus({ preventScroll: true }));
+              }}
+            >
+              Read the thesis<ArrowDown size={18} aria-hidden="true" />
+            </PageLink>
           </SectionContainer>
+          <ThesisHeroBackground />
         </section>
 
-        <ThesisSections
-          creditServiced={metrics.creditExtended}
-          activeLoans={metrics.outstandingLoans}
-          isLoading={isLoading}
-        />
+        <ThesisSections />
       </main>
       <Footer />
     </div>

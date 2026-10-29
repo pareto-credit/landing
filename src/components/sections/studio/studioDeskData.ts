@@ -1,232 +1,302 @@
 export type PersonaId = "underwrite" | "borrow" | "allocate";
-
-export interface DeskKpi {
-  label: string;
-  value: string;
-  note?: string;
-}
-
-export interface DeskActivity {
-  time: string;
-  label: string;
-  kind: "ok" | "agent" | "doc" | "pending";
-}
-
-export type DeskSideCard =
-  | { kind: "mix"; title: string; note: string; items: Array<[label: string, share: number]> }
-  | {
-      kind: "ltv";
-      title: string;
-      note: string;
-      current: number;
-      marginCall: number;
-      liquidation: number;
-    };
-
-export type DeskList =
-  | {
-      kind: "pipeline";
-      title: string;
-      note: string;
-      stages: string[];
-      rows: Array<{ name: string; meta: string; stage: number }>;
-    }
-  | {
-      kind: "table";
-      title: string;
-      note: string;
-      columns: [string, string, string, string];
-      rows: Array<[string, string, string, string]>;
-    };
-
 export interface PersonaDesk {
   id: PersonaId;
   tab: string;
   audience: string;
   crumb: string;
-  activeNav: string;
-  hero: { label: string; value: string; delta: string; series: number[] };
-  side: DeskSideCard;
-  kpis: [DeskKpi, DeskKpi, DeskKpi, DeskKpi];
-  list: DeskList;
-  activity: DeskActivity[];
-  /** Events appended to the tape while the desk is on screen. */
-  liveFeed: Array<Pick<DeskActivity, "label" | "kind">>;
 }
-
-/** Illustrative figures only; they do not describe any real facility. */
 export const personaDesks: PersonaDesk[] = [
   {
     id: "underwrite",
-    tab: "Underwrite",
-    audience: "Curators & underwriters",
+    tab: "Underwriters",
+    audience: "Review requests & oversee facilities",
     crumb: "Curator desk",
-    activeNav: "Overview",
-    hero: {
-      label: "Outstanding · all facilities",
-      value: "$48.2M",
-      delta: "+$2.1M · 30d",
-      series: [31, 32, 32.5, 34, 33.8, 36, 37.2, 38, 39.5, 41, 40.6, 43, 44.1, 46, 48.2],
-    },
-    side: {
-      kind: "mix",
-      title: "Book mix · by structure",
-      note: "6 facilities",
-      items: [
-        ["Term", 46],
-        ["Revolving", 22],
-        ["Overcollateralized", 18],
-        ["Receivables", 14],
-      ],
-    },
-    kpis: [
-      { label: "Facilities", value: "6", note: "+1" },
-      { label: "Next cycle", value: "4d", note: "Nov 01" },
-      { label: "Weighted APR", value: "9.4%", note: "+0.2" },
-      { label: "Covenant breaches", value: "0", note: "clear" },
-    ],
-    list: {
-      kind: "pipeline",
-      title: "Facility pipeline",
-      note: "4 in pipeline",
-      stages: ["Draft", "Diligence", "Legal", "Live"],
-      rows: [
-        { name: "Borrower A", meta: "Term · 30d cycles", stage: 3 },
-        { name: "Borrower B", meta: "Revolving · $15M limit", stage: 2 },
-        { name: "Borrower C", meta: "Receivables · 45d", stage: 1 },
-        { name: "Borrower D", meta: "Overcollateralized · BTC", stage: 0 },
-      ],
-    },
-    activity: [
-      { time: "09:14", label: "Cycle 14 closed · interest settled", kind: "ok" },
-      { time: "08:52", label: "Lender onboarded · KYB passed", kind: "ok" },
-      { time: "08:30", label: "Borrowing base refreshed · within limits", kind: "ok" },
-      { time: "08:02", label: "Agent draft · lender report to sign", kind: "agent" },
-      { time: "07:41", label: "Margin call cleared · LTV 58%", kind: "ok" },
-    ],
-    liveFeed: [
-      { label: "Interest received · cycle 15", kind: "ok" },
-      { label: "Agent draft · borrowing-base report", kind: "agent" },
-      { label: "Covenant checks passed · 6/6", kind: "ok" },
-      { label: "Lender approved · KYB passed", kind: "doc" },
-      { label: "LTV refreshed · 57%", kind: "ok" },
-    ],
   },
   {
     id: "borrow",
-    tab: "Borrow",
-    audience: "Borrowers & originators",
+    tab: "Borrowers",
+    audience: "Manage funding & repayments",
     crumb: "Borrower desk",
-    activeNav: "Facilities",
-    hero: {
-      label: "Drawn · revolving line",
-      value: "$18.4M",
-      delta: "of $25.0M limit",
-      series: [8, 9, 11, 10.5, 12, 14, 13.2, 15, 16.1, 15.5, 17, 18.4],
-    },
-    side: {
-      kind: "ltv",
-      title: "Collateral · LTV",
-      note: "BTC · custodial",
-      current: 58,
-      marginCall: 65,
-      liquidation: 75,
-    },
-    kpis: [
-      { label: "Available", value: "$6.6M", note: "to draw" },
-      { label: "Rate", value: "8.75%", note: "APR" },
-      { label: "Next interest", value: "$132k", note: "in 6d" },
-      { label: "Cycle", value: "30d", note: "#14" },
-    ],
-    list: {
-      kind: "table",
-      title: "Upcoming payments",
-      note: "Next 90 days",
-      columns: ["Date", "Type", "Amount", "Status"],
-      rows: [
-        ["Nov 01", "Interest", "$132,400", "Scheduled"],
-        ["Dec 01", "Interest", "$134,100", "Scheduled"],
-        ["Dec 15", "Principal", "$5,000,000", "Planned"],
-        ["Jan 01", "Interest", "$97,900", "Scheduled"],
-      ],
-    },
-    activity: [
-      { time: "10:02", label: "Draw confirmed · $2.0M", kind: "ok" },
-      { time: "09:40", label: "Collateral topped up · 12 BTC", kind: "ok" },
-      { time: "09:11", label: "Interest paid · cycle 13", kind: "ok" },
-      { time: "08:25", label: "Q3 financials uploaded", kind: "doc" },
-      { time: "07:58", label: "Lender capacity added · $3.0M", kind: "ok" },
-    ],
-    liveFeed: [
-      { label: "Draw request · $500k", kind: "pending" },
-      { label: "Collateral price update · LTV 57%", kind: "ok" },
-      { label: "Repayment scheduled · $1.0M", kind: "doc" },
-      { label: "Lender capacity added · $1.5M", kind: "ok" },
-    ],
   },
   {
     id: "allocate",
-    tab: "Allocate",
-    audience: "Lenders & allocators",
+    tab: "Lenders",
+    audience: "Follow positions & activity",
     crumb: "Lender desk",
-    activeNav: "Performance",
-    hero: {
-      label: "Your positions",
-      value: "$2.50M",
-      delta: "+$19.6k earned · 30d",
-      series: [2.0, 2.05, 2.1, 2.1, 2.2, 2.25, 2.3, 2.32, 2.4, 2.43, 2.47, 2.5],
-    },
-    side: {
-      kind: "mix",
-      title: "Allocation · by structure",
-      note: "4 facilities",
-      items: [
-        ["Term", 45],
-        ["Revolving", 25],
-        ["Overcollateralized", 20],
-        ["Receivables", 10],
-      ],
-    },
-    kpis: [
-      { label: "Net APY", value: "9.1%", note: "+0.3" },
-      { label: "Facilities", value: "4", note: "active" },
-      { label: "Next cycle", value: "4d", note: "Nov 01" },
-      { label: "Withdrawal", value: "$250k", note: "queued" },
-    ],
-    list: {
-      kind: "table",
-      title: "Open facilities",
-      note: "Permissioned",
-      columns: ["Facility", "Structure", "APY", "Capacity"],
-      rows: [
-        ["Trade Finance II", "Receivables · 45d", "10.2%", "$3.1M"],
-        ["Market Maker Line", "Revolving", "9.4%", "$5.0M"],
-        ["BTC Credit I", "Overcollateralized", "7.8%", "$1.2M"],
-        ["Working Capital III", "Term · 30d", "8.9%", "Full"],
-      ],
-    },
-    activity: [
-      { time: "09:30", label: "Interest received · $6,480", kind: "ok" },
-      { time: "09:05", label: "Monthly lender report published", kind: "doc" },
-      { time: "08:44", label: "Deposit confirmed · $500k", kind: "ok" },
-      { time: "08:10", label: "Withdrawal queued · next cycle", kind: "pending" },
-      { time: "07:52", label: "Covenant checks passed", kind: "ok" },
-    ],
-    liveFeed: [
-      { label: "Interest accrued · $214", kind: "ok" },
-      { label: "Cycle 15 rates published", kind: "doc" },
-      { label: "Deposit window open · 3 facilities", kind: "pending" },
-      { label: "Agent summary · weekly exposure", kind: "agent" },
-    ],
   },
 ];
 
-export const deskNavigation: Array<{ group: string; items: Array<{ label: string; badge?: string }> }> = [
-  { group: "Analytics", items: [{ label: "Overview" }, { label: "Performance" }] },
-  {
-    group: "Management",
-    items: [{ label: "Facilities" }, { label: "Lenders" }, { label: "Cycles" }, { label: "Documents" }],
+export interface ActivityRow {
+  id: string;
+  date: string;
+  vault: string;
+  type: string;
+  amount: string;
+  hash?: string;
+}
+export interface PreviewEvent {
+  title: string;
+  detail: string;
+  kind: "request" | "transaction" | "position" | "report" | "withdrawal";
+  row?: ActivityRow;
+  outstandingDelta?: number;
+  earningsDelta?: number;
+}
+export interface ProductScenario {
+  title: string;
+  events: PreviewEvent[];
+}
+
+export const borrowerFacility = {
+  capacity: 300_000_000,
+  openingOutstanding: 248_600_000,
+};
+
+/** All amounts and events are illustrative. The Studio layout follows the screen supplied on 27 October 2026. */
+export const productScenarios: Record<PersonaId, ProductScenario> = {
+  underwrite: {
+    title: "Overview",
+    events: [
+      {
+        title: "New withdrawal request",
+        detail: "Aster USDC – 12,500,000 USDC awaiting review.",
+        kind: "request",
+        row: {
+          id: "uw-request-1",
+          date: "Just now",
+          vault: "Aster USDC",
+          type: "Withdraw",
+          amount: "12,500,000 USDC",
+        },
+      },
+      {
+        title: "New redemption request",
+        detail: "Meridian USDC – a new request has joined your queue.",
+        kind: "request",
+        row: {
+          id: "uw-request-2",
+          date: "Just now",
+          vault: "Meridian USDC",
+          type: "Redeem",
+          amount: "8,500,000 USDC",
+        },
+      },
+      {
+        title: "New withdrawal request",
+        detail: "Harbour USDT – 16,000,000 USDT awaiting review.",
+        kind: "request",
+        row: {
+          id: "uw-request-3",
+          date: "Just now",
+          vault: "Harbour USDT",
+          type: "Withdraw",
+          amount: "16,000,000 USDT",
+        },
+      },
+    ],
   },
-  { group: "Agents", items: [{ label: "Inbox", badge: "2" }, { label: "Connections" }] },
-  { group: "Admin", items: [{ label: "Settings" }] },
+  borrow: {
+    title: "Overview",
+    events: [
+      {
+        title: "Drawdown recorded",
+        detail:
+          "Aster USDC – 12,500,000 USDC added to your transaction history.",
+        kind: "transaction",
+        outstandingDelta: 12_500_000,
+        row: {
+          id: "br-transaction-1",
+          date: "Just now",
+          vault: "Aster USDC",
+          type: "Drawdown",
+          amount: "12,500,000 USDC",
+          hash: "0x4a91…c76e",
+        },
+      },
+      {
+        title: "Interest payment recorded",
+        detail: "Aster USDC – 1,672,240 USDC payment recorded.",
+        kind: "transaction",
+        row: {
+          id: "br-transaction-2",
+          date: "Just now",
+          vault: "Aster USDC",
+          type: "Interest payment",
+          amount: "1,672,240 USDC",
+          hash: "0x8f32…d941",
+        },
+      },
+      {
+        title: "Repayment recorded",
+        detail: "Aster USDC – 6,250,000 USDC principal repayment recorded.",
+        kind: "transaction",
+        outstandingDelta: -6_250_000,
+        row: {
+          id: "br-transaction-3",
+          date: "Just now",
+          vault: "Aster USDC",
+          type: "Repayment",
+          amount: "6,250,000 USDC",
+          hash: "0x6c74…ab83",
+        },
+      },
+    ],
+  },
+  allocate: {
+    title: "Portfolio",
+    events: [
+      {
+        title: "Borrower report available",
+        detail: "Aster USDC – your October borrower report is ready to review.",
+        kind: "report",
+      },
+      {
+        title: "Earnings updated",
+        detail:
+          "Aster USDC – 2,180 USDC in accrued interest added to your portfolio value.",
+        kind: "position",
+        earningsDelta: 2180,
+      },
+      {
+        title: "Withdrawal available",
+        detail:
+          "Meridian USDC – 25,000 USDC is ready to claim from your settled request.",
+        kind: "withdrawal",
+      },
+    ],
+  },
+};
+
+export const lenderPositions = [
+  {
+    name: "Aster USDC",
+    category: "Prime brokerage",
+    asset: "USDC",
+    apy: "8.08%",
+    balance: 15508108.19,
+    share: 50,
+  },
+  {
+    name: "Meridian USDC",
+    category: "Institutional credit",
+    asset: "USDC",
+    apy: "7.64%",
+    balance: 9925189.24,
+    share: 32,
+  },
+  {
+    name: "Harbour USDT",
+    category: "Working capital",
+    asset: "USDT",
+    apy: "7.42%",
+    balance: 5582918.95,
+    share: 18,
+  },
+];
+
+export const initialTransactions: ActivityRow[] = [
+  {
+    id: "tx-base-1",
+    date: "Today",
+    vault: "Aster USDC",
+    type: "Deposit",
+    amount: "24,159,360 USDC",
+    hash: "0x2891…d3f2",
+  },
+  {
+    id: "tx-base-2",
+    date: "Today",
+    vault: "Meridian USDC",
+    type: "Transfer out",
+    amount: "18,420,720 USDC",
+    hash: "0xa432…fb27",
+  },
+  {
+    id: "tx-base-3",
+    date: "Yesterday",
+    vault: "Aster USDC",
+    type: "Deposit",
+    amount: "7,485,000 USDC",
+    hash: "0x714f…e16a",
+  },
+  {
+    id: "tx-base-4",
+    date: "Yesterday",
+    vault: "Harbour USDT",
+    type: "Transfer in",
+    amount: "9,618,000 USDT",
+    hash: "0x90c8…af19",
+  },
+];
+export const initialRequests: ActivityRow[] = [
+  {
+    id: "req-base-1",
+    date: "Today",
+    vault: "Aster USDC",
+    type: "Withdraw",
+    amount: "10,528,600 USDC",
+  },
+  {
+    id: "req-base-2",
+    date: "Yesterday",
+    vault: "Meridian USDC",
+    type: "Redeem",
+    amount: "8,851,300 USDC",
+  },
+  {
+    id: "req-base-3",
+    date: "Yesterday",
+    vault: "Aster USDC",
+    type: "Withdraw",
+    amount: "7,642,500 USDC",
+  },
+  {
+    id: "req-base-4",
+    date: "Yesterday",
+    vault: "Harbour USDT",
+    type: "Redeem",
+    amount: "5,189,000 USDT",
+  },
+];
+export const previewVaults = [
+  {
+    name: "Aster USDC",
+    category: "Prime brokerage",
+    status: "Running",
+    apr: "8.08%",
+    tvl: borrowerFacility.openingOutstanding,
+    duration: "31.5d",
+    progress: 0.72,
+    note: "Ending in 5d 18h",
+  },
+  {
+    name: "Meridian USDC",
+    category: "Institutional credit",
+    status: "Running",
+    apr: "7.64%",
+    tvl: 176_400_000,
+    duration: "30d",
+    progress: 0.46,
+    note: "Ending in 16d 4h",
+  },
+  {
+    name: "Harbour USDT",
+    category: "Working capital",
+    status: "Waiting",
+    apr: "8.35%",
+    tvl: 125_000_000,
+    duration: "30d",
+    progress: 0,
+    note: "Ready to start",
+  },
+  {
+    name: "Cedar USDC",
+    category: "Term financing",
+    status: "Finished",
+    apr: "7.42%",
+    tvl: 0,
+    duration: "20d",
+    progress: 1,
+    note: "Cycle completed",
+  },
 ];

@@ -1,6 +1,9 @@
 import { act, render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { CONTACT_INTEREST_EVENT, setPendingContactInterest } from "../../lib/siteNavigation";
+import {
+  CONTACT_INTEREST_EVENT,
+  setPendingContactInterest,
+} from "../../lib/siteNavigation";
 import ContactSection from "./ContactSection";
 
 describe("ContactSection", () => {
@@ -18,9 +21,7 @@ describe("ContactSection", () => {
     render(<ContactSection />);
 
     expect(screen.getByText("GET IN TOUCH")).toBeInTheDocument();
-    expect(
-      screen.getByLabelText(/how can we help you\?/i),
-    ).toBeInTheDocument();
+    expect(screen.getByLabelText(/how can we help you\?/i)).toBeInTheDocument();
 
     const interestedInSelect = screen.getByRole("combobox", {
       name: /interested in/i,
@@ -29,13 +30,13 @@ describe("ContactSection", () => {
     expect(interestedInSelect).toHaveAttribute("name", "interestedIn");
     expect(screen.getByRole("option", { name: "Lending" })).toBeInTheDocument();
     expect(
-      screen.getByRole("option", { name: "Borrowing" }),
+      screen.getByRole("option", { name: "Borrowing" })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("option", { name: "Underwriting" }),
+      screen.getByRole("option", { name: "Underwriting" })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("option", { name: "Integration" }),
+      screen.getByRole("option", { name: "Integration" })
     ).toBeInTheDocument();
 
     expect(screen.queryByText("Role")).not.toBeInTheDocument();
@@ -47,23 +48,42 @@ describe("ContactSection", () => {
 
     expect(screen.getByLabelText(/tg handle/i)).toHaveAttribute(
       "name",
-      "tgHandle",
+      "tgHandle"
     );
     expect(screen.getByLabelText(/tg handle/i)).not.toBeRequired();
     expect(screen.getByTestId("contact-primary-grid")).toHaveClass(
-      "lg:grid-cols-4",
+      "lg:grid-cols-4"
     );
     expect(screen.getByTestId("contact-full-name-field")).toHaveClass(
-      "lg:col-span-2",
+      "lg:col-span-2"
     );
   });
 });
 
 describe("ContactSection interest pre-selection", () => {
+  it("uses the product page default and lets a plan CTA select a different interest", () => {
+    render(<ContactSection defaultInterest="Borrowing" />);
+    expect(
+      screen.getByRole("combobox", { name: /interested in/i })
+    ).toHaveValue("Borrowing");
+    act(() =>
+      window.dispatchEvent(
+        new CustomEvent(CONTACT_INTEREST_EVENT, { detail: "Pro plan" })
+      )
+    );
+    expect(
+      screen.getByRole("combobox", { name: /interested in/i })
+    ).toHaveValue("Pro plan");
+  });
   it("lists the plan and MCP interests", () => {
     render(<ContactSection />);
 
-    for (const option of ["Pareto Studio (Core)", "Pro plan", "White-Glove by NorthBridge", "Pareto MCP early access"]) {
+    for (const option of [
+      "Pareto Studio (Core)",
+      "Pro plan",
+      "White-Glove by NorthBridge",
+      "Pareto MCP early access",
+    ]) {
       expect(screen.getByRole("option", { name: option })).toBeInTheDocument();
     }
   });
@@ -72,26 +92,36 @@ describe("ContactSection interest pre-selection", () => {
     render(<ContactSection />);
 
     act(() => {
-      window.dispatchEvent(new CustomEvent(CONTACT_INTEREST_EVENT, { detail: "Pro plan" }));
+      window.dispatchEvent(
+        new CustomEvent(CONTACT_INTEREST_EVENT, { detail: "Pro plan" })
+      );
     });
 
-    expect(screen.getByRole("combobox", { name: /interested in/i })).toHaveValue("Pro plan");
+    expect(
+      screen.getByRole("combobox", { name: /interested in/i })
+    ).toHaveValue("Pro plan");
   });
 
   it("ignores unknown interests", () => {
     render(<ContactSection />);
 
     act(() => {
-      window.dispatchEvent(new CustomEvent(CONTACT_INTEREST_EVENT, { detail: "Something else" }));
+      window.dispatchEvent(
+        new CustomEvent(CONTACT_INTEREST_EVENT, { detail: "Something else" })
+      );
     });
 
-    expect(screen.getByRole("combobox", { name: /interested in/i })).toHaveValue("Pareto Studio (Core)");
+    expect(
+      screen.getByRole("combobox", { name: /interested in/i })
+    ).toHaveValue("Pareto Studio (Core)");
   });
 
   it("uses an interest chosen on another page", () => {
     setPendingContactInterest("Borrowing");
     render(<ContactSection />);
 
-    expect(screen.getByRole("combobox", { name: /interested in/i })).toHaveValue("Borrowing");
+    expect(
+      screen.getByRole("combobox", { name: /interested in/i })
+    ).toHaveValue("Borrowing");
   });
 });

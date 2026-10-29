@@ -37,7 +37,9 @@ describe("generateAgentDiscovery", () => {
     expect(robotsTxt).toContain("User-agent: GPTBot");
     expect(robotsTxt).toContain("User-agent: Claude-Web");
     expect(robotsTxt).toContain("User-agent: Google-Extended");
-    expect(robotsTxt).toContain("Content-Signal: ai-train=no, search=yes, ai-input=yes");
+    expect(robotsTxt).toContain(
+      "Content-Signal: ai-train=no, search=yes, ai-input=yes"
+    );
     expect(robotsTxt).toContain("Sitemap: https://example.com/sitemap.xml");
   });
 
@@ -53,8 +55,18 @@ describe("generateAgentDiscovery", () => {
     const sitemap = readFileSync(join(publicDir, "sitemap.xml"), "utf8");
 
     expect(sitemap).toContain("<loc>https://example.com/</loc>");
+    expect(sitemap).toContain("<loc>https://example.com/credit-vaults</loc>");
+    expect(sitemap).toContain("<loc>https://example.com/studio</loc>");
+    expect(sitemap).toContain("<loc>https://example.com/data</loc>");
+    expect(sitemap).toContain("<loc>https://example.com/originators</loc>");
+    expect(sitemap).toContain(
+      "<loc>https://example.com/capital-providers</loc>"
+    );
+    expect(sitemap).not.toContain("/ecosystem");
     expect(sitemap).toContain("<loc>https://example.com/privacy-policy</loc>");
-    expect(sitemap).toContain("<loc>https://example.com/terms-of-service</loc>");
+    expect(sitemap).toContain(
+      "<loc>https://example.com/terms-of-service</loc>"
+    );
     expect(sitemap).toContain("<lastmod>2026-04-28</lastmod>");
   });
 
@@ -67,25 +79,38 @@ describe("generateAgentDiscovery", () => {
       generatedAt: new Date("2026-04-28T00:00:00.000Z"),
     });
 
-    const apiCatalog = JSON.parse(readFileSync(join(publicDir, ".well-known/api-catalog"), "utf8"));
-    const openApi = JSON.parse(readFileSync(join(publicDir, "openapi.json"), "utf8"));
+    const apiCatalog = JSON.parse(
+      readFileSync(join(publicDir, ".well-known/api-catalog"), "utf8")
+    );
+    const openApi = JSON.parse(
+      readFileSync(join(publicDir, "openapi.json"), "utf8")
+    );
     const skillPath = join(
       publicDir,
-      ".well-known/agent-skills/pareto-agent-discovery/SKILL.md",
+      ".well-known/agent-skills/pareto-agent-discovery/SKILL.md"
     );
     const skillsIndex = JSON.parse(
-      readFileSync(join(publicDir, ".well-known/agent-skills/index.json"), "utf8"),
+      readFileSync(
+        join(publicDir, ".well-known/agent-skills/index.json"),
+        "utf8"
+      )
     );
     const skillDigest = createHash("sha256")
       .update(readFileSync(skillPath, "utf8"))
       .digest("hex");
 
     expect(apiCatalog.linkset[0].anchor).toBe("https://api.pareto.credit/");
-    expect(apiCatalog.linkset[0]["service-desc"][0].href).toBe("https://example.com/openapi.json");
+    expect(apiCatalog.linkset[0]["service-desc"][0].href).toBe(
+      "https://example.com/openapi.json"
+    );
     expect(openApi.openapi).toBe("3.1.0");
     expect(openApi.paths["/vaults"]).toBeDefined();
-    expect(existsSync(join(publicDir, ".well-known/mcp/server-card.json"))).toBe(true);
-    expect(skillsIndex.$schema).toBe("https://schemas.agentskills.io/discovery/0.2.0/schema.json");
+    expect(
+      existsSync(join(publicDir, ".well-known/mcp/server-card.json"))
+    ).toBe(true);
+    expect(skillsIndex.$schema).toBe(
+      "https://schemas.agentskills.io/discovery/0.2.0/schema.json"
+    );
     expect(skillsIndex.skills[0].digest).toBe(`sha256:${skillDigest}`);
   });
 });

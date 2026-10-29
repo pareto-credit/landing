@@ -1,8 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
-import PersonaPage from "../pages/PersonaPage";
-
-const OriginatorsPage = () => <PersonaPage id="originators" />;
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import { resolveLegacyAudienceHash } from "../lib/audienceNavigation";
 
 export const Route = createFileRoute("/ecosystem_/originators")({
-  component: OriginatorsPage,
+  beforeLoad: ({ location }) => {
+    throw redirect({ to: "/originators", hash: resolveLegacyAudienceHash(location.hash), search: location.search, replace: true });
+  },
 });

@@ -1,0 +1,132 @@
+.audience-art {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  isolation: isolate;
+}
+.audience-art svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.audience-art figcaption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: -22px;
+  color: #677c58;
+  font: 10px/1.6 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.audience-art__caption-rule {
+  width: 24px;
+  height: 1px;
+  background: #9eb586;
+}
+.audience-art__sheet {
+  animation: audience-sheet-assemble 9.6s cubic-bezier(0.22, 1, 0.36, 1)
+    infinite;
+  animation-delay: var(--delay);
+}
+.audience-art__satellite {
+  animation: audience-satellite-drift 8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation-delay: var(--delay);
+}
+.audience-art__hub {
+  animation: audience-hub-lift 8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+.audience-art__packet {
+  animation: audience-network-flow 5.6s cubic-bezier(0.35, 0, 0.65, 1) infinite;
+  animation-delay: var(--delay);
+}
+.audience-art
+  :is(
+    .audience-art__sheet,
+    .audience-art__satellite,
+    .audience-art__hub,
+    .audience-art__packet
+  ) {
+  animation-play-state: paused;
+}
+.audience-art[data-running="true"]
+  :is(
+    .audience-art__sheet,
+    .audience-art__satellite,
+    .audience-art__hub,
+    .audience-art__packet
+  ) {
+  animation-play-state: running;
+}
+@keyframes audience-sheet-assemble {
+  0%,
+  15%,
+  100% {
+    transform: translate(0, 0);
+  }
+  48%,
+  62% {
+    transform: translate(var(--drift), var(--lift));
+  }
+}
+@keyframes audience-satellite-drift {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  48% {
+    transform: translateY(-12px);
+  }
+}
+@keyframes audience-hub-lift {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  48% {
+    transform: translateY(-7px);
+  }
+}
+@keyframes audience-network-flow {
+  0%,
+  8% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  16% {
+    opacity: 0.85;
+  }
+  74% {
+    opacity: 0.85;
+  }
+  84%,
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy));
+  }
+}
+@media (max-width: 1023px) {
+  .audience-art {
+    max-width: 520px;
+    margin-inline: auto;
+  }
+}
+@media (max-width: 767px) {
+  .audience-art {
+    max-width: 400px;
+  }
+  .audience-art figcaption {
+    margin-top: -16px;
+    font-size: 9px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .audience-art * {
+    animation: none !important;
+  }
+  .audience-art__packet {
+    opacity: 0;
+  }
+}

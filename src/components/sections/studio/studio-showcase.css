@@ -1,0 +1,68 @@
+.studio-showcase {
+  background: radial-gradient(
+      ellipse at 12% 4%,
+      rgb(50 154 140 / 0.13),
+      transparent 45%
+    ),
+    radial-gradient(ellipse at 94% 28%, rgb(73 130 196 / 0.12), transparent 40%),
+    #0c271e;
+}
+.studio-showcase[data-ambient-running="false"] .ui-text-shimmer {
+  animation-play-state: paused;
+}
+.studio-preview-frame {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 2px;
+  border-radius: calc(var(--radius-panel, 6px) + 2px);
+  background: #325e50;
+  box-shadow: 0 20px 70px -38px rgb(68 186 155 / 0.25),
+    0 1px 0 rgb(206 246 227 / 0.12);
+}
+.studio-preview-frame::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--studio-border-size, 200%);
+  aspect-ratio: 1;
+  background: conic-gradient(
+    from 30deg,
+    #1c4337 0deg,
+    #28594a 80deg,
+    #6ee2bb 122deg,
+    #83daf1 157deg,
+    #769edb 190deg,
+    #214f40 236deg,
+    #1c4337 360deg
+  );
+  transform: translate(-50%, -50%);
+  animation: studio-border-orbit 12s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  animation-play-state: paused;
+  pointer-events: none;
+}
+.studio-preview-frame[data-running="true"]::before {
+  animation-play-state: running;
+}
+.studio-preview-frame > .studio-preview-content {
+  position: relative;
+  z-index: 1;
+}
+.studio-preview-frame .product-preview {
+  border-color: rgb(152 222 192 / 0.13);
+  box-shadow: none;
+}
+@keyframes studio-border-orbit {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .studio-preview-frame::before {
+    animation: none;
+  }
+  .studio-showcase .ui-text-shimmer {
+    animation: none;
+  }
+}

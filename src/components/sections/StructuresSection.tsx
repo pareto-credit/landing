@@ -1,6 +1,18 @@
-import { useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+  type RefObject,
+} from "react";
 import { createPortal } from "react-dom";
-import { AnimatePresence, LayoutGroup, motion, useIsPresent, useReducedMotion } from "framer-motion";
+import {
+  AnimatePresence,
+  LayoutGroup,
+  motion,
+  useIsPresent,
+  useReducedMotion,
+} from "framer-motion";
 import {
   Building2,
   CalendarRange,
@@ -18,6 +30,7 @@ import { creditStructures } from "../../data/structures";
 import { requestContact } from "../../lib/siteNavigation";
 import { cn } from "../../lib/cn";
 import { Button } from "../ui/Button";
+import { PageLink } from "../ui/PageLink";
 import { SectionContainer, SectionHeader } from "../ui/Section";
 import RevolvingCreditDiagram from "./structures/RevolvingCreditDiagram";
 
@@ -33,17 +46,35 @@ interface BentoTile {
 
 /** Same order as `creditStructures`. */
 const tiles: BentoTile[] = [
-  { icon: CalendarRange, tone: "dark", placement: "col-span-2 lg:row-span-2", visual: "cycles" },
-  { icon: RefreshCcw, tone: "mint", placement: "col-span-2", visual: "revolver" },
+  {
+    icon: CalendarRange,
+    tone: "dark",
+    placement: "col-span-2 lg:row-span-2",
+    visual: "cycles",
+  },
+  {
+    icon: RefreshCcw,
+    tone: "mint",
+    placement: "col-span-2",
+    visual: "revolver",
+  },
   { icon: Gauge, tone: "light", placement: "" },
   { icon: Vault, tone: "light", placement: "" },
   { icon: Building2, tone: "light", placement: "" },
   { icon: FileBarChart, tone: "light", placement: "" },
-  { icon: Receipt, tone: "dark", placement: "col-span-2 lg:row-span-2", visual: "receivables" },
+  {
+    icon: Receipt,
+    tone: "dark",
+    placement: "col-span-2 lg:row-span-2",
+    visual: "receivables",
+  },
   { icon: Coins, tone: "mint", placement: "col-span-2", visual: "assets" },
 ];
 
-const toneClass: Record<Tone, { card: string; muted: string; icon: string; accent: string }> = {
+const toneClass: Record<
+  Tone,
+  { card: string; muted: string; icon: string; accent: string }
+> = {
   dark: {
     card: "bg-[var(--color-brand-mid)] text-[var(--color-text-inverse)] border-[color:rgb(255_255_255_/_0.06)]",
     muted: "text-[color:rgb(255_255_255_/_0.62)]",
@@ -64,18 +95,28 @@ const toneClass: Record<Tone, { card: string; muted: string; icon: string; accen
   },
 };
 
-const TileVisual = ({ kind, expanded = false }: { kind: NonNullable<BentoTile["visual"]>; expanded?: boolean }) => {
-
+const TileVisual = ({
+  kind,
+  expanded = false,
+}: {
+  kind: NonNullable<BentoTile["visual"]>;
+  expanded?: boolean;
+}) => {
   if (kind === "cycles") {
     return (
       <div aria-hidden="true" className="flex h-32 items-end gap-2">
         {[52, 64, 58, 72, 66, 84, 76].map((height, index) => (
-          <div key={index} className="flex flex-1 flex-col items-center justify-end gap-1.5">
+          <div
+            key={index}
+            className="flex flex-1 flex-col items-center justify-end gap-1.5"
+          >
             <div
               className="w-full rounded-t-sm bg-[linear-gradient(180deg,rgb(114_244_201_/_0.85),rgb(114_244_201_/_0.15))]"
               style={{ height: `${height}px` }}
             />
-            <span className="font-mono text-[9px] text-[color:rgb(255_255_255_/_0.45)]">C{index + 9}</span>
+            <span className="font-mono text-[9px] text-[color:rgb(255_255_255_/_0.45)]">
+              C{index + 9}
+            </span>
           </div>
         ))}
       </div>
@@ -101,7 +142,13 @@ const TileVisual = ({ kind, expanded = false }: { kind: NonNullable<BentoTile["v
           >
             <span>{id}</span>
             <span>{amount}</span>
-            <span className={status === "Eligible" ? "text-[var(--color-brand-bright)]" : "text-[var(--color-accent-yellow)]"}>
+            <span
+              className={
+                status === "Eligible"
+                  ? "text-[var(--color-brand-bright)]"
+                  : "text-[var(--color-accent-yellow)]"
+              }
+            >
               {status}
             </span>
           </li>
@@ -149,19 +196,27 @@ const StructureDetail = ({
     const trigger = returnFocus.current;
 
     const background = Array.from(document.body.children)
-      .filter((element): element is HTMLElement => element instanceof HTMLElement && !element.contains(dialog))
+      .filter(
+        (element): element is HTMLElement =>
+          element instanceof HTMLElement && !element.contains(dialog)
+      )
       .map((element) => ({ element, wasInert: element.inert }));
-    background.forEach(({ element }) => { element.inert = true; });
+    background.forEach(({ element }) => {
+      element.inert = true;
+    });
     closeRef.current?.focus({ preventScroll: true });
 
     const keepFocusInside = (event: FocusEvent) => {
-      if (!dialog.contains(event.target as Node)) closeRef.current?.focus({ preventScroll: true });
+      if (!dialog.contains(event.target as Node))
+        closeRef.current?.focus({ preventScroll: true });
     };
     const trapTab = (event: KeyboardEvent) => {
       if (event.key !== "Tab") return;
-      const controls = Array.from(dialog.querySelectorAll<HTMLElement>(
-        'button:not(:disabled), a[href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex="0"]',
-      )).filter((element) => element.tabIndex >= 0);
+      const controls = Array.from(
+        dialog.querySelectorAll<HTMLElement>(
+          'button:not(:disabled), a[href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex="0"]'
+        )
+      ).filter((element) => element.tabIndex >= 0);
       const first = controls[0];
       const last = controls[controls.length - 1];
       if (event.shiftKey && document.activeElement === first) {
@@ -177,7 +232,9 @@ const StructureDetail = ({
     return () => {
       document.removeEventListener("focusin", keepFocusInside);
       dialog.removeEventListener("keydown", trapTab);
-      background.forEach(({ element, wasInert }) => { element.inert = wasInert; });
+      background.forEach(({ element, wasInert }) => {
+        element.inert = wasInert;
+      });
       if (restoreTriggerFocus.current) trigger?.focus({ preventScroll: true });
     };
   }, [returnFocus, isPresent]);
@@ -198,15 +255,27 @@ const StructureDetail = ({
         aria-modal="true"
         aria-labelledby={`structure-detail-title-${number}`}
         layoutId={shouldReduceMotion ? undefined : `structure-card-${index}`}
-        transition={shouldReduceMotion ? { duration: 0 } : { type: "spring", stiffness: 260, damping: 30 }}
+        transition={
+          shouldReduceMotion
+            ? { duration: 0 }
+            : { type: "spring", stiffness: 260, damping: 30 }
+        }
         className={cn(
           "relative z-10 max-h-[calc(100dvh-2rem)] w-full max-w-2xl overflow-y-auto overscroll-contain ui-radius-card border p-6 shadow-[0_40px_120px_rgb(0_0_0_/_0.35)] sm:max-h-[calc(100dvh-3rem)] sm:p-8",
-          tone.card,
+          tone.card
         )}
       >
         <div className="flex items-start justify-between gap-4">
-          <motion.div layout={shouldReduceMotion ? false : "position"} className="flex items-center gap-3">
-            <span className={cn("flex h-11 w-11 items-center justify-center ui-radius-control", tone.icon)}>
+          <motion.div
+            layout={shouldReduceMotion ? false : "position"}
+            className="flex items-center gap-3"
+          >
+            <span
+              className={cn(
+                "flex h-11 w-11 items-center justify-center ui-radius-control",
+                tone.icon
+              )}
+            >
               <tile.icon size={20} />
             </span>
           </motion.div>
@@ -219,7 +288,7 @@ const StructureDetail = ({
               "flex h-9 w-9 items-center justify-center rounded-full border transition-colors",
               tile.tone === "dark"
                 ? "border-[color:rgb(255_255_255_/_0.15)] hover:bg-[color:rgb(255_255_255_/_0.08)]"
-                : "border-[var(--color-border-soft-strong)] hover:bg-[color:rgb(14_24_19_/_0.05)]",
+                : "border-[var(--color-border-soft-strong)] hover:bg-[color:rgb(14_24_19_/_0.05)]"
             )}
           >
             <X size={16} />
@@ -238,9 +307,14 @@ const StructureDetail = ({
           initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: shouldReduceMotion ? 0 : 0.3, delay: shouldReduceMotion ? 0 : 0.18 }}
+          transition={{
+            duration: shouldReduceMotion ? 0 : 0.3,
+            delay: shouldReduceMotion ? 0 : 0.18,
+          }}
         >
-          <p className={cn("mt-3 text-base leading-relaxed", tone.muted)}>{structure.lede}</p>
+          <p className={cn("mt-3 text-base leading-relaxed", tone.muted)}>
+            {structure.lede}
+          </p>
           {tile.visual ? (
             <div className="mt-6">
               <TileVisual kind={tile.visual} expanded />
@@ -252,16 +326,27 @@ const StructureDetail = ({
                 key={label}
                 className={cn(
                   "flex items-baseline justify-between gap-6 border-t py-3",
-                  tile.tone === "dark" ? "border-[color:rgb(255_255_255_/_0.1)]" : "border-[var(--color-border-soft-strong)]",
+                  tile.tone === "dark"
+                    ? "border-[color:rgb(255_255_255_/_0.1)]"
+                    : "border-[var(--color-border-soft-strong)]"
                 )}
               >
-                <dt className={cn("font-mono text-[10.5px] uppercase tracking-[0.14em]", tone.muted)}>{label}</dt>
+                <dt
+                  className={cn(
+                    "font-mono text-[10.5px] uppercase tracking-[0.14em]",
+                    tone.muted
+                  )}
+                >
+                  {label}
+                </dt>
                 <dd className="text-right text-sm">{value}</dd>
               </div>
             ))}
           </dl>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <span className={cn("text-xs", tone.muted)}>Terms, size and pricing are set per facility.</span>
+            <span className={cn("text-xs", tone.muted)}>
+              Terms, size and pricing are set per facility.
+            </span>
             <Button
               variant="primary"
               size="md"
@@ -277,7 +362,7 @@ const StructureDetail = ({
         </motion.div>
       </motion.div>
     </div>,
-    document.body,
+    document.body
   );
 };
 
@@ -325,11 +410,16 @@ const StructuresSection = () => {
           "group relative flex min-h-[10rem] flex-col overflow-hidden ui-radius-card border p-4 text-left sm:p-5 lg:min-h-[13rem] shadow-[var(--shadow-soft)] transition-shadow hover:shadow-[var(--shadow-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)] sm:p-6",
           tone.card,
           tile.placement,
-          openIndex === index && "invisible",
+          openIndex === index && "invisible"
         )}
       >
         <div className="flex items-start justify-between">
-          <span className={cn("flex h-10 w-10 items-center justify-center ui-radius-control", tone.icon)}>
+          <span
+            className={cn(
+              "flex h-10 w-10 items-center justify-center ui-radius-control",
+              tone.icon
+            )}
+          >
             <tile.icon size={18} />
           </span>
         </div>
@@ -342,16 +432,31 @@ const StructuresSection = () => {
           <div className="flex-1" />
         )}
 
-        <div className={cn("mt-6", tile.visual && !isLarge && "grid gap-5 sm:grid-cols-[1fr_1.1fr] sm:items-end")}>
+        <div
+          className={cn(
+            "mt-6",
+            tile.visual &&
+              !isLarge &&
+              "grid gap-5 sm:grid-cols-[1fr_1.1fr] sm:items-end"
+          )}
+        >
           <div>
-            <h3 className={cn("font-bold tracking-tight", isLarge ? "text-2xl md:text-[1.75rem]" : "text-base sm:text-lg md:text-xl")}>
+            <h3
+              className={cn(
+                "font-bold tracking-tight",
+                isLarge
+                  ? "text-2xl md:text-[1.75rem]"
+                  : "text-base sm:text-lg md:text-xl"
+              )}
+            >
               {structure.name}
             </h3>
             <p
               className={cn(
                 "mt-2 text-sm leading-relaxed",
                 tone.muted,
-                !isLarge && (tile.visual ? "line-clamp-2" : "hidden sm:line-clamp-2"),
+                !isLarge &&
+                  (tile.visual ? "line-clamp-2" : "hidden sm:line-clamp-2")
               )}
             >
               {structure.lede}
@@ -367,7 +472,7 @@ const StructuresSection = () => {
         <span
           className={cn(
             "mt-4 inline-flex items-center gap-1.5 font-mono text-[10.5px] uppercase tracking-[0.14em] transition-transform group-hover:translate-x-0.5",
-            tone.accent,
+            tone.accent
           )}
         >
           <Plus size={13} /> Details
@@ -384,8 +489,23 @@ const StructuresSection = () => {
       <SectionContainer className="ui-section-shell relative z-10">
         <SectionHeader
           eyebrow="Credit facilities"
-          title={<>One platform. <span className="text-[var(--color-text-muted)]">Infinite credit opportunities.</span></>}
-          description="If it can be underwritten, it can run on Pareto. Term loans, revolving lines, receivables and beyond, each shaped around the deal, with its own collateral, controls and reporting. Open any card to explore."
+          title={
+            <>
+              Credit infrastructure{" "}
+              <span className="text-[var(--color-text-muted)]">
+                tailored to your mandate.
+              </span>
+            </>
+          }
+          description="Flexible financing for evolving capital needs. Pareto connects businesses with capital through onchain infrastructure designed to support long-term growth."
+          action={
+            <PageLink
+              to="/credit-vaults"
+              className="inline-flex min-h-11 items-center gap-3 text-sm text-[var(--color-brand-deep)] underline underline-offset-4"
+            >
+              Explore Credit Vaults <span aria-hidden="true">↗</span>
+            </PageLink>
+          }
         />
 
         <LayoutGroup>
@@ -398,12 +518,15 @@ const StructuresSection = () => {
 
           <AnimatePresence>
             {openIndex !== null ? (
-              <StructureDetail key={openIndex} index={openIndex} returnFocus={triggerRef} onClose={() => setOpenIndex(null)} />
+              <StructureDetail
+                key={openIndex}
+                index={openIndex}
+                returnFocus={triggerRef}
+                onClose={() => setOpenIndex(null)}
+              />
             ) : null}
           </AnimatePresence>
         </LayoutGroup>
-
-
       </SectionContainer>
     </section>
   );
