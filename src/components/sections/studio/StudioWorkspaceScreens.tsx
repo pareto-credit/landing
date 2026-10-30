@@ -212,6 +212,16 @@ function StructuringScreen({
               </label>
             ))}
           </div>
+          <section className="studio-workspace__collateral" aria-label="Collateral and custody configuration">
+            <h4>Collateral &amp; custody</h4>
+            <p>Configure the collateral around your facility</p>
+            <ul>
+              <li>Onchain</li>
+              <li>Custody</li>
+              <li>Asset pools</li>
+            </ul>
+            <small>LTV &amp; margin calls · custody &amp; account controls · borrowing base</small>
+          </section>
           <div className="studio-workspace__form-footer">
             <span data-complete={phase === 2}>
               <ShieldCheck aria-hidden="true" />

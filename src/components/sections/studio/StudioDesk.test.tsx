@@ -64,6 +64,11 @@ describe("automatic product preview sequences", () => {
     const field = screen.getByRole("textbox", { name: "Facility name" });
     expect(field).toHaveValue("Aster Revolving Credit");
     expect(field).toHaveAttribute("readonly");
+    const collateral = screen.getByRole("region", { name: "Collateral and custody configuration" });
+    for (const label of ["Onchain", "Custody", "Asset pools"]) {
+      expect(within(collateral).getByText(label, { exact: true })).toBeInTheDocument();
+    }
+    expect(collateral).toHaveTextContent("LTV & margin calls");
     expect(screen.getByText("Draft", { exact: true })).toBeInTheDocument();
     advance(2200);
     expect(

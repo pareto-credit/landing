@@ -1,3 +1,5 @@
+import { collateralQuestion } from "./collateral";
+
 export type ProductPageId = "credit-vaults" | "studio";
 
 export const productQuestions: Record<
@@ -5,6 +7,7 @@ export const productQuestions: Record<
   Array<{ question: string; answer: string }>
 > = {
   "credit-vaults": [
+    collateralQuestion,
     {
       question: "What is a Credit Vault?",
       answer:
@@ -37,6 +40,7 @@ export const productQuestions: Record<
     },
   ],
   studio: [
+    collateralQuestion,
     {
       question: "Who is Pareto Studio for?",
       answer:

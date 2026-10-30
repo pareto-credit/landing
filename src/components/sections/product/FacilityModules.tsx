@@ -1,6 +1,7 @@
 import { useId, useRef, useState } from "react";
 import { useInView, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Check } from "lucide-react";
+import { collateralOptions } from "../../../data/collateral";
 import {
   facilityModuleGroups,
   facilityTemplates,
@@ -318,6 +319,18 @@ export default function FacilityModules() {
                   </text>
                 </g>
               </svg>
+            </div>
+            <div className="cv-module-collateral" aria-label="Collateral and custody options">
+              <p>Collateral &amp; custody</p>
+              <ul>
+                {collateralOptions.map((option) => (
+                  <li key={option.label}>
+                    <strong>{option.label}</strong>
+                    <span>{option.detail}</span>
+                  </li>
+                ))}
+              </ul>
+              <p>Coverage and account arrangements connect through the collateral module and the facility’s agreements.</p>
             </div>
           </figure>
         </div>

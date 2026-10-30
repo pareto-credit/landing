@@ -52,30 +52,21 @@ const captureContactInterests = () => {
 };
 
 describe("UnderwritingSection", () => {
-  it("presents Pareto as underwriting infrastructure with three pillars", () => {
+  it("explains three collateral arrangements with keyboard-accessible cards", () => {
     render(<UnderwritingSection />);
-
     expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
-      "Credit infrastructure you can verify."
+      "Credit infrastructure across the collateral spectrum."
     );
-    const pillars = within(
-      screen.getByTestId("underwriting-pillars")
-    ).getAllByRole("article");
+    const pillars = within(screen.getByTestId("underwriting-pillars")).getAllByRole("article");
     expect(pillars).toHaveLength(3);
-    expect(screen.getByText("Diligence before listing.")).toBeInTheDocument();
-    expect(screen.getByText("Every counterparty")).toBeInTheDocument();
-    expect(screen.queryByText(/§/)).not.toBeInTheDocument();
-    expect(
-      screen.getByText(
-        /pareto is the underwriting layer for compliant onchain finance/i
-      )
-    ).toBeInTheDocument();
-    expect(screen.queryByText("Keyring")).not.toBeInTheDocument();
-    expect(screen.getByText("Ring-fenced facilities.")).toBeInTheDocument();
-    expect(
-      screen.getByText("No contagion: bankruptcy-remote SPVs per loan.")
-    ).toBeInTheDocument();
-    expect(screen.getByText("Continuous monitoring.")).toBeInTheDocument();
+    for (const title of ["Onchain collateral", "Custodian-held collateral", "Receivables & loan portfolios"]) {
+      const card = screen.getByRole("article", { name: title });
+      card.focus();
+      expect(card).toHaveFocus();
+    }
+    expect(screen.getByText(/configure LTV thresholds, margin calls, collateral top-ups and grace periods/i)).toBeInTheDocument();
+    expect(screen.getByText(/facility agreements connect those offchain arrangements to the onchain Credit Vault/i)).toBeInTheDocument();
+    expect(screen.getByText(/asset-backed and warehouse financing/i)).toBeInTheDocument();
   });
 });
 

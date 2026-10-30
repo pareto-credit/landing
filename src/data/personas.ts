@@ -1,4 +1,5 @@
 import type { ContactInterest } from "./brand";
+import { collateralQuestion } from "./collateral";
 
 export type PersonaPageId = "originators" | "capital-providers";
 export type PersonaPath = "/originators" | "/capital-providers";
@@ -175,6 +176,7 @@ export const personaPages: PersonaPageContent[] = [
       interest: "Underwriting",
     },
     questions: [
+      collateralQuestion,
       {
         question: "Who provides the financing?",
         answer:
@@ -334,6 +336,7 @@ export const personaPages: PersonaPageContent[] = [
     },
     frameworkCta: { label: "Discuss your allocation", interest: "Lending" },
     questions: [
+      collateralQuestion,
       {
         question: "Who can participate?",
         answer:

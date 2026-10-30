@@ -15,36 +15,36 @@ interface Pillar {
 
 const pillars: Pillar[] = [
   {
-    title: "Diligence before listing.",
+    title: "Onchain collateral",
     description:
-      "The diligence standards banks already apply.",
+      "Structure credit against crypto and tokenized assets. Configure LTV thresholds, margin calls, collateral top-ups and grace periods around the facility’s terms.",
     image: diligenceImage,
     imageClassName: "object-[40%_30%]",
     tags: [
-      ["KYC/KYB", "Every counterparty"],
-      ["Credit", "Underwritten, signed off"],
+      ["Assets", "Crypto & tokenized assets"],
+      ["Controls", "LTV · margin calls · top-ups"],
     ],
   },
   {
-    title: "Ring-fenced facilities.",
+    title: "Custodian-held collateral",
     description:
-      "No contagion: bankruptcy-remote SPVs per loan.",
+      "Keep collateral with qualified custodians, in off-exchange custody or bank accounts. Facility agreements connect those offchain arrangements to the onchain Credit Vault, with agreed account controls, monitoring and reporting.",
     image: structureImage,
     imageClassName: "object-center",
     tags: [
-      ["Structure", "One vault per facility"],
-      ["Legal", "Own loan agreement"],
+      ["Custody", "Custodians · banks · off-exchange"],
+      ["Legal", "Linked through facility agreements"],
     ],
   },
   {
-    title: "Continuous monitoring.",
+    title: "Receivables & loan portfolios",
     description:
-      "Real-time checks replace manual reconciliation.",
+      "Finance commercial receivables, invoices and loan portfolios. Set eligible assets, advance rates and borrowing-base requirements, with pool reporting to support asset-backed and warehouse financing.",
     image: monitoringImage,
     imageClassName: "object-[60%_40%]",
     tags: [
-      ["Servicing", "Automated, onchain"],
-      ["Data", "Live, machine-readable"],
+      ["Assets", "Receivables · invoices · loans"],
+      ["Controls", "Eligibility · borrowing base"],
     ],
   },
 ];
@@ -62,8 +62,8 @@ const UnderwritingSection = () => {
       <SectionContainer className="ui-section-shell relative z-10">
         <SectionHeader
           eyebrow="Institutional grade"
-          title={<>Credit infrastructure <span className="text-[var(--color-text-muted)]">you can verify.</span></>}
-          description="Pareto is the underwriting layer for compliant onchain finance: the diligence, legal structure and oversight lenders expect, enforced by code and visible onchain."
+          title={<>Credit infrastructure <span className="text-[var(--color-text-muted)]">across the collateral spectrum.</span></>}
+          description="From onchain assets to collateral held with qualified custodians and banks, receivables and loan portfolios. Configure the credit facility around the assets behind it."
         />
 
         <div
@@ -73,11 +73,13 @@ const UnderwritingSection = () => {
           {pillars.map((pillar, index) => (
             <motion.article
               key={pillar.title}
+              tabIndex={0}
+              aria-label={pillar.title}
               initial={shouldReduceMotion ? undefined : { opacity: 0, y: 20 }}
               whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.6, delay: index * 0.12 }}
-              className="group ui-radius-card relative h-[27rem] w-[84%] max-w-[24rem] shrink-0 snap-center overflow-hidden border border-[var(--color-border-soft)] bg-[var(--color-bg-dark)] shadow-[var(--shadow-soft)] md:aspect-[3/4] md:h-auto md:w-auto md:max-w-none"
+              className="group ui-radius-card relative min-h-[27rem] w-[84%] max-w-[24rem] shrink-0 snap-center overflow-hidden border border-[var(--color-border-soft)] bg-[var(--color-bg-dark)] shadow-[var(--shadow-soft)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-brand)] md:aspect-[3/4] md:w-auto md:max-w-none"
             >
               <img
                 src={pillar.image}
@@ -89,6 +91,7 @@ const UnderwritingSection = () => {
                 } ${pillar.imageClassName}`}
               />
               <div className="absolute inset-0 bg-[linear-gradient(180deg,rgb(8_25_18_/_0.05)_0%,rgb(8_25_18_/_0.2)_50%,rgb(8_25_18_/_0.92)_100%)]" />
+              <div className="absolute inset-0 bg-[#081912]/55 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-within:opacity-100 motion-reduce:transition-none [@media(hover:none)]:opacity-100" />
 
               <div className="relative flex h-full flex-col justify-end p-6 lg:p-7">
 

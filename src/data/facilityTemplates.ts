@@ -98,7 +98,7 @@ export const facilityModuleGroups: FacilityModuleGroup[] = [
       {
         id: "collateral",
         name: "Collateral & custody",
-        sublabel: "Coverage & account arrangements",
+        sublabel: "Onchain · custody · asset pools",
       },
       {
         id: "otc",
