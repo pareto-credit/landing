@@ -1,7 +1,7 @@
 import { useId, useRef, useState } from "react";
 import { useInView, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Check } from "lucide-react";
-import { collateralOptions } from "../../../data/collateral";
+import { useMinWidth } from "../../../hooks/useMinWidth";
 import {
   facilityModuleGroups,
   facilityTemplates,
@@ -14,6 +14,8 @@ import "./facility-modules.css";
 const allModules = facilityModuleGroups.flatMap((group) => group.modules);
 
 export default function FacilityModules() {
+  const desktop = useMinWidth(1024);
+  const [activeGroup, setActiveGroup] = useState(0);
   const instanceId = useId();
   const id = `cv-facility-${instanceId.replace(/[^a-zA-Z0-9_-]/g, "")}`;
   const ref = useRef<HTMLElement>(null);
@@ -48,27 +50,26 @@ export default function FacilityModules() {
       aria-labelledby={`${id}-heading`}
     >
       <div className="cv-product-shell">
-        <div className="cv-modules__intro">
-          <div>
-            <p className="product-kicker cv-product-kicker">
-              02 / Configurable by design
-            </p>
-            <h2 id={`${id}-heading`}>A common core. Your configuration.</h2>
-          </div>
-          <p>
-            Different facilities call for different building blocks. Explore a
-            template, then select the modules you want to see how the structure,
-            economics and operating arrangements come together.
-          </p>
-        </div>
-
         <div className="cv-module-workbench">
           <aside className="cv-module-controls">
+            <div className="cv-modules__intro">
+              <div>
+                <p className="product-kicker cv-product-kicker">
+                  02 / Configurable by design
+                </p>
+                <h2 id={`${id}-heading`}>A common core. Your configuration.</h2>
+              </div>
+              <p>
+                Choose a template, then connect the modules your facility needs.
+                Structure, collateral, covenants and operations share a common core.
+              </p>
+            </div>
+
             <div className="cv-module-controls__heading">
               <p id={`${id}-instructions`}>Choose a template. Select modules to customize.</p>
               <span>Example templates</span>
             </div>
-            <div
+            {desktop ? <div
               className="cv-module-templates"
               role="group"
               aria-label="Facility templates"
@@ -98,7 +99,25 @@ export default function FacilityModules() {
                   />
                 </button>
               ))}
-            </div>
+            </div> : (
+              <label className="cv-module-template-select">
+                <span>Example template</span>
+                <select
+                  value={templateId ?? "custom"}
+                  aria-controls={`${id}-diagram`}
+                  onChange={(event) => {
+                    const next = facilityTemplates.find((item) => item.id === event.target.value);
+                    if (!next) return;
+                    setAnimate(false);
+                    setTemplateId(next.id);
+                    setSelected(new Set(next.modules));
+                  }}
+                >
+                  {!template && <option value="custom">Custom configuration</option>}
+                  {facilityTemplates.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
+                </select>
+              </label>
+            )}
           </aside>
           <figure className="cv-module-figure" aria-labelledby={`${id}-caption`}>
             <figcaption
@@ -116,7 +135,7 @@ export default function FacilityModules() {
                 modules included
               </span>
             </figcaption>
-            <div
+            {desktop ? <div
               className="cv-module-figure__scroller"
               tabIndex={0}
               role="region"
@@ -125,7 +144,7 @@ export default function FacilityModules() {
               <svg
                 id={`${id}-diagram`}
                 className="cv-module-svg"
-                viewBox="0 0 960 608"
+                viewBox="0 0 960 576"
                 role="group"
                 aria-labelledby={`${id}-title`}
                 aria-describedby={`${id}-desc`}
@@ -137,7 +156,7 @@ export default function FacilityModules() {
                   {allModules.length} modules included in this illustrative
                   example. Select each module to add or remove it.
                 </desc>
-                <rect width="960" height="608" fill="#f8faf7" />
+                <rect width="960" height="576" fill="#f8faf7" />
                 {facilityModuleGroups.map((group) => (
                   <path
                     key={group.name}
@@ -149,7 +168,7 @@ export default function FacilityModules() {
                 <g className="cv-module-core">
                   <rect
                     x="360"
-                    y="216"
+                    y="208"
                     width="240"
                     height="160"
                     rx="6"
@@ -158,7 +177,7 @@ export default function FacilityModules() {
                   <text
                     className="cv-module-svg__tag cv-module-svg__tag--core"
                     x="480"
-                    y="248"
+                    y="238"
                     textAnchor="middle"
                   >
                     COMMON CORE
@@ -166,7 +185,7 @@ export default function FacilityModules() {
                   <text
                     className="cv-module-svg__core-name"
                     x="480"
-                    y="284"
+                    y="276"
                     textAnchor="middle"
                   >
                     Credit Vault
@@ -174,7 +193,7 @@ export default function FacilityModules() {
                   <text
                     className="cv-module-svg__core-description"
                     x="480"
-                    y="310"
+                    y="304"
                     textAnchor="middle"
                   >
                     Asset · rate · fees
@@ -182,44 +201,40 @@ export default function FacilityModules() {
                   <text
                     className="cv-module-svg__core-count"
                     x="480"
-                    y="344"
+                    y="340"
                     textAnchor="middle"
                   >
                     {selected.size} modules included
                   </text>
                 </g>
                 {facilityModuleGroups.map((group) => (
-                  <g key={group.name} className="cv-module-group">
+                  <g key={group.name} className="cv-module-group" role="group" aria-label={group.name}>
                     <rect
                       x={group.x}
                       y={group.y}
-                      width="288"
-                      height="240"
+                      width="296"
+                      height="164"
                       rx="6"
                       fill="#f8faf7"
                     />
                     <rect
                       x={group.x}
                       y={group.y}
-                      width="288"
-                      height="240"
+                      width="296"
+                      height="164"
                       rx="6"
                       className="cv-module-group__box"
                     />
                     <text
                       x={group.x + 20}
-                      y={group.y + 28}
+                      y={group.y + 23}
                       className="cv-module-svg__tag"
                     >
                       {group.name.toUpperCase()}
                     </text>
                     {group.modules.map((module, index) => {
                       const included = selected.has(module.id);
-                      const compact = group.modules.length > 3;
-                      const rowY =
-                        group.y +
-                        (compact ? 40 : 48) +
-                        index * (compact ? 48 : 60);
+                      const rowY = group.y + 32 + index * 40;
                       return (
                         <g
                           key={module.id}
@@ -248,14 +263,14 @@ export default function FacilityModules() {
                           <rect
                             x={group.x + 12}
                             y={rowY}
-                            width="264"
-                            height={compact ? 44 : 52}
+                            width="272"
+                            height="38"
                             rx="4"
                             className="cv-module-node__box"
                           />
                           <text
                             x={group.x + 24}
-                            y={rowY + (compact ? 18 : 21)}
+                            y={rowY + 15}
                             className="cv-module-svg__name"
                           >
                             {module.name}
@@ -263,14 +278,14 @@ export default function FacilityModules() {
                           <text
                             id={`${id}-${module.id}-description`}
                             x={group.x + 24}
-                            y={rowY + (compact ? 34 : 39)}
+                            y={rowY + 30}
                             className="cv-module-svg__sublabel"
                           >
                             {module.sublabel}
                           </text>
                           <rect
-                            x={group.x + 244}
-                            y={rowY + 10}
+                            x={group.x + 252}
+                            y={rowY + 9}
                             width="16"
                             height="16"
                             rx="3"
@@ -279,7 +294,7 @@ export default function FacilityModules() {
                           {included ? (
                             <path
                               key={`${templateId ?? "custom"}-${module.id}`}
-                              d={`M${group.x + 248} ${rowY + 18} l3 3 5-6`}
+                              d={`M${group.x + 256} ${rowY + 17} l3 3 5-6`}
                               className="cv-module-node__check"
                               fill="none"
                             />
@@ -290,48 +305,59 @@ export default function FacilityModules() {
                   </g>
                 ))}
                 <g className="cv-module-svg__legend">
-                  <line x1="32" y1="568" x2="928" y2="568" stroke="#d8dfd6" />
+                  <line x1="32" y1="552" x2="928" y2="552" stroke="#d8dfd6" />
                   <rect
                     x="32"
-                    y="584"
+                    y="562"
                     width="12"
                     height="12"
                     rx="2"
                     fill="#254839"
                   />
-                  <text x="52" y="594">
+                  <text x="52" y="572">
                     Selected modules
                   </text>
                   <rect
                     x="252"
-                    y="584"
+                    y="562"
                     width="12"
                     height="12"
                     rx="2"
                     fill="none"
                     stroke="#a4b1a6"
                   />
-                  <text x="272" y="594">
+                  <text x="272" y="572">
                     Select modules to customize
                   </text>
-                  <text x="928" y="594" textAnchor="end">
+                  <text x="928" y="572" textAnchor="end">
                     Configuration links, not fund flows
                   </text>
                 </g>
               </svg>
-            </div>
-            <div className="cv-module-collateral" aria-label="Collateral and custody options">
-              <p>Collateral &amp; custody</p>
-              <ul>
-                {collateralOptions.map((option) => (
-                  <li key={option.label}>
-                    <strong>{option.label}</strong>
-                    <span>{option.detail}</span>
-                  </li>
-                ))}
-              </ul>
-              <p>Coverage and account arrangements connect through the collateral module and the facility’s agreements.</p>
-            </div>
+            </div> : (
+              <div className="cv-module-mobile" id={`${id}-diagram`} role="group" aria-label="Credit Vault configuration" aria-describedby={`${id}-desc`}>
+                <p className="sr-only" id={`${id}-desc`}>{configurationName}: {selectedNames.join(", ")}. Select a group to customize its modules.</p>
+                <div className="cv-module-mobile__overview">
+                  <svg viewBox="0 0 360 208" preserveAspectRatio="none" fill="none" aria-hidden="true">
+                    <path d="M115 32H122V88H130 M245 32H238V88H230 M115 104H130 M245 104H230 M115 176H122V120H130 M245 176H238V120H230" />
+                  </svg>
+                  <div className="cv-module-mobile__core"><span>Common core</span><strong>Credit Vault</strong><small>Asset · rate · fees</small></div>
+                  {facilityModuleGroups.map((group, index) => (
+                    <button key={group.name} type="button" style={{ gridColumn: index % 2 === 0 ? 1 : 3, gridRow: Math.floor(index / 2) + 1 }} aria-pressed={activeGroup === index} aria-controls={`${id}-mobile-options`} onClick={() => setActiveGroup(index)}>
+                      {group.name}<small>{group.modules.filter((item) => selected.has(item.id)).length} / {group.modules.length} selected</small>
+                    </button>
+                  ))}
+                </div>
+                <div className="cv-module-mobile__options" id={`${id}-mobile-options`} role="group" aria-label={facilityModuleGroups[activeGroup].name}>
+                  {facilityModuleGroups[activeGroup].modules.map((module) => (
+                    <label key={module.id}>
+                      <input type="checkbox" checked={selected.has(module.id)} onChange={() => toggleModule(module.id)} />
+                      <span><strong>{module.name}</strong><small>{module.sublabel}</small></span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            )}
           </figure>
         </div>
 
@@ -341,9 +367,8 @@ export default function FacilityModules() {
         </p>
         <div className="cv-modules__footer">
           <p>
-            Templates are starting points. Some modules use vault settings;
-            others involve integrations and facility agreements. We work with
-            your team to define the final configuration.
+            Illustrative templates combine vault settings, integrations and
+            facility agreements. We define the final configuration with your team.
           </p>
           <a
             href="#contact"

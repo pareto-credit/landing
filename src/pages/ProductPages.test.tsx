@@ -149,9 +149,9 @@ describe("dedicated product pages", () => {
     const diagram = screen.getByRole("group", {
       name: "Credit Vault configuration",
     });
-    expect(diagram).toHaveAccessibleDescription(
-      /Prime brokerage.*Revolving facility.*NAV-based pricing.*DeFi adapters.*OTC desk.*Legal & compliance/i
-    );
+    for (const label of ["Prime brokerage", "Revolving facility", "NAV-based pricing", "DeFi adapters", "OTC desk", "Legal & compliance"]) {
+      expect(diagram).toHaveAccessibleDescription(new RegExp(label, "i"));
+    }
     expect(diagram).toHaveTextContent("Morpho · Aave · Pendle");
     const credit = within(group).getByRole("button", {
       name: "Working capital",
@@ -216,7 +216,14 @@ describe("dedicated product pages", () => {
     render(<ProductPage id="credit-vaults" />);
     const diagram = screen.getByRole("group", { name: "Credit Vault configuration" });
     const templates = screen.getByRole("group", { name: "Facility templates" });
-    expect(within(diagram).getAllByRole("checkbox")).toHaveLength(14);
+    expect(within(diagram).getAllByRole("checkbox")).toHaveLength(18);
+    const groups = within(diagram).getAllByRole("group");
+    expect(groups).toHaveLength(6);
+    for (const group of groups) {
+      expect(within(group).getAllByRole("checkbox")).toHaveLength(3);
+    }
+    expect(within(diagram).getByRole("group", { name: "Collateral & custody" })).toHaveTextContent("Onchain collateral");
+    expect(within(diagram).getByRole("group", { name: "Covenant monitoring" })).toHaveTextContent("Breach & cure tracking");
     const otc = within(diagram).getByRole("checkbox", { name: "OTC desk" });
     const tranches = within(diagram).getByRole("checkbox", { name: "Senior / junior" });
 
@@ -253,5 +260,25 @@ describe("dedicated product pages", () => {
     expect(otc).toHaveFocus();
     fireEvent.keyDown(otc, { key: "Tab" });
     expect(otc).toBeChecked();
+  });
+
+  it("keeps all six groups available on mobile while customizing a group or restoring a template", () => {
+    vi.stubGlobal("innerWidth", 390);
+    render(<ProductPage id="credit-vaults" />);
+    const diagram = screen.getByRole("group", { name: "Credit Vault configuration" });
+    expect(within(diagram).getAllByRole("button")).toHaveLength(6);
+    fireEvent.click(within(diagram).getByRole("button", { name: /Collateral & custody/ }));
+    const collateral = within(diagram).getByRole("group", { name: "Collateral & custody" });
+    const onchain = within(collateral).getByRole("checkbox", { name: /Onchain collateral/ });
+    expect(onchain).toBeChecked();
+    fireEvent.click(onchain);
+    expect(onchain).not.toBeChecked();
+    const template = screen.getByRole("combobox", { name: "Example template" });
+    expect(template).toHaveValue("custom");
+    fireEvent.change(template, { target: { value: "working-capital" } });
+    expect(template).toHaveValue("working-capital");
+    expect(within(collateral).getAllByRole("checkbox").every((input) => !(input as HTMLInputElement).checked)).toBe(true);
+    fireEvent.click(within(diagram).getByRole("button", { name: /Covenant monitoring/ }));
+    expect(within(diagram).getByRole("checkbox", { name: /Financial covenants/ })).toBeChecked();
   });
 });

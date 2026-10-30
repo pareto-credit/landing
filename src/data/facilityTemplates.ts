@@ -8,6 +8,10 @@ export type FacilityModuleId =
   | "defi-adapters"
   | "eligibility"
   | "collateral"
+  | "custody"
+  | "asset-pool"
+  | "financial-covenants"
+  | "breach-cure"
   | "otc"
   | "legal-compliance"
   | "borrowing-base"
@@ -39,102 +43,142 @@ export interface FacilityModuleGroup {
 export const facilityModuleGroups: FacilityModuleGroup[] = [
   {
     name: "Structure & capital",
-    x: 32,
-    y: 32,
-    connector: "M360 248 H348 Q340 248 340 240 V160 Q340 152 332 152 H320",
+    x: 24,
+    y: 16,
+    connector: "M320 98H332Q340 98 340 106V232Q340 240 348 240H360",
     modules: [
-      { id: "term", name: "Term facility", sublabel: "Defined lending cycles" },
+      {
+        id: "term",
+        name: "Term facility",
+        sublabel: "Defined lending cycles"
+      },
       {
         id: "revolving",
         name: "Revolving facility",
-        sublabel: "Draw · repay · redraw",
+        sublabel: "Draw · repay · redraw"
       },
       {
         id: "tranches",
         name: "Senior / junior",
-        sublabel: "Separate lending classes",
-      },
-    ],
+        sublabel: "Separate lending classes"
+      }
+    ]
   },
   {
     name: "Returns & liquidity",
     x: 640,
-    y: 32,
-    connector: "M600 248 H612 Q620 248 620 240 V160 Q620 152 628 152 H640",
+    y: 16,
+    connector: "M640 98H628Q620 98 620 106V232Q620 240 612 240H600",
     modules: [
       {
         id: "nav",
         name: "NAV-based pricing",
-        sublabel: "Returns reflected in vault value",
+        sublabel: "Returns reflected in vault value"
       },
       {
         id: "cycle-interest",
         name: "Interest paid each cycle",
-        sublabel: "Scheduled cash settlement",
+        sublabel: "Scheduled cash settlement"
       },
       {
         id: "callback",
         name: "Callback module",
-        sublabel: "Notice · request · settlement",
-      },
-      {
-        id: "defi-adapters",
-        name: "DeFi adapters",
-        sublabel: "Morpho · Aave · Pendle",
-      },
-    ],
+        sublabel: "Notice · request · settlement"
+      }
+    ]
   },
   {
     name: "Access & compliance",
-    x: 32,
-    y: 304,
-    connector: "M360 344 H348 Q340 344 340 352 V416 Q340 424 332 424 H320",
+    x: 24,
+    y: 196,
+    connector: "M320 278H336Q344 278 344 288H360",
     modules: [
       {
         id: "eligibility",
         name: "Lender eligibility",
-        sublabel: "Credentials & access policy",
-      },
-      {
-        id: "collateral",
-        name: "Collateral & custody",
-        sublabel: "Onchain · custody · asset pools",
+        sublabel: "Credentials & access policy"
       },
       {
         id: "otc",
         name: "OTC desk",
-        sublabel: "Execution & settlement integration",
+        sublabel: "Execution & settlement integration"
       },
       {
         id: "legal-compliance",
         name: "Legal & compliance",
-        sublabel: "Agreements · KYC / AML",
-      },
-    ],
+        sublabel: "Agreements · KYC / AML"
+      }
+    ]
   },
   {
     name: "Portfolio & operations",
     x: 640,
-    y: 304,
-    connector: "M600 344 H612 Q620 344 620 352 V416 Q620 424 628 424 H640",
+    y: 196,
+    connector: "M640 278H624Q616 278 616 288H600",
     modules: [
       {
-        id: "borrowing-base",
-        name: "Borrowing base",
-        sublabel: "Eligible assets & advance rates",
+        id: "defi-adapters",
+        name: "DeFi adapters",
+        sublabel: "Morpho · Aave · Pendle"
       },
       {
         id: "reporting",
         name: "Portfolio reporting",
-        sublabel: "Facility & underlying asset data",
+        sublabel: "Facility & underlying asset data"
       },
       {
         id: "servicing",
         name: "Servicing & recovery",
-        sublabel: "Roles & exception handling",
-      },
-    ],
+        sublabel: "Roles & exception handling"
+      }
+    ]
   },
+  {
+    name: "Collateral & custody",
+    x: 24,
+    y: 376,
+    connector: "M320 458H332Q340 458 340 450V344Q340 336 348 336H360",
+    modules: [
+      {
+        id: "collateral",
+        name: "Onchain collateral",
+        sublabel: "LTV · margin calls · top-ups"
+      },
+      {
+        id: "custody",
+        name: "Custodian-held collateral",
+        sublabel: "Custodians · banks · off-exchange"
+      },
+      {
+        id: "asset-pool",
+        name: "Asset pools",
+        sublabel: "Receivables · loan portfolios"
+      }
+    ]
+  },
+  {
+    name: "Covenant monitoring",
+    x: 640,
+    y: 376,
+    connector: "M640 458H628Q620 458 620 450V344Q620 336 612 336H600",
+    modules: [
+      {
+        id: "borrowing-base",
+        name: "Borrowing base",
+        sublabel: "Eligible assets & advance rates"
+      },
+      {
+        id: "financial-covenants",
+        name: "Financial covenants",
+        sublabel: "Leverage · liquidity · coverage"
+      },
+      {
+        id: "breach-cure",
+        name: "Breach & cure tracking",
+        sublabel: "Alerts · grace periods · remediation"
+      }
+    ]
+  }
 ];
 
 interface FacilityTemplate {
@@ -155,10 +199,14 @@ export const facilityTemplates: FacilityTemplate[] = [
       "eligibility",
       "legal-compliance",
       "collateral",
+      "custody",
       "otc",
       "borrowing-base",
+      "asset-pool",
       "reporting",
       "servicing",
+      "financial-covenants",
+      "breach-cure",
     ],
   },
   {
@@ -172,6 +220,8 @@ export const facilityTemplates: FacilityTemplate[] = [
       "legal-compliance",
       "reporting",
       "servicing",
+      "financial-covenants",
+      "breach-cure",
     ],
   },
   {
@@ -185,8 +235,11 @@ export const facilityTemplates: FacilityTemplate[] = [
       "eligibility",
       "legal-compliance",
       "collateral",
+      "custody",
       "reporting",
       "servicing",
+      "financial-covenants",
+      "breach-cure",
     ],
   },
   {
@@ -200,9 +253,12 @@ export const facilityTemplates: FacilityTemplate[] = [
       "eligibility",
       "legal-compliance",
       "collateral",
+      "custody",
       "otc",
       "reporting",
       "servicing",
+      "financial-covenants",
+      "breach-cure",
     ],
   },
   {
@@ -217,8 +273,11 @@ export const facilityTemplates: FacilityTemplate[] = [
       "eligibility",
       "legal-compliance",
       "borrowing-base",
+      "asset-pool",
       "reporting",
       "servicing",
+      "financial-covenants",
+      "breach-cure",
     ],
   },
   {
@@ -232,8 +291,11 @@ export const facilityTemplates: FacilityTemplate[] = [
       "eligibility",
       "legal-compliance",
       "borrowing-base",
+      "asset-pool",
       "reporting",
       "servicing",
+      "financial-covenants",
+      "breach-cure",
     ],
   },
   {
@@ -245,8 +307,11 @@ export const facilityTemplates: FacilityTemplate[] = [
       "eligibility",
       "legal-compliance",
       "borrowing-base",
+      "asset-pool",
       "reporting",
       "servicing",
+      "financial-covenants",
+      "breach-cure",
     ],
   },
   {
@@ -260,8 +325,11 @@ export const facilityTemplates: FacilityTemplate[] = [
       "eligibility",
       "legal-compliance",
       "borrowing-base",
+      "asset-pool",
       "reporting",
       "servicing",
+      "financial-covenants",
+      "breach-cure",
     ],
   },
 ];
