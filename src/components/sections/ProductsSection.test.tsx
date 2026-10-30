@@ -197,6 +197,7 @@ describe("ProductsSection", () => {
   });
 
   it("retains fractional auto-scroll progress when the browser rounds scrollLeft", () => {
+    setViewportWidth(1024);
     motionPreference.shouldReduce = false;
     let nextFrame: FrameRequestCallback | undefined;
 

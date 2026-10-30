@@ -2,7 +2,7 @@ import { useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { getOperatorLogo } from "../../data/operatorLogos";
 import { testimonialList } from "../../data/testimonials";
-import { SectionContainer, SectionHeading } from "../ui/Section";
+import { SectionContainer, SectionHeader } from "../ui/Section";
 
 const TESTIMONIALS_MARQUEE_SPEED = 38;
 const TESTIMONIALS_MARQUEE_SETS = 2;
@@ -147,13 +147,11 @@ const TestimonialsSection = () => {
       <div className="pointer-events-none absolute left-0 top-1/2 h-[500px] w-[500px] -translate-y-1/2 rounded-full blur-[120px]" />
 
       <div className="relative z-10 w-full ui-section-shell">
-        <SectionContainer className="mb-6 text-center xl:mb-8">
-          <SectionHeading
+        <SectionContainer>
+          <SectionHeader
+            variant="centered"
             eyebrow="Testimonials"
-            title="Built around what the market wants, not just for it"
-            className="mx-auto text-center"
-            titleClassName="text-[var(--color-text-primary)]"
-            eyebrowClassName="text-[var(--color-brand-alt)]"
+            title={<>Built around what the market wants, <span className="text-[var(--color-text-muted)]">not just for it</span></>}
           />
         </SectionContainer>
 

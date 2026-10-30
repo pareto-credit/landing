@@ -4,7 +4,8 @@
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-  /* Shared radius scale for Tailwind utilities and semantic UI classes. */
+  /* Rectangular UI surfaces use the Live Vaults 6px radius via semantic tokens.
+     Circles, pills and chart geometry keep their purpose-specific radii. */
   --radius: 0.25rem;
   --radius-xs: 0.125rem;
   --radius-sm: 0.25rem;
@@ -170,6 +171,15 @@
   backdrop-filter: blur(12px);
 }
 
+/* Frosted announcement treatment adapted to a dark section. */
+.ui-frost-chip--dark {
+  border-color: rgb(114 244 201 / 0.24);
+  background: linear-gradient(135deg, rgb(37 72 57 / 0.64), rgb(10 35 24 / 0.88));
+  box-shadow:
+    0 0 24px rgb(114 244 201 / 0.06),
+    inset 0 1px 0 rgb(189 231 215 / 0.10);
+}
+
 .ui-section-fit {
   display: flex;
   align-items: center;
@@ -200,6 +210,11 @@ body {
   color: var(--color-text-inverse);
 }
 
+/* The router owns hash scrolling; reserve space for the fixed site header. */
+main section[id] {
+  scroll-margin-top: 5.5rem;
+}
+
 a {
   color: inherit;
   text-decoration: inherit;
@@ -224,7 +239,7 @@ input[type='reset'] {
   display: flex;
   width: max-content;
   will-change: transform;
-  animation: marquee 36s linear infinite;
+  animation: marquee 64s linear infinite;
 }
 
 .marquee-group {
@@ -327,4 +342,32 @@ input[type='reset'] {
 
 .legal-content a:hover {
   text-decoration: underline;
+}
+
+/* Animated accents for highlighted showcases. Disabled for reduced motion. */
+@keyframes ui-shimmer {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.ui-text-shimmer {
+  background-image: linear-gradient(
+    90deg,
+    var(--color-brand-bright) 0%,
+    #38bdf8 30%,
+    #a7f3d0 55%,
+    var(--color-brand-bright) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: ui-shimmer 6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-text-shimmer {
+    animation: none;
+  }
 }

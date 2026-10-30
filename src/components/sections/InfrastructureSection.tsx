@@ -227,7 +227,7 @@ const InfrastructureSection = () => {
                     style={{ left: `${node.x}%`, top: `${node.y}%` }}
                   >
                     <div
-                      className={`flex h-14 w-14 items-center justify-center rounded-2xl border shadow-lg transition-all duration-500 ${
+                      className={`flex h-14 w-14 items-center justify-center ui-radius-control border shadow-lg transition-all duration-500 ${
                         isActive && hoveredUseCase !== null
                           ? "border-[var(--color-brand)] bg-[var(--color-surface)] shadow-[0_0_20px_rgba(113,178,159,0.3)]"
                           : "border-[var(--color-border-soft-strong)] bg-[var(--color-surface)]"

@@ -1,0 +1,72 @@
+.thesis-main {
+  --thesis-nav-top: 5rem;
+  background: var(--color-bg-light-alt);
+}
+
+.thesis-hero-shell { position: relative; isolation: isolate; overflow: hidden; background: #07160f; color: #edfaed; }
+.thesis-hero-shell .thesis-hero { position: relative; min-height: min(960px, 96svh); padding-bottom: 96px; }
+.thesis-hero-shell .thesis-hero h1 { color: #edf9ed; text-shadow: 0 4px 40px #0005; }
+.thesis-hero-shell .thesis-hero__read { color: #d6ebd8; border-bottom: 1px solid #c3edc44d; padding-bottom: 6px; }
+.thesis-hero-shell .thesis-hero__read:hover { color: #c6f3b8; }
+.thesis-hero-mesh { position: absolute; z-index: -1; inset: 0; overflow: hidden; pointer-events: none; background: radial-gradient(ellipse 90% 70% at 50% 100%, #1a3223, #07160f 85%); }
+.thesis-hero-mesh__field { position: absolute; inset: 0; width: 100%; height: 100%; color: #92b29c; opacity: .36; mask-image: radial-gradient(ellipse 100% 80% at 50% 60%, #000 30%, transparent 100%); }
+.thesis-hero-mesh__flow { transform-origin: center; animation: thesis-mesh-drift 26s ease-in-out infinite paused; }
+.thesis-hero-mesh__shade { position: absolute; inset: 0; background: radial-gradient(ellipse 44% 42% at 50% 44%, #07160fa3, transparent 95%), linear-gradient(180deg, #07160f55, transparent 35%, #07160f22); }
+.thesis-hero-mesh[data-running="true"][data-paused="false"] .thesis-hero-mesh__flow { animation-play-state: running; will-change: transform; }
+.thesis-hero-mesh[data-reduced="true"] .thesis-hero-mesh__flow { animation: none; transform: none; }
+.thesis-hero-motion-toggle { position: absolute; right: max(24px, calc((100vw - 1232px) / 2)); bottom: 24px; z-index: 2; display: grid; width: 44px; height: 44px; place-items: center; border: 1px solid #b8d3be26; border-radius: 50%; background: #0a1c124d; color: #c0d3c5; cursor: pointer; transition: border-color 180ms, background-color 180ms; }
+.thesis-hero-motion-toggle:hover { border-color: #c1e6cb66; background: #244b3266; }
+.thesis-hero-motion-toggle:focus-visible { outline: 2px solid #c1efba; outline-offset: 5px; }
+@keyframes thesis-mesh-drift { 0%, 100% { transform: translate3d(-12px, 8px, 0); } 50% { transform: translate3d(14px, -12px, 0); } }
+
+.thesis-hero {
+  display: flex;
+  min-height: min(900px, 92svh);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  padding-top: 152px;
+  padding-bottom: 80px;
+  text-align: center;
+}
+
+.thesis-hero h1 {
+  color: var(--color-brand-dark);
+  max-width: 13.5ch;
+  font-size: clamp(64px, 10vw, 144px);
+  font-weight: 500;
+  line-height: .98;
+  letter-spacing: -.065em;
+  text-wrap: balance;
+}
+
+.thesis-hero__read { display: inline-flex; min-height: 44px; align-items: center; gap: 16px; color: var(--color-brand-deep); font: 400 12px/1.5 var(--font-mono); letter-spacing: .06em; text-decoration: none; }
+.thesis-hero__read svg { transition: transform 200ms; }
+.thesis-hero__read:hover svg { transform: translateY(3px); }
+.thesis-hero__read:focus-visible, .thesis-main h1:focus-visible { outline: 2px solid var(--color-brand-alt); outline-offset: 8px; }
+
+.thesis-chapter[id] { scroll-margin-top: calc(var(--thesis-nav-top) + 16px); }
+.thesis-main h2[tabindex="-1"]:focus-visible { outline: 2px solid var(--color-brand-alt); outline-offset: 8px; border-radius: var(--radius-control); }
+
+@media (min-width: 1024px) { .thesis-main { --thesis-nav-top: 4.5rem; } }
+
+@media (max-width: 1023px) {
+  .thesis-hero { min-height: 84svh; padding-top: 136px; padding-bottom: 64px; }
+}
+
+@media (max-width: 639px) {
+  .thesis-hero { gap: 36px; min-height: 82svh; padding-top: 120px; padding-bottom: 56px; }
+  .thesis-hero h1 { font-size: clamp(60px, 13.5vw, 86px); }
+  .thesis-hero-shell .thesis-hero { min-height: 90svh; padding-bottom: 96px; }
+  .thesis-hero-motion-toggle { right: 20px; bottom: 20px; }
+}
+
+@media (max-width: 359px) { .thesis-hero h1 { font-size: 54px; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .thesis-hero-mesh .thesis-hero-mesh__flow { animation: none; transform: none; }
+  .thesis-hero-motion-toggle { display: none; transition: none; }
+  .thesis-hero__read svg { transition: none; }
+  .thesis-hero__read:hover svg { transform: none; }
+}

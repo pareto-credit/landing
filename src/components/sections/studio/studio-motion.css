@@ -1,0 +1,201 @@
+/* A fresh session mounts on each persona change, replaying this short entrance. */
+.product-preview:not([data-reduced-motion="true"]) .preview-enter {
+  animation: preview-panel-in 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--preview-delay, 0ms);
+}
+.product-preview__metrics > :nth-child(1) {
+  --preview-delay: 40ms;
+}
+.product-preview__metrics > :nth-child(2) {
+  --preview-delay: 100ms;
+}
+.product-preview__metrics > :nth-child(3) {
+  --preview-delay: 160ms;
+}
+.product-preview__metrics > :nth-child(4) {
+  --preview-delay: 220ms;
+}
+.product-preview__vault:nth-child(1) {
+  --preview-delay: 240ms;
+}
+.product-preview__vault:nth-child(2) {
+  --preview-delay: 300ms;
+}
+.product-preview__vault:nth-child(3) {
+  --preview-delay: 360ms;
+}
+.product-preview__vault:nth-child(4) {
+  --preview-delay: 420ms;
+}
+.product-preview__activity:nth-child(1) {
+  --preview-delay: 280ms;
+}
+.product-preview__activity:nth-child(2) {
+  --preview-delay: 360ms;
+}
+.product-preview:not([data-reduced-motion="true"])
+  .product-preview__progress
+  > span {
+  animation: preview-progress-in 950ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--preview-delay, 0ms) + 180ms);
+}
+.preview-spark-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 18px;
+  margin-top: 8px;
+  color: #8bcacb;
+}
+.product-preview__metrics > div:nth-child(2) .preview-spark-bars {
+  color: #8fdbac;
+}
+.preview-spark-bars > i {
+  display: block;
+  flex: 1;
+  max-width: 15px;
+  border-radius: 1px 1px 0 0;
+  background: currentColor;
+  transform-origin: bottom;
+  opacity: 0.6;
+}
+.product-preview:not([data-reduced-motion="true"]) .preview-spark-bars > i {
+  animation: preview-bars-in 850ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(
+    var(--preview-delay, 0ms) + 180ms + var(--bar-delay, 0ms)
+  );
+}
+.preview-spark-bars > i:nth-child(2) {
+  --bar-delay: 40ms;
+}
+.preview-spark-bars > i:nth-child(3) {
+  --bar-delay: 80ms;
+}
+.preview-spark-bars > i:nth-child(4) {
+  --bar-delay: 120ms;
+}
+.preview-spark-bars > i:nth-child(5) {
+  --bar-delay: 160ms;
+}
+.preview-spark-bars > i:nth-child(6) {
+  --bar-delay: 200ms;
+}
+.preview-spark-bars > i:nth-child(7) {
+  --bar-delay: 240ms;
+}
+.preview-spark-bars > i:nth-child(8) {
+  --bar-delay: 280ms;
+}
+.preview-spark-bars > i:nth-child(9) {
+  --bar-delay: 320ms;
+}
+.preview-spark-bars > i:nth-child(10) {
+  --bar-delay: 360ms;
+}
+.lender-portfolio__funds {
+  --preview-delay: 60ms;
+}
+.lender-portfolio__allocation {
+  --preview-delay: 140ms;
+}
+.lender-portfolio__earnings {
+  --preview-delay: 220ms;
+}
+.lender-portfolio__stat:nth-child(2) {
+  --preview-delay: 280ms;
+}
+.lender-portfolio__stat:nth-child(3) {
+  --preview-delay: 340ms;
+}
+.lender-portfolio__vaults {
+  --preview-delay: 400ms;
+}
+.product-preview:not([data-reduced-motion="true"])
+  .lender-portfolio__ring-segments {
+  animation: preview-ring-in 1100ms cubic-bezier(0.22, 1, 0.36, 1) 220ms both;
+}
+.product-preview:not([data-reduced-motion="true"])
+  .lender-portfolio__capital-bar {
+  animation: preview-progress-in 1000ms cubic-bezier(0.22, 1, 0.36, 1) 180ms
+    both;
+}
+.product-preview:not([data-reduced-motion="true"])
+  .lender-portfolio__update[data-new="true"],
+.product-preview:not([data-reduced-motion="true"])
+  .lender-portfolio__update[data-available="true"] {
+  animation: preview-panel-in 350ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.product-preview[data-motion-running="false"]
+  :is(
+    .preview-enter,
+    .preview-spark-bars > i,
+    .product-preview__progress > span,
+    .lender-portfolio__ring-segments,
+    .lender-portfolio__capital-bar,
+    .lender-portfolio__update
+  ) {
+  animation-play-state: paused;
+}
+.product-preview__notification[data-kind="report"] {
+  background: #1b3949;
+  border-color: #537b9d;
+}
+.product-preview__notification[data-kind="report"]
+  .product-preview__notification-icon {
+  color: #b6d6ef;
+  border-color: #668eae;
+  background: #25485b;
+}
+.product-preview__notification[data-kind="withdrawal"] {
+  background: #1c402f;
+  border-color: #4e8a65;
+}
+.product-preview__notification[data-kind="withdrawal"]
+  .product-preview__notification-icon {
+  color: #a4e7bb;
+  border-color: #6cae81;
+  background: #26543a;
+}
+@keyframes preview-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes preview-progress-in {
+  from {
+    transform: scaleX(0);
+  }
+}
+@keyframes preview-bars-in {
+  from {
+    transform: scaleY(0.08);
+    opacity: 0;
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 0.6;
+  }
+}
+@keyframes preview-ring-in {
+  from {
+    opacity: 0;
+    transform: rotate(-42deg) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .product-preview .preview-enter,
+  .product-preview .preview-spark-bars > i,
+  .product-preview .lender-portfolio__ring-segments,
+  .product-preview .lender-portfolio__capital-bar {
+    animation: none !important;
+  }
+}

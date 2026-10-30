@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "data:refresh": "node scripts/refresh-dashboard-data.mjs",
     "prebuild": "node scripts/generate-agent-discovery.js",
     "build": "tsc -b && vite build",
     "postbuild": "node scripts/create-github-pages-fallback.js",

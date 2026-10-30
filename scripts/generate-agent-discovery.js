@@ -9,6 +9,12 @@ export const API_DOCS_URL = "https://docs.pareto.credit/developers/api";
 
 const PUBLIC_PAGES = [
   { path: "/", priority: "1.0", changefreq: "weekly" },
+  { path: "/credit-vaults", priority: "0.8", changefreq: "monthly" },
+  { path: "/studio", priority: "0.8", changefreq: "monthly" },
+  { path: "/data", priority: "0.7", changefreq: "daily" },
+  { path: "/thesis", priority: "0.7", changefreq: "monthly" },
+  { path: "/originators", priority: "0.7", changefreq: "monthly" },
+  { path: "/capital-providers", priority: "0.7", changefreq: "monthly" },
   { path: "/privacy-policy", priority: "0.3", changefreq: "yearly" },
   { path: "/terms-of-service", priority: "0.3", changefreq: "yearly" },
 ];
@@ -28,7 +34,8 @@ const API_RESOURCES = [
   "vault-types",
 ];
 
-const ensureTrailingSlash = (url) => (url.endsWith("/") ? url.slice(0, -1) : url);
+const ensureTrailingSlash = (url) =>
+  url.endsWith("/") ? url.slice(0, -1) : url;
 
 const canonicalUrl = (siteUrl, path) =>
   `${ensureTrailingSlash(siteUrl)}${path === "/" ? "/" : path}`;
@@ -49,10 +56,17 @@ const generateRobotsTxt = (siteUrl) => {
     "Allow: /",
     "Allow: /privacy-policy",
     "Allow: /terms-of-service",
+    "Allow: /thesis",
+    "Allow: /credit-vaults",
+    "Allow: /studio",
+    "Allow: /data",
+    "Allow: /originators",
+    "Allow: /capital-providers",
     "Allow: /.well-known/",
     "Allow: /sitemap.xml",
     "Allow: /openapi.json",
     "Disallow: /?showBanknote=",
+    "Disallow: /?showIndexes=",
     contentSignal,
     "",
     "User-agent: OAI-SearchBot",
@@ -103,7 +117,7 @@ const generateSitemapXml = (siteUrl, date) => {
     <lastmod>${lastmod}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
-  </url>`,
+  </url>`
   ).join("\n");
 
   return `<?xml version="1.0" encoding="UTF-8"?>
@@ -114,20 +128,29 @@ ${urls}
 
 const generateHomepageMarkdown = (siteUrl) => `# Pareto
 
-Pareto builds transparent credit infrastructure with enterprise-grade compliance for modern capital markets.
+Pareto is credit underwriting infrastructure for compliant onchain finance. Lenders, borrowers and underwriters structure, launch and run credit facilities in Pareto Studio, with terms enforced onchain.
 
 ## Primary Pages
 
 - [Home](${canonicalUrl(siteUrl, "/")})
+- [Credit Vaults](${canonicalUrl(siteUrl, "/credit-vaults")})
+- [Pareto Studio](${canonicalUrl(siteUrl, "/studio")})
+- [Thesis](${canonicalUrl(siteUrl, "/thesis")})
+- [Data Dashboard](${canonicalUrl(siteUrl, "/data")})
+- [Brand assets](https://docs.pareto.credit/resources/media-kit)
+- [For originators](${canonicalUrl(siteUrl, "/originators")})
+- [For capital allocators](${canonicalUrl(siteUrl, "/capital-providers")})
 - [Privacy Policy](${canonicalUrl(siteUrl, "/privacy-policy")})
 - [Terms of Service](${canonicalUrl(siteUrl, "/terms-of-service")})
 
 ## Product Areas
 
-- Tokenized credit vaults for institutional credit products
+- Pareto Studio: structure, launch and operate credit facilities (term, revolving, collateralized, asset-backed)
+- Credit Vaults: permissioned, MLA-governed onchain facilities with isolated accounting
+- AI within Credit Vaults and Studio: Pareto MCP (early access) provides read-only facility data to Claude, Codex and other MCP clients; operational actions are planned. Pareto Cura AI supports credit assessment as an underwriting companion.
+- Offering: Core (self-serve Studio), Pro (guided launch and DeFi distribution), White-Glove (NorthBridge as curator)
 - USP synthetic dollar products
-- White-label and studio tooling for credit infrastructure
-- Ecosystem, operator, documentation, governance, and developer resources
+- Documentation, governance, and developer resources
 
 ## Developer Resources
 
@@ -171,7 +194,7 @@ const generateApiCatalog = (siteUrl) =>
       ],
     },
     null,
-    2,
+    2
   );
 
 const schemaForListResponse = (resourceName) => ({
@@ -217,7 +240,7 @@ const generateOpenApi = () => {
           },
         },
       },
-    ]),
+    ])
   );
 
   return JSON.stringify(
@@ -248,7 +271,7 @@ const generateOpenApi = () => {
       paths,
     },
     null,
-    2,
+    2
   );
 };
 
@@ -260,7 +283,7 @@ const generateHealth = (date) =>
       generatedAt: date.toISOString(),
     },
     null,
-    2,
+    2
   );
 
 const generateOAuthProtectedResource = () =>
@@ -280,7 +303,7 @@ const generateOAuthProtectedResource = () =>
       api_key_documentation: API_DOCS_URL,
     },
     null,
-    2,
+    2
   );
 
 const generateMcpServerCard = (siteUrl) =>
@@ -310,7 +333,7 @@ const generateMcpServerCard = (siteUrl) =>
       },
     },
     null,
-    2,
+    2
   );
 
 const generateSiteSkill = (siteUrl) => `# Pareto Agent Discovery
@@ -346,14 +369,14 @@ const generateAgentSkillsIndex = (siteUrl, skillPath) => {
             "Discover Pareto public pages, API metadata, documentation, robots policy, and sitemap resources.",
           url: canonicalUrl(
             siteUrl,
-            "/.well-known/agent-skills/pareto-agent-discovery/SKILL.md",
+            "/.well-known/agent-skills/pareto-agent-discovery/SKILL.md"
           ),
           digest: `sha256:${digest}`,
         },
       ],
     },
     null,
-    2,
+    2
   );
 };
 
@@ -389,22 +412,31 @@ export function generateAgentDiscovery({
   const normalizedSiteUrl = ensureTrailingSlash(siteUrl);
   const siteSkillPath = resolve(
     publicDir,
-    ".well-known/agent-skills/pareto-agent-discovery/SKILL.md",
+    ".well-known/agent-skills/pareto-agent-discovery/SKILL.md"
   );
 
-  writeTextFile(resolve(publicDir, "robots.txt"), generateRobotsTxt(normalizedSiteUrl));
+  writeTextFile(
+    resolve(publicDir, "robots.txt"),
+    generateRobotsTxt(normalizedSiteUrl)
+  );
   writeTextFile(
     resolve(publicDir, "sitemap.xml"),
-    generateSitemapXml(normalizedSiteUrl, generatedAt),
+    generateSitemapXml(normalizedSiteUrl, generatedAt)
   );
-  writeTextFile(resolve(publicDir, "index.md"), generateHomepageMarkdown(normalizedSiteUrl));
+  writeTextFile(
+    resolve(publicDir, "index.md"),
+    generateHomepageMarkdown(normalizedSiteUrl)
+  );
   writeTextFile(resolve(publicDir, ".nojekyll"), "");
-  writeTextFile(resolve(publicDir, ".well-known/api-catalog"), generateApiCatalog(normalizedSiteUrl));
+  writeTextFile(
+    resolve(publicDir, ".well-known/api-catalog"),
+    generateApiCatalog(normalizedSiteUrl)
+  );
   writeTextFile(resolve(publicDir, "openapi.json"), generateOpenApi());
   writeTextFile(resolve(publicDir, "health"), generateHealth(generatedAt));
   writeTextFile(
     resolve(publicDir, ".well-known/oauth-protected-resource"),
-    generateOAuthProtectedResource(),
+    generateOAuthProtectedResource()
   );
   rmSync(resolve(publicDir, ".well-known/oauth-authorization-server"), {
     force: true,
@@ -414,12 +446,12 @@ export function generateAgentDiscovery({
   });
   writeTextFile(
     resolve(publicDir, ".well-known/mcp/server-card.json"),
-    generateMcpServerCard(normalizedSiteUrl),
+    generateMcpServerCard(normalizedSiteUrl)
   );
   writeTextFile(siteSkillPath, generateSiteSkill(normalizedSiteUrl));
   writeTextFile(
     resolve(publicDir, ".well-known/agent-skills/index.json"),
-    generateAgentSkillsIndex(normalizedSiteUrl, siteSkillPath),
+    generateAgentSkillsIndex(normalizedSiteUrl, siteSkillPath)
   );
   writeTextFile(resolve(publicDir, "_headers"), generateHeadersFile());
 

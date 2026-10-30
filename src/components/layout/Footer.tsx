@@ -26,6 +26,8 @@ interface FooterSocialLink extends FooterLink {
 }
 
 const platformLinks: FooterLink[] = [
+  { label: "Credit Vaults", to: "/credit-vaults" },
+  { label: "Pareto Studio", to: "/studio" },
   { label: "Web App", href: "https://app.pareto.credit", external: true },
   { label: "Manager App", href: "https://manager.pareto.credit", external: true },
   {
@@ -35,13 +37,17 @@ const platformLinks: FooterLink[] = [
   },
 ];
 
-const ecosystemLinks: FooterLink[] = [
+const resourceLinks: FooterLink[] = [
   { label: "Documentation", href: "https://docs.pareto.credit/", external: true },
   { label: "Governance", href: "https://gov.pareto.credit/", external: true },
   { label: "Github", href: "https://github.com/pareto-credit/", external: true },
 ];
 
 const companyLinks: FooterLink[] = [
+  { label: "Thesis", to: "/thesis" },
+  { label: "Data Dashboard", to: "/data" },
+  { label: "Originators", to: "/originators" },
+  { label: "Capital Allocators", to: "/capital-providers" },
   {
     label: "Security Audits",
     href: "https://docs.pareto.credit/developers/security/audits",
@@ -149,8 +155,8 @@ const Footer = () => {
                 />
               </div>
               <p className="max-w-sm text-lg leading-relaxed text-[var(--color-text-muted)]">
-                Programmable institutional credit built for the way capital
-                flows today.
+                Credit underwriting infrastructure for compliant onchain
+                finance.
               </p>
             </div>
             <div className="mt-12 hidden lg:block">
@@ -174,9 +180,9 @@ const Footer = () => {
 
               <div className="space-y-6">
                 <h4 className="mb-6 border-b border-[var(--color-border-inverse-soft)] pb-4 font-mono text-xs uppercase tracking-widest text-[var(--color-text-inverse)]">
-                  Ecosystem
+                  Resources
                 </h4>
-                {ecosystemLinks.map(renderFooterLink)}
+                {resourceLinks.map(renderFooterLink)}
               </div>
 
               <div

@@ -6,7 +6,7 @@ import { useMinWidth } from "../../hooks/useMinWidth";
 import { useParagraphFeed } from "../../hooks/useParagraphFeed";
 import type { NewsArticle } from "../../types/news";
 import { ButtonLink } from "../ui/Button";
-import { SectionContainer, SectionHeading } from "../ui/Section";
+import { SectionContainer, SectionHeader } from "../ui/Section";
 
 const NEWS_SKELETON_COUNT = 3;
 const DRAG_THRESHOLD_PX = 4;
@@ -118,7 +118,7 @@ const NewsSection = () => {
       }}
       className="group block cursor-pointer"
     >
-      <div className="relative mb-5 h-40 w-full overflow-hidden rounded border border-[var(--color-border-soft)] bg-[var(--color-surface-muted)] transition-colors group-hover:border-[color:rgb(112_177_158_/_0.50)] xl:h-44">
+      <div className="relative mb-5 h-40 w-full overflow-hidden ui-radius-control border border-[var(--color-border-soft)] bg-[var(--color-surface-muted)] transition-colors group-hover:border-[color:rgb(112_177_158_/_0.50)] xl:h-44">
         <img
           src={article.image || newsPlaceholder}
           alt={article.title}
@@ -162,30 +162,18 @@ const NewsSection = () => {
     >
       <div className="pointer-events-none absolute right-0 top-0 h-[420px] w-[420px] rounded-full blur-[120px]" />
       <SectionContainer className="ui-section-shell">
-        <div className="mb-8 flex flex-col items-end justify-between gap-4 md:flex-row xl:mb-10">
-          <SectionHeading
-            eyebrow="Insights"
-            title="Research, market structure, and onchain credit"
-            size="2xl"
-            titleClassName="text-4xl text-[var(--color-text-primary)] md:text-4xl"
-            descriptionClassName="text-[var(--color-text-secondary)]"
-          />
-
-          {showHeaderCta ? (
+        <SectionHeader
+          variant="collection"
+          eyebrow="Insights"
+          title={<>Research, market structure, <span className="text-[var(--color-text-muted)]">and onchain credit</span></>}
+          action={showHeaderCta ? (
             <div data-testid="news-header-actions">
-              <ButtonLink
-                href={PARAGRAPH_BLOG_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                variant="outline"
-                size="md"
-                className="text-[var(--color-text-primary)]"
-              >
+              <ButtonLink href={PARAGRAPH_BLOG_URL} target="_blank" rel="noopener noreferrer" variant="outline" size="md" className="text-[var(--color-text-primary)]">
                 View All Articles
               </ButtonLink>
             </div>
-          ) : null}
-        </div>
+          ) : undefined}
+        />
 
         <div data-testid="news-grid" className="hidden gap-5 md:grid md:grid-cols-3 xl:gap-6">
           {isLoading
@@ -195,20 +183,20 @@ const NewsSection = () => {
                   role="status"
                   className="animate-pulse"
                 >
-                  <div className="mb-5 h-40 w-full rounded border border-[var(--color-border-soft)] bg-[var(--color-surface-muted)] xl:h-44" />
+                  <div className="mb-5 h-40 w-full ui-radius-control border border-[var(--color-border-soft)] bg-[var(--color-surface-muted)] xl:h-44" />
                   <div className="mb-3 flex items-center justify-between gap-3">
                     <div className="h-3 w-24 rounded-full bg-[var(--color-surface-muted)]" />
-                    <div className="h-5 w-20 rounded bg-[var(--color-surface-muted)]" />
+                    <div className="h-5 w-20 ui-radius-control bg-[var(--color-surface-muted)]" />
                   </div>
-                  <div className="mb-3 h-6 w-11/12 rounded bg-[var(--color-surface-muted)]" />
-                  <div className="mb-3 h-6 w-8/12 rounded bg-[var(--color-surface-muted)]" />
+                  <div className="mb-3 h-6 w-11/12 ui-radius-control bg-[var(--color-surface-muted)]" />
+                  <div className="mb-3 h-6 w-8/12 ui-radius-control bg-[var(--color-surface-muted)]" />
                   <div className="mb-4 space-y-2">
-                    <div className="h-3 w-full rounded bg-[var(--color-surface-muted)]" />
-                    <div className="h-3 w-10/12 rounded bg-[var(--color-surface-muted)]" />
+                    <div className="h-3 w-full ui-radius-control bg-[var(--color-surface-muted)]" />
+                    <div className="h-3 w-10/12 ui-radius-control bg-[var(--color-surface-muted)]" />
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="h-4 w-24 rounded bg-[var(--color-surface-muted)]" />
-                    <div className="h-4 w-14 rounded bg-[var(--color-surface-muted)]" />
+                    <div className="h-4 w-24 ui-radius-control bg-[var(--color-surface-muted)]" />
+                    <div className="h-4 w-14 ui-radius-control bg-[var(--color-surface-muted)]" />
                   </div>
                   <span className="sr-only">Loading...</span>
                 </div>

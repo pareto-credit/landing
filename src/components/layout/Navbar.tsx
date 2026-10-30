@@ -1,32 +1,266 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type AnchorHTMLAttributes } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { useRouter, useRouterState } from "@tanstack/react-router";
+import "./navbar.css";
+import {
+  ArrowUpRight,
+  BookOpen,
+  Building2,
+  ChartNoAxesCombined,
+  ChevronDown,
+  ChevronRight,
+  Landmark,
+  LayoutDashboard,
+  Menu,
+  Palette,
+  Vault,
+  X,
+  type LucideIcon,
+} from "lucide-react";
 import paretoLogo from "../../assets/svgs/pareto-logo.svg";
 import paretoLogoLight from "../../assets/svgs/pareto-logo-light.svg";
 import { ButtonLink } from "../ui/Button";
 import { SectionContainer } from "../ui/Section";
-import { scrollToSection } from "../../lib/scrollToSection";
+import { PageLink } from "../ui/PageLink";
+import { personaPages, type PersonaPath } from "../../data/personas";
 
-const mobileNavigationItems = [
-  { id: "ecosystem", label: "Ecosystem", index: "01" },
-  { id: "products", label: "Product", index: "02" },
-  { id: "solutions", label: "Solutions", index: "03" },
-  { id: "news", label: "News", index: "04" },
-  { id: "contact", label: "Contact", index: "05" },
-] as const;
+type PagePath =
+  | "/thesis"
+  | "/credit-vaults"
+  | "/studio"
+  | "/data"
+  | PersonaPath;
 
-const Navbar = () => {
+type NavTarget =
+  | { kind: "section"; id: string }
+  | { kind: "page"; to: PagePath }
+  | { kind: "external"; href: string };
+
+interface NavItem {
+  label: string;
+  target: NavTarget;
+  description?: string;
+  icon?: LucideIcon;
+}
+
+interface MenuItem extends NavItem {
+  description: string;
+  icon: LucideIcon;
+}
+
+type MenuId = "solutions" | "audiences" | "about";
+
+interface MenuDefinition {
+  id: MenuId;
+  label: string;
+  groups: Array<{ title: string; items: MenuItem[] }>;
+  isActive: (pathname: string) => boolean;
+}
+
+const solutionGroups: MenuDefinition["groups"] = [
+  {
+    title: "Platform",
+    items: [
+      {
+        label: "Credit Vaults",
+        description:
+          "Explore onchain credit facilities and lending opportunities.",
+        icon: Vault,
+        target: { kind: "page", to: "/credit-vaults" },
+      },
+      {
+        label: "Pareto Studio",
+        description:
+          "Structure, launch and run credit facilities from one desk.",
+        icon: LayoutDashboard,
+        target: { kind: "page", to: "/studio" },
+      },
+    ],
+  },
+];
+
+const personaIcons: Record<(typeof personaPages)[number]["id"], LucideIcon> = {
+  originators: Building2,
+  "capital-providers": Landmark,
+};
+
+const audienceGroups: MenuDefinition["groups"] = [
+  {
+    title: "Clients",
+    items: personaPages.map((page) => ({
+      label: page.navLabel,
+      description: page.navDescription,
+      icon: personaIcons[page.id],
+      target: { kind: "page", to: page.path },
+    })),
+  },
+];
+
+const aboutGroups: MenuDefinition["groups"] = [
+  {
+    title: "About Pareto",
+    items: [
+      {
+        label: "Thesis",
+        description: "Our vision for the future of onchain credit.",
+        icon: BookOpen,
+        target: { kind: "page", to: "/thesis" },
+      },
+      {
+        label: "Data Dashboard",
+        description: "Explore protocol metrics and credit activity.",
+        icon: ChartNoAxesCombined,
+        target: { kind: "page", to: "/data" },
+      },
+      {
+        label: "Brand",
+        description: "Pareto brand assets and visual guidelines.",
+        icon: Palette,
+        target: {
+          kind: "external",
+          href: "https://docs.pareto.credit/resources/media-kit",
+        },
+      },
+    ],
+  },
+];
+
+const menus: MenuDefinition[] = [
+  {
+    id: "solutions",
+    label: "Solutions",
+    groups: solutionGroups,
+    isActive: (pathname) =>
+      pathname === "/" ||
+      ["/credit-vaults", "/studio"].includes(pathname.replace(/\/$/, "")),
+  },
+  {
+    id: "audiences",
+    label: "Clients",
+    groups: audienceGroups,
+    isActive: (pathname) =>
+      personaPages.some((page) => page.path === pathname.replace(/\/$/, "")),
+  },
+  {
+    id: "about",
+    label: "About",
+    groups: aboutGroups,
+    isActive: (pathname) =>
+      ["/thesis", "/data"].includes(pathname.replace(/\/$/, "")),
+  },
+];
+
+const mobileNavigationItems: NavItem[] = [
+  ...solutionGroups.flatMap((group) => group.items),
+  ...audienceGroups.flatMap((group) => group.items),
+  ...aboutGroups.flatMap((group) => group.items),
+  { label: "Contact", target: { kind: "section", id: "contact" } },
+];
+
+interface NavDestinationProps
+  extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href" | "target"> {
+  destination: NavTarget;
+}
+
+const NavDestination = ({ destination, ...props }: NavDestinationProps) => {
+  if (destination.kind === "external") {
+    return (
+      <a
+        {...props}
+        href={destination.href}
+        target="_blank"
+        rel="noopener noreferrer"
+      />
+    );
+  }
+  return destination.kind === "section" ? (
+    <PageLink {...props} to="/" hash={destination.id} />
+  ) : (
+    <PageLink {...props} to={destination.to} />
+  );
+};
+
+const MENU_CLOSE_DELAY_MS = 140;
+
+interface NavLocation {
+  pathname: string;
+  hash: string;
+}
+
+const isCurrentTarget = (target: NavTarget, location: NavLocation) =>
+  target.kind === "page"
+    ? location.pathname.replace(/\/$/, "") === target.to
+    : target.kind === "section" &&
+      location.pathname === "/" &&
+      location.hash.replace(/^#/, "") === target.id;
+
+const NavbarContent = ({ location }: { location: NavLocation }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [pendingSectionId, setPendingSectionId] = useState<string | null>(null);
+  const [openMenu, setOpenMenu] = useState<MenuId | null>(null);
+  const menuRefs = useRef<Partial<Record<MenuId, HTMLDivElement | null>>>({});
+  const menuButtonRefs = useRef<
+    Partial<Record<MenuId, HTMLButtonElement | null>>
+  >({});
+  const suppressMenuFocus = useRef(false);
+  const menuCloseTimer = useRef<number | null>(null);
   const shouldReduceMotion = useReducedMotion();
+  const isDarkHero = location.pathname.replace(/\/$/, "") === "/thesis" && !isScrolled;
+
+  const cancelMenuClose = () => {
+    if (menuCloseTimer.current !== null) {
+      window.clearTimeout(menuCloseTimer.current);
+      menuCloseTimer.current = null;
+    }
+  };
+
+  const scheduleMenuClose = () => {
+    cancelMenuClose();
+    menuCloseTimer.current = window.setTimeout(
+      () => setOpenMenu(null),
+      MENU_CLOSE_DELAY_MS
+    );
+  };
+
+  useEffect(() => {
+    if (!openMenu) return;
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!menuRefs.current[openMenu]?.contains(event.target as Node)) {
+        setOpenMenu(null);
+      }
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      setOpenMenu(null);
+      if (menuRefs.current[openMenu]?.contains(document.activeElement)) {
+        suppressMenuFocus.current = true;
+        menuButtonRefs.current[openMenu]?.focus();
+        suppressMenuFocus.current = false;
+      }
+    };
+
+    const closeOnScroll = () => setOpenMenu(null);
+    window.addEventListener("scroll", closeOnScroll, { passive: true });
+    document.addEventListener("pointerdown", handlePointerDown);
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("scroll", closeOnScroll);
+      document.removeEventListener("pointerdown", handlePointerDown);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [openMenu]);
+
+  useEffect(() => () => cancelMenuClose(), []);
   const navLinkClass =
-    "inline-flex items-center transition-colors hover:text-[var(--color-brand-alt)] focus-visible:text-[var(--color-brand-alt)] focus-visible:outline-none";
+    "site-nav-link inline-flex items-center transition-colors hover:text-[var(--color-brand-alt)] focus-visible:text-[var(--color-brand-alt)] focus-visible:outline-none";
   const mobileToggleButtonClass = mobileMenuOpen
     ? "border-[color:rgb(255_255_255_/_0.16)] bg-[color:rgb(255_255_255_/_0.04)] text-[var(--color-text-inverse)] shadow-[0_10px_30px_rgb(0,0,0,0.18)]"
     : isScrolled
-      ? "border-[color:rgb(14_24_19_/_0.08)] bg-transparent text-[var(--color-text-primary)] shadow-none"
-      : "border-[color:rgb(255_255_255_/_0.12)] bg-transparent text-[var(--color-text-primary)] shadow-none";
+    ? "border-[color:rgb(14_24_19_/_0.08)] bg-transparent text-[var(--color-text-primary)] shadow-none"
+    : "border-[color:rgb(255_255_255_/_0.12)] bg-transparent text-[var(--color-text-primary)] shadow-none";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,7 +274,6 @@ const Navbar = () => {
 
   useEffect(() => {
     if (!mobileMenuOpen) {
-      document.body.style.overflow = "";
       return;
     }
 
@@ -70,7 +303,7 @@ const Navbar = () => {
     if (!mobileMenuOpen) return;
 
     const handleResize = () => {
-      if (window.innerWidth >= 768) {
+      if (window.innerWidth >= 1024) {
         setMobileMenuOpen(false);
       }
     };
@@ -80,86 +313,214 @@ const Navbar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, [mobileMenuOpen]);
 
-  useEffect(() => {
-    if (mobileMenuOpen || !pendingSectionId) return;
-
-    const timeoutId = window.setTimeout(() => {
-      scrollToSection(pendingSectionId);
-      setPendingSectionId(null);
-    }, 40);
-
-    return () => window.clearTimeout(timeoutId);
-  }, [mobileMenuOpen, pendingSectionId]);
-
-  const handleSectionScroll = (id: string) => {
-    if (mobileMenuOpen) {
-      setPendingSectionId(id);
-      setMobileMenuOpen(false);
-      return;
-    }
-
-    scrollToSection(id);
-  };
-
   return (
     <>
       <nav
         data-site-navbar
-        className={`fixed z-[60] w-full border-b transition-[background-color,border-color,padding,backdrop-filter,box-shadow,color] duration-300 ${
+        data-mobile-open={mobileMenuOpen}
+        data-hero-tone={isDarkHero ? "dark" : undefined}
+        className={`fixed inset-x-0 top-0 z-[60] w-full border-b transition-[background-color,border-color,padding,backdrop-filter,box-shadow,color] duration-300 ${
           mobileMenuOpen
             ? "border-transparent bg-transparent py-6 text-[var(--color-text-inverse)] shadow-none backdrop-blur-0"
             : isScrolled
-              ? "border-[color:rgb(14_24_19_/_0.05)] bg-[var(--color-overlay-surface-80)] py-4 text-[var(--color-text-primary)] shadow-sm backdrop-blur-xl"
-              : "border-black/0 bg-transparent py-6 text-[var(--color-text-primary)]"
+            ? "border-[color:rgb(14_24_19_/_0.05)] bg-[var(--color-overlay-surface-80)] py-4 text-[var(--color-text-primary)] shadow-sm backdrop-blur-xl"
+            : "border-black/0 bg-transparent py-6 text-[var(--color-text-primary)]"
         }`}
       >
         <SectionContainer className="relative z-[60] flex items-center justify-between">
-          <button
-            onClick={() => handleSectionScroll("hero")}
+          <PageLink
+            to="/"
+            hash="hero"
+            onClick={() => setMobileMenuOpen(false)}
             className="ui-radius-control flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)]"
             aria-label="Scroll to top"
           >
             <img
-              src={mobileMenuOpen ? paretoLogoLight : paretoLogo}
+              src={mobileMenuOpen || isDarkHero ? paretoLogoLight : paretoLogo}
               alt="Pareto logo"
               className="h-8 w-auto"
             />
-          </button>
+          </PageLink>
 
           <div
-            className={`hidden items-center gap-8 font-mono text-sm md:flex ${
+            className={`contents items-center gap-8 font-mono text-sm lg:flex ${
               isScrolled
                 ? "text-[var(--color-text-primary)]"
                 : "text-[var(--color-text-secondary)]"
             }`}
           >
-            <button
-              onClick={() => handleSectionScroll("ecosystem")}
-              className={navLinkClass}
-            >
-              Ecosystem
-            </button>
-            <button
-              onClick={() => handleSectionScroll("products")}
-              className={navLinkClass}
-            >
-              Product
-            </button>
-            <button
-              onClick={() => handleSectionScroll("solutions")}
-              className={navLinkClass}
-            >
-              Solutions
-            </button>
-            <button
-              onClick={() => handleSectionScroll("news")}
-              className={navLinkClass}
-            >
-              News
-            </button>
+            {menus.map((menu) => {
+              const isOpen = openMenu === menu.id;
+              return (
+                <div
+                  key={menu.id}
+                  ref={(node) => {
+                    menuRefs.current[menu.id] = node;
+                  }}
+                  className="relative hidden lg:block"
+                  onMouseEnter={() => {
+                    cancelMenuClose();
+                    setOpenMenu(menu.id);
+                  }}
+                  onMouseLeave={scheduleMenuClose}
+                  onFocus={() => {
+                    if (suppressMenuFocus.current) return;
+                    cancelMenuClose();
+                    setOpenMenu(menu.id);
+                  }}
+                  onBlur={(event) => {
+                    if (!event.currentTarget.contains(event.relatedTarget)) {
+                      setOpenMenu(null);
+                    }
+                  }}
+                >
+                  <button
+                    ref={(node) => {
+                      menuButtonRefs.current[menu.id] = node;
+                    }}
+                    type="button"
+                    aria-expanded={isOpen}
+                    data-active={menu.isActive(location.pathname) || undefined}
+                    aria-controls={`${menu.id}-menu`}
+                    onClick={(event) => {
+                      cancelMenuClose();
+                      setOpenMenu((current) =>
+                        event.detail === 0 && current === menu.id
+                          ? null
+                          : menu.id
+                      );
+                    }}
+                    className={`${navLinkClass} gap-1`}
+                  >
+                    {menu.label}
+                    <ChevronDown
+                      size={15}
+                      className={`transition-transform duration-200 ${
+                        isOpen ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+
+                  <AnimatePresence>
+                    {isOpen ? (
+                      <motion.div
+                        id={`${menu.id}-menu`}
+                        data-testid={`${menu.id}-menu`}
+                        initial={
+                          shouldReduceMotion
+                            ? { opacity: 0 }
+                            : { opacity: 0, y: -6 }
+                        }
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={
+                          shouldReduceMotion
+                            ? { opacity: 0 }
+                            : { opacity: 0, y: -6 }
+                        }
+                        transition={{ duration: 0.18, ease: "easeOut" }}
+                        className={`absolute left-1/2 top-full z-[61] -translate-x-1/2 pt-5 font-sans ${
+                          menu.id === "audiences"
+                            ? "w-[34rem]"
+                            : "w-[30rem]"
+                        }`}
+                      >
+                        <div className="overflow-hidden ui-radius-panel border border-[var(--color-border-soft)] bg-[var(--color-surface)] text-[var(--color-text-primary)] shadow-[0_24px_60px_rgb(14_24_19_/_0.16)]">
+                          <div
+                            className={
+                              menu.groups.length === 1
+                                ? "grid grid-cols-1"
+                                : "grid grid-cols-[1.35fr_1fr]"
+                            }
+                          >
+                            {menu.groups.map((group, groupIndex) => (
+                              <div
+                                key={group.title}
+                                className={`p-5 ${
+                                  groupIndex > 0
+                                    ? "border-l border-[var(--color-border-soft)]"
+                                    : ""
+                                }`}
+                              >
+                                <div className="mb-2 px-3 text-sm text-[var(--color-text-muted)]">
+                                  {group.title}
+                                </div>
+                                <ul>
+                                  {group.items.map((item) => (
+                                    <li key={item.label}>
+                                      <NavDestination
+                                        destination={item.target}
+                                        onClick={() => setOpenMenu(null)}
+                                        aria-current={
+                                          isCurrentTarget(item.target, location)
+                                            ? item.target.kind === "page"
+                                              ? "page"
+                                              : "location"
+                                            : undefined
+                                        }
+                                        className="site-nav-destination group flex w-full items-start gap-3 ui-radius-control px-3 py-3 text-left transition-colors hover:bg-[var(--color-surface-muted)] focus-visible:bg-[var(--color-surface-muted)] focus-visible:outline-none"
+                                      >
+                                        <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center ui-radius-control bg-[var(--color-brand-deep)] text-[var(--color-brand-bright)]">
+                                          <item.icon
+                                            size={16}
+                                            strokeWidth={1.5}
+                                          />
+                                        </span>
+                                        <span>
+                                          <span className="flex items-center gap-1.5 text-[15px] font-semibold text-[var(--color-brand-dark)] group-hover:text-[var(--color-brand-deep)]">
+                                            {item.label}
+                                            {item.target.kind ===
+                                              "external" && (
+                                              <ArrowUpRight
+                                                size={13}
+                                                aria-hidden="true"
+                                              />
+                                            )}
+                                          </span>
+                                          <span className="mt-0.5 block text-[13px] leading-snug text-[var(--color-text-muted)]">
+                                            {item.description}
+                                          </span>
+                                        </span>
+                                      </NavDestination>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            ))}
+                          </div>
+                          <div className="flex items-center justify-between border-t border-[var(--color-border-soft)] bg-[var(--color-bg-light-alt)] px-8 py-4 text-sm">
+                            <span className="text-[var(--color-text-secondary)]">
+                              {menu.id === "about"
+                                ? "Want to learn more?"
+                                : "Not sure which fits?"}{" "}
+                              <PageLink
+                                to="/"
+                                hash="contact"
+                                onClick={() => setOpenMenu(null)}
+                                className="inline-flex items-center font-medium text-[var(--color-brand-deep)] underline-offset-4 hover:underline"
+                              >
+                                Contact us to discuss
+                                <ChevronRight size={14} />
+                              </PageLink>
+                            </span>
+                            <a
+                              href="https://docs.pareto.credit/"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-[0.12em] text-[var(--color-text-muted)] hover:text-[var(--color-brand-deep)]"
+                            >
+                              Docs <ArrowUpRight size={13} />
+                            </a>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ) : null}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
           </div>
 
-          <div className="hidden items-center gap-4 md:flex">
+          <div className="hidden items-center gap-4 md:ml-auto md:mr-3 md:flex lg:ml-0 lg:mr-0">
             <ButtonLink
               href="https://app.pareto.credit/"
               target="_blank"
@@ -173,8 +534,11 @@ const Navbar = () => {
           </div>
 
           <button
-            className={`ui-radius-control relative z-[60] flex h-11 w-11 items-center justify-center border backdrop-blur-md transition-[border-color,background-color,color,box-shadow] duration-300 md:hidden ${mobileToggleButtonClass}`}
-            onClick={() => setMobileMenuOpen((open) => !open)}
+            className={`ui-radius-control relative z-[60] flex h-11 w-11 items-center justify-center border backdrop-blur-md transition-[border-color,background-color,color,box-shadow] duration-300 lg:hidden ${mobileToggleButtonClass}`}
+            onClick={() => {
+              setOpenMenu(null);
+              setMobileMenuOpen((open) => !open);
+            }}
             aria-label="Toggle mobile menu"
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-navigation-dialog"
@@ -199,7 +563,7 @@ const Navbar = () => {
                 setMobileMenuOpen(false);
               }
             }}
-            className="fixed inset-0 z-[55] overflow-hidden bg-[linear-gradient(180deg,rgb(5_12_9),rgb(8_18_14))] md:hidden"
+            className="fixed inset-0 z-[55] overflow-hidden bg-[linear-gradient(180deg,rgb(5_12_9),rgb(8_18_14))] lg:hidden"
           >
             <div className="pointer-events-none absolute inset-0 overflow-hidden">
               <motion.div
@@ -263,7 +627,7 @@ const Navbar = () => {
                 ease: "easeOut",
               }}
               data-testid="mobile-menu-content"
-              className="relative z-10 flex h-[100svh] flex-col px-5 pb-5 pt-24 sm:px-6 sm:pb-8 sm:pt-28"
+              className="relative z-10 flex h-[100svh] flex-col overflow-y-auto overscroll-contain px-5 pb-5 pt-24 sm:px-6 sm:pb-8 sm:pt-28"
             >
               <div className="shrink-0">
                 <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[var(--color-brand-alt)]">
@@ -280,8 +644,8 @@ const Navbar = () => {
                 className="flex flex-1 flex-col justify-center gap-2.5 py-5 sm:gap-3 sm:py-6"
               >
                 {mobileNavigationItems.map((item, index) => (
-                  <motion.button
-                    key={item.id}
+                  <motion.div
+                    key={item.label}
                     initial={
                       shouldReduceMotion
                         ? { opacity: 1 }
@@ -300,21 +664,41 @@ const Navbar = () => {
                       ease: "easeOut",
                       delay: shouldReduceMotion ? 0 : 0.04 * index,
                     }}
-                    onClick={() => handleSectionScroll(item.id)}
-                    className="group flex min-h-12 items-center justify-between rounded-md border border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.035)] px-4 py-3 text-left shadow-[inset_0_1px_0_rgb(255_255_255_/_0.04)] backdrop-blur-sm transition-colors hover:border-[color:rgb(113_178_159_/_0.35)] hover:bg-[color:rgb(255_255_255_/_0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)] sm:min-h-14 sm:px-5 sm:py-4"
                   >
-                    <div>
-                      <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--color-text-muted-soft)]">
-                        {item.index}
+                    <NavDestination
+                      destination={item.target}
+                      onClick={() => setMobileMenuOpen(false)}
+                      aria-current={
+                        isCurrentTarget(item.target, location)
+                          ? item.target.kind === "page"
+                            ? "page"
+                            : "location"
+                          : undefined
+                      }
+                      className="site-nav-mobile-link group flex min-h-12 items-center justify-between ui-radius-control border border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.035)] px-4 py-3 text-left shadow-[inset_0_1px_0_rgb(255_255_255_/_0.04)] backdrop-blur-sm transition-colors hover:border-[color:rgb(113_178_159_/_0.35)] hover:bg-[color:rgb(255_255_255_/_0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)] sm:min-h-14 sm:px-5 sm:py-4"
+                    >
+                      <div className="min-w-0 pr-3">
+                        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--color-text-muted-soft)]">
+                          {String(index + 1).padStart(2, "0")}
+                        </div>
+                        <div className="mt-1 text-xl font-semibold leading-tight tracking-[-0.03em] text-[var(--color-text-inverse)] sm:text-2xl">
+                          {item.label}
+                        </div>
+                        {item.description && (
+                          <p className="mt-1 text-xs leading-relaxed text-[var(--color-text-muted-softer)] sm:text-[13px]">
+                            {item.description}
+                          </p>
+                        )}
                       </div>
-                      <div className="mt-1 text-[1.55rem] font-semibold leading-none tracking-[-0.04em] text-[var(--color-text-inverse)] sm:text-[1.9rem]">
-                        {item.label}
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center ui-radius-control border border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.04)] text-[var(--color-brand-alt)] transition-transform duration-300 group-hover:translate-x-1 sm:h-10 sm:w-10">
+                        {item.icon ? (
+                          <item.icon size={20} strokeWidth={1.5} />
+                        ) : (
+                          <ArrowUpRight size={17} />
+                        )}
                       </div>
-                    </div>
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.04)] text-[var(--color-brand-alt)] transition-transform duration-300 group-hover:translate-x-1 sm:h-10 sm:w-10">
-                      <ArrowUpRight size={17} />
-                    </div>
-                  </motion.button>
+                    </NavDestination>
+                  </motion.div>
                 ))}
               </div>
 
@@ -333,7 +717,7 @@ const Navbar = () => {
                   ease: "easeOut",
                   delay: shouldReduceMotion ? 0 : 0.18,
                 }}
-                className="shrink-0 rounded-md border border-[color:rgb(255_255_255_/_0.09)] bg-[linear-gradient(180deg,rgb(255_255_255_/_0.05),rgb(255_255_255_/_0.02))] p-3.5 shadow-[0_24px_60px_rgb(0_0_0_/_0.22)] backdrop-blur-xl sm:p-4"
+                className="shrink-0 ui-radius-control border border-[color:rgb(255_255_255_/_0.09)] bg-[linear-gradient(180deg,rgb(255_255_255_/_0.05),rgb(255_255_255_/_0.02))] p-3.5 shadow-[0_24px_60px_rgb(0_0_0_/_0.22)] backdrop-blur-xl sm:p-4"
               >
                 <div className="mb-3 flex items-start justify-between gap-4 sm:mb-4">
                   <div>
@@ -375,6 +759,25 @@ const Navbar = () => {
         )}
       </AnimatePresence>
     </>
+  );
+};
+
+const RoutedNavbar = () => {
+  const location = useRouterState({ select: (state) => state.location });
+  return <NavbarContent location={location} />;
+};
+
+const Navbar = () => {
+  const router = useRouter({ warn: false });
+  return router ? (
+    <RoutedNavbar />
+  ) : (
+    <NavbarContent
+      location={{
+        pathname: window.location.pathname,
+        hash: window.location.hash,
+      }}
+    />
   );
 };
 
