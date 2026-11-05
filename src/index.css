@@ -192,6 +192,31 @@
   padding-block: clamp(3.75rem, 7vh, 6rem);
 }
 
+/* Homepage sections follow content height and one shared spacing scale.
+   Hero and Studio retain their dedicated full-viewport compositions. */
+.home-page {
+  --home-section-padding: clamp(3rem, 5vw, 5rem);
+}
+
+.home-page .ui-section-shell {
+  padding-block: var(--home-section-padding);
+}
+
+.home-page > .ui-section-fit {
+  min-height: 0;
+}
+
+/* Short headings stay on one line; longer headings wrap into balanced lines. */
+.home-page [data-header-layout="collection"] h2 {
+  text-wrap: balance;
+}
+
+/* Reserve room for card shadows without adding space around the section content. */
+.home-page .home-section-track {
+  margin-block: -1rem;
+  padding-block: 1rem;
+}
+
 * {
   box-sizing: border-box;
 }

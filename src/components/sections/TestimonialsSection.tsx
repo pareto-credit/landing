@@ -149,7 +149,7 @@ const TestimonialsSection = () => {
       <div className="relative z-10 w-full ui-section-shell">
         <SectionContainer>
           <SectionHeader
-            variant="centered"
+            variant="collection"
             eyebrow="Testimonials"
             title={<>Built around what the market wants, <span className="text-[var(--color-text-muted)]">not just for it</span></>}
           />
@@ -216,7 +216,7 @@ const TestimonialsSection = () => {
             onLostPointerCapture={finishDragging}
             onPointerEnter={() => setIsTrackHovered(true)}
             onPointerLeave={() => setIsTrackHovered(false)}
-            className="marquee-scroll flex w-full cursor-grab overflow-x-auto overflow-y-hidden py-4 select-none active:cursor-grabbing xl:py-10"
+            className="home-section-track marquee-scroll flex w-full cursor-grab overflow-x-auto overflow-y-hidden py-4 select-none active:cursor-grabbing xl:py-10"
           >
             <div className="flex w-max px-8 md:px-10">
               {[...Array(TESTIMONIALS_MARQUEE_SETS)].map((_, arrayIndex) => (

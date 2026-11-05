@@ -32,12 +32,11 @@ declare global {
 const siteSections = [
   "hero",
   "underwriting",
-  "studio",
-  "structures",
-  "agents",
-  "testimonials",
   "products",
+  "structures",
+  "studio",
   "offering",
+  "testimonials",
   "news",
   "contact",
 ] as const;

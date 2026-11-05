@@ -97,15 +97,15 @@ describe("StudioShowcaseSection", () => {
     ).toBeInTheDocument();
   });
 
-  it("labels the desk as illustrative and links to the ecosystem page", () => {
+  it("labels the desk as illustrative and links to the Studio product page", () => {
     render(<StudioShowcaseSection />);
 
     expect(
       within(screen.getByTestId("studio-desk")).getByText("Illustrative")
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("link", { name: /for originators/i })
-    ).toHaveAttribute("href", "/originators");
+      screen.getByRole("link", { name: /explore studio/i })
+    ).toHaveAttribute("href", "/studio");
   });
 
   it("pre-selects Studio access in the contact form", () => {
@@ -118,6 +118,21 @@ describe("StudioShowcaseSection", () => {
 
     expect(capture.interests).toEqual(["Pareto Studio (Core)"]);
     capture.stop();
+  });
+
+  it("offers lender inquiries and app access when the Lenders tab is selected", () => {
+    render(<><StudioShowcaseSection /><ContactSection /></>);
+
+    fireEvent.click(screen.getByRole("tab", { name: /lenders/i }));
+    expect(screen.getByRole("link", { name: /enter app/i })).toHaveAttribute(
+      "href", "https://app.pareto.credit/"
+    );
+    fireEvent.click(screen.getByRole("button", { name: /ask a question/i }));
+    expect(screen.getByRole("combobox", { name: /interested in/i })).toHaveValue("Lending");
+
+    fireEvent.click(screen.getByRole("tab", { name: /borrowers/i }));
+    expect(screen.getByRole("button", { name: /request studio access/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /explore studio/i })).toHaveAttribute("href", "/studio");
   });
 });
 

@@ -210,7 +210,7 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
             variant="collection"
             eyebrow="Live Vaults"
             title={<>Tokenized credit, <span className="text-[var(--color-text-muted)]">built for scale</span></>}
-            description="A modern fixed-income stack with the oversight, compliance, and reliability institutions expect."
+            description="Access onchain credit with institutional oversight and controls."
             action={showHeaderCta ? (
               <div data-testid="products-header-actions">
                 <ButtonLink href="https://app.pareto.credit/" target="_blank" rel="noopener noreferrer" variant="outline" size="md" className="text-[var(--color-text-primary)]">
@@ -348,7 +348,7 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
               onLostPointerCapture={finishDragging}
               onPointerEnter={() => setIsTrackHovered(true)}
               onPointerLeave={() => setIsTrackHovered(false)}
-              className="marquee-scroll flex w-full cursor-grab overflow-x-auto overflow-y-hidden py-4 select-none active:cursor-grabbing xl:py-10"
+              className="home-section-track marquee-scroll flex w-full cursor-grab overflow-x-auto overflow-y-hidden py-4 select-none active:cursor-grabbing xl:py-10"
             >
               <div className="flex w-max px-8 md:px-10">
                 {[...Array(PRODUCTS_MARQUEE_SETS)].map((_, loopIndex) => (

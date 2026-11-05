@@ -21,9 +21,9 @@ directly; the proxy is only enabled for the development server.
 
 ## Landing content and navigation
 
-The homepage presents underwriting, Pareto Studio, credit facilities, agents,
-live vaults and the Core/Pro/White-Glove offering. Long-form content lives at
-`/credit-vaults`, `/studio`, `/thesis`, `/originators` and `/capital-providers`.
+The homepage presents underwriting, partner logos, live vaults, credit facilities,
+Pareto Studio and the Core/Pro/White-Glove offering, in that order. Long-form content
+lives at `/credit-vaults`, `/studio`, `/thesis`, `/originators` and `/capital-providers`.
 `/data` provides protocol metrics, selectable credit history, sourced market
 context and a public facility table ordered by numeric USD TVL. Unknown TVLs sort
 after a real zero. The hero shows Credit extended, Total value locked, the API's
@@ -72,11 +72,13 @@ USP/sUSP remain available for preview with
   Guide markers anchor to the actual navigation items and adapt after resizing.
   The four capability cards use compact artwork with hover/focus transitions,
   in a four/two/one-column responsive grid. Reduced motion keeps the art static.
-- `AgentsSection` defaults to the concise homepage view, with inline availability
+- `AgentsSection` retains a compact variant, with inline availability
   chips and the larger shared `agents/AgentSession` illustration. Both `studio`
-  and `credit-vaults` use the same fuller workflow. The illustrative read-only
-  prompt, queries and results pause offscreen/hidden and remain static for reduced
-  motion. A small pause/resume control lets readers inspect the MCP illustration.
+  and `credit-vaults` use the same fuller workflow; the homepage omits this section.
+  The hero MCP announcement opens the contact form with early access preselected.
+  The illustrative read-only prompt, queries and results pause offscreen/hidden
+  and remain static for reduced motion. A small pause/resume control lets readers
+  inspect the MCP illustration.
   Its client is labelled Your LLM; the result table and row dividers become visible
   only at their respective reveal times, without changing the reserved layout.
   No standalone Agents navigation or product-specific homepage agent links.
@@ -100,10 +102,25 @@ USP/sUSP remain available for preview with
   Borrower-report, accrual and available-withdrawal events update the matching
   table state and notifications; claimable funds remain included until claimed.
   Each persona enters with staggered panels and filling charts/progress bars.
-  All three previews share a 660px frame capped at 78% of viewport height;
-  excess content is clipped and the previews do not scroll. Toasts overlay the
-  app content. Illustrative tables do not add keyboard tab stops.
-  Showcase accents live in `studio-showcase.css`, entrance motion in
+  Product-page previews share a 660px frame capped at 78% of viewport height.
+  The homepage Studio section fills one viewport, including clearance for the
+  fixed header. The claim and compact segmented role tabs are centered above the
+  light preview. Two hero-style CTAs overlay its lower edge on a clean alpha fade,
+  with glass confined to the controls and a restrained halo behind the upper frame.
+  The Lenders tab offers Ask a question (preselecting Lending in the contact form)
+  and Enter app; other roles retain Studio access and the Studio product-page link.
+  Content-sized role tabs use a compact visual pill inside a 44px touch target.
+  The preview chrome retains the
+  Illustrative badge.
+  Smaller screens show a concise dashboard rather than clipping
+  the full desktop layout. The preview uses neutral surfaces and a tonal green
+  palette based on the supplied light Studio screenshot; all data stays fictional.
+  The preview uses the exact light-theme wordmark from Studio's
+  `public/images/logo-wordmark-dark.svg`, copied as `studio-wordmark-dark.svg`.
+  Toasts overlay desktop app content; compact mobile previews omit them.
+  Illustrative tables do not add keyboard tab stops.
+  Showcase layout lives in `studio-showcase.css`, its scoped light skin in
+  `studio-preview-light.css`, entrance motion in
   `studio-motion.css`, and the Portfolio layout in `lender-portfolio.css`.
   Legacy `/ecosystem` redirects home; legacy audience URLs redirect to their
   canonical paths, preserving query parameters and section hashes.

@@ -65,7 +65,7 @@ const ContactSection = ({
           }
           description={
             description ??
-            "Tell us whether you're launching a facility, allocating capital or connecting your agents, and we'll help you pick the right plan and setup."
+            "Tell us what you're building. We'll help you find the right setup."
           }
         />
 

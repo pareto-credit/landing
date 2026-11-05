@@ -6,7 +6,6 @@ import SegmentsSection from './components/sections/SegmentsSection'
 import UnderwritingSection from './components/sections/UnderwritingSection'
 import StudioShowcaseSection from './components/sections/StudioShowcaseSection'
 import StructuresSection from './components/sections/StructuresSection'
-import AgentsSection from './components/sections/AgentsSection'
 import HowItWorksSection from './components/sections/HowItWorksSection'
 import ProductsSection from './components/sections/ProductsSection'
 import SyntheticDollarSection from './components/sections/SyntheticDollarSection'
@@ -56,18 +55,17 @@ const App = () => {
   return (
     <div className="min-h-screen overflow-x-clip bg-[var(--color-bg-page)] font-sans text-[var(--color-text-inverse)] selection:bg-[var(--color-brand-alt)] selection:text-[var(--color-bg-page)]">
       <Navbar />
-      <main>
+      <main className="home-page">
         <HeroSection metrics={metrics} isMetricsLoading={isProductsDataLoading} />
         <UnderwritingSection />
         <SegmentsSection />
-        <StudioShowcaseSection />
+        <ProductsSection vaults={vaults} isVaultsLoading={isProductsDataLoading} />
         {showHowItWorksSection ? <HowItWorksSection /> : null}
         <StructuresSection />
-        <AgentsSection />
-        <ProductsSection vaults={vaults} isVaultsLoading={isProductsDataLoading} />
         {showIndexesSection ? (
           <SyntheticDollarSection data={syntheticDollarData} isLoading={isSyntheticDollarLoading} />
         ) : null}
+        <StudioShowcaseSection />
         <PlansSection />
         <TestimonialsSection />
         <NewsSection />

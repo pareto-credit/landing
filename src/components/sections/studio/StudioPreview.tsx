@@ -5,18 +5,24 @@ import {
   useRef,
   useState,
   type KeyboardEvent,
+  type ReactNode,
 } from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { usePageVisibility } from "../../../hooks/usePageVisibility";
 import StudioDesk from "./StudioDesk";
-import { personaDesks } from "./studioDeskData";
+import { personaDesks, type PersonaId } from "./studioDeskData";
 import "./studio-showcase.css";
+import "./studio-preview-light.css";
 
 /** The same role-aware, bounded product preview is shared by the home and Studio pages. */
 export default function StudioPreview({
   mode = "desks",
+  variant = "default",
+  renderActions,
 }: {
   mode?: "desks" | "guided";
+  variant?: "default" | "showcase";
+  renderActions?: (persona: PersonaId) => ReactNode;
 }) {
   const guided = mode === "guided";
   const pageVisible = usePageVisibility();
@@ -70,12 +76,18 @@ export default function StudioPreview({
   };
 
   return (
-    <>
+    <div
+      className={
+        variant === "showcase"
+          ? "studio-preview studio-preview--showcase studio-preview--light"
+          : "studio-preview"
+      }
+    >
       {!guided && (
         <div
           role="tablist"
           aria-label="Studio desks"
-          className="mb-6 grid grid-cols-3 gap-2 border-b border-white/15 pb-3"
+          className="studio-preview__tabs mb-6 grid grid-cols-3 gap-2 border-b border-white/15 pb-3"
         >
           {personaDesks.map((item, index) => (
             <button
@@ -145,6 +157,7 @@ export default function StudioPreview({
                   transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 >
                   <StudioDesk
+                    theme={variant === "showcase" ? "light" : "dark"}
                     desk={desk}
                     isLive={isInView}
                     pauseEvents={previewFocused}
@@ -157,6 +170,7 @@ export default function StudioPreview({
           ))}
         </div>
       </div>
-    </>
+      {renderActions?.(personaDesks[active].id)}
+    </div>
   );
 }

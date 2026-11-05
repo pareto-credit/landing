@@ -1,74 +1,87 @@
-import { useRef } from "react";
-import { useInView, useReducedMotion } from "framer-motion";
-import { usePageVisibility } from "../../hooks/usePageVisibility";
 import "./studio/studio-showcase.css";
-import { STUDIO_PRODUCT_NAME } from "../../data/brand";
+import { PARETO_APP_URL, STUDIO_PRODUCT_NAME } from "../../data/brand";
 import { requestContact } from "../../lib/siteNavigation";
-import { Button } from "../ui/Button";
+import { Button, ButtonLink } from "../ui/Button";
+import { buttonClassName } from "../ui/buttonStyles";
 import { PageLink } from "../ui/PageLink";
 import { SectionContainer, SectionHeader } from "../ui/Section";
 import StudioPreview from "./studio/StudioPreview";
+import type { PersonaId } from "./studio/studioDeskData";
 
+/** Keeps the product claim, access action and preview in one viewport. */
 export default function StudioShowcaseSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const ambientVisible = useInView(sectionRef, { amount: 0.08 });
-  const pageVisible = usePageVisibility();
-  const reduced = useReducedMotion();
-
   return (
     <section
-      ref={sectionRef}
       id="studio"
-      data-ambient-running={ambientVisible && pageVisible && !reduced}
-      className="studio-showcase relative overflow-hidden border-y border-[var(--color-border-inverse-subtle)] text-[var(--color-text-inverse)]"
+      aria-labelledby="studio-title"
+      className="studio-showcase relative border-y border-[var(--color-border-inverse-subtle)] text-[var(--color-text-inverse)]"
     >
-      <SectionContainer className="ui-section-shell">
-        <SectionHeader
-          eyebrow={STUDIO_PRODUCT_NAME}
-          title={
-            <>
-              Every facility, <span className="ui-text-shimmer">one desk.</span>
-            </>
-          }
-          description="A connected operating environment for the people behind every credit facility."
-          tone="dark"
-        />
-        <StudioPreview />
-        <div
-          data-testid="studio-overview"
-          className="mt-8 overflow-hidden rounded-[6px] border border-white/15"
-        >
-          <div className="flex flex-col gap-5 p-6 md:flex-row md:items-center md:justify-between lg:p-7">
-            <p className="max-w-2xl text-lg leading-relaxed text-white/80">
-              Structure, launch and run credit facilities from one place. Bring
-              your team, participants and facility operations into a shared
-              environment.
-            </p>
-            <Button
-              variant="primary"
-              size="md"
-              className="shrink-0 self-start md:self-center"
-              onClick={() => requestContact("Pareto Studio (Core)")}
-            >
-              Request Studio access
-            </Button>
-          </div>
+      <SectionContainer className="studio-showcase__shell">
+        <div data-testid="studio-overview" className="studio-showcase__header">
+          <SectionHeader
+            eyebrow={STUDIO_PRODUCT_NAME}
+            titleId="studio-title"
+            variant="centered"
+            title={
+              <>
+                Every facility, <span className="text-white/65">one desk.</span>
+              </>
+            }
+            description="Structure, launch and run credit facilities from one place."
+            tone="dark"
+          />
         </div>
-        <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3">
-          <PageLink
-            to="/studio"
-            className="inline-flex min-h-11 items-center gap-3 text-sm text-[#c8dbbb] transition-colors hover:text-white"
-          >
-            Explore Pareto Studio <span aria-hidden="true">↗</span>
-          </PageLink>
-          <PageLink
-            to="/originators"
-            className="inline-flex min-h-11 items-center gap-3 text-sm text-[#c8dbbb] transition-colors hover:text-white"
-          >
-            For originators<span aria-hidden="true">↗</span>
-          </PageLink>
+        <div className="studio-showcase__stage">
+          <StudioPreview
+            variant="showcase"
+            renderActions={(persona) => <StudioActions persona={persona} />}
+          />
         </div>
       </SectionContainer>
     </section>
+  );
+}
+
+/** Keeps the inquiry and destination relevant to the role currently on display. */
+function StudioActions({ persona }: { persona: PersonaId }) {
+  const lender = persona === "allocate";
+
+  return (
+    <div className="studio-showcase__actions">
+      <div className="studio-showcase__cta-row">
+        <Button
+          variant="primary"
+          size="lg"
+          onClick={() =>
+            requestContact(lender ? "Lending" : "Pareto Studio (Core)")
+          }
+        >
+          {lender ? "Ask a question" : "Request Studio access"}
+        </Button>
+        {lender ? (
+          <ButtonLink
+            href={PARETO_APP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="white"
+            size="lg"
+            className="studio-showcase__explore"
+          >
+            Enter app
+          </ButtonLink>
+        ) : (
+          <PageLink
+            to="/studio"
+            className={buttonClassName(
+              "white",
+              "lg",
+              "studio-showcase__explore"
+            )}
+          >
+            Explore Studio
+          </PageLink>
+        )}
+      </div>
+    </div>
   );
 }

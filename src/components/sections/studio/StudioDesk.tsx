@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import paretoMark from "../../../assets/svgs/pareto-mark-white.svg";
+import studioWordmarkDark from "../../../assets/svgs/studio-wordmark-dark.svg";
 import { usePageVisibility } from "../../../hooks/usePageVisibility";
 import {
   borrowerFacility,
@@ -29,6 +30,7 @@ interface StudioDeskProps {
   onComplete?: () => void;
   workspaceView?: StudioWorkspaceView | "overview";
   animateWorkspace?: boolean;
+  theme?: "dark" | "light";
 }
 
 /** Each role gets its own sequence; completion is emitted after the last event settles. */
@@ -43,6 +45,7 @@ function ProductSession({
   onComplete,
   workspaceView,
   animateWorkspace = true,
+  theme = "dark",
 }: StudioDeskProps) {
   const reduced = Boolean(useReducedMotion());
   const visible = usePageVisibility();
@@ -152,10 +155,20 @@ function ProductSession({
             aria-label="Preview workspace"
           >
             <div className="product-preview__brand">
-              <img src={paretoMark} alt="Pareto" />
-              <span>
-                Pareto<small>STUDIO</small>
-              </span>
+              {theme === "light" ? (
+                <img
+                  className="product-preview__wordmark"
+                  src={studioWordmarkDark}
+                  alt="Pareto"
+                />
+              ) : (
+                <>
+                  <img src={paretoMark} alt="Pareto" />
+                  <span>
+                    Pareto<small>STUDIO</small>
+                  </span>
+                </>
+              )}
             </div>
             <span className="product-preview__nav-group">Analytics</span>
             <span
@@ -232,8 +245,18 @@ function ProductSession({
             {lender ? (
               <>
                 <div className="product-preview__brand">
-                  <img src={paretoMark} alt="Pareto" />
-                  <span>Pareto</span>
+                  {theme === "light" ? (
+                    <img
+                      className="product-preview__wordmark"
+                      src={studioWordmarkDark}
+                      alt="Pareto"
+                    />
+                  ) : (
+                    <>
+                      <img src={paretoMark} alt="Pareto" />
+                      <span>Pareto</span>
+                    </>
+                  )}
                 </div>
                 <div className="product-preview__nav" aria-hidden="true">
                   <span>Home</span>
@@ -262,9 +285,11 @@ function ProductSession({
             {!lender && (
               <div className="product-preview__heading">
                 <div>
-                  <p className="product-preview__micro">
-                    {screen?.section ?? "Analytics"}
-                  </p>
+                  {theme !== "light" && (
+                    <p className="product-preview__micro">
+                      {screen?.section ?? "Analytics"}
+                    </p>
+                  )}
                   <h3>{screen?.title ?? scenario.title}</h3>
                 </div>
                 <span className="product-preview__pill">USDC · Ethereum</span>
@@ -338,9 +363,11 @@ function ProductSession({
           </AnimatePresence>
         </div>
       </div>
-      <p className="product-preview__notice">
-        Demo data and simulated activity.
-      </p>
+      {theme !== "light" && (
+        <p className="product-preview__notice">
+          Demo data and simulated activity.
+        </p>
+      )}
     </div>
   );
 }

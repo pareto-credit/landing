@@ -39,7 +39,7 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            onClick={() => scrollToSection("agents")}
+            onClick={() => requestContact(`${MCP_PRODUCT_NAME} early access`)}
             data-testid="hero-announcement"
             className="ui-frost-chip group mb-6 inline-flex items-center gap-2 px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-wider text-[var(--color-brand-deep)] shadow-sm transition-colors hover:text-[var(--color-text-primary)] sm:mb-8 sm:text-xs"
           >

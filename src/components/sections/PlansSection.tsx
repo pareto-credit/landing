@@ -101,6 +101,7 @@ const PlansSection = ({
     >
       <SectionContainer className="ui-section-shell">
         <SectionHeader
+          variant="collection"
           eyebrow={eyebrow}
           titleId="offering-title"
           title={
@@ -115,7 +116,7 @@ const PlansSection = ({
           }
           description={
             description ??
-            "Run facilities yourself in Studio, launch with our team beside you, or hand the whole facility to NorthBridge."
+            "Launch independently, with our team, or through NorthBridge."
           }
         />
 

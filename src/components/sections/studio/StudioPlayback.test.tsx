@@ -203,6 +203,8 @@ describe("Studio preview playback and exploration", () => {
     ).toHaveFocus();
     completeSequence();
     expect(lender).toHaveAttribute("aria-selected", "true");
+    expect(screen.getByRole("button", { name: /ask a question/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /enter app/i })).toHaveAttribute("href", "https://app.pareto.credit/");
     completeSequence();
     expect(underwriter).toHaveAttribute("aria-selected", "true");
     expect(screen.queryByText("12,500,000 USDC")).not.toBeInTheDocument();
@@ -280,7 +282,7 @@ describe("Studio preview playback and exploration", () => {
     expect(desk).toHaveAttribute("data-motion-running", "true");
     expect(desk).toHaveAttribute("data-playing", "false");
     act(() =>
-      screen.getByRole("button", { name: /Request Studio access/i }).focus()
+      screen.getByRole("button", { name: /Ask a question/i }).focus()
     );
     advance();
     expect(screen.getByText("October report")).toBeInTheDocument();

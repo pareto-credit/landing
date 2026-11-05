@@ -61,9 +61,10 @@ const UnderwritingSection = () => {
 
       <SectionContainer className="ui-section-shell relative z-10">
         <SectionHeader
+          variant="collection"
           eyebrow="Institutional grade"
           title={<>Credit infrastructure <span className="text-[var(--color-text-muted)]">across the collateral spectrum.</span></>}
-          description="From onchain assets to collateral held with qualified custodians and banks, receivables and loan portfolios. Configure the credit facility around the assets behind it."
+          description="Structure credit against onchain assets, custodied collateral and receivables."
         />
 
         <div

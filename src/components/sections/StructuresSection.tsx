@@ -30,7 +30,6 @@ import { creditStructures } from "../../data/structures";
 import { requestContact } from "../../lib/siteNavigation";
 import { cn } from "../../lib/cn";
 import { Button } from "../ui/Button";
-import { PageLink } from "../ui/PageLink";
 import { SectionContainer, SectionHeader } from "../ui/Section";
 import RevolvingCreditDiagram from "./structures/RevolvingCreditDiagram";
 
@@ -488,6 +487,7 @@ const StructuresSection = () => {
     >
       <SectionContainer className="ui-section-shell relative z-10">
         <SectionHeader
+          variant="collection"
           eyebrow="Credit facilities"
           title={
             <>
@@ -497,15 +497,7 @@ const StructuresSection = () => {
               </span>
             </>
           }
-          description="Flexible financing for evolving capital needs. Pareto connects businesses with capital through onchain infrastructure designed to support long-term growth."
-          action={
-            <PageLink
-              to="/credit-vaults"
-              className="inline-flex min-h-11 items-center gap-3 text-sm text-[var(--color-brand-deep)] underline underline-offset-4"
-            >
-              Explore Credit Vaults <span aria-hidden="true">↗</span>
-            </PageLink>
-          }
+          description="Flexible financing for your capital needs, built onchain."
         />
 
         <LayoutGroup>
