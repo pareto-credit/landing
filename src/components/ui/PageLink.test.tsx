@@ -8,7 +8,7 @@ const originalScrollIntoView = Object.getOwnPropertyDescriptor(Element.prototype
 const setup = async () => {
   const scrollIntoView = vi.fn();
   vi.stubGlobal("scrollTo", vi.fn());
-  vi.stubGlobal("matchMedia", () => ({ matches: false }));
+  vi.stubGlobal("matchMedia", () => ({ matches: false, addEventListener: vi.fn(), removeEventListener: vi.fn() }));
   Object.defineProperty(Element.prototype, "scrollIntoView", { configurable: true, value: scrollIntoView });
   const root = createRootRoute({ component: () => <Outlet /> });
   const home = createRoute({ getParentRoute: () => root, path: "/", component: () => <section id="studio">Studio destination</section> });

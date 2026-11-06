@@ -1,0 +1,61 @@
+{
+  "siteUrl": "https://pareto.credit",
+  "imageWidth": 1200,
+  "imageHeight": 630,
+  "pages": {
+    "/": {
+      "title": "Pareto | Credit Underwriting Infrastructure",
+      "description": "Pareto is credit underwriting infrastructure for compliant onchain finance. Structure, launch and run credit facilities in Pareto Studio, with terms enforced onchain and agents handling the back office.",
+      "image": "pareto.png",
+      "imageAlt": "Pareto — credit underwriting infrastructure"
+    },
+    "/originators": {
+      "title": "Credit Infrastructure for Originators | Pareto",
+      "description": "Structure and operate credit facilities around your business. Connect with institutional and onchain capital through Pareto’s credit infrastructure.",
+      "image": "originators.png",
+      "imageAlt": "Pareto for Originators — financing built around your business"
+    },
+    "/capital-providers": {
+      "title": "Onchain Credit for Capital Allocators | Pareto",
+      "description": "Explore onchain credit opportunities, review facility terms and follow portfolio activity with Pareto. Assess access, risk and liquidity before allocating.",
+      "image": "capital-allocators.png",
+      "imageAlt": "Pareto for Capital Allocators — a broader perspective on credit"
+    },
+    "/credit-vaults": {
+      "title": "Credit Vaults | Pareto",
+      "description": "Explore Pareto Credit Vaults, facility structures and the infrastructure for onchain credit operations.",
+      "image": "pareto.png",
+      "imageAlt": "Pareto — credit underwriting infrastructure"
+    },
+    "/studio": {
+      "title": "Pareto Studio | Pareto",
+      "description": "Structure, launch and run credit facilities in Pareto Studio. Coordinate facility setup, participants, operations and reporting.",
+      "image": "pareto.png",
+      "imageAlt": "Pareto — credit underwriting infrastructure"
+    },
+    "/thesis": {
+      "title": "Credit Is Moving Onchain | Pareto",
+      "description": "Explore Pareto’s thesis on connecting private credit with onchain capital through credit underwriting infrastructure.",
+      "image": "pareto.png",
+      "imageAlt": "Pareto — credit underwriting infrastructure"
+    },
+    "/data": {
+      "title": "Data Dashboard | Pareto",
+      "description": "Explore Pareto platform metrics, live credit facilities and market context in the Pareto Data Dashboard.",
+      "image": "pareto.png",
+      "imageAlt": "Pareto — credit underwriting infrastructure"
+    },
+    "/privacy-policy": {
+      "title": "Privacy Policy | Pareto",
+      "description": "Read Pareto’s privacy policy and information about personal data processing.",
+      "image": "pareto.png",
+      "imageAlt": "Pareto — credit underwriting infrastructure"
+    },
+    "/terms-of-service": {
+      "title": "Terms of Service | Pareto",
+      "description": "Read the terms of service for Pareto’s website and services.",
+      "image": "pareto.png",
+      "imageAlt": "Pareto — credit underwriting infrastructure"
+    }
+  }
+}

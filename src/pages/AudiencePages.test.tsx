@@ -113,7 +113,7 @@ describe("audience pages", () => {
         "framework",
         "experience",
         "questions",
-        id === "originators" ? "contact" : "get-started",
+        "contact",
       ]);
       const hero = screen.getByRole("region", {
         name:
@@ -161,13 +161,32 @@ describe("audience pages", () => {
     }
   });
 
-  it("keeps capital allocator enquiries linked to the homepage form", () => {
+  it("gives capital allocators a local enquiry form with the risk disclosure", () => {
     render(<PersonaPage id="capital-providers" />);
-    expect(screen.queryByRole("form")).not.toBeInTheDocument();
-    const cta = screen.getByRole("link", { name: "Talk to us" });
-    expect(cta).toHaveAttribute("href", "/#contact");
-    fireEvent.click(cta);
-    expect(consumePendingContactInterest()).toBe("Lending");
+    const page = personaPages.find((page) => page.id === "capital-providers")!;
+    const form = screen.getByRole("form", { name: page.closing.title });
+    expect(within(form).getByRole("combobox", { name: /interested in/i })).toHaveValue("Lending");
+    expect(within(form).getByRole("button", { name: "Send enquiry" })).toHaveAttribute("type", "submit");
+    expect(form).toHaveAccessibleDescription(page.disclaimer!);
+    expect(within(screen.getByRole("region", { name: page.closing.title })).getByText(page.disclaimer!)).toBeVisible();
+  });
+
+  it("keeps allocator enquiries and entered details on the Capital Allocators page", async () => {
+    render(<PersonaPage id="capital-providers" />);
+    const organization = screen.getByRole("textbox", { name: /organization/i });
+    const interest = screen.getByRole("combobox", { name: /interested in/i });
+    fireEvent.change(organization, { target: { value: "Example Fund" } });
+    for (const label of ["Talk to us", "Discuss your allocation"]) {
+      fireEvent.change(interest, { target: { value: "Borrowing" } });
+      const cta = screen.getByRole("link", { name: label });
+      expect(cta).toHaveAttribute("href", "/capital-providers#contact");
+      fireEvent.click(cta);
+      expect(interest).toHaveValue("Lending");
+      expect(organization).toHaveValue("Example Fund");
+      expect(scrollToSection).toHaveBeenCalledWith("contact");
+      await waitFor(() => expect(interest).toHaveFocus());
+      expect(consumePendingContactInterest()).toBeNull();
+    }
   });
 
   it("gives capital allocators layers to evaluate and a direct route to the Lender App", () => {

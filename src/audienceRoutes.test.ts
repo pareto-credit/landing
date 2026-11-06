@@ -5,7 +5,9 @@ import { routeTree } from "./routeTree.gen";
 describe("audience route compatibility", () => {
   it.each([
     ["/originators", "/originators"],
+    ["/originators/", "/originators/"],
     ["/capital-providers", "/capital-providers"],
+    ["/capital-providers/", "/capital-providers/"],
     ["/ecosystem", "/"],
     ["/ecosystem/originators", "/originators"],
     ["/ecosystem/capital-providers", "/capital-providers"],
@@ -57,7 +59,7 @@ describe("audience route compatibility", () => {
 
   it.each([
     ["/originators", "get-started", "contact"],
-    ["/capital-providers", "get-started", "get-started"],
+    ["/capital-providers", "get-started", "contact"],
     ["/originators", "participation", "framework"],
     ["/originators", "getting-started", "framework"],
     ["/capital-providers", "products", "hero"],

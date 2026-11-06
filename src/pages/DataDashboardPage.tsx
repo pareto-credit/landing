@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Coins, Layers3, Network, Wallet, type LucideIcon } from "lucide-react";
 import Footer from "../components/layout/Footer";
 import Navbar from "../components/layout/Navbar";
@@ -97,13 +96,6 @@ export default function DataDashboardPage() {
     typeof tvlUsd === "number" && Number.isFinite(tvlUsd)
       ? Math.max(largest, tvlUsd)
       : largest, 0);
-  useEffect(() => {
-    const previous = document.title;
-    document.title = "Data Dashboard | Pareto";
-    return () => {
-      document.title = previous;
-    };
-  }, []);
   const hasCreditExtended =
     isUsingFallback || availability.metrics.creditExtended;
   // This legacy hook field contains the API's aggregate TVL, not loan principal.

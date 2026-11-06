@@ -1,5 +1,6 @@
 /** Keep bookmarks to sections of the former audience pages useful. */
 const legacySections: Record<string, string> = {
+  "get-started": "contact",
   participation: "framework",
   "getting-started": "framework",
   operations: "hero",

@@ -24,6 +24,7 @@ interface ContactSectionProps {
   description?: string;
   submitLabel?: string;
   className?: string;
+  disclaimer?: string;
 }
 
 const ContactSection = ({
@@ -32,6 +33,7 @@ const ContactSection = ({
   description,
   submitLabel = "Request Access",
   className,
+  disclaimer,
 }: ContactSectionProps) => {
   const titleId = useId();
   const [interest, setInterest] = useState<ContactInterest>(
@@ -83,6 +85,7 @@ const ContactSection = ({
         <div className="ui-radius-panel mx-auto max-w-5xl border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-6 shadow-[0_20px_42px_rgb(14_24_19_/_0.08)] md:p-8 lg:p-9">
           <form
             aria-labelledby={titleId}
+            aria-describedby={disclaimer ? `${titleId}-disclaimer` : undefined}
             className="space-y-5"
             action="https://formspree.io/f/xkgjlnwg"
             method="POST"
@@ -230,6 +233,14 @@ const ContactSection = ({
               {submitLabel}
             </Button>
           </form>
+          {disclaimer && (
+            <p
+              id={`${titleId}-disclaimer`}
+              className="mt-6 border-t border-[var(--color-border-soft)] pt-5 text-sm leading-relaxed text-[var(--color-text-muted)]"
+            >
+              {disclaimer}
+            </p>
+          )}
         </div>
       </SectionContainer>
     </section>

@@ -15,11 +15,12 @@ import { PageLink } from "../components/ui/PageLink";
 import { SectionContainer, SectionHeader } from "../components/ui/Section";
 import FaqAccordion from "../components/ui/FaqAccordion";
 import { PARETO_DOCS_URL, type ContactInterest } from "../data/brand";
-import { getPersonaPage, type PersonaPageId } from "../data/personas";
 import {
-  requestContact,
-  setPendingContactInterest,
-} from "../lib/siteNavigation";
+  getPersonaPage,
+  type PersonaPageId,
+  type PersonaPath,
+} from "../data/personas";
+import { requestContact } from "../lib/siteNavigation";
 
 const benefitArtwork: Record<PersonaPageId, AudienceArtKind[]> = {
   originators: ["structure", "network", "activity", "distribution"],
@@ -55,30 +56,26 @@ const ContactLink = ({
   label,
   interest,
   variant = "text",
-  local = false,
+  to,
 }: {
   label: string;
   interest: ContactInterest;
   variant?: "primary" | "white" | "text";
-  local?: boolean;
+  to: PersonaPath;
 }) => (
   <PageLink
-    to={local ? "/originators" : "/"}
+    to={to}
     hash="contact"
     onClick={(event) => {
-      if (local) {
-        if (
-          event.button === 0 &&
-          !event.metaKey &&
-          !event.ctrlKey &&
-          !event.shiftKey &&
-          !event.altKey
-        ) {
-          event.preventDefault();
-          requestContact(interest);
-        }
-      } else {
-        setPendingContactInterest(interest);
+      if (
+        event.button === 0 &&
+        !event.metaKey &&
+        !event.ctrlKey &&
+        !event.shiftKey &&
+        !event.altKey
+      ) {
+        event.preventDefault();
+        requestContact(interest);
       }
     }}
     className={
@@ -115,7 +112,7 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
                     <ContactLink
                       label={primaryCta.label}
                       interest={primaryCta.interest}
-                      local={originators}
+                      to={page.path}
                       variant="primary"
                     />
                   ) : (
@@ -132,7 +129,7 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
                     <ContactLink
                       label={secondaryCta.label}
                       interest={secondaryCta.interest}
-                      local={originators}
+                      to={page.path}
                       variant="white"
                     />
                   ) : (
@@ -224,7 +221,7 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
                   <ContactLink
                     label={page.frameworkCta.label}
                     interest={page.frameworkCta.interest}
-                    local={originators}
+                    to={page.path}
                     variant="primary"
                   />
                 }
@@ -290,51 +287,19 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
           </SectionContainer>
         </section>
 
-        {originators ? (
-          <ContactSection
-            className="audience-section audience-contact"
-            defaultInterest="Borrowing"
-            title={
-              <TwoToneTitle
-                title={page.closing.title}
-                muted={page.closing.titleMuted}
-              />
-            }
-            description={page.closing.copy}
-            submitLabel="Send enquiry"
-          />
-        ) : (
-          <section
-            id="get-started"
-            className="audience-closing"
-            aria-labelledby="closing-title"
-          >
-            <SectionContainer className="ui-section-shell">
-              <AudienceReveal>
-                <SectionHeader
-                  eyebrow="Get started"
-                  titleId="closing-title"
-                  title={page.closing.title}
-                  description={page.closing.copy}
-                  variant="collection"
-                  tone="dark"
-                  action={
-                    <div className="audience-closing__action">
-                      <ContactLink
-                        label={page.closing.cta}
-                        interest={page.closing.interest}
-                        variant="primary"
-                      />
-                    </div>
-                  }
-                />
-                {page.disclaimer && (
-                  <p className="audience-disclaimer">{page.disclaimer}</p>
-                )}
-              </AudienceReveal>
-            </SectionContainer>
-          </section>
-        )}
+        <ContactSection
+          className="audience-section audience-contact"
+          defaultInterest={page.closing.interest}
+          title={
+            <TwoToneTitle
+              title={page.closing.title}
+              muted={page.closing.titleMuted}
+            />
+          }
+          description={page.closing.copy}
+          submitLabel="Send enquiry"
+          disclaimer={page.disclaimer}
+        />
       </main>
       <Footer />
     </div>

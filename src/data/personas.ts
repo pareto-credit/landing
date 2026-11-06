@@ -233,9 +233,10 @@ export const personaPages: PersonaPageContent[] = [
       label: "Explore live facilities",
       href: "https://app.pareto.credit/",
     },
-    secondaryCta: { label: "Speak with our team", interest: "Lending" },
+    secondaryCta: { label: "Talk to us", interest: "Lending" },
     benefits: {
       title: "A clearer view of credit.",
+      titleMuted: "of credit.",
       intro:
         "From your first review to ongoing oversight.",
       items: [
@@ -259,6 +260,7 @@ export const personaPages: PersonaPageContent[] = [
     },
     framework: {
       title: "Understand every layer.",
+      titleMuted: "every layer.",
       intro:
         "See how access, credit assessment and operations connect.",
       items: [
@@ -375,6 +377,7 @@ export const personaPages: PersonaPageContent[] = [
     ],
     closing: {
       title: "Find the right starting point.",
+      titleMuted: "starting point.",
       copy: "Discuss your allocation requirements or explore the facilities available on Pareto.",
       cta: "Talk to us",
       interest: "Lending",

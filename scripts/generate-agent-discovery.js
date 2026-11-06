@@ -37,8 +37,10 @@ const API_RESOURCES = [
 const ensureTrailingSlash = (url) =>
   url.endsWith("/") ? url.slice(0, -1) : url;
 
-const canonicalUrl = (siteUrl, path) =>
-  `${ensureTrailingSlash(siteUrl)}${path === "/" ? "/" : path}`;
+const canonicalUrl = (siteUrl, path) => {
+  const directoryPage = path !== "/" && PUBLIC_PAGES.some((page) => page.path === path);
+  return `${ensureTrailingSlash(siteUrl)}${directoryPage ? `${path}/` : path}`;
+};
 
 const writeTextFile = (path, content) => {
   mkdirSync(dirname(path), { recursive: true });

@@ -5,15 +5,15 @@ Pareto is credit underwriting infrastructure for compliant onchain finance. Lend
 ## Primary Pages
 
 - [Home](https://pareto.credit/)
-- [Credit Vaults](https://pareto.credit/credit-vaults)
-- [Pareto Studio](https://pareto.credit/studio)
-- [Thesis](https://pareto.credit/thesis)
-- [Data Dashboard](https://pareto.credit/data)
+- [Credit Vaults](https://pareto.credit/credit-vaults/)
+- [Pareto Studio](https://pareto.credit/studio/)
+- [Thesis](https://pareto.credit/thesis/)
+- [Data Dashboard](https://pareto.credit/data/)
 - [Brand assets](https://docs.pareto.credit/resources/media-kit)
-- [For originators](https://pareto.credit/originators)
-- [For capital allocators](https://pareto.credit/capital-providers)
-- [Privacy Policy](https://pareto.credit/privacy-policy)
-- [Terms of Service](https://pareto.credit/terms-of-service)
+- [For originators](https://pareto.credit/originators/)
+- [For capital allocators](https://pareto.credit/capital-providers/)
+- [Privacy Policy](https://pareto.credit/privacy-policy/)
+- [Terms of Service](https://pareto.credit/terms-of-service/)
 
 ## Product Areas
 

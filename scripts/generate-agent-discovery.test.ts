@@ -55,17 +55,20 @@ describe("generateAgentDiscovery", () => {
     const sitemap = readFileSync(join(publicDir, "sitemap.xml"), "utf8");
 
     expect(sitemap).toContain("<loc>https://example.com/</loc>");
-    expect(sitemap).toContain("<loc>https://example.com/credit-vaults</loc>");
-    expect(sitemap).toContain("<loc>https://example.com/studio</loc>");
-    expect(sitemap).toContain("<loc>https://example.com/data</loc>");
-    expect(sitemap).toContain("<loc>https://example.com/originators</loc>");
+    expect(sitemap).toContain("<loc>https://example.com/credit-vaults/</loc>");
+    expect(sitemap).toContain("<loc>https://example.com/studio/</loc>");
+    expect(sitemap).toContain("<loc>https://example.com/data/</loc>");
+    expect(sitemap).toContain("<loc>https://example.com/originators/</loc>");
     expect(sitemap).toContain(
-      "<loc>https://example.com/capital-providers</loc>"
+      "<loc>https://example.com/capital-providers/</loc>"
     );
     expect(sitemap).not.toContain("/ecosystem");
-    expect(sitemap).toContain("<loc>https://example.com/privacy-policy</loc>");
+    const markdown = readFileSync(join(publicDir, "index.md"), "utf8");
+    expect(markdown).toContain("https://example.com/originators/)");
+    expect(markdown).toContain("https://example.com/capital-providers/)");
+    expect(sitemap).toContain("<loc>https://example.com/privacy-policy/</loc>");
     expect(sitemap).toContain(
-      "<loc>https://example.com/terms-of-service</loc>"
+      "<loc>https://example.com/terms-of-service/</loc>"
     );
     expect(sitemap).toContain("<lastmod>2026-04-28</lastmod>");
   });

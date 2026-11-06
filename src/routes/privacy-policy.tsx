@@ -1,8 +1,10 @@
+import { pageHead } from "../lib/pageHead";
 import { createFileRoute } from "@tanstack/react-router";
 import { loadLegalDocument } from "../data/legalDocuments";
 import LegalDocumentPage from "../pages/LegalDocumentPage";
 
 export const Route = createFileRoute("/privacy-policy")({
+  head: () => pageHead("/privacy-policy"),
   loader: () => loadLegalDocument("privacy"),
   component: PrivacyPolicyRoute,
 });

@@ -1,5 +1,6 @@
-import type { AnchorHTMLAttributes, MouseEvent } from "react";
-import { useRouter } from "@tanstack/react-router";
+import type { AnchorHTMLAttributes } from "react";
+import { Link, useRouter } from "@tanstack/react-router";
+import { useReducedMotion } from "framer-motion";
 
 export type SitePagePath =
   | "/"
@@ -29,43 +30,37 @@ export const PageLink = ({
   ...props
 }: PageLinkProps) => {
   const router = useRouter({ warn: false });
+  const reducedMotion = useReducedMotion();
   const href = hash ? `${to}#${hash}` : to;
 
-  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
-    onClick?.(event);
-    if (
-      event.defaultPrevented ||
-      !router ||
-      event.button !== 0 ||
-      event.metaKey ||
-      event.ctrlKey ||
-      event.shiftKey ||
-      event.altKey ||
-      (props.target && props.target !== "_self") ||
-      props.download !== undefined
-    ) {
-      return;
-    }
-
-    event.preventDefault();
-    void router.navigate({
-      to,
-      hash,
-      hashScrollIntoView: hash
-        ? {
-            block: "start",
-            behavior:
-              router.state.location.pathname === to &&
-              !window.matchMedia("(prefers-reduced-motion: reduce)").matches
-                ? "smooth"
-                : "instant",
-          }
-        : undefined,
-    });
-  };
+  if (router) {
+    return (
+      <Link
+        to={to}
+        hash={hash}
+        onClick={onClick}
+        hashScrollIntoView={
+          hash
+            ? {
+                block: "start",
+                behavior:
+                  router.state.location.pathname.replace(/\/$/, "") ===
+                    to.replace(/\/$/, "") &&
+                  !reducedMotion
+                    ? "smooth"
+                    : "instant",
+              }
+            : undefined
+        }
+        {...props}
+      >
+        {children}
+      </Link>
+    );
+  }
 
   return (
-    <a href={href} onClick={handleClick} {...props}>
+    <a href={href} onClick={onClick} {...props}>
       {children}
     </a>
   );

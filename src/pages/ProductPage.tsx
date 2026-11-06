@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import CreditVaultsContent from "../components/sections/product/CreditVaultsContent";
@@ -16,14 +15,6 @@ import "../components/sections/product/product-pages.css";
 
 export default function ProductPage({ id }: { id: ProductPageId }) {
   const vaults = id === "credit-vaults";
-  const name = vaults ? "Credit Vaults" : "Pareto Studio";
-  useEffect(() => {
-    const previous = document.title;
-    document.title = `${name} | Pareto`;
-    return () => {
-      document.title = previous;
-    };
-  }, [name]);
 
   return (
     <div className="product-page min-h-screen overflow-x-clip bg-[var(--color-bg-page)] font-sans text-[var(--color-text-inverse)]">
