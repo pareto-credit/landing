@@ -33,14 +33,16 @@ export interface PersonaPageContent {
   };
   benefits: {
     title: string;
+    titleMuted?: string;
     intro: string;
     items: Array<{ title: string; copy: string }>;
   };
-  framework: { title: string; intro: string; items: FrameworkItem[] };
+  framework: { title: string; titleMuted?: string; intro: string; items: FrameworkItem[] };
   frameworkCta: { label: string; interest: ContactInterest };
   questions: Array<{ question: string; answer: string }>;
   closing: {
     title: string;
+    titleMuted?: string;
     copy: string;
     cta: string;
     interest: ContactInterest;
@@ -68,6 +70,7 @@ export const personaPages: PersonaPageContent[] = [
     },
     benefits: {
       title: "A foundation for growth.",
+      titleMuted: "for growth.",
       intro:
         "The infrastructure to establish your credit program and help it grow.",
       items: [
@@ -91,6 +94,7 @@ export const personaPages: PersonaPageContent[] = [
     },
     framework: {
       title: "Build around every layer.",
+      titleMuted: "every layer.",
       intro:
         "Connect the layers your financing program needs.",
       items: [
@@ -173,7 +177,7 @@ export const personaPages: PersonaPageContent[] = [
     },
     frameworkCta: {
       label: "Discuss your facility",
-      interest: "Underwriting",
+      interest: "Borrowing",
     },
     questions: [
       collateralQuestion,
@@ -210,6 +214,7 @@ export const personaPages: PersonaPageContent[] = [
     ],
     closing: {
       title: "Let’s build around your business.",
+      titleMuted: "around your business.",
       copy: "Tell us about your financing needs and the credit program you want to develop.",
       cta: "Talk to us",
       interest: "Borrowing",

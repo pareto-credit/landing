@@ -8,6 +8,7 @@ import AudienceCardArt, {
 import AudienceFramework from "../components/sections/persona/AudienceFramework";
 import AudienceReveal from "../components/sections/persona/AudienceReveal";
 import AudienceStories from "../components/sections/persona/AudienceStories";
+import ContactSection from "../components/sections/ContactSection";
 import "../components/sections/persona/persona.css";
 import { buttonClassName } from "../components/ui/buttonStyles";
 import { PageLink } from "../components/ui/PageLink";
@@ -15,25 +16,71 @@ import { SectionContainer, SectionHeader } from "../components/ui/Section";
 import FaqAccordion from "../components/ui/FaqAccordion";
 import { PARETO_DOCS_URL, type ContactInterest } from "../data/brand";
 import { getPersonaPage, type PersonaPageId } from "../data/personas";
-import { setPendingContactInterest } from "../lib/siteNavigation";
+import {
+  requestContact,
+  setPendingContactInterest,
+} from "../lib/siteNavigation";
 
 const benefitArtwork: Record<PersonaPageId, AudienceArtKind[]> = {
   originators: ["structure", "network", "activity", "distribution"],
   "capital-providers": ["selection", "network", "terms", "activity"],
 };
+const TwoToneTitle = ({
+  title,
+  muted,
+  dark = false,
+}: {
+  title: string;
+  muted?: string;
+  dark?: boolean;
+}) =>
+  muted && title.endsWith(muted) ? (
+    <>
+      {title.slice(0, -muted.length)}
+      <span
+        className={
+          dark
+            ? "text-[var(--color-text-muted-inverse)]"
+            : "text-[var(--color-text-muted)]"
+        }
+      >
+        {muted}
+      </span>
+    </>
+  ) : (
+    title
+  );
+
 const ContactLink = ({
   label,
   interest,
   variant = "text",
+  local = false,
 }: {
   label: string;
   interest: ContactInterest;
   variant?: "primary" | "white" | "text";
+  local?: boolean;
 }) => (
   <PageLink
-    to="/"
+    to={local ? "/originators" : "/"}
     hash="contact"
-    onClick={() => setPendingContactInterest(interest)}
+    onClick={(event) => {
+      if (local) {
+        if (
+          event.button === 0 &&
+          !event.metaKey &&
+          !event.ctrlKey &&
+          !event.shiftKey &&
+          !event.altKey
+        ) {
+          event.preventDefault();
+          requestContact(interest);
+        }
+      } else {
+        setPendingContactInterest(interest);
+      }
+    }}
     className={
       variant === "text" ? "audience-text-link" : buttonClassName(variant, "md")
     }
@@ -68,6 +115,7 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
                     <ContactLink
                       label={primaryCta.label}
                       interest={primaryCta.interest}
+                      local={originators}
                       variant="primary"
                     />
                   ) : (
@@ -84,6 +132,7 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
                     <ContactLink
                       label={secondaryCta.label}
                       interest={secondaryCta.interest}
+                      local={originators}
                       variant="white"
                     />
                   ) : (
@@ -116,7 +165,12 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
               <SectionHeader
                 eyebrow="Why Pareto"
                 titleId="benefits-title"
-                title={page.benefits.title}
+                title={
+                  <TwoToneTitle
+                    title={page.benefits.title}
+                    muted={page.benefits.titleMuted}
+                  />
+                }
                 description={page.benefits.intro}
               />
             </AudienceReveal>
@@ -151,7 +205,13 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
               <SectionHeader
                 eyebrow="Credit infrastructure"
                 titleId="framework-title"
-                title={page.framework.title}
+                title={
+                  <TwoToneTitle
+                    title={page.framework.title}
+                    muted={page.framework.titleMuted}
+                    dark
+                  />
+                }
                 description={page.framework.intro}
                 tone="dark"
               />
@@ -164,6 +224,7 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
                   <ContactLink
                     label={page.frameworkCta.label}
                     interest={page.frameworkCta.interest}
+                    local={originators}
                     variant="primary"
                   />
                 }
@@ -182,7 +243,12 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
               <SectionHeader
                 eyebrow="Client stories"
                 titleId="experience-title"
-                title="Credit in practice."
+                title={
+                  <TwoToneTitle
+                    title="Credit in practice."
+                    muted="in practice."
+                  />
+                }
                 variant="collection"
               />
             </AudienceReveal>
@@ -201,7 +267,12 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
                 <SectionHeader
                   eyebrow="FAQ"
                   titleId="questions-title"
-                  title="Your questions answered"
+                  title={
+                    <TwoToneTitle
+                      title="Your questions answered"
+                      muted="answered"
+                    />
+                  }
                   variant="collection"
                 />
                 <a
@@ -219,36 +290,51 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
           </SectionContainer>
         </section>
 
-        <section
-          id="get-started"
-          className="audience-closing"
-          aria-labelledby="closing-title"
-        >
-          <SectionContainer className="ui-section-shell">
-            <AudienceReveal>
-              <SectionHeader
-                eyebrow="Get started"
-                titleId="closing-title"
+        {originators ? (
+          <ContactSection
+            className="audience-section audience-contact"
+            defaultInterest="Borrowing"
+            title={
+              <TwoToneTitle
                 title={page.closing.title}
-                description={page.closing.copy}
-                variant="collection"
-                tone="dark"
-                action={
-                  <div className="audience-closing__action">
-                    <ContactLink
-                      label={page.closing.cta}
-                      interest={page.closing.interest}
-                      variant="primary"
-                    />
-                  </div>
-                }
+                muted={page.closing.titleMuted}
               />
-              {page.disclaimer && (
-                <p className="audience-disclaimer">{page.disclaimer}</p>
-              )}
-            </AudienceReveal>
-          </SectionContainer>
-        </section>
+            }
+            description={page.closing.copy}
+            submitLabel="Send enquiry"
+          />
+        ) : (
+          <section
+            id="get-started"
+            className="audience-closing"
+            aria-labelledby="closing-title"
+          >
+            <SectionContainer className="ui-section-shell">
+              <AudienceReveal>
+                <SectionHeader
+                  eyebrow="Get started"
+                  titleId="closing-title"
+                  title={page.closing.title}
+                  description={page.closing.copy}
+                  variant="collection"
+                  tone="dark"
+                  action={
+                    <div className="audience-closing__action">
+                      <ContactLink
+                        label={page.closing.cta}
+                        interest={page.closing.interest}
+                        variant="primary"
+                      />
+                    </div>
+                  }
+                />
+                {page.disclaimer && (
+                  <p className="audience-disclaimer">{page.disclaimer}</p>
+                )}
+              </AudienceReveal>
+            </SectionContainer>
+          </section>
+        )}
       </main>
       <Footer />
     </div>

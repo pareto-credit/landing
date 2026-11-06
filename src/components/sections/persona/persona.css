@@ -70,6 +70,7 @@
 .audience-section .ui-section-shell,
 .audience-closing .ui-section-shell { padding-block: var(--section-content-padding); }
 .audience-section--muted { background: var(--color-surface-muted); }
+.audience-contact { min-height: 0; }
 .audience-benefits {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

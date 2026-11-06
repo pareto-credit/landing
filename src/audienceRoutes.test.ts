@@ -41,7 +41,7 @@ describe("audience route compatibility", () => {
     ["how-it-works", "framework"],
     ["proof", "experience"],
     ["plans", "framework"],
-    ["get-started", "get-started"],
+    ["get-started", "contact"],
   ])("maps the old section #%s to #%s", async (oldHash, newHash) => {
     const router = createRouter({
       routeTree,
@@ -56,6 +56,8 @@ describe("audience route compatibility", () => {
   });
 
   it.each([
+    ["/originators", "get-started", "contact"],
+    ["/capital-providers", "get-started", "get-started"],
     ["/originators", "participation", "framework"],
     ["/originators", "getting-started", "framework"],
     ["/capital-providers", "products", "hero"],

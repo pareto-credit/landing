@@ -4,7 +4,10 @@ import PersonaPage from "../pages/PersonaPage";
 
 export const Route = createFileRoute("/originators")({
   beforeLoad: ({ location }) => {
-    const hash = resolveLegacyAudienceHash(location.hash);
+    const hash =
+      location.hash === "get-started"
+        ? "contact"
+        : resolveLegacyAudienceHash(location.hash);
     if (hash !== location.hash)
       throw redirect({
         to: "/originators",

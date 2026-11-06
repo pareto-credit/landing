@@ -1,9 +1,11 @@
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import PersonaPage from "./PersonaPage";
 import { consumePendingContactInterest } from "../lib/siteNavigation";
+import { scrollToSection } from "../lib/scrollToSection";
 import { personaPages } from "../data/personas";
 
+vi.mock("../lib/scrollToSection", () => ({ scrollToSection: vi.fn() }));
 vi.mock("../components/layout/Navbar", () => ({ default: () => <nav /> }));
 vi.mock("../components/layout/Footer", () => ({ default: () => <footer /> }));
 vi.mock("framer-motion", async (importOriginal) => ({
@@ -111,7 +113,7 @@ describe("audience pages", () => {
         "framework",
         "experience",
         "questions",
-        "get-started",
+        id === "originators" ? "contact" : "get-started",
       ]);
       const hero = screen.getByRole("region", {
         name:
@@ -128,21 +130,44 @@ describe("audience pages", () => {
     }
   );
 
-  it("routes facility and underwriting inquiries to the existing contact form", () => {
+  it("ends Originators with the shared enquiry form and borrowing selected", () => {
+    render(<PersonaPage id="originators" />);
+    const form = screen.getByRole("form", { name: "Let’s build around your business." });
+    expect(form).toHaveAttribute("action", "https://formspree.io/f/xkgjlnwg");
+    expect(form).toHaveAttribute("method", "POST");
+    expect(screen.getByText("GET IN TOUCH")).toBeInTheDocument();
+    expect(within(form).getByRole("combobox", { name: /interested in/i })).toHaveValue("Borrowing");
+    expect(within(form).getByRole("checkbox", { name: /I consent to Pareto/i })).toBeRequired();
+    expect(within(form).getByRole("button", { name: "Send enquiry" })).toHaveAttribute("type", "submit");
+    expect(screen.queryByRole("link", { name: "Talk to us" })).not.toBeInTheDocument();
+  });
+
+  it("routes Originators enquiries to its local form without losing entered details", async () => {
     render(<PersonaPage id="originators" />);
     expect(screen.getByRole("link", { name: "Explore Pareto Studio" })).toHaveAttribute("href", "/studio");
-    fireEvent.click(
-      screen.getByRole("link", { name: "Discuss your financing needs" })
-    );
-    expect(consumePendingContactInterest()).toBe("Borrowing");
-    fireEvent.click(
-      screen.getByRole("link", { name: "Discuss your facility" })
-    );
-    expect(consumePendingContactInterest()).toBe("Underwriting");
-    expect(screen.getByRole("link", { name: "Talk to us" })).toHaveAttribute(
-      "href",
-      "/#contact"
-    );
+    const name = screen.getByRole("textbox", { name: /full name/i });
+    const interest = screen.getByRole("combobox", { name: /interested in/i });
+    fireEvent.change(name, { target: { value: "Alex Example" } });
+    for (const label of ["Discuss your financing needs", "Discuss your facility"]) {
+      fireEvent.change(interest, { target: { value: "Lending" } });
+      const cta = screen.getByRole("link", { name: label });
+      expect(cta).toHaveAttribute("href", "/originators#contact");
+      fireEvent.click(cta);
+      expect(interest).toHaveValue("Borrowing");
+      expect(name).toHaveValue("Alex Example");
+      expect(scrollToSection).toHaveBeenCalledWith("contact");
+      await waitFor(() => expect(interest).toHaveFocus());
+      expect(consumePendingContactInterest()).toBeNull();
+    }
+  });
+
+  it("keeps capital allocator enquiries linked to the homepage form", () => {
+    render(<PersonaPage id="capital-providers" />);
+    expect(screen.queryByRole("form")).not.toBeInTheDocument();
+    const cta = screen.getByRole("link", { name: "Talk to us" });
+    expect(cta).toHaveAttribute("href", "/#contact");
+    fireEvent.click(cta);
+    expect(consumePendingContactInterest()).toBe("Lending");
   });
 
   it("gives capital allocators layers to evaluate and a direct route to the Lender App", () => {
@@ -190,7 +215,7 @@ describe("audience pages", () => {
     expect(cta).toHaveFocus();
     expect(panel).toBeVisible();
     fireEvent.click(cta);
-    expect(consumePendingContactInterest()).toBe("Underwriting");
+    expect(screen.getByRole("combobox", { name: /interested in/i })).toHaveValue("Borrowing");
   });
 
   it.each(["originators", "capital-providers"] as const)(

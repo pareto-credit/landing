@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useId, useState, type ReactNode } from "react";
 import { ChevronRight } from "lucide-react";
 import { CONTACT_INTERESTS, type ContactInterest } from "../../data/brand";
 import {
@@ -7,11 +7,12 @@ import {
 } from "../../lib/siteNavigation";
 import { Button } from "../ui/Button";
 import { SectionContainer, SectionHeader } from "../ui/Section";
+import { cn } from "../../lib/cn";
 
 const fieldLabelClassName =
   "mb-2 block text-sm text-[var(--color-text-secondary)]";
 const fieldInputClassName =
-  "ui-radius-control w-full border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] placeholder:opacity-100 transition-colors focus:border-[var(--color-brand-alt)] focus:outline-none";
+  "ui-radius-control w-full border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] placeholder:opacity-100 transition-colors focus:border-[var(--color-brand-deep)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-ring)]";
 
 const isContactInterest = (value: unknown): value is ContactInterest =>
   typeof value === "string" &&
@@ -21,13 +22,18 @@ interface ContactSectionProps {
   defaultInterest?: ContactInterest;
   title?: ReactNode;
   description?: string;
+  submitLabel?: string;
+  className?: string;
 }
 
 const ContactSection = ({
   defaultInterest = CONTACT_INTERESTS[0],
   title,
   description,
+  submitLabel = "Request Access",
+  className,
 }: ContactSectionProps) => {
+  const titleId = useId();
   const [interest, setInterest] = useState<ContactInterest>(
     () => consumePendingContactInterest() ?? defaultInterest
   );
@@ -46,12 +52,17 @@ const ContactSection = ({
   return (
     <section
       id="contact"
-      className="ui-section-fit relative overflow-hidden bg-[var(--color-bg-light-alt)] text-[var(--color-text-primary)]"
+      aria-labelledby={titleId}
+      className={cn(
+        "ui-section-fit relative overflow-hidden bg-[var(--color-bg-light-alt)] text-[var(--color-text-primary)] [--color-focus-ring:var(--color-focus-on-light)]",
+        className
+      )}
     >
       <div className="pointer-events-none absolute bottom-0 left-0 h-[500px] w-[500px] rounded-full bg-[color:rgb(112_177_158_/_0.08)] blur-[150px]" />
       <div className="pointer-events-none absolute right-0 top-0 h-[380px] w-[380px] rounded-full bg-[color:rgb(59_130_246_/_0.06)] blur-[120px]" />
       <SectionContainer className="ui-section-shell relative z-10">
         <SectionHeader
+          titleId={titleId}
           variant="centered"
           eyebrow="GET IN TOUCH"
           title={
@@ -71,6 +82,7 @@ const ContactSection = ({
 
         <div className="ui-radius-panel mx-auto max-w-5xl border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-6 shadow-[0_20px_42px_rgb(14_24_19_/_0.08)] md:p-8 lg:p-9">
           <form
+            aria-labelledby={titleId}
             className="space-y-5"
             action="https://formspree.io/f/xkgjlnwg"
             method="POST"
@@ -195,7 +207,7 @@ const ContactSection = ({
               />
             </div>
 
-            <div className="flex items-start gap-3 pt-1">
+            <label className="flex cursor-pointer items-start gap-3 pt-1">
               <input
                 type="checkbox"
                 required
@@ -207,7 +219,7 @@ const ContactSection = ({
                 I consent to Pareto contacting me regarding this inquiry and
                 processing personal data under applicable privacy rules.
               </span>
-            </div>
+            </label>
 
             <Button
               type="submit"
@@ -215,7 +227,7 @@ const ContactSection = ({
               size="lg"
               className="w-full font-semibold"
             >
-              Request Access
+              {submitLabel}
             </Button>
           </form>
         </div>
