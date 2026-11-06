@@ -1,7 +1,7 @@
 import { cn } from "../../lib/cn";
 
 export const sharedBaseClass =
-  "inline-flex items-center justify-center gap-2 uppercase whitespace-nowrap font-mono font-medium transition-[background-color,border-color,color,box-shadow,transform] duration-300 active:translate-y-px disabled:pointer-events-none disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:rgb(112_177_158_/_0.7)] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent";
+  "inline-flex items-center justify-center gap-2 uppercase whitespace-nowrap font-mono font-medium transition-[background-color,border-color,color,box-shadow,transform] duration-300 active:translate-y-px disabled:pointer-events-none disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent";
 
 export const variantClass = {
   primary:

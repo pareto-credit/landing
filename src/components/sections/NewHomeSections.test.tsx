@@ -55,18 +55,18 @@ describe("UnderwritingSection", () => {
   it("explains secured, unsecured and receivables financing with keyboard-accessible cards", () => {
     render(<UnderwritingSection />);
     expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
-      "Credit infrastructure for secured and unsecured lending."
+      "Credit infrastructure across the collateral spectrum."
     );
     const pillars = within(screen.getByTestId("underwriting-pillars")).getAllByRole("article");
     expect(pillars).toHaveLength(3);
-    for (const title of ["Secured credit", "Unsecured credit", "Receivables & loan portfolios"]) {
+    for (const title of ["Secured credit facilities", "Corporate credit", "Receivables & portfolio finance"]) {
       const card = screen.getByRole("article", { name: title });
       card.focus();
       expect(card).toHaveFocus();
     }
-    expect(within(screen.getByRole("article", { name: "Secured credit" })).getByText(/held onchain or with qualified custodians and banks/i)).toBeInTheDocument();
-    expect(within(screen.getByRole("article", { name: "Unsecured credit" })).getByText(/direct lending based on borrower creditworthiness/i)).toBeInTheDocument();
-    expect(screen.getByText(/asset-backed and warehouse financing/i)).toBeInTheDocument();
+    expect(within(screen.getByRole("article", { name: "Secured credit facilities" })).getByText(/held onchain or with qualified custodians or banks/i)).toBeInTheDocument();
+    expect(within(screen.getByRole("article", { name: "Corporate credit" })).getByText(/underwritten on the borrower’s balance sheet and cash flows/i)).toBeInTheDocument();
+    expect(screen.getByText(/through structures such as warehouse facilities/i)).toBeInTheDocument();
   });
 });
 

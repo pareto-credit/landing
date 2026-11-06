@@ -127,19 +127,19 @@ const aboutGroups: MenuDefinition["groups"] = [
 
 const menus: MenuDefinition[] = [
   {
+    id: "audiences",
+    label: "Clients",
+    groups: audienceGroups,
+    isActive: (pathname) =>
+      personaPages.some((page) => page.path === pathname.replace(/\/$/, "")),
+  },
+  {
     id: "solutions",
     label: "Solutions",
     groups: solutionGroups,
     isActive: (pathname) =>
       pathname === "/" ||
       ["/credit-vaults", "/studio"].includes(pathname.replace(/\/$/, "")),
-  },
-  {
-    id: "audiences",
-    label: "Clients",
-    groups: audienceGroups,
-    isActive: (pathname) =>
-      personaPages.some((page) => page.path === pathname.replace(/\/$/, "")),
   },
   {
     id: "about",
@@ -151,9 +151,7 @@ const menus: MenuDefinition[] = [
 ];
 
 const mobileNavigationItems: NavItem[] = [
-  ...solutionGroups.flatMap((group) => group.items),
-  ...audienceGroups.flatMap((group) => group.items),
-  ...aboutGroups.flatMap((group) => group.items),
+  ...menus.flatMap((menu) => menu.groups.flatMap((group) => group.items)),
   { label: "Contact", target: { kind: "section", id: "contact" } },
 ];
 
@@ -205,7 +203,8 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
   const suppressMenuFocus = useRef(false);
   const menuCloseTimer = useRef<number | null>(null);
   const shouldReduceMotion = useReducedMotion();
-  const isDarkHero = location.pathname.replace(/\/$/, "") === "/thesis" && !isScrolled;
+  const isDarkHero =
+    location.pathname.replace(/\/$/, "") === "/thesis" && !isScrolled;
 
   const cancelMenuClose = () => {
     if (menuCloseTimer.current !== null) {
@@ -255,7 +254,7 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
 
   useEffect(() => () => cancelMenuClose(), []);
   const navLinkClass =
-    "site-nav-link inline-flex items-center transition-colors hover:text-[var(--color-brand-alt)] focus-visible:text-[var(--color-brand-alt)] focus-visible:outline-none";
+    "site-nav-link inline-flex items-center transition-colors hover:text-[var(--color-brand-deep)] focus-visible:text-[var(--color-brand-deep)] focus-visible:outline-none";
   const mobileToggleButtonClass = mobileMenuOpen
     ? "border-[color:rgb(255_255_255_/_0.16)] bg-[color:rgb(255_255_255_/_0.04)] text-[var(--color-text-inverse)] shadow-[0_10px_30px_rgb(0,0,0,0.18)]"
     : isScrolled
@@ -332,7 +331,7 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
             to="/"
             hash="hero"
             onClick={() => setMobileMenuOpen(false)}
-            className="ui-radius-control flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)]"
+            className="ui-radius-control flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring)]"
             aria-label="Scroll to top"
           >
             <img
@@ -419,9 +418,7 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
                         }
                         transition={{ duration: 0.18, ease: "easeOut" }}
                         className={`absolute left-1/2 top-full z-[61] -translate-x-1/2 pt-5 font-sans ${
-                          menu.id === "audiences"
-                            ? "w-[34rem]"
-                            : "w-[30rem]"
+                          menu.id === "audiences" ? "w-[34rem]" : "w-[30rem]"
                         }`}
                       >
                         <div className="overflow-hidden ui-radius-panel border border-[var(--color-border-soft)] bg-[var(--color-surface)] text-[var(--color-text-primary)] shadow-[0_24px_60px_rgb(14_24_19_/_0.16)]">

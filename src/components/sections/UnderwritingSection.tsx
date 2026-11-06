@@ -6,7 +6,7 @@ import { SectionContainer, SectionHeader } from "../ui/Section";
 
 interface Pillar {
   title: string;
-  /** One-line summary revealed on hover; always shown on touch screens. */
+  /** Description revealed on hover; always shown on touch screens. */
   description: string;
   image: string;
   imageClassName: string;
@@ -15,36 +15,36 @@ interface Pillar {
 
 const pillars: Pillar[] = [
   {
-    title: "Secured credit",
+    title: "Secured credit facilities",
     description:
-      "Lend against crypto and tokenized assets held onchain or with qualified custodians and banks. Define collateral controls, monitoring and reporting through the facility’s terms and agreements.",
+      "Financing secured by pledged assets held onchain or with qualified custodians or banks. Set loan-to-value thresholds, margin calls, collateral top-ups and grace periods in the facility terms.",
     image: diligenceImage,
     imageClassName: "object-[40%_30%]",
     tags: [
-      ["Collateral", "Onchain · custodian-held"],
+      ["Collateral", "Onchain assets · custodian-held assets"],
       ["Controls", "LTV · margin calls · top-ups"],
     ],
   },
   {
-    title: "Unsecured credit",
+    title: "Corporate credit",
     description:
-      "Provide direct lending based on borrower creditworthiness and agreed facility terms. Define covenants and reporting requirements to support ongoing credit monitoring.",
+      "Facilities without pledged assets, underwritten on the borrower’s balance sheet and cash flows, with agreed covenants and reporting. A parent company or third-party guarantee can provide additional credit support where agreed in the facility documents.",
     image: structureImage,
     imageClassName: "object-center",
     tags: [
-      ["Basis", "Borrower creditworthiness"],
+      ["Underwriting", "Balance sheet · cash flows"],
       ["Controls", "Covenants · reporting"],
     ],
   },
   {
-    title: "Receivables & loan portfolios",
+    title: "Receivables & portfolio finance",
     description:
-      "Finance commercial receivables, invoices and loan portfolios. Set eligible assets, advance rates and borrowing-base requirements, with pool reporting to support asset-backed and warehouse financing.",
+      "Finance commercial receivables, invoices or loan portfolios through structures such as warehouse facilities. Define eligible assets, advance rates and borrowing base requirements, with reporting on the underlying portfolio.",
     image: monitoringImage,
     imageClassName: "object-[60%_40%]",
     tags: [
       ["Assets", "Receivables · invoices · loans"],
-      ["Controls", "Eligibility · borrowing base"],
+      ["Controls", "Eligibility · advance rates · borrowing base"],
     ],
   },
 ];
@@ -62,9 +62,16 @@ const UnderwritingSection = () => {
       <SectionContainer className="ui-section-shell relative z-10">
         <SectionHeader
           variant="collection"
-          eyebrow="Institutional grade"
-          title={<>Credit infrastructure <span className="text-[var(--color-text-muted)]">for secured and unsecured lending.</span></>}
-          description="Configure facilities around assets, cash flows and borrower creditworthiness."
+          eyebrow="INSTITUTIONAL GRADE"
+          title={
+            <>
+              Credit infrastructure{" "}
+              <span className="text-[var(--color-text-muted)]">
+                across the collateral spectrum.
+              </span>
+            </>
+          }
+          description="Structure facilities around pledged assets, the borrower’s balance sheet and cash flows, or a portfolio of receivables and loans."
         />
 
         <div
@@ -77,7 +84,9 @@ const UnderwritingSection = () => {
               tabIndex={0}
               aria-label={pillar.title}
               initial={shouldReduceMotion ? undefined : { opacity: 0, y: 20 }}
-              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+              whileInView={
+                shouldReduceMotion ? undefined : { opacity: 1, y: 0 }
+              }
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.6, delay: index * 0.12 }}
               className="group ui-radius-card relative min-h-[27rem] w-[84%] max-w-[24rem] shrink-0 snap-center overflow-hidden border border-[var(--color-border-soft)] bg-[var(--color-bg-dark)] shadow-[var(--shadow-soft)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-brand)] md:aspect-[3/4] md:w-auto md:max-w-none"
@@ -95,7 +104,6 @@ const UnderwritingSection = () => {
               <div className="absolute inset-0 bg-[#081912]/55 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-within:opacity-100 motion-reduce:transition-none [@media(hover:none)]:opacity-100" />
 
               <div className="relative flex h-full flex-col justify-end p-6 lg:p-7">
-
                 <div>
                   <h3 className="text-[1.65rem] font-semibold leading-tight tracking-tight text-[var(--color-text-inverse)] lg:text-[1.85rem]">
                     {pillar.title}
@@ -108,7 +116,7 @@ const UnderwritingSection = () => {
                   <dl className="mt-5 flex flex-col gap-2 border-t border-[color:rgb(255_255_255_/_0.14)] pt-4">
                     {pillar.tags.map(([label, value]) => (
                       <div key={label} className="flex items-baseline gap-2">
-                        <dt className="w-20 shrink-0 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:rgb(255_255_255_/_0.55)]">
+                        <dt className="w-24 shrink-0 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:rgb(255_255_255_/_0.55)]">
                           {label}
                         </dt>
                         <dd className="text-xs text-[var(--color-text-inverse)]">

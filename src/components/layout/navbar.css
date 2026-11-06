@@ -1,6 +1,10 @@
 .site-nav-link { position: relative; min-height: 36px; }
 .site-nav-link[aria-current], .site-nav-link[data-active] { color: var(--color-brand-deep); font-weight: 500; }
-.site-nav-link:focus-visible { outline: 2px solid var(--color-brand-alt); outline-offset: 5px; border-radius: var(--radius-control); }
+[data-site-navbar] { --color-focus-ring: var(--color-focus-on-light); }
+[data-site-navbar][data-hero-tone="dark"],
+[data-site-navbar][data-mobile-open="true"] { --color-focus-ring: var(--color-focus-on-dark); }
+.site-nav-link:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 5px; border-radius: var(--radius-control); }
+.site-nav-destination:focus-visible { outline: 2px solid var(--color-focus-on-light); outline-offset: 2px; }
 .site-nav-destination[aria-current] { background: var(--color-surface-muted); box-shadow: inset 3px 0 var(--color-brand-alt); }
 .site-nav-mobile-link[aria-current] { border-color: rgb(113 178 159 / .6); background: rgb(113 178 159 / .16); box-shadow: inset 3px 0 var(--color-brand-alt); }
 [data-site-navbar][data-hero-tone="dark"] .site-nav-link { color: #eaf4ee; }

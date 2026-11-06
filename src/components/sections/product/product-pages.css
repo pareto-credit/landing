@@ -1,4 +1,5 @@
 .product-main {
+  --color-focus-ring: var(--color-focus-on-light);
   background: var(--color-bg-light-alt);
   color: var(--color-text-primary);
 }
@@ -18,6 +19,7 @@
   color: var(--color-text-primary);
 }
 .product-section--dark {
+  --color-focus-ring: var(--color-focus-on-dark);
   background: var(--color-brand-dark);
   color: var(--color-text-inverse);
 }

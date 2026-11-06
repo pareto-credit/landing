@@ -1,20 +1,22 @@
 import Footer from "../components/layout/Footer";
+import { ArrowUpRight } from "lucide-react";
 import Navbar from "../components/layout/Navbar";
 import AudienceHeroVisual from "../components/sections/persona/AudienceHeroVisual";
-import AudienceCardArt, { type AudienceArtKind } from "../components/sections/persona/AudienceCardArt";
+import AudienceCardArt, {
+  type AudienceArtKind,
+} from "../components/sections/persona/AudienceCardArt";
 import AudienceFramework from "../components/sections/persona/AudienceFramework";
 import AudienceReveal from "../components/sections/persona/AudienceReveal";
 import AudienceStories from "../components/sections/persona/AudienceStories";
 import "../components/sections/persona/persona.css";
 import { buttonClassName } from "../components/ui/buttonStyles";
 import { PageLink } from "../components/ui/PageLink";
-import { SectionContainer } from "../components/ui/Section";
+import { SectionContainer, SectionHeader } from "../components/ui/Section";
 import FaqAccordion from "../components/ui/FaqAccordion";
 import { PARETO_DOCS_URL, type ContactInterest } from "../data/brand";
 import { getPersonaPage, type PersonaPageId } from "../data/personas";
 import { setPendingContactInterest } from "../lib/siteNavigation";
 
-const Arrow = () => <span aria-hidden="true">↗</span>;
 const benefitArtwork: Record<PersonaPageId, AudienceArtKind[]> = {
   originators: ["structure", "network", "activity", "distribution"],
   "capital-providers": ["selection", "network", "terms", "activity"],
@@ -22,22 +24,21 @@ const benefitArtwork: Record<PersonaPageId, AudienceArtKind[]> = {
 const ContactLink = ({
   label,
   interest,
-  primary = false,
+  variant = "text",
 }: {
   label: string;
   interest: ContactInterest;
-  primary?: boolean;
+  variant?: "primary" | "white" | "text";
 }) => (
   <PageLink
     to="/"
     hash="contact"
     onClick={() => setPendingContactInterest(interest)}
     className={
-      primary ? buttonClassName("primary", "md") : "audience-text-link"
+      variant === "text" ? "audience-text-link" : buttonClassName(variant, "md")
     }
   >
     {label}
-    <Arrow />
   </PageLink>
 );
 
@@ -58,9 +59,6 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
           <SectionContainer className="audience-hero__inner">
             <div className="audience-hero__layout">
               <AudienceReveal className="audience-hero__copy">
-                <p className="audience-kicker">
-                  For {page.navLabel.toLowerCase()}
-                </p>
                 <h1 id="hero-title" tabIndex={-1}>
                   {page.title} <span>{page.titleMuted}</span>
                 </h1>
@@ -70,7 +68,7 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
                     <ContactLink
                       label={primaryCta.label}
                       interest={primaryCta.interest}
-                      primary
+                      variant="primary"
                     />
                   ) : (
                     <a
@@ -80,22 +78,23 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
                       className={buttonClassName("primary", "md")}
                     >
                       {primaryCta.label}
-                      <Arrow />
                     </a>
                   )}
                   {secondaryCta.interest ? (
                     <ContactLink
                       label={secondaryCta.label}
                       interest={secondaryCta.interest}
+                      variant="white"
                     />
                   ) : (
                     <PageLink
-                      to={secondaryCta.home ? "/" : page.path}
+                      to={
+                        secondaryCta.to ?? (secondaryCta.home ? "/" : page.path)
+                      }
                       hash={secondaryCta.hash}
-                      className="audience-text-link"
+                      className={buttonClassName("white", "md")}
                     >
                       {secondaryCta.label}
-                      <Arrow />
                     </PageLink>
                   )}
                 </div>
@@ -114,16 +113,21 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
         >
           <SectionContainer className="ui-section-shell">
             <AudienceReveal>
-              <header className="audience-heading">
-                <h2 id="benefits-title">{page.benefits.title}</h2>
-                <p>{page.benefits.intro}</p>
-              </header>
+              <SectionHeader
+                eyebrow="Why Pareto"
+                titleId="benefits-title"
+                title={page.benefits.title}
+                description={page.benefits.intro}
+              />
             </AudienceReveal>
             <ol className="audience-benefits">
               {page.benefits.items.map((item, index) => (
                 <li key={item.title}>
                   <AudienceReveal delay={(index % 2) * 0.07}>
-                    <article tabIndex={0} aria-labelledby={`benefit-${index}-title`}>
+                    <article
+                      tabIndex={0}
+                      aria-labelledby={`benefit-${index}-title`}
+                    >
                       <AudienceCardArt kind={benefitArtwork[id][index]} />
                       <div className="audience-benefit__copy">
                         <h3 id={`benefit-${index}-title`}>{item.title}</h3>
@@ -144,25 +148,26 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
         >
           <SectionContainer className="ui-section-shell">
             <AudienceReveal>
-              <header className="audience-heading">
-                <h2 id="framework-title">{page.framework.title}</h2>
-                <p>{page.framework.intro}</p>
-              </header>
+              <SectionHeader
+                eyebrow="Credit infrastructure"
+                titleId="framework-title"
+                title={page.framework.title}
+                description={page.framework.intro}
+                tone="dark"
+              />
             </AudienceReveal>
             <AudienceReveal>
               <AudienceFramework
                 title={page.framework.title}
                 items={page.framework.items}
+                action={
+                  <ContactLink
+                    label={page.frameworkCta.label}
+                    interest={page.frameworkCta.interest}
+                    variant="primary"
+                  />
+                }
               />
-            </AudienceReveal>
-            <AudienceReveal>
-              <div className="audience-layer-cta">
-                <ContactLink
-                  label={page.frameworkCta.label}
-                  interest={page.frameworkCta.interest}
-                  primary
-                />
-              </div>
             </AudienceReveal>
           </SectionContainer>
         </section>
@@ -174,9 +179,12 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
         >
           <SectionContainer className="ui-section-shell">
             <AudienceReveal>
-              <header className="audience-heading">
-                <h2 id="experience-title">Credit in practice.</h2>
-              </header>
+              <SectionHeader
+                eyebrow="Client stories"
+                titleId="experience-title"
+                title="Credit in practice."
+                variant="collection"
+              />
             </AudienceReveal>
             <AudienceStories />
           </SectionContainer>
@@ -190,7 +198,12 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
           <SectionContainer className="ui-section-shell">
             <AudienceReveal className="audience-questions">
               <div>
-                <h2 id="questions-title">Your questions answered</h2>
+                <SectionHeader
+                  eyebrow="FAQ"
+                  titleId="questions-title"
+                  title="Your questions answered"
+                  variant="collection"
+                />
                 <a
                   href={PARETO_DOCS_URL}
                   target="_blank"
@@ -198,7 +211,7 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
                   className="audience-text-link"
                 >
                   Read the documentation
-                  <Arrow />
+                  <ArrowUpRight size={16} aria-hidden="true" />
                 </a>
               </div>
               <FaqAccordion key={id} items={page.questions} />
@@ -213,12 +226,22 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
         >
           <SectionContainer className="ui-section-shell">
             <AudienceReveal>
-              <h2 id="closing-title">{page.closing.title}</h2>
-              <p>{page.closing.copy}</p>
-              <ContactLink
-                label={page.closing.cta}
-                interest={page.closing.interest}
-                primary
+              <SectionHeader
+                eyebrow="Get started"
+                titleId="closing-title"
+                title={page.closing.title}
+                description={page.closing.copy}
+                variant="collection"
+                tone="dark"
+                action={
+                  <div className="audience-closing__action">
+                    <ContactLink
+                      label={page.closing.cta}
+                      interest={page.closing.interest}
+                      variant="primary"
+                    />
+                  </div>
+                }
               />
               {page.disclaimer && (
                 <p className="audience-disclaimer">{page.disclaimer}</p>

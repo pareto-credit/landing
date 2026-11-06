@@ -32,7 +32,7 @@
   transform: rotate(45deg);
 }
 .faq-accordion__trigger:focus-visible {
-  outline: 2px solid var(--color-brand);
+  outline: 2px solid var(--color-focus-ring);
   outline-offset: 4px;
 }
 .faq-accordion__content {

@@ -130,12 +130,13 @@ describe("audience pages", () => {
 
   it("routes facility and underwriting inquiries to the existing contact form", () => {
     render(<PersonaPage id="originators" />);
+    expect(screen.getByRole("link", { name: "Explore Pareto Studio" })).toHaveAttribute("href", "/studio");
     fireEvent.click(
       screen.getByRole("link", { name: "Discuss your financing needs" })
     );
     expect(consumePendingContactInterest()).toBe("Borrowing");
     fireEvent.click(
-      screen.getByRole("link", { name: "Build your credit infrastructure" })
+      screen.getByRole("link", { name: "Discuss your facility" })
     );
     expect(consumePendingContactInterest()).toBe("Underwriting");
     expect(screen.getByRole("link", { name: "Talk to us" })).toHaveAttribute(
@@ -156,7 +157,7 @@ describe("audience pages", () => {
       name: "Understand every layer.",
     });
     fireEvent.click(within(tabs).getByRole("tab", { name: /servicing/i }));
-    expect(screen.getByRole("tabpanel")).toHaveTextContent("Follow your position through its lifecycle.");
+    expect(screen.getByRole("tabpanel")).toHaveTextContent(personaPages.find((page) => page.id === "capital-providers")!.framework.items.find((layer) => layer.id === "servicing")!.detail);
     expect(screen.queryByTestId("studio-desk")).not.toBeInTheDocument();
     expect(
       screen.getByText(/lending involves credit risk/i)
@@ -164,21 +165,33 @@ describe("audience pages", () => {
   });
 
   it.each(["originators", "capital-providers"] as const)(
-    "shows the selected concise summary without a layer disclosure for %s",
+    "shows the selected layer explanation without an extra disclosure for %s",
     (id) => {
       render(<PersonaPage id={id} />);
       const panel = screen.getByRole("tabpanel", { name: /application/i });
       const layers = personaPages.find((page) => page.id === id)!.framework.items;
-      expect(panel).toHaveTextContent(layers[0].summary);
+      expect(panel).toHaveTextContent(layers[0].detail);
       expect(panel.querySelector("details")).toBeNull();
       expect(screen.queryByText("Explore this layer")).not.toBeInTheDocument();
       const tabs = screen.getByRole("tablist");
       fireEvent.click(within(tabs).getByRole("tab", { name: /eligibility/i }));
-      expect(screen.getByRole("tabpanel", { name: /eligibility/i })).toHaveTextContent(layers[1].summary);
+      expect(screen.getByRole("tabpanel", { name: /eligibility/i })).toHaveTextContent(layers[1].detail);
       fireEvent.click(within(tabs).getByRole("tab", { name: /application/i }));
-      expect(screen.getByRole("tabpanel", { name: /application/i })).toHaveTextContent(layers[0].summary);
+      expect(screen.getByRole("tabpanel", { name: /application/i })).toHaveTextContent(layers[0].detail);
     }
   );
+
+  it("keeps the active explanation in place while its CTA has keyboard focus", () => {
+    render(<PersonaPage id="originators" />);
+    const cta = screen.getByRole("link", { name: "Discuss your facility" });
+    const panel = screen.getByRole("tabpanel", { name: "Application" });
+    cta.focus();
+    fireEvent.mouseEnter(screen.getByRole("tab", { name: "Eligibility" }));
+    expect(cta).toHaveFocus();
+    expect(panel).toBeVisible();
+    fireEvent.click(cta);
+    expect(consumePendingContactInterest()).toBe("Underwriting");
+  });
 
   it.each(["originators", "capital-providers"] as const)(
     "answers practical questions for %s",

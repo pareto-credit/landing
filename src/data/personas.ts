@@ -26,6 +26,7 @@ export interface PersonaPageContent {
   };
   secondaryCta: {
     label: string;
+    to?: "/studio" | "/credit-vaults";
     interest?: ContactInterest;
     hash?: string;
     home?: boolean;
@@ -63,8 +64,7 @@ export const personaPages: PersonaPageContent[] = [
     },
     secondaryCta: {
       label: "Explore Pareto Studio",
-      hash: "studio",
-      home: true,
+      to: "/studio",
     },
     benefits: {
       title: "A foundation for growth.",
@@ -172,7 +172,7 @@ export const personaPages: PersonaPageContent[] = [
       ],
     },
     frameworkCta: {
-      label: "Build your credit infrastructure",
+      label: "Discuss your facility",
       interest: "Underwriting",
     },
     questions: [

@@ -170,6 +170,10 @@ describe("Navbar", () => {
     render(<Navbar />);
 
     const ecosystem = screen.getByRole("button", { name: "Clients" });
+    const solutions = screen.getByRole("button", { name: "Solutions" });
+    const about = screen.getByRole("button", { name: "About" });
+    expect(ecosystem.compareDocumentPosition(solutions) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(solutions.compareDocumentPosition(about) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(screen.getByRole("button", { name: "About" })).toBeInTheDocument();
     fireEvent.click(ecosystem);
 
@@ -408,6 +412,13 @@ describe("Navbar", () => {
     const toggle = screen.getByRole("button", { name: /toggle mobile menu/i });
     fireEvent.click(toggle);
     const dialog = screen.getByRole("dialog", { name: /site navigation/i });
+    const menuLinks = within(screen.getByTestId("mobile-menu-nav")).getAllByRole("link");
+    expect(menuLinks.slice(0, 4).map((link) => link.getAttribute("href"))).toEqual([
+      "/originators",
+      "/capital-providers",
+      "/credit-vaults",
+      "/studio",
+    ]);
     expect(
       within(dialog).getByRole("link", { name: /credit vaults/i })
     ).toHaveAttribute("href", "/credit-vaults");

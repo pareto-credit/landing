@@ -12,6 +12,7 @@ import paretoSignature from "../../assets/svgs/pareto-signature.svg";
 import xIcon from "../../assets/svgs/x.svg?raw";
 import { saveLegalPageReturnScroll } from "../../lib/legalPageScroll";
 import { SectionContainer } from "../ui/Section";
+import "./footer.css";
 
 interface FooterLink {
   label: string;
@@ -83,7 +84,7 @@ const socialLinks: FooterSocialLink[] = [
 ];
 
 const footerLinkClassName =
-  "group flex items-center text-sm text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-text-inverse)]";
+  "group flex items-center text-sm text-[var(--color-text-muted-inverse)] transition-colors hover:text-[var(--color-text-inverse)]";
 
 const footerLinkLabelClassName =
   "transition-transform duration-300 group-hover:translate-x-1";
@@ -137,7 +138,7 @@ const renderFooterLink = (link: FooterLink) => {
 
 const Footer = () => {
   return (
-    <footer className="relative flex flex-col justify-between overflow-hidden border-t border-[var(--color-border-inverse-subtle)] bg-[var(--color-bg-page-alt)] pb-8 pt-32">
+    <footer className="site-footer relative flex flex-col justify-between overflow-hidden border-t border-[var(--color-border-inverse-subtle)] bg-[var(--color-bg-page-alt)] pb-8 pt-32">
       <div className="pointer-events-none absolute bottom-0 left-1/2 h-[2px] w-full max-w-4xl -translate-x-1/2 bg-gradient-to-r from-transparent via-[var(--color-brand-alt)] to-transparent shadow-[0_0_52px_var(--color-brand-alt)]" />
       <div className="pointer-events-none absolute bottom-0 left-1/2 h-[8px] w-full max-w-5xl -translate-x-1/2 bg-gradient-to-r from-transparent via-[color:rgb(112_177_158_/_0.50)] to-transparent blur-[6px]" />
       <div className="pointer-events-none absolute bottom-0 left-1/2 h-[14px] w-full max-w-6xl -translate-x-1/2 bg-gradient-to-r from-transparent via-[color:rgb(141_248_224_/_0.28)] to-transparent blur-[16px]" />
@@ -154,7 +155,7 @@ const Footer = () => {
                   className="h-10 w-auto"
                 />
               </div>
-              <p className="max-w-sm text-lg leading-relaxed text-[var(--color-text-muted)]">
+              <p className="max-w-sm text-lg leading-relaxed text-[var(--color-text-muted-inverse)]">
                 Credit underwriting infrastructure for compliant onchain
                 finance.
               </p>
