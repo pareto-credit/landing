@@ -1,0 +1,273 @@
+.vault-card {
+  position: relative;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  width: min(380px, calc(100vw - 48px));
+  overflow: hidden;
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  box-shadow: 0 6px 20px rgb(14 24 19 / 0.04);
+  white-space: normal;
+  text-decoration: none;
+  transition: border-color 200ms, box-shadow 200ms;
+}
+
+.vault-card:hover {
+  border-color: rgb(63 110 89 / 0.3);
+  box-shadow: 0 12px 28px rgb(14 24 19 / 0.08);
+}
+
+.vault-card:focus-visible {
+  outline: 2px solid var(--color-brand-deep);
+  outline-offset: 4px;
+}
+
+/* Confine operator artwork and frost to the identity area. Data stays on white. */
+.vault-card__header {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 16px;
+  height: 174px;
+  flex-shrink: 0;
+  padding: 20px;
+  overflow: hidden;
+  border-bottom: 1px solid rgb(37 72 57 / 0.09);
+  background: #e9efeb;
+}
+
+.vault-card__art {
+  position: absolute;
+  z-index: -2;
+  top: 6px;
+  right: 8px;
+  width: 52%;
+  height: calc(100% - 12px);
+  object-fit: contain;
+  opacity: 0.95;
+  filter: drop-shadow(0 1px 0 rgb(255 255 255 / 0.8));
+  pointer-events: none;
+  user-select: none;
+}
+
+.vault-card__glass {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  /* A clear coat over the mark; denser white protects the title and avatar. */
+  background: linear-gradient(0deg, rgb(248 252 249 / 0.9), transparent 72%),
+    linear-gradient(
+      110deg,
+      rgb(255 255 255 / 0.94) 15%,
+      rgb(255 255 255 / 0.78) 42%,
+      rgb(248 252 249 / 0.08) 78%
+    );
+  pointer-events: none;
+}
+
+.vault-card__glass::before,
+.vault-card__glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+/* Ease the frost away around the logo, retaining a sharp center and soft edges. */
+.vault-card__glass::before {
+  background: rgb(248 252 249 / 0.42);
+  -webkit-backdrop-filter: blur(12px) saturate(0.7);
+  backdrop-filter: blur(12px) saturate(0.7);
+  --vault-frost-mask: radial-gradient(
+    ellipse 45% 90% at 80% 38%,
+    transparent 18%,
+    rgb(0 0 0 / 0.08) 38%,
+    rgb(0 0 0 / 0.55) 68%,
+    #000 100%
+  );
+  -webkit-mask-image: var(--vault-frost-mask);
+  mask-image: var(--vault-frost-mask);
+}
+
+/* A broad reflection and fine edge highlight give the clear coat depth. */
+.vault-card__glass::after {
+  background: linear-gradient(
+    125deg,
+    transparent 44%,
+    rgb(255 255 255 / 0.28) 59%,
+    transparent 76%
+  );
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.95),
+    inset 0 -1px 0 rgb(255 255 255 / 0.45);
+}
+
+.vault-card__identity {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+  height: 100%;
+  gap: 16px;
+}
+
+.vault-card__operator {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-brand-deep);
+  box-shadow: 0 0 0 1px rgb(37 72 57 / 0.08);
+  font-weight: 600;
+}
+
+.vault-card__operator img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.vault-card__status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 6px 8px;
+  border-radius: var(--radius-control);
+  font: 500 9px/1 var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.vault-card__heading {
+  position: relative;
+  min-width: 0;
+}
+
+.vault-card__title {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-size: 23px;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+
+.vault-card__subtitle {
+  margin-top: 5px;
+  overflow: hidden;
+  font: 400 10px/1.4 var(--font-mono);
+  color: var(--color-text-muted);
+  letter-spacing: 0.1em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.vault-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 18px;
+  padding: 20px;
+}
+
+.vault-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: start;
+  gap: 6px;
+}
+
+.vault-card__metadata {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 8px;
+}
+
+.vault-card__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 26px;
+  padding: 3px 8px;
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-control);
+  color: var(--color-chip-text);
+  font: 500 9px/1.4 var(--font-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.vault-card__summary {
+  min-height: 63px;
+}
+
+.vault-card__description {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow-wrap: anywhere;
+  color: var(--color-text-muted);
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.vault-card__metrics {
+  margin-top: auto;
+  border-top: 1px solid var(--color-border-soft);
+}
+
+.vault-card__metrics > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 44px;
+  padding-block: 10px;
+}
+
+.vault-card__metrics > div + div {
+  border-top: 1px solid rgb(14 24 19 / 0.06);
+}
+
+.vault-card__metrics dt {
+  color: var(--color-text-muted);
+  font: 500 10px/1.5 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.vault-card__metrics dd {
+  color: var(--color-text-primary);
+  font-size: 19px;
+  line-height: 1.2;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.vault-card__apy-prefix {
+  margin-right: 6px;
+  color: var(--color-text-muted);
+  font-size: 11px;
+  font-weight: 400;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vault-card {
+    transition: none;
+  }
+}

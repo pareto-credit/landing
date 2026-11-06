@@ -1,11 +1,10 @@
-import type {
-  Operator,
-  Token,
-  Vault,
-  VaultBlock,
-} from "@idle-multiverse/data-access";
+import type { Operator, Token, VaultBlock } from "@idle-multiverse/data-access";
 import type { ProductVaultCard, ProductsDataPayload } from "../types/products";
-import type { ParetoPublicApiClient } from "./paretoPublicApi";
+import type {
+  ParetoPublicApiClient,
+  PublicVault as Vault,
+} from "./paretoPublicApi";
+import { batches, loadVaultFamilies, type VaultFamily } from "./vaultFamilies";
 
 const COMPACT_CURRENCY_FORMATTER = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -180,16 +179,18 @@ const getApy = (vault: Vault, latestBlock?: VaultBlock): string => {
 };
 
 const getTvlUsd = (
-  vault: Vault,
+  family: VaultFamily,
   latestByVaultId: Map<string, VaultBlock>
 ): number | null => {
-  const relatedVaultIds = new Set([
-    vault._id,
-    ...(vault.siblings?.map((item) => item._id) ?? []),
-  ]);
+  if (!family.complete || family.members.length === 0) return null;
   let totalUsd = 0;
-  for (const vaultId of relatedVaultIds) {
-    const latestBlock = latestByVaultId.get(vaultId);
+  for (const member of family.members) {
+    const latestBlock = latestByVaultId.get(member._id);
+    if (
+      latestBlock?.vaultAddress &&
+      latestBlock.vaultAddress.toLowerCase() !== member.address.toLowerCase()
+    )
+      return null;
     const rawUsd = latestBlock?.TVL?.withRequestsUSD ?? latestBlock?.TVL?.USD;
     const usd = fromVaultBlockUsdBaseUnits(rawUsd);
     // A partial sibling sum would misstate the facility's combined TVL.
@@ -233,7 +234,8 @@ const mapVaultToCard = (
   latestByVaultId: Map<string, VaultBlock>,
   operatorsById: Map<string, Operator>,
   operatorsByCode: Map<string, Operator>,
-  tokensById: Map<string, Token>
+  tokensById: Map<string, Token>,
+  family: VaultFamily
 ): ProductVaultCard => {
   const latestBlock = latestByVaultId.get(vault._id);
   const borrowerOperator = getBorrowerOperator(vault, operatorsById);
@@ -250,14 +252,53 @@ const mapVaultToCard = (
   const longDescription = sanitizeText(getLocalizedText(vault.description));
   const description = shortDescription || longDescription || undefined;
   const tokenSymbol = tokensById.get(vault.tokenId)?.symbol;
-  const tvlUsd = getTvlUsd(vault, latestByVaultId);
+  const tvlUsd = getTvlUsd(family, latestByVaultId);
+  const assets = [
+    ...new Set(
+      family.members
+        .map(
+          (member) =>
+            tokensById.get(member.tokenId)?.symbol?.trim() ||
+            inferAssetFromVaultSymbol(member.symbol)
+        )
+        .filter((asset) => asset !== "—")
+    ),
+  ];
+  const familyRates = family.members.map((member) => {
+    const block = latestByVaultId.get(member._id);
+    if (
+      block?.vaultAddress &&
+      block.vaultAddress.toLowerCase() !== member.address.toLowerCase()
+    )
+      return "—";
+    return getApy(member, block);
+  });
+  const hasFamily = (vault.siblings?.length ?? 0) > 0;
+  const hasAllRates =
+    family.complete &&
+    family.members.length > 0 &&
+    familyRates.every((rate) => rate !== "—" && rate !== "Hidden");
+  const apy = !hasFamily
+    ? getApy(vault, latestBlock)
+    : !family.complete
+    ? "—"
+    : familyRates.includes("Hidden")
+    ? "Hidden"
+    : hasAllRates
+    ? `${Math.max(
+        ...family.members.map(
+          (member) => latestByVaultId.get(member._id)?.APYs.NET ?? Number.NaN
+        )
+      ).toFixed(2)}%`
+    : "—";
 
   return {
     id: vault._id,
     address: vault.address,
     name: vault.name,
     status: getLatestStatus(vault, latestBlock),
-    apy: getApy(vault, latestBlock),
+    apy,
+    apyIsMaximum: family.members.length > 1 && hasAllRates,
     tvl: tvlUsd === null ? "—" : COMPACT_CURRENCY_FORMATTER.format(tvlUsd),
     tvlUsd,
     operatorName: borrowerOperator?.name ?? curatorOperator?.name,
@@ -268,6 +309,7 @@ const mapVaultToCard = (
     description,
     redemptions: getRedemptions(vault, latestBlock),
     asset: tokenSymbol ?? inferAssetFromVaultSymbol(vault.symbol),
+    assets,
     type: getRateType(vault),
     visibility: vault.visibility,
   };
@@ -313,39 +355,41 @@ export const fetchProductsData = async (
       ])
     )
   );
-  const tokenIds = Array.from(
-    new Set(publicVaults.map((vault) => vault.tokenId).filter(Boolean))
+  const latestResults = await Promise.allSettled(
+    batches(vaultIds, 100).map((vaultId) =>
+      apiClient.vaultLatestBlocks.search({ vaultId, limit: 100 })
+    )
   );
-
-  const [latestBlocksResult, tokensResult] = await Promise.allSettled([
-    vaultIds.length > 0
-      ? apiClient.vaultLatestBlocks.search({
-          vaultId: vaultIds,
-        })
-      : Promise.resolve({ data: [], totalCount: 0 }),
-    tokenIds.length > 0
-      ? apiClient.tokens.search({
-          _id: tokenIds,
-          limit: 50,
-        })
-      : Promise.resolve({ data: [], totalCount: 0 }),
-  ]);
-
-  const latestBlocksPage =
-    latestBlocksResult.status === "fulfilled"
-      ? latestBlocksResult.value
-      : { data: [], totalCount: 0 };
-  const tokensPage =
-    tokensResult.status === "fulfilled"
-      ? tokensResult.value
-      : { data: [], totalCount: 0 };
-
   const latestByVaultId = new Map(
-    latestBlocksPage.data.map((latestBlock) => [
-      latestBlock.vaultId,
-      latestBlock,
-    ])
+    latestResults.flatMap((result) =>
+      result.status === "fulfilled"
+        ? result.value.data.map((block) => [block.vaultId, block] as const)
+        : []
+    )
   );
+  const families = await loadVaultFamilies(
+    publicVaults,
+    apiClient,
+    vaultsPage.data
+  );
+  const tokenIds = [
+    ...new Set(
+      [...families.values()].flatMap((family) =>
+        family.members.map((member) => member.tokenId).filter(Boolean)
+      )
+    ),
+  ];
+  const tokensResults = await Promise.allSettled(
+    batches(tokenIds, 50).map((_id) =>
+      apiClient.tokens.search({ _id, limit: 50 })
+    )
+  );
+  const tokensPage = {
+    data: tokensResults.flatMap((result) =>
+      result.status === "fulfilled" ? result.value.data : []
+    ),
+  };
+
   const operatorsById = new Map(
     operatorsPage.data.map((operator) => [operator._id, operator])
   );
@@ -366,7 +410,8 @@ export const fetchProductsData = async (
       latestByVaultId,
       operatorsById,
       operatorsByCode,
-      tokensById
+      tokensById,
+      families.get(vault._id)!
     )
   );
 

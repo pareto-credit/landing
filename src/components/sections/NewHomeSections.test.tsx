@@ -52,20 +52,20 @@ const captureContactInterests = () => {
 };
 
 describe("UnderwritingSection", () => {
-  it("explains three collateral arrangements with keyboard-accessible cards", () => {
+  it("explains secured, unsecured and receivables financing with keyboard-accessible cards", () => {
     render(<UnderwritingSection />);
     expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
-      "Credit infrastructure across the collateral spectrum."
+      "Credit infrastructure for secured and unsecured lending."
     );
     const pillars = within(screen.getByTestId("underwriting-pillars")).getAllByRole("article");
     expect(pillars).toHaveLength(3);
-    for (const title of ["Onchain collateral", "Custodian-held collateral", "Receivables & loan portfolios"]) {
+    for (const title of ["Secured credit", "Unsecured credit", "Receivables & loan portfolios"]) {
       const card = screen.getByRole("article", { name: title });
       card.focus();
       expect(card).toHaveFocus();
     }
-    expect(screen.getByText(/configure LTV thresholds, margin calls, collateral top-ups and grace periods/i)).toBeInTheDocument();
-    expect(screen.getByText(/facility agreements connect those offchain arrangements to the onchain Credit Vault/i)).toBeInTheDocument();
+    expect(within(screen.getByRole("article", { name: "Secured credit" })).getByText(/held onchain or with qualified custodians and banks/i)).toBeInTheDocument();
+    expect(within(screen.getByRole("article", { name: "Unsecured credit" })).getByText(/direct lending based on borrower creditworthiness/i)).toBeInTheDocument();
     expect(screen.getByText(/asset-backed and warehouse financing/i)).toBeInTheDocument();
   });
 });

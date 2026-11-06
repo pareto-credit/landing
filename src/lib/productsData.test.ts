@@ -2,12 +2,14 @@ import { describe, expect, it, vi } from "vitest";
 import type {
   Operator,
   Token,
-  Vault,
   VaultBlock,
   VaultsPerformances,
 } from "@idle-multiverse/data-access";
 import { fetchProductsData } from "./productsData";
-import type { ParetoPublicApiClient } from "./paretoPublicApi";
+import type {
+  ParetoPublicApiClient,
+  PublicVault as Vault,
+} from "./paretoPublicApi";
 
 const buildVault = (overrides: Partial<Vault> = {}): Vault =>
   ({
@@ -58,16 +60,282 @@ const buildApiClient = (): ParetoPublicApiClient => ({
     readOne: vi.fn(),
   },
   tokens: {
-    search: vi
-      .fn()
-      .mockResolvedValue({
-        data: [{ _id: "token-usdc", symbol: "USDC" }],
-        totalCount: 1,
-      }),
+    search: vi.fn().mockResolvedValue({
+      data: [{ _id: "token-usdc", symbol: "USDC" }],
+      totalCount: 1,
+    }),
   },
 });
 
 describe("fetchProductsData", () => {
+  it("loads LIMITED siblings directly from the catalog and aggregates their assets, TVL and maximum APY", async () => {
+    const client = buildApiClient();
+    const siblings = [
+      { _id: "vault-usdc", chainId: "chain-2" },
+      { _id: "vault-usdt", chainId: "chain-1", tokenId: "token-usdt" },
+      { _id: "vault-wbtc", chainId: "chain-1", tokenId: "token-wbtc" },
+      { _id: "vault-usdt", chainId: "chain-1", tokenId: "token-usdt" },
+    ];
+    const related = [
+      buildVault({
+        _id: "vault-usdc",
+        address: "0x456",
+        visibility: "LIMITED",
+      }),
+      buildVault({
+        _id: "vault-usdt",
+        address: "0x789",
+        visibility: "LIMITED",
+        tokenId: "token-usdt",
+      }),
+      buildVault({
+        _id: "vault-wbtc",
+        address: "0xabc",
+        visibility: "LIMITED",
+        tokenId: "token-wbtc",
+      }),
+    ];
+    vi.mocked(client.vaults.search)
+      .mockResolvedValueOnce({
+        data: [buildVault({ siblings }), ...related],
+        totalCount: 4,
+      })
+      .mockResolvedValueOnce({ data: related, totalCount: related.length });
+    vi.mocked(client.vaultLatestBlocks.search).mockResolvedValue({
+      data: [
+        {
+          vaultId: "vault-falconx",
+          vaultAddress: "0x123",
+          TVL: { USD: "1000000000000", withRequestsUSD: "2000000000000" },
+          APYs: { NET: 8 },
+        },
+        {
+          vaultId: "vault-usdc",
+          vaultAddress: "0x456",
+          TVL: { USD: "1000000000000" },
+          APYs: { NET: 8 },
+        },
+        {
+          vaultId: "vault-usdt",
+          vaultAddress: "0x789",
+          TVL: { USD: "3000000000000" },
+          APYs: { NET: 9.5 },
+        },
+        {
+          vaultId: "vault-wbtc",
+          vaultAddress: "0xabc",
+          TVL: { USD: "500000000000" },
+          APYs: { NET: 4 },
+        },
+        {
+          vaultId: "unrelated",
+          TVL: { USD: "99000000000000" },
+          APYs: { NET: 99 },
+        },
+      ] as VaultBlock[],
+      totalCount: 5,
+    });
+    vi.mocked(client.tokens.search).mockResolvedValue({
+      data: [
+        { _id: "token-usdc", symbol: "USDC" },
+        { _id: "token-usdt", symbol: "USDT" },
+        { _id: "token-wbtc", symbol: "WBTC" },
+      ] as Token[],
+      totalCount: 3,
+    });
+
+    const result = await fetchProductsData(client);
+
+    expect(result.vaults[0]).toMatchObject({
+      asset: "USDC",
+      assets: ["USDC", "USDT", "WBTC"],
+      tvl: "$6.5M",
+      tvlUsd: 6_500_000,
+      apy: "9.50%",
+      apyIsMaximum: true,
+    });
+    expect(client.tokens.search).toHaveBeenCalledWith({
+      _id: ["token-usdc", "token-usdt", "token-wbtc"],
+      limit: 50,
+    });
+    expect(client.vaults.search).toHaveBeenCalledTimes(1);
+    expect(result.vaults).toHaveLength(1);
+  });
+
+  it("retains known assets but withholds partial family TVL and APY when a sibling cannot be resolved", async () => {
+    const client = buildApiClient();
+    const siblings = [
+      { _id: "vault-missing", chainId: "chain-2" },
+      { _id: "vault-usdt", chainId: "chain-1" },
+    ];
+    vi.mocked(client.vaults.search)
+      .mockResolvedValueOnce({
+        data: [buildVault({ siblings })],
+        totalCount: 1,
+      })
+      .mockResolvedValueOnce({
+        data: [
+          buildVault({
+            _id: "vault-usdt",
+            address: "0x456",
+            tokenId: "token-usdt",
+            visibility: "LIMITED",
+          }),
+        ],
+        totalCount: 1,
+      });
+    vi.mocked(client.tokens.search).mockResolvedValue({
+      data: [
+        { _id: "token-usdc", symbol: "USDC" },
+        { _id: "token-usdt", symbol: "USDT" },
+      ] as Token[],
+      totalCount: 2,
+    });
+
+    const result = await fetchProductsData(client);
+
+    expect(result.vaults[0]).toMatchObject({
+      assets: ["USDC", "USDT"],
+      tvl: "—",
+      apy: "—",
+      apyIsMaximum: false,
+    });
+    expect(result.vaults).toHaveLength(1);
+  });
+
+  it("excludes HIDDEN siblings and counts duplicate addresses only once", async () => {
+    const client = buildApiClient();
+    const siblings = [
+      buildVault({
+        _id: "hidden",
+        address: "0x456",
+        tokenId: "token-secret",
+        visibility: "HIDDEN",
+      }),
+      buildVault({ _id: "duplicate-address", address: "0x123" }),
+    ];
+    vi.mocked(client.vaults.search).mockResolvedValue({
+      data: [buildVault({ siblings })],
+      totalCount: 1,
+    });
+    vi.mocked(client.vaultLatestBlocks.search).mockResolvedValue({
+      data: [
+        {
+          vaultId: "vault-falconx",
+          TVL: { USD: "2000000000000" },
+          APYs: { NET: 8 },
+        },
+        { vaultId: "hidden", TVL: { USD: "9000000000000" }, APYs: { NET: 99 } },
+        {
+          vaultId: "duplicate-address",
+          TVL: { USD: "2000000000000" },
+          APYs: { NET: 8 },
+        },
+      ] as VaultBlock[],
+      totalCount: 3,
+    });
+
+    expect((await fetchProductsData(client)).vaults[0]).toMatchObject({
+      assets: ["USDC"],
+      tvl: "$2M",
+      apy: "8.00%",
+      apyIsMaximum: false,
+    });
+    expect(client.tokens.search).toHaveBeenCalledWith({
+      _id: ["token-usdc"],
+      limit: 50,
+    });
+  });
+
+  it.each([
+    { rate: undefined, sensitive: false, apy: "—", maximum: false },
+    { rate: 0, sensitive: false, apy: "0.00%", maximum: true },
+    { rate: 99, sensitive: true, apy: "Hidden", maximum: false },
+  ])(
+    "handles missing, zero and sensitive family rates ($apy)",
+    async ({ rate, sensitive, apy, maximum }) => {
+      const client = buildApiClient();
+      const sibling = buildVault({
+        _id: "sibling",
+        address: "0x456",
+        visibility: "LIMITED",
+        kyc: {
+          policyId: 1,
+          isActive: sensitive,
+          hideSensitiveData: sensitive,
+        },
+      });
+      vi.mocked(client.vaults.search).mockResolvedValue({
+        data: [buildVault({ siblings: [sibling] })],
+        totalCount: 1,
+      });
+      vi.mocked(client.vaultLatestBlocks.search).mockResolvedValue({
+        data: [
+          {
+            vaultId: "vault-falconx",
+            TVL: { USD: "1000000000000" },
+            APYs: { NET: 0 },
+          },
+          {
+            vaultId: "sibling",
+            TVL: { USD: "1000000000000" },
+            APYs: { NET: rate },
+          },
+        ] as VaultBlock[],
+        totalCount: 2,
+      });
+
+      expect((await fetchProductsData(client)).vaults[0]).toMatchObject({
+        tvl: "$2M",
+        apy,
+        apyIsMaximum: maximum,
+      });
+    }
+  );
+
+  it.each([
+    { _id: "unrelated", address: "0x456" },
+    { _id: "sibling", address: "0x999" },
+  ])(
+    "rejects unrelated catalog records and mismatched latest blocks ($address / $_id)",
+    async (identity) => {
+      const client = buildApiClient();
+      vi.mocked(client.vaults.search)
+        .mockResolvedValueOnce({
+          data: [
+            buildVault({ siblings: [{ _id: "sibling", chainId: "chain-2" }] }),
+          ],
+          totalCount: 1,
+        })
+        .mockResolvedValueOnce({
+          data: [buildVault({ ...identity })],
+          totalCount: 1,
+        });
+      vi.mocked(client.vaultLatestBlocks.search).mockResolvedValue({
+        data: [
+          {
+            vaultId: "vault-falconx",
+            TVL: { USD: "1000000000000" },
+            APYs: { NET: 8 },
+          },
+          {
+            vaultId: "sibling",
+            vaultAddress: "0x456",
+            TVL: { USD: "9000000000000" },
+            APYs: { NET: 99 },
+          },
+        ] as VaultBlock[],
+        totalCount: 2,
+      });
+      expect((await fetchProductsData(client)).vaults[0]).toMatchObject({
+        assets: ["USDC"],
+        tvl: "—",
+        apy: "—",
+        apyIsMaximum: false,
+      });
+    }
+  );
+
   it("uses the API's TVL-weighted APR without deriving it from displayed vault APYs", async () => {
     const client = buildApiClient();
     vi.mocked(client.vaults.performances).mockResolvedValue(
@@ -80,15 +348,18 @@ describe("fetchProductsData", () => {
     expect(data.vaults[0].apy).toBe("8.00%");
   });
 
-  it.each([0, "0"])("preserves the reported weighted APR %s as a real zero", async (value) => {
-    const client = buildApiClient();
-    vi.mocked(client.vaults.performances).mockResolvedValue({
-      ...buildPerformances(),
-      APRs: { MIN: 0, MAX: 0, AVG: value },
-    } as unknown as VaultsPerformances);
+  it.each([0, "0"])(
+    "preserves the reported weighted APR %s as a real zero",
+    async (value) => {
+      const client = buildApiClient();
+      vi.mocked(client.vaults.performances).mockResolvedValue({
+        ...buildPerformances(),
+        APRs: { MIN: 0, MAX: 0, AVG: value },
+      } as unknown as VaultsPerformances);
 
-    expect((await fetchProductsData(client)).weightedAverageApr).toBe(0);
-  });
+      expect((await fetchProductsData(client)).weightedAverageApr).toBe(0);
+    }
+  );
 
   it.each([undefined, null, "", "not-a-number", Number.NaN, Infinity])(
     "keeps missing or invalid reported weighted APR %s unavailable",
@@ -120,14 +391,22 @@ describe("fetchProductsData", () => {
       totalCount: 1,
     });
     vi.mocked(client.operators.search).mockImplementation(async (params) => {
-      if ((params?.limit ?? 0) > 50) throw new Error("HTTP 400: limit exceeds 50");
+      if ((params?.limit ?? 0) > 50)
+        throw new Error("HTTP 400: limit exceeds 50");
       return {
-        data: [{ _id: "operator-falconx", name: "FalconX Operator", code: "falconx" } as Operator],
+        data: [
+          {
+            _id: "operator-falconx",
+            name: "FalconX Operator",
+            code: "falconx",
+          } as Operator,
+        ],
         totalCount: 1,
       };
     });
     vi.mocked(client.tokens.search).mockImplementation(async (params) => {
-      if ((params?.limit ?? 0) > 50) throw new Error("HTTP 400: limit exceeds 50");
+      if ((params?.limit ?? 0) > 50)
+        throw new Error("HTTP 400: limit exceeds 50");
       return {
         data: [{ _id: "token-usdc", symbol: "USDT" } as Token],
         totalCount: 1,
@@ -144,9 +423,17 @@ describe("fetchProductsData", () => {
 
   it("keeps large normalized protocol USD totals without rescaling by magnitude", async () => {
     const client = buildApiClient();
-    vi.mocked(client.vaults.performances).mockResolvedValue(buildPerformances({ TVL: "1200000000000", creditExtended: "3400000000000" }));
+    vi.mocked(client.vaults.performances).mockResolvedValue(
+      buildPerformances({
+        TVL: "1200000000000",
+        creditExtended: "3400000000000",
+      })
+    );
     const data = await fetchProductsData(client);
-    expect(data.metrics).toEqual({ outstandingLoans: 1_200_000_000_000, creditExtended: 3_400_000_000_000 });
+    expect(data.metrics).toEqual({
+      outstandingLoans: 1_200_000_000_000,
+      creditExtended: 3_400_000_000_000,
+    });
   });
 
   it("marks failed performance aggregates unavailable while retaining the real vault listing", async () => {
@@ -258,7 +545,11 @@ describe("fetchProductsData", () => {
   it("requires TVL for every related vault before displaying the combined value", async () => {
     const client = buildApiClient();
     vi.mocked(client.vaults.search).mockResolvedValue({
-      data: [buildVault({ siblings: [buildVault({ _id: "vault-sibling" })] })],
+      data: [
+        buildVault({
+          siblings: [buildVault({ _id: "vault-sibling", address: "0x456" })],
+        }),
+      ],
       totalCount: 1,
     });
 

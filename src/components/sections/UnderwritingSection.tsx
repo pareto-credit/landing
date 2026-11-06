@@ -15,25 +15,25 @@ interface Pillar {
 
 const pillars: Pillar[] = [
   {
-    title: "Onchain collateral",
+    title: "Secured credit",
     description:
-      "Structure credit against crypto and tokenized assets. Configure LTV thresholds, margin calls, collateral top-ups and grace periods around the facility’s terms.",
+      "Lend against crypto and tokenized assets held onchain or with qualified custodians and banks. Define collateral controls, monitoring and reporting through the facility’s terms and agreements.",
     image: diligenceImage,
     imageClassName: "object-[40%_30%]",
     tags: [
-      ["Assets", "Crypto & tokenized assets"],
+      ["Collateral", "Onchain · custodian-held"],
       ["Controls", "LTV · margin calls · top-ups"],
     ],
   },
   {
-    title: "Custodian-held collateral",
+    title: "Unsecured credit",
     description:
-      "Keep collateral with qualified custodians, in off-exchange custody or bank accounts. Facility agreements connect those offchain arrangements to the onchain Credit Vault, with agreed account controls, monitoring and reporting.",
+      "Provide direct lending based on borrower creditworthiness and agreed facility terms. Define covenants and reporting requirements to support ongoing credit monitoring.",
     image: structureImage,
     imageClassName: "object-center",
     tags: [
-      ["Custody", "Custodians · banks · off-exchange"],
-      ["Legal", "Linked through facility agreements"],
+      ["Basis", "Borrower creditworthiness"],
+      ["Controls", "Covenants · reporting"],
     ],
   },
   {
@@ -63,8 +63,8 @@ const UnderwritingSection = () => {
         <SectionHeader
           variant="collection"
           eyebrow="Institutional grade"
-          title={<>Credit infrastructure <span className="text-[var(--color-text-muted)]">across the collateral spectrum.</span></>}
-          description="Structure credit against onchain assets, custodied collateral and receivables."
+          title={<>Credit infrastructure <span className="text-[var(--color-text-muted)]">for secured and unsecured lending.</span></>}
+          description="Configure facilities around assets, cash flows and borrower creditworthiness."
         />
 
         <div

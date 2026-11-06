@@ -16,6 +16,14 @@ import rockawayBackground from "../assets/images/operators/rockawayBg.svg";
 import rockawayLogo from "../assets/images/operators/rockawayx.png";
 import twoPrimeBackground from "../assets/images/operators/twoprimeBg.svg";
 import twoPrimeLogo from "../assets/images/operators/twoprime.svg";
+import adaptiveSquareLogo from "../assets/images/operators/adaptive-frontier-square.svg";
+import bastionSquareLogo from "../assets/images/operators/bastion-square.svg";
+import falconxSquareLogo from "../assets/images/operators/falconx-square.svg";
+import fasanaraSquareLogo from "../assets/images/operators/fasanara-square.svg";
+import gauntletSquareLogo from "../assets/images/operators/gauntlet-square.svg";
+import m1CapitalSquareLogo from "../assets/images/operators/m1capital-square.svg";
+import m11SquareLogo from "../assets/images/operators/m11-square.svg";
+import rockawaySquareLogo from "../assets/images/operators/rockawayx-square.svg";
 
 const OPERATOR_LOGOS: Record<string, string> = {
   adaptive: adaptiveLogo,
@@ -42,6 +50,21 @@ const OPERATOR_BACKGROUNDS: Record<string, string> = {
   rockaway: rockawayBackground,
   rockawayx: rockawayBackground,
   twoprime: twoPrimeBackground,
+};
+
+/** Square vector assets for the vault header's rounded-square tiles. */
+const OPERATOR_SQUARE_LOGOS: Record<string, string> = {
+  adaptive: adaptiveSquareLogo,
+  bastion: bastionSquareLogo,
+  falconx: falconxSquareLogo,
+  fasanara: fasanaraSquareLogo,
+  gauntlet: gauntletSquareLogo,
+  m1capital: m1CapitalSquareLogo,
+  m11: m11SquareLogo,
+  maven11: m11SquareLogo,
+  rockaway: rockawaySquareLogo,
+  rockawayx: rockawaySquareLogo,
+  twoprime: twoPrimeLogo,
 };
 
 const normalizeOperatorKey = (value?: string) =>
@@ -74,4 +97,11 @@ export const getOperatorBackground = (
   operatorName?: string,
 ): string | null => {
   return resolveOperatorAsset(OPERATOR_BACKGROUNDS, operatorCode, operatorName);
+};
+
+export const getOperatorSquareLogo = (
+  operatorCode?: string,
+  operatorName?: string,
+): string | null => {
+  return resolveOperatorAsset(OPERATOR_SQUARE_LOGOS, operatorCode, operatorName);
 };

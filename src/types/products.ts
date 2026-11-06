@@ -28,6 +28,10 @@ export interface ProductVaultCard {
   description?: string;
   redemptions?: string;
   asset: string;
+  /** Resolved asset symbols across the vault and its published siblings. */
+  assets?: string[];
+  /** The displayed APY is the highest rate across the complete sibling family. */
+  apyIsMaximum?: boolean;
   type?: string;
   visibility: string;
 }
