@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import ProductsSection from "./ProductsSection";
 import type { ProductVaultCard } from "../../types/products";
@@ -45,6 +45,47 @@ afterEach(() => {
 });
 
 describe("ProductsSection", () => {
+  it("shows all family assets and an up-to rate without changing single-vault cards", () => {
+    class ResizeObserverMock {
+      observe() {}
+      disconnect() {}
+    }
+    vi.stubGlobal("ResizeObserver", ResizeObserverMock);
+    render(
+      <ProductsSection
+        vaults={[
+          {
+            ...vaultCard,
+            assets: ["USDC", "WETH", "cbBTC"],
+            apy: "9.50%",
+            apyIsMaximum: true,
+          },
+          {
+            ...vaultCard,
+            id: "single",
+            name: "Single facility",
+            address: "0x456",
+          },
+        ]}
+        isVaultsLoading={false}
+      />
+    );
+
+    const family = within(
+      screen.getByRole("link", { name: /open falconx credit vault vault/i })
+    );
+    expect(family.getByText("USDC · WETH · cbBTC")).toBeInTheDocument();
+    expect(family.getByText("Assets")).toBeInTheDocument();
+    expect(family.getByText("up to").closest("dd")).toHaveTextContent(
+      "up to9.50%"
+    );
+    const single = within(
+      screen.getByRole("link", { name: /open single facility vault/i })
+    );
+    expect(single.getByText("Asset")).toBeInTheDocument();
+    expect(single.queryByText("up to")).not.toBeInTheDocument();
+  });
+
   it("links vault cards using the vault address as a path segment", () => {
     class ResizeObserverMock {
       observe() {}
@@ -64,7 +105,7 @@ describe("ProductsSection", () => {
     })) {
       expect(link).toHaveAttribute(
         "href",
-        "https://app.pareto.credit/vault/0x123",
+        "https://app.pareto.credit/vault/0x123"
       );
     }
   });
@@ -83,7 +124,9 @@ describe("ProductsSection", () => {
 
     render(<ProductsSection vaults={[vaultCard]} isVaultsLoading={false} />);
 
-    const viewport = document.querySelector(".marquee-scroll") as HTMLDivElement;
+    const viewport = document.querySelector(
+      ".marquee-scroll"
+    ) as HTMLDivElement;
     const setPointerCapture = vi.fn();
     viewport.setPointerCapture = setPointerCapture;
 
@@ -92,7 +135,7 @@ describe("ProductsSection", () => {
       {
         pointerId: 1,
         clientX: 120,
-      },
+      }
     );
 
     expect(setPointerCapture).not.toHaveBeenCalled();
@@ -112,7 +155,9 @@ describe("ProductsSection", () => {
 
     render(<ProductsSection vaults={[vaultCard]} isVaultsLoading={false} />);
 
-    const viewport = document.querySelector(".marquee-scroll") as HTMLDivElement;
+    const viewport = document.querySelector(
+      ".marquee-scroll"
+    ) as HTMLDivElement;
     const setPointerCapture = vi.fn();
     viewport.setPointerCapture = setPointerCapture;
     viewport.hasPointerCapture = vi.fn().mockReturnValue(false);
@@ -142,7 +187,7 @@ describe("ProductsSection", () => {
     render(<ProductsSection vaults={[]} isVaultsLoading={false} />);
 
     expect(screen.getByTestId("products-header-actions")).toContainElement(
-      screen.getByRole("link", { name: /explore vaults/i }),
+      screen.getByRole("link", { name: /explore vaults/i })
     );
   });
 
@@ -152,7 +197,7 @@ describe("ProductsSection", () => {
     render(<ProductsSection vaults={[]} isVaultsLoading={false} />);
 
     expect(screen.getByTestId("products-footer-actions")).toContainElement(
-      screen.getByRole("link", { name: /explore vaults/i }),
+      screen.getByRole("link", { name: /explore vaults/i })
     );
   });
 
@@ -197,6 +242,7 @@ describe("ProductsSection", () => {
   });
 
   it("retains fractional auto-scroll progress when the browser rounds scrollLeft", () => {
+    setViewportWidth(1024);
     motionPreference.shouldReduce = false;
     let nextFrame: FrameRequestCallback | undefined;
 
@@ -210,7 +256,7 @@ describe("ProductsSection", () => {
       observe(target: Element) {
         this.callback(
           [{ target } as ResizeObserverEntry],
-          this as unknown as ResizeObserver,
+          this as unknown as ResizeObserver
         );
       }
 
@@ -222,7 +268,9 @@ describe("ProductsSection", () => {
       writable: true,
       value: ResizeObserverMock,
     });
-    vi.spyOn(HTMLElement.prototype, "scrollWidth", "get").mockReturnValue(1_000);
+    vi.spyOn(HTMLElement.prototype, "scrollWidth", "get").mockReturnValue(
+      1_000
+    );
     vi.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
       nextFrame = callback;
       return 1;
@@ -231,7 +279,9 @@ describe("ProductsSection", () => {
 
     render(<ProductsSection vaults={[vaultCard]} isVaultsLoading={false} />);
 
-    const viewport = document.querySelector(".marquee-scroll") as HTMLDivElement;
+    const viewport = document.querySelector(
+      ".marquee-scroll"
+    ) as HTMLDivElement;
     let renderedScrollLeft = 0;
     Object.defineProperty(viewport, "scrollLeft", {
       configurable: true,

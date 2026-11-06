@@ -1,11 +1,10 @@
-import type {
-  Operator,
-  Token,
-  Vault,
-  VaultBlock,
-} from "@idle-multiverse/data-access";
+import type { Operator, Token, VaultBlock } from "@idle-multiverse/data-access";
 import type { ProductVaultCard, ProductsDataPayload } from "../types/products";
-import type { ParetoPublicApiClient } from "./paretoPublicApi";
+import type {
+  ParetoPublicApiClient,
+  PublicVault as Vault,
+} from "./paretoPublicApi";
+import { batches, loadVaultFamilies, type VaultFamily } from "./vaultFamilies";
 
 const COMPACT_CURRENCY_FORMATTER = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -24,34 +23,37 @@ const getLocalizedText = (value: unknown): string => {
   if (!value || typeof value !== "object") return "";
 
   const englishValue = (value as { en?: unknown }).en;
-  if (typeof englishValue === "string" && englishValue.trim()) return englishValue;
+  if (typeof englishValue === "string" && englishValue.trim())
+    return englishValue;
 
   const firstTextValue = Object.values(value as Record<string, unknown>).find(
-    (item) => typeof item === "string" && item.trim(),
+    (item) => typeof item === "string" && item.trim()
   );
 
   return typeof firstTextValue === "string" ? firstTextValue : "";
 };
 
 const sanitizeText = (text: string): string =>
-  text.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  text
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 
-const toNumberSafe = (value: unknown): number => {
-  if (typeof value === "number") return Number.isFinite(value) ? value : 0;
-  if (typeof value === "string") {
+const toFiniteNumber = (value: unknown): number | null => {
+  if (typeof value === "number") return Number.isFinite(value) ? value : null;
+  if (typeof value === "string" && value.trim()) {
     const parsed = Number(value);
-    return Number.isFinite(parsed) ? parsed : 0;
+    return Number.isFinite(parsed) ? parsed : null;
   }
-  return 0;
+  return null;
 };
 
-// The performances endpoint is separate from vaultLatestBlocks and can return
-// either normalized USD values or 6-decimal values depending on the aggregate.
-const normalizePerformanceUsdValue = (value: number): number =>
-  value > 1_000_000_000_000 ? value / 1_000_000 : value;
-
-const fromVaultBlockUsdBaseUnits = (value: unknown): number =>
-  toNumberSafe(value) / VAULT_BLOCK_USD_BASE_UNITS;
+const fromVaultBlockUsdBaseUnits = (value: unknown): number | null => {
+  const numericValue = toFiniteNumber(value);
+  return numericValue === null
+    ? null
+    : numericValue / VAULT_BLOCK_USD_BASE_UNITS;
+};
 
 const normalizeOperatorCode = (value: string): string =>
   value.toLowerCase().replace(/[^a-z0-9]/g, "");
@@ -117,7 +119,10 @@ const getRateType = (vault: Vault): string | undefined => {
   ) {
     return "Variable rate";
   }
-  if (rateTypeSource.includes("fixed-rate") || rateTypeSource.includes("fixed rate")) {
+  if (
+    rateTypeSource.includes("fixed-rate") ||
+    rateTypeSource.includes("fixed rate")
+  ) {
     return "Fixed rate";
   }
   if (vault.contractType === "PARETO_DOLLAR") {
@@ -126,10 +131,15 @@ const getRateType = (vault: Vault): string | undefined => {
   return undefined;
 };
 
-const getRedemptions = (vault: Vault, latestBlock?: VaultBlock): string | undefined => {
+const getRedemptions = (
+  vault: Vault,
+  latestBlock?: VaultBlock
+): string | undefined => {
   const keyInfo = vault.keyInfo ?? [];
   const redemptionsInfo = keyInfo.find((item) =>
-    /redeem|redemption|redemptions|redeeming time/i.test(getLocalizedText(item.label)),
+    /redeem|redemption|redemptions|redeeming time/i.test(
+      getLocalizedText(item.label)
+    )
   );
   if (redemptionsInfo) {
     const value = getLocalizedText(redemptionsInfo.value);
@@ -137,7 +147,7 @@ const getRedemptions = (vault: Vault, latestBlock?: VaultBlock): string | undefi
   }
 
   const cycleInfo = keyInfo.find((item) =>
-    /cycle duration/i.test(getLocalizedText(item.label)),
+    /cycle duration/i.test(getLocalizedText(item.label))
   );
   if (cycleInfo) {
     const value = getLocalizedText(cycleInfo.value);
@@ -161,26 +171,33 @@ const getLatestStatus = (vault: Vault, latestBlock?: VaultBlock): string => {
   return vault.status;
 };
 
-const getApy = (vault: Vault, latestBlock?: VaultBlock): string => {
-  if (vault.kyc?.hideSensitiveData) return "Hidden";
-  const netApy = latestBlock?.APYs?.NET;
-  if (typeof netApy !== "number" || !Number.isFinite(netApy)) return "—";
-  return `${netApy.toFixed(2)}%`;
+const getTvlUsd = (
+  family: VaultFamily,
+  latestByVaultId: Map<string, VaultBlock>
+): number | null => {
+  let totalUsd = 0;
+  let hasReportedValue = false;
+  for (const member of family.members) {
+    const latestBlock = latestByVaultId.get(member._id);
+    if (
+      latestBlock?.vaultAddress &&
+      latestBlock.vaultAddress.toLowerCase() !== member.address.toLowerCase()
+    )
+      continue;
+    const rawUsd = latestBlock?.TVL?.withRequestsUSD ?? latestBlock?.TVL?.USD;
+    const usd = fromVaultBlockUsdBaseUnits(rawUsd);
+    if (usd === null) continue;
+    hasReportedValue = true;
+    totalUsd += usd;
+  }
+
+  return hasReportedValue && Number.isFinite(totalUsd) ? totalUsd : null;
 };
 
-const getTvl = (vault: Vault, latestByVaultId: Map<string, VaultBlock>): string => {
-  const relatedVaultIds = [vault._id, ...(vault.siblings?.map((item) => item._id) ?? [])];
-  const totalUsd = relatedVaultIds.reduce((acc, vaultId) => {
-    const latestBlock = latestByVaultId.get(vaultId);
-    if (!latestBlock?.TVL) return acc;
-    const rawUsd = latestBlock.TVL.withRequestsUSD ?? latestBlock.TVL.USD;
-    return acc + fromVaultBlockUsdBaseUnits(rawUsd);
-  }, 0);
-
-  return COMPACT_CURRENCY_FORMATTER.format(totalUsd);
-};
-
-const getBorrowerOperator = (vault: Vault, operatorsById: Map<string, Operator>): Operator | null => {
+const getBorrowerOperator = (
+  vault: Vault,
+  operatorsById: Map<string, Operator>
+): Operator | null => {
   const borrowerId = vault.cdoEpoch?.borrower?.operatorId;
   if (borrowerId) return operatorsById.get(borrowerId) ?? null;
 
@@ -193,7 +210,7 @@ const getBorrowerOperator = (vault: Vault, operatorsById: Map<string, Operator>)
 const getCuratorOperator = (
   vault: Vault,
   operatorsById: Map<string, Operator>,
-  operatorsByCode: Map<string, Operator>,
+  operatorsByCode: Map<string, Operator>
 ): Operator | null => {
   const managerId = vault.cdoEpoch?.manager?.operatorId;
   if (managerId) return operatorsById.get(managerId) ?? null;
@@ -211,24 +228,63 @@ const mapVaultToCard = (
   operatorsById: Map<string, Operator>,
   operatorsByCode: Map<string, Operator>,
   tokensById: Map<string, Token>,
+  family: VaultFamily
 ): ProductVaultCard => {
   const latestBlock = latestByVaultId.get(vault._id);
   const borrowerOperator = getBorrowerOperator(vault, operatorsById);
-  const curatorOperator = getCuratorOperator(vault, operatorsById, operatorsByCode);
+  const curatorOperator = getCuratorOperator(
+    vault,
+    operatorsById,
+    operatorsByCode
+  );
 
   const subtitle = sanitizeText(getLocalizedText(vault.caption)) || undefined;
-  const shortDescription = sanitizeText(getLocalizedText(vault.shortDescription));
+  const shortDescription = sanitizeText(
+    getLocalizedText(vault.shortDescription)
+  );
   const longDescription = sanitizeText(getLocalizedText(vault.description));
   const description = shortDescription || longDescription || undefined;
   const tokenSymbol = tokensById.get(vault.tokenId)?.symbol;
+  const tvlUsd = getTvlUsd(family, latestByVaultId);
+  const assets = [
+    ...new Set(
+      family.members
+        .map(
+          (member) =>
+            tokensById.get(member.tokenId)?.symbol?.trim() ||
+            inferAssetFromVaultSymbol(member.symbol)
+        )
+        .filter((asset) => asset !== "—")
+    ),
+  ];
+  const hasHiddenRate = family.members.some(
+    (member) => member.kyc?.hideSensitiveData
+  );
+  const availableRates = family.members.flatMap((member) => {
+    const block = latestByVaultId.get(member._id);
+    if (
+      block?.vaultAddress &&
+      block.vaultAddress.toLowerCase() !== member.address.toLowerCase()
+    )
+      return [];
+    const rate = block?.APYs?.NET;
+    return typeof rate === "number" && Number.isFinite(rate) ? [rate] : [];
+  });
+  const apy = hasHiddenRate
+    ? "Hidden"
+    : availableRates.length > 0
+    ? `${Math.max(...availableRates).toFixed(2)}%`
+    : "—";
 
   return {
     id: vault._id,
     address: vault.address,
     name: vault.name,
     status: getLatestStatus(vault, latestBlock),
-    apy: getApy(vault, latestBlock),
-    tvl: getTvl(vault, latestByVaultId),
+    apy,
+    apyIsMaximum: availableRates.length > 1 && !hasHiddenRate,
+    tvl: tvlUsd === null ? "—" : COMPACT_CURRENCY_FORMATTER.format(tvlUsd),
+    tvlUsd,
     operatorName: borrowerOperator?.name ?? curatorOperator?.name,
     operatorCode: borrowerOperator?.code ?? curatorOperator?.code,
     curatorName: curatorOperator?.name,
@@ -237,26 +293,28 @@ const mapVaultToCard = (
     description,
     redemptions: getRedemptions(vault, latestBlock),
     asset: tokenSymbol ?? inferAssetFromVaultSymbol(vault.symbol),
+    assets,
     type: getRateType(vault),
     visibility: vault.visibility,
   };
 };
 
 export const fetchProductsData = async (
-  apiClient: ParetoPublicApiClient,
+  apiClient: ParetoPublicApiClient
 ): Promise<ProductsDataPayload> => {
-  const [vaultsResult, performancesResult, operatorsResult] = await Promise.allSettled([
-    apiClient.vaults.search({
-      status: "READY",
-      contractType: "CDO_EPOCH",
-    }),
-    apiClient.vaults.performances({
-      status: "READY",
-    }),
-    apiClient.operators.search({
-      limit: 100,
-    }),
-  ]);
+  const [vaultsResult, performancesResult, operatorsResult] =
+    await Promise.allSettled([
+      apiClient.vaults.search({
+        status: "READY",
+        contractType: "CDO_EPOCH",
+      }),
+      apiClient.vaults.performances({
+        status: "READY",
+      }),
+      apiClient.operators.search({
+        limit: 50,
+      }),
+    ]);
 
   if (vaultsResult.status !== "fulfilled") {
     throw vaultsResult.reason;
@@ -264,64 +322,101 @@ export const fetchProductsData = async (
 
   const vaultsPage = vaultsResult.value;
   const performances =
-    performancesResult.status === "fulfilled"
-      ? performancesResult.value
-      : { TVL: 0, creditExtended: 0 };
+    performancesResult.status === "fulfilled" ? performancesResult.value : null;
   const operatorsPage =
     operatorsResult.status === "fulfilled"
       ? operatorsResult.value
       : { data: [], totalCount: 0 };
 
   const publicVaults = vaultsPage.data.filter(
-    (vault) => String(vault.visibility).toUpperCase() === "PUBLIC",
+    (vault) => String(vault.visibility).toUpperCase() === "PUBLIC"
   );
   const vaultIds = Array.from(
     new Set(
       publicVaults.flatMap((vault) => [
         vault._id,
         ...(vault.siblings?.map((sibling) => sibling._id) ?? []),
-      ]),
-    ),
+      ])
+    )
   );
-  const tokenIds = Array.from(new Set(publicVaults.map((vault) => vault.tokenId).filter(Boolean)));
-
-  const [latestBlocksResult, tokensResult] = await Promise.allSettled([
-    vaultIds.length > 0
-      ? apiClient.vaultLatestBlocks.search({
-          vaultId: vaultIds,
-        })
-      : Promise.resolve({ data: [], totalCount: 0 }),
-    tokenIds.length > 0
-      ? apiClient.tokens.search({
-          _id: tokenIds,
-          limit: 100,
-        })
-      : Promise.resolve({ data: [], totalCount: 0 }),
-  ]);
-
-  const latestBlocksPage =
-    latestBlocksResult.status === "fulfilled"
-      ? latestBlocksResult.value
-      : { data: [], totalCount: 0 };
-  const tokensPage =
-    tokensResult.status === "fulfilled" ? tokensResult.value : { data: [], totalCount: 0 };
-
+  const latestResults = await Promise.allSettled(
+    batches(vaultIds, 100).map((vaultId) =>
+      apiClient.vaultLatestBlocks.search({ vaultId, limit: 100 })
+    )
+  );
   const latestByVaultId = new Map(
-    latestBlocksPage.data.map((latestBlock) => [latestBlock.vaultId, latestBlock]),
+    latestResults.flatMap((result) =>
+      result.status === "fulfilled"
+        ? result.value.data.map((block) => [block.vaultId, block] as const)
+        : []
+    )
   );
-  const operatorsById = new Map(operatorsPage.data.map((operator) => [operator._id, operator]));
+  const families = await loadVaultFamilies(
+    publicVaults,
+    apiClient,
+    vaultsPage.data
+  );
+  const tokenIds = [
+    ...new Set(
+      [...families.values()].flatMap((family) =>
+        family.members.map((member) => member.tokenId).filter(Boolean)
+      )
+    ),
+  ];
+  const tokensResults = await Promise.allSettled(
+    batches(tokenIds, 50).map((_id) =>
+      apiClient.tokens.search({ _id, limit: 50 })
+    )
+  );
+  const tokensPage = {
+    data: tokensResults.flatMap((result) =>
+      result.status === "fulfilled" ? result.value.data : []
+    ),
+  };
+
+  const operatorsById = new Map(
+    operatorsPage.data.map((operator) => [operator._id, operator])
+  );
   const operatorsByCode = new Map(
-    operatorsPage.data.map((operator) => [normalizeOperatorCode(operator.code), operator]),
+    operatorsPage.data.map((operator) => [
+      normalizeOperatorCode(operator.code),
+      operator,
+    ])
   );
-  const tokensById = new Map(tokensPage.data.map((token) => [token._id, token]));
+  const tokensById = new Map(
+    tokensPage.data.map((token) => [token._id, token])
+  );
+  const outstandingLoans = toFiniteNumber(performances?.TVL);
+  const creditExtended = toFiniteNumber(performances?.creditExtended);
+  const vaults = publicVaults.map((vault) =>
+    mapVaultToCard(
+      vault,
+      latestByVaultId,
+      operatorsById,
+      operatorsByCode,
+      tokensById,
+      families.get(vault._id)!
+    )
+  );
 
   return {
+    // Preserve the numeric metrics contract; availability distinguishes a
+    // compatibility placeholder from an explicitly reported zero.
     metrics: {
-      outstandingLoans: normalizePerformanceUsdValue(toNumberSafe(performances.TVL)),
-      creditExtended: normalizePerformanceUsdValue(toNumberSafe(performances.creditExtended)),
+      // The performances route already returns normalized USD. Only raw
+      // per-vault block values above use six-decimal base-unit conversion.
+      outstandingLoans: outstandingLoans ?? 0,
+      creditExtended: creditExtended ?? 0,
     },
-    vaults: publicVaults.map((vault) =>
-      mapVaultToCard(vault, latestByVaultId, operatorsById, operatorsByCode, tokensById),
-    ),
+    vaults,
+    // APRs.AVG is already TVL weighted and reported in percentage points.
+    weightedAverageApr: toFiniteNumber(performances?.APRs?.AVG),
+    availability: {
+      metrics: {
+        outstandingLoans: outstandingLoans !== null,
+        creditExtended: creditExtended !== null,
+      },
+      vaultTvl: vaults.every((vault) => vault.tvl !== "—"),
+    },
   };
 };

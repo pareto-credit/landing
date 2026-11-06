@@ -751,7 +751,7 @@ const HowItWorksSection = () => {
   const activeData = activeNode ? diagramNodes[activeNode] : diagramNodes.vault;
 
   return (
-    <section id="how-it-works" className="relative z-10 bg-[var(--color-bg-light)] py-24">
+    <section id="how-it-works" className="ui-section-shell relative z-10 bg-[var(--color-bg-light)]">
       <SectionContainer>
         <SectionHeading
           eyebrow="How It Works"

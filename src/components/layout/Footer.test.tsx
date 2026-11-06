@@ -32,9 +32,12 @@ describe("Footer", () => {
     saveLegalPageReturnScroll.mockReset();
   });
 
-  it("renders the updated platform, ecosystem, and company links", () => {
+  it("renders the canonical product pages and verified resource links", () => {
     render(<Footer />);
 
+    expect(screen.getByRole("link", { name: "Credit Vaults" })).toHaveAttribute("href", "/credit-vaults");
+    expect(screen.getByRole("link", { name: "Pareto Studio" })).toHaveAttribute("href", "/studio");
+    expect(screen.getByRole("link", { name: "Data Dashboard" })).toHaveAttribute("href", "/data");
     expect(screen.getByRole("link", { name: "Web App" })).toHaveAttribute(
       "href",
       "https://app.pareto.credit",
@@ -85,9 +88,6 @@ describe("Footer", () => {
     ).not.toBeInTheDocument();
     expect(
       screen.queryByRole("link", { name: "Compliance" }),
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole("link", { name: "Pareto Studio" }),
     ).not.toBeInTheDocument();
     expect(
       screen.queryByRole("link", { name: "White Label" }),
@@ -142,7 +142,7 @@ describe("Footer", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("renders legal links in the Company column under Media Kit", () => {
+  it("renders page and legal links in the Company column", () => {
     render(<Footer />);
 
     const companyLinks = within(
@@ -152,6 +152,10 @@ describe("Footer", () => {
     expect(
       companyLinks.map((link) => link.textContent?.replace("›", "")),
     ).toEqual([
+      "Thesis",
+      "Data Dashboard",
+      "Originators",
+      "Capital Allocators",
       "Security Audits",
       "Media Kit",
       "Privacy Policy",

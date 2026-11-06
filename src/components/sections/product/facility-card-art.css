@@ -1,0 +1,1224 @@
+.cv-facility-art {
+  --art-ink: #254839;
+  --art-muted: #607367;
+  --art-line: rgb(37 72 57 / 0.16);
+  --art-surface: #f8faf7;
+  --art-ground: #eef3ed;
+  --art-fill: #b6cdb3;
+  --art-accent: #70a995;
+  --art-cyan: #99bec5;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  height: 148px;
+  margin-top: 1.75rem;
+  padding: 13px 14px;
+  overflow: hidden;
+  border: 1px solid var(--art-line);
+  border-radius: 6px;
+  background: var(--art-ground);
+  color: var(--art-ink);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 400;
+  line-height: 1.3;
+  pointer-events: none;
+  user-select: none;
+}
+
+.cv-facility-art--term {
+  --art-ink: #dce9de;
+  --art-muted: #afc6b6;
+  --art-line: rgb(193 217 177 / 0.22);
+  --art-surface: #173a2d;
+  --art-ground: #103023;
+  --art-fill: #c1d9b1;
+  --art-accent: #8fc3a7;
+  --art-cyan: #99c6c9;
+}
+
+.cv-facility-art--revolving {
+  --art-ground: rgb(248 250 247 / 0.26);
+  --art-surface: #d3e2c8;
+}
+
+.cv-facility-art--receivables {
+  --art-ground: rgb(248 250 247 / 0.38);
+}
+
+.cv-facility-art__caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+  color: var(--art-muted);
+  font-size: 8px;
+  letter-spacing: 0.01em;
+}
+
+.cv-facility-art__ledger {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cv-facility-art__ledger-row {
+  display: flex;
+  height: 3px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.cv-facility-art__ledger-row > span {
+  width: 46%;
+  height: 100%;
+  border-radius: 1px;
+  background: var(--art-fill);
+}
+
+.cv-facility-art__ledger-row > span:last-child {
+  width: 21%;
+  background: var(--art-accent);
+}
+
+.cv-facility-art__ledger-row:nth-child(2) > span:first-child {
+  width: 61%;
+}
+
+.cv-facility-art__ledger-row:nth-child(3) > span:first-child {
+  width: 34%;
+}
+
+/* Term: subscriptions, the lending period, and a settlement statement. */
+.cv-facility-art__term-stages {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.cv-facility-art__term-stage {
+  display: flex;
+  min-width: 0;
+  height: 68px;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 8px 9px;
+  border: 1px solid var(--art-line);
+  border-radius: 4px;
+  background: var(--art-surface);
+}
+
+.cv-facility-art__capital-stack {
+  display: flex;
+  height: 23px;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.cv-facility-art__capital-stack > span {
+  width: 25%;
+  max-width: 24px;
+  height: 17px;
+  border: 1px solid var(--art-accent);
+  border-radius: 2px;
+  background: rgb(193 217 177 / 0.16);
+  animation: cv-art-capital 7.2s cubic-bezier(0.32, 0.72, 0, 1) infinite;
+}
+
+.cv-facility-art__capital-stack > span:nth-child(2) {
+  height: 21px;
+  animation-delay: 120ms;
+}
+
+.cv-facility-art__capital-stack > span:nth-child(3) {
+  height: 23px;
+  animation-delay: 240ms;
+}
+
+.cv-facility-art__term-period {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 3px;
+  padding-block: 6px;
+}
+
+.cv-facility-art__term-period > span {
+  height: 10px;
+  border-radius: 1px;
+  background: var(--art-fill);
+  animation: cv-art-term-period 7.2s cubic-bezier(0.32, 0.72, 0, 1) infinite;
+}
+
+.cv-facility-art__term-period > span:nth-child(2) {
+  animation-delay: 160ms;
+}
+.cv-facility-art__term-period > span:nth-child(3) {
+  animation-delay: 320ms;
+}
+.cv-facility-art__term-period > span:nth-child(4) {
+  animation-delay: 480ms;
+}
+
+.cv-facility-art__term-statement {
+  padding-bottom: 1px;
+  animation: cv-art-statement 7.2s cubic-bezier(0.32, 0.72, 0, 1) infinite;
+}
+
+.cv-facility-art__term-route {
+  position: relative;
+  display: flex;
+  height: 1px;
+  justify-content: space-between;
+  margin: 14px 12%;
+  background: var(--art-line);
+}
+
+.cv-facility-art__term-route > span {
+  width: 4px;
+  height: 4px;
+  margin-top: -1.5px;
+  border-radius: 50%;
+  background: var(--art-accent);
+}
+
+.cv-facility-art__term-cursor {
+  position: absolute;
+  inset: -2px 0 auto;
+  height: 5px;
+  animation: cv-art-cycle 7.2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+}
+
+.cv-facility-art__term-cursor > i {
+  display: block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--art-fill);
+}
+
+/* Revolving: the drawn balance changes as packets draw and repay. */
+.cv-facility-art--revolving .cv-facility-art__caption {
+  margin-bottom: 0;
+}
+
+.cv-facility-art__capacity-labels {
+  display: flex;
+  justify-content: space-between;
+  margin: 17px 0 7px;
+}
+
+.cv-facility-art__capacity {
+  position: relative;
+  height: 18px;
+  overflow: hidden;
+  border: 1px solid var(--art-line);
+  border-radius: 3px;
+  background: rgb(248 250 247 / 0.38);
+}
+
+.cv-facility-art__capacity-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--art-ink);
+  transform: scaleX(0.56);
+  transform-origin: left center;
+  animation: cv-art-capacity 7.8s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+}
+
+.cv-facility-art__capacity-ticks {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+
+.cv-facility-art__capacity-ticks > span {
+  border-right: 1px solid var(--art-ground);
+}
+
+.cv-facility-art__revolving-cycle {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  margin-top: 11px;
+}
+
+.cv-facility-art__revolving-flow {
+  position: relative;
+  height: 34px;
+}
+
+.cv-facility-art__revolving-flow > svg {
+  display: block;
+  width: 100%;
+  height: 34px;
+  overflow: visible;
+  stroke: var(--art-accent);
+  stroke-width: 1;
+}
+
+.cv-facility-art__draw-packet,
+.cv-facility-art__repay-packet {
+  position: absolute;
+  inset-inline: 4%;
+  height: 6px;
+}
+
+/* Keep the moving dots outside the stretched SVG so they stay circular. */
+.cv-facility-art__draw-packet::before,
+.cv-facility-art__repay-packet::before {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--art-ink);
+  content: "";
+}
+
+.cv-facility-art__draw-packet {
+  top: 8px;
+  animation: cv-art-draw 7.8s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+}
+
+.cv-facility-art__repay-packet {
+  top: 22px;
+  animation: cv-art-repay 7.8s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+}
+
+.cv-facility-art__repay-packet::before { margin-left: auto; }
+
+/* Collateral: distinct asset records alongside a smaller credit block. */
+.cv-facility-art__coverage {
+  position: relative;
+  display: grid;
+  height: 100%;
+  grid-template-columns: minmax(0, 1fr) 24px minmax(0, 0.85fr);
+  gap: 10px;
+  padding-bottom: 8px;
+}
+
+.cv-facility-art__coverage-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cv-facility-art__coverage-side > span {
+  color: var(--art-muted);
+  font-size: 8px;
+}
+
+.cv-facility-art__collateral-stack {
+  display: flex;
+  height: 75px;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.cv-facility-art__collateral-tile {
+  display: flex;
+  height: 19px;
+  align-items: center;
+  gap: 4px;
+  padding-inline: 7px;
+  border: 1px solid var(--art-line);
+  border-radius: 3px;
+  background: var(--art-surface);
+  animation: cv-art-collateral 7.4s cubic-bezier(0.32, 0.72, 0, 1) infinite;
+}
+
+.cv-facility-art__collateral-tile:nth-child(2) {
+  animation-delay: 180ms;
+}
+.cv-facility-art__collateral-tile:nth-child(3) {
+  animation-delay: 360ms;
+}
+
+.cv-facility-art__collateral-tile > span {
+  width: 5px;
+  height: 5px;
+  border-radius: 1px;
+  background: var(--art-accent);
+}
+
+.cv-facility-art__collateral-tile > span:nth-child(2) {
+  width: 35%;
+  height: 3px;
+  margin-left: 3px;
+  background: var(--art-fill);
+}
+
+.cv-facility-art__collateral-tile > span:last-child {
+  width: 13%;
+  height: 3px;
+  margin-left: auto;
+  background: var(--art-cyan);
+}
+
+.cv-facility-art__coverage-divider {
+  position: relative;
+  align-self: end;
+  height: 65px;
+  border-block: 1px solid var(--art-line);
+  border-right: 1px solid var(--art-line);
+}
+
+.cv-facility-art__coverage-divider > span {
+  position: absolute;
+  right: -4px;
+  width: 7px;
+  height: 1px;
+  background: var(--art-accent);
+}
+
+.cv-facility-art__coverage-divider > span:first-child {
+  top: -1px;
+}
+.cv-facility-art__coverage-divider > span:last-child {
+  bottom: -1px;
+}
+
+.cv-facility-art__credit-block {
+  display: flex;
+  height: 34px;
+  align-items: center;
+  gap: 5px;
+  padding-inline: 10px;
+  border: 1px solid rgb(37 72 57 / 0.2);
+  border-radius: 3px;
+  background: var(--art-fill);
+}
+
+.cv-facility-art__credit-block > span {
+  width: 43%;
+  height: 3px;
+  background: var(--art-ink);
+}
+
+.cv-facility-art__credit-block > span:last-child {
+  width: 17%;
+  margin-left: auto;
+  opacity: 0.5;
+}
+
+.cv-facility-art__coverage-baseline {
+  position: absolute;
+  inset: auto 0 0;
+  height: 1px;
+  background: var(--art-line);
+}
+
+/* Custody: a vault enclosure and separate custody-evidence records. */
+.cv-facility-art__custody {
+  display: grid;
+  height: 90px;
+  grid-template-columns: 0.9fr 24px 1fr;
+  align-items: center;
+}
+
+.cv-facility-art__vault {
+  height: 84px;
+  padding: 6px;
+  border: 1px solid var(--art-line);
+  border-radius: 5px;
+  background: var(--art-surface);
+}
+
+.cv-facility-art__vault-door {
+  position: relative;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--art-accent);
+  border-radius: 3px;
+  background: var(--art-ground);
+}
+
+.cv-facility-art__vault-door::before,
+.cv-facility-art__vault-door::after {
+  position: absolute;
+  left: -3px;
+  width: 4px;
+  height: 9px;
+  border: 1px solid var(--art-accent);
+  border-radius: 1px;
+  background: var(--art-surface);
+  content: "";
+}
+
+.cv-facility-art__vault-door::before {
+  top: 10px;
+}
+.cv-facility-art__vault-door::after {
+  bottom: 10px;
+}
+
+.cv-facility-art__vault-dial {
+  position: relative;
+  width: 29px;
+  height: 29px;
+  margin-top: -8px;
+  border: 1px solid var(--art-accent);
+  border-radius: 50%;
+}
+
+.cv-facility-art__vault-dial > span {
+  position: absolute;
+  inset: 13px 5px auto;
+  height: 1px;
+  background: var(--art-ink);
+}
+
+.cv-facility-art__vault-dial > span:last-child {
+  transform: rotate(90deg);
+}
+
+.cv-facility-art__vault-assets {
+  position: absolute;
+  inset: auto 18% 10px;
+  display: flex;
+  justify-content: center;
+  gap: 3px;
+}
+
+.cv-facility-art__vault-assets > span {
+  width: 14px;
+  height: 4px;
+  border-radius: 1px;
+  background: var(--art-fill);
+}
+
+.cv-facility-art__custody-link {
+  position: relative;
+  height: 1px;
+  background: var(--art-line);
+}
+
+.cv-facility-art__custody-link > span {
+  position: absolute;
+  inset: -2px auto auto;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--art-accent);
+  animation: cv-art-evidence-link 7.6s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+}
+
+.cv-facility-art__evidence {
+  padding: 5px 8px;
+  border: 1px solid var(--art-line);
+  border-radius: 4px;
+  background: var(--art-surface);
+}
+
+.cv-facility-art__evidence-row {
+  display: grid;
+  height: 22px;
+  grid-template-columns: 8px 1fr 12px;
+  align-items: center;
+  gap: 5px;
+}
+
+.cv-facility-art__evidence-row + .cv-facility-art__evidence-row {
+  border-top: 1px solid var(--art-line);
+}
+
+.cv-facility-art__evidence-mark {
+  width: 6px;
+  height: 8px;
+  border: 1px solid var(--art-accent);
+  border-radius: 1px;
+  background: var(--art-fill);
+  animation: cv-art-evidence 7.6s cubic-bezier(0.32, 0.72, 0, 1) infinite;
+}
+
+.cv-facility-art__evidence-row:nth-child(2) .cv-facility-art__evidence-mark {
+  animation-delay: 240ms;
+}
+.cv-facility-art__evidence-row:nth-child(3) .cv-facility-art__evidence-mark {
+  animation-delay: 480ms;
+}
+
+.cv-facility-art__evidence-row > span:nth-child(2),
+.cv-facility-art__evidence-row > span:last-child {
+  height: 3px;
+  border-radius: 1px;
+  background: var(--art-fill);
+}
+
+.cv-facility-art__evidence-row > span:last-child {
+  background: var(--art-cyan);
+}
+
+/* Managed accounts: reporting windows connect to a common visibility rail. */
+.cv-facility-art__accounts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.cv-facility-art__account {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  height: 76px;
+  flex-direction: column;
+  padding: 8px 6px;
+  border: 1px solid var(--art-line);
+  border-radius: 4px;
+  background: var(--art-surface);
+}
+
+.cv-facility-art__account-focus {
+  position: absolute;
+  inset: -1px;
+  border: 1px solid var(--art-accent);
+  border-radius: inherit;
+  opacity: 0;
+  animation: cv-art-account-focus 8.4s cubic-bezier(0.32, 0.72, 0, 1) infinite;
+}
+
+.cv-facility-art__account:nth-child(2) .cv-facility-art__account-focus {
+  animation-delay: 2.8s;
+}
+.cv-facility-art__account:nth-child(3) .cv-facility-art__account-focus {
+  animation-delay: 5.6s;
+}
+
+.cv-facility-art__account-title {
+  margin-bottom: 13px;
+  font-size: 8px;
+}
+
+.cv-facility-art__account .cv-facility-art__ledger {
+  gap: 4px;
+}
+.cv-facility-art__account .cv-facility-art__ledger-row {
+  height: 2px;
+  gap: 3px;
+}
+
+.cv-facility-art__account-foot {
+  width: 9px;
+  height: 3px;
+  margin-top: auto;
+  background: var(--art-cyan);
+}
+
+.cv-facility-art__account-rail {
+  position: relative;
+  display: flex;
+  width: 69%;
+  height: 11px;
+  justify-content: space-between;
+  margin-inline: auto;
+  border-bottom: 1px solid var(--art-line);
+}
+
+.cv-facility-art__account-rail > span {
+  width: 1px;
+  height: 11px;
+  background: var(--art-line);
+}
+
+.cv-facility-art__account-rail::after {
+  position: absolute;
+  top: 8px;
+  left: calc(50% - 3px);
+  width: 6px;
+  height: 6px;
+  border: 1px solid var(--art-accent);
+  border-radius: 2px;
+  background: var(--art-surface);
+  content: "";
+}
+
+/* Balance sheet: a financial statement and recurring, non-trending cash flows. */
+.cv-facility-art__balance {
+  display: grid;
+  height: 85px;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: end;
+}
+
+.cv-facility-art__financials {
+  height: 83px;
+  padding: 11px 10px;
+  border: 1px solid var(--art-line);
+  border-radius: 4px;
+  background: var(--art-surface);
+}
+
+.cv-facility-art__financials-heading {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 13px;
+}
+
+.cv-facility-art__financials-heading > span {
+  width: 19px;
+  height: 4px;
+  background: var(--art-ink);
+  opacity: 0.7;
+}
+
+.cv-facility-art__financials-heading > span:last-child {
+  width: 5px;
+  margin-left: auto;
+  background: var(--art-cyan);
+}
+
+.cv-facility-art__financials-total {
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin-top: 10px;
+  background: var(--art-accent);
+  animation: cv-art-financials 8s cubic-bezier(0.32, 0.72, 0, 1) infinite;
+}
+
+.cv-facility-art__cash-flows {
+  display: flex;
+  height: 74px;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 0 4px 11px;
+  border-bottom: 1px solid var(--art-line);
+}
+
+.cv-facility-art__cash-flow {
+  width: 15%;
+  height: 39px;
+  border: 1px solid var(--art-line);
+  border-radius: 2px 2px 0 0;
+  background: var(--art-fill);
+  animation: cv-art-cash-flow 8s cubic-bezier(0.32, 0.72, 0, 1) infinite;
+}
+
+.cv-facility-art__cash-flow:nth-child(2) {
+  height: 55px;
+  animation-delay: 220ms;
+}
+.cv-facility-art__cash-flow:nth-child(3) {
+  height: 31px;
+  background: var(--art-cyan);
+  animation-delay: 440ms;
+}
+.cv-facility-art__cash-flow:nth-child(4) {
+  height: 46px;
+  animation-delay: 660ms;
+}
+.cv-facility-art__cash-flow:nth-child(5) {
+  height: 37px;
+  animation-delay: 880ms;
+}
+
+/* Receivables: invoice documents feed a pool of individually tracked assets. */
+.cv-facility-art__receivables {
+  display: grid;
+  height: 87px;
+  grid-template-columns: minmax(65px, 0.85fr) minmax(20px, 0.45fr) minmax(
+      85px,
+      1fr
+    );
+  align-items: center;
+}
+
+.cv-facility-art__invoice-stack {
+  position: relative;
+  width: 63px;
+  height: 77px;
+  margin-inline: auto;
+}
+
+.cv-facility-art__invoice-back {
+  position: absolute;
+  inset: 0 6px 7px -5px;
+  border: 1px solid var(--art-line);
+  border-radius: 3px;
+  background: var(--art-ground);
+  transform: rotate(-7deg);
+}
+
+.cv-facility-art__invoice {
+  position: absolute;
+  inset: 4px 0 0;
+  padding: 8px 7px;
+  border: 1px solid var(--art-line);
+  border-radius: 3px;
+  background: var(--art-surface);
+  animation: cv-art-invoice 8.6s cubic-bezier(0.32, 0.72, 0, 1) infinite;
+}
+
+.cv-facility-art__invoice > span:first-child {
+  display: block;
+  margin-bottom: 13px;
+  font-size: 7px;
+}
+
+.cv-facility-art__invoice .cv-facility-art__ledger {
+  gap: 5px;
+}
+.cv-facility-art__invoice .cv-facility-art__ledger-row {
+  height: 2px;
+  gap: 4px;
+}
+
+.cv-facility-art__invoice-foot {
+  display: block;
+  width: 13px;
+  height: 3px;
+  margin: 9px 0 0 auto;
+  background: var(--art-cyan);
+}
+
+.cv-facility-art__pool-link {
+  position: relative;
+  height: 1px;
+  border-top: 1px dashed var(--art-accent);
+}
+
+.cv-facility-art__pool-link::after {
+  position: absolute;
+  top: -3px;
+  right: 0;
+  width: 5px;
+  height: 5px;
+  border-top: 1px solid var(--art-accent);
+  border-right: 1px solid var(--art-accent);
+  transform: rotate(45deg);
+  content: "";
+}
+
+.cv-facility-art__pool-packet {
+  position: absolute;
+  inset: -3px 0 auto;
+  height: 5px;
+  animation: cv-art-pool-packet 8.6s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+}
+
+.cv-facility-art__pool-packet::before {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--art-ink);
+  content: "";
+}
+
+.cv-facility-art__invoice-pool {
+  display: grid;
+  height: 79px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 5px;
+  padding: 8px;
+  border: 1px solid var(--art-line);
+  border-radius: 4px;
+  background: rgb(248 250 247 / 0.5);
+}
+
+.cv-facility-art__pool-item {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  padding-inline: 5px;
+  border: 1px solid var(--art-line);
+  border-radius: 2px;
+  background: var(--art-surface);
+  animation: cv-art-pool-item 8.6s cubic-bezier(0.32, 0.72, 0, 1) infinite;
+}
+
+.cv-facility-art__pool-item > i {
+  height: 2px;
+  background: var(--art-fill);
+}
+.cv-facility-art__pool-item > i:last-child {
+  width: 60%;
+  background: var(--art-accent);
+}
+.cv-facility-art__pool-item:nth-child(2) {
+  animation-delay: 160ms;
+}
+.cv-facility-art__pool-item:nth-child(3) {
+  animation-delay: 320ms;
+}
+.cv-facility-art__pool-item:nth-child(4) {
+  animation-delay: 480ms;
+}
+.cv-facility-art__pool-item:nth-child(5) {
+  animation-delay: 640ms;
+}
+.cv-facility-art__pool-item:nth-child(6) {
+  animation-delay: 800ms;
+}
+
+/* Multi-asset: separate vault ledgers; no shared asset pool or bridging arrows. */
+.cv-facility-art__asset-vaults {
+  display: grid;
+  height: 94px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.cv-facility-art__asset-vault {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  border: 1px solid var(--art-line);
+  border-radius: 4px;
+  background: var(--art-surface);
+}
+
+.cv-facility-art__asset-name {
+  font-size: 8px;
+}
+
+.cv-facility-art__asset-logos {
+  display: flex;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.cv-facility-art__asset-logos > img {
+  display: block;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.cv-facility-art__asset-ledger {
+  width: min(100%, 82px);
+  animation: cv-art-asset-ledger 9s cubic-bezier(0.32, 0.72, 0, 1) infinite;
+}
+
+.cv-facility-art__asset-ledger .cv-facility-art__ledger {
+  gap: 3px;
+}
+.cv-facility-art__asset-ledger .cv-facility-art__ledger-row {
+  height: 2px;
+  gap: 4px;
+}
+.cv-facility-art__asset-vault:nth-child(2) .cv-facility-art__asset-ledger {
+  animation-delay: 3s;
+}
+.cv-facility-art__asset-vault:nth-child(3) .cv-facility-art__asset-ledger {
+  animation-delay: 6s;
+}
+
+.cv-facility-art__asset-network {
+  color: var(--art-muted);
+  font-size: 7px;
+}
+
+/* Pause at the current frame offscreen or in a hidden tab. */
+.cv-facility-art .cv-facility-art__motion {
+  animation-play-state: paused;
+}
+.cv-facility-art[data-running="true"] .cv-facility-art__motion {
+  animation-play-state: running;
+}
+.cv-facility-art[data-reduced="true"] .cv-facility-art__motion {
+  animation: none;
+}
+
+@keyframes cv-art-capital {
+  0%,
+  8%,
+  90%,
+  100% {
+    opacity: 0.5;
+    transform: translateY(3px);
+  }
+  18%,
+  78% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes cv-art-term-period {
+  0%,
+  20%,
+  90%,
+  100% {
+    opacity: 0.35;
+  }
+  35%,
+  78% {
+    opacity: 1;
+  }
+}
+@keyframes cv-art-statement {
+  0%,
+  45%,
+  95%,
+  100% {
+    opacity: 0.45;
+    transform: translateY(2px);
+  }
+  63%,
+  83% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes cv-art-cycle {
+  0%,
+  10% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  16% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  40%,
+  48% {
+    opacity: 1;
+    transform: translateX(49%);
+  }
+  72%,
+  83% {
+    opacity: 1;
+    transform: translateX(98%);
+  }
+  90%,
+  100% {
+    opacity: 0;
+    transform: translateX(98%);
+  }
+}
+@keyframes cv-art-capacity {
+  0%,
+  12%,
+  90%,
+  100% {
+    transform: scaleX(0.38);
+  }
+  37%,
+  55% {
+    transform: scaleX(0.68);
+  }
+  77% {
+    transform: scaleX(0.38);
+  }
+}
+@keyframes cv-art-draw {
+  0%,
+  12% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  18% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  37% {
+    opacity: 1;
+    transform: translateX(calc(100% - 6px));
+  }
+  43%,
+  100% {
+    opacity: 0;
+    transform: translateX(calc(100% - 6px));
+  }
+}
+@keyframes cv-art-repay {
+  0%,
+  55% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  61% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  77% {
+    opacity: 1;
+    transform: translateX(calc(-100% + 6px));
+  }
+  85%,
+  100% {
+    opacity: 0;
+    transform: translateX(calc(-100% + 6px));
+  }
+}
+@keyframes cv-art-collateral {
+  0%,
+  8%,
+  91%,
+  100% {
+    opacity: 0.55;
+    transform: translateY(-3px);
+  }
+  22%,
+  77% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes cv-art-evidence-link {
+  0%,
+  10%,
+  70%,
+  100% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  20% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  42% {
+    opacity: 1;
+    transform: translateX(18px);
+  }
+  50%,
+  69% {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+}
+@keyframes cv-art-evidence {
+  0%,
+  29%,
+  93%,
+  100% {
+    opacity: 0.3;
+  }
+  45%,
+  80% {
+    opacity: 1;
+  }
+}
+@keyframes cv-art-account-focus {
+  0%,
+  33%,
+  100% {
+    opacity: 0;
+  }
+  8%,
+  23% {
+    opacity: 0.8;
+  }
+}
+@keyframes cv-art-financials {
+  0%,
+  8%,
+  90%,
+  100% {
+    opacity: 0.35;
+  }
+  22%,
+  77% {
+    opacity: 1;
+  }
+}
+@keyframes cv-art-cash-flow {
+  0%,
+  18%,
+  95%,
+  100% {
+    opacity: 0.5;
+    transform: translateY(2px);
+  }
+  35%,
+  77% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes cv-art-invoice {
+  0%,
+  10%,
+  75%,
+  100% {
+    transform: translateX(0);
+  }
+  28%,
+  48% {
+    transform: translateX(5px);
+  }
+}
+@keyframes cv-art-pool-packet {
+  0%,
+  22% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  29% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  52% {
+    opacity: 1;
+    transform: translateX(75%);
+  }
+  61%,
+  100% {
+    opacity: 0;
+    transform: translateX(75%);
+  }
+}
+@keyframes cv-art-pool-item {
+  0%,
+  38%,
+  96%,
+  100% {
+    opacity: 0.5;
+    transform: translateY(2px);
+  }
+  54%,
+  80% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes cv-art-asset-ledger {
+  0%,
+  37%,
+  100% {
+    opacity: 0.55;
+  }
+  10%,
+  27% {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 380px) {
+  .cv-facility-art {
+    padding-inline: 10px;
+  }
+  .cv-facility-art__term-stage {
+    padding-inline: 6px;
+    font-size: 8px;
+  }
+  .cv-facility-art__asset-vaults {
+    gap: 6px;
+  }
+  .cv-facility-art__asset-vault {
+    padding-inline: 5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cv-facility-art .cv-facility-art__motion {
+    animation: none;
+  }
+}

@@ -12,13 +12,24 @@ import type {
   VaultsSearchQuery,
 } from "@idle-multiverse/data-access";
 
-type QueryValue = string | number | boolean | readonly (string | number | boolean)[];
+/** The public catalog includes eligible PUBLIC and LIMITED vaults. */
+export type PublicVault = Omit<Vault, "visibility"> & {
+  visibility: Vault["visibility"] | "LIMITED";
+};
+
+type QueryValue =
+  | string
+  | number
+  | boolean
+  | readonly (string | number | boolean)[];
 type Query = Record<string, QueryValue | null | undefined>;
 
 export interface ParetoPublicApiClient {
   vaults: {
-    search: (params?: VaultsSearchQuery) => Promise<Page<Vault>>;
-    performances: (params?: VaultsPerformancesQuery) => Promise<VaultsPerformances>;
+    search: (params?: VaultsSearchQuery) => Promise<Page<PublicVault>>;
+    performances: (
+      params?: VaultsPerformancesQuery
+    ) => Promise<VaultsPerformances>;
   };
   operators: {
     search: (params?: OperatorsSearchQuery) => Promise<Page<Operator>>;
@@ -67,7 +78,7 @@ const requestJson = async <T>(
   fetchImplementation: typeof fetch,
   apiUrl: string,
   route: string,
-  params?: Query,
+  params?: Query
 ): Promise<T> => {
   const url = buildUrl(apiUrl, route, params);
   const response = await fetchImplementation(url, {
@@ -85,23 +96,36 @@ const requestJson = async <T>(
 
 export const createParetoPublicApiClient = (
   apiUrl: string,
-  fetchImplementation: typeof fetch = fetch,
+  fetchImplementation: typeof fetch = fetch
 ): ParetoPublicApiClient => {
   const get = <T>(route: string, params?: Query): Promise<T> =>
     requestJson<T>(fetchImplementation, apiUrl, route, params);
 
   const searchLatestBlocks = (params?: VaultBlocksSearchQuery) =>
-    get<Page<VaultBlock>>(PUBLIC_ROUTES.vaultLatestBlocks, params as Query | undefined);
+    get<Page<VaultBlock>>(
+      PUBLIC_ROUTES.vaultLatestBlocks,
+      params as Query | undefined
+    );
 
   return {
     vaults: {
-      search: (params) => get<Page<Vault>>(PUBLIC_ROUTES.vaults, params as Query | undefined),
+      search: (params) =>
+        get<Page<PublicVault>>(
+          PUBLIC_ROUTES.vaults,
+          params as Query | undefined
+        ),
       performances: (params) =>
-        get<VaultsPerformances>(PUBLIC_ROUTES.vaultPerformances, params as Query | undefined),
+        get<VaultsPerformances>(
+          PUBLIC_ROUTES.vaultPerformances,
+          params as Query | undefined
+        ),
     },
     operators: {
       search: (params) =>
-        get<Page<Operator>>(PUBLIC_ROUTES.operators, params as Query | undefined),
+        get<Page<Operator>>(
+          PUBLIC_ROUTES.operators,
+          params as Query | undefined
+        ),
     },
     vaultLatestBlocks: {
       search: searchLatestBlocks,
@@ -109,12 +133,14 @@ export const createParetoPublicApiClient = (
         const page = await searchLatestBlocks(params);
         const latestBlock = page.data[0];
 
-        if (!latestBlock) throw new Error("Pareto public API resource not found");
+        if (!latestBlock)
+          throw new Error("Pareto public API resource not found");
         return latestBlock;
       },
     },
     tokens: {
-      search: (params) => get<Page<Token>>(PUBLIC_ROUTES.tokens, params as Query | undefined),
+      search: (params) =>
+        get<Page<Token>>(PUBLIC_ROUTES.tokens, params as Query | undefined),
     },
   };
 };

@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap');
 @import 'tailwindcss';
 
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-  /* Shared radius scale for Tailwind utilities and semantic UI classes. */
+  /* Rectangular UI surfaces use the Live Vaults 6px radius via semantic tokens.
+     Circles, pills and chart geometry keep their purpose-specific radii. */
   --radius: 0.25rem;
   --radius-xs: 0.125rem;
   --radius-sm: 0.25rem;
@@ -49,6 +49,10 @@
   --color-text-primary: #0e1813;
   --color-text-secondary: #293b33;
   --color-text-muted: #5a6e66;
+  --color-text-muted-inverse: #b7cbc0;
+  --color-focus-on-light: var(--color-brand-deep);
+  --color-focus-on-dark: var(--color-brand-soft);
+  --color-focus-ring: rgb(112 177 158 / 0.7);
   --color-text-muted-2: #4d625a;
   --color-text-muted-soft: #9ca3af;
   --color-text-muted-softer: #d1d5db;
@@ -100,6 +104,7 @@
   --shadow-soft: 0 8px 24px rgb(14 24 19 / 0.08);
   --shadow-elevated: 0 20px 40px rgb(0 0 0 / 0.1);
   --section-viewport-offset: 5.75rem;
+  --section-content-padding: clamp(3rem, 5vw, 5rem);
 }
 
 .ui-eyebrow {
@@ -170,6 +175,15 @@
   backdrop-filter: blur(12px);
 }
 
+/* Frosted announcement treatment adapted to a dark section. */
+.ui-frost-chip--dark {
+  border-color: rgb(114 244 201 / 0.24);
+  background: linear-gradient(135deg, rgb(37 72 57 / 0.64), rgb(10 35 24 / 0.88));
+  box-shadow:
+    0 0 24px rgb(114 244 201 / 0.06),
+    inset 0 1px 0 rgb(189 231 215 / 0.10);
+}
+
 .ui-section-fit {
   display: flex;
   align-items: center;
@@ -180,6 +194,31 @@
 .ui-section-shell {
   width: 100%;
   padding-block: clamp(3.75rem, 7vh, 6rem);
+}
+
+/* Homepage sections follow content height and one shared spacing scale.
+   Hero and Studio retain their dedicated full-viewport compositions. */
+.home-page {
+  --home-section-padding: var(--section-content-padding);
+}
+
+.home-page .ui-section-shell {
+  padding-block: var(--home-section-padding);
+}
+
+.home-page > .ui-section-fit {
+  min-height: 0;
+}
+
+/* Short headings stay on one line; longer headings wrap into balanced lines. */
+.home-page [data-header-layout="collection"] h2 {
+  text-wrap: balance;
+}
+
+/* Reserve room for card shadows without adding space around the section content. */
+.home-page .home-section-track {
+  margin-block: -1rem;
+  padding-block: 1rem;
 }
 
 * {
@@ -198,6 +237,11 @@ body {
   overflow-x: clip;
   background-color: var(--color-bg-page);
   color: var(--color-text-inverse);
+}
+
+/* The router owns hash scrolling; reserve space for the fixed site header. */
+main section[id] {
+  scroll-margin-top: 5.5rem;
 }
 
 a {
@@ -224,7 +268,7 @@ input[type='reset'] {
   display: flex;
   width: max-content;
   will-change: transform;
-  animation: marquee 36s linear infinite;
+  animation: marquee 64s linear infinite;
 }
 
 .marquee-group {
@@ -327,4 +371,32 @@ input[type='reset'] {
 
 .legal-content a:hover {
   text-decoration: underline;
+}
+
+/* Animated accents for highlighted showcases. Disabled for reduced motion. */
+@keyframes ui-shimmer {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.ui-text-shimmer {
+  background-image: linear-gradient(
+    90deg,
+    var(--color-brand-bright) 0%,
+    #38bdf8 30%,
+    #a7f3d0 55%,
+    var(--color-brand-bright) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: ui-shimmer 6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-text-shimmer {
+    animation: none;
+  }
 }
