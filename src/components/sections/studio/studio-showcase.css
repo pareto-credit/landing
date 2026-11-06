@@ -318,6 +318,12 @@
 .studio-preview--showcase .product-preview__table-footer {
   display: none;
 }
+.studio-preview--showcase .product-preview__notifications {
+  top: 12px;
+  right: 12px;
+  bottom: auto;
+  align-items: flex-start;
+}
 .studio-preview--showcase .product-preview__sidebar > span {
   min-height: 21px;
   padding-block: 3px;
@@ -326,23 +332,20 @@
   padding-top: 8px;
 }
 .studio-preview--showcase .lender-portfolio__heading {
-  margin-bottom: 10px;
+  margin-bottom: 18px;
 }
 .studio-preview--showcase .lender-portfolio__allocation-body {
   margin-top: 8px;
 }
 .studio-preview--showcase .lender-portfolio__donut {
-  max-width: 80px;
-}
-.studio-preview--showcase .lender-portfolio__legend {
-  gap: 8px;
+  max-width: 112px;
 }
 .studio-preview--showcase .lender-portfolio__vaults {
   display: none;
 }
 .studio-preview--showcase .lender-portfolio__funds,
 .studio-preview--showcase .lender-portfolio__allocation {
-  padding: 10px;
+  padding: 14px;
 }
 
 @media (max-width: 1023px) {
@@ -383,6 +386,7 @@
   .studio-preview--showcase .product-preview__metrics small,
   .studio-preview--showcase .lender-portfolio__allocation,
   .studio-preview--showcase .lender-portfolio__performance,
+  .studio-preview--showcase .lender-portfolio__assets,
   .studio-preview--showcase .lender-portfolio__vaults {
     display: none;
   }
@@ -410,12 +414,6 @@
     padding-top: 100px;
     padding-bottom: 12px;
     gap: 10px;
-  }
-}
-@container studio-showcase-frame (max-height: 560px) {
-  .studio-preview--showcase .product-preview__vault:nth-child(n + 3),
-  .studio-preview--showcase .product-preview__activity:nth-child(n + 2) {
-    display: none;
   }
 }
 @container (max-width: 1100px) {

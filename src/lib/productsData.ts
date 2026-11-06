@@ -171,34 +171,27 @@ const getLatestStatus = (vault: Vault, latestBlock?: VaultBlock): string => {
   return vault.status;
 };
 
-const getApy = (vault: Vault, latestBlock?: VaultBlock): string => {
-  if (vault.kyc?.hideSensitiveData) return "Hidden";
-  const netApy = latestBlock?.APYs?.NET;
-  if (typeof netApy !== "number" || !Number.isFinite(netApy)) return "—";
-  return `${netApy.toFixed(2)}%`;
-};
-
 const getTvlUsd = (
   family: VaultFamily,
   latestByVaultId: Map<string, VaultBlock>
 ): number | null => {
-  if (!family.complete || family.members.length === 0) return null;
   let totalUsd = 0;
+  let hasReportedValue = false;
   for (const member of family.members) {
     const latestBlock = latestByVaultId.get(member._id);
     if (
       latestBlock?.vaultAddress &&
       latestBlock.vaultAddress.toLowerCase() !== member.address.toLowerCase()
     )
-      return null;
+      continue;
     const rawUsd = latestBlock?.TVL?.withRequestsUSD ?? latestBlock?.TVL?.USD;
     const usd = fromVaultBlockUsdBaseUnits(rawUsd);
-    // A partial sibling sum would misstate the facility's combined TVL.
-    if (usd === null) return null;
+    if (usd === null) continue;
+    hasReportedValue = true;
     totalUsd += usd;
   }
 
-  return Number.isFinite(totalUsd) ? totalUsd : null;
+  return hasReportedValue && Number.isFinite(totalUsd) ? totalUsd : null;
 };
 
 const getBorrowerOperator = (
@@ -264,32 +257,23 @@ const mapVaultToCard = (
         .filter((asset) => asset !== "—")
     ),
   ];
-  const familyRates = family.members.map((member) => {
+  const hasHiddenRate = family.members.some(
+    (member) => member.kyc?.hideSensitiveData
+  );
+  const availableRates = family.members.flatMap((member) => {
     const block = latestByVaultId.get(member._id);
     if (
       block?.vaultAddress &&
       block.vaultAddress.toLowerCase() !== member.address.toLowerCase()
     )
-      return "—";
-    return getApy(member, block);
+      return [];
+    const rate = block?.APYs?.NET;
+    return typeof rate === "number" && Number.isFinite(rate) ? [rate] : [];
   });
-  const hasFamily = (vault.siblings?.length ?? 0) > 0;
-  const hasAllRates =
-    family.complete &&
-    family.members.length > 0 &&
-    familyRates.every((rate) => rate !== "—" && rate !== "Hidden");
-  const apy = !hasFamily
-    ? getApy(vault, latestBlock)
-    : !family.complete
-    ? "—"
-    : familyRates.includes("Hidden")
+  const apy = hasHiddenRate
     ? "Hidden"
-    : hasAllRates
-    ? `${Math.max(
-        ...family.members.map(
-          (member) => latestByVaultId.get(member._id)?.APYs.NET ?? Number.NaN
-        )
-      ).toFixed(2)}%`
+    : availableRates.length > 0
+    ? `${Math.max(...availableRates).toFixed(2)}%`
     : "—";
 
   return {
@@ -298,7 +282,7 @@ const mapVaultToCard = (
     name: vault.name,
     status: getLatestStatus(vault, latestBlock),
     apy,
-    apyIsMaximum: family.members.length > 1 && hasAllRates,
+    apyIsMaximum: availableRates.length > 1 && !hasHiddenRate,
     tvl: tvlUsd === null ? "—" : COMPACT_CURRENCY_FORMATTER.format(tvlUsd),
     tvlUsd,
     operatorName: borrowerOperator?.name ?? curatorOperator?.name,

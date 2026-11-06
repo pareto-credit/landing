@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import paretoMark from "../../../assets/svgs/pareto-mark-white.svg";
 import studioWordmarkDark from "../../../assets/svgs/studio-wordmark-dark.svg";
+import lenderMark from "../../../assets/svgs/pareto-mark.svg";
+import ethereumIcon from "../../../assets/images/tokens/eth.png";
 import { usePageVisibility } from "../../../hooks/usePageVisibility";
 import {
   borrowerFacility,
@@ -246,11 +248,7 @@ function ProductSession({
               <>
                 <div className="product-preview__brand">
                   {theme === "light" ? (
-                    <img
-                      className="product-preview__wordmark"
-                      src={studioWordmarkDark}
-                      alt="Pareto"
-                    />
+                    <img src={lenderMark} alt="Pareto" />
                   ) : (
                     <>
                       <img src={paretoMark} alt="Pareto" />
@@ -270,6 +268,12 @@ function ProductSession({
               </span>
             )}
             <div className="product-preview__account">
+              {lender && (
+                <span className="product-preview__chain">
+                  <img src={ethereumIcon} alt="" /> Ethereum{" "}
+                  <span aria-hidden="true">⌄</span>
+                </span>
+              )}
               <span
                 className="product-preview__notification-dot"
                 data-active={Boolean(latest)}
@@ -296,7 +300,12 @@ function ProductSession({
               </div>
             )}
             {lender ? (
-              <LenderPortfolio events={received} />
+              <LenderPortfolio
+                events={received}
+                showAssets={theme === "light"}
+                running={motionRunning}
+                reduced={reduced}
+              />
             ) : screenView ? (
               <StudioWorkspaceScreens
                 view={screenView}
@@ -319,6 +328,7 @@ function ProductSession({
                 newRequestId={requestEvents.at(-1)?.row?.id}
                 newTransactionId={transactionEvents.at(-1)?.row?.id}
                 reduced={reduced}
+                running={motionRunning}
               />
             )}
           </div>
@@ -330,9 +340,13 @@ function ProductSession({
                 key={latest.title + eventCount}
                 className="product-preview__notification"
                 data-kind={latest.kind}
-                initial={reduced ? false : { opacity: 0, y: 10 }}
+                initial={
+                  reduced
+                    ? false
+                    : { opacity: 0, y: theme === "light" ? -6 : 6 }
+                }
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -5 }}
+                exit={{ opacity: 0 }}
                 transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
               >
                 <span className="product-preview__notification-icon">

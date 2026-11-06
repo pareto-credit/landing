@@ -5,7 +5,7 @@ export interface VanityMetrics {
 
 export interface ProductsDataAvailability {
   metrics: Record<keyof VanityMetrics, boolean>;
-  /** True only when TVL is known for every listed vault and its related vaults. */
+  /** True when every displayed card has a reported TVL value. */
   vaultTvl: boolean;
 }
 
@@ -30,7 +30,7 @@ export interface ProductVaultCard {
   asset: string;
   /** Resolved asset symbols across the vault and its published siblings. */
   assets?: string[];
-  /** The displayed APY is the highest rate across the complete sibling family. */
+  /** The displayed APY is the highest available rate across multiple family members. */
   apyIsMaximum?: boolean;
   type?: string;
   visibility: string;

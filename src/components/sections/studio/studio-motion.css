@@ -1,6 +1,6 @@
 /* A fresh session mounts on each persona change, replaying this short entrance. */
 .product-preview:not([data-reduced-motion="true"]) .preview-enter {
-  animation: preview-panel-in 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: preview-panel-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
   animation-delay: var(--preview-delay, 0ms);
 }
 .product-preview__metrics > :nth-child(1) {
@@ -26,12 +26,6 @@
 }
 .product-preview__vault:nth-child(4) {
   --preview-delay: 420ms;
-}
-.product-preview__activity:nth-child(1) {
-  --preview-delay: 280ms;
-}
-.product-preview__activity:nth-child(2) {
-  --preview-delay: 360ms;
 }
 .product-preview:not([data-reduced-motion="true"])
   .product-preview__progress
@@ -110,9 +104,9 @@
 .lender-portfolio__vaults {
   --preview-delay: 400ms;
 }
-.product-preview:not([data-reduced-motion="true"])
-  .lender-portfolio__ring-segments {
-  animation: preview-ring-in 1100ms cubic-bezier(0.22, 1, 0.36, 1) 220ms both;
+.product-preview:not([data-reduced-motion="true"]) .lender-portfolio__ring {
+  animation: preview-ring-in 900ms cubic-bezier(0.22, 1, 0.36, 1)
+    var(--ring-delay, 220ms) both;
 }
 .product-preview:not([data-reduced-motion="true"])
   .lender-portfolio__capital-bar {
@@ -130,7 +124,7 @@
     .preview-enter,
     .preview-spark-bars > i,
     .product-preview__progress > span,
-    .lender-portfolio__ring-segments,
+    .lender-portfolio__ring,
     .lender-portfolio__capital-bar,
     .lender-portfolio__update
   ) {
@@ -159,7 +153,7 @@
 @keyframes preview-panel-in {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(4px);
   }
   to {
     opacity: 1;
@@ -183,18 +177,26 @@
 }
 @keyframes preview-ring-in {
   from {
-    opacity: 0;
-    transform: rotate(-42deg) scale(0.94);
+    stroke-dasharray: 0 100;
   }
   to {
-    opacity: 1;
-    transform: rotate(0deg) scale(1);
+    stroke-dasharray: var(--ring-share) var(--ring-gap);
   }
+}
+.preview-number {
+  display: inline-grid;
+  font-variant-numeric: tabular-nums;
+}
+.preview-number > span {
+  grid-area: 1 / 1;
+}
+.preview-number__target {
+  opacity: 0;
 }
 @media (prefers-reduced-motion: reduce) {
   .product-preview .preview-enter,
   .product-preview .preview-spark-bars > i,
-  .product-preview .lender-portfolio__ring-segments,
+  .product-preview .lender-portfolio__ring,
   .product-preview .lender-portfolio__capital-bar {
     animation: none !important;
   }

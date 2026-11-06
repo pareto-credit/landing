@@ -5,7 +5,6 @@ import type {
 
 export interface VaultFamily {
   members: Vault[];
-  complete: boolean;
 }
 
 export const batches = <T>(items: T[], size: number): T[][] =>
@@ -70,10 +69,7 @@ export async function loadVaultFamilies(
         seenAddresses.add(address);
         return [member];
       });
-      return [
-        vault._id,
-        { members, complete: ids.every((id) => known.has(id)) },
-      ];
+      return [vault._id, { members }];
     })
   );
 }

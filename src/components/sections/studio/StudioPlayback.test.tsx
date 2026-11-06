@@ -197,14 +197,21 @@ describe("Studio preview playback and exploration", () => {
     expect(underwriter).toHaveAttribute("aria-selected", "true");
     advance(1);
     expect(borrower).toHaveAttribute("aria-selected", "true");
-    expect(screen.getByText("$248,600,000")).toBeInTheDocument();
+    expect(
+      screen.getByText("$248,600,000", { selector: ".preview-number__target" })
+    ).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: /Request Studio access/i })
     ).toHaveFocus();
     completeSequence();
     expect(lender).toHaveAttribute("aria-selected", "true");
-    expect(screen.getByRole("button", { name: /ask a question/i })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /enter app/i })).toHaveAttribute("href", "https://app.pareto.credit/");
+    expect(
+      screen.getByRole("button", { name: /ask a question/i })
+    ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /enter app/i })).toHaveAttribute(
+      "href",
+      "https://app.pareto.credit/"
+    );
     completeSequence();
     expect(underwriter).toHaveAttribute("aria-selected", "true");
     expect(screen.queryByText("12,500,000 USDC")).not.toBeInTheDocument();
@@ -234,7 +241,9 @@ describe("Studio preview playback and exploration", () => {
     advance();
     fireEvent.click(screen.getByRole("tab", { name: /Borrowers/i }));
     expect(screen.queryByText("12,500,000 USDC")).not.toBeInTheDocument();
-    expect(screen.getByText("$248,600,000")).toBeInTheDocument();
+    expect(
+      screen.getByText("$248,600,000", { selector: ".preview-number__target" })
+    ).toBeInTheDocument();
     completeSequence();
     expect(screen.getByRole("tab", { name: /Lenders/i })).toHaveAttribute(
       "aria-selected",
@@ -265,27 +274,27 @@ describe("Studio preview playback and exploration", () => {
     );
   });
 
-  it("lets entrance motion finish while early table focus pauses incoming events", () => {
+  it("lets entrance motion finish while early allocation focus pauses incoming events", () => {
     const { preview } = visiblePreview();
     fireEvent.click(screen.getByRole("tab", { name: /Lenders/i }));
-    const vaults = screen.getByRole("region", { name: "Lending vaults" });
-    act(() => vaults.focus());
+    const allocation = screen.getByRole("region", { name: "Allocation" });
+    act(() => allocation.focus());
     const desk = screen.getByTestId("studio-desk");
     expect(desk).toHaveAttribute("data-playing", "false");
     expect(desk).toHaveAttribute("data-motion-running", "true");
     advance(5000);
-    expect(screen.queryByText("October report")).not.toBeInTheDocument();
-    expect(vaults).toHaveFocus();
+    expect(
+      screen.queryByText("Borrower report available")
+    ).not.toBeInTheDocument();
+    expect(allocation).toHaveFocus();
     act(() => PreviewObserver.emit(preview, false));
     expect(desk).toHaveAttribute("data-motion-running", "false");
     act(() => PreviewObserver.emit(preview, true));
     expect(desk).toHaveAttribute("data-motion-running", "true");
     expect(desk).toHaveAttribute("data-playing", "false");
-    act(() =>
-      screen.getByRole("button", { name: /Ask a question/i }).focus()
-    );
+    act(() => screen.getByRole("button", { name: /Ask a question/i }).focus());
     advance();
-    expect(screen.getByText("October report")).toBeInTheDocument();
+    expect(screen.getByText("Borrower report available")).toBeInTheDocument();
   });
 
   it("keeps reduced-motion previews static with direct role selection available", () => {
@@ -302,6 +311,8 @@ describe("Studio preview playback and exploration", () => {
       "aria-selected",
       "true"
     );
-    expect(screen.getByText("$248,600,000")).toBeInTheDocument();
+    expect(
+      screen.getByText("$248,600,000", { selector: ".preview-number__target" })
+    ).toBeInTheDocument();
   });
 });

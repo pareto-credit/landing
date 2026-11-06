@@ -17,7 +17,7 @@ export default function PreviewActivityTable({
   const transactions = title === "Transactions";
   return (
     <div
-      className="product-preview__activity preview-enter"
+      className="product-preview__activity"
       data-kind={transactions ? "transaction" : "request"}
     >
       <div className="product-preview__table-heading">
@@ -44,14 +44,11 @@ export default function PreviewActivityTable({
             {rows.map((row) => (
               <motion.tr
                 key={row.id}
-                layout={reduced ? false : "position"}
                 data-new={row.id === newId}
-                initial={
-                  row.id === newId && !reduced ? { opacity: 0, y: -12 } : false
-                }
-                animate={{ opacity: 1, y: 0 }}
+                initial={row.id === newId && !reduced ? { opacity: 0 } : false}
+                animate={{ opacity: 1 }}
                 transition={{
-                  duration: reduced ? 0 : 0.38,
+                  duration: reduced ? 0 : 0.3,
                   ease: [0.22, 1, 0.36, 1],
                 }}
               >

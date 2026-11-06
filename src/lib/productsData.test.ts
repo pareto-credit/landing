@@ -162,7 +162,7 @@ describe("fetchProductsData", () => {
     expect(result.vaults).toHaveLength(1);
   });
 
-  it("retains known assets but withholds partial family TVL and APY when a sibling cannot be resolved", async () => {
+  it("keeps available asset metrics when a sibling cannot be resolved", async () => {
     const client = buildApiClient();
     const siblings = [
       { _id: "vault-missing", chainId: "chain-2" },
@@ -196,11 +196,60 @@ describe("fetchProductsData", () => {
 
     expect(result.vaults[0]).toMatchObject({
       assets: ["USDC", "USDT"],
-      tvl: "—",
-      apy: "—",
+      tvl: "$0",
+      apy: "8.00%",
       apyIsMaximum: false,
     });
     expect(result.vaults).toHaveLength(1);
+  });
+
+  it("uses available block values even when sibling token metadata is unavailable", async () => {
+    const client = buildApiClient();
+    const sibling = buildVault({
+      _id: "sibling",
+      address: "0x456",
+      tokenId: "token-usdt",
+      symbol: "pSiblingUSDT",
+      visibility: "LIMITED",
+    });
+    vi.mocked(client.vaults.search).mockResolvedValue({
+      data: [
+        buildVault({ siblings: [{ _id: "sibling", chainId: "chain-2" }] }),
+        sibling,
+      ],
+      totalCount: 2,
+    });
+    vi.mocked(client.vaultLatestBlocks.search).mockResolvedValue({
+      data: [
+        {
+          vaultId: "vault-falconx",
+          TVL: { USD: "2000000000000" },
+          APYs: { NET: 8 },
+        },
+        { vaultId: "sibling", TVL: { USD: "3000000000000" }, APYs: { NET: 9 } },
+      ] as VaultBlock[],
+      totalCount: 2,
+    });
+
+    expect((await fetchProductsData(client)).vaults[0]).toMatchObject({
+      assets: ["USDC", "USDT"],
+      tvl: "$5M",
+      apy: "9.00%",
+      apyIsMaximum: true,
+    });
+    vi.mocked(client.tokens.search).mockResolvedValue({
+      data: [
+        { _id: "token-usdc", symbol: "USDC" },
+        { _id: "token-usdt", symbol: "USDT" },
+      ] as Token[],
+      totalCount: 2,
+    });
+    expect((await fetchProductsData(client)).vaults[0]).toMatchObject({
+      assets: ["USDC", "USDT"],
+      tvl: "$5M",
+      apy: "9.00%",
+      apyIsMaximum: true,
+    });
   });
 
   it("excludes HIDDEN siblings and counts duplicate addresses only once", async () => {
@@ -248,12 +297,18 @@ describe("fetchProductsData", () => {
   });
 
   it.each([
-    { rate: undefined, sensitive: false, apy: "—", maximum: false },
-    { rate: 0, sensitive: false, apy: "0.00%", maximum: true },
-    { rate: 99, sensitive: true, apy: "Hidden", maximum: false },
+    {
+      rate: undefined,
+      sensitive: false,
+      apy: "0.00%",
+      maximum: false,
+      tvl: "$2M",
+    },
+    { rate: 0, sensitive: false, apy: "0.00%", maximum: true, tvl: "$2M" },
+    { rate: 99, sensitive: true, apy: "Hidden", maximum: false, tvl: "$2M" },
   ])(
     "handles missing, zero and sensitive family rates ($apy)",
-    async ({ rate, sensitive, apy, maximum }) => {
+    async ({ rate, sensitive, apy, maximum, tvl }) => {
       const client = buildApiClient();
       const sibling = buildVault({
         _id: "sibling",
@@ -286,7 +341,7 @@ describe("fetchProductsData", () => {
       });
 
       expect((await fetchProductsData(client)).vaults[0]).toMatchObject({
-        tvl: "$2M",
+        tvl,
         apy,
         apyIsMaximum: maximum,
       });
@@ -329,8 +384,8 @@ describe("fetchProductsData", () => {
       });
       expect((await fetchProductsData(client)).vaults[0]).toMatchObject({
         assets: ["USDC"],
-        tvl: "—",
-        apy: "—",
+        tvl: "$1M",
+        apy: "8.00%",
         apyIsMaximum: false,
       });
     }
@@ -542,7 +597,7 @@ describe("fetchProductsData", () => {
     });
   });
 
-  it("requires TVL for every related vault before displaying the combined value", async () => {
+  it("adds available sibling block values to the primary metrics", async () => {
     const client = buildApiClient();
     vi.mocked(client.vaults.search).mockResolvedValue({
       data: [
@@ -554,14 +609,26 @@ describe("fetchProductsData", () => {
     });
 
     const incomplete = await fetchProductsData(client);
-    expect(incomplete.vaults[0].tvl).toBe("—");
-    expect(incomplete.vaults[0].tvlUsd).toBeNull();
-    expect(incomplete.availability?.vaultTvl).toBe(false);
+    expect(incomplete.vaults[0]).toMatchObject({
+      tvl: "$0",
+      tvlUsd: 0,
+      apy: "8.00%",
+      apyIsMaximum: false,
+    });
+    expect(incomplete.availability?.vaultTvl).toBe(true);
 
     vi.mocked(client.vaultLatestBlocks.search).mockResolvedValue({
       data: [
-        { vaultId: "vault-falconx", TVL: { USD: "2000000000000" } },
-        { vaultId: "vault-sibling", TVL: { USD: "3000000000000" } },
+        {
+          vaultId: "vault-falconx",
+          TVL: { USD: "2000000000000" },
+          APYs: { NET: 8 },
+        },
+        {
+          vaultId: "vault-sibling",
+          TVL: { USD: "3000000000000" },
+          APYs: { NET: 9 },
+        },
       ] as VaultBlock[],
       totalCount: 2,
     });
@@ -569,6 +636,10 @@ describe("fetchProductsData", () => {
     const complete = await fetchProductsData(client);
     expect(complete.vaults[0].tvl).toBe("$5M");
     expect(complete.vaults[0].tvlUsd).toBe(5_000_000);
+    expect(complete.vaults[0]).toMatchObject({
+      apy: "9.00%",
+      apyIsMaximum: true,
+    });
     expect(complete.availability?.vaultTvl).toBe(true);
   });
 

@@ -1,6 +1,7 @@
 import type { ActivityRow, PersonaId } from "./studioDeskData";
 import { borrowerFacility, previewVaults } from "./studioDeskData";
 import PreviewActivityTable from "./PreviewActivityTable";
+import PreviewNumber from "./PreviewNumber";
 
 const usd = (value: number) =>
   value.toLocaleString("en-US", {
@@ -24,6 +25,7 @@ interface StudioOverviewProps {
   newRequestId?: string;
   newTransactionId?: string;
   reduced: boolean;
+  running: boolean;
 }
 
 export default function StudioOverview({
@@ -35,6 +37,7 @@ export default function StudioOverview({
   newRequestId,
   newTransactionId,
   reduced,
+  running,
 }: StudioOverviewProps) {
   const borrower = role === "borrow";
   const metrics = borrower
@@ -70,8 +73,16 @@ export default function StudioOverview({
               {label}
               <span aria-hidden="true">↗</span>
             </dt>
-            <dd key={value} className="product-preview__value">
-              {value}
+            <dd>
+              {index < 2 ? (
+                <PreviewNumber
+                  value={value}
+                  running={running}
+                  reduced={reduced}
+                />
+              ) : (
+                value
+              )}
             </dd>
             <small>{note}</small>
             {index < 2 && (
@@ -97,10 +108,7 @@ export default function StudioOverview({
           </div>
           <div className="product-preview__vault-grid">
             {previewVaults.map((vault, index) => (
-              <article
-                className="product-preview__vault preview-enter"
-                key={vault.name}
-              >
+              <article className="product-preview__vault" key={vault.name}>
                 <div className="product-preview__vault-top">
                   <span
                     className="product-preview__vault-monogram"

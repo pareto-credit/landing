@@ -1,6 +1,7 @@
 import { act, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import StudioDesk from "./StudioDesk";
+import lenderMark from "../../../assets/svgs/pareto-mark.svg";
 import { personaDesks } from "./studioDeskData";
 
 const settings = vi.hoisted(() => ({ reduced: false }));
@@ -64,9 +65,13 @@ describe("automatic product preview sequences", () => {
     const field = screen.getByRole("textbox", { name: "Facility name" });
     expect(field).toHaveValue("Aster Revolving Credit");
     expect(field).toHaveAttribute("readonly");
-    const collateral = screen.getByRole("region", { name: "Collateral and custody configuration" });
+    const collateral = screen.getByRole("region", {
+      name: "Collateral and custody configuration",
+    });
     for (const label of ["Onchain", "Custody", "Asset pools"]) {
-      expect(within(collateral).getByText(label, { exact: true })).toBeInTheDocument();
+      expect(
+        within(collateral).getByText(label, { exact: true })
+      ).toBeInTheDocument();
     }
     expect(collateral).toHaveTextContent("LTV & margin calls");
     expect(screen.getByText("Draft", { exact: true })).toBeInTheDocument();
@@ -107,6 +112,38 @@ describe("automatic product preview sequences", () => {
     }
   );
 
+  it("keeps vaults and activity panels mounted without replaying panel entrances on notifications", () => {
+    const { container } = render(
+      <StudioDesk desk={personaDesks[0]} theme="light" isLive />
+    );
+    const vaults = [...container.querySelectorAll(".product-preview__vault")];
+    const panels = [
+      ...container.querySelectorAll(".product-preview__activity"),
+    ];
+    expect(vaults).toHaveLength(4);
+    expect(panels).toHaveLength(2);
+    for (let event = 0; event < 3; event++) {
+      advance();
+      container
+        .querySelectorAll(".product-preview__vault")
+        .forEach((node, index) => {
+          expect(node).toBe(vaults[index]);
+        });
+      container
+        .querySelectorAll(".product-preview__activity")
+        .forEach((node, index) => {
+          expect(node).toBe(panels[index]);
+        });
+      for (const panel of [...vaults, ...panels]) {
+        expect(panel).not.toHaveClass("preview-enter");
+        expect(panel).toBeVisible();
+      }
+      expect(
+        container.querySelector(".product-preview__notification")
+      ).toBeInTheDocument();
+    }
+  });
+
   it("adds new requests to the underwriter overview without playback UI", () => {
     render(<StudioDesk desk={personaDesks[0]} isLive />);
     expect(screen.getByText("Illustrative")).toBeInTheDocument();
@@ -133,7 +170,9 @@ describe("automatic product preview sequences", () => {
 
   it("adds borrower transactions and updates the outstanding balance", () => {
     render(<StudioDesk desk={personaDesks[1]} isLive />);
-    expect(screen.getByText("$51,400,000")).toBeInTheDocument();
+    expect(
+      screen.getByText("$51,400,000", { selector: ".preview-number__target" })
+    ).toBeInTheDocument();
     const transactions = screen.getByRole("region", {
       name: "Preview transactions",
     });
@@ -141,16 +180,26 @@ describe("automatic product preview sequences", () => {
     expect(
       within(transactions).getByText("12,500,000 USDC")
     ).toBeInTheDocument();
-    expect(screen.getByText("$261,100,000")).toBeInTheDocument();
-    expect(screen.getByText("$38,900,000")).toBeInTheDocument();
+    expect(
+      screen.getByText("$261,100,000", { selector: ".preview-number__target" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("$38,900,000", { selector: ".preview-number__target" })
+    ).toBeInTheDocument();
     advance();
     expect(
       within(transactions).getByText("Interest payment")
     ).toBeInTheDocument();
-    expect(screen.getByText("$261,100,000")).toBeInTheDocument();
+    expect(
+      screen.getByText("$261,100,000", { selector: ".preview-number__target" })
+    ).toBeInTheDocument();
     advance();
-    expect(screen.getByText("$254,850,000")).toBeInTheDocument();
-    expect(screen.getByText("$45,150,000")).toBeInTheDocument();
+    expect(
+      screen.getByText("$254,850,000", { selector: ".preview-number__target" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("$45,150,000", { selector: ".preview-number__target" })
+    ).toBeInTheDocument();
   });
 
   it("holds the final event before completing, then resets on a role change", () => {
@@ -171,7 +220,9 @@ describe("automatic product preview sequences", () => {
     rerender(
       <StudioDesk desk={personaDesks[1]} isLive onComplete={complete} />
     );
-    expect(screen.getByText("$248,600,000")).toBeInTheDocument();
+    expect(
+      screen.getByText("$248,600,000", { selector: ".preview-number__target" })
+    ).toBeInTheDocument();
     expect(
       screen.queryByText("New withdrawal request")
     ).not.toBeInTheDocument();
@@ -187,9 +238,17 @@ describe("automatic product preview sequences", () => {
       name: "Portfolio performance",
     });
     const vaults = screen.getByRole("region", { name: "Lending vaults" });
-    expect(within(funds).getByText("$31,016,216.38")).toBeInTheDocument();
+    expect(
+      within(funds).getByText("$35,016,216.38", {
+        selector: ".preview-number__target",
+      })
+    ).toBeInTheDocument();
     expect(within(funds).getByText("$25,000.00")).toBeInTheDocument();
-    expect(within(performance).getByText("$1,109,824.93")).toBeInTheDocument();
+    expect(
+      within(performance).getByText("$1,289,824.93", {
+        selector: ".preview-number__target",
+      })
+    ).toBeInTheDocument();
     expect(
       screen.getByRole("region", { name: "Allocation" })
     ).toBeInTheDocument();
@@ -200,10 +259,22 @@ describe("automatic product preview sequences", () => {
     expect(
       within(vaults).getByRole("row", { name: /Aster.*October report/i })
     ).toBeInTheDocument();
-    expect(within(funds).getByText("$31,016,216.38")).toBeInTheDocument();
+    expect(
+      within(funds).getByText("$35,016,216.38", {
+        selector: ".preview-number__target",
+      })
+    ).toBeInTheDocument();
     advance();
-    expect(within(funds).getByText("$31,018,396.38")).toBeInTheDocument();
-    expect(within(performance).getByText("$1,112,004.93")).toBeInTheDocument();
+    expect(
+      within(funds).getByText("$35,018,396.38", {
+        selector: ".preview-number__target",
+      })
+    ).toBeInTheDocument();
+    expect(
+      within(performance).getByText("$1,292,004.93", {
+        selector: ".preview-number__target",
+      })
+    ).toBeInTheDocument();
     expect(
       within(vaults).getByRole("row", { name: /Aster.*15,510,288.19/i })
     ).toBeInTheDocument();
@@ -213,9 +284,63 @@ describe("automatic product preview sequences", () => {
         name: /Meridian.*25,000 USDC available/i,
       })
     ).toBeInTheDocument();
-    expect(within(funds).getByText("$31,018,396.38")).toBeInTheDocument();
+    expect(
+      within(funds).getByText("$35,018,396.38", {
+        selector: ".preview-number__target",
+      })
+    ).toBeInTheDocument();
     expect(within(funds).queryByText("$25,000.00")).not.toBeInTheDocument();
     expect(screen.queryByText(/FalconX/i)).not.toBeInTheDocument();
+  });
+
+  it("matches the lender app hierarchy and includes asset holdings in token allocation and total funds", () => {
+    const { container } = render(
+      <StudioDesk desk={personaDesks[2]} theme="light" isLive />
+    );
+    expect(
+      screen.getByText("Track and manage your yield portfolio")
+    ).toBeInTheDocument();
+    expect(
+      container.querySelector(".product-preview__brand img")
+    ).toHaveAttribute("src", lenderMark);
+    const allocation = screen.getByRole("list", { name: "Token allocation" });
+    for (const token of ["USDC", "USDT", "sUSP"]) {
+      expect(within(allocation).getByAltText(token)).toBeInTheDocument();
+    }
+    const allocatedFunds = within(allocation)
+      .getAllByRole("listitem")
+      .reduce(
+        (total, item) => total + Number(item.textContent?.replace(/[$,]/g, "")),
+        0
+      );
+    expect(allocatedFunds).toBeCloseTo(35016216.38, 2);
+    const performance = screen.getByRole("region", {
+      name: "Portfolio performance",
+    });
+    for (const label of ["Earnings", "ROI", "Realized APY", "Vaults"]) {
+      expect(within(performance).getByText(label)).toBeInTheDocument();
+    }
+    const assets = screen.getByRole("region", { name: "Assets" });
+    expect(
+      screen.queryByRole("region", { name: "Lending vaults" })
+    ).not.toBeInTheDocument();
+    expect(
+      within(assets).getByRole("article", { name: "USP asset" })
+    ).toHaveTextContent("Synthetic Dollar");
+    expect(
+      within(assets).getByRole("article", { name: "sUSP asset" })
+    ).toHaveTextContent("$4,000,000.00");
+    expect(within(assets).getByText("Balancer Pool")).toBeInTheDocument();
+    expect(within(assets).getByText("Euler Pool")).toBeInTheDocument();
+    advance();
+    advance();
+    const updatedAllocation = within(allocation)
+      .getAllByRole("listitem")
+      .reduce(
+        (total, item) => total + Number(item.textContent?.replace(/[$,]/g, "")),
+        0
+      );
+    expect(updatedAllocation).toBeCloseTo(35018396.38, 2);
   });
 
   it("stops offscreen and in a hidden tab, then resumes", () => {

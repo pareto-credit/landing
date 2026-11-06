@@ -152,9 +152,9 @@ export default function StudioPreview({
               {active === index && (
                 <motion.div
                   key={desk.id}
-                  initial={reduced ? false : { opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                  initial={reduced ? false : { opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
                 >
                   <StudioDesk
                     theme={variant === "showcase" ? "light" : "dark"}
