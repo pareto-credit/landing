@@ -2,7 +2,6 @@ import { useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import {
   getOperatorBackground,
-  getOperatorLogo,
   getOperatorSquareLogo,
 } from "../../data/operatorLogos";
 import { useMinWidth } from "../../hooks/useMinWidth";
@@ -17,24 +16,6 @@ interface ProductsSectionProps {
 }
 
 const PRODUCTS_SKELETON_COUNT = 4;
-
-const getStatusClassName = (status: string) => {
-  const normalized = status.toLowerCase();
-  if (normalized.includes("run") || normalized.includes("ready")) {
-    return "border border-[color:rgb(113_178_159_/_0.35)] bg-[color:rgb(113_178_159_/_0.15)] text-[var(--color-brand-deep)]";
-  }
-  if (
-    normalized.includes("stop") ||
-    normalized.includes("close") ||
-    normalized.includes("pause") ||
-    normalized.includes("disable")
-  ) {
-    return "border border-[var(--color-state-danger-border)] bg-[var(--color-state-danger-bg)] text-[var(--color-state-danger-text)]";
-  }
-  return "border border-[var(--color-border-soft-strong)] bg-[var(--color-surface-soft)] text-[var(--color-text-muted-soft)]";
-};
-
-const formatStatusLabel = (status: string) => status.replace(/_/g, " ");
 
 const PRODUCTS_MARQUEE_SPEED = 50;
 const PRODUCTS_MARQUEE_SETS = 2;
@@ -245,13 +226,6 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
                   </div>
                 </div>
                 <div className="vault-card__body">
-                  <div className="vault-card__metadata">
-                    <div className="vault-card__tags">
-                      <div className="h-6 w-20 rounded bg-[var(--color-bg-light)]" />
-                      <div className="h-6 w-16 rounded bg-[var(--color-bg-light)]" />
-                    </div>
-                    <div className="h-6 w-14 rounded bg-[var(--color-bg-light)]" />
-                  </div>
                   <div className="vault-card__summary space-y-2">
                     <div className="h-3 w-full rounded bg-[var(--color-bg-light)]" />
                     <div className="h-3 w-full rounded bg-[var(--color-bg-light)]" />
@@ -373,11 +347,10 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
                         vault.operatorCode,
                         vault.operatorName
                       );
-                      const curatorLogo = getOperatorLogo(
+                      const curatorLogo = getOperatorSquareLogo(
                         vault.curatorCode,
                         vault.curatorName
                       );
-                      const statusClassName = getStatusClassName(vault.status);
                       const assets = vault.assets?.length
                         ? vault.assets
                         : [vault.asset];
@@ -434,53 +407,46 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
                                 <h3 className="vault-card__title leading-[1.2]">
                                   {vault.name}
                                 </h3>
-                                {vault.subtitle ? (
-                                  <p className="vault-card__subtitle">
-                                    {vault.subtitle}
-                                  </p>
+                                {vault.subtitle || vault.curatorName ? (
+                                  <div className="vault-card__caption-row">
+                                    {vault.subtitle ? (
+                                      <p className="vault-card__subtitle">
+                                        {vault.subtitle}
+                                      </p>
+                                    ) : null}
+                                    {vault.curatorName ? (
+                                      <span
+                                        className="vault-card__curator"
+                                        title={`Curated by ${vault.curatorName}`}
+                                      >
+                                        <span>Curated by</span>
+                                        <span className="vault-card__curator-logo">
+                                          {curatorLogo ? (
+                                            <img
+                                              src={curatorLogo}
+                                              alt={vault.curatorName}
+                                              draggable={false}
+                                            />
+                                          ) : (
+                                            <span
+                                              role="img"
+                                              aria-label={vault.curatorName}
+                                            >
+                                              {vault.curatorName
+                                                .charAt(0)
+                                                .toUpperCase()}
+                                            </span>
+                                          )}
+                                        </span>
+                                      </span>
+                                    ) : null}
+                                  </div>
                                 ) : null}
                               </div>
                             </div>
                           </header>
 
                           <div className="vault-card__body">
-                            <div className="vault-card__metadata">
-                              <div className="vault-card__tags">
-                                {vault.curatorName ? (
-                                  <span className="vault-card__tag">
-                                    <span className="flex h-5 w-5 items-center justify-center overflow-hidden rounded-full border border-[var(--color-border-soft)]">
-                                      {curatorLogo ? (
-                                        <img
-                                          src={curatorLogo}
-                                          alt={vault.curatorName}
-                                          draggable={false}
-                                          className="h-5 w-5 object-contain"
-                                        />
-                                      ) : (
-                                        <span className="text-[10px] text-[var(--color-brand-soft)]">
-                                          {vault.curatorName
-                                            .charAt(0)
-                                            .toUpperCase()}
-                                        </span>
-                                      )}
-                                    </span>
-                                    {vault.curatorName}
-                                  </span>
-                                ) : null}
-
-                                {vault.type ? (
-                                  <span className="vault-card__tag">
-                                    {vault.type}
-                                  </span>
-                                ) : null}
-                              </div>
-                              <span
-                                className={`vault-card__status ${statusClassName}`}
-                              >
-                                {formatStatusLabel(vault.status)}
-                              </span>
-                            </div>
-
                             <div className="vault-card__summary">
                               {vault.description ? (
                                 <p className="vault-card__description">

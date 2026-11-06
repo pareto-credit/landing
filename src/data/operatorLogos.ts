@@ -24,6 +24,8 @@ import gauntletSquareLogo from "../assets/images/operators/gauntlet-square.svg";
 import m1CapitalSquareLogo from "../assets/images/operators/m1capital-square.svg";
 import m11SquareLogo from "../assets/images/operators/m11-square.svg";
 import rockawaySquareLogo from "../assets/images/operators/rockawayx-square.svg";
+import paretoSquareLogo from "../assets/images/operators/pareto-square.svg";
+import northbridgeSquareLogo from "../assets/images/operators/northbridge-square.svg";
 
 const OPERATOR_LOGOS: Record<string, string> = {
   adaptive: adaptiveLogo,
@@ -52,7 +54,7 @@ const OPERATOR_BACKGROUNDS: Record<string, string> = {
   twoprime: twoPrimeBackground,
 };
 
-/** Square vector assets for the vault header's rounded-square tiles. */
+/** Assets for the vault header's rounded-square tiles. */
 const OPERATOR_SQUARE_LOGOS: Record<string, string> = {
   adaptive: adaptiveSquareLogo,
   bastion: bastionSquareLogo,
@@ -62,6 +64,8 @@ const OPERATOR_SQUARE_LOGOS: Record<string, string> = {
   m1capital: m1CapitalSquareLogo,
   m11: m11SquareLogo,
   maven11: m11SquareLogo,
+  northbridge: northbridgeSquareLogo,
+  pareto: paretoSquareLogo,
   rockaway: rockawaySquareLogo,
   rockawayx: rockawaySquareLogo,
   twoprime: twoPrimeLogo,

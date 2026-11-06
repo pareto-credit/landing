@@ -29,13 +29,9 @@
 .vault-card__header {
   position: relative;
   isolation: isolate;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  gap: 16px;
-  height: 174px;
+  min-height: 140px;
   flex-shrink: 0;
-  padding: 20px;
+  padding: 18px 20px;
   overflow: hidden;
   border-bottom: 1px solid rgb(37 72 57 / 0.09);
   background: #e9efeb;
@@ -110,9 +106,7 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  justify-content: space-between;
-  height: 100%;
-  gap: 16px;
+  gap: 14px;
 }
 
 .vault-card__operator {
@@ -135,18 +129,6 @@
   object-fit: contain;
 }
 
-.vault-card__status {
-  display: inline-flex;
-  align-items: center;
-  min-height: 26px;
-  padding: 6px 8px;
-  border-radius: var(--radius-control);
-  font: 500 9px/1 var(--font-mono);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  white-space: nowrap;
-}
-
 .vault-card__heading {
   position: relative;
   min-width: 0;
@@ -162,8 +144,17 @@
   letter-spacing: -0.035em;
 }
 
-.vault-card__subtitle {
+.vault-card__caption-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 18px;
   margin-top: 5px;
+}
+
+.vault-card__subtitle {
+  flex: 1;
+  min-width: 0;
   overflow: hidden;
   font: 400 10px/1.4 var(--font-mono);
   color: var(--color-text-muted);
@@ -179,34 +170,6 @@
   flex-direction: column;
   gap: 18px;
   padding: 20px;
-}
-
-.vault-card__tags {
-  display: flex;
-  flex-wrap: wrap;
-  align-content: start;
-  gap: 6px;
-}
-
-.vault-card__metadata {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: start;
-  gap: 8px;
-}
-
-.vault-card__tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 26px;
-  padding: 3px 8px;
-  border: 1px solid var(--color-border-soft);
-  border-radius: var(--radius-control);
-  color: var(--color-chip-text);
-  font: 500 9px/1.4 var(--font-mono);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
 }
 
 .vault-card__summary {
@@ -264,6 +227,37 @@
   color: var(--color-text-muted);
   font-size: 11px;
   font-weight: 400;
+}
+
+.vault-card__curator {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 5px;
+  margin-left: auto;
+  color: var(--color-text-muted);
+  font: 400 8.5px/1.4 var(--font-mono);
+  white-space: nowrap;
+}
+
+.vault-card__curator-logo {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--color-surface);
+  color: var(--color-brand-deep);
+  font-size: 10px;
+  box-shadow: 0 0 0 1px rgb(37 72 57 / 0.08);
+}
+
+.vault-card__curator-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 @media (prefers-reduced-motion: reduce) {
