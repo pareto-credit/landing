@@ -61,10 +61,10 @@ describe("ThesisProblemStory", () => {
 
     act(() => progress.set(0.5));
     expect(screen.getAllByRole("heading", { level: 3 })).toHaveLength(1);
-    expect(screen.getByRole("heading", { level: 3 })).toHaveTextContent("Trillions deployed. Still managed on spreadsheets and phone calls.");
+    expect(screen.getByRole("heading", { level: 3 })).toHaveTextContent("Trillions deployed. Still managed on spreadsheets and phone calls");
     expect(play.mock.contexts).toEqual([videos[1]]);
     act(() => progress.set(1));
-    expect(screen.getByRole("heading", { level: 3 })).toHaveTextContent("Opacity is the norm, and risk hides in the gaps between systems.");
+    expect(screen.getByRole("heading", { level: 3 })).toHaveTextContent("Opacity is the norm, and risk hides in the gaps between systems");
   });
 
   it("lets keyboard readers select scenes without scrolling through every viewport", () => {

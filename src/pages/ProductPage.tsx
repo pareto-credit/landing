@@ -33,14 +33,14 @@ export default function ProductPage({ id }: { id: ProductPageId }) {
               <>
                 The right foundation.{" "}
                 <span className="text-[var(--color-text-muted)]">
-                  The right level of support.
+                  The right level of support
                 </span>
               </>
             ) : (
               <>
                 An operating model{" "}
                 <span className="text-[var(--color-text-muted)]">
-                  that grows with you.
+                  that grows with you
                 </span>
               </>
             )
@@ -60,7 +60,7 @@ export default function ProductPage({ id }: { id: ProductPageId }) {
                   <>
                     Credit{" "}
                     <span className="text-[var(--color-text-muted)]">
-                      in practice.
+                      in practice
                     </span>
                   </>
                 }
@@ -87,7 +87,7 @@ export default function ProductPage({ id }: { id: ProductPageId }) {
                     <>
                       Your questions{" "}
                       <span className="text-[var(--color-text-muted)]">
-                        answered.
+                        answered
                       </span>
                     </>
                   }
@@ -115,14 +115,14 @@ export default function ProductPage({ id }: { id: ProductPageId }) {
               <>
                 Let’s build{" "}
                 <span className="text-[var(--color-text-muted)]">
-                  your next credit facility.
+                  your next credit facility
                 </span>
               </>
             ) : (
               <>
                 Bring your credit{" "}
                 <span className="text-[var(--color-text-muted)]">
-                  operations together.
+                  operations together
                 </span>
               </>
             )

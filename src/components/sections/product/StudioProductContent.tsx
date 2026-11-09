@@ -4,6 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import { requestContact } from "../../../lib/siteNavigation";
 import { usePageVisibility } from "../../../hooks/usePageVisibility";
 import { buttonClassName } from "../../ui/buttonStyles";
+import FeatureCard from "../../ui/FeatureCard";
 import { SectionContainer, SectionHeader } from "../../ui/Section";
 import AgentsSection from "../AgentsSection";
 import AudienceReveal from "../persona/AudienceReveal";
@@ -31,23 +32,18 @@ function CapabilityCard({
   const pageVisible = usePageVisibility();
   const reduced = useReducedMotion();
   return (
-    <article
+    <FeatureCard
       ref={ref}
       id={id}
+      index={index}
+      label={kicker}
+      title={title}
+      description={description}
       tabIndex={0}
-      aria-labelledby={`${id}-title`}
-      className="studio-product-card"
       data-running={visible && pageVisible && !reduced}
     >
-      <div className="studio-product-card__art">{children}</div>
-      <div className="studio-product-card__copy">
-        <p className="product-kicker">
-          <span>{index}</span> {kicker}
-        </p>
-        <h3 id={`${id}-title`}>{title}</h3>
-        <p>{description}</p>
-      </div>
-    </article>
+      {children}
+    </FeatureCard>
   );
 }
 
@@ -79,7 +75,7 @@ export default function StudioProductContent() {
                 </span>
               </span>
             </h1>
-            <h2>Every facility. One operating environment.</h2>
+            <h2>Every facility. One operating environment</h2>
             <div className="studio-product-hero__actions">
               <a
                 href="#contact"
@@ -120,18 +116,18 @@ export default function StudioProductContent() {
                 <>
                   The full operating cycle.{" "}
                   <span className="text-[var(--color-text-muted)]">
-                    Connected.
+                    Connected
                   </span>
                 </>
               }
             />
           </AudienceReveal>
-          <div className="studio-product-capabilities__grid">
+          <div className="feature-card-grid">
             <CapabilityCard
               id="structuring"
               index="01"
               kicker="Facility structuring"
-              title="Shape the facility around the mandate."
+              title="Shape the facility around the mandate"
               description="Define terms, participants and operating requirements in one structured setup, with a clear handover into operations."
             >
               <StudioCapabilityArt kind="structuring" />
@@ -140,7 +136,7 @@ export default function StudioProductContent() {
               id="operations"
               index="02"
               kicker="Connected operations"
-              title="Keep daily activity in context."
+              title="Keep daily activity in context"
               description="Review requests, follow funding and repayments, and connect every event to the facility it belongs to."
             >
               <StudioCapabilityArt kind="operations" />
@@ -149,7 +145,7 @@ export default function StudioProductContent() {
               id="participants"
               index="03"
               kicker="Shared participant view"
-              title="Different responsibilities. Shared context."
+              title="Different responsibilities. Shared context"
               description="Bring underwriters, borrowers and lenders into a connected workflow, with views shaped around each participant’s role."
             >
               <StudioCapabilityArt kind="participants" />
@@ -158,7 +154,7 @@ export default function StudioProductContent() {
               id="reporting"
               index="04"
               kicker="Reporting and visibility"
-              title="Make reporting part of the workflow."
+              title="Make reporting part of the workflow"
               description="Bring activity, transactions and participant information together to give your team and lenders a clearer basis for review."
             >
               <StudioCapabilityArt kind="reporting" />

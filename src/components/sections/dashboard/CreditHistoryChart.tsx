@@ -138,7 +138,7 @@ export default function CreditHistoryChart({
       <div className="credit-history-heading">
         <div>
           <p className="data-dashboard-eyebrow">Public facility activity</p>
-          <h2 id={`${id}-title`}>Credit over time.</h2>
+          <h2 id={`${id}-title`}>Credit over time</h2>
         </div>
         <div
           className="credit-history-ranges"

@@ -23,12 +23,6 @@
   background: var(--color-brand-dark);
   color: var(--color-text-inverse);
 }
-.product-kicker {
-  font: 500 0.75rem/1.6 var(--font-mono);
-  text-transform: uppercase;
-  letter-spacing: 0.13em;
-  color: var(--color-brand-deep);
-}
 .product-main #pricing {
   scroll-margin-top: 88px;
 }

@@ -69,7 +69,7 @@ export const ThesisAnatomy = () => {
         <div className="thesis-facility__heading">
           <div>
             <p className="thesis-kicker">Built around your business</p>
-            <h3>One vault. Your combination.</h3>
+            <h3>One vault. Your combination</h3>
           </div>
           <p id={`${instanceId}-hint`}>Choose the modules that connect to your Credit Vault.</p>
         </div>
@@ -126,7 +126,7 @@ export const ThesisAnatomy = () => {
       </figure>
       <section id={panelId} role="region" aria-labelledby={controlId(selected.id)} tabIndex={0} className="thesis-facility__panel">
         <div className="thesis-facility__description">
-          <h3>{selected.summary}</h3>
+          <h3>{selected.summary.replace(/\.$/, "")}</h3>
           <p>{selected.detail}</p>
           {selected.id === "terms" ? (
             <ul className="thesis-facility__options" aria-label="Facility options">

@@ -35,7 +35,7 @@ export interface PersonaPageContent {
     title: string;
     titleMuted?: string;
     intro: string;
-    items: Array<{ title: string; copy: string }>;
+    items: Array<{ label: string; title: string; copy: string }>;
   };
   framework: { title: string; titleMuted?: string; intro: string; items: FrameworkItem[] };
   frameworkCta: { label: string; interest: ContactInterest };
@@ -57,7 +57,7 @@ export const personaPages: PersonaPageContent[] = [
     navLabel: "Originators",
     navDescription: "Establish, operate and grow credit facilities.",
     title: "Financing built around",
-    titleMuted: "your business.",
+    titleMuted: "your business",
     intro:
       "Connect with institutional and onchain capital through credit infrastructure built around your business.",
     primaryCta: {
@@ -69,32 +69,36 @@ export const personaPages: PersonaPageContent[] = [
       to: "/studio",
     },
     benefits: {
-      title: "A foundation for growth.",
-      titleMuted: "for growth.",
+      title: "A foundation for growth",
+      titleMuted: "for growth",
       intro:
         "The infrastructure to establish your credit program and help it grow.",
       items: [
         {
+          label: "Facility design",
           title: "Flexible structuring",
           copy: "Shape facility mechanics, participation and reporting around your financing needs.",
         },
         {
+          label: "Funding",
           title: "Broader capital access",
           copy: "Connect with institutional and onchain lenders, subject to facility eligibility.",
         },
         {
+          label: "Servicing",
           title: "Coordinated operations",
           copy: "Connect facility setup, lender onboarding and onchain servicing.",
         },
         {
+          label: "Market reach",
           title: "Distribution opportunities",
           copy: "Explore branded access and supported DeFi integrations.",
         },
       ],
     },
     framework: {
-      title: "Build around every layer.",
-      titleMuted: "every layer.",
+      title: "Build around every layer",
+      titleMuted: "every layer",
       intro:
         "Connect the layers your financing program needs.",
       items: [
@@ -213,8 +217,8 @@ export const personaPages: PersonaPageContent[] = [
       },
     ],
     closing: {
-      title: "Let’s build around your business.",
-      titleMuted: "around your business.",
+      title: "Let’s build around your business",
+      titleMuted: "around your business",
       copy: "Tell us about your financing needs and the credit program you want to develop.",
       cta: "Talk to us",
       interest: "Borrowing",
@@ -226,7 +230,7 @@ export const personaPages: PersonaPageContent[] = [
     navLabel: "Capital Allocators",
     navDescription: "Assess, access and oversee credit exposure.",
     title: "A broader perspective",
-    titleMuted: "on credit.",
+    titleMuted: "on credit",
     intro:
       "Explore credit opportunities, review facility terms and follow onchain activity in one connected experience.",
     primaryCta: {
@@ -235,32 +239,36 @@ export const personaPages: PersonaPageContent[] = [
     },
     secondaryCta: { label: "Talk to us", interest: "Lending" },
     benefits: {
-      title: "A clearer view of credit.",
-      titleMuted: "of credit.",
+      title: "A clearer view of credit",
+      titleMuted: "of credit",
       intro:
         "From your first review to ongoing oversight.",
       items: [
         {
+          label: "Mandate fit",
           title: "Facility selection",
           copy: "Find opportunities that fit your mandate, eligibility and liquidity needs.",
         },
         {
+          label: "Accountability",
           title: "Named participants",
           copy: "Know the borrower, curator and each party’s documented responsibilities.",
         },
         {
+          label: "Due diligence",
           title: "Documented terms",
           copy: "Review pricing, credit support and withdrawal terms in each facility’s agreements.",
         },
         {
+          label: "Monitoring",
           title: "Onchain activity",
           copy: "Follow positions and transactions alongside borrower and curator reporting.",
         },
       ],
     },
     framework: {
-      title: "Understand every layer.",
-      titleMuted: "every layer.",
+      title: "Understand every layer",
+      titleMuted: "every layer",
       intro:
         "See how access, credit assessment and operations connect.",
       items: [
@@ -376,8 +384,8 @@ export const personaPages: PersonaPageContent[] = [
       },
     ],
     closing: {
-      title: "Find the right starting point.",
-      titleMuted: "starting point.",
+      title: "Find the right starting point",
+      titleMuted: "starting point",
       copy: "Discuss your allocation requirements or explore the facilities available on Pareto.",
       cta: "Talk to us",
       interest: "Lending",

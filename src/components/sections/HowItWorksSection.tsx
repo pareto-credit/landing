@@ -755,7 +755,7 @@ const HowItWorksSection = () => {
       <SectionContainer>
         <SectionHeading
           eyebrow="How It Works"
-          title="Where Roles Create Value."
+          title="Where roles create value"
           description="An elegant, fully automated framework connecting capital allocators directly with vetted institutional demand."
           className="mx-auto mb-16 text-center"
           titleClassName="text-[var(--color-text-primary)]"

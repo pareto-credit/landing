@@ -55,7 +55,7 @@ describe("UnderwritingSection", () => {
   it("explains secured, unsecured and receivables financing with keyboard-accessible cards", () => {
     render(<UnderwritingSection />);
     expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
-      "Credit infrastructure across the collateral spectrum."
+      "Credit infrastructure across the collateral spectrum"
     );
     const pillars = within(screen.getByTestId("underwriting-pillars")).getAllByRole("article");
     expect(pillars).toHaveLength(3);

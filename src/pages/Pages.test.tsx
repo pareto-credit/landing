@@ -24,7 +24,7 @@ describe("ThesisPage", () => {
     render(<ThesisPage />);
 
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      /^credit is moving onchain\.$/i,
+      /^credit is moving onchain$/i,
     );
     expect(screen.queryByRole("navigation", { name: "Contents" })).not.toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Read the thesis" })).toHaveAttribute("href", "/thesis#structured-credit");
@@ -58,7 +58,7 @@ describe("ThesisPage", () => {
     const constraints = document.getElementById("constraints")!;
     expect(within(constraints).getAllByRole("heading", { level: 3 })).toHaveLength(1);
     expect(within(constraints).getByRole("heading", { level: 3 })).toHaveTextContent(
-      "Credit markets run on a stack of legacy systems, patched together over decades.",
+      "Credit markets run on a stack of legacy systems, patched together over decades",
     );
     expect(within(constraints).queryByText("Distribution is siloed")).not.toBeInTheDocument();
   });

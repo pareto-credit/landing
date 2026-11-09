@@ -12,19 +12,19 @@ const audienceStories: Array<{
   {
     company: "RockawayX",
     topic: "Capital allocator perspective",
-    title: "From zero to invested in 15 minutes.",
+    title: "From zero to invested in 15 minutes",
     href: "https://paragraph.com/@pareto/invested-15-minutes-rockawayx-case-study",
   },
   {
     company: "M11 Credit",
     topic: "Underwriter perspective",
-    title: "Institutional credit. Traditional finance discipline.",
+    title: "Institutional credit. Traditional finance discipline",
     href: "https://paragraph.com/@pareto/institutional-credit-structured-discipline-traditional-finance-m11credit-casestudy",
   },
   {
     company: "FalconX",
     topic: "Borrower perspective",
-    title: "Institutional credit, onchain.",
+    title: "Institutional credit, onchain",
   },
 ];
 

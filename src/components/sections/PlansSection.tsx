@@ -109,7 +109,7 @@ const PlansSection = ({
               <>
                 From self-serve{" "}
                 <span className="text-[var(--color-text-muted)]">
-                  to fully managed.
+                  to fully managed
                 </span>
               </>
             )

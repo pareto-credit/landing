@@ -67,7 +67,7 @@ const UnderwritingSection = () => {
             <>
               Credit infrastructure{" "}
               <span className="text-[var(--color-text-muted)]">
-                across the collateral spectrum.
+                across the collateral spectrum
               </span>
             </>
           }

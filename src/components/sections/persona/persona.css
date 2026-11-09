@@ -39,40 +39,7 @@
 .audience-section .ui-section-shell { padding-block: var(--section-content-padding); }
 .audience-section--muted { background: var(--color-surface-muted); }
 .audience-contact { min-height: 0; }
-.audience-benefits {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
-  list-style: none;
-}
-.audience-benefits li,
-.audience-benefits li > div { min-width: 0; height: 100%; }
-.audience-benefits article {
-  display: flex;
-  height: 100%;
-  min-width: 0;
-  flex-direction: column;
-  overflow: clip;
-  border: 1px solid var(--color-border-soft);
-  border-radius: var(--radius-panel, 6px);
-  background: var(--color-surface);
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s;
-}
-.audience-benefit__copy { padding: 8px 24px 24px; }
-.audience-benefits h3 {
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.035em;
-}
-.audience-benefits p {
-  max-width: 350px;
-  margin-top: 16px;
-  color: var(--color-text-muted);
-  font-size: 16px;
-  line-height: 1.6;
-}
-.audience-card-art { height: 180px; min-width: 0; overflow: hidden; }
+.audience-card-art { width: 100%; height: 180px; min-width: 0; overflow: hidden; }
 .audience-card-art svg { display: block; width: 100%; height: 100%; }
 .audience-card-art__paper {
   fill: var(--color-surface);
@@ -350,7 +317,6 @@
 @media (hover: hover) and (pointer: fine) {
   .audience-text-link:hover { border-color: currentColor; }
   .audience-text-link:hover > :is(span, svg) { transform: translate(2px, -2px); }
-  .audience-benefits article:hover { transform: translateY(-4px); border-color: var(--color-brand); }
   .audience-story article:hover {
     transform: translateY(-3px);
     border-color: var(--color-brand);
@@ -359,13 +325,9 @@
   }
 }
 @media (min-width: 1200px) {
-  .audience-benefits { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .audience-stories { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (max-width: 1023px) {
-  .audience-benefits { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
-  .audience-benefits h3 { font-size: 24px; }
-  .audience-card-art { height: 180px; }
   .audience-framework__text { flex-basis: 74%; gap: 18px; }
   .audience-stories { gap: 16px; }
   .audience-story article { padding: 24px; }
@@ -373,13 +335,8 @@
 }
 @media (max-width: 767px) {
 
-  .audience-benefits,
   .audience-stories,
   .audience-questions { grid-template-columns: minmax(0, 1fr); }
-  .audience-benefits { gap: 20px; }
-  .audience-card-art { height: 144px; }
-  .audience-benefit__copy { padding: 0 24px 24px; }
-  .audience-benefits p { max-width: 500px; }
   .audience-framework__graph { padding-block: 240px 0; }
   .audience-framework__backdrop { top: 116px; left: 50%; width: min(100%, 320px); height: 232px; }
   .audience-framework__row {

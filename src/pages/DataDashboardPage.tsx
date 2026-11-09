@@ -125,7 +125,7 @@ export default function DataDashboardPage() {
             <div className="data-dashboard-hero__layout">
               <div>
                 <h1 id="hero-title" tabIndex={-1}>
-                  Credit, <span className="data-dashboard-title-accent">in view.</span>
+                  Credit, <span className="data-dashboard-title-accent">in view</span>
                 </h1>
                 <p className="data-dashboard-hero__intro">
                   Protocol metrics and public Credit Vaults, in one place.

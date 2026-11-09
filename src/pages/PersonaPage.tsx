@@ -19,6 +19,7 @@ import AudienceStories from "../components/sections/persona/AudienceStories";
 import ContactSection from "../components/sections/ContactSection";
 import "../components/sections/persona/persona.css";
 import { buttonClassName } from "../components/ui/buttonStyles";
+import FeatureCard from "../components/ui/FeatureCard";
 import { PageLink } from "../components/ui/PageLink";
 import { SectionContainer, SectionHeader } from "../components/ui/Section";
 import FaqAccordion from "../components/ui/FaqAccordion";
@@ -80,12 +81,12 @@ const TwoToneTitle = ({
 const ContactLink = ({
   label,
   interest,
-  variant = "text",
+  variant,
   to,
 }: {
   label: string;
   interest: ContactInterest;
-  variant?: "primary" | "header-link" | "text";
+  variant: "primary" | "white";
   to: PersonaPath;
 }) => (
   <PageLink
@@ -103,13 +104,7 @@ const ContactLink = ({
         requestContact(interest);
       }
     }}
-    className={
-      variant === "primary"
-        ? buttonClassName("primary", "md")
-        : variant === "header-link"
-        ? "subpage-header__secondary"
-        : "audience-text-link"
-    }
+    className={buttonClassName(variant, "md")}
   >
     {label}
   </PageLink>
@@ -160,13 +155,13 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
               label={secondaryCta.label}
               interest={secondaryCta.interest}
               to={page.path}
-              variant="header-link"
+              variant="white"
             />
           ) : (
             <PageLink
               to={secondaryCta.to ?? (secondaryCta.home ? "/" : page.path)}
               hash={secondaryCta.hash}
-              className="subpage-header__secondary"
+              className={buttonClassName("white", "md")}
             >
               {secondaryCta.label}
             </PageLink>
@@ -192,20 +187,22 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
                 description={page.benefits.intro}
               />
             </AudienceReveal>
-            <ol className="audience-benefits">
+            <ol className="feature-card-grid" role="list">
               {page.benefits.items.map((item, index) => (
                 <li key={item.title}>
-                  <AudienceReveal delay={(index % 2) * 0.07}>
-                    <article
-                      tabIndex={0}
-                      aria-labelledby={`benefit-${index}-title`}
+                  <AudienceReveal
+                    className="feature-card-grid__reveal"
+                    delay={(index % 2) * 0.07}
+                  >
+                    <FeatureCard
+                      id={`benefit-${index}`}
+                      index={String(index + 1).padStart(2, "0")}
+                      label={item.label}
+                      title={item.title}
+                      description={item.copy}
                     >
                       <AudienceCardArt kind={benefitArtwork[id][index]} />
-                      <div className="audience-benefit__copy">
-                        <h3 id={`benefit-${index}-title`}>{item.title}</h3>
-                        <p>{item.copy}</p>
-                      </div>
-                    </article>
+                    </FeatureCard>
                   </AudienceReveal>
                 </li>
               ))}
@@ -263,8 +260,8 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
                 titleId="experience-title"
                 title={
                   <TwoToneTitle
-                    title="Credit in practice."
-                    muted="in practice."
+                    title="Credit in practice"
+                    muted="in practice"
                   />
                 }
                 variant="collection"

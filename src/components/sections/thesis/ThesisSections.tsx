@@ -94,7 +94,7 @@ const ThesisSections = () => (
   <>
     <Chapter
       id="structured-credit"
-      title="The business comes first."
+      title="The business comes first"
     >
       <p className="thesis-writeup">
         Pareto brings applications, eligibility, underwriting, credit terms,
@@ -118,7 +118,7 @@ const ThesisSections = () => (
 
     <Chapter
       id="opportunity"
-      title={<>A market of more than $2T.<br /><span className="thesis-heading-secondary">Less than 2% of it onchain.</span></>}
+      title={<>A market of more than $2T.<br /><span className="thesis-heading-secondary">Less than 2% of it onchain</span></>}
       description="Private credit has the yield. Stablecoins hold the onchain dollars looking for it. Tokenized credit, the bridge between the two, is still small."
     >
       <OpportunityScale />
@@ -126,7 +126,7 @@ const ThesisSections = () => (
 
     <Chapter
       id="why-pareto"
-      title="A better foundation for credit."
+      title="A better foundation for credit"
       description="Keep the structure credit teams know. Connect the work around it."
     >
       <ThesisReasons />
@@ -134,7 +134,7 @@ const ThesisSections = () => (
 
     <section className="thesis-closing" aria-labelledby="thesis-closing-title">
       <SectionContainer className="ui-section-shell">
-        <SectionHeader eyebrow="Pareto today" title={<>Put the thesis <span className="thesis-heading-secondary">to work.</span></>} titleId="thesis-closing-title" variant="centered" tone="dark" description="Structure, launch and operate credit facilities with Pareto Studio." />
+        <SectionHeader eyebrow="Pareto today" title={<>Put the thesis <span className="thesis-heading-secondary">to work</span></>} titleId="thesis-closing-title" variant="centered" tone="dark" description="Structure, launch and operate credit facilities with Pareto Studio." />
         <div className="thesis-closing__actions">
           <PageLink to="/" hash="contact" onClick={() => setPendingContactInterest("Pareto Studio (Core)")} className="thesis-closing__primary">Request Studio access<ArrowUpRight size={16} aria-hidden="true" /></PageLink>
           <ButtonLink href={PARETO_DOCS_URL} target="_blank" rel="noopener noreferrer" variant="ghost" size="md">Read the docs<ArrowUpRight size={16} aria-hidden="true" /></ButtonLink>

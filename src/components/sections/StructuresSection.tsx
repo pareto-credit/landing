@@ -552,7 +552,7 @@ const StructuresSection = () => (
           <>
             Credit infrastructure{" "}
             <span className="text-[var(--color-text-muted)]">
-              tailored to your mandate.
+              tailored to your mandate
             </span>
           </>
         }

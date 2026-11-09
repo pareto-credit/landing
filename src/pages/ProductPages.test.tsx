@@ -59,14 +59,14 @@ describe("dedicated product pages", () => {
   });
 
   it("lets Studio visitors explore functions inside the mockup without scrolling the page", () => {
-    const { container } = render(<ProductPage id="studio" />);
+    render(<ProductPage id="studio" />);
     expect(
       screen.getByRole("heading", { level: 1, name: "Pareto Studio" })
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", {
         level: 2,
-        name: "Every facility. One operating environment.",
+        name: "Every facility. One operating environment",
       })
     ).toBeInTheDocument();
     fireEvent.click(screen.getByRole("link", { name: /^request access/i }));
@@ -119,9 +119,10 @@ describe("dedicated product pages", () => {
     expect(
       screen.queryByRole("tablist", { name: "Studio desks" })
     ).not.toBeInTheDocument();
-    expect(
-      container.querySelectorAll(".studio-product-capabilities__grid > article")
-    ).toHaveLength(4);
+    const capabilities = screen.getByRole("region", {
+      name: "The full operating cycle. Connected",
+    });
+    expect(within(capabilities).getAllByRole("article")).toHaveLength(4);
   });
 
   it.each(["credit-vaults", "studio"] as const)(
@@ -169,7 +170,7 @@ describe("dedicated product pages", () => {
       expect(select).toHaveValue("Pro plan");
       if (id === "credit-vaults") {
         const hero = screen.getByRole("region", {
-          name: "Credit, structured around your business.",
+          name: "Credit, structured around your business",
         });
         const breadcrumb = within(hero).getByRole("navigation", {
           name: "Breadcrumb",

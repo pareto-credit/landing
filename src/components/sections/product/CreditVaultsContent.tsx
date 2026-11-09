@@ -104,7 +104,7 @@ const CreditVaultsContent = () => (
       title={
         <>
           Credit, structured around{" "}
-          <span className="text-[var(--color-text-muted)]">your business.</span>
+          <span className="text-[var(--color-text-muted)]">your business</span>
         </>
       }
       description="Bring borrowers, capital and facility operations together. Define the structure and terms around the way you lend."
@@ -121,7 +121,7 @@ const CreditVaultsContent = () => (
       </a>
       <a
         href="#contact"
-        className="subpage-header__secondary"
+        className={buttonClassName("white", "md")}
         onClick={(event) => {
           if (
             event.button === 0 &&
@@ -152,7 +152,7 @@ const CreditVaultsContent = () => (
             <>
               One framework.{" "}
               <span className="text-[var(--color-text-muted)]">
-                Many forms of credit.
+                Many forms of credit
               </span>
             </>
           }

@@ -264,10 +264,7 @@ export default function StudioCapabilityArt({
   const Illustration = illustrations[kind];
 
   return (
-    <div
-      className={`studio-capability-art studio-capability-art--${kind}`}
-      aria-hidden="true"
-    >
+    <div className="studio-capability-art" aria-hidden="true">
       <Illustration />
     </div>
   );

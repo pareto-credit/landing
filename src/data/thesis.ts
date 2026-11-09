@@ -103,17 +103,17 @@ export const thesisProblems: Array<{
   {
     video: "market",
     label: "Legacy systems",
-    title: "Credit markets run on a stack of legacy systems, patched together over decades.",
+    title: "Credit markets run on a stack of legacy systems, patched together over decades",
   },
   {
     video: "desk",
     label: "Spreadsheets and phone calls",
-    title: "Trillions deployed. Still managed on spreadsheets and phone calls.",
+    title: "Trillions deployed. Still managed on spreadsheets and phone calls",
   },
   {
     video: "documents",
     label: "Risk in the gaps",
-    title: "Opacity is the norm, and risk hides in the gaps between systems.",
+    title: "Opacity is the norm, and risk hides in the gaps between systems",
   },
 ];
 

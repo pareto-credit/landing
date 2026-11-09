@@ -119,7 +119,7 @@ const InfrastructureSection = () => {
         <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-10 xl:gap-12">
           <div className="w-full lg:w-1/3">
             <h3 className="mb-4 border-b border-[var(--color-border-soft-strong)] pb-2.5 font-mono text-[10px] font-bold uppercase tracking-widest text-[var(--color-text-secondary)] xl:mb-6">
-              Core Workflows
+              Core workflows
             </h3>
 
             <div

@@ -9,9 +9,6 @@
   place-items: center;
   overflow: clip;
   isolation: isolate;
-  border: 1px solid var(--color-border-soft);
-  border-radius: 6px;
-  background: var(--studio-art-tint);
   color: var(--color-text-primary);
   font-family: var(--font-sans);
   pointer-events: none;
@@ -223,10 +220,6 @@
 }
 
 /* Operations: separate events share a quiet vertical rail. */
-.studio-capability-art--operations {
-  background: var(--color-surface-muted);
-}
-
 .studio-art-operations {
   position: relative;
   width: min(232px, calc(100% - 28px));
@@ -375,10 +368,6 @@
 }
 
 /* Participants: three roles arranged around a shared facility. */
-.studio-capability-art--participants {
-  background: var(--color-bg-light-mint);
-}
-
 .studio-art-participants {
   position: relative;
   width: min(236px, calc(100% - 24px));
@@ -525,10 +514,6 @@
 }
 
 /* Reporting: a readable report silhouette with two activity series. */
-.studio-capability-art--reporting {
-  background: var(--color-surface-muted);
-}
-
 .studio-art-reporting {
   position: relative;
   width: min(218px, calc(100% - 32px));
@@ -693,12 +678,12 @@
 }
 
 /* One transition per gesture. Offscreen and reduced-motion cards stay still. */
-.studio-product-card[data-running="true"]:focus-visible .studio-capability-art {
+.feature-card[data-running="true"]:focus-visible .studio-capability-art {
   --studio-art-progress: 1;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .studio-product-card[data-running="true"]:hover .studio-capability-art {
+  .feature-card[data-running="true"]:hover .studio-capability-art {
     --studio-art-progress: 1;
   }
 }

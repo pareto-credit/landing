@@ -61,7 +61,7 @@ function BriefAgentsSection() {
         <div className="agent-brief-layout">
           <div className="agent-brief-copy">
             <p className="agent-context-kicker">Agentic Credit Operations</p>
-            <h2>Credit infrastructure for the AI era.</h2>
+            <h2>Credit infrastructure for the AI era</h2>
             <p className="agent-brief-intro">
               Connect your data, your agents and your credit team.
             </p>
@@ -131,7 +131,7 @@ const AgentsSection = ({
             <>
               Credit infrastructure{" "}
               <span className="text-[color:rgb(255_255_255_/_0.65)]">
-                for the AI era.
+                for the AI era
               </span>
             </>
           }

@@ -24,7 +24,7 @@ export default function StudioShowcaseSection() {
             variant="centered"
             title={
               <>
-                Every facility, <span className="text-white/65">one desk.</span>
+                Every facility, <span className="text-white/65">one desk</span>
               </>
             }
             description="Structure, launch and run credit facilities from one place."

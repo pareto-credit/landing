@@ -27,10 +27,10 @@ describe("audience pages", () => {
   it("lets originators inspect each facility decision with the keyboard", () => {
     render(<PersonaPage id="originators" />);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Financing built around your business."
+      "Financing built around your business"
     );
     const tabs = screen.getByRole("tablist", {
-      name: "Build around every layer.",
+      name: "Build around every layer",
     });
     const first = within(tabs).getByRole("tab", { name: /application/i });
     const next = within(tabs).getByRole("tab", { name: /eligibility/i });
@@ -118,8 +118,8 @@ describe("audience pages", () => {
       const hero = screen.getByRole("region", {
         name:
           id === "originators"
-            ? "Financing built around your business."
-            : "A broader perspective on credit.",
+            ? "Financing built around your business"
+            : "A broader perspective on credit",
       });
       const breadcrumb = within(hero).getByRole("navigation", {
         name: "Breadcrumb",
@@ -141,7 +141,7 @@ describe("audience pages", () => {
 
   it("ends Originators with the shared enquiry form and borrowing selected", () => {
     render(<PersonaPage id="originators" />);
-    const form = screen.getByRole("form", { name: "Let’s build around your business." });
+    const form = screen.getByRole("form", { name: "Let’s build around your business" });
     expect(form).toHaveAttribute("action", "https://formspree.io/f/xkgjlnwg");
     expect(form).toHaveAttribute("method", "POST");
     expect(screen.getByText("GET IN TOUCH")).toBeInTheDocument();
@@ -201,13 +201,13 @@ describe("audience pages", () => {
   it("gives capital allocators layers to evaluate and a direct route to the Lender App", () => {
     render(<PersonaPage id="capital-providers" />);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "A broader perspective on credit."
+      "A broader perspective on credit"
     );
     expect(
       screen.getByRole("link", { name: "Explore live facilities" })
     ).toHaveAttribute("href", "https://app.pareto.credit/");
     const tabs = screen.getByRole("tablist", {
-      name: "Understand every layer.",
+      name: "Understand every layer",
     });
     fireEvent.click(within(tabs).getByRole("tab", { name: /servicing/i }));
     expect(screen.getByRole("tabpanel")).toHaveTextContent(personaPages.find((page) => page.id === "capital-providers")!.framework.items.find((layer) => layer.id === "servicing")!.detail);
@@ -266,7 +266,7 @@ describe("audience pages", () => {
       expect(answers.every((answer) => answer.getAttribute("aria-expanded") === "false"))
         .toBe(true);
       expect(
-        screen.getByRole("heading", { name: "Credit in practice." })
+        screen.getByRole("heading", { name: "Credit in practice" })
       ).toBeInTheDocument();
     }
   );
@@ -276,7 +276,7 @@ describe("audience pages", () => {
     (id) => {
       render(<PersonaPage id={id} />);
       const stories = screen.getByRole("region", {
-        name: "Credit in practice.",
+        name: "Credit in practice",
       });
       const articles = within(stories).getAllByRole("article");
       expect(articles.map((article) => article.getAttribute("aria-label"))).toEqual([
