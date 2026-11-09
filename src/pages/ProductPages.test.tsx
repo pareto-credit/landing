@@ -80,6 +80,9 @@ describe("dedicated product pages", () => {
     const startingHash = window.location.hash;
     vi.mocked(window.scrollTo).mockClear();
     expect(within(tour).queryByRole("link")).not.toBeInTheDocument();
+    expect(
+      within(tour).queryByRole("button", { name: "Workspace overview" })
+    ).not.toBeInTheDocument();
     for (const label of [
       "Facility structuring",
       "Connected operations",
@@ -100,10 +103,14 @@ describe("dedicated product pages", () => {
       );
       expect(preview.querySelector("[inert]")).toBeInTheDocument();
       expect(within(preview).queryByRole("button")).not.toBeInTheDocument();
+      expect(
+        within(preview).queryByText(/^(Management|Admin) \/ /)
+      ).not.toBeInTheDocument();
+      expect(within(preview).getAllByText("Analytics")).toHaveLength(1);
     }
-    fireEvent.click(
-      within(tour).getByRole("button", { name: "Workspace overview" })
-    );
+    const overview = within(tour).getByRole("button", { name: "Overview" });
+    fireEvent.click(overview);
+    expect(overview).toHaveAttribute("aria-pressed", "true");
     expect(
       within(tour).getByRole("img", { name: "Workspace overview preview" })
     ).toBeInTheDocument();

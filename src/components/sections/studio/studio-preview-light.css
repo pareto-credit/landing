@@ -5,6 +5,7 @@
   --preview-line: #dce5df;
   --preview-surface: #fff;
   --preview-accent: #3f6e59;
+  --preview-finished: var(--preview-accent);
   background: #f3f7f4;
   border-color: var(--preview-line);
   color: var(--preview-ink);
@@ -69,17 +70,13 @@
 }
 .studio-preview--light
   :is(
-    .product-preview__metrics > div:nth-child(n),
-    .product-preview__vault:nth-child(n),
+    .product-preview__metrics > div,
+    .product-preview__vault,
     .product-preview__notification
   ) {
-  --vault-accent: var(--preview-accent);
   background: #fff;
   border: 1px solid var(--preview-line);
   box-shadow: 0 3px 12px rgb(22 49 36 / 0.04);
-}
-.studio-preview--light .product-preview__metrics > div:nth-child(n) dd {
-  color: var(--preview-ink);
 }
 .studio-preview--light
   :is(
@@ -100,7 +97,6 @@
     .product-preview__metrics dt > span,
     .product-preview__avatar,
     .product-preview__new-tag,
-    .product-preview__activity .product-preview__new-tag,
     .product-preview__activity .product-preview__table-heading h4
   ) {
   color: var(--preview-accent);
@@ -122,7 +118,6 @@
   :is(
     .product-preview__progress > span,
     .product-preview__type-dot,
-    .product-preview__activity .product-preview__type-dot,
     .product-preview__notification-dot[data-active="true"]
   ) {
   background: var(--preview-accent);
@@ -153,12 +148,15 @@
 
 /* Lender mode uses the same neutral surfaces and a tonal green chart palette. */
 .studio-preview--light .lender-portfolio {
-  --portfolio-cyan: #70b19e;
-  --portfolio-mint: #91c1b1;
-  --portfolio-blue: #b0d3c6;
+  --portfolio-series-1: #70b19e;
+  --portfolio-series-2: #91c1b1;
+  --portfolio-series-3: #b0d3c6;
   --portfolio-track: #e7efea;
   --portfolio-tile: #eef4f0;
   color: var(--preview-ink);
+}
+.studio-preview--light .lender-portfolio__pending dd > .lender-portfolio__minus {
+  color: var(--color-state-danger-text);
 }
 .studio-preview--light
   :is(

@@ -1,9 +1,9 @@
 .lender-portfolio {
-  --portfolio-cyan: #8fd9ef;
-  --portfolio-mint: #8de2bb;
-  --portfolio-blue: #a8c1ee;
-  --portfolio-track: #23453d;
-  --portfolio-tile: #18392f;
+  --portfolio-series-1: var(--color-brand-bright);
+  --portfolio-series-2: var(--color-brand);
+  --portfolio-series-3: var(--color-brand-soft);
+  --portfolio-track: var(--preview-line);
+  --portfolio-tile: var(--preview-highlight);
   color: var(--preview-ink);
 }
 .lender-portfolio__heading {
@@ -94,7 +94,7 @@
   color: var(--preview-accent);
 }
 .lender-portfolio__pending dd > .lender-portfolio__minus {
-  color: #c65f59;
+  color: var(--color-state-danger-border);
 }
 .lender-portfolio__fund-note {
   display: flex;
@@ -146,13 +146,13 @@
   height: 100%;
 }
 .lender-portfolio__ring--0 {
-  stroke: var(--portfolio-cyan);
+  stroke: var(--portfolio-series-1);
 }
 .lender-portfolio__ring--1 {
-  stroke: var(--portfolio-mint);
+  stroke: var(--portfolio-series-2);
 }
 .lender-portfolio__ring--2 {
-  stroke: var(--portfolio-blue);
+  stroke: var(--portfolio-series-3);
 }
 .lender-portfolio__donut > span {
   position: absolute;
@@ -349,11 +349,11 @@
   letter-spacing: -0.025em;
 }
 .lender-portfolio__table-heading > span {
-  color: #9fc1b2;
+  color: var(--preview-muted);
   font-size: 9px;
 }
 .lender-portfolio__table-scroll {
-  border-block: 1px solid #315548;
+  border-block: 1px solid var(--preview-line);
 }
 .product-preview .lender-portfolio table {
   min-width: 760px;
@@ -362,13 +362,13 @@
 .product-preview .lender-portfolio th {
   height: 28px;
   padding-inline: 10px;
-  color: #9ebcaf;
+  color: var(--preview-muted);
   font-size: 9px;
 }
 .product-preview .lender-portfolio td {
   height: 42px;
   padding: 6px 10px;
-  color: #dae9e1;
+  color: var(--preview-ink);
   font-size: 10px;
 }
 .product-preview .lender-portfolio td:nth-child(4),
@@ -390,21 +390,17 @@
   width: 28px;
   height: 28px;
   place-items: center;
-  border: 1px solid #437582;
+  border: 1px solid var(--preview-line);
   border-radius: 5px;
-  background: #1a4147;
-  color: var(--portfolio-cyan);
+  background: var(--preview-highlight);
+  color: var(--portfolio-series-1);
   font-size: 12px;
 }
 .lender-portfolio__monogram--1 {
-  background: #1b4130;
-  border-color: #3e6b50;
-  color: var(--portfolio-mint);
+  color: var(--portfolio-series-2);
 }
 .lender-portfolio__monogram--2 {
-  background: #253d4b;
-  border-color: #4b6580;
-  color: var(--portfolio-blue);
+  color: var(--portfolio-series-3);
 }
 .lender-portfolio__vault-name strong {
   display: block;
@@ -414,50 +410,50 @@
 .lender-portfolio__vault-name small {
   display: block;
   margin-top: 2px;
-  color: #8fb09f;
+  color: var(--preview-muted);
   font-size: 8px;
 }
 .lender-portfolio__status {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  color: #a2d6b6;
+  color: var(--preview-accent);
   font-size: 9px;
 }
 .lender-portfolio__status i {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #85cc9b;
+  background: var(--preview-accent);
 }
 .lender-portfolio__asset {
-  color: #bdd5d5;
+  color: var(--preview-ink);
   font: 9px var(--font-mono);
 }
 .lender-portfolio__update {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  color: #c8be96;
+  color: var(--preview-muted);
   font-size: 9px;
 }
 .lender-portfolio__update[data-new="true"] {
-  color: var(--portfolio-cyan);
+  color: var(--portfolio-series-1);
 }
 .lender-portfolio__update[data-available="true"] {
-  color: var(--portfolio-mint);
+  color: var(--portfolio-series-2);
 }
 .lender-portfolio__update b {
   padding: 3px 4px;
-  border: 1px solid #426d7d;
+  border: 1px solid var(--preview-line);
   border-radius: 3px;
-  background: #1e434e;
+  background: var(--preview-highlight);
   font: 7px var(--font-mono);
   text-transform: uppercase;
 }
 .lender-portfolio__muted,
 .lender-portfolio__table-note {
-  color: #91ad9e;
+  color: var(--preview-muted);
   font-size: 9px;
 }
 .lender-portfolio__table-note {

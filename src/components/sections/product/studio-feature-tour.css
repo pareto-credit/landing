@@ -2,31 +2,13 @@
   position: relative;
   isolation: isolate;
   overflow: visible;
-  color: #dceee3;
+  color: var(--color-bg-light-alt);
 }
 .studio-feature-tour__screen {
   height: calc(min(660px, 78svh) + 4px);
   overflow: clip;
   border-radius: 8px;
-  background: #0b241e;
-}
-.studio-feature-tour__overview {
-  position: absolute;
-  z-index: 2;
-  top: 5px;
-  left: 50%;
-  display: flex;
-  min-height: 32px;
-  align-items: center;
-  gap: 7px;
-  padding: 5px 10px;
-  transform: translateX(-50%);
-  border: 1px solid #365b4b;
-  border-radius: 4px;
-  background: #112e25;
-  color: #afcebd;
-  font: 8px/1.4 var(--font-mono);
-  white-space: nowrap;
+  background: var(--color-brand-dark);
 }
 .studio-feature-tour__hotspots {
   position: absolute;
@@ -46,7 +28,7 @@
   padding: 8px;
   border: 0;
   background: transparent;
-  color: #c8e7d8;
+  color: var(--color-brand-soft);
   pointer-events: auto;
   cursor: pointer;
 }
@@ -57,9 +39,9 @@
   inset-inline: 0;
   height: var(--hotspot-height);
   transform: translateY(-50%);
-  border: 1px solid rgb(201 230 155 / 0.6);
+  border: 1px solid color-mix(in srgb, var(--color-brand-soft) 60%, transparent);
   border-radius: 4px;
-  background: rgb(201 230 155 / 0.1);
+  background: color-mix(in srgb, var(--color-brand-soft) 10%, transparent);
   pointer-events: none;
   transition: background-color 160ms cubic-bezier(0.23, 1, 0.32, 1),
     border-color 160ms cubic-bezier(0.23, 1, 0.32, 1);
@@ -68,9 +50,22 @@
   visibility: hidden;
 }
 .studio-feature-tour__hotspot[aria-pressed="true"]::before {
-  border-color: #d7efa9;
-  background: rgb(201 230 155 / 0.24);
-  box-shadow: inset 3px 0 #d7efa9;
+  border-color: var(--color-brand-soft);
+  background: color-mix(in srgb, var(--color-brand-soft) 24%, transparent);
+  box-shadow: inset 3px 0 var(--color-brand-soft);
+}
+.studio-feature-tour__hotspot--overview {
+  --guide-x: 4%;
+  --guide-y: 13%;
+}
+.studio-feature-tour__hotspot--overview[data-anchored="true"]::before {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+.studio-feature-tour__hotspot--overview[data-anchored="true"]
+  .studio-feature-tour__tooltip {
+  display: none;
 }
 .studio-feature-tour__hotspot--structuring {
   --guide-x: 4%;
@@ -95,18 +90,18 @@
   height: 26px;
   flex-shrink: 0;
   place-items: center;
-  border: 1px solid #bad68c;
+  border: 1px solid var(--color-brand);
   border-radius: 4px;
-  background: #d8efa9;
-  color: #203a23;
-  box-shadow: 0 0 0 3px rgb(201 230 155 / 0.12);
+  background: var(--color-brand-soft);
+  color: var(--color-text-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand-soft) 12%, transparent);
   transition: background-color 160ms cubic-bezier(0.23, 1, 0.32, 1),
     color 160ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 .studio-feature-tour__hotspot[aria-pressed="true"] .studio-feature-tour__pin {
-  border-color: #efffd6;
-  background: #e8ffc4;
-  color: #163a28;
+  border-color: var(--color-surface);
+  background: var(--color-bg-light-alt);
+  color: var(--color-text-primary);
 }
 .studio-feature-tour__tooltip {
   position: absolute;
@@ -117,26 +112,26 @@
   /* Persistent labels must fit between the nearby Requests / Reports guides. */
   padding: 6px 10px;
   transform: translateY(-50%);
-  border: 1px solid #b9d488;
+  border: 1px solid var(--color-brand);
   border-radius: 4px;
-  background: #d8efa9;
-  box-shadow: 0 5px 16px rgb(4 20 14 / 0.28);
-  color: #203a23;
+  background: var(--color-brand-soft);
+  box-shadow: 0 5px 16px rgb(14 24 19 / 0.28);
+  color: var(--color-text-primary);
   white-space: nowrap;
   pointer-events: auto;
   transition: border-color 160ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 .studio-feature-tour__tooltip strong {
   display: block;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 500;
   line-height: 1.4;
 }
 .studio-feature-tour__tooltip small {
   display: block;
   margin-top: 3px;
-  color: #405b32;
-  font-size: 8px;
+  color: var(--color-text-secondary);
+  font-size: 10px;
   line-height: 1.4;
 }
 .studio-feature-tour__hotspot .studio-feature-tour__short-label,
@@ -144,13 +139,17 @@
   display: none;
 }
 .studio-feature-tour__hotspot[aria-pressed="true"] .studio-feature-tour__tooltip {
-  border-color: #efffd6;
-  background: #e8ffc4;
+  border-color: var(--color-surface);
+  background: var(--color-bg-light-alt);
 }
 .studio-feature-tour button:focus-visible {
-  outline: 2px solid #c8e8cd;
+  outline: 2px solid var(--color-focus-on-dark);
   outline-offset: 2px;
   border-radius: 4px;
+}
+.studio-feature-tour .product-preview__table-scroll {
+  border-radius: 4px;
+  background: var(--preview-surface);
 }
 .studio-feature-tour
   .product-preview[data-workspace-view]
@@ -165,19 +164,16 @@
 }
 @media (hover: hover) and (pointer: fine) {
   .studio-feature-tour__hotspot:hover .studio-feature-tour__tooltip {
-    border-color: #efffd6;
+    border-color: var(--color-surface);
   }
   .studio-feature-tour__hotspot:hover .studio-feature-tour__pin {
-    border-color: #efffd6;
+    border-color: var(--color-surface);
   }
   .studio-feature-tour__hotspot:hover::before {
-    border-color: #efffd6;
-  }
-  .studio-feature-tour__overview:hover {
-    background: #204331;
+    border-color: var(--color-surface);
   }
 }
-@media (max-width: 850px) {
+@media (width < 992px) {
   .studio-feature-tour .product-preview__sidebar {
     display: none;
   }
@@ -188,11 +184,11 @@
   .studio-feature-tour__hotspots {
     inset: auto 12px 35px;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 3px;
     padding: 5px;
-    border-top: 1px solid #2c4d40;
-    background: #0d271f;
+    border-top: 1px solid var(--color-border-inverse-soft);
+    background: var(--color-brand-dark);
   }
   .studio-feature-tour__hotspot {
     position: relative;
@@ -202,17 +198,17 @@
     height: 50px;
     flex-direction: column;
     gap: 5px;
-    padding: 4px 2px;
-    border: 1px solid rgb(201 230 155 / 0.3);
+    padding: 4px 1px;
+    border: 1px solid color-mix(in srgb, var(--color-brand-soft) 30%, transparent);
     border-radius: 3px;
-    background: rgb(201 230 155 / 0.06);
+    background: color-mix(in srgb, var(--color-brand-soft) 6%, transparent);
   }
   .studio-feature-tour__hotspot[data-anchored="true"]::before {
     display: none;
   }
   .studio-feature-tour__hotspot[aria-pressed="true"] {
-    border-color: #d7efa9;
-    background: rgb(201 230 155 / 0.18);
+    border-color: var(--color-brand-soft);
+    background: color-mix(in srgb, var(--color-brand-soft) 18%, transparent);
   }
   .studio-feature-tour__hotspot .studio-feature-tour__pin {
     visibility: visible;
@@ -220,7 +216,7 @@
     height: 21px;
     border: 0;
     background: transparent;
-    color: #d8efa9;
+    color: var(--color-brand-soft);
     box-shadow: none;
   }
   .studio-feature-tour__pin svg {
@@ -229,7 +225,7 @@
   }
   .studio-feature-tour__hotspot[aria-pressed="true"] .studio-feature-tour__pin {
     background: transparent;
-    color: #e8ffc4;
+    color: var(--color-bg-light-alt);
   }
   .studio-feature-tour__hotspot .studio-feature-tour__tooltip {
     position: static;
@@ -238,7 +234,7 @@
     transform: none;
     border: 0;
     background: transparent;
-    color: #d8efa9;
+    color: var(--color-brand-soft);
     box-shadow: none;
     white-space: normal;
     text-align: center;
@@ -249,32 +245,18 @@
   }
   .studio-feature-tour__hotspot[aria-pressed="true"] .studio-feature-tour__tooltip {
     background: transparent;
-    color: #e8ffc4;
+    color: var(--color-bg-light-alt);
   }
   .studio-feature-tour__hotspot .studio-feature-tour__short-label {
     display: block;
-    font-size: 9px;
+    font-size: clamp(8px, 2.4vw, 9px);
   }
 }
 @media (max-width: 640px) {
-  .studio-feature-tour__overview {
-    top: 4px;
-    right: 12px;
-    left: auto;
-    min-height: 44px;
-    transform: none;
-  }
   .studio-feature-tour
     .product-preview[data-workspace-view]
     .product-preview__heading {
     margin-bottom: 10px;
-  }
-  .studio-feature-tour
-    .product-preview[data-workspace-view]
-    .product-preview__heading
-    > div
-    > p {
-    display: none;
   }
   .studio-feature-tour
     .product-preview[data-workspace-view]

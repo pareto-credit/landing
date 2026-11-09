@@ -24,18 +24,17 @@
   align-items: center;
   gap: 5px;
   padding: 4px 6px;
-  border: 1px solid #62583b;
+  border: 1px solid var(--preview-line);
   border-radius: 4px;
-  background: #343724;
-  color: #e3c993;
+  background: var(--preview-bg);
+  color: var(--preview-muted);
   font: 8px/1.2 var(--font-mono);
   white-space: nowrap;
   transition: color 200ms, border-color 200ms, background-color 200ms;
 }
 
 .studio-workspace__status[data-complete="true"] {
-  border-color: #37694f;
-  background: #173d2c;
+  background: var(--preview-highlight);
   color: var(--preview-accent);
 }
 
@@ -165,10 +164,10 @@
   gap: 5px;
   flex-shrink: 0;
   padding: 7px 10px;
-  border: 1px solid #5f9c7b;
+  border: 1px solid var(--preview-line);
   border-radius: 4px;
-  background: #81dfb7;
-  color: #102e23;
+  background: var(--preview-accent);
+  color: var(--preview-bg);
   font: 9px/1.2 var(--font-sans);
 }
 
@@ -194,7 +193,7 @@
   display: flex;
   gap: 9px;
   align-items: flex-start;
-  color: #718b7c;
+  color: var(--preview-muted);
 }
 
 .studio-workspace__check {
@@ -205,7 +204,7 @@
   flex-shrink: 0;
   border: 1px solid var(--preview-line);
   border-radius: 4px;
-  color: #718b7c;
+  color: var(--preview-muted);
   font: 8px var(--font-mono);
   transition: background-color 200ms, color 200ms, border-color 200ms;
 }
@@ -216,8 +215,8 @@
 }
 
 .studio-workspace-screen li[data-complete="true"] .studio-workspace__check {
-  border-color: #3e7058;
-  background: #1c4332;
+  border-color: var(--preview-line);
+  background: var(--preview-highlight);
   color: var(--preview-accent);
 }
 
@@ -286,7 +285,7 @@
 }
 
 .product-preview .studio-workspace-screen tr[data-updated="true"] td {
-  background: rgb(129 223 183 / 0.035);
+  background: color-mix(in srgb, var(--preview-accent) 4%, transparent);
 }
 
 .product-preview .studio-workspace__operations-tables table {
@@ -387,10 +386,10 @@
   height: 25px;
   place-items: center;
   flex-shrink: 0;
-  border: 1px solid #426855;
+  border: 1px solid var(--preview-line);
   border-radius: 4px;
-  color: #b4d9c1;
-  background: #19372a;
+  color: var(--preview-accent);
+  background: var(--preview-highlight);
   font: 8px var(--font-mono);
 }
 
@@ -432,7 +431,7 @@
 }
 
 .studio-workspace__access-log small {
-  color: #799788;
+  color: var(--preview-muted);
   font: 6px var(--font-mono);
 }
 
@@ -503,7 +502,7 @@
   flex-direction: column;
   justify-content: space-between;
   padding-bottom: 3px;
-  color: #7f9d8e;
+  color: var(--preview-muted);
   font: 6px/1.5 var(--font-mono);
 }
 
@@ -523,7 +522,7 @@
 }
 
 .studio-workspace__chart-area {
-  fill: rgb(129 223 183 / 0.08);
+  fill: color-mix(in srgb, var(--preview-accent) 8%, transparent);
 }
 
 .studio-workspace__chart-line {
@@ -538,7 +537,7 @@
   display: flex;
   grid-column: 2;
   justify-content: space-between;
-  color: #7f9d8e;
+  color: var(--preview-muted);
   font: 6px/1.5 var(--font-mono);
 }
 
@@ -570,7 +569,7 @@
   width: 16px;
   height: 18px;
   flex-shrink: 0;
-  color: #96c2af;
+  color: var(--preview-muted);
   stroke-width: 1.4;
 }
 
@@ -586,7 +585,7 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  color: #769484;
+  color: var(--preview-muted);
   font-size: 8px;
   white-space: nowrap;
   transition: color 200ms;
@@ -1040,7 +1039,7 @@
 .studio-workspace__collateral h4 { color: var(--preview-ink); font-size: 10px; font-weight: 500; }
 .studio-workspace__collateral p { margin-top: 4px; color: var(--preview-muted); font-size: 8px; }
 .studio-workspace__collateral ul { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; list-style: none; }
-.studio-workspace__collateral li { padding: 4px 7px; border: 1px solid #426855; border-radius: 3px; color: var(--preview-accent); font: 8px var(--font-mono); }
+.studio-workspace__collateral li { padding: 4px 7px; border: 1px solid var(--preview-line); border-radius: 3px; color: var(--preview-accent); font: 8px var(--font-mono); }
 .studio-workspace__collateral small { display: block; margin-top: 8px; color: var(--preview-muted); font-size: 7px; line-height: 1.5; }
 @container (max-width: 500px) {
   .studio-workspace__collateral { margin-top: 10px; padding: 8px; }

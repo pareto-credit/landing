@@ -96,6 +96,8 @@ describe("Studio preview playback and exploration", () => {
       }
     );
     render(<StudioFeatureTour />);
+    const overview = screen.getByRole("button", { name: "Overview" });
+    expect(overview).toHaveAttribute("data-anchored", "true");
     const participants = screen.getByRole("button", {
       name: "Explore participant views",
     });
@@ -158,7 +160,7 @@ describe("Studio preview playback and exploration", () => {
     expect(hotspot).toHaveAttribute("aria-pressed", "false");
   });
 
-  it("automatically rotates the guided preview while all app controls remain inert", () => {
+  it("loops between underwriters and borrowers in the inert guided preview", () => {
     render(<StudioPreview mode="guided" />);
     const preview = screen.getByRole("img", {
       name: /animated studio workspace/i,
@@ -170,11 +172,6 @@ describe("Studio preview playback and exploration", () => {
     expect(screen.getByTestId("studio-desk")).toHaveAttribute(
       "data-persona",
       "borrow"
-    );
-    completeSequence();
-    expect(screen.getByTestId("studio-desk")).toHaveAttribute(
-      "data-persona",
-      "allocate"
     );
     completeSequence();
     expect(screen.getByTestId("studio-desk")).toHaveAttribute(

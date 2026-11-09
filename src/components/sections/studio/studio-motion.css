@@ -39,10 +39,7 @@
   gap: 3px;
   height: 18px;
   margin-top: 8px;
-  color: #8bcacb;
-}
-.product-preview__metrics > div:nth-child(2) .preview-spark-bars {
-  color: #8fdbac;
+  color: var(--preview-accent);
 }
 .preview-spark-bars > i {
   display: block;
@@ -129,26 +126,6 @@
     .lender-portfolio__update
   ) {
   animation-play-state: paused;
-}
-.product-preview__notification[data-kind="report"] {
-  background: #1b3949;
-  border-color: #537b9d;
-}
-.product-preview__notification[data-kind="report"]
-  .product-preview__notification-icon {
-  color: #b6d6ef;
-  border-color: #668eae;
-  background: #25485b;
-}
-.product-preview__notification[data-kind="withdrawal"] {
-  background: #1c402f;
-  border-color: #4e8a65;
-}
-.product-preview__notification[data-kind="withdrawal"]
-  .product-preview__notification-icon {
-  color: #a4e7bb;
-  border-color: #6cae81;
-  background: #26543a;
 }
 @keyframes preview-panel-in {
   from {

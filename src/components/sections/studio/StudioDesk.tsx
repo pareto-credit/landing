@@ -65,22 +65,18 @@ function ProductSession({
   const screenLabels = {
     structuring: {
       title: "Create vault",
-      section: "Management / Vaults",
       navigation: "Vaults",
     },
     operations: {
       title: "Requests",
-      section: "Management / Requests",
       navigation: "Requests",
     },
     participants: {
       title: "Users",
-      section: "Admin / Users",
       navigation: "Users",
     },
     reporting: {
       title: "Reports",
-      section: "Management / Reports",
       navigation: "Reports",
     },
   };
@@ -174,6 +170,7 @@ function ProductSession({
             </div>
             <span className="product-preview__nav-group">Analytics</span>
             <span
+              data-tour-target={workspaceView ? "overview" : undefined}
               className={!screenView ? "is-selected" : undefined}
               aria-current={!screenView ? "page" : undefined}
             >
@@ -244,7 +241,7 @@ function ProductSession({
         )}
         <div className="product-preview__main">
           <div className="product-preview__header">
-            {lender ? (
+            {lender && (
               <>
                 <div className="product-preview__brand">
                   {theme === "light" ? (
@@ -262,10 +259,9 @@ function ProductSession({
                   <span className="is-selected">Portfolio</span>
                 </div>
               </>
-            ) : (
-              <span className="product-preview__micro">
-                {screen?.section ?? "Analytics"}
-              </span>
+            )}
+            {!lender && !workspaceView && (
+              <span className="product-preview__micro">Analytics</span>
             )}
             <div className="product-preview__account">
               {lender && (
@@ -288,14 +284,7 @@ function ProductSession({
           <div className="product-preview__content">
             {!lender && (
               <div className="product-preview__heading">
-                <div>
-                  {theme !== "light" && (
-                    <p className="product-preview__micro">
-                      {screen?.section ?? "Analytics"}
-                    </p>
-                  )}
-                  <h3>{screen?.title ?? scenario.title}</h3>
-                </div>
+                <h3>{screen?.title ?? scenario.title}</h3>
                 <span className="product-preview__pill">USDC · Ethereum</span>
               </div>
             )}

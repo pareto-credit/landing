@@ -9,7 +9,7 @@
   overflow: hidden;
   padding: 2px;
   border-radius: calc(var(--radius-panel, 6px) + 2px);
-  background: #325e50;
+  background: var(--color-bg-emerald);
   box-shadow: 0 20px 70px -38px rgb(68 186 155 / 0.25),
     0 1px 0 rgb(206 246 227 / 0.12);
 }
@@ -22,13 +22,13 @@
   aspect-ratio: 1;
   background: conic-gradient(
     from 30deg,
-    #1c4337 0deg,
-    #28594a 80deg,
-    #6ee2bb 122deg,
-    #83daf1 157deg,
-    #769edb 190deg,
-    #214f40 236deg,
-    #1c4337 360deg
+    var(--color-bg-emerald-deep) 0deg,
+    var(--color-bg-emerald) 80deg,
+    var(--color-brand) 122deg,
+    var(--color-brand-soft) 157deg,
+    var(--color-brand) 190deg,
+    var(--color-bg-emerald) 236deg,
+    var(--color-bg-emerald-deep) 360deg
   );
   transform: translate(-50%, -50%);
   animation: studio-border-orbit 12s cubic-bezier(0.45, 0, 0.55, 1) infinite;

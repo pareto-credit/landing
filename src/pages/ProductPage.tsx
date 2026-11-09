@@ -37,7 +37,12 @@ export default function ProductPage({ id }: { id: ProductPageId }) {
                 </span>
               </>
             ) : (
-              "An operating model that grows with you."
+              <>
+                An operating model{" "}
+                <span className="text-[var(--color-text-muted)]">
+                  that grows with you.
+                </span>
+              </>
             )
           }
           description="Choose Core, Pro or White-Glove. Commercial terms are tailored to your facility and the support you need."
@@ -52,16 +57,12 @@ export default function ProductPage({ id }: { id: ProductPageId }) {
               <SectionHeader
                 eyebrow="Success stories"
                 title={
-                  vaults ? (
-                    <>
-                      Credit{" "}
-                      <span className="text-[var(--color-text-muted)]">
-                        in practice.
-                      </span>
-                    </>
-                  ) : (
-                    "Credit in practice."
-                  )
+                  <>
+                    Credit{" "}
+                    <span className="text-[var(--color-text-muted)]">
+                      in practice.
+                    </span>
+                  </>
                 }
                 description="Perspectives from across the Pareto network."
                 titleId="product-stories-title"
@@ -78,30 +79,20 @@ export default function ProductPage({ id }: { id: ProductPageId }) {
           <SectionContainer>
             <AudienceReveal className="audience-questions">
               <div>
-                {vaults ? (
-                  <SectionHeader
-                    variant="collection"
-                    eyebrow="Practical considerations"
-                    titleId="product-questions-title"
-                    title={
-                      <>
-                        Your questions{" "}
-                        <span className="text-[var(--color-text-muted)]">
-                          answered.
-                        </span>
-                      </>
-                    }
-                    description="A starting point for your team’s review."
-                  />
-                ) : (
-                  <>
-                    <p className="product-kicker">Practical considerations</p>
-                    <h2 id="product-questions-title">
-                      Your questions answered.
-                    </h2>
-                    <p>A starting point for your team’s review.</p>
-                  </>
-                )}
+                <SectionHeader
+                  variant="collection"
+                  eyebrow="Practical considerations"
+                  titleId="product-questions-title"
+                  title={
+                    <>
+                      Your questions{" "}
+                      <span className="text-[var(--color-text-muted)]">
+                        answered.
+                      </span>
+                    </>
+                  }
+                  description="A starting point for your team’s review."
+                />
                 <a
                   href={PARETO_DOCS_URL}
                   className="audience-text-link"
@@ -128,7 +119,12 @@ export default function ProductPage({ id }: { id: ProductPageId }) {
                 </span>
               </>
             ) : (
-              "Bring your credit operations together."
+              <>
+                Bring your credit{" "}
+                <span className="text-[var(--color-text-muted)]">
+                  operations together.
+                </span>
+              </>
             )
           }
           description={

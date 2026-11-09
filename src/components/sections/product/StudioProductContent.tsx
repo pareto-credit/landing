@@ -4,7 +4,7 @@ import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { requestContact } from "../../../lib/siteNavigation";
 import { usePageVisibility } from "../../../hooks/usePageVisibility";
 import { buttonClassName } from "../../ui/buttonStyles";
-import { SectionContainer } from "../../ui/Section";
+import { SectionContainer, SectionHeader } from "../../ui/Section";
 import AgentsSection from "../AgentsSection";
 import AudienceReveal from "../persona/AudienceReveal";
 import StudioFeatureTour from "./StudioFeatureTour";
@@ -103,9 +103,6 @@ export default function StudioProductContent() {
           <AudienceReveal className="studio-product-tour">
             <StudioFeatureTour />
           </AudienceReveal>
-          <p className="studio-product-workspace__caption">
-            Explore the highlighted areas to see Studio in action.
-          </p>
         </SectionContainer>
       </section>
 
@@ -134,11 +131,20 @@ export default function StudioProductContent() {
         aria-labelledby="capabilities-title"
       >
         <SectionContainer>
-          <AudienceReveal className="studio-product-capabilities__heading">
-            <p className="product-kicker">Built around the work</p>
-            <h2 id="capabilities-title">
-              The full operating cycle. Connected.
-            </h2>
+          <AudienceReveal>
+            <SectionHeader
+              variant="collection"
+              eyebrow="Built around the work"
+              titleId="capabilities-title"
+              title={
+                <>
+                  The full operating cycle.{" "}
+                  <span className="text-[var(--color-text-muted)]">
+                    Connected.
+                  </span>
+                </>
+              }
+            />
           </AudienceReveal>
           <div className="studio-product-capabilities__grid">
             <CapabilityCard

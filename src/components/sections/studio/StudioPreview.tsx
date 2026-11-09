@@ -14,6 +14,8 @@ import { personaDesks, type PersonaId } from "./studioDeskData";
 import "./studio-showcase.css";
 import "./studio-preview-light.css";
 
+const studioDesks = personaDesks.filter(({ id }) => id !== "allocate");
+
 /** The same role-aware, bounded product preview is shared by the home and Studio pages. */
 export default function StudioPreview({
   mode = "desks",
@@ -25,15 +27,18 @@ export default function StudioPreview({
   renderActions?: (persona: PersonaId) => ReactNode;
 }) {
   const guided = mode === "guided";
+  const desks = guided ? studioDesks : personaDesks;
+  const deskCount = desks.length;
   const pageVisible = usePageVisibility();
   const previewRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(previewRef, { amount: 0.15 });
-  const [active, setActive] = useState(0);
+  const [activeIndex, setActive] = useState(0);
+  const active = activeIndex % deskCount;
   const [previewFocused, setPreviewFocused] = useState(false);
   const reduced = useReducedMotion();
   const advancePersona = useCallback(
-    () => setActive((current) => (current + 1) % personaDesks.length),
-    []
+    () => setActive((current) => (current + 1) % deskCount),
+    [deskCount]
   );
 
   useEffect(() => {
@@ -61,13 +66,13 @@ export default function StudioPreview({
   const select = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
     const next =
       event.key === "ArrowRight"
-        ? (index + 1) % 3
+        ? (index + 1) % deskCount
         : event.key === "ArrowLeft"
-        ? (index + 2) % 3
+        ? (index + deskCount - 1) % deskCount
         : event.key === "Home"
         ? 0
         : event.key === "End"
-        ? 2
+        ? deskCount - 1
         : null;
     if (next === null) return;
     event.preventDefault();
@@ -89,7 +94,7 @@ export default function StudioPreview({
           aria-label="Studio desks"
           className="studio-preview__tabs mb-6 grid grid-cols-3 gap-2 border-b border-white/15 pb-3"
         >
-          {personaDesks.map((item, index) => (
+          {desks.map((item, index) => (
             <button
               key={item.id}
               type="button"
@@ -124,7 +129,7 @@ export default function StudioPreview({
         role={guided ? "img" : "region"}
         aria-label={
           guided
-            ? "Animated Studio workspace showing underwriters, borrowers and lenders"
+            ? "Animated Studio workspace showing underwriters and borrowers"
             : "Animated product preview"
         }
         className="studio-preview-frame"
@@ -141,7 +146,7 @@ export default function StudioPreview({
           inert={guided || undefined}
           aria-hidden={guided || undefined}
         >
-          {personaDesks.map((desk, index) => (
+          {desks.map((desk, index) => (
             <div
               key={desk.id}
               id={`${prefix}-panel-${desk.id}`}
@@ -170,7 +175,7 @@ export default function StudioPreview({
           ))}
         </div>
       </div>
-      {renderActions?.(personaDesks[active].id)}
+      {renderActions?.(desks[active].id)}
     </div>
   );
 }

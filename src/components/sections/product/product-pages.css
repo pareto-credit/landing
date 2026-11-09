@@ -4,7 +4,7 @@
   color: var(--color-text-primary);
 }
 .product-page:not(.credit-vaults-page) > nav[data-mobile-open="false"] {
-  background: rgb(244 247 245 / 0.97);
+  background: color-mix(in srgb, var(--color-bg-light-alt) 97%, transparent);
 }
 .product-section {
   padding-block: clamp(76px, 9vw, 132px);
@@ -24,10 +24,10 @@
   color: var(--color-text-inverse);
 }
 .product-kicker {
-  font: 10px/1.6 var(--font-mono);
+  font: 500 0.75rem/1.6 var(--font-mono);
   text-transform: uppercase;
-  letter-spacing: 0.17em;
-  color: var(--color-brand-alt);
+  letter-spacing: 0.13em;
+  color: var(--color-brand-deep);
 }
 .product-scroll-highlight {
   max-width: 24ch;
@@ -43,8 +43,8 @@
 .product-main #pricing {
   scroll-margin-top: 88px;
 }
-.product-main .audience-questions h2 {
-  max-width: 11ch;
+.product-main #questions [data-section-header] {
+  margin-bottom: 1.5rem;
 }
 .product-main .audience-stories article {
   height: 100%;
@@ -76,10 +76,4 @@
 }
 .credit-vaults-page #agents {
   --color-focus-ring: var(--color-focus-on-dark);
-}
-.credit-vaults-page #questions [data-section-header] {
-  margin-bottom: 1.5rem;
-}
-.credit-vaults-page #questions h2 {
-  max-width: none;
 }

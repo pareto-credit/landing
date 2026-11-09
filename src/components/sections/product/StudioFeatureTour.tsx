@@ -8,7 +8,13 @@ import {
   type MouseEvent,
 } from "react";
 import { useInView, useReducedMotion } from "framer-motion";
-import { ArrowLeft, FileText, Layers3, ListChecks, Users } from "lucide-react";
+import {
+  FileText,
+  Layers3,
+  LayoutDashboard,
+  ListChecks,
+  Users,
+} from "lucide-react";
 import { usePageVisibility } from "../../../hooks/usePageVisibility";
 import StudioPreview from "../studio/StudioPreview";
 import StudioDesk from "../studio/StudioDesk";
@@ -52,7 +58,17 @@ const views = [
     icon: FileText,
   },
 ] as const;
-type TourView = "overview" | (typeof views)[number]["id"];
+const controls = [
+  {
+    id: "overview",
+    label: "Overview",
+    shortLabel: "Overview",
+    hint: null,
+    icon: LayoutDashboard,
+  },
+  ...views,
+] as const;
+type TourView = (typeof controls)[number]["id"];
 
 function FeatureWorkspace({
   view,
@@ -102,7 +118,7 @@ export default function StudioFeatureTour() {
       if (!bounds.width || !bounds.height) return;
       const frame = visual.querySelector<HTMLElement>(".studio-preview-frame");
       const screenBounds = visual.getBoundingClientRect();
-      const placements = views.map((item) => {
+      const placements = controls.map((item) => {
         const control = root.querySelector<HTMLElement>(
           `[data-tour-control="${item.id}"]`
         );
@@ -205,28 +221,20 @@ export default function StudioFeatureTour() {
           )}
         </div>
       </div>
-      <button
-        type="button"
-        className="studio-feature-tour__overview"
-        aria-label="Workspace overview"
-        aria-pressed={selection.id === "overview"}
-        aria-controls={screenId}
-        onClick={(event) => select("overview", event)}
-      >
-        <ArrowLeft size={12} aria-hidden="true" /> Workspace overview
-      </button>
       <div
         className="studio-feature-tour__hotspots"
         role="group"
         aria-label="Explore Studio functionality"
       >
-        {views.map(({ id, label: title, shortLabel, hint, icon: Icon }) => (
+        {controls.map(({ id, label: title, shortLabel, hint, icon: Icon }) => (
           <button
             key={id}
             data-tour-control={id}
             type="button"
             className={`studio-feature-tour__hotspot studio-feature-tour__hotspot--${id}`}
-            aria-label={`Explore ${title.toLowerCase()}`}
+            aria-label={
+              id === "overview" ? title : `Explore ${title.toLowerCase()}`
+            }
             aria-pressed={selection.id === id}
             aria-controls={screenId}
             onClick={(event) => select(id, event)}
@@ -244,7 +252,7 @@ export default function StudioFeatureTour() {
               >
                 {shortLabel}
               </strong>
-              <small>{hint}</small>
+              {hint && <small>{hint}</small>}
             </span>
           </button>
         ))}
@@ -252,7 +260,7 @@ export default function StudioFeatureTour() {
       <p className="sr-only" aria-live="polite" aria-atomic="true">
         {label}.{" "}
         {view?.description ??
-          "An animated overview of underwriter, borrower and lender workflows. Select a highlighted area to explore a function."}
+          "An animated overview of underwriter and borrower workflows. Select a highlighted area to explore a function."}
       </p>
     </div>
   );
