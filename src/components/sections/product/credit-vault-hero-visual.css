@@ -1,0 +1,96 @@
+.credit-vault-visual {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-inline: auto;
+}
+
+.credit-vault-visual__dial,
+.credit-vault-visual__aperture {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.credit-vault-visual__aperture {
+  transform: scale(0.65);
+}
+
+.credit-vault-visual__status {
+  opacity: 0.45;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .credit-vault-visual__dial {
+    /* The small highlight is off-center, so use the SVG's center as the pivot. */
+    transform-box: view-box;
+    animation: credit-vault-dial 9s ease-in-out infinite paused;
+  }
+
+  .credit-vault-visual__aperture {
+    animation: credit-vault-aperture 9s ease-in-out infinite paused;
+  }
+
+  .credit-vault-visual__status {
+    animation: credit-vault-status 9s ease-in-out infinite paused;
+  }
+
+  .credit-vault-visual[data-running="true"]
+    :is(
+      .credit-vault-visual__dial,
+      .credit-vault-visual__aperture,
+      .credit-vault-visual__status
+    ) {
+    animation-play-state: running;
+  }
+}
+
+@keyframes credit-vault-dial {
+  0%,
+  8%,
+  94%,
+  100% {
+    transform: rotate(0deg);
+  }
+  27%,
+  75% {
+    transform: rotate(75deg);
+  }
+}
+
+@keyframes credit-vault-aperture {
+  0%,
+  23%,
+  80%,
+  100% {
+    transform: scale(0.32);
+  }
+  42%,
+  62% {
+    transform: scale(1);
+  }
+}
+
+@keyframes credit-vault-status {
+  0%,
+  27%,
+  79%,
+  100% {
+    opacity: 0.25;
+  }
+  42%,
+  62% {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 1023px) {
+  .credit-vault-visual {
+    max-width: 520px;
+  }
+}
+
+@media (max-width: 767px) {
+  .credit-vault-visual {
+    max-width: 340px;
+  }
+}

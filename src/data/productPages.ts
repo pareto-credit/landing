@@ -21,7 +21,7 @@ export const productQuestions: Record<
     {
       question: "Can I combine different modules?",
       answer:
-        "The facility can be configured with eligibility, rate and cycle settings, liquidity features, and optional risk or servicing arrangements. Compatibility is reviewed during setup; the diagram illustrates design choices rather than a promise that every combination is available.",
+        "The facility can be configured with eligibility, rate and cycle settings, liquidity features, and optional risk or servicing arrangements. Compatibility and availability are reviewed during setup.",
     },
     {
       question: "Who makes the credit decisions?",

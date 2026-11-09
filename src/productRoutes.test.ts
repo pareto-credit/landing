@@ -21,4 +21,17 @@ describe("product and data routes", () => {
     expect(router.state.location.search).toEqual({ ref: "partner" });
     expect(router.state.matches.at(-1)?.status).toBe("success");
   });
+  it("redirects the retired configurator anchor to facility structures without losing campaign context", async () => {
+    const router = createRouter({
+      routeTree,
+      history: createMemoryHistory({
+        initialEntries: ["/credit-vaults?ref=partner#modules"],
+      }),
+      defaultPendingMinMs: 0,
+    });
+    await router.load();
+    expect(router.state.location.pathname).toBe("/credit-vaults");
+    expect(router.state.location.hash).toBe("facilities");
+    expect(router.state.location.search).toEqual({ ref: "partner" });
+  });
 });

@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import ProductPage from "./ProductPage";
 
@@ -32,6 +32,32 @@ afterEach(() => {
 });
 
 describe("dedicated product pages", () => {
+  it("reveals vault-specific details and hands off to the local enquiry form", async () => {
+    render(<ProductPage id="credit-vaults" />);
+    const configuration = "Custody evidence · monitoring · servicing";
+    expect(screen.queryByText(configuration)).not.toBeInTheDocument();
+
+    const term = screen.getByRole("button", { name: "Term facilities: show details" });
+    expect(within(term).getByText("Lending cycle")).toBeInTheDocument();
+    const custody = screen.getByRole("button", {
+      name: "Custodial facilities: show details",
+    });
+    expect(custody).toHaveTextContent("Structure lending around assets held with a custodian.");
+
+    const interest = screen.getByRole("combobox", { name: /interested in/i });
+    fireEvent.change(interest, { target: { value: "Pro plan" } });
+    fireEvent.click(custody);
+
+    const dialog = screen.getByRole("dialog", { name: "Custodial facilities" });
+    expect(within(dialog).getByText(configuration)).toBeInTheDocument();
+    fireEvent.click(
+      within(dialog).getByRole("button", { name: "Discuss this structure" })
+    );
+
+    expect(interest).toHaveValue("Borrowing");
+    await waitFor(() => expect(interest).toHaveFocus());
+  });
+
   it("lets Studio visitors explore functions inside the mockup without scrolling the page", () => {
     const { container } = render(<ProductPage id="studio" />);
     expect(
@@ -134,6 +160,19 @@ describe("dedicated product pages", () => {
         })
       );
       expect(select).toHaveValue("Pro plan");
+      if (id === "credit-vaults") {
+        const hero = screen.getByRole("region", {
+          name: "Credit vaults, on your terms.",
+        });
+        expect(
+          within(hero).getByRole("link", { name: "Explore structures" })
+        ).toHaveAttribute("href", "#facilities");
+        fireEvent.click(
+          within(hero).getByRole("link", { name: "Discuss your facility" })
+        );
+        expect(select).toHaveValue("Borrowing");
+        expect(screen.getByRole("button", { name: "Send enquiry" })).toBeInTheDocument();
+      }
       const ids = Array.from(container.querySelectorAll("[id]")).map(
         (node) => node.id
       );
@@ -141,65 +180,7 @@ describe("dedicated product pages", () => {
     }
   );
 
-  it("replaces the complete facility configuration when a visitor chooses a template", () => {
-    const { container } = render(<ProductPage id="credit-vaults" />);
-    const group = screen.getByRole("group", {
-      name: "Facility templates",
-    });
-    const diagram = screen.getByRole("group", {
-      name: "Credit Vault configuration",
-    });
-    for (const label of ["Prime brokerage", "Revolving facility", "NAV-based pricing", "DeFi adapters", "OTC desk", "Legal & compliance"]) {
-      expect(diagram).toHaveAccessibleDescription(new RegExp(label, "i"));
-    }
-    expect(diagram).toHaveTextContent("Morpho · Aave · Pendle");
-    const credit = within(group).getByRole("button", {
-      name: "Working capital",
-    });
-    fireEvent.focus(credit);
-    expect(credit).toHaveAttribute("aria-pressed", "false");
-    fireEvent.click(credit);
-    expect(credit).toHaveAttribute("aria-pressed", "true");
-    expect(diagram).toHaveAccessibleDescription(
-      /Working capital.*Term facility.*Interest paid each cycle/i
-    );
-    expect(diagram).not.toHaveAccessibleDescription(
-      /Revolving facility|NAV-based pricing|OTC desk/i
-    );
-    expect(
-      within(group).getAllByRole("button", { pressed: true })
-    ).toHaveLength(1);
-    expect(
-      screen.queryByRole("group", { name: "Facility design options" })
-    ).not.toBeInTheDocument();
-    expect(
-      container.querySelectorAll(".product-scroll-highlight")
-    ).toHaveLength(1);
-    expect(
-      container.querySelector(".product-scroll-highlight")
-    ).toHaveTextContent(/^Different businesses/);
-  });
 
-  it("switches every template in place without navigating or scrolling", () => {
-    render(<ProductPage id="credit-vaults" />);
-    const group = screen.getByRole("group", { name: "Facility templates" });
-    const diagram = screen.getByRole("group", {
-      name: "Credit Vault configuration",
-    });
-    const startingHash = window.location.hash;
-    vi.mocked(window.scrollTo).mockClear();
-    for (const template of within(group).getAllByRole("button")) {
-      fireEvent.click(template);
-      expect(diagram).toHaveAccessibleDescription(
-        new RegExp(
-          template.querySelector("span:nth-child(2)")!.textContent!,
-          "i"
-        )
-      );
-    }
-    expect(window.location.hash).toBe(startingHash);
-    expect(window.scrollTo).not.toHaveBeenCalled();
-  });
 
   it("gives Credit Vaults the same agent workflow as Studio with a working early-access inquiry", () => {
     render(<ProductPage id="credit-vaults" />);
@@ -212,73 +193,7 @@ describe("dedicated product pages", () => {
     ).toHaveValue("Pareto MCP early access");
   });
 
-  it("lets visitors customize individual modules and restore a template", () => {
-    render(<ProductPage id="credit-vaults" />);
-    const diagram = screen.getByRole("group", { name: "Credit Vault configuration" });
-    const templates = screen.getByRole("group", { name: "Facility templates" });
-    expect(within(diagram).getAllByRole("checkbox")).toHaveLength(18);
-    const groups = within(diagram).getAllByRole("group");
-    expect(groups).toHaveLength(6);
-    for (const group of groups) {
-      expect(within(group).getAllByRole("checkbox")).toHaveLength(3);
-    }
-    expect(within(diagram).getByRole("group", { name: "Collateral & custody" })).toHaveTextContent("Onchain collateral");
-    expect(within(diagram).getByRole("group", { name: "Covenant monitoring" })).toHaveTextContent("Breach & cure tracking");
-    const otc = within(diagram).getByRole("checkbox", { name: "OTC desk" });
-    const tranches = within(diagram).getByRole("checkbox", { name: "Senior / junior" });
 
-    expect(otc).toBeChecked();
-    expect(otc).toHaveAccessibleDescription("Execution & settlement integration");
-    expect(tranches).not.toBeChecked();
-    fireEvent.click(otc);
-    expect(otc).not.toBeChecked();
-    expect(diagram).toHaveAccessibleDescription(/Custom configuration/);
-    expect(diagram).not.toHaveAccessibleDescription(/OTC desk/);
-    expect(within(templates).queryAllByRole("button", { pressed: true })).toHaveLength(0);
-    fireEvent.click(tranches);
-    expect(tranches).toBeChecked();
-    expect(diagram).toHaveAccessibleDescription(/Senior \/ junior/);
 
-    fireEvent.click(within(templates).getByRole("button", { name: "Prime brokerage" }));
-    expect(otc).toBeChecked();
-    expect(tranches).not.toBeChecked();
-    expect(diagram).toHaveAccessibleDescription(/Prime brokerage/);
-    expect(diagram).not.toHaveAccessibleDescription(/Custom configuration/);
-  });
 
-  it("supports Space and Enter on a focused module without losing keyboard focus", () => {
-    render(<ProductPage id="credit-vaults" />);
-    const otc = screen.getByRole("checkbox", { name: "OTC desk" });
-    otc.focus();
-    fireEvent.keyDown(otc, { key: " " });
-    expect(otc).not.toBeChecked();
-    expect(otc).toHaveFocus();
-    fireEvent.keyDown(otc, { key: " ", repeat: true });
-    expect(otc).not.toBeChecked();
-    fireEvent.keyDown(otc, { key: "Enter" });
-    expect(otc).toBeChecked();
-    expect(otc).toHaveFocus();
-    fireEvent.keyDown(otc, { key: "Tab" });
-    expect(otc).toBeChecked();
-  });
-
-  it("keeps all six groups available on mobile while customizing a group or restoring a template", () => {
-    vi.stubGlobal("innerWidth", 390);
-    render(<ProductPage id="credit-vaults" />);
-    const diagram = screen.getByRole("group", { name: "Credit Vault configuration" });
-    expect(within(diagram).getAllByRole("button")).toHaveLength(6);
-    fireEvent.click(within(diagram).getByRole("button", { name: /Collateral & custody/ }));
-    const collateral = within(diagram).getByRole("group", { name: "Collateral & custody" });
-    const onchain = within(collateral).getByRole("checkbox", { name: /Onchain collateral/ });
-    expect(onchain).toBeChecked();
-    fireEvent.click(onchain);
-    expect(onchain).not.toBeChecked();
-    const template = screen.getByRole("combobox", { name: "Example template" });
-    expect(template).toHaveValue("custom");
-    fireEvent.change(template, { target: { value: "working-capital" } });
-    expect(template).toHaveValue("working-capital");
-    expect(within(collateral).getAllByRole("checkbox").every((input) => !(input as HTMLInputElement).checked)).toBe(true);
-    fireEvent.click(within(diagram).getByRole("button", { name: /Covenant monitoring/ }));
-    expect(within(diagram).getByRole("checkbox", { name: /Financial covenants/ })).toBeChecked();
-  });
 });

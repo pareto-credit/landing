@@ -26,7 +26,7 @@ import {
   X,
   type LucideIcon,
 } from "lucide-react";
-import { creditStructures } from "../../data/structures";
+import { creditStructures, type CreditStructure } from "../../data/structures";
 import { requestContact } from "../../lib/siteNavigation";
 import { cn } from "../../lib/cn";
 import { Button } from "../ui/Button";
@@ -170,12 +170,20 @@ const TileVisual = ({
   );
 };
 
+export interface StructureDetailContent {
+  description: string;
+  visual: ReactNode;
+  specs: CreditStructure["specs"];
+}
+
 const StructureDetail = ({
   index,
+  detail,
   onClose,
   returnFocus,
 }: {
   index: number;
+  detail?: StructureDetailContent;
   onClose: () => void;
   returnFocus: RefObject<HTMLButtonElement | null>;
 }) => {
@@ -188,6 +196,9 @@ const StructureDetail = ({
   const shouldReduceMotion = useReducedMotion();
   const isPresent = useIsPresent();
   const number = String(index + 1).padStart(2, "0");
+  const visual =
+    detail?.visual ??
+    (tile.visual && <TileVisual kind={tile.visual} expanded />);
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -312,15 +323,11 @@ const StructureDetail = ({
           }}
         >
           <p className={cn("mt-3 text-base leading-relaxed", tone.muted)}>
-            {structure.lede}
+            {detail?.description ?? structure.lede}
           </p>
-          {tile.visual ? (
-            <div className="mt-6">
-              <TileVisual kind={tile.visual} expanded />
-            </div>
-          ) : null}
+          {visual ? <div className="mt-6">{visual}</div> : null}
           <dl className="mt-6 grid gap-x-8 sm:grid-cols-2">
-            {structure.specs.map(([label, value]) => (
+            {(detail?.specs ?? structure.specs).map(([label, value]) => (
               <div
                 key={label}
                 className={cn(
@@ -343,12 +350,15 @@ const StructureDetail = ({
             ))}
           </dl>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <span className={cn("text-xs", tone.muted)}>
-              Terms, size and pricing are set per facility.
-            </span>
+            {!detail && (
+              <span className={cn("text-xs", tone.muted)}>
+                Terms, size and pricing are set per facility.
+              </span>
+            )}
             <Button
               variant="primary"
               size="md"
+              className="sm:ml-auto"
               onClick={() => {
                 restoreTriggerFocus.current = false;
                 onClose();
@@ -365,7 +375,11 @@ const StructureDetail = ({
   );
 };
 
-const StructuresSection = () => {
+export const CreditStructureCards = ({
+  details,
+}: {
+  details?: readonly StructureDetailContent[];
+}) => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const shouldReduceMotion = useReducedMotion();
@@ -391,6 +405,21 @@ const StructuresSection = () => {
     const tile = tiles[index];
     const tone = toneClass[tile.tone];
     const isLarge = tile.placement.includes("row-span-2");
+    const detail = details?.[index];
+    const visual =
+      tile.visual && (detail?.visual ?? <TileVisual kind={tile.visual} />);
+    const hasSideVisual = Boolean(visual && !isLarge);
+    const alignPreview = Boolean(detail && hasSideVisual);
+    const detailsLabel = (
+      <span
+        className={cn(
+          "mt-4 inline-flex items-center gap-1.5 font-mono text-[10.5px] uppercase tracking-[0.14em] transition-transform group-hover:translate-x-0.5",
+          tone.accent
+        )}
+      >
+        <Plus size={13} /> Details
+      </span>
+    );
 
     return (
       <motion.button
@@ -423,23 +452,30 @@ const StructuresSection = () => {
           </span>
         </div>
 
-        {tile.visual && isLarge ? (
-          <div className="mt-6 flex-1 lg:mt-8">
-            <TileVisual kind={tile.visual} />
+        {visual && isLarge ? (
+          <div
+            className={cn(
+              "mt-6 flex-1 lg:mt-8",
+              detail && "grid place-items-center [&>*]:max-w-[30rem]"
+            )}
+          >
+            {visual}
           </div>
-        ) : (
+        ) : !alignPreview ? (
           <div className="flex-1" />
-        )}
+        ) : null}
 
         <div
           className={cn(
             "mt-6",
-            tile.visual &&
-              !isLarge &&
-              "grid gap-5 sm:grid-cols-[1fr_1.1fr] sm:items-end"
+            hasSideVisual && "grid gap-5",
+            hasSideVisual &&
+              (alignPreview
+                ? "flex-1 content-center sm:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] sm:items-center"
+                : "sm:grid-cols-[1fr_1.1fr] sm:items-end")
           )}
         >
-          <div>
+          <div className={alignPreview ? "min-w-0" : undefined}>
             <h3
               className={cn(
                 "font-bold tracking-tight",
@@ -458,70 +494,74 @@ const StructuresSection = () => {
                   (tile.visual ? "line-clamp-2" : "hidden sm:line-clamp-2")
               )}
             >
-              {structure.lede}
+              {detail?.description ?? structure.lede}
             </p>
+            {alignPreview && detailsLabel}
           </div>
-          {tile.visual && !isLarge ? (
-            <div className="hidden sm:block">
-              <TileVisual kind={tile.visual} />
+          {hasSideVisual ? (
+            <div
+              className={cn(
+                "min-w-0",
+                alignPreview ? "order-first sm:order-none" : "hidden sm:block"
+              )}
+            >
+              {visual}
             </div>
           ) : null}
         </div>
 
-        <span
-          className={cn(
-            "mt-4 inline-flex items-center gap-1.5 font-mono text-[10.5px] uppercase tracking-[0.14em] transition-transform group-hover:translate-x-0.5",
-            tone.accent
-          )}
-        >
-          <Plus size={13} /> Details
-        </span>
+        {!alignPreview && detailsLabel}
       </motion.button>
     );
   };
 
   return (
-    <section
-      id="structures"
-      className="relative overflow-hidden bg-[var(--color-bg-light-alt)] text-[var(--color-text-primary)]"
-    >
-      <SectionContainer className="ui-section-shell relative z-10">
-        <SectionHeader
-          variant="collection"
-          eyebrow="Credit facilities"
-          title={
-            <>
-              Credit infrastructure{" "}
-              <span className="text-[var(--color-text-muted)]">
-                tailored to your mandate.
-              </span>
-            </>
-          }
-          description="Flexible financing for your capital needs, built onchain."
-        />
+    <LayoutGroup>
+      <div
+        data-testid="structures-list"
+        className="grid auto-rows-[minmax(10rem,auto)] grid-cols-2 gap-3 sm:gap-4 lg:auto-rows-[minmax(13rem,auto)] lg:grid-cols-4"
+      >
+        {creditStructures.map((_, index) => renderTile(index))}
+      </div>
 
-        <LayoutGroup>
-          <div
-            data-testid="structures-list"
-            className="grid auto-rows-[minmax(10rem,auto)] grid-cols-2 gap-3 sm:gap-4 lg:auto-rows-[minmax(13rem,auto)] lg:grid-cols-4"
-          >
-            {creditStructures.map((_, index) => renderTile(index))}
-          </div>
-
-          <AnimatePresence>
-            {openIndex !== null ? (
-              <StructureDetail
-                key={openIndex}
-                index={openIndex}
-                returnFocus={triggerRef}
-                onClose={() => setOpenIndex(null)}
-              />
-            ) : null}
-          </AnimatePresence>
-        </LayoutGroup>
-      </SectionContainer>
-    </section>
+      <AnimatePresence>
+        {openIndex !== null ? (
+          <StructureDetail
+            key={openIndex}
+            index={openIndex}
+            detail={details?.[openIndex]}
+            returnFocus={triggerRef}
+            onClose={() => setOpenIndex(null)}
+          />
+        ) : null}
+      </AnimatePresence>
+    </LayoutGroup>
   );
 };
+
+const StructuresSection = () => (
+  <section
+    id="structures"
+    className="relative overflow-hidden bg-[var(--color-bg-light-alt)] text-[var(--color-text-primary)]"
+  >
+    <SectionContainer className="ui-section-shell relative z-10">
+      <SectionHeader
+        variant="collection"
+        eyebrow="Credit facilities"
+        title={
+          <>
+            Credit infrastructure{" "}
+            <span className="text-[var(--color-text-muted)]">
+              tailored to your mandate.
+            </span>
+          </>
+        }
+        description="Flexible financing for your capital needs, built onchain."
+      />
+
+      <CreditStructureCards />
+    </SectionContainer>
+  </section>
+);
 
 export default StructuresSection;

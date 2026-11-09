@@ -17,7 +17,11 @@ export default function ProductPage({ id }: { id: ProductPageId }) {
   const vaults = id === "credit-vaults";
 
   return (
-    <div className="product-page min-h-screen overflow-x-clip bg-[var(--color-bg-page)] font-sans text-[var(--color-text-inverse)]">
+    <div
+      className={`product-page ${
+        vaults ? "credit-vaults-page" : ""
+      } min-h-screen overflow-x-clip bg-[var(--color-bg-page)] font-sans text-[var(--color-text-inverse)]`}
+    >
       <Navbar />
       <main className="product-main">
         {vaults ? <CreditVaultsContent /> : <StudioProductContent />}
@@ -25,9 +29,16 @@ export default function ProductPage({ id }: { id: ProductPageId }) {
           id="pricing"
           eyebrow="Pricing tiers"
           title={
-            vaults
-              ? "The right foundation. The right level of support."
-              : "An operating model that grows with you."
+            vaults ? (
+              <>
+                The right foundation.{" "}
+                <span className="text-[var(--color-text-muted)]">
+                  The right level of support.
+                </span>
+              </>
+            ) : (
+              "An operating model that grows with you."
+            )
           }
           description="Choose Core, Pro or White-Glove. Commercial terms are tailored to your facility and the support you need."
         />
@@ -40,7 +51,18 @@ export default function ProductPage({ id }: { id: ProductPageId }) {
             <AudienceReveal>
               <SectionHeader
                 eyebrow="Success stories"
-                title="Credit in practice."
+                title={
+                  vaults ? (
+                    <>
+                      Credit{" "}
+                      <span className="text-[var(--color-text-muted)]">
+                        in practice.
+                      </span>
+                    </>
+                  ) : (
+                    "Credit in practice."
+                  )
+                }
                 description="Perspectives from across the Pareto network."
                 titleId="product-stories-title"
               />
@@ -56,9 +78,30 @@ export default function ProductPage({ id }: { id: ProductPageId }) {
           <SectionContainer>
             <AudienceReveal className="audience-questions">
               <div>
-                <p className="product-kicker">Practical considerations</p>
-                <h2 id="product-questions-title">Your questions answered.</h2>
-                <p>A starting point for your team’s review.</p>
+                {vaults ? (
+                  <SectionHeader
+                    variant="collection"
+                    eyebrow="Practical considerations"
+                    titleId="product-questions-title"
+                    title={
+                      <>
+                        Your questions{" "}
+                        <span className="text-[var(--color-text-muted)]">
+                          answered.
+                        </span>
+                      </>
+                    }
+                    description="A starting point for your team’s review."
+                  />
+                ) : (
+                  <>
+                    <p className="product-kicker">Practical considerations</p>
+                    <h2 id="product-questions-title">
+                      Your questions answered.
+                    </h2>
+                    <p>A starting point for your team’s review.</p>
+                  </>
+                )}
                 <a
                   href={PARETO_DOCS_URL}
                   className="audience-text-link"
@@ -75,10 +118,18 @@ export default function ProductPage({ id }: { id: ProductPageId }) {
         <ContactSection
           key={id}
           defaultInterest={vaults ? "Borrowing" : "Pareto Studio (Core)"}
+          submitLabel={vaults ? "Send enquiry" : undefined}
           title={
-            vaults
-              ? "Let’s build your next credit facility."
-              : "Bring your credit operations together."
+            vaults ? (
+              <>
+                Let’s build{" "}
+                <span className="text-[var(--color-text-muted)]">
+                  your next credit facility.
+                </span>
+              </>
+            ) : (
+              "Bring your credit operations together."
+            )
           }
           description={
             vaults
