@@ -1,3 +1,7 @@
+import towerDesktop from "../../../assets/images/credit-vaults/tower-1920.jpg";
+import towerLarge from "../../../assets/images/credit-vaults/tower-3840.jpg";
+import towerImage from "../../../assets/images/ecosystem/market-makers-card.jpg";
+import towerImageAvif from "../../../assets/images/ecosystem/market-makers-card.avif";
 import { requestContact } from "../../../lib/siteNavigation";
 import AgentsSection from "../AgentsSection";
 import {
@@ -6,9 +10,8 @@ import {
 } from "../StructuresSection";
 import { SectionContainer, SectionHeader } from "../../ui/Section";
 import { buttonClassName } from "../../ui/buttonStyles";
-import AudienceReveal from "../persona/AudienceReveal";
-import CreditVaultHeroVisual from "./CreditVaultHeroVisual";
 import FacilityCardArt from "./FacilityCardArt";
+import SubpageHeader from "../SubpageHeader";
 
 /**
  * The eight facility families follow the homepage collection. These are design
@@ -94,52 +97,47 @@ const facilityDetails: StructureDetailContent[] = [
 
 const CreditVaultsContent = () => (
   <>
-    <section
-      id="hero"
-      className="audience-hero"
-      aria-labelledby="cv-hero-title"
+    <SubpageHeader
+      category="Solutions"
+      pageName="Credit Vaults"
+      titleId="cv-hero-title"
+      title={
+        <>
+          Credit, structured around{" "}
+          <span className="text-[var(--color-text-muted)]">your business.</span>
+        </>
+      }
+      description="Bring borrowers, capital and facility operations together. Define the structure and terms around the way you lend."
+      image={{
+        mobile: towerImage,
+        mobileAvif: towerImageAvif,
+        desktop: towerDesktop,
+        large: towerLarge,
+        largeWidth: 3840,
+      }}
     >
-      <SectionContainer className="audience-hero__inner">
-        <div className="audience-hero__layout">
-          <AudienceReveal className="audience-hero__copy">
-            <h1 id="cv-hero-title" tabIndex={-1}>
-              Credit vaults, <span>on your terms.</span>
-            </h1>
-            <p className="audience-hero__intro">
-              Set funding assets, repayment terms and collateral requirements
-              for term facilities, revolving credit lines and other onchain
-              lending structures.
-            </p>
-            <div className="audience-hero__actions">
-              <a
-                href="#contact"
-                className={buttonClassName("primary", "md")}
-                onClick={(event) => {
-                  if (
-                    event.button === 0 &&
-                    !event.metaKey &&
-                    !event.ctrlKey &&
-                    !event.shiftKey &&
-                    !event.altKey
-                  ) {
-                    event.preventDefault();
-                    requestContact("Borrowing");
-                  }
-                }}
-              >
-                Discuss your facility
-              </a>
-              <a href="#facilities" className={buttonClassName("white", "md")}>
-                Explore structures
-              </a>
-            </div>
-          </AudienceReveal>
-          <AudienceReveal delay={0.1} className="audience-hero__art">
-            <CreditVaultHeroVisual />
-          </AudienceReveal>
-        </div>
-      </SectionContainer>
-    </section>
+      <a href="#facilities" className={buttonClassName("primary", "md")}>
+        Explore the structures
+      </a>
+      <a
+        href="#contact"
+        className="subpage-header__secondary"
+        onClick={(event) => {
+          if (
+            event.button === 0 &&
+            !event.metaKey &&
+            !event.ctrlKey &&
+            !event.shiftKey &&
+            !event.altKey
+          ) {
+            event.preventDefault();
+            requestContact("Borrowing");
+          }
+        }}
+      >
+        Discuss your facility
+      </a>
+    </SubpageHeader>
 
     <section
       id="facilities"

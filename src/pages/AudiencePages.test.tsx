@@ -100,7 +100,7 @@ describe("audience pages", () => {
   });
 
   it.each(["originators", "capital-providers"] as const)(
-    "uses an abstract hero instead of a product demo on %s",
+    "uses the photo header and breadcrumbs on %s",
     (id) => {
       const { container } = render(<PersonaPage id={id} />);
       expect(
@@ -121,9 +121,18 @@ describe("audience pages", () => {
             ? "Financing built around your business."
             : "A broader perspective on credit.",
       });
+      const breadcrumb = within(hero).getByRole("navigation", {
+        name: "Breadcrumb",
+      });
       expect(
-        within(hero).getByTestId("audience-hero-visual")
-      ).toBeInTheDocument();
+        within(breadcrumb).getByRole("link", { name: "Home" })
+      ).toHaveAttribute("href", "/");
+      expect(within(breadcrumb).getByText("Clients")).toBeInTheDocument();
+      expect(
+        within(breadcrumb).getByText(
+          id === "originators" ? "Originators" : "Capital Allocators"
+        )
+      ).toHaveAttribute("aria-current", "page");
       expect(within(hero).queryByTestId("studio-desk")).not.toBeInTheDocument();
       expect(within(hero).queryByRole("table")).not.toBeInTheDocument();
       expect(within(hero).queryByRole("tablist")).not.toBeInTheDocument();

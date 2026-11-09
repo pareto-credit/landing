@@ -256,6 +256,45 @@
 .agent-session[data-running="false"] * {
   animation-play-state: paused;
 }
+.agent-session--compact {
+  flex: 1 0 auto;
+  min-height: 0;
+  height: auto;
+}
+.agent-session--compact .agent-session__header {
+  gap: 8px;
+  padding: 10px 14px;
+}
+.agent-session--compact .agent-session__body {
+  gap: 12px;
+  padding: 14px;
+}
+.agent-session--compact .agent-session__prompt {
+  max-width: 100%;
+  padding: 7px 10px;
+}
+.agent-session--compact .agent-session__tools {
+  gap: 4px;
+}
+.agent-session--compact .agent-session__tools > li {
+  min-height: 27px;
+  padding: 4px 8px;
+}
+.agent-session--compact table {
+  margin-top: 8px;
+}
+.agent-session--compact th {
+  padding-bottom: 4px;
+}
+.agent-session--compact td {
+  padding-block: 6px;
+}
+.agent-session--compact .agent-session__follow-up {
+  margin-top: 10px;
+}
+.agent-session--compact .agent-session__footer {
+  padding: 4px 14px;
+}
 @keyframes agent-session-spin {
   to {
     transform: rotate(360deg);

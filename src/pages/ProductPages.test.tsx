@@ -162,10 +162,17 @@ describe("dedicated product pages", () => {
       expect(select).toHaveValue("Pro plan");
       if (id === "credit-vaults") {
         const hero = screen.getByRole("region", {
-          name: "Credit vaults, on your terms.",
+          name: "Credit, structured around your business.",
         });
+        const breadcrumb = within(hero).getByRole("navigation", {
+          name: "Breadcrumb",
+        });
+        expect(within(breadcrumb).getByRole("link", { name: "Home" }))
+          .toHaveAttribute("href", "/");
+        expect(within(breadcrumb).getByText("Credit Vaults"))
+          .toHaveAttribute("aria-current", "page");
         expect(
-          within(hero).getByRole("link", { name: "Explore structures" })
+          within(hero).getByRole("link", { name: "Explore the structures" })
         ).toHaveAttribute("href", "#facilities");
         fireEvent.click(
           within(hero).getByRole("link", { name: "Discuss your facility" })

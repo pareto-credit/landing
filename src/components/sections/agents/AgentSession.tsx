@@ -42,7 +42,7 @@ function useSessionClock(running: boolean, reduced: boolean) {
 }
 
 /** An illustrative read-only conversation, shared by the homepage and products. */
-export default function AgentSession() {
+export default function AgentSession({ compact = false }: { compact?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   const id = useId();
   const inView = useInView(ref, { amount: 0.25 });
@@ -68,7 +68,7 @@ export default function AgentSession() {
   return (
     <div
       ref={ref}
-      className="agent-session"
+      className={compact ? "agent-session agent-session--compact" : "agent-session"}
       data-testid="agent-session"
       data-running={running}
     >

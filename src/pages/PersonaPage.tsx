@@ -1,7 +1,15 @@
 import Footer from "../components/layout/Footer";
 import { ArrowUpRight } from "lucide-react";
 import Navbar from "../components/layout/Navbar";
-import AudienceHeroVisual from "../components/sections/persona/AudienceHeroVisual";
+import SubpageHeader from "../components/sections/SubpageHeader";
+import originatorsMobile from "../assets/images/ecosystem/fintech-card.jpg";
+import originatorsMobileAvif from "../assets/images/ecosystem/fintech-card.avif";
+import originatorsDesktop from "../assets/images/page-headers/originators-1920.jpg";
+import originatorsLarge from "../assets/images/page-headers/originators-3200.jpg";
+import allocatorsMobile from "../assets/images/ecosystem/brokers-card.jpg";
+import allocatorsMobileAvif from "../assets/images/ecosystem/brokers-card.avif";
+import allocatorsDesktop from "../assets/images/page-headers/capital-allocators-1920.jpg";
+import allocatorsLarge from "../assets/images/page-headers/capital-allocators-3200.jpg";
 import AudienceCardArt, {
   type AudienceArtKind,
 } from "../components/sections/persona/AudienceCardArt";
@@ -21,6 +29,23 @@ import {
   type PersonaPath,
 } from "../data/personas";
 import { requestContact } from "../lib/siteNavigation";
+
+const headerImages = {
+  originators: {
+    mobile: originatorsMobile,
+    mobileAvif: originatorsMobileAvif,
+    desktop: originatorsDesktop,
+    large: originatorsLarge,
+    largeWidth: 3200,
+  },
+  "capital-providers": {
+    mobile: allocatorsMobile,
+    mobileAvif: allocatorsMobileAvif,
+    desktop: allocatorsDesktop,
+    large: allocatorsLarge,
+    largeWidth: 3200,
+  },
+};
 
 const benefitArtwork: Record<PersonaPageId, AudienceArtKind[]> = {
   originators: ["structure", "network", "activity", "distribution"],
@@ -60,7 +85,7 @@ const ContactLink = ({
 }: {
   label: string;
   interest: ContactInterest;
-  variant?: "primary" | "white" | "text";
+  variant?: "primary" | "header-link" | "text";
   to: PersonaPath;
 }) => (
   <PageLink
@@ -79,7 +104,11 @@ const ContactLink = ({
       }
     }}
     className={
-      variant === "text" ? "audience-text-link" : buttonClassName(variant, "md")
+      variant === "primary"
+        ? buttonClassName("primary", "md")
+        : variant === "header-link"
+        ? "subpage-header__secondary"
+        : "audience-text-link"
     }
   >
     {label}
@@ -88,69 +117,61 @@ const ContactLink = ({
 
 export default function PersonaPage({ id }: { id: PersonaPageId }) {
   const page = getPersonaPage(id);
-  const originators = id === "originators";
   const { primaryCta, secondaryCta } = page;
 
   return (
-    <div className="min-h-screen overflow-x-clip bg-[var(--color-bg-page)] font-sans text-[var(--color-text-inverse)]">
+    <div className="subpage-layout min-h-screen overflow-x-clip bg-[var(--color-bg-page)] font-sans text-[var(--color-text-inverse)]">
       <Navbar />
       <main className="audience-main">
-        <section
-          id="hero"
-          className="audience-hero"
-          aria-labelledby="hero-title"
+        <SubpageHeader
+          category="Clients"
+          pageName={page.navLabel}
+          titleId="hero-title"
+          title={
+            <>
+              {page.title}{" "}
+              <span className="block text-[var(--color-text-muted)]">
+                {page.titleMuted}
+              </span>
+            </>
+          }
+          description={page.intro}
+          image={headerImages[id]}
         >
-          <SectionContainer className="audience-hero__inner">
-            <div className="audience-hero__layout">
-              <AudienceReveal className="audience-hero__copy">
-                <h1 id="hero-title" tabIndex={-1}>
-                  {page.title} <span>{page.titleMuted}</span>
-                </h1>
-                <p className="audience-hero__intro">{page.intro}</p>
-                <div className="audience-hero__actions">
-                  {primaryCta.interest ? (
-                    <ContactLink
-                      label={primaryCta.label}
-                      interest={primaryCta.interest}
-                      to={page.path}
-                      variant="primary"
-                    />
-                  ) : (
-                    <a
-                      href={primaryCta.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={buttonClassName("primary", "md")}
-                    >
-                      {primaryCta.label}
-                    </a>
-                  )}
-                  {secondaryCta.interest ? (
-                    <ContactLink
-                      label={secondaryCta.label}
-                      interest={secondaryCta.interest}
-                      to={page.path}
-                      variant="white"
-                    />
-                  ) : (
-                    <PageLink
-                      to={
-                        secondaryCta.to ?? (secondaryCta.home ? "/" : page.path)
-                      }
-                      hash={secondaryCta.hash}
-                      className={buttonClassName("white", "md")}
-                    >
-                      {secondaryCta.label}
-                    </PageLink>
-                  )}
-                </div>
-              </AudienceReveal>
-              <AudienceReveal delay={0.1} className="audience-hero__art">
-                <AudienceHeroVisual originators={originators} />
-              </AudienceReveal>
-            </div>
-          </SectionContainer>
-        </section>
+          {primaryCta.interest ? (
+            <ContactLink
+              label={primaryCta.label}
+              interest={primaryCta.interest}
+              to={page.path}
+              variant="primary"
+            />
+          ) : (
+            <a
+              href={primaryCta.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={buttonClassName("primary", "md")}
+            >
+              {primaryCta.label}
+            </a>
+          )}
+          {secondaryCta.interest ? (
+            <ContactLink
+              label={secondaryCta.label}
+              interest={secondaryCta.interest}
+              to={page.path}
+              variant="header-link"
+            />
+          ) : (
+            <PageLink
+              to={secondaryCta.to ?? (secondaryCta.home ? "/" : page.path)}
+              hash={secondaryCta.hash}
+              className="subpage-header__secondary"
+            >
+              {secondaryCta.label}
+            </PageLink>
+          )}
+        </SubpageHeader>
 
         <section
           id="benefits"

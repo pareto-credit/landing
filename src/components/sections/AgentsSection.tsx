@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from "framer-motion";
-import { Bot, Check, FileSignature, PlugZap } from "lucide-react";
+import { Bot, FileSignature, PlugZap } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { AI_PRODUCT_NAME, MCP_PRODUCT_NAME } from "../../data/brand";
 import { requestContact } from "../../lib/siteNavigation";
@@ -25,12 +25,8 @@ const steps: AgentStep[] = [
     status: "Early access",
     statusTone: "live",
     description:
-      "Connect Claude, Codex or any MCP client to your Pareto facilities. Query vaults, cycles, lenders and performance without exporting a single CSV.",
-    points: [
-      "Read-only, scoped to your facilities",
-      "Works inside the agent workflows you already run",
-      "Your collateral data stays in your own stack",
-    ],
+      "Query vaults, cycles, lenders and performance from Claude, Codex or another MCP client.",
+    points: ["Read-only access", "Scoped to your facilities"],
   },
   {
     icon: FileSignature,
@@ -38,11 +34,8 @@ const steps: AgentStep[] = [
     status: "Upcoming",
     statusTone: "upcoming",
     description:
-      "Agents draft lender reports, borrowing-base updates and covenant attestations. Your team reviews and signs in Studio before anything reaches the vault.",
-    points: [
-      "Drafts land in a Studio signing inbox",
-      "Wallet or multisig approval for every change",
-    ],
+      "Agents draft lender reports, borrowing-base updates and covenant attestations for your team.",
+    points: ["Review in Studio", "Wallet or multisig approval"],
   },
   {
     icon: Bot,
@@ -50,12 +43,8 @@ const steps: AgentStep[] = [
     status: "Beta",
     statusTone: "live",
     description:
-      "An underwriting companion for borrower-document review and credit-memo drafts. Ongoing facility monitoring is planned.",
-    points: [
-      "Document review and risk flags",
-      "Credit memo drafts",
-      "Ongoing monitoring planned",
-    ],
+      "An AI companion for credit underwriting. Facility monitoring is planned.",
+    points: ["Document review and risk flags", "Credit memo drafts"],
   },
 ];
 
@@ -151,7 +140,7 @@ const AgentsSection = ({
         />
 
         <div className="grid items-stretch gap-8 lg:grid-cols-[1fr_1.05fr] lg:gap-14">
-          <ol className="relative flex flex-col gap-3 sm:gap-4">
+          <ol className="relative flex min-w-0 flex-col gap-3">
             {steps.map((step, index) => (
               <motion.li
                 key={step.name}
@@ -162,48 +151,44 @@ const AgentsSection = ({
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className={cn(
-                  "flex flex-1 flex-col ui-radius-card border p-5 sm:p-6",
+                  "ui-radius-card border p-4 sm:p-5 lg:flex-1",
                   index === 0
                     ? "border-[color:rgb(114_244_201_/_0.28)] bg-[color:rgb(114_244_201_/_0.05)]"
                     : "border-[color:rgb(255_255_255_/_0.08)] bg-[color:rgb(255_255_255_/_0.025)]"
                 )}
               >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center ui-radius-card border border-[color:rgb(255_255_255_/_0.1)] bg-[color:rgb(255_255_255_/_0.04)] text-[var(--color-brand-bright)]">
-                      <step.icon size={18} />
+                <div className="flex items-start justify-between gap-2 sm:gap-3">
+                  <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center ui-radius-card border border-[color:rgb(255_255_255_/_0.1)] bg-[color:rgb(255_255_255_/_0.04)] text-[var(--color-brand-bright)] sm:h-10 sm:w-10">
+                      <step.icon size={18} aria-hidden="true" />
                     </span>
-                    <div>
-                      <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:rgb(255_255_255_/_0.45)]">
+                    <div className="min-w-0">
+                      <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--color-text-muted-inverse)]">
                         Step 0{index + 1}
                       </div>
-                      <h3 className="text-lg font-semibold tracking-tight">
+                      <h3 className="text-base font-semibold tracking-tight sm:text-lg">
                         {step.name}
                       </h3>
                     </div>
                   </div>
                   <span
                     className={cn(
-                      "shrink-0 rounded-full border px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.14em]",
+                      "shrink-0 whitespace-nowrap rounded-full border px-2 py-1 font-mono text-[9.5px] uppercase tracking-[0.14em] sm:px-2.5",
                       statusClass[step.statusTone]
                     )}
                   >
                     {step.status}
                   </span>
                 </div>
-                <p className="mt-4 text-sm leading-relaxed text-[color:rgb(255_255_255_/_0.68)]">
+                <p className="mt-2.5 text-base leading-normal text-[color:rgb(255_255_255_/_0.75)] sm:text-sm">
                   {step.description}
                 </p>
-                <ul className="mt-auto hidden flex-wrap gap-x-5 gap-y-2 pt-4 sm:flex">
+                <ul role="list" className="mt-2.5 flex flex-wrap gap-1.5">
                   {step.points.map((point) => (
                     <li
                       key={point}
-                      className="flex items-center gap-2 text-[12.5px] text-[color:rgb(255_255_255_/_0.8)]"
+                      className="max-w-full rounded-sm bg-white/5 px-2 py-0.5 text-sm leading-5 text-[var(--color-text-muted-inverse)]"
                     >
-                      <Check
-                        size={13}
-                        className="text-[var(--color-brand-alt)]"
-                      />
                       {point}
                     </li>
                   ))}
@@ -212,11 +197,9 @@ const AgentsSection = ({
             ))}
           </ol>
 
-          <div className="flex flex-col">
-            <div className="flex-1">
-              <AgentSession />
-            </div>
-            <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex min-w-0 flex-col gap-4">
+            <AgentSession compact />
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <p className="max-w-sm text-xs leading-relaxed text-[color:rgb(255_255_255_/_0.5)]">
                 Credit decisions stay with the facility's curator. Agents never
                 move funds; every state change is signed by a person.

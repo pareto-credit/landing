@@ -19,7 +19,7 @@ export default function ProductPage({ id }: { id: ProductPageId }) {
   return (
     <div
       className={`product-page ${
-        vaults ? "credit-vaults-page" : ""
+        vaults ? "credit-vaults-page subpage-layout" : ""
       } min-h-screen overflow-x-clip bg-[var(--color-bg-page)] font-sans text-[var(--color-text-inverse)]`}
     >
       <Navbar />

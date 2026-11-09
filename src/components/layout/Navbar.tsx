@@ -316,6 +316,7 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
     <>
       <nav
         data-site-navbar
+        data-scrolled={isScrolled}
         data-mobile-open={mobileMenuOpen}
         data-hero-tone={isDarkHero ? "dark" : undefined}
         className={`fixed inset-x-0 top-0 z-[60] w-full border-b transition-[background-color,border-color,padding,backdrop-filter,box-shadow,color] duration-300 ${

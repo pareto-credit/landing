@@ -3,7 +3,7 @@
   background: var(--color-bg-light-alt);
   color: var(--color-text-primary);
 }
-.product-page > nav[data-mobile-open="false"] {
+.product-page:not(.credit-vaults-page) > nav[data-mobile-open="false"] {
   background: rgb(244 247 245 / 0.97);
 }
 .product-section {
