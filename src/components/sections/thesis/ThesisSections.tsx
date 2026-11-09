@@ -132,7 +132,6 @@ const ThesisSections = () => (
       title={<>Let’s talk about <span className="text-[var(--color-text-muted)]">your credit facility</span></>}
       description="Tell us what you’re building. We’ll help you find the right setup."
       submitLabel="Send enquiry"
-      disclaimer="This page is for information only and is not an offer or solicitation to lend, borrow or invest. Market figures are third-party estimates as of the dates shown."
     />
   </>
 );
