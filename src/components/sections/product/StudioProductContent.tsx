@@ -1,6 +1,6 @@
 import { useRef, type ReactNode } from "react";
 import { useInView, useReducedMotion } from "framer-motion";
-import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { requestContact } from "../../../lib/siteNavigation";
 import { usePageVisibility } from "../../../hooks/usePageVisibility";
 import { buttonClassName } from "../../ui/buttonStyles";
@@ -9,7 +9,6 @@ import AgentsSection from "../AgentsSection";
 import AudienceReveal from "../persona/AudienceReveal";
 import StudioFeatureTour from "./StudioFeatureTour";
 import StudioCapabilityArt from "./StudioCapabilityArt";
-import ScrollHighlight from "./ScrollHighlight";
 import "./studio-product.css";
 
 function CapabilityCard({
@@ -107,26 +106,6 @@ export default function StudioProductContent() {
       </section>
 
       <section
-        className="product-section studio-product-narrative"
-        aria-label="A connected credit workflow"
-      >
-        <SectionContainer>
-          <p className="product-kicker">
-            From first terms to ongoing operations
-          </p>
-          <ScrollHighlight
-            as="h2"
-            className="studio-product-narrative__statement"
-            text="Designed to bring front-to-back loan management and a modern financing portal together in one integrated experience."
-          />
-          <div className="studio-product-narrative__foot">
-            <span>One environment. The full operating cycle.</span>
-            <ArrowDown size={20} aria-hidden="true" />
-          </div>
-        </SectionContainer>
-      </section>
-
-      <section
         className="product-section studio-product-capabilities"
         aria-labelledby="capabilities-title"
       >
@@ -136,6 +115,7 @@ export default function StudioProductContent() {
               variant="collection"
               eyebrow="Built around the work"
               titleId="capabilities-title"
+              description="Define facility terms, coordinate participants, and track requests, repayments, and reporting in one workspace."
               title={
                 <>
                   The full operating cycle.{" "}
