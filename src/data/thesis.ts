@@ -86,11 +86,8 @@ export const thesisAnatomy = {
   },
 } as const;
 
-/** The same six layers used by the Clients pages; keep the descriptions aligned. */
+/** The same six layers used by the Clients pages. */
 export const thesisFacilityLayers = getPersonaPage("originators").framework.items;
-
-/** Illustrative structures, subject to the chosen implementation and agreements. */
-export const thesisFacilityOptions = ["Term", "Revolving", "Collateralized", "Asset-backed"] as const;
 
 export type ThesisProblemVideo = "market" | "desk" | "documents";
 
@@ -120,21 +117,25 @@ export const thesisProblems: Array<{
 export const thesisReasons = [
   {
     title: "Familiar",
+    label: "Facility terms",
     diagram: "terms",
     copy: "Defined terms, named participants and facility-specific agreements. A structure credit teams already understand.",
   },
   {
     title: "Verifiable",
+    label: "Onchain records",
     diagram: "records",
     copy: "Follow onchain positions and transactions alongside borrower and curator reporting.",
   },
   {
     title: "Efficient",
+    label: "Servicing",
     diagram: "servicing",
     copy: "Connect facility setup, lender requests and servicing in one operating workflow.",
   },
   {
     title: "Composable",
+    label: "Integrations",
     diagram: "network",
     copy: "Connect applications, facility mechanics and supported DeFi venues as your program develops.",
   },

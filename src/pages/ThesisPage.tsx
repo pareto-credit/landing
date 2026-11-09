@@ -18,7 +18,9 @@ const ThesisPage = () => {
           aria-labelledby="hero-title"
         >
           <SectionContainer className="thesis-hero">
-            <h1 id="hero-title" tabIndex={-1}>Credit is moving onchain</h1>
+            <h1 id="hero-title" tabIndex={-1}>
+              Credit is moving <span className="text-[var(--color-text-muted-inverse)]">onchain</span>
+            </h1>
             <PageLink
               to="/thesis"
               hash="structured-credit"

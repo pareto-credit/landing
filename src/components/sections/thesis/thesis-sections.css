@@ -1,20 +1,15 @@
 /* Thesis uses the landing's section headers, surfaces and Live Vaults radii. */
 .thesis-chapter--light { background: var(--color-bg-light-alt); color: var(--color-text-primary); }
-.thesis-chapter--dark, .thesis-closing { background: var(--color-brand-mid); color: var(--color-text-inverse); }
-.thesis-chapter [data-section-header] h2, .thesis-closing [data-section-header] h2 { line-height: 1.06; letter-spacing: -.045em; text-wrap: balance; }
-.thesis-chapter--light [data-section-header] > div > div { color: var(--color-brand-deep); }
-.thesis-heading-secondary { color: var(--color-text-muted); }
-.thesis-chapter--dark [data-section-header] p, .thesis-closing [data-section-header] p { color: #bad0c3; }
-.thesis-chapter--dark .thesis-heading-secondary, .thesis-closing .thesis-heading-secondary { color: #a3c6b5; }
+.thesis-chapter--dark { --thesis-focus-color: var(--color-focus-on-dark); background: var(--color-brand-mid); color: var(--color-text-inverse); }
 .thesis-kicker { display: block; color: var(--color-brand-deep); font: 400 11px/1.5 var(--font-mono); letter-spacing: .1em; text-transform: uppercase; }
 .thesis-text-link { display: inline-flex; min-height: 44px; align-items: center; justify-content: space-between; gap: 20px; border-bottom: 1px solid var(--color-border-soft-strong); color: var(--color-brand-deep); font-size: 14px; font-weight: 500; text-align: left; text-decoration: none; cursor: pointer; }
 .thesis-text-link svg { flex-shrink: 0; transition: transform 200ms; }
 .thesis-text-link:hover svg { transform: translate(2px, -2px); }
 .thesis-text-link:hover { border-color: currentColor; }
-.thesis-source { display: inline-flex; min-height: 44px; align-items: center; gap: 8px; width: fit-content; font: 400 10px/1.5 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; text-decoration: none; }
+.thesis-source { display: inline-flex; min-height: 44px; align-items: center; gap: 6px; width: fit-content; max-width: 100%; color: var(--color-brand-deep); font: 400 .75rem/1.5 var(--font-mono); text-decoration: none; }
 .thesis-source svg { flex-shrink: 0; }
 .thesis-source:hover { text-decoration: underline; text-underline-offset: 4px; }
-.thesis-chapter a:focus-visible, .thesis-chapter button:focus-visible, .thesis-lifecycle__panel:focus-visible, .thesis-closing a:focus-visible { outline: 2px solid var(--color-brand-alt); outline-offset: 4px; border-radius: var(--radius-control); }
+.thesis-chapter a:focus-visible, .thesis-chapter button:focus-visible, .thesis-lifecycle__panel:focus-visible { outline: 2px solid var(--thesis-focus-color); outline-offset: 4px; border-radius: var(--radius-control); }
 .thesis-diagram { position: relative; color: var(--color-brand-deep); }
 .thesis-diagram svg { display: block; width: 100%; height: auto; }
 .thesis-diagram :is(path, polygon, rect, circle) { vector-effect: non-scaling-stroke; }
@@ -60,14 +55,6 @@
 .thesis-lifecycle__copy .thesis-lifecycle__lead { color: var(--color-text-secondary); font-size: 18px; line-height: 1.5; }
 .thesis-lifecycle__copy .thesis-text-link { margin-top: 24px; }
 .thesis-lifecycle__end { display: block; margin-top: 24px; padding-top: 12px; border-top: 1px solid var(--color-border-soft); font-size: 13px; color: var(--color-brand-deep); }
-.thesis-section-action { display: flex; justify-content: flex-end; margin-top: 24px; }
-
-.thesis-closing { text-align: center; }
-.thesis-closing [data-section-header] { margin-bottom: 28px; }
-.thesis-closing__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
-.thesis-closing__primary { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; gap: 20px; padding: 12px 24px; border: 1px solid var(--color-button-primary-border); border-radius: var(--radius-control); background: var(--color-brand-soft); color: var(--color-brand-dark); font: 500 14px/1.4 var(--font-mono); text-transform: uppercase; text-decoration: none; transition: background-color 200ms; }
-.thesis-closing__primary:hover { background: var(--color-brand-alt); }
-.thesis-closing__disclaimer { max-width: 850px; margin: 40px auto 0; padding-top: 24px; border-top: 1px solid rgb(178 214 193 / .18); color: #a7c0b2; font-size: 12px; line-height: 1.7; }
 
 @media (max-width: 1023px) {
   .thesis-responsibilities { gap: 12px; }
@@ -98,29 +85,24 @@
   .thesis-lifecycle__copy h3 { font-size: 30px; }
   .thesis-lifecycle__copy p { font-size: 16px; }
   .thesis-lifecycle__copy .thesis-text-link { margin-top: 20px; }
-  .thesis-section-action { justify-content: flex-start; }
 }
 
 @media (max-width: 639px) {
-  .thesis-source { font-size: 10px; }
   .thesis-svg-detail { display: none; }
   .thesis-lifecycle__tabs button { gap: 5px; font-size: 12px; }
   .thesis-lifecycle__tabs button > span { font-size: 9px; }
   .thesis-lifecycle__copy { min-height: 340px; padding: 24px; }
   .thesis-lifecycle__copy .thesis-lifecycle__lead { font-size: 18px; }
   .thesis-text-link { font-size: 14px; }
-  .thesis-closing__actions { flex-direction: column; align-items: stretch; }
-  .thesis-closing__primary { gap: 12px; padding-inline: 16px; font-size: 12px; }
 }
 
 @media (max-width: 359px) {
-  .thesis-chapter [data-section-header] h2, .thesis-closing [data-section-header] h2 { font-size: 32px; }
   .thesis-responsibilities li { grid-template-columns: minmax(0, 1fr) 72px; padding: 20px; }
   .thesis-lifecycle__copy { padding: 20px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .thesis-diagram__signal { animation: none; }
-  .thesis-text-link svg, .thesis-lifecycle__tabs button, .thesis-closing__primary { transition: none; }
+  .thesis-text-link svg, .thesis-lifecycle__tabs button { transition: none; }
   .thesis-text-link:hover svg { transform: none; }
 }

@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { useInView, useReducedMotion } from "framer-motion";
 import { thesisReasons } from "../../../data/thesis";
 import { usePageVisibility } from "../../../hooks/usePageVisibility";
+import FeatureCard from "../../ui/FeatureCard";
 import ThesisDiagram from "./ThesisDiagram";
 
 const ThesisReasons = () => {
@@ -11,12 +12,19 @@ const ThesisReasons = () => {
   const pageVisible = usePageVisibility();
 
   return (
-    <ol ref={ref} className="thesis-reasons" data-animate={inView && pageVisible && !reducedMotion || undefined}>
-      {thesisReasons.map((reason) => (
-        <li key={reason.title} className={`thesis-reason thesis-reason--${reason.title.toLowerCase()}`}>
-          <div className="thesis-reason__visual"><ThesisDiagram kind={reason.diagram} /></div>
-          <h3>{reason.title}</h3>
-          <p>{reason.copy}</p>
+    <ol ref={ref} role="list" className="feature-card-grid thesis-reasons" data-animate={inView && pageVisible && !reducedMotion || undefined}>
+      {thesisReasons.map((reason, index) => (
+        <li key={reason.title}>
+          <FeatureCard
+            id={`thesis-reason-${reason.diagram}`}
+            className="thesis-reason"
+            index={String(index + 1).padStart(2, "0")}
+            label={reason.label}
+            title={reason.title}
+            description={reason.copy}
+          >
+            <ThesisDiagram kind={reason.diagram} />
+          </FeatureCard>
         </li>
       ))}
     </ol>

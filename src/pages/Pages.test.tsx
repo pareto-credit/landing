@@ -1,13 +1,12 @@
-import { fireEvent, render, screen, within } from "@testing-library/react";
-import { beforeAll, describe, expect, it, vi } from "vitest";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { thesisChapters, thesisStats } from "../data/thesis";
-import { consumePendingContactInterest } from "../lib/siteNavigation";
 import ThesisPage from "./ThesisPage";
 
 vi.mock("../components/layout/Navbar", () => ({ default: () => <nav data-testid="navbar" /> }));
 vi.mock("../components/layout/Footer", () => ({ default: () => <footer data-testid="footer" /> }));
 
-beforeAll(() => {
+beforeEach(() => {
   class IntersectionObserverStub {
     observe() {}
     unobserve() {}
@@ -19,13 +18,18 @@ beforeAll(() => {
   vi.stubGlobal("IntersectionObserver", IntersectionObserverStub);
 });
 
+afterEach(() => {
+  vi.restoreAllMocks();
+  vi.unstubAllGlobals();
+});
+
 describe("ThesisPage", () => {
   it("opens with one claim and removes the inline chapter legend", () => {
     render(<ThesisPage />);
 
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      /^credit is moving onchain$/i,
-    );
+    const heading = screen.getByRole("heading", { level: 1 });
+    expect(heading).toHaveTextContent(/^credit is moving onchain$/i);
+    expect(within(heading).getByText("onchain")).toHaveClass("text-[var(--color-text-muted-inverse)]");
     expect(screen.queryByRole("navigation", { name: "Contents" })).not.toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Read the thesis" })).toHaveAttribute("href", "/thesis#structured-credit");
   });
@@ -43,13 +47,22 @@ describe("ThesisPage", () => {
     expect(screen.getByLabelText("The gap")).toHaveTextContent("<2%");
   });
 
-  it("keeps every chapter destination focusable", () => {
+  it("keeps chapter destinations focusable and visible chapter eyebrows unnumbered", () => {
     render(<ThesisPage />);
     for (const chapter of thesisChapters) {
       const section = document.getElementById(chapter.id);
       const heading = document.getElementById(`${chapter.id}-title`);
+      const header = section?.querySelector<HTMLElement>("[data-section-header]");
       expect(section).toHaveAttribute("aria-labelledby", heading?.id);
       expect(heading).toHaveAttribute("tabindex", "-1");
+      if (chapter.id === "constraints") {
+        expect(header).toBeNull();
+        expect(heading).toHaveClass("sr-only");
+        continue;
+      }
+      expect(header).toContainElement(heading);
+      expect(within(header!).getByText(chapter.label, { exact: true })).toBeVisible();
+      expect(heading?.querySelector("span")).toHaveClass("text-[var(--color-text-muted)]");
     }
   });
 
@@ -66,18 +79,40 @@ describe("ThesisPage", () => {
   it("explains how a facility adapts through the same layers as Clients", () => {
     render(<ThesisPage />);
     const chapter = document.getElementById("structured-credit")!;
+    const heading = within(chapter).getByRole("heading", { name: "One vault. Your combination" });
+    expect(within(heading).getByText("Your combination")).toHaveClass("text-[var(--color-text-muted)]");
     expect(within(chapter).getByText("Credit Vault")).toBeInTheDocument();
     expect(within(chapter).getByRole("group", { name: "Connect modules to Credit Vault" })).toBeInTheDocument();
     expect(within(chapter).getAllByRole("checkbox")).toHaveLength(6);
   });
 
-  it("carries Studio access to the appropriate contact inquiry", () => {
+  it("scrolls to the local contact form on every Structured Credit CTA click", async () => {
     render(<ThesisPage />);
-    const cta = screen.getByRole("link", { name: "Request Studio access" });
-    expect(cta).toHaveAttribute("href", "/#contact");
-    cta.addEventListener("click", (event) => event.preventDefault());
+
+    const chapter = document.getElementById("structured-credit")!;
+    const cta = within(chapter).getByRole("link", { name: "Discuss your facility" });
+    expect(cta.previousElementSibling).toBe(within(chapter).getByRole("status"));
+    expect(cta).toHaveAttribute("href", "/thesis#contact");
+    const contact = screen.getByRole("region", { name: "Let’s talk about your credit facility" });
+    expect(contact).toHaveAttribute("id", "contact");
+    expect(contact.previousElementSibling).toHaveAttribute("id", "why-pareto");
+    const contactHeading = within(contact).getByRole("heading", { level: 2 });
+    expect(within(contactHeading).getByText("your credit facility")).toHaveClass("text-[var(--color-text-muted)]");
+    const form = within(contact).getByRole("form");
+    const interest = within(form).getByRole("combobox", { name: /interested in/i });
+    expect(interest).toHaveValue("Borrowing");
+    expect(within(form).getByRole("button", { name: "Send enquiry" })).toBeInTheDocument();
+    expect(screen.queryByText("Pareto today")).not.toBeInTheDocument();
+
+    vi.stubGlobal("matchMedia", () => ({ matches: false }));
+    vi.spyOn(contact, "getBoundingClientRect").mockReturnValue(new DOMRect(0, 1000, 800, 600));
+    const scrollTo = vi.spyOn(window, "scrollTo").mockImplementation(() => undefined);
+
     fireEvent.click(cta);
-    expect(consumePendingContactInterest()).toBe("Pareto Studio (Core)");
+    expect(scrollTo).toHaveBeenCalledWith({ top: 928, behavior: "smooth" });
+    await waitFor(() => expect(interest).toHaveFocus());
+    fireEvent.click(cta);
+    expect(scrollTo).toHaveBeenCalledTimes(2);
   });
 
   it("keeps Why Pareto to four value propositions and removes retired destinations", () => {
