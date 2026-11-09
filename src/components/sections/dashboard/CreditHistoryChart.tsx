@@ -5,8 +5,8 @@ import { carryForwardCreditHistory } from "../../../lib/creditHistory";
 import "./credit-history-chart.css";
 
 const series = [
-  { key: "creditExtendedUsd", label: "Credit Extended", color: "#254839" },
-  { key: "tvlUsd", label: "Outstanding Loans", color: "#6d9983" },
+  { key: "creditExtendedUsd", label: "Credit Extended", color: "var(--color-brand-deep)" },
+  { key: "tvlUsd", label: "Outstanding Loans", color: "var(--credit-history-secondary)" },
 ] as const;
 type SeriesKey = (typeof series)[number]["key"];
 const ranges = ["1M", "3M", "1Y", "All"] as const;
@@ -30,6 +30,64 @@ const fullDate = (date: string) =>
     timeZone: "UTC",
   });
 const day = (date: string) => Date.parse(date + "T00:00:00Z");
+const dayMs = 86_400_000;
+
+interface PlotPoint {
+  time: number;
+  x: number;
+  y: number;
+}
+
+interface DatedValue {
+  time: number;
+  value: number;
+}
+
+function weightedMovingAverage(observations: DatedValue[], days: number) {
+  // Taper both ends of the window so a single jump enters and leaves gradually.
+  const cumulativeWeights = [0];
+  for (let age = 0; age < days; age++) {
+    cumulativeWeights.push(cumulativeWeights[age] + Math.min(age + 1, days - age));
+  }
+  const samples: DatedValue[] = [];
+  for (const [index, point] of observations.entries()) {
+    const previous = observations[index - 1];
+    if (previous) {
+      const gap = (point.time - previous.time) / dayMs;
+      // A held value settles the average after one window, even in a long gap.
+      for (let offset = 1; offset < Math.min(days, gap); offset++) {
+        samples.push({ time: previous.time + offset * dayMs, value: previous.value });
+      }
+      if (gap > days) {
+        samples.push({ time: point.time - dayMs, value: previous.value });
+      }
+    }
+    samples.push(point);
+  }
+
+  return samples.map((point, index) => {
+    let covered = 0;
+    let end = point.time + dayMs;
+    let total = 0;
+    for (let cursor = index; cursor >= 0 && covered < days; cursor--) {
+      const sample = samples[cursor];
+      const nextCovered = Math.min(days, covered + (end - sample.time) / dayMs);
+      total += sample.value * (cumulativeWeights[nextCovered] - cumulativeWeights[covered]);
+      covered = nextCovered;
+      end = sample.time;
+    }
+    return { time: point.time, value: total / cumulativeWeights[covered] };
+  });
+}
+
+function dailyChange(from: PlotPoint | undefined, to: PlotPoint | undefined) {
+  return from && to && to.time - from.time === dayMs ? to.y - from.y : 0;
+}
+
+// The harmonic mean keeps the curve within adjacent values and flattens extrema.
+function monotoneTangent(before: number, after: number) {
+  return before * after > 0 ? (2 * before * after) / (before + after) : 0;
+}
 
 export default function CreditHistoryChart({
   points,
@@ -53,7 +111,7 @@ export default function CreditHistoryChart({
     if (!container.current || typeof ResizeObserver === "undefined") return;
     const observer = new ResizeObserver(([entry]) => {
       if (entry.contentRect.width > 0)
-        setWidth(Math.max(280, Math.round(entry.contentRect.width)));
+        setWidth(Math.max(240, Math.round(entry.contentRect.width)));
     });
     observer.observe(container.current);
     return () => observer.disconnect();
@@ -62,7 +120,7 @@ export default function CreditHistoryChart({
     const last = continuousPoints.at(-1);
     if (!last || range === "All") return continuousPoints;
     const days = range === "1M" ? 30 : range === "3M" ? 92 : 366;
-    const cutoff = day(last.date) - days * 86_400_000;
+    const cutoff = day(last.date) - days * dayMs;
     const filtered = continuousPoints.filter(point => day(point.date) >= cutoff);
     const previous = continuousPoints.filter(point => day(point.date) < cutoff).at(-1);
     if (previous && filtered[0] && day(filtered[0].date) > cutoff) {
@@ -91,39 +149,54 @@ export default function CreditHistoryChart({
   );
   const scale = 10 ** Math.floor(Math.log10(maxValue));
   const max = Math.ceil((maxValue * 1.12) / scale) * scale;
-  const x = (date: string) =>
+  const x = (time: number) =>
     margin.left +
     (finish === start
       ? plotWidth / 2
-      : ((day(date) - start) / (finish - start)) * plotWidth);
+      : ((time - start) / (finish - start)) * plotWidth);
   const y = (value: number) => margin.top + plotHeight * (1 - value / max);
   const active =
     inspection === null
       ? null
       : visible[Math.min(inspection, visible.length - 1)];
-  const line = (key: SeriesKey) => {
-    let path = "";
-    let connected = false;
-    for (const point of visible) {
-      const value = point[key];
-      if (value === null) {
-        connected = false;
-        continue;
-      }
-      path += connected
-        ? `H${x(point.date).toFixed(2)}V${y(value).toFixed(2)} `
-        : `M${x(point.date).toFixed(2)},${y(value).toFixed(2)} `;
-      connected = true;
-    }
-    return path.trim();
-  };
-  const area = (key: SeriesKey) => {
-    const observations = visible.filter((point) => point[key] !== null);
-    const first = observations[0];
-    const last = observations.at(-1);
-    if (!first || !last) return "";
-    return `${line(key)} L${x(last.date).toFixed(2)},${y(0).toFixed(2)} H${x(first.date).toFixed(2)}Z`;
-  };
+  const spanDays = (finish - start) / dayMs;
+  const smoothingDays = spanDays >= 180 ? 14 : spanDays >= 60 ? 7 : 3;
+  const trends = useMemo(() => series.map((item) => {
+    const observations = visible.flatMap((point) => {
+      const value = point[item.key];
+      return value === null ? [] : [{ time: day(point.date), value }];
+    });
+    return { ...item, values: weightedMovingAverage(observations, smoothingDays) };
+  }), [smoothingDays, visible]);
+  const plots = trends.filter((item) => selected[item.key]).map((item) => {
+    const coordinates = item.values.map(({ time, value }) => ({ time, x: x(time), y: y(value) }));
+    const line = coordinates
+      .map((point, index) => {
+        const previous = coordinates[index - 1];
+        const px = point.x.toFixed(2);
+        const py = point.y.toFixed(2);
+        if (!previous) return `M${px},${py}`;
+
+        const change = point.y - previous.y;
+        if (change === 0) return `H${px}`;
+        const startTangent = monotoneTangent(
+          dailyChange(coordinates[index - 2], previous), change
+        );
+        const endTangent = monotoneTangent(
+          change, dailyChange(point, coordinates[index + 1])
+        );
+        const third = (point.x - previous.x) / 3;
+        const controlStart = `${(previous.x + third).toFixed(2)},${(previous.y + startTangent / 3).toFixed(2)}`;
+        const controlEnd = `${(point.x - third).toFixed(2)},${(point.y - endTangent / 3).toFixed(2)}`;
+        return `C${controlStart} ${controlEnd} ${px},${py}`;
+      })
+      .join(" ");
+    const first = coordinates[0];
+    const area = first
+      ? `${line} V${y(0).toFixed(2)} H${first.x.toFixed(2)}Z`
+      : "";
+    return { ...item, line, area };
+  });
   const rangeDescription = visible.length
     ? `${fullDate(visible[0].date)} to ${fullDate(visible.at(-1)!.date)}.`
     : "No historical observations available.";
@@ -138,7 +211,7 @@ export default function CreditHistoryChart({
       <div className="credit-history-heading">
         <div>
           <p className="data-dashboard-eyebrow">Public facility activity</p>
-          <h2 id={`${id}-title`}>Credit over time</h2>
+          <h2 id={`${id}-title`}>Credit <span className="text-[var(--color-text-muted)]">over time</span></h2>
         </div>
         <div
           className="credit-history-ranges"
@@ -207,7 +280,7 @@ export default function CreditHistoryChart({
         ) : (
           <span>
             {hasData
-              ? "Explore the chart to inspect dated observations."
+              ? "Explore the chart to inspect dated values."
               : "USD · Protocol history"}
           </span>
         )}
@@ -290,8 +363,9 @@ export default function CreditHistoryChart({
             <title>Credit activity over time</title>
             <desc id={`${id}-description`}>
               {enabled.map((item) => item.label).join(" and ")} in USD.{" "}
-              {rangeDescription} Use left and right arrow keys to inspect
-              observations. Missing values carry forward the last known value;
+              {rangeDescription} The lines show a {smoothingDays}-day weighted moving average.
+              Use left and right arrow keys to inspect dated values. Missing values
+              carry forward the last known value;
               values before the first report remain unavailable.
             </desc>
             <defs>
@@ -309,11 +383,11 @@ export default function CreditHistoryChart({
                 </linearGradient>
               ))}
             </defs>
-            {enabled.map((item) => (
+            {plots.map((item) => (
               <path
                 key={`${item.key}-${range}-area`}
                 className="credit-history-area"
-                d={area(item.key)}
+                d={item.area}
                 fill={`url(#${id}-${item.key}-fill)`}
                 aria-hidden="true"
               />
@@ -371,16 +445,16 @@ export default function CreditHistoryChart({
                 );
               }
             )}
-            {enabled.map((item) => (
+            {plots.map((item) => (
               <path
                 key={`${item.key}-${range}`}
                 className="credit-history-series"
                 pathLength={1}
                 data-series={item.key}
-                d={line(item.key)}
+                d={item.line}
                 fill="none"
                 stroke={item.color}
-                strokeWidth="3"
+                strokeWidth="2.25"
                 strokeLinejoin="round"
                 strokeLinecap="round"
                 aria-hidden="true"
@@ -388,8 +462,8 @@ export default function CreditHistoryChart({
             ))}
             {active ? (
               <line
-                x1={x(active.date)}
-                x2={x(active.date)}
+                x1={x(day(active.date))}
+                x2={x(day(active.date))}
                 y1={margin.top}
                 y2={height - margin.bottom}
                 className="credit-history-guide"
@@ -406,11 +480,11 @@ export default function CreditHistoryChart({
                   <circle
                     key={`${item.key}-${point.date}`}
                     data-series={item.key}
-                    cx={x(point.date)}
+                    cx={x(day(point.date))}
                     cy={y(point[item.key]!)}
                     r="4"
                     fill={item.color}
-                    stroke="#f8faf7"
+                    stroke="var(--color-surface)"
                     strokeWidth="2"
                     aria-hidden="true"
                   />
@@ -426,7 +500,8 @@ export default function CreditHistoryChart({
           {asOf && hasData ? ` · Through ${asOf}` : ""}
         </span>
         <span>
-          Outstanding Loans uses vault TVL · Gaps use the last reported value
+          {hasData ? `${smoothingDays}-day weighted moving average · ` : ""}
+          Outstanding Loans uses vault TVL
         </span>
       </figcaption>
     </figure>

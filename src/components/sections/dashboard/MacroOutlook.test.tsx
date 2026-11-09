@@ -1,48 +1,47 @@
 import { render, screen, within } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
-import MacroOutlook from "./MacroOutlook";
+import { describe, expect, it } from "vitest";
+import type { ProtocolRate } from "../../../lib/macroMarkets";
+import MacroOutlook, { ReferenceRates } from "./MacroOutlook";
 
-vi.mock("../../../hooks/useMacroMarkets", () => ({
-  useMacroMarkets: () => ({
-    benchmarks: {
-      isPending: false,
-      data: {
-        sofr30d: { value: 0, asOf: "2026-10-28" },
-        sofr: { value: 4.1, asOf: "2026-10-27" },
-        effr: { value: 3.9, asOf: "2026-10-27" },
-      },
-    },
-    treasury: { isPending: false },
-    protocolRates: [
-      {
-        protocol: "Aave",
-        asset: "USDC",
-        supplyApy: 0,
-        borrowApy: 5,
-        asOf: null,
-        retrievedAt: "2026-10-28T10:00:00Z",
-        sourceUrl: "https://app.aave.com/",
-        coverage: "Aave V3 · Ethereum Core market",
-      },
-      {
-        protocol: "Morpho",
-        asset: "USDT",
-        supplyApy: null,
-        borrowApy: null,
-        asOf: null,
-        retrievedAt: null,
-        sourceUrl: "https://app.morpho.org/",
-        coverage: "Top 100 listed Ethereum markets",
-      },
-    ],
-  }),
-}));
+const benchmarks = {
+  isPending: false,
+  data: {
+    sofr30d: { value: 0, asOf: "2026-10-28" },
+    sofr: { value: 4.1, asOf: "2026-10-27" },
+    effr: { value: 3.9, asOf: "2026-10-27" },
+  },
+};
+
+const protocolRates: ProtocolRate[] = [
+  {
+    protocol: "Aave",
+    asset: "USDC",
+    supplyApy: 0,
+    borrowApy: 5,
+    asOf: null,
+    retrievedAt: "2026-10-28T10:00:00Z",
+    marketCount: 1,
+    sourceUrl: "https://app.aave.com/",
+    coverage: "Aave V3 · Ethereum Core market",
+  },
+  {
+    protocol: "Morpho",
+    asset: "USDT",
+    supplyApy: null,
+    borrowApy: null,
+    asOf: null,
+    retrievedAt: null,
+    marketCount: 0,
+    sourceUrl: "https://app.morpho.org/",
+    coverage: "Top 100 listed Ethereum markets",
+  },
+];
 
 describe("MacroOutlook", () => {
   it("retains a dated zero rate and working observations when another source is unavailable", () => {
-    render(<MacroOutlook />);
+    render(<ReferenceRates benchmarks={benchmarks} treasury={{ isPending: false }} />);
     expect(
-      screen.getByRole("heading", { name: "Rates & credit markets" })
+      screen.getByRole("heading", { name: "Reference rates" })
     ).toBeInTheDocument();
     expect(
       screen.getByText("30-day average SOFR").parentElement
@@ -56,7 +55,7 @@ describe("MacroOutlook", () => {
   });
 
   it("labels supply and borrow APY separately and discloses missing publication timestamps", () => {
-    render(<MacroOutlook />);
+    render(<MacroOutlook protocolRates={protocolRates} />);
     const aave = screen
       .getByRole("heading", { name: "Aave USDC" })
       .closest("article")!;

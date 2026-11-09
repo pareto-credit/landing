@@ -18,9 +18,6 @@ vi.mock("../components/layout/Navbar", () => ({ default: () => <nav /> }));
 vi.mock("../components/layout/Footer", () => ({ default: () => <footer /> }));
 vi.mock("../hooks/useProductsData", () => ({ useProductsData: vi.fn() }));
 vi.mock("../hooks/useCreditHistory", () => ({ useCreditHistory: vi.fn() }));
-vi.mock("../components/sections/dashboard/MacroOutlook", () => ({
-  default: () => <section aria-label="Rates and credit markets" />,
-}));
 
 const productsData: ReturnType<typeof useProductsData> = {
   metrics: { creditExtended: 1_400_000_000, outstandingLoans: 150_000_000 },
@@ -61,6 +58,12 @@ function renderDashboard(sofr30d: MarketObservation = benchmarkRates.sofr30d) {
     ...benchmarkRates,
     sofr30d,
   });
+  queryClient.setQueryData(["macro-markets", "treasury"], {
+    twoYear: { value: null, asOf: null },
+    tenYear: { value: null, asOf: null },
+  });
+  queryClient.setQueryData(["macro-markets", "aave-ethereum-core"], []);
+  queryClient.setQueryData(["macro-markets", "morpho-ethereum"], []);
   return render(
     <QueryClientProvider client={queryClient}>
       <DataDashboardPage />
@@ -87,6 +90,9 @@ describe("DataDashboardPage", () => {
   it("shows the reported TVL-weighted APR and its premium instead of facility and asset counts", () => {
     renderDashboard();
 
+    const source = screen.getByRole("status");
+    expect(source).toHaveTextContent("From the Pareto API");
+    expect(source).toHaveClass("ui-frost-chip");
     const average = screen.getByText("Average interest rate").closest("div")!;
     const premium = screen.getByText("Premium over 30-day SOFR").closest("div")!;
     expect(within(average).getByText("7.25%")).toBeInTheDocument();
@@ -210,16 +216,20 @@ describe("DataDashboardPage", () => {
     expect(
       within(table).getByRole("columnheader", { name: "TVL" })
     ).toHaveAttribute("aria-sort", "descending");
-    const macro = screen.getByRole("region", {
-      name: "Rates and credit markets",
-    });
+    const referenceRates = screen.getByRole("region", { name: "Reference rates" });
+    const history = screen.getByRole("figure", { name: "Credit over time" });
+    const lending = screen.getByRole("region", { name: "Stablecoin lending" });
+    expect(referenceRates.parentElement).toBe(history.parentElement);
     expect(
       container
         .querySelector(".data-dashboard-metrics")!
-        .compareDocumentPosition(macro) & Node.DOCUMENT_POSITION_FOLLOWING
+        .compareDocumentPosition(referenceRates) & Node.DOCUMENT_POSITION_FOLLOWING
     ).toBeTruthy();
     expect(
-      macro.compareDocumentPosition(table) & Node.DOCUMENT_POSITION_FOLLOWING
+      referenceRates.compareDocumentPosition(table) & Node.DOCUMENT_POSITION_FOLLOWING
+    ).toBeTruthy();
+    expect(
+      table.compareDocumentPosition(lending) & Node.DOCUMENT_POSITION_FOLLOWING
     ).toBeTruthy();
   });
 
@@ -269,8 +279,9 @@ describe("DataDashboardPage", () => {
     fireEvent.click(screen.getByRole("button", { name: "3M" }));
     const plot = screen.getByRole("img", { name: "Credit activity over time" });
     fireEvent.keyDown(plot, { key: "ArrowRight" });
+    const history = screen.getByRole("figure", { name: "Credit over time" });
     expect(
-      screen.getByText("Oct 28, 2026", { selector: "time" })
+      within(history).getByText("Oct 28, 2026", { selector: "time" })
     ).toBeInTheDocument();
   });
 
@@ -289,6 +300,7 @@ describe("DataDashboardPage", () => {
     expect(screen.getByRole("status")).toHaveTextContent(
       /partial data.*unavailable/i
     );
+    expect(screen.getByRole("status")).toHaveClass("data-dashboard-source--fallback");
     expect(
       screen.queryByText(/illustrative snapshot/i)
     ).not.toBeInTheDocument();

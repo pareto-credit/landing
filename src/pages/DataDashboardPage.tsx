@@ -1,15 +1,14 @@
 import { Coins, Layers3, Network, Wallet, type LucideIcon } from "lucide-react";
 import Footer from "../components/layout/Footer";
 import Navbar from "../components/layout/Navbar";
-import { buttonClassName } from "../components/ui/buttonStyles";
 import { SectionContainer } from "../components/ui/Section";
 import { PARETO_APP_URL, PARETO_DOCS_URL } from "../data/brand";
 import { useProductsData } from "../hooks/useProductsData";
-import { useBenchmarkRates } from "../hooks/useMacroMarkets";
+import { useMacroMarkets } from "../hooks/useMacroMarkets";
 import { useCreditHistory } from "../hooks/useCreditHistory";
 import { useDashboardMotion } from "../hooks/useDashboardMotion";
 import CreditHistoryChart from "../components/sections/dashboard/CreditHistoryChart";
-import MacroOutlook from "../components/sections/dashboard/MacroOutlook";
+import MacroOutlook, { ReferenceRates } from "../components/sections/dashboard/MacroOutlook";
 import "./data-dashboard.css";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
@@ -68,7 +67,6 @@ function Metric({
 }
 
 export default function DataDashboardPage() {
-  const heroMotion = useDashboardMotion<HTMLElement>();
   const tableMotion = useDashboardMotion<HTMLDivElement>();
   const {
     metrics,
@@ -79,7 +77,7 @@ export default function DataDashboardPage() {
     availability,
     isPartialData,
   } = useProductsData();
-  const benchmarks = useBenchmarkRates();
+  const { benchmarks, treasury, protocolRates } = useMacroMarkets();
   const history = useCreditHistory();
   const orderedVaults = [...vaults].sort((a, b) => {
     const first =
@@ -114,40 +112,26 @@ export default function DataDashboardPage() {
       : null;
   const hasPremium = premiumBps !== null && Number.isFinite(premiumBps);
   const isPremiumLoading = isLoading || (hasAverageInterestRate && benchmarks.isPending);
+  const hasSourceWarning = !isLoading && (isUsingFallback || isPartialData);
 
   return (
     <div className="min-h-screen overflow-x-clip bg-[var(--color-bg-page)] font-sans text-[var(--color-text-inverse)]">
       <Navbar />
       <main className="data-dashboard-main">
-        <section className="data-dashboard-hero" aria-labelledby="hero-title" {...heroMotion}>
-          <SectionContainer>
-            <p className="data-dashboard-eyebrow">Data dashboard</p>
-            <div className="data-dashboard-hero__layout">
-              <div>
-                <h1 id="hero-title" tabIndex={-1}>
-                  Credit, <span className="data-dashboard-title-accent">in view</span>
-                </h1>
-                <p className="data-dashboard-hero__intro">
-                  Protocol metrics and public Credit Vaults, in one place.
-                  Explore the facilities behind the figures.
-                </p>
-              </div>
-              <a
-                className={buttonClassName("primary", "md")}
-                href={PARETO_APP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Explore the app <Arrow />
-              </a>
+        <SectionContainer size="full" className="data-dashboard-workspace">
+          <header className="data-dashboard-header">
+            <div>
+              <p className="data-dashboard-eyebrow">Data dashboard</p>
+              <h1 id="hero-title" tabIndex={-1}>
+                Credit, <span className="text-[var(--color-text-muted)]">in view</span>
+              </h1>
+              <p className="data-dashboard-header__intro">
+                Protocol metrics and public Credit Vaults, in one place.
+              </p>
             </div>
 
             <div
-              className={`data-dashboard-source${
-                !isLoading && (isUsingFallback || isPartialData)
-                  ? " data-dashboard-source--fallback"
-                  : ""
-              }`}
+              className={`data-dashboard-source ${hasSourceWarning ? "data-dashboard-source--fallback" : "ui-frost-chip"}`}
               role="status"
               aria-live="polite"
             >
@@ -183,70 +167,69 @@ export default function DataDashboardPage() {
                 <span>From the Pareto API</span>
               )}
             </div>
+          </header>
 
-            <dl
-              className="data-dashboard-metrics"
-              aria-label="Protocol overview"
-              aria-busy={isLoading || isPremiumLoading}
-            >
-              <Metric
-                icon={Network}
-                label="Credit extended"
-                value={
-                  hasCreditExtended ? formatUsd(metrics.creditExtended) : "—"
-                }
-                description={
-                  hasCreditExtended
-                    ? "Protocol aggregate · USD"
-                    : "Unavailable · USD"
-                }
-                isLoading={isLoading}
-              />
-              <Metric
-                icon={Wallet}
-                label="Total value locked"
-                value={hasTvl ? formatUsd(metrics.outstandingLoans) : "—"}
-                description={
-                  hasTvl ? "Protocol aggregate · USD" : "Unavailable · USD"
-                }
-                isLoading={isLoading}
-              />
-              <Metric
-                icon={Layers3}
-                label="Average interest rate"
-                value={
-                  hasAverageInterestRate ? `${rateFormatter.format(weightedAverageApr)}%` : "—"
-                }
-                description={
-                  hasAverageInterestRate ? "TVL-weighted · APR" : "Unavailable · TVL-weighted APR"
-                }
-                isLoading={isLoading}
-              />
-              <Metric
-                icon={Coins}
-                label="Premium over 30-day SOFR"
-                value={
-                  hasPremium ? `${basisPointsFormatter.format(premiumBps)} bps` : "—"
-                }
-                description="Average APR less 30-day SOFR"
-                isLoading={isPremiumLoading}
-              />
-            </dl>
+          <dl
+            className="data-dashboard-metrics"
+            aria-label="Protocol overview"
+            aria-busy={isLoading || isPremiumLoading}
+          >
+            <Metric
+              icon={Network}
+              label="Credit extended"
+              value={
+                hasCreditExtended ? formatUsd(metrics.creditExtended) : "—"
+              }
+              description={
+                hasCreditExtended
+                  ? "Protocol aggregate · USD"
+                  : "Unavailable · USD"
+              }
+              isLoading={isLoading}
+            />
+            <Metric
+              icon={Wallet}
+              label="Total value locked"
+              value={hasTvl ? formatUsd(metrics.outstandingLoans) : "—"}
+              description={
+                hasTvl ? "Protocol aggregate · USD" : "Unavailable · USD"
+              }
+              isLoading={isLoading}
+            />
+            <Metric
+              icon={Layers3}
+              label="Average interest rate"
+              value={
+                hasAverageInterestRate ? `${rateFormatter.format(weightedAverageApr)}%` : "—"
+              }
+              description={
+                hasAverageInterestRate ? "TVL-weighted · APR" : "Unavailable · TVL-weighted APR"
+              }
+              isLoading={isLoading}
+            />
+            <Metric
+              icon={Coins}
+              label="Premium over 30-day SOFR"
+              value={
+                hasPremium ? `${basisPointsFormatter.format(premiumBps)} bps` : "—"
+              }
+              description="Average APR less 30-day SOFR"
+              isLoading={isPremiumLoading}
+            />
+          </dl>
+
+          <div className="data-dashboard-analysis">
             <CreditHistoryChart {...history} />
-          </SectionContainer>
-        </section>
+            <ReferenceRates benchmarks={benchmarks} treasury={treasury} />
+          </div>
 
-        <MacroOutlook />
-
-        <section
-          className="data-dashboard-facilities"
-          aria-labelledby="facilities-title"
-        >
-          <SectionContainer>
+          <section aria-labelledby="facilities-title">
             <div className="data-dashboard-section-heading">
               <div>
                 <p className="data-dashboard-eyebrow">Facility overview</p>
-                <h2 id="facilities-title">Public credit facilities</h2>
+                <h2 id="facilities-title">
+                  Public <span className="text-[var(--color-text-muted)]">credit facilities</span>
+                </h2>
               </div>
               <p>
                 Ordered by TVL. Explore each vault in the app for its full terms
@@ -373,8 +356,10 @@ export default function DataDashboardPage() {
                 Read documentation <Arrow />
               </a>
             </div>
-          </SectionContainer>
-        </section>
+          </section>
+
+          <MacroOutlook protocolRates={protocolRates} />
+        </SectionContainer>
       </main>
       <Footer />
     </div>

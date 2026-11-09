@@ -62,4 +62,26 @@ describe("credit history continuity", () => {
     expect(inspection.getByText("$50")).toBeInTheDocument();
     bounds.mockRestore();
   });
+
+  it("plots a calendar-day average while inspection reports the original observation", () => {
+    render(<CreditHistoryChart {...feed} points={[
+      { date: "2026-10-25", creditExtendedUsd: 100, tvlUsd: 50 },
+      { date: "2026-10-26", creditExtendedUsd: 120, tvlUsd: 40 },
+      { date: "2026-10-29", creditExtendedUsd: 200, tvlUsd: 60 },
+    ]} />);
+    const chart = screen.getByRole("img", { name: "Credit activity over time" });
+    const lines = chart.querySelectorAll("path[data-series]");
+    expect(lines).toHaveLength(2);
+    for (const line of lines) {
+      expect(line.getAttribute("d")?.match(/[A-Z]/g)).toEqual(["M", "C", "C", "C", "C"]);
+    }
+    const lastTrendY = Number(lines[0].getAttribute("d")?.split(",").at(-1));
+    fireEvent.keyDown(chart, { key: "End" });
+    expect(screen.getByText("$200")).toBeInTheDocument();
+    const lastReportedY = Number(chart.querySelector('circle[data-series="creditExtendedUsd"]')?.getAttribute("cy"));
+    const baseline = Number(chart.querySelector(".credit-history-grid")?.getAttribute("y1"));
+    // The last three calendar days carry 120, 120, and 200 with weights 1, 2, 1.
+    expect((baseline - lastTrendY) / (baseline - lastReportedY)).toBeCloseTo(140 / 200, 3);
+    expect(chart.closest("figure")?.querySelector("figcaption")).toHaveTextContent("3-day weighted moving average");
+  });
 });

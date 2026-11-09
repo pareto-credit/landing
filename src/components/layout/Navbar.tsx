@@ -203,8 +203,8 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
   const suppressMenuFocus = useRef(false);
   const menuCloseTimer = useRef<number | null>(null);
   const shouldReduceMotion = useReducedMotion();
-  const isDarkHero =
-    location.pathname.replace(/\/$/, "") === "/thesis" && !isScrolled;
+  const pathname = location.pathname.replace(/\/$/, "");
+  const isDarkHero = pathname === "/thesis" && !isScrolled;
 
   const cancelMenuClose = () => {
     if (menuCloseTimer.current !== null) {
@@ -327,7 +327,10 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
             : "border-black/0 bg-transparent py-6 text-[var(--color-text-primary)]"
         }`}
       >
-        <SectionContainer className="relative z-[60] flex items-center justify-between">
+        <SectionContainer
+          size={pathname === "/data" ? "full" : undefined}
+          className="relative z-[60] flex items-center justify-between"
+        >
           <PageLink
             to="/"
             hash="hero"
