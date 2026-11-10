@@ -2,14 +2,12 @@ import towerDesktop from "../../../assets/images/credit-vaults/tower-1920.jpg";
 import towerLarge from "../../../assets/images/credit-vaults/tower-3840.jpg";
 import towerImage from "../../../assets/images/ecosystem/market-makers-card.jpg";
 import towerImageAvif from "../../../assets/images/ecosystem/market-makers-card.avif";
-import { requestContact } from "../../../lib/siteNavigation";
 import AgentsSection from "../AgentsSection";
 import {
   CreditStructureCards,
   type StructureDetailContent,
 } from "../StructuresSection";
 import { SectionContainer, SectionHeader } from "../../ui/Section";
-import { buttonClassName } from "../../ui/buttonStyles";
 import FacilityCardArt from "./FacilityCardArt";
 import SubpageHeader from "../SubpageHeader";
 
@@ -115,29 +113,7 @@ const CreditVaultsContent = () => (
         large: towerLarge,
         largeWidth: 3840,
       }}
-    >
-      <a href="#facilities" className={buttonClassName("primary", "md")}>
-        Explore the structures
-      </a>
-      <a
-        href="#contact"
-        className={buttonClassName("white", "md")}
-        onClick={(event) => {
-          if (
-            event.button === 0 &&
-            !event.metaKey &&
-            !event.ctrlKey &&
-            !event.shiftKey &&
-            !event.altKey
-          ) {
-            event.preventDefault();
-            requestContact("Borrowing");
-          }
-        }}
-      >
-        Discuss your facility
-      </a>
-    </SubpageHeader>
+    />
 
     <section
       id="facilities"

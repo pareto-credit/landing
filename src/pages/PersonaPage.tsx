@@ -81,12 +81,10 @@ const TwoToneTitle = ({
 const ContactLink = ({
   label,
   interest,
-  variant,
   to,
 }: {
   label: string;
   interest: ContactInterest;
-  variant: "primary" | "white";
   to: PersonaPath;
 }) => (
   <PageLink
@@ -104,7 +102,7 @@ const ContactLink = ({
         requestContact(interest);
       }
     }}
-    className={buttonClassName(variant, "md")}
+    className={buttonClassName("primary", "md")}
   >
     {label}
   </PageLink>
@@ -112,7 +110,6 @@ const ContactLink = ({
 
 export default function PersonaPage({ id }: { id: PersonaPageId }) {
   const page = getPersonaPage(id);
-  const { primaryCta, secondaryCta } = page;
 
   return (
     <div className="subpage-layout min-h-screen overflow-x-clip bg-[var(--color-bg-page)] font-sans text-[var(--color-text-inverse)]">
@@ -132,41 +129,7 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
           }
           description={page.intro}
           image={headerImages[id]}
-        >
-          {primaryCta.interest ? (
-            <ContactLink
-              label={primaryCta.label}
-              interest={primaryCta.interest}
-              to={page.path}
-              variant="primary"
-            />
-          ) : (
-            <a
-              href={primaryCta.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={buttonClassName("primary", "md")}
-            >
-              {primaryCta.label}
-            </a>
-          )}
-          {secondaryCta.interest ? (
-            <ContactLink
-              label={secondaryCta.label}
-              interest={secondaryCta.interest}
-              to={page.path}
-              variant="white"
-            />
-          ) : (
-            <PageLink
-              to={secondaryCta.to ?? (secondaryCta.home ? "/" : page.path)}
-              hash={secondaryCta.hash}
-              className={buttonClassName("white", "md")}
-            >
-              {secondaryCta.label}
-            </PageLink>
-          )}
-        </SubpageHeader>
+        />
 
         <section
           id="benefits"
@@ -240,7 +203,6 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
                     label={page.frameworkCta.label}
                     interest={page.frameworkCta.interest}
                     to={page.path}
-                    variant="primary"
                   />
                 }
               />

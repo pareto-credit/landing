@@ -18,19 +18,6 @@ export interface PersonaPageContent {
   title: string;
   titleMuted: string;
   intro: string;
-  primaryCta: {
-    label: string;
-    interest?: ContactInterest;
-    hash?: string;
-    href?: string;
-  };
-  secondaryCta: {
-    label: string;
-    to?: "/studio" | "/credit-vaults";
-    interest?: ContactInterest;
-    hash?: string;
-    home?: boolean;
-  };
   benefits: {
     title: string;
     titleMuted?: string;
@@ -60,14 +47,6 @@ export const personaPages: PersonaPageContent[] = [
     titleMuted: "your business",
     intro:
       "Connect with institutional and onchain capital through credit infrastructure built around your business.",
-    primaryCta: {
-      label: "Discuss your financing needs",
-      interest: "Borrowing",
-    },
-    secondaryCta: {
-      label: "Explore Pareto Studio",
-      to: "/studio",
-    },
     benefits: {
       title: "A foundation for growth",
       titleMuted: "for growth",
@@ -233,11 +212,6 @@ export const personaPages: PersonaPageContent[] = [
     titleMuted: "on credit",
     intro:
       "Explore credit opportunities, review facility terms and follow onchain activity in one connected experience.",
-    primaryCta: {
-      label: "Explore live facilities",
-      href: "https://app.pareto.credit/",
-    },
-    secondaryCta: { label: "Talk to us", interest: "Lending" },
     benefits: {
       title: "A clearer view of credit",
       titleMuted: "of credit",

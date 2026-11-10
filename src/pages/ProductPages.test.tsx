@@ -179,13 +179,10 @@ describe("dedicated product pages", () => {
           .toHaveAttribute("href", "/");
         expect(within(breadcrumb).getByText("Credit Vaults"))
           .toHaveAttribute("aria-current", "page");
-        expect(
-          within(hero).getByRole("link", { name: "Explore the structures" })
-        ).toHaveAttribute("href", "#facilities");
-        fireEvent.click(
-          within(hero).getByRole("link", { name: "Discuss your facility" })
-        );
-        expect(select).toHaveValue("Borrowing");
+        expect(within(hero).getAllByRole("link")).toEqual([
+          within(breadcrumb).getByRole("link", { name: "Home" }),
+        ]);
+        expect(within(hero).queryByRole("button")).not.toBeInTheDocument();
         expect(screen.getByRole("button", { name: "Send enquiry" })).toBeInTheDocument();
       }
       const ids = Array.from(container.querySelectorAll("[id]")).map(

@@ -133,6 +133,10 @@ describe("audience pages", () => {
           id === "originators" ? "Originators" : "Capital Allocators"
         )
       ).toHaveAttribute("aria-current", "page");
+      expect(within(hero).getAllByRole("link")).toEqual([
+        within(breadcrumb).getByRole("link", { name: "Home" }),
+      ]);
+      expect(within(hero).queryByRole("button")).not.toBeInTheDocument();
       expect(within(hero).queryByTestId("studio-desk")).not.toBeInTheDocument();
       expect(within(hero).queryByRole("table")).not.toBeInTheDocument();
       expect(within(hero).queryByRole("tablist")).not.toBeInTheDocument();
@@ -153,21 +157,18 @@ describe("audience pages", () => {
 
   it("routes Originators enquiries to its local form without losing entered details", async () => {
     render(<PersonaPage id="originators" />);
-    expect(screen.getByRole("link", { name: "Explore Pareto Studio" })).toHaveAttribute("href", "/studio");
     const name = screen.getByRole("textbox", { name: /full name/i });
     const interest = screen.getByRole("combobox", { name: /interested in/i });
     fireEvent.change(name, { target: { value: "Alex Example" } });
-    for (const label of ["Discuss your financing needs", "Discuss your facility"]) {
-      fireEvent.change(interest, { target: { value: "Lending" } });
-      const cta = screen.getByRole("link", { name: label });
-      expect(cta).toHaveAttribute("href", "/originators#contact");
-      fireEvent.click(cta);
-      expect(interest).toHaveValue("Borrowing");
-      expect(name).toHaveValue("Alex Example");
-      expect(scrollToSection).toHaveBeenCalledWith("contact");
-      await waitFor(() => expect(interest).toHaveFocus());
-      expect(consumePendingContactInterest()).toBeNull();
-    }
+    fireEvent.change(interest, { target: { value: "Lending" } });
+    const cta = screen.getByRole("link", { name: "Discuss your facility" });
+    expect(cta).toHaveAttribute("href", "/originators#contact");
+    fireEvent.click(cta);
+    expect(interest).toHaveValue("Borrowing");
+    expect(name).toHaveValue("Alex Example");
+    expect(scrollToSection).toHaveBeenCalledWith("contact");
+    await waitFor(() => expect(interest).toHaveFocus());
+    expect(consumePendingContactInterest()).toBeNull();
   });
 
   it("gives capital allocators a local enquiry form with the risk disclosure", () => {
@@ -185,27 +186,22 @@ describe("audience pages", () => {
     const organization = screen.getByRole("textbox", { name: /organization/i });
     const interest = screen.getByRole("combobox", { name: /interested in/i });
     fireEvent.change(organization, { target: { value: "Example Fund" } });
-    for (const label of ["Talk to us", "Discuss your allocation"]) {
-      fireEvent.change(interest, { target: { value: "Borrowing" } });
-      const cta = screen.getByRole("link", { name: label });
-      expect(cta).toHaveAttribute("href", "/capital-providers#contact");
-      fireEvent.click(cta);
-      expect(interest).toHaveValue("Lending");
-      expect(organization).toHaveValue("Example Fund");
-      expect(scrollToSection).toHaveBeenCalledWith("contact");
-      await waitFor(() => expect(interest).toHaveFocus());
-      expect(consumePendingContactInterest()).toBeNull();
-    }
+    fireEvent.change(interest, { target: { value: "Borrowing" } });
+    const cta = screen.getByRole("link", { name: "Discuss your allocation" });
+    expect(cta).toHaveAttribute("href", "/capital-providers#contact");
+    fireEvent.click(cta);
+    expect(interest).toHaveValue("Lending");
+    expect(organization).toHaveValue("Example Fund");
+    expect(scrollToSection).toHaveBeenCalledWith("contact");
+    await waitFor(() => expect(interest).toHaveFocus());
+    expect(consumePendingContactInterest()).toBeNull();
   });
 
-  it("gives capital allocators layers to evaluate and a direct route to the Lender App", () => {
+  it("gives capital allocators layers to evaluate", () => {
     render(<PersonaPage id="capital-providers" />);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
       "A broader perspective on credit"
     );
-    expect(
-      screen.getByRole("link", { name: "Explore live facilities" })
-    ).toHaveAttribute("href", "https://app.pareto.credit/");
     const tabs = screen.getByRole("tablist", {
       name: "Understand every layer",
     });

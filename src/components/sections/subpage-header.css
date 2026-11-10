@@ -100,27 +100,9 @@
   font-size: clamp(1rem, 1.4vw, 1.125rem);
   line-height: 1.6;
 }
-.subpage-header__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.625rem;
-  margin-top: 1.25rem;
-}
-.subpage-header__actions > a {
-  max-width: 100%;
-  min-height: 44px;
-  text-align: center;
-  white-space: normal;
-}
 .subpage-header__breadcrumbs a:focus-visible {
   outline: 2px solid var(--color-focus-ring);
   outline-offset: 3px;
-}
-@media (width < 640px) {
-  .subpage-header__actions {
-    max-width: 24rem;
-    flex-direction: column;
-  }
 }
 @media (max-width: 767px) {
   .subpage-header {
