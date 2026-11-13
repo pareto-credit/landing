@@ -14,3 +14,8 @@ third-party hosts at runtime.
   https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png
 - `btc.png` — 128 × 128, 4,918 bytes:
   https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/bitcoin/info/logo.png
+
+## Live Vault token logos
+
+`WBTC.svg`, `WETH.svg`, and `cbBTC.svg` are copied from
+`apps/lender-app/public/images/tokens/` in the Pareto `idle-multiverse` repository.

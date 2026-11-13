@@ -222,6 +222,28 @@
   overflow-wrap: anywhere;
 }
 
+.vault-card__metrics > .vault-card__asset-row {
+  align-items: center;
+}
+
+.vault-card__assets {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 5px;
+  min-width: 0;
+}
+
+.vault-card__asset {
+  flex: none;
+  color: var(--color-text-muted);
+}
+
+.vault-card__asset img {
+  border-radius: 50%;
+  object-fit: contain;
+}
+
 .vault-card__apy-prefix {
   margin-right: 6px;
   color: var(--color-text-muted);

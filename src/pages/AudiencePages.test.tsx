@@ -100,7 +100,7 @@ describe("audience pages", () => {
   });
 
   it.each(["originators", "capital-providers"] as const)(
-    "uses the photo header and breadcrumbs on %s",
+    "uses the photo header, breadcrumbs and exploration link on %s",
     (id) => {
       const { container } = render(<PersonaPage id={id} />);
       expect(
@@ -133,9 +133,14 @@ describe("audience pages", () => {
           id === "originators" ? "Originators" : "Capital Allocators"
         )
       ).toHaveAttribute("aria-current", "page");
-      expect(within(hero).getAllByRole("link")).toEqual([
-        within(breadcrumb).getByRole("link", { name: "Home" }),
-      ]);
+      const [label, href] =
+        id === "originators"
+          ? ["Explore Pareto Studio", "/studio"]
+          : ["Explore live vaults", "/#products"];
+      expect(within(hero).getByRole("link", { name: label })).toHaveAttribute(
+        "href",
+        href,
+      );
       expect(within(hero).queryByRole("button")).not.toBeInTheDocument();
       expect(within(hero).queryByTestId("studio-desk")).not.toBeInTheDocument();
       expect(within(hero).queryByRole("table")).not.toBeInTheDocument();

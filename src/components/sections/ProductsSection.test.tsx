@@ -74,7 +74,10 @@ describe("ProductsSection", () => {
     const family = within(
       screen.getByRole("link", { name: /open falconx credit vault vault/i })
     );
-    expect(family.getByText("USDC · WETH · cbBTC")).toBeInTheDocument();
+    for (const symbol of ["USDC", "WETH", "cbBTC"]) {
+      expect(family.getByRole("img", { name: symbol })).toHaveAttribute("src");
+      expect(family.queryByText(symbol)).not.toBeInTheDocument();
+    }
     expect(family.getByText("Assets")).toBeInTheDocument();
     expect(family.getByText("up to").closest("dd")).toHaveTextContent(
       "up to9.50%"
@@ -83,6 +86,8 @@ describe("ProductsSection", () => {
       screen.getByRole("link", { name: /open single facility vault/i })
     );
     expect(single.getByText("Asset")).toBeInTheDocument();
+    expect(single.getByRole("img", { name: "USD" })).toBeInTheDocument();
+    expect(single.queryByText("USD")).not.toBeInTheDocument();
     expect(single.queryByText("up to")).not.toBeInTheDocument();
   });
 

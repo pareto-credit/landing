@@ -128,6 +128,15 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
             </>
           }
           description={page.intro}
+          action={
+            <PageLink
+              to={page.heroCta.to}
+              hash={page.heroCta.hash}
+              className={buttonClassName("primary", "md")}
+            >
+              {page.heroCta.label}
+            </PageLink>
+          }
           image={headerImages[id]}
         />
 

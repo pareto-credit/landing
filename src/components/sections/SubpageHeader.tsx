@@ -18,6 +18,7 @@ interface SubpageHeaderProps {
   titleId: string;
   title: ReactNode;
   description: string;
+  action?: ReactNode;
   image: HeaderImage;
 }
 
@@ -27,6 +28,7 @@ export default function SubpageHeader({
   titleId,
   title,
   description,
+  action,
   image,
 }: SubpageHeaderProps) {
   return (
@@ -68,6 +70,7 @@ export default function SubpageHeader({
             {title}
           </h1>
           <p>{description}</p>
+          {action && <div className="mt-6">{action}</div>}
         </div>
       </SectionContainer>
     </section>

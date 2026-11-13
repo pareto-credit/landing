@@ -18,6 +18,7 @@ export interface PersonaPageContent {
   title: string;
   titleMuted: string;
   intro: string;
+  heroCta: { label: string; to: "/" | "/studio"; hash?: "products" };
   benefits: {
     title: string;
     titleMuted?: string;
@@ -47,6 +48,7 @@ export const personaPages: PersonaPageContent[] = [
     titleMuted: "your business",
     intro:
       "Connect with institutional and onchain capital through credit infrastructure built around your business.",
+    heroCta: { label: "Explore Pareto Studio", to: "/studio" },
     benefits: {
       title: "A foundation for growth",
       titleMuted: "for growth",
@@ -212,6 +214,7 @@ export const personaPages: PersonaPageContent[] = [
     titleMuted: "on credit",
     intro:
       "Explore credit opportunities, review facility terms and follow onchain activity in one connected experience.",
+    heroCta: { label: "Explore live vaults", to: "/", hash: "products" },
     benefits: {
       title: "A clearer view of credit",
       titleMuted: "of credit",
