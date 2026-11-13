@@ -6,6 +6,7 @@ import Navbar from "../components/layout/Navbar";
 import { SectionContainer } from "../components/ui/Section";
 import { PageLink } from "../components/ui/PageLink";
 import ThesisHeroBackground from "../components/sections/thesis/ThesisHeroBackground";
+import ThesisIntro from "../components/sections/thesis/ThesisIntro";
 
 const ThesisPage = () => {
   return (
@@ -23,11 +24,11 @@ const ThesisPage = () => {
             </h1>
             <PageLink
               to="/thesis"
-              hash="structured-credit"
+              hash="thesis-intro"
               className="thesis-hero__read"
               onClick={(event) => {
                 if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-                window.requestAnimationFrame(() => document.getElementById("structured-credit-title")?.focus({ preventScroll: true }));
+                window.requestAnimationFrame(() => document.getElementById("thesis-intro-copy")?.focus({ preventScroll: true }));
               }}
             >
               Read the thesis<ArrowDown size={18} aria-hidden="true" />
@@ -36,6 +37,7 @@ const ThesisPage = () => {
           <ThesisHeroBackground />
         </section>
 
+        <ThesisIntro />
         <ThesisSections />
       </main>
       <Footer />

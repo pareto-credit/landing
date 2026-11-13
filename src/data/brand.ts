@@ -25,4 +25,7 @@ export const CONTACT_INTERESTS = [
   "Integration",
 ] as const;
 
-export type ContactInterest = (typeof CONTACT_INTERESTS)[number];
+export const GENERAL_CONTACT_INTEREST = "General enquiry";
+export const INVESTOR_CONTACT_INTEREST = "Investing in Pareto";
+
+export type ContactInterest = (typeof CONTACT_INTERESTS)[number] | typeof GENERAL_CONTACT_INTEREST | typeof INVESTOR_CONTACT_INTEREST;

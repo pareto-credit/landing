@@ -14,14 +14,16 @@ const fieldLabelClassName =
 const fieldInputClassName =
   "ui-radius-control w-full border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] placeholder:opacity-100 transition-colors focus:border-[var(--color-brand-deep)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-ring)]";
 
-const isContactInterest = (value: unknown): value is ContactInterest =>
+const isContactInterest = (value: unknown, options: readonly ContactInterest[]): value is ContactInterest =>
   typeof value === "string" &&
-  (CONTACT_INTERESTS as readonly string[]).includes(value);
+  (options as readonly string[]).includes(value);
 
 interface ContactSectionProps {
   defaultInterest?: ContactInterest;
+  interestOptions?: readonly ContactInterest[];
+  eyebrow?: string;
   title?: ReactNode;
-  description?: string;
+  description?: ReactNode;
   submitLabel?: string;
   className?: string;
   disclaimer?: string;
@@ -29,6 +31,8 @@ interface ContactSectionProps {
 
 const ContactSection = ({
   defaultInterest = CONTACT_INTERESTS[0],
+  interestOptions = CONTACT_INTERESTS,
+  eyebrow = "GET IN TOUCH",
   title,
   description,
   submitLabel = "Request Access",
@@ -36,20 +40,21 @@ const ContactSection = ({
   disclaimer,
 }: ContactSectionProps) => {
   const titleId = useId();
-  const [interest, setInterest] = useState<ContactInterest>(
-    () => consumePendingContactInterest() ?? defaultInterest
-  );
+  const [interest, setInterest] = useState<ContactInterest>(() => {
+    const pending = consumePendingContactInterest();
+    return isContactInterest(pending, interestOptions) ? pending : defaultInterest;
+  });
 
   useEffect(() => {
     const handleInterest = (event: Event) => {
       const detail = (event as CustomEvent<unknown>).detail;
-      if (isContactInterest(detail)) setInterest(detail);
+      if (isContactInterest(detail, interestOptions)) setInterest(detail);
     };
 
     window.addEventListener(CONTACT_INTEREST_EVENT, handleInterest);
     return () =>
       window.removeEventListener(CONTACT_INTEREST_EVENT, handleInterest);
-  }, []);
+  }, [interestOptions]);
 
   return (
     <section
@@ -66,7 +71,7 @@ const ContactSection = ({
         <SectionHeader
           titleId={titleId}
           variant="centered"
-          eyebrow="GET IN TOUCH"
+          eyebrow={eyebrow}
           title={
             title ?? (
               <>
@@ -176,13 +181,13 @@ const ContactSection = ({
                     name="interestedIn"
                     value={interest}
                     onChange={(event) => {
-                      if (isContactInterest(event.target.value)) {
+                      if (isContactInterest(event.target.value, interestOptions)) {
                         setInterest(event.target.value);
                       }
                     }}
                     className={`${fieldInputClassName} cursor-pointer appearance-none pr-10`}
                   >
-                    {CONTACT_INTERESTS.map((option) => (
+                    {interestOptions.map((option) => (
                       <option key={option} value={option}>
                         {option}
                       </option>

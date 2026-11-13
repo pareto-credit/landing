@@ -148,6 +148,7 @@ describe("dedicated product pages", () => {
       expect(answers.every((answer) => answer.getAttribute("aria-expanded") === "false"))
         .toBe(true);
       const collateral = within(faq).getByRole("button", { name: "Does Pareto only support unsecured lending?" });
+      expect(answers.at(-1)).toBe(collateral);
       fireEvent.click(collateral);
       const answer = document.getElementById(collateral.getAttribute("aria-controls")!)!;
       expect(answer).toHaveAttribute("aria-hidden", "false");

@@ -43,7 +43,7 @@ export const testimonialList: Testimonial[] = [
   },
   {
     quote:
-      "Bridging the gap between centralized and decentralized finance has always been a core part of our mission and the Pareto team has helped us bring that vision to live.",
+      "Bridging the gap between centralized and decentralized finance has always been a core part of our mission and the Pareto team has helped us bring that vision to life.",
     name: "Craig Birchall",
     role: "Head of Credit (Americas)",
     company: "FalconX",

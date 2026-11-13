@@ -201,7 +201,7 @@ describe("DataDashboardPage", () => {
     });
     const { container } = renderDashboard();
     const table = screen.getByRole("table", {
-      name: /public credit facilities/i,
+      name: /pareto credit facilities/i,
     });
     expect(
       within(table)
@@ -226,10 +226,10 @@ describe("DataDashboardPage", () => {
         .compareDocumentPosition(referenceRates) & Node.DOCUMENT_POSITION_FOLLOWING
     ).toBeTruthy();
     expect(
-      referenceRates.compareDocumentPosition(table) & Node.DOCUMENT_POSITION_FOLLOWING
+      referenceRates.compareDocumentPosition(lending) & Node.DOCUMENT_POSITION_FOLLOWING
     ).toBeTruthy();
     expect(
-      table.compareDocumentPosition(lending) & Node.DOCUMENT_POSITION_FOLLOWING
+      lending.compareDocumentPosition(table) & Node.DOCUMENT_POSITION_FOLLOWING
     ).toBeTruthy();
   });
 
@@ -324,7 +324,7 @@ describe("DataDashboardPage", () => {
     expect(screen.getByText("$1.4B")).toBeInTheDocument();
     expect(screen.getByText("$150M")).toBeInTheDocument();
     const table = screen.getByRole("table", {
-      name: /public credit facilities/i,
+      name: /pareto credit facilities/i,
     });
     expect(within(table).getAllByText("—")).toHaveLength(2);
     expect(within(table).queryByText("$0")).not.toBeInTheDocument();
@@ -400,7 +400,7 @@ describe("DataDashboardPage", () => {
     expect(screen.getByText("$1.4B")).toBeInTheDocument();
     expect(screen.getByText("$150M")).toBeInTheDocument();
     const table = screen.getByRole("table", {
-      name: /public credit facilities/i,
+      name: /pareto credit facilities/i,
     });
     expect(
       within(table).getByRole("link", { name: /example credit vault/i })
@@ -427,7 +427,7 @@ describe("DataDashboardPage", () => {
     renderDashboard();
 
     const table = screen.getByRole("table", {
-      name: /public credit facilities/i,
+      name: /pareto credit facilities/i,
     });
     expect(within(table).getByText("Example Credit Vault")).toBeInTheDocument();
     expect(within(table).queryByRole("link")).not.toBeInTheDocument();

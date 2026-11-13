@@ -7,7 +7,6 @@ export const productQuestions: Record<
   Array<{ question: string; answer: string }>
 > = {
   "credit-vaults": [
-    collateralQuestion,
     {
       question: "What is a Credit Vault?",
       answer:
@@ -38,9 +37,9 @@ export const productQuestions: Record<
       answer:
         "Core, Pro and White-Glove offer different levels of infrastructure and support. Commercial terms are quoted for your setup. Lender exits follow each facility’s notice, cycle and settlement conditions; a withdrawal request does not imply immediate liquidity.",
     },
+    collateralQuestion,
   ],
   studio: [
-    collateralQuestion,
     {
       question: "Who is Pareto Studio for?",
       answer:
@@ -71,5 +70,6 @@ export const productQuestions: Record<
       answer:
         "Start with a conversation about your facility, team and operating requirements. We will help you select Core, Pro or White-Glove and provide the commercial terms for your setup.",
     },
+    collateralQuestion,
   ],
 };

@@ -122,7 +122,8 @@ export default function AudienceFramework({
               role="tabpanel"
               id={`${prefix}-panel-${layer.id}`}
               aria-labelledby={`${prefix}-tab-${layer.id}`}
-              hidden={active !== index}
+              aria-hidden={active !== index}
+              inert={active !== index}
               tabIndex={0}
               className="audience-framework__panel"
             >

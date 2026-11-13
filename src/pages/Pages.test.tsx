@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { thesisChapters, thesisStats } from "../data/thesis";
 import ThesisPage from "./ThesisPage";
@@ -6,9 +6,20 @@ import ThesisPage from "./ThesisPage";
 vi.mock("../components/layout/Navbar", () => ({ default: () => <nav data-testid="navbar" /> }));
 vi.mock("../components/layout/Footer", () => ({ default: () => <footer data-testid="footer" /> }));
 
+const intersectionCallbacks = new Map<Element, () => void>();
+
 beforeEach(() => {
+  intersectionCallbacks.clear();
   class IntersectionObserverStub {
-    observe() {}
+    private callback: IntersectionObserverCallback;
+    constructor(callback: IntersectionObserverCallback) {
+      this.callback = callback;
+    }
+    observe(target: Element) {
+      intersectionCallbacks.set(target, () => {
+        this.callback([{ target, isIntersecting: true } as IntersectionObserverEntry], this as unknown as IntersectionObserver);
+      });
+    }
     unobserve() {}
     disconnect() {}
     takeRecords() {
@@ -31,20 +42,67 @@ describe("ThesisPage", () => {
     expect(heading).toHaveTextContent(/^credit is moving onchain$/i);
     expect(within(heading).getByText("onchain")).toHaveClass("text-[var(--color-text-muted-inverse)]");
     expect(screen.queryByRole("navigation", { name: "Contents" })).not.toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Read the thesis" })).toHaveAttribute("href", "/thesis#structured-credit");
+    expect(screen.getByRole("link", { name: "Read the thesis" })).toHaveAttribute("href", "/thesis#thesis-intro");
+    const intro = document.getElementById("thesis-intro");
+    expect(intro?.previousElementSibling).toHaveAttribute("id", "hero");
+    expect(intro?.nextElementSibling).toHaveAttribute("id", "structured-credit");
+    expect(intro).toHaveTextContent("Asset-backed finance turns the cash flows");
+    expect(intro).toHaveTextContent("Pareto is building the infrastructure to bring that credit onchain");
+    expect(screen.queryByText("Investment thesis")).not.toBeInTheDocument();
   });
 
   it("cites a dated source for every market figure", () => {
     render(<ThesisPage />);
 
+    const opportunity = within(document.getElementById("opportunity")!);
+    const marketBars = within(opportunity.getByRole("list"));
     for (const stat of thesisStats) {
-      expect(screen.getByText(stat.value)).toBeInTheDocument();
+      expect(marketBars.getByText(stat.value)).toBeInTheDocument();
       expect(screen.getByRole("link", { name: new RegExp(stat.source.split(",")[0], "i") })).toHaveAttribute(
         "href",
         stat.url,
       );
     }
-    expect(screen.getByLabelText("The gap")).toHaveTextContent("<2%");
+    const gap = screen.getByLabelText("The gap");
+    expect(gap).toHaveTextContent("<2%");
+    const chart = within(gap).getByRole("group", { name: "Private and tokenized credit" });
+    const innerCircle = within(chart).getByRole("button", { name: "Tokenized credit: $38B" });
+    expect((Number.parseFloat(innerCircle.style.getPropertyValue("--circle-share")) / 100) ** 2).toBeCloseTo(38 / 2000, 6);
+  });
+
+  it("shows the value for the circle under the pointer and dismisses it on exit", () => {
+    const { container } = render(<ThesisPage />);
+    const privateCircle = screen.getByRole("button", { name: "Private credit: +$2T" });
+    const tokenizedCircle = screen.getByRole("button", { name: "Tokenized credit: $38B" });
+    const tooltip = container.querySelector<HTMLElement>(".thesis-scale__gap-tooltip")!;
+    expect(tooltip).toHaveAttribute("data-visible", "false");
+
+    fireEvent.pointerEnter(privateCircle, { clientX: 80, clientY: 120, pointerType: "mouse" });
+    expect(tooltip).toHaveAttribute("data-visible", "true");
+    expect(tooltip).toHaveTextContent("+$2T");
+    const originalY = tooltip.style.getPropertyValue("--tooltip-y");
+    fireEvent.pointerMove(privateCircle, { clientX: 100, clientY: 150, pointerType: "mouse" });
+    expect(tooltip.style.getPropertyValue("--tooltip-y")).not.toBe(originalY);
+
+    fireEvent.pointerLeave(privateCircle);
+    fireEvent.pointerEnter(tokenizedCircle, { clientX: 100, clientY: 170, pointerType: "mouse" });
+    expect(tooltip).toHaveTextContent("$38B");
+    fireEvent.pointerLeave(tokenizedCircle);
+    expect(tooltip).toHaveAttribute("data-visible", "false");
+  });
+
+  it("reveals each market bar when its own track enters view", () => {
+    const { container } = render(<ThesisPage />);
+    const tracks = [...container.querySelectorAll(".thesis-scale__track")];
+    expect(tracks).toHaveLength(thesisStats.length);
+
+    for (const track of tracks) {
+      expect(track).not.toHaveAttribute("data-revealed");
+      const enterView = intersectionCallbacks.get(track);
+      expect(enterView).toBeDefined();
+      act(() => enterView?.());
+      expect(track).toHaveAttribute("data-revealed", "true");
+    }
   });
 
   it("keeps chapter destinations focusable and visible chapter eyebrows unnumbered", () => {
@@ -76,43 +134,39 @@ describe("ThesisPage", () => {
     expect(within(constraints).queryByText("Distribution is siloed")).not.toBeInTheDocument();
   });
 
-  it("explains how a facility adapts through the same layers as Clients", () => {
+  it("demonstrates the reusable Credit Vault model", () => {
     render(<ThesisPage />);
     const chapter = document.getElementById("structured-credit")!;
-    const heading = within(chapter).getByRole("heading", { name: "One vault. Your combination" });
-    expect(within(heading).getByText("Your combination")).toHaveClass("text-[var(--color-text-muted)]");
+    expect(within(chapter).getByRole("heading", { name: "The business comes first" })).toBeInTheDocument();
+    expect(within(chapter).getByText(/^Pareto’s modular smart contract architecture/)).toBeVisible();
+    const heading = within(chapter).getByRole("heading", { name: "One vault. Different credit structures" });
+    expect(within(heading).getByText("Different credit structures")).toHaveClass("text-[var(--color-text-muted)]");
     expect(within(chapter).getByText("Credit Vault")).toBeInTheDocument();
     expect(within(chapter).getByRole("group", { name: "Connect modules to Credit Vault" })).toBeInTheDocument();
     expect(within(chapter).getAllByRole("checkbox")).toHaveLength(6);
   });
 
-  it("scrolls to the local contact form on every Structured Credit CTA click", async () => {
+  it("links the diagram to Why Pareto and offers general and investor enquiries", async () => {
     render(<ThesisPage />);
 
     const chapter = document.getElementById("structured-credit")!;
-    const cta = within(chapter).getByRole("link", { name: "Discuss your facility" });
-    expect(cta.previousElementSibling).toBe(within(chapter).getByRole("status"));
-    expect(cta).toHaveAttribute("href", "/thesis#contact");
-    const contact = screen.getByRole("region", { name: "Let’s talk about your credit facility" });
-    expect(contact).toHaveAttribute("id", "contact");
+    const cta = within(chapter).getByRole("link", { name: "Learn more" });
+    expect(cta).toHaveAttribute("href", "/thesis#why-pareto");
+    fireEvent.click(cta);
+    await waitFor(() => expect(document.getElementById("why-pareto-title")).toHaveFocus());
+
+    const contact = screen.getByRole("region", { name: "Get in touch" });
     expect(contact.previousElementSibling).toHaveAttribute("id", "why-pareto");
-    const contactHeading = within(contact).getByRole("heading", { level: 2 });
-    expect(within(contactHeading).getByText("your credit facility")).toHaveClass("text-[var(--color-text-muted)]");
-    const form = within(contact).getByRole("form");
+    expect(within(contact).getByRole("link", { name: "explore platform data" })).toHaveAttribute("href", "/data");
+    const form = within(contact).getByRole<HTMLFormElement>("form");
+    expect(form).toHaveAttribute("action", "https://formspree.io/f/xkgjlnwg");
     const interest = within(form).getByRole("combobox", { name: /interested in/i });
-    expect(interest).toHaveValue("Borrowing");
-    expect(within(form).getByRole("button", { name: "Send enquiry" })).toBeInTheDocument();
-    expect(screen.queryByText("Pareto today")).not.toBeInTheDocument();
-
-    vi.stubGlobal("matchMedia", () => ({ matches: false }));
-    vi.spyOn(contact, "getBoundingClientRect").mockReturnValue(new DOMRect(0, 1000, 800, 600));
-    const scrollTo = vi.spyOn(window, "scrollTo").mockImplementation(() => undefined);
-
-    fireEvent.click(cta);
-    expect(scrollTo).toHaveBeenCalledWith({ top: 928, behavior: "smooth" });
-    await waitFor(() => expect(interest).toHaveFocus());
-    fireEvent.click(cta);
-    expect(scrollTo).toHaveBeenCalledTimes(2);
+    expect(interest).toHaveValue("General enquiry");
+    expect(new FormData(form).get("interestedIn")).toBe("General enquiry");
+    expect(within(interest).getByRole("option", { name: "Investing in Pareto" })).toBeInTheDocument();
+    fireEvent.change(interest, { target: { value: "Investing in Pareto" } });
+    expect(new FormData(form).get("interestedIn")).toBe("Investing in Pareto");
+    expect(within(form).getByRole("button", { name: "Send enquiry" })).toBeVisible();
   });
 
   it("keeps Why Pareto to four value propositions and removes retired destinations", () => {

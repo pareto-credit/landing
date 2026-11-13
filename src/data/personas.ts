@@ -124,7 +124,7 @@ export const personaPages: PersonaPageContent[] = [
           title: "Credit terms",
           summary: "A facility shaped around the financing need.",
           detail:
-            "Agree commercial terms and choose supported facility mechanics in coordination with the borrower and underwriter. Legal rights and credit support are established in the relevant agreements.",
+            "Set the rate, facility size and repayment structure with the borrower and underwriter. Document any credit support in the facility agreements.",
           points: [
             ["Economics", "Asset, rate model and facility size"],
             ["Mechanics", "Term cycles or revolving credit"],
@@ -165,7 +165,6 @@ export const personaPages: PersonaPageContent[] = [
       interest: "Borrowing",
     },
     questions: [
-      collateralQuestion,
       {
         question: "Who provides the financing?",
         answer:
@@ -196,6 +195,7 @@ export const personaPages: PersonaPageContent[] = [
         answer:
           "The vault records its onchain operations and positions. Borrower financials, offchain assets and legal enforcement require separate information and processes.",
       },
+      collateralQuestion,
     ],
     closing: {
       title: "Let’s build around your business",
@@ -328,7 +328,6 @@ export const personaPages: PersonaPageContent[] = [
     },
     frameworkCta: { label: "Discuss your allocation", interest: "Lending" },
     questions: [
-      collateralQuestion,
       {
         question: "Who can participate?",
         answer:
@@ -359,6 +358,7 @@ export const personaPages: PersonaPageContent[] = [
         answer:
           "Some facilities support integrations with venues such as Morpho or Pendle. Availability, eligibility, market depth and risks depend on the position and venue; these integrations do not guarantee liquidity.",
       },
+      collateralQuestion,
     ],
     closing: {
       title: "Find the right starting point",

@@ -5,9 +5,9 @@ const SegmentsSection = () => {
   return (
     <section
       aria-label="Our partners"
-      className="ui-section-shell relative z-20 overflow-hidden bg-[var(--color-bg-light-alt)]"
+      className="relative z-20 overflow-hidden bg-[var(--color-bg-light-alt)] py-8 md:py-10"
     >
-      <p className="mb-6 px-6 text-center text-sm text-[var(--color-text-muted)] md:mb-8 md:text-base">
+      <p className="mb-4 px-6 text-center text-sm text-[var(--color-text-muted)] md:mb-6 md:text-base">
         Powering leading companies building the future of credit and global markets
       </p>
 

@@ -1,19 +1,15 @@
 import { useId, useRef, useState, type KeyboardEvent } from "react";
 import { flushSync } from "react-dom";
-import { AppWindow, Check, FileCheck2, Fingerprint, GitBranch, Maximize2, Plus, SlidersHorizontal, Workflow, X } from "lucide-react";
+import { Check, FileCheck2, Fingerprint, GitBranch, Maximize2, Plus, Scale, SlidersHorizontal, Workflow, X } from "lucide-react";
 import { thesisAnatomy, thesisFacilityLayers } from "../../../data/thesis";
-import { requestContact } from "../../../lib/siteNavigation";
-import { Button } from "../../ui/Button";
 import { buttonClassName } from "../../ui/buttonStyles";
 import { PageLink } from "../../ui/PageLink";
 import ThesisDiagram from "./ThesisDiagram";
 
-const facilityCtaLabel = "Discuss your facility";
-
 const moduleCards = {
-  application: {
-    icon: AppWindow,
-    facts: ["Pareto Studio", "Pareto Lender App"],
+  legal: {
+    icon: Scale,
+    facts: ["Facility-specific agreements", "Offchain legal recourse"],
   },
   eligibility: {
     icon: Fingerprint,
@@ -92,10 +88,10 @@ export const ThesisAnatomy = () => {
       <figure className="thesis-anatomy">
         <div className="thesis-facility__heading">
           <div>
-            <p className="thesis-kicker">Built around your business</p>
-            <h3>One vault. <span className="text-[var(--color-text-muted)]">Your combination</span></h3>
+            <p className="thesis-kicker">The Credit Vault model</p>
+            <h3>One vault. <span className="text-[var(--color-text-muted)]">Different credit structures</span></h3>
           </div>
-          <p id={`${instanceId}-hint`}>Select a module to connect or disconnect it. Use the expand icon to read more.</p>
+          <p id={`${instanceId}-hint`}>Explore how the modules fit together. Select one to toggle it or expand it to see what it does.</p>
         </div>
         <div className="thesis-facility__canvas" role="group" aria-label="Connect modules to Credit Vault" aria-describedby={`${instanceId}-hint`}>
           {(["desktop", "mobile"] as const).map(layout => (
@@ -107,29 +103,21 @@ export const ThesisAnatomy = () => {
             </svg>
           ))}
           <div className="thesis-facility__hub">
-            <span className="thesis-kicker">Your facility</span>
             <ThesisDiagram kind="vault" />
             <strong>{thesisAnatomy.vault.title}</strong>
             <span>{thesisAnatomy.vault.copy}</span>
             <span className="thesis-facility__count" role="status" aria-live="polite">{connected.size} {connected.size === 1 ? "module" : "modules"} connected</span>
-            {connected.size > 0 ? (
-              <PageLink
-                to="/thesis"
-                hash="contact"
-                className={buttonClassName("primary", "sm", "thesis-facility__hub-cta")}
-                onClick={(event) => {
-                  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-                  event.preventDefault();
-                  requestContact();
-                }}
-              >
-                {facilityCtaLabel}
-              </PageLink>
-            ) : (
-              <Button size="sm" className="thesis-facility__hub-cta" disabled>
-                {facilityCtaLabel}
-              </Button>
-            )}
+            <PageLink
+              to="/thesis"
+              hash="why-pareto"
+              className={buttonClassName("primary", "sm", "thesis-facility__hub-cta")}
+              onClick={(event) => {
+                if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                window.requestAnimationFrame(() => document.getElementById("why-pareto-title")?.focus({ preventScroll: true }));
+              }}
+            >
+              Learn more
+            </PageLink>
             {thesisFacilityLayers.map((layer, index) => (
               <i key={layer.id} className={`thesis-facility__socket thesis-facility__socket--${index % 2 ? "right" : "left"}`} data-connected={connected.has(layer.id)} style={{ top: `calc(50% + ${Math.floor(index / 2) * 24 - 24}px)` }} aria-hidden="true" />
             ))}
@@ -137,7 +125,6 @@ export const ThesisAnatomy = () => {
           {thesisFacilityLayers.map((layer, index) => {
             const { icon: Icon, facts } = moduleCards[layer.id as keyof typeof moduleCards];
             const isConnected = connected.has(layer.id);
-            const detailsId = `${instanceId}-details-${layer.id}`;
             const factsId = `${instanceId}-facts-${layer.id}`;
             return (
               <div
@@ -153,7 +140,7 @@ export const ThesisAnatomy = () => {
                   role="checkbox"
                   aria-label={`${layer.title} module`}
                   aria-checked={isConnected}
-                  aria-describedby={`${detailsId} ${factsId}`}
+                  aria-describedby={facts.map((_, factIndex) => `${factsId}-${factIndex}`).join(" ")}
                   className="thesis-facility__module-toggle"
                   onClick={() => toggle(index)}
                   onKeyDown={event => keyboard(event, index)}
@@ -163,32 +150,32 @@ export const ThesisAnatomy = () => {
                     <strong>{layer.title}</strong>
                     <span className="thesis-facility__switch">{isConnected ? <Check size={12} aria-hidden="true" /> : <Plus size={12} aria-hidden="true" />}</span>
                   </span>
-                  <span id={detailsId} className="thesis-facility__module-copy line-clamp-2">{layer.detail}</span>
+                  <span className="thesis-facility__module-copy">
+                    {facts.map((fact, factIndex) => (
+                      <span id={`${factsId}-${factIndex}`} key={fact} className="thesis-facility__module-fact">{fact}</span>
+                    ))}
+                  </span>
                 </button>
-                <div className="thesis-facility__module-footer">
-                  <span id={factsId} className="thesis-facility__module-facts">{facts.join(" · ")}</span>
-                  <button
-                    type="button"
-                    className="thesis-facility__module-expand"
-                    aria-label={`Details for ${layer.title}`}
-                    aria-haspopup="dialog"
-                    aria-controls={dialogId}
-                    onClick={(event) => {
-                      event.currentTarget.focus({ preventScroll: true });
-                      flushSync(() => setExpandedLayer(layer));
-                      dialogRef.current?.showModal();
-                    }}
-                  >
-                    <span>Details</span>
-                    <Maximize2 size={12} aria-hidden="true" />
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  className="thesis-facility__module-expand"
+                  aria-label={`Details for ${layer.title}`}
+                  aria-haspopup="dialog"
+                  aria-controls={dialogId}
+                  onClick={(event) => {
+                    event.currentTarget.focus({ preventScroll: true });
+                    flushSync(() => setExpandedLayer(layer));
+                    dialogRef.current?.showModal();
+                  }}
+                >
+                  <Maximize2 size={18} aria-hidden="true" />
+                </button>
                 <i className="thesis-facility__module-port" aria-hidden="true" />
               </div>
             );
           })}
         </div>
-        <figcaption>Different modules. One connected Credit Vault.</figcaption>
+        <figcaption>The same infrastructure can support different facilities.</figcaption>
       </figure>
       <dialog
         ref={dialogRef}
@@ -196,6 +183,14 @@ export const ThesisAnatomy = () => {
         className="thesis-facility__dialog"
         aria-labelledby={`${dialogId}-title`}
         aria-describedby={`${dialogId}-description`}
+        onClick={(event) => {
+          const dialog = event.currentTarget;
+          if (event.target !== dialog) return;
+          const { left, right, top, bottom } = dialog.getBoundingClientRect();
+          if (event.clientX < left || event.clientX > right || event.clientY < top || event.clientY > bottom) {
+            dialog.close();
+          }
+        }}
       >
         <div className="thesis-facility__dialog-header">
           <div>

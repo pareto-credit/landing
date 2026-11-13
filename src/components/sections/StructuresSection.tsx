@@ -547,10 +547,10 @@ const StructuresSection = () => (
     <SectionContainer className="ui-section-shell relative z-10">
       <SectionHeader
         variant="collection"
-        eyebrow="Credit facilities"
+        eyebrow="Financing structures"
         title={
           <>
-            Credit infrastructure{" "}
+            Credit facilities{" "}
             <span className="text-[var(--color-text-muted)]">
               tailored to your mandate
             </span>

@@ -5,7 +5,7 @@ export const thesisChapters = [
     id: "structured-credit",
     group: "The case",
     label: "Structured credit",
-    summary: "Infrastructure that fits the business.",
+    summary: "One infrastructure layer for different credit structures.",
     tag: "Definition",
   },
   {
@@ -19,7 +19,7 @@ export const thesisChapters = [
     id: "opportunity",
     group: "The case",
     label: "The opportunity",
-    summary: "A market of more than $2T, with less than 2% onchain.",
+    summary: "More than $2T in private credit, alongside $38B in tokenized credit.",
     tag: "Market",
   },
   {
@@ -46,7 +46,7 @@ export interface ThesisStat {
 /** Third-party market figures. Update values, amounts and dates together. */
 export const thesisStats: ThesisStat[] = [
   {
-    value: ">$2T",
+    value: "+$2T",
     amountBillions: 2000,
     kicker: "Private credit",
     label: "Private credit assets under management expected in 2026, approaching $4T by 2030.",
@@ -57,7 +57,7 @@ export const thesisStats: ThesisStat[] = [
     value: "$301B",
     amountBillions: 301,
     kicker: "Onchain dollars",
-    label: "Stablecoins in circulation: onchain dollars looking for real-economy yield.",
+    label: "The value of stablecoins in circulation, a potential funding source for onchain credit.",
     source: "DefiLlama, as of Oct 20, 2026",
     url: "https://defillama.com/stablecoins",
   },
@@ -75,7 +75,7 @@ export const thesisStats: ThesisStat[] = [
 export const thesisAnatomy = {
   curator: { title: "Curator", copy: "Diligence, terms and ongoing oversight" },
   borrower: { title: "Borrower", copy: "Credit fund, trading firm or fintech lender" },
-  vault: { title: "Credit Vault", copy: "A dedicated onchain facility" },
+  vault: { title: "Credit Vault", copy: "Dedicated on-chain structure" },
   lenders: { title: "Lenders", copy: "Eligible institutional and onchain participants" },
   distribution: { title: "Distribution", copy: "Supported onchain venues" },
   flows: {
@@ -86,30 +86,34 @@ export const thesisAnatomy = {
   },
 } as const;
 
-/** The same six layers used by the Clients pages. */
-export const thesisFacilityLayers = getPersonaPage("originators").framework.items;
+/** Facility layers shown in the Thesis diagram. */
+export const thesisFacilityLayers = getPersonaPage("originators").framework.items.map(layer =>
+  layer.id === "application"
+    ? {
+        id: "legal",
+        title: "Legal framework",
+        detail: "A facility-specific loan agreement is linked to the Credit Vault. The vault executes configured terms onchain, and the agreement sets the governing law and remedies available offchain.",
+      }
+    : layer,
+);
 
 export type ThesisProblemVideo = "market" | "desk" | "documents";
 
 /** The three problem chapters told over the existing narrative videos. */
 export const thesisProblems: Array<{
   video: ThesisProblemVideo;
-  label: string;
   title: string;
 }> = [
   {
     video: "market",
-    label: "Legacy systems",
     title: "Credit markets run on a stack of legacy systems, patched together over decades",
   },
   {
     video: "desk",
-    label: "Spreadsheets and phone calls",
     title: "Trillions deployed. Still managed on spreadsheets and phone calls",
   },
   {
     video: "documents",
-    label: "Risk in the gaps",
     title: "Opacity is the norm, and risk hides in the gaps between systems",
   },
 ];
@@ -119,25 +123,25 @@ export const thesisReasons = [
     title: "Familiar",
     label: "Facility terms",
     diagram: "terms",
-    copy: "Defined terms, named participants and facility-specific agreements. A structure credit teams already understand.",
+    copy: "Facility-specific agreements and defined roles let institutions bring familiar credit structures onchain.",
   },
   {
     title: "Verifiable",
     label: "Onchain records",
     diagram: "records",
-    copy: "Follow onchain positions and transactions alongside borrower and curator reporting.",
+    copy: "Onchain records give lenders a shared view of positions and transactions alongside borrower and curator reporting.",
   },
   {
     title: "Efficient",
     label: "Servicing",
     diagram: "servicing",
-    copy: "Connect facility setup, lender requests and servicing in one operating workflow.",
+    copy: "Reusable vault modules and a shared servicing workflow can reduce the work of launching and operating each new facility.",
   },
   {
     title: "Composable",
     label: "Integrations",
     diagram: "network",
-    copy: "Connect applications, facility mechanics and supported DeFi venues as your program develops.",
+    copy: "Eligible vault positions can reach lenders through supported DeFi venues, extending distribution beyond an originator’s own network.",
   },
 ] as const;
 

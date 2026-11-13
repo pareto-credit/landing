@@ -67,7 +67,6 @@ function Metric({
 }
 
 export default function DataDashboardPage() {
-  const tableMotion = useDashboardMotion<HTMLDivElement>();
   const {
     metrics,
     vaults,
@@ -90,10 +89,6 @@ export default function DataDashboardPage() {
         : -Infinity;
     return first === second ? 0 : first < second ? 1 : -1;
   });
-  const largestTvl = orderedVaults.reduce((largest, { tvlUsd }) =>
-    typeof tvlUsd === "number" && Number.isFinite(tvlUsd)
-      ? Math.max(largest, tvlUsd)
-      : largest, 0);
   const hasCreditExtended =
     isUsingFallback || availability.metrics.creditExtended;
   // This legacy hook field contains the API's aggregate TVL, not loan principal.
@@ -223,12 +218,14 @@ export default function DataDashboardPage() {
             <ReferenceRates benchmarks={benchmarks} treasury={treasury} />
           </div>
 
+          <MacroOutlook protocolRates={protocolRates} />
+
           <section aria-labelledby="facilities-title">
             <div className="data-dashboard-section-heading">
               <div>
                 <p className="data-dashboard-eyebrow">Facility overview</p>
                 <h2 id="facilities-title">
-                  Public <span className="text-[var(--color-text-muted)]">credit facilities</span>
+                  Pareto <span className="text-[var(--color-text-muted)]">credit facilities</span>
                 </h2>
               </div>
               <p>
@@ -239,7 +236,6 @@ export default function DataDashboardPage() {
 
             <div
               className="data-dashboard-table-wrap"
-              {...tableMotion}
               role="region"
               aria-label="Credit facilities table"
               tabIndex={0}
@@ -306,12 +302,6 @@ export default function DataDashboardPage() {
                         </td>
                         <td className="data-dashboard-number">
                           {vault.tvl || "—"}
-                          {typeof vault.tvlUsd === "number" &&
-                          Number.isFinite(vault.tvlUsd) && vault.tvlUsd >= 0 && largestTvl > 0 ? (
-                            <span className="data-dashboard-tvl-rail" aria-hidden="true">
-                              <span style={{ width: `${(vault.tvlUsd / largestTvl) * 100}%` }} />
-                            </span>
-                          ) : null}
                         </td>
                         <td>
                           <span className="data-dashboard-status" data-state={vault.status.toUpperCase()}>
@@ -357,8 +347,6 @@ export default function DataDashboardPage() {
               </a>
             </div>
           </section>
-
-          <MacroOutlook protocolRates={protocolRates} />
         </SectionContainer>
       </main>
       <Footer />
