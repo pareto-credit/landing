@@ -57,8 +57,8 @@ const App = () => {
       <Navbar />
       <main className="home-page">
         <HeroSection metrics={metrics} isMetricsLoading={isProductsDataLoading} />
-        <UnderwritingSection />
         <SegmentsSection />
+        <UnderwritingSection />
         <ProductsSection vaults={vaults} isVaultsLoading={isProductsDataLoading} />
         {showHowItWorksSection ? <HowItWorksSection /> : null}
         <StructuresSection />

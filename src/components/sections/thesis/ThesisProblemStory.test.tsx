@@ -32,7 +32,6 @@ beforeEach(() => {
   vi.spyOn(document, "visibilityState", "get").mockReturnValue("visible");
   vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue();
   vi.spyOn(HTMLMediaElement.prototype, "pause").mockImplementation(() => undefined);
-  vi.spyOn(window, "scrollTo").mockImplementation(() => undefined);
 });
 
 afterEach(() => {
@@ -53,6 +52,7 @@ describe("ThesisProblemStory", () => {
     expect(videos).toHaveLength(3);
     expect(videos.every((video) => !video.getAttribute("src"))).toBe(true);
     expect(screen.getAllByRole("heading", { level: 3 })).toHaveLength(1);
+    expect(screen.getByRole("heading", { level: 3 })).toHaveStyle({ opacity: "1", transform: "none" });
 
     enterLoadRange();
     expect(videos.every((video) => video.getAttribute("src"))).toBe(true);
@@ -67,48 +67,25 @@ describe("ThesisProblemStory", () => {
     expect(screen.getByRole("heading", { level: 3 })).toHaveTextContent("Opacity is the norm, and risk hides in the gaps between systems");
   });
 
-  it("lets keyboard readers select scenes without scrolling through every viewport", () => {
+  it("leaves the keyboard skip link available with no scene or playback buttons", () => {
     render(<ThesisProblemStory />);
-    const first = screen.getByRole("tab", { name: "Scene 1: Legacy systems" });
-    const last = screen.getByRole("tab", { name: "Scene 3: Risk in the gaps" });
-    fireEvent.keyDown(first, { key: "ArrowLeft" });
-    expect(last).toHaveFocus();
-    expect(last).toHaveAttribute("aria-selected", "true");
-    expect(screen.getAllByRole("tabpanel")).toHaveLength(1);
-    fireEvent.keyDown(last, { key: "Home" });
-    expect(first).toHaveFocus();
-    expect(screen.getAllByRole("tab").filter((tab) => tab.tabIndex === 0)).toEqual([first]);
+    expect(screen.queryByRole("tablist")).not.toBeInTheDocument();
+    expect(screen.queryByRole("button")).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Skip to the opportunity" })).toHaveAttribute("href", "#opportunity");
   });
 
-  it("places the newly selected claim next in the forward keyboard order", () => {
-    const { container } = render(<ThesisProblemStory />);
-    const first = screen.getByRole("tab", { name: "Scene 1: Legacy systems" });
-    fireEvent.keyDown(first, { key: "ArrowRight" });
-    const selected = screen.getByRole("tab", { selected: true });
-    const panel = screen.getByRole("tabpanel");
-    const focusOrder = Array.from(container.querySelectorAll<HTMLElement>('button, [role="tabpanel"], a'))
-      .filter(element => element.tabIndex >= 0 && !element.closest("[hidden]"));
-
-    expect(selected).toHaveFocus();
-    expect(panel).toHaveAttribute("aria-labelledby", selected.id);
-    expect(focusOrder[focusOrder.indexOf(selected) + 1]).toBe(panel);
-    expect(focusOrder).toEqual([
-      selected,
-      panel,
-      screen.getByRole("button", { name: "Pause background videos" }),
-      screen.getByRole("link", { name: "Skip to the opportunity" }),
-    ]);
-  });
-
-  it("plays only the visible mobile scene and keeps pause shared between stacked scenes", () => {
+  it("automatically plays each mobile scene as it comes into view", () => {
     vi.stubGlobal("innerWidth", 390);
     motionState.mobileActive = 0;
     const { container, rerender } = render(<ThesisProblemStory />);
     const videos = Array.from(container.querySelectorAll("video"));
     const play = vi.mocked(HTMLMediaElement.prototype.play);
     const pause = vi.mocked(HTMLMediaElement.prototype.pause);
-    expect(screen.queryByRole("tablist")).not.toBeInTheDocument();
-    expect(screen.getAllByRole("heading", { level: 3 })).toHaveLength(3);
+    expect(screen.queryByRole("button")).not.toBeInTheDocument();
+    const headings = screen.getAllByRole("heading", { level: 3 });
+    expect(headings).toHaveLength(3);
+    expect(headings[0]).toHaveStyle({ opacity: "1", transform: "none" });
+    expect(headings[1]).toHaveStyle({ opacity: "0" });
     enterLoadRange();
     expect(play.mock.contexts).toEqual([videos[0]]);
 
@@ -118,17 +95,13 @@ describe("ThesisProblemStory", () => {
     rerender(<ThesisProblemStory />);
     expect(pause.mock.contexts).toContain(videos[0]);
     expect(play.mock.contexts).toEqual([videos[1]]);
-    fireEvent.click(screen.getAllByRole("button", { name: "Pause background videos" })[1]);
     play.mockClear();
     motionState.mobileActive = 2;
     rerender(<ThesisProblemStory />);
-    expect(play).not.toHaveBeenCalled();
-    expect(screen.getAllByRole("button", { name: "Resume background videos" })).toHaveLength(3);
-    fireEvent.click(screen.getAllByRole("button", { name: "Resume background videos" })[2]);
     expect(play.mock.contexts).toEqual([videos[2]]);
   });
 
-  it("pauses on hidden tabs and respects an explicit pause across scene changes", () => {
+  it("pauses on hidden tabs and resumes the active scene when visible again", () => {
     const { container } = render(<ThesisProblemStory />);
     enterLoadRange();
     const videos = Array.from(container.querySelectorAll("video"));
@@ -141,15 +114,11 @@ describe("ThesisProblemStory", () => {
     fireEvent(document, new Event("visibilitychange"));
     expect(pause.mock.contexts).toContain(videos[0]);
     expect(play).not.toHaveBeenCalled();
-    vi.spyOn(document, "visibilityState", "get").mockReturnValue("visible");
-    fireEvent(document, new Event("visibilitychange"));
-    expect(play.mock.contexts).toEqual([videos[0]]);
-
-    fireEvent.click(screen.getByRole("button", { name: "Pause background videos" }));
-    play.mockClear();
     act(() => progress.set(0.5));
     expect(play).not.toHaveBeenCalled();
-    fireEvent.click(screen.getByRole("button", { name: "Resume background videos" }));
+
+    vi.spyOn(document, "visibilityState", "get").mockReturnValue("visible");
+    fireEvent(document, new Event("visibilitychange"));
     expect(play.mock.contexts).toEqual([videos[1]]);
   });
 

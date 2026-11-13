@@ -3,10 +3,13 @@ import { useInView } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { SectionContainer, SectionHeader } from "../../ui/Section";
 import { thesisChapters, thesisStats, type ThesisChapterId, type ThesisStat } from "../../../data/thesis";
+import { GENERAL_CONTACT_INTEREST, INVESTOR_CONTACT_INTEREST } from "../../../data/brand";
+import { PageLink } from "../../ui/PageLink";
 import ContactSection from "../ContactSection";
 import { ThesisAnatomy } from "./ThesisAnatomy";
 import ThesisProblemStory from "./ThesisProblemStory";
 import ThesisReasons from "./ThesisReasons";
+import ThesisGapChart from "./ThesisGapChart";
 import "./thesis-sections.css";
 import "./thesis-chapters.css";
 
@@ -42,17 +45,28 @@ const SourceLink = ({ stat }: { stat: ThesisStat }) => (
 );
 
 const [privateCredit, , tokenizedCredit] = thesisStats;
-const privateCreditEstimate = privateCredit.value.replace(/^>/, "more than ");
-const tokenizedShareCeiling = Math.ceil((tokenizedCredit.amountBillions / privateCredit.amountBillions) * 100);
+const privateCreditEstimate = privateCredit.value.replace(/^\+/, "more than ");
+const tokenizedShare = tokenizedCredit.amountBillions / privateCredit.amountBillions;
+const tokenizedShareCeiling = Math.ceil(tokenizedShare * 100);
+const thesisInterestOptions = [GENERAL_CONTACT_INTEREST, INVESTOR_CONTACT_INTEREST] as const;
+
+const OpportunityBar = ({ share, index }: { share: number; index: number }) => {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const isInView = useInView(ref, { once: true, amount: 0.5, margin: "0px 0px -32px 0px" });
+
+  return (
+    <div ref={ref} className="thesis-scale__track" data-revealed={isInView || undefined} aria-hidden="true">
+      <span style={{ "--thesis-share": `${share}%`, "--thesis-delay": `${index * 120}ms` } as CSSProperties} />
+    </div>
+  );
+};
 
 /** Bars drawn to scale against the largest estimate. */
 const OpportunityScale = () => {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
   const largest = Math.max(...thesisStats.map((stat) => stat.amountBillions));
 
   return (
-    <div ref={ref} className="thesis-scale" data-revealed={isInView || undefined}>
+    <div className="thesis-scale">
       <ol className="thesis-scale__bars">
         {thesisStats.map((stat, index) => (
           <li key={stat.value} className="thesis-scale__row">
@@ -60,14 +74,7 @@ const OpportunityScale = () => {
               <span className="thesis-kicker">{stat.kicker}</span>
               <span className="thesis-scale__value">{stat.value}</span>
             </div>
-            <div className="thesis-scale__track" aria-hidden="true">
-              <span
-                style={{
-                  "--thesis-share": `${Math.max((stat.amountBillions / largest) * 100, 0.8)}%`,
-                  "--thesis-delay": `${index * 140}ms`,
-                } as CSSProperties}
-              />
-            </div>
+            <OpportunityBar share={Math.max((stat.amountBillions / largest) * 100, 0.8)} index={index} />
             <div className="thesis-scale__caption">
               <p>{stat.label}</p>
               <SourceLink stat={stat} />
@@ -77,7 +84,10 @@ const OpportunityScale = () => {
       </ol>
       <aside className="thesis-scale__gap" aria-label="The gap">
         <span className="thesis-kicker">The gap</span>
-        <strong>&lt;{tokenizedShareCeiling}%</strong>
+        <div className="thesis-scale__gap-figure">
+          <ThesisGapChart privateCredit={privateCredit} tokenizedCredit={tokenizedCredit} tokenizedShare={tokenizedShare} />
+          <strong>&lt;{tokenizedShareCeiling}%</strong>
+        </div>
         <p>
           Estimated tokenized credit of {tokenizedCredit.value}, compared with {privateCreditEstimate}
           {" "}in private credit assets under management.
@@ -92,7 +102,7 @@ const ThesisSections = () => (
     <Chapter
       id="structured-credit"
       title={<>The business <span className="text-[var(--color-text-muted)]">comes first</span></>}
-      description="Pareto brings applications, eligibility, underwriting, credit terms, servicing and distribution into one connected facility. Each layer is shaped around the business, the participants and the relevant agreements."
+      description="Pareto’s modular smart contract architecture lets each facility have its own legal agreements, underwriting and credit terms, with shared infrastructure for servicing and distribution."
     >
       <ThesisAnatomy />
     </Chapter>
@@ -114,23 +124,31 @@ const ThesisSections = () => (
           <span className="text-[var(--color-text-muted)]">Under {tokenizedShareCeiling}% in tokenized credit</span>
         </>
       }
-      description="Private credit has the yield. Stablecoins hold the onchain dollars looking for it. Tokenized credit, the bridge between the two, is still small."
+      description="Private credit is an established market. Stablecoins offer a new source of capital for it, and tokenized credit shows how early that connection still is."
     >
       <OpportunityScale />
     </Chapter>
 
     <Chapter
       id="why-pareto"
-      title={<>A better foundation <span className="text-[var(--color-text-muted)]">for credit</span></>}
-      description="Keep the structure credit teams know. Connect the work around it."
+      title={<>Why credit teams <span className="text-[var(--color-text-muted)]">build on Pareto</span></>}
+      description="The infrastructure used for one facility can be reused for the next, even when the assets, counterparties and terms change."
     >
       <ThesisReasons />
     </Chapter>
 
     <ContactSection
-      defaultInterest="Borrowing"
-      title={<>Let’s talk about <span className="text-[var(--color-text-muted)]">your credit facility</span></>}
-      description="Tell us what you’re building. We’ll help you find the right setup."
+      className="thesis-chapter thesis-chapter--light"
+      eyebrow=""
+      title={<>Get in <span className="text-[var(--color-text-muted)]">touch</span></>}
+      description={
+        <>
+          Have a question about Pareto? Send us a message or{" "}
+          <PageLink to="/data" className="underline underline-offset-4">explore platform data</PageLink>.
+        </>
+      }
+      defaultInterest={GENERAL_CONTACT_INTEREST}
+      interestOptions={thesisInterestOptions}
       submitLabel="Send enquiry"
     />
   </>

@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import ThesisHeroBackground from "./ThesisHeroBackground";
 
@@ -27,25 +27,18 @@ const setVisible = (visible: boolean) => act(() => {
 });
 
 describe("Thesis hero motion", () => {
-  it("lets readers pause and resume the background, retaining their choice after scrolling away", () => {
-    render(<ThesisHeroBackground />);
-    const pause = screen.getByRole("button", { name: "Pause background motion" });
-    const background = document.getElementById(pause.getAttribute("aria-controls")!)!;
+  it("moves while in view and stops when the hero leaves the viewport", () => {
+    const { container } = render(<ThesisHeroBackground />);
+    const background = container.firstElementChild;
     expect(background).toHaveAttribute("aria-hidden", "true");
-    expect(pause.closest('[aria-hidden="true"]')).toBeNull();
+    expect(screen.queryByRole("button")).not.toBeInTheDocument();
     setVisible(true);
     expect(background).toHaveAttribute("data-running", "true");
-    fireEvent.click(pause);
-    expect(background).toHaveAttribute("data-paused", "true");
     setVisible(false);
-    setVisible(true);
-    expect(background).toHaveAttribute("data-paused", "true");
-    fireEvent.click(screen.getByRole("button", { name: "Resume background motion" }));
-    expect(background).toHaveAttribute("data-paused", "false");
-    expect(screen.getByRole("button", { name: "Pause background motion" })).toBeInTheDocument();
+    expect(background).toHaveAttribute("data-running", "false");
   });
 
-  it("omits playback controls when reduced motion makes the background static", () => {
+  it("keeps the background static with reduced motion", () => {
     preferences.reduced = true;
     const { container } = render(<ThesisHeroBackground />);
     setVisible(true);
