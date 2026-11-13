@@ -124,7 +124,7 @@ export const personaPages: PersonaPageContent[] = [
           title: "Credit terms",
           summary: "A facility shaped around the financing need.",
           detail:
-            "Agree commercial terms and choose supported facility mechanics in coordination with the borrower and underwriter. Legal rights and credit support are established in the relevant agreements.",
+            "Set the rate, facility size and repayment structure with the borrower and underwriter. Document any credit support in the facility agreements.",
           points: [
             ["Economics", "Asset, rate model and facility size"],
             ["Mechanics", "Term cycles or revolving credit"],

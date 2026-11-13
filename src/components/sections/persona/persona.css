@@ -223,13 +223,16 @@
 .audience-framework__summary-area {
   display: grid;
   gap: 16px;
+  margin-top: clamp(32px, 5vw, 64px);
   padding: 16px;
   border: 1px solid var(--color-overlay-inverse-20);
   border-radius: var(--radius-panel, 6px);
   background: rgb(255 255 255 / 0.035);
 }
-.audience-framework__panels { min-width: 0; }
+.audience-framework__panels { display: grid; min-width: 0; }
 .audience-framework__summary-area .audience-framework__panel {
+  grid-area: 1 / 1;
+  align-self: start;
   min-width: 0;
   color: var(--color-text-muted-inverse);
   font-size: 16px;
@@ -247,12 +250,12 @@
   font-variant-numeric: tabular-nums;
 }
 .audience-framework__panel p { max-width: 72ch; }
-.audience-framework__panel[hidden] { display: none; }
+/* Inactive panels still size the grid so switching layers cannot move the CTA. */
+.audience-framework__panel[inert] { visibility: hidden; }
 .audience-framework__action { padding-top: 16px; border-top: 1px solid var(--color-overlay-inverse-20); }
 .audience-framework__action a { width: 100%; max-width: 100%; white-space: normal; text-align: center; }
 @media (min-width: 1024px) {
   .audience-framework__summary-area { grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 20px; padding: 20px; }
-  .audience-framework__panels { display: flex; align-items: center; }
   .audience-framework__action { max-width: 340px; padding: 0 0 0 20px; border-top: 0; border-left: 1px solid var(--color-overlay-inverse-20); }
 }
 .audience-stories {
@@ -350,7 +353,6 @@
   .audience-framework__text { flex-basis: 100%; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr); gap: 18px; padding-block: 18px; }
   .audience-framework__label { font-size: 15px; }
   .audience-framework__summary { font-size: 14px; }
-  .audience-framework__summary-area { margin-top: 20px; }
   .audience-story article { min-height: 260px; padding: 24px; gap: 24px; }
   .audience-story h3 { font-size: 24px; }
   .audience-questions { gap: 40px; }
