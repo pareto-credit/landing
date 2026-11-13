@@ -1,0 +1,539 @@
+.studio-showcase {
+  --studio-showcase-bg: #0c271e;
+  background: var(--studio-showcase-bg);
+  overflow: clip;
+}
+.studio-preview-frame {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 2px;
+  border-radius: calc(var(--radius-panel, 6px) + 2px);
+  background: var(--color-bg-emerald);
+  box-shadow: 0 20px 70px -38px rgb(68 186 155 / 0.25),
+    0 1px 0 rgb(206 246 227 / 0.12);
+}
+.studio-preview-frame::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--studio-border-size, 200%);
+  aspect-ratio: 1;
+  background: conic-gradient(
+    from 30deg,
+    var(--color-bg-emerald-deep) 0deg,
+    var(--color-bg-emerald) 80deg,
+    var(--color-brand) 122deg,
+    var(--color-brand-soft) 157deg,
+    var(--color-brand) 190deg,
+    var(--color-bg-emerald) 236deg,
+    var(--color-bg-emerald-deep) 360deg
+  );
+  transform: translate(-50%, -50%);
+  animation: studio-border-orbit 12s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  animation-play-state: paused;
+  pointer-events: none;
+}
+.studio-preview-frame[data-running="true"]::before {
+  animation-play-state: running;
+}
+.studio-preview-frame > .studio-preview-content {
+  position: relative;
+  z-index: 1;
+}
+.studio-preview-frame .product-preview {
+  border-color: rgb(152 222 192 / 0.13);
+  box-shadow: none;
+}
+@keyframes studio-border-orbit {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .studio-preview-frame::before {
+    animation: none;
+  }
+}
+
+/* A full-height section includes the fixed navbar clearance in its own padding. */
+#studio.studio-showcase {
+  height: 100svh;
+  height: 100dvh;
+  scroll-margin-top: 0;
+}
+.studio-showcase__shell {
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 14px;
+  padding-top: calc(88px + clamp(12px, 2svh, 20px));
+  padding-bottom: clamp(16px, 2svh, 24px);
+}
+.studio-showcase__header [data-section-header] {
+  margin: 0;
+}
+.studio-showcase__header h2 {
+  font-size: clamp(28px, 3vw, 42px);
+  line-height: 1.08;
+}
+.studio-showcase__header h2 + p {
+  margin-top: 8px;
+  color: #b7cbc0;
+}
+.studio-showcase__header [data-section-header] > div > div:first-child {
+  margin-bottom: 8px;
+}
+.studio-showcase__stage {
+  position: relative;
+  min-height: 0;
+  display: grid;
+}
+.studio-showcase__actions {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 3;
+  isolation: isolate;
+  padding: 0 24px 40px;
+  pointer-events: none;
+}
+.studio-showcase__cta-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  width: min(480px, 100%);
+  margin-inline: auto;
+  padding: 6px;
+  border: 1px solid rgb(195 215 205 / 0.12);
+  border-radius: 10px;
+  background: rgb(12 39 30 / 0.48);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+.studio-showcase__cta-row :is(button, a) {
+  height: 48px;
+  min-height: 48px;
+  padding: 0 20px;
+  font-size: 14px;
+  pointer-events: auto;
+}
+.studio-showcase__explore {
+  background: #edf3ee;
+  border-color: #edf3ee;
+  color: #1b382d;
+}
+.studio-showcase__explore:hover {
+  background: #fff;
+  border-color: #fff;
+}
+.studio-preview--showcase {
+  --studio-preview-fade: 160px;
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 12px;
+}
+/* Light sits behind the upper frame; the screenshot itself is never blurred. */
+.studio-preview--showcase::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 42px -24px auto;
+  height: 180px;
+  background: radial-gradient(
+    ellipse at 50% 0,
+    rgb(112 177 158 / 0.18),
+    transparent 72%
+  );
+  filter: blur(24px);
+  pointer-events: none;
+}
+.studio-preview--showcase .studio-preview__tabs {
+  justify-self: center;
+  grid-template-columns: repeat(3, auto);
+  width: max-content;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgb(195 215 205 / 0.16);
+  border-radius: 8px;
+  background: rgb(255 255 255 / 0.025);
+  gap: 0;
+}
+.studio-preview--showcase .studio-preview__tabs button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  height: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  border-radius: 5px;
+  background: transparent;
+  text-align: center;
+  box-shadow: none;
+  transition: color 180ms;
+}
+/* A uniform 4px inset gives the pill equal visual padding on every side. */
+.studio-preview--showcase .studio-preview__tabs button::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 5px;
+  background: rgb(255 255 255 / 0.06);
+  opacity: 0;
+  transition: opacity 180ms, background-color 180ms;
+}
+.studio-preview--showcase .studio-preview__tabs button > span:first-child {
+  position: relative;
+  z-index: 1;
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0;
+  text-transform: none;
+  white-space: nowrap;
+}
+.studio-preview--showcase .studio-preview__tabs button > span:last-child {
+  display: none;
+}
+.studio-preview--showcase .studio-preview__tabs button[aria-selected="true"] {
+  color: #1b3d2e;
+}
+.studio-preview--showcase
+  .studio-preview__tabs
+  button[aria-selected="true"]::before {
+  background: #e4eee7;
+  opacity: 1;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.12);
+}
+.studio-preview--showcase .studio-preview__tabs button[aria-selected="false"] {
+  color: #bccfc5;
+}
+.studio-preview--showcase
+  .studio-preview__tabs
+  button[aria-selected="false"]:hover {
+  color: #fff;
+}
+.studio-preview--showcase .studio-preview__tabs button:hover::before {
+  opacity: 1;
+}
+.studio-preview--showcase .studio-preview-frame {
+  container: studio-showcase-frame / size;
+  min-height: 0;
+  padding: 1px;
+  background: rgb(179 226 201 / 0.32);
+  box-shadow: none;
+  /* Smootherstep alpha samples ease out of full opacity without a hard knee. */
+  --studio-preview-mask: linear-gradient(
+    180deg,
+    #000 calc(100% - var(--studio-preview-fade)),
+    rgb(0 0 0 / 0.991) calc(100% - var(--studio-preview-fade) * 0.9),
+    rgb(0 0 0 / 0.942) calc(100% - var(--studio-preview-fade) * 0.8),
+    rgb(0 0 0 / 0.837) calc(100% - var(--studio-preview-fade) * 0.7),
+    rgb(0 0 0 / 0.683) calc(100% - var(--studio-preview-fade) * 0.6),
+    rgb(0 0 0 / 0.5) calc(100% - var(--studio-preview-fade) * 0.5),
+    rgb(0 0 0 / 0.317) calc(100% - var(--studio-preview-fade) * 0.4),
+    rgb(0 0 0 / 0.163) calc(100% - var(--studio-preview-fade) * 0.3),
+    rgb(0 0 0 / 0.058) calc(100% - var(--studio-preview-fade) * 0.2),
+    rgb(0 0 0 / 0.009) calc(100% - var(--studio-preview-fade) * 0.1),
+    transparent 100%
+  );
+  -webkit-mask-image: var(--studio-preview-mask);
+  mask-image: var(--studio-preview-mask);
+}
+.studio-preview--showcase .studio-preview-frame::before {
+  display: none;
+}
+.studio-preview--showcase .studio-preview-content,
+.studio-preview--showcase [role="tabpanel"],
+.studio-preview--showcase [role="tabpanel"] > div,
+.studio-preview--showcase .product-preview {
+  height: 100%;
+  min-height: 0;
+}
+.studio-preview--showcase .product-preview__chrome {
+  padding-block: 6px;
+  font-size: 9px;
+}
+.studio-preview--showcase .product-preview__header {
+  min-height: 32px;
+  padding-block: 4px;
+}
+.studio-preview--showcase .product-preview__content {
+  padding-block: 10px;
+}
+.studio-preview--showcase .product-preview__heading {
+  margin-bottom: 10px;
+}
+.studio-preview--showcase .product-preview__heading h3 {
+  font-size: 20px;
+  margin-top: 2px;
+}
+.studio-preview--showcase .product-preview__metrics {
+  margin-bottom: 10px;
+  gap: 10px;
+}
+.studio-preview--showcase .product-preview__metrics > div {
+  padding: 8px;
+}
+.studio-preview--showcase .product-preview__metrics dd {
+  font-size: 22px;
+  margin-top: 4px;
+}
+.studio-preview--showcase .product-preview__metrics small {
+  min-height: 0;
+}
+.studio-preview--showcase .product-preview__vault {
+  padding-top: 10px;
+}
+.studio-preview--showcase .product-preview__vault dl {
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.3fr) minmax(0, 0.85fr);
+  margin-top: 8px;
+}
+.studio-preview--showcase .product-preview__vault dd {
+  margin-top: 4px;
+}
+.studio-preview--showcase .product-preview__cycle {
+  margin-top: 8px;
+}
+.studio-preview--showcase .product-preview__progress {
+  margin-top: 5px;
+}
+.studio-preview--showcase .product-preview__manage {
+  margin-top: 8px;
+  padding-block: 6px;
+}
+.studio-preview--showcase .product-preview__activity td {
+  height: 22px;
+  padding-block: 4px;
+}
+.studio-preview--showcase .product-preview__table-footer {
+  display: none;
+}
+.studio-preview--showcase .product-preview__notifications {
+  top: 12px;
+  right: 12px;
+  bottom: auto;
+  align-items: flex-start;
+}
+.studio-preview--showcase .product-preview__sidebar > span {
+  min-height: 21px;
+  padding-block: 3px;
+}
+.studio-preview--showcase .product-preview__sidebar-foot {
+  padding-top: 8px;
+}
+.studio-preview--showcase .lender-portfolio__heading {
+  margin-bottom: 18px;
+}
+.studio-preview--showcase .lender-portfolio__allocation-body {
+  margin-top: 8px;
+}
+.studio-preview--showcase .lender-portfolio__donut {
+  max-width: 112px;
+}
+.studio-preview--showcase .lender-portfolio__vaults {
+  display: none;
+}
+.studio-preview--showcase .lender-portfolio__funds,
+.studio-preview--showcase .lender-portfolio__allocation {
+  padding: 14px;
+}
+
+@media (max-width: 1023px) {
+  .studio-showcase__shell {
+    gap: 10px;
+    padding-top: 100px;
+    padding-bottom: 12px;
+  }
+  .studio-preview--showcase .studio-preview__tabs button > span:first-child {
+    font-size: 12px;
+  }
+
+  .studio-preview--showcase {
+    gap: 8px;
+  }
+  .studio-preview--showcase .product-preview__header {
+    display: none;
+  }
+  .studio-preview--showcase .product-preview__metrics--overview {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .studio-preview--showcase .product-preview__heading {
+    margin-bottom: 8px;
+  }
+  .studio-preview--showcase .product-preview__content {
+    padding: 10px 12px;
+  }
+  .studio-preview--showcase .product-preview__overview-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .studio-preview--showcase .product-preview__vaults {
+    display: block;
+  }
+  .studio-preview--showcase .product-preview__vault:nth-child(n + 3),
+  .studio-preview--showcase .product-preview__activity-stack,
+  .studio-preview--showcase .product-preview__cycle,
+  .studio-preview--showcase .product-preview__manage,
+  .studio-preview--showcase .product-preview__metrics small,
+  .studio-preview--showcase .lender-portfolio__allocation,
+  .studio-preview--showcase .lender-portfolio__performance,
+  .studio-preview--showcase .lender-portfolio__assets,
+  .studio-preview--showcase .lender-portfolio__vaults {
+    display: none;
+  }
+  .studio-preview--showcase .product-preview__vault {
+    padding: 10px;
+  }
+  .studio-preview--showcase .product-preview__vault dd {
+    font-size: 18px;
+  }
+  .studio-preview--showcase .product-preview__vault dt {
+    font-size: 8px;
+  }
+  .studio-preview--showcase .product-preview__metrics dd {
+    font-size: 24px;
+  }
+  .studio-preview--showcase .lender-portfolio__summary {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .studio-preview--showcase .product-preview__notifications {
+    display: none;
+  }
+}
+@media (max-height: 820px) and (min-width: 1024px) {
+  .studio-showcase__shell {
+    padding-top: 100px;
+    padding-bottom: 12px;
+    gap: 10px;
+  }
+}
+@container (max-width: 1100px) {
+  .studio-preview--showcase .product-preview__vault dl {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  }
+  .studio-preview--showcase .product-preview__vault dl > div:last-child {
+    display: none;
+  }
+  .studio-preview--showcase .product-preview__vault dd {
+    font-size: 14px;
+  }
+  .studio-preview--showcase .product-preview__vault p {
+    display: none;
+  }
+}
+@media (max-height: 740px) and (max-width: 1023px) {
+  .studio-preview--showcase .product-preview__heading,
+  .studio-preview--showcase .product-preview__table-heading,
+  .studio-preview--showcase .lender-portfolio__heading {
+    display: none;
+  }
+}
+@media (max-height: 560px) {
+  .studio-showcase__shell {
+    padding-top: 80px;
+    padding-bottom: 10px;
+    gap: 8px;
+  }
+  .studio-showcase__header h2 + p,
+  .studio-showcase__header [data-section-header] > div > div:first-child {
+    display: none;
+  }
+  .studio-showcase__header h2 {
+    font-size: 28px;
+  }
+  .studio-preview--showcase .product-preview__header,
+  .studio-preview--showcase .product-preview__chrome,
+  .studio-preview--showcase .product-preview__heading,
+  .studio-preview--showcase .product-preview__overview-grid,
+  .studio-preview--showcase .product-preview__sidebar,
+  .studio-preview--showcase .lender-portfolio__heading,
+  .studio-preview--showcase .lender-portfolio__performance,
+  .studio-preview--showcase .lender-portfolio__allocation {
+    display: none;
+  }
+  .studio-preview--showcase .product-preview__app {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .studio-preview--showcase .product-preview__metrics small,
+  .studio-preview--showcase
+    .product-preview__metrics--overview
+    > div:nth-child(n + 3) {
+    display: none;
+  }
+  .studio-preview--showcase .product-preview__content {
+    padding-block: 6px;
+  }
+  .studio-preview--showcase .lender-portfolio__summary {
+    grid-template-columns: 1fr;
+  }
+  .studio-preview--showcase .lender-portfolio__fund-note,
+  .studio-preview--showcase .lender-portfolio__pending,
+  .studio-preview--showcase .lender-portfolio__capital-bar {
+    display: none;
+  }
+  .studio-preview--showcase .lender-portfolio__funds {
+    padding: 8px;
+  }
+  .studio-preview--showcase .lender-portfolio__total {
+    font-size: 24px;
+    margin-top: 4px;
+  }
+}
+
+@media (max-width: 600px) {
+  .studio-showcase__header h2 + p {
+    display: none;
+  }
+  .studio-showcase__actions {
+    padding: 0 12px 24px;
+  }
+  .studio-showcase__cta-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+    max-width: 320px;
+  }
+  .studio-showcase__cta-row :is(button, a) {
+    height: 44px;
+    min-height: 44px;
+    padding: 0 16px;
+    font-size: 13px;
+  }
+  .studio-preview--showcase {
+    --studio-preview-fade: 190px;
+  }
+}
+
+.studio-preview--showcase .product-preview__heading h3 {
+  margin-top: 0;
+}
+@media (max-height: 560px) {
+  .studio-showcase__actions {
+    padding-top: 0;
+    padding-bottom: 16px;
+  }
+  .studio-showcase__cta-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 480px;
+  }
+  .studio-showcase__cta-row :is(button, a) {
+    height: 44px;
+    min-height: 44px;
+    padding: 0 16px;
+    font-size: 13px;
+  }
+}
+
+@media (max-height: 560px) {
+  .studio-preview--showcase {
+    --studio-preview-fade: 90px;
+  }
+}

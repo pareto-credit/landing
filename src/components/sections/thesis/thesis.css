@@ -1,0 +1,89 @@
+.thesis-main {
+  --thesis-nav-top: 5rem;
+  --thesis-focus-color: var(--color-focus-on-light);
+  background: var(--color-bg-light-alt);
+}
+
+.thesis-hero-shell { --thesis-focus-color: var(--color-focus-on-dark); position: relative; isolation: isolate; overflow: hidden; background: var(--color-brand-dark); color: var(--color-text-inverse); }
+.thesis-hero-mesh { position: absolute; z-index: -1; inset: 0; overflow: hidden; pointer-events: none; background: radial-gradient(ellipse 90% 70% at 50% 100%, #1a3223, #07160f 85%); }
+.thesis-hero-mesh__field { position: absolute; inset: 0; width: 100%; height: 100%; color: #92b29c; opacity: .36; mask-image: radial-gradient(ellipse 100% 80% at 50% 60%, #000 30%, transparent 100%); }
+.thesis-hero-mesh__flow { transform-origin: center; animation: thesis-mesh-drift 26s ease-in-out infinite paused; }
+.thesis-hero-mesh__shade { position: absolute; inset: 0; background: radial-gradient(ellipse 44% 42% at 50% 44%, #07160fa3, transparent 95%), linear-gradient(180deg, #07160f55, transparent 35%, #07160f22); }
+.thesis-hero-mesh[data-running="true"] .thesis-hero-mesh__flow { animation-play-state: running; will-change: transform; }
+.thesis-hero-mesh[data-reduced="true"] .thesis-hero-mesh__flow { animation: none; transform: none; }
+@keyframes thesis-mesh-drift { 0%, 100% { transform: translate3d(-12px, 8px, 0); } 50% { transform: translate3d(14px, -12px, 0); } }
+
+.thesis-hero {
+  position: relative;
+  display: flex;
+  min-height: min(960px, 96svh);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  padding-top: 152px;
+  padding-bottom: 96px;
+  text-align: center;
+}
+
+
+.thesis-hero h1 {
+  max-width: 13.5ch;
+  font-size: clamp(64px, 10vw, 144px);
+  font-weight: 500;
+  line-height: .98;
+  letter-spacing: -.065em;
+  text-wrap: balance;
+  text-shadow: 0 4px 40px #0005;
+}
+
+.thesis-hero__read { display: inline-flex; min-height: 44px; align-items: center; gap: 16px; padding-bottom: 6px; border-bottom: 1px solid var(--color-overlay-inverse-30); color: var(--color-text-muted-inverse); font: 400 12px/1.5 var(--font-mono); letter-spacing: .06em; text-decoration: none; }
+.thesis-hero__read:hover { color: var(--color-text-inverse); }
+.thesis-hero__read svg { transition: transform 200ms; }
+.thesis-hero__read:hover svg { transform: translateY(3px); }
+.thesis-hero__read:focus-visible, .thesis-hero h1:focus-visible { outline: 2px solid var(--thesis-focus-color); outline-offset: 8px; }
+
+.thesis-intro {
+  --thesis-focus-color: var(--color-focus-on-dark);
+  display: grid;
+  min-height: 62svh;
+  align-items: center;
+  padding-block: clamp(88px, 17svh, 176px);
+  background: var(--color-brand-dark);
+  color: var(--color-text-inverse);
+}
+.thesis-intro__content {
+  font-size: clamp(24px, 3.5vw, 50px);
+  font-weight: 500;
+  line-height: 1.17;
+  letter-spacing: -.04em;
+  text-align: center;
+  text-wrap: balance;
+}
+.thesis-intro__content p + p { margin-top: .65em; }
+.thesis-intro__content span { color: color-mix(in srgb, var(--color-text-inverse) 46%, var(--color-brand-dark)); transition: color 160ms ease-out; }
+.thesis-intro__content span[data-highlighted] { color: inherit; }
+.thesis-intro__content [tabindex]:focus-visible { outline: 2px solid var(--thesis-focus-color); outline-offset: 8px; }
+
+.thesis-chapter[id] { scroll-margin-top: calc(var(--thesis-nav-top) + 16px); }
+.thesis-main h2[tabindex="-1"]:focus-visible { outline: 2px solid var(--thesis-focus-color); outline-offset: 8px; border-radius: var(--radius-control); }
+
+@media (min-width: 1024px) { .thesis-main { --thesis-nav-top: 4.5rem; } }
+
+@media (max-width: 1023px) {
+  .thesis-hero { padding-top: 136px; }
+}
+
+@media (max-width: 639px) {
+  .thesis-hero { gap: 24px; min-height: 72svh; padding-block: 104px 72px; }
+  .thesis-hero h1 { font-size: clamp(60px, 13.5vw, 86px); }
+}
+
+@media (max-width: 359px) { .thesis-hero h1 { font-size: 54px; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .thesis-hero-mesh .thesis-hero-mesh__flow { animation: none; transform: none; }
+  .thesis-hero__read svg { transition: none; }
+  .thesis-hero__read:hover svg { transform: none; }
+  .thesis-intro__content span { color: inherit; transition: none; }
+}

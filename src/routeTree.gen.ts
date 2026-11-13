@@ -9,13 +9,32 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ThesisRouteImport } from './routes/thesis'
 import { Route as TermsOfServiceRouteImport } from './routes/terms-of-service'
+import { Route as StudioRouteImport } from './routes/studio'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as OriginatorsRouteImport } from './routes/originators'
+import { Route as EcosystemRouteImport } from './routes/ecosystem'
+import { Route as DataRouteImport } from './routes/data'
+import { Route as CreditVaultsRouteImport } from './routes/credit-vaults'
+import { Route as CapitalProvidersRouteImport } from './routes/capital-providers'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EcosystemOriginatorsRouteImport } from './routes/ecosystem_.originators'
+import { Route as EcosystemCapitalProvidersRouteImport } from './routes/ecosystem_.capital-providers'
 
+const ThesisRoute = ThesisRouteImport.update({
+  id: '/thesis',
+  path: '/thesis',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsOfServiceRoute = TermsOfServiceRouteImport.update({
   id: '/terms-of-service',
   path: '/terms-of-service',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudioRoute = StudioRouteImport.update({
+  id: '/studio',
+  path: '/studio',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
@@ -23,49 +42,172 @@ const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
   path: '/privacy-policy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OriginatorsRoute = OriginatorsRouteImport.update({
+  id: '/originators',
+  path: '/originators',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EcosystemRoute = EcosystemRouteImport.update({
+  id: '/ecosystem',
+  path: '/ecosystem',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DataRoute = DataRouteImport.update({
+  id: '/data',
+  path: '/data',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreditVaultsRoute = CreditVaultsRouteImport.update({
+  id: '/credit-vaults',
+  path: '/credit-vaults',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CapitalProvidersRoute = CapitalProvidersRouteImport.update({
+  id: '/capital-providers',
+  path: '/capital-providers',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EcosystemOriginatorsRoute = EcosystemOriginatorsRouteImport.update({
+  id: '/ecosystem_/originators',
+  path: '/ecosystem/originators',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EcosystemCapitalProvidersRoute =
+  EcosystemCapitalProvidersRouteImport.update({
+    id: '/ecosystem_/capital-providers',
+    path: '/ecosystem/capital-providers',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/capital-providers': typeof CapitalProvidersRoute
+  '/credit-vaults': typeof CreditVaultsRoute
+  '/data': typeof DataRoute
+  '/ecosystem': typeof EcosystemRoute
+  '/originators': typeof OriginatorsRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/studio': typeof StudioRoute
   '/terms-of-service': typeof TermsOfServiceRoute
+  '/thesis': typeof ThesisRoute
+  '/ecosystem/capital-providers': typeof EcosystemCapitalProvidersRoute
+  '/ecosystem/originators': typeof EcosystemOriginatorsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/capital-providers': typeof CapitalProvidersRoute
+  '/credit-vaults': typeof CreditVaultsRoute
+  '/data': typeof DataRoute
+  '/ecosystem': typeof EcosystemRoute
+  '/originators': typeof OriginatorsRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/studio': typeof StudioRoute
   '/terms-of-service': typeof TermsOfServiceRoute
+  '/thesis': typeof ThesisRoute
+  '/ecosystem/capital-providers': typeof EcosystemCapitalProvidersRoute
+  '/ecosystem/originators': typeof EcosystemOriginatorsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/capital-providers': typeof CapitalProvidersRoute
+  '/credit-vaults': typeof CreditVaultsRoute
+  '/data': typeof DataRoute
+  '/ecosystem': typeof EcosystemRoute
+  '/originators': typeof OriginatorsRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/studio': typeof StudioRoute
   '/terms-of-service': typeof TermsOfServiceRoute
+  '/thesis': typeof ThesisRoute
+  '/ecosystem_/capital-providers': typeof EcosystemCapitalProvidersRoute
+  '/ecosystem_/originators': typeof EcosystemOriginatorsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/privacy-policy' | '/terms-of-service'
+  fullPaths:
+    | '/'
+    | '/capital-providers'
+    | '/credit-vaults'
+    | '/data'
+    | '/ecosystem'
+    | '/originators'
+    | '/privacy-policy'
+    | '/studio'
+    | '/terms-of-service'
+    | '/thesis'
+    | '/ecosystem/capital-providers'
+    | '/ecosystem/originators'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/privacy-policy' | '/terms-of-service'
-  id: '__root__' | '/' | '/privacy-policy' | '/terms-of-service'
+  to:
+    | '/'
+    | '/capital-providers'
+    | '/credit-vaults'
+    | '/data'
+    | '/ecosystem'
+    | '/originators'
+    | '/privacy-policy'
+    | '/studio'
+    | '/terms-of-service'
+    | '/thesis'
+    | '/ecosystem/capital-providers'
+    | '/ecosystem/originators'
+  id:
+    | '__root__'
+    | '/'
+    | '/capital-providers'
+    | '/credit-vaults'
+    | '/data'
+    | '/ecosystem'
+    | '/originators'
+    | '/privacy-policy'
+    | '/studio'
+    | '/terms-of-service'
+    | '/thesis'
+    | '/ecosystem_/capital-providers'
+    | '/ecosystem_/originators'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CapitalProvidersRoute: typeof CapitalProvidersRoute
+  CreditVaultsRoute: typeof CreditVaultsRoute
+  DataRoute: typeof DataRoute
+  EcosystemRoute: typeof EcosystemRoute
+  OriginatorsRoute: typeof OriginatorsRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
+  StudioRoute: typeof StudioRoute
   TermsOfServiceRoute: typeof TermsOfServiceRoute
+  ThesisRoute: typeof ThesisRoute
+  EcosystemCapitalProvidersRoute: typeof EcosystemCapitalProvidersRoute
+  EcosystemOriginatorsRoute: typeof EcosystemOriginatorsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/thesis': {
+      id: '/thesis'
+      path: '/thesis'
+      fullPath: '/thesis'
+      preLoaderRoute: typeof ThesisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms-of-service': {
       id: '/terms-of-service'
       path: '/terms-of-service'
       fullPath: '/terms-of-service'
       preLoaderRoute: typeof TermsOfServiceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/studio': {
+      id: '/studio'
+      path: '/studio'
+      fullPath: '/studio'
+      preLoaderRoute: typeof StudioRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy-policy': {
@@ -75,6 +217,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyPolicyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/originators': {
+      id: '/originators'
+      path: '/originators'
+      fullPath: '/originators'
+      preLoaderRoute: typeof OriginatorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ecosystem': {
+      id: '/ecosystem'
+      path: '/ecosystem'
+      fullPath: '/ecosystem'
+      preLoaderRoute: typeof EcosystemRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/data': {
+      id: '/data'
+      path: '/data'
+      fullPath: '/data'
+      preLoaderRoute: typeof DataRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/credit-vaults': {
+      id: '/credit-vaults'
+      path: '/credit-vaults'
+      fullPath: '/credit-vaults'
+      preLoaderRoute: typeof CreditVaultsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/capital-providers': {
+      id: '/capital-providers'
+      path: '/capital-providers'
+      fullPath: '/capital-providers'
+      preLoaderRoute: typeof CapitalProvidersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -82,13 +259,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ecosystem_/originators': {
+      id: '/ecosystem_/originators'
+      path: '/ecosystem/originators'
+      fullPath: '/ecosystem/originators'
+      preLoaderRoute: typeof EcosystemOriginatorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ecosystem_/capital-providers': {
+      id: '/ecosystem_/capital-providers'
+      path: '/ecosystem/capital-providers'
+      fullPath: '/ecosystem/capital-providers'
+      preLoaderRoute: typeof EcosystemCapitalProvidersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CapitalProvidersRoute: CapitalProvidersRoute,
+  CreditVaultsRoute: CreditVaultsRoute,
+  DataRoute: DataRoute,
+  EcosystemRoute: EcosystemRoute,
+  OriginatorsRoute: OriginatorsRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
+  StudioRoute: StudioRoute,
   TermsOfServiceRoute: TermsOfServiceRoute,
+  ThesisRoute: ThesisRoute,
+  EcosystemCapitalProvidersRoute: EcosystemCapitalProvidersRoute,
+  EcosystemOriginatorsRoute: EcosystemOriginatorsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

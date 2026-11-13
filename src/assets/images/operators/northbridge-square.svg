@@ -1,0 +1,6 @@
+<svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">NorthBridge Credit mark</title>
+  <desc id="desc">Primary dark mark for use on light backgrounds.</desc>
+  <path d="M19 74V22H30.5V54.8L65.5 22H77V74H65.5V40.9L30.5 74H19Z" fill="#111418"/>
+  <path d="M19 82H77" stroke="#111418" stroke-width="6" stroke-linecap="square"/>
+</svg>

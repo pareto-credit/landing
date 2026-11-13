@@ -1,0 +1,253 @@
+/* A homepage-only light skin, based on the supplied Studio overview reference. */
+.studio-preview--light .product-preview {
+  --preview-ink: #1b382d;
+  --preview-muted: #4d695e;
+  --preview-line: #dce5df;
+  --preview-surface: #fff;
+  --preview-accent: #3f6e59;
+  --preview-finished: var(--preview-accent);
+  background: #f3f7f4;
+  border-color: var(--preview-line);
+  color: var(--preview-ink);
+  color-scheme: light;
+}
+.studio-preview--light
+  :is(
+    .product-preview__app,
+    .product-preview__header,
+    .product-preview__content
+  ) {
+  background: #f3f7f4;
+}
+.studio-preview--light .product-preview__sidebar {
+  background: #fff;
+}
+.studio-preview--light
+  :is(
+    .product-preview__chrome,
+    .product-preview__demo,
+    .product-preview__notice,
+    .product-preview__brand small,
+    .product-preview__sidebar > span,
+    .product-preview__sidebar > span > span,
+    .product-preview__sidebar-foot,
+    .product-preview__account,
+    .product-preview__pill,
+    .product-preview__metrics dt,
+    .product-preview__metrics small,
+    .product-preview__table-heading h4,
+    .product-preview__table-heading > span,
+    .product-preview__vault p,
+    .product-preview__vault dt,
+    .product-preview__cycle,
+    .product-preview th,
+    .product-preview td:first-child,
+    .product-preview__hash,
+    .product-preview__table-footer,
+    .product-preview__notification p,
+    .product-preview__nav
+  ) {
+  color: var(--preview-muted);
+}
+.studio-preview--light
+  .product-preview__sidebar
+  > span.product-preview__nav-group {
+  color: var(--preview-muted);
+}
+.studio-preview--light
+  :is(
+    .product-preview__brand,
+    .product-preview__heading h3,
+    .product-preview__metrics dd,
+    .product-preview__vault h5,
+    .product-preview__vault dd,
+    .product-preview table,
+    .product-preview__manage,
+    .product-preview__table-footer b,
+    .product-preview__notification strong
+  ) {
+  color: var(--preview-ink);
+}
+.studio-preview--light
+  :is(
+    .product-preview__metrics > div,
+    .product-preview__vault,
+    .product-preview__notification
+  ) {
+  background: #fff;
+  border: 1px solid var(--preview-line);
+  box-shadow: 0 3px 12px rgb(22 49 36 / 0.04);
+}
+.studio-preview--light
+  :is(
+    .product-preview__sidebar .is-selected,
+    .product-preview__nav .is-selected,
+    .product-preview__vault-status,
+    .product-preview__vault-status[data-status],
+    .product-preview__vault-monogram,
+    .product-preview__notification-icon
+  ) {
+  background: #e4eee7;
+  border-color: #cfdfd4;
+  color: #28543f;
+}
+.studio-preview--light
+  :is(
+    .product-preview__sidebar .product-preview__nav-notified,
+    .product-preview__metrics dt > span,
+    .product-preview__avatar,
+    .product-preview__new-tag,
+    .product-preview__activity .product-preview__table-heading h4
+  ) {
+  color: var(--preview-accent);
+}
+.studio-preview--light
+  :is(
+    .product-preview__pill,
+    .product-preview__avatar,
+    .product-preview__manage,
+    .product-preview th,
+    .product-preview td
+  ) {
+  border-color: var(--preview-line);
+}
+.studio-preview--light .product-preview__progress {
+  background: #e5ece7;
+}
+.studio-preview--light
+  :is(
+    .product-preview__progress > span,
+    .product-preview__type-dot,
+    .product-preview__notification-dot[data-active="true"]
+  ) {
+  background: var(--preview-accent);
+}
+.studio-preview--light .preview-spark-bars {
+  display: none;
+}
+.studio-preview--light .product-preview__activity tr[data-new="true"] td {
+  background: #e8f0ea;
+  color: var(--preview-ink);
+}
+.studio-preview--light
+  .product-preview__notifications
+  .product-preview__notification {
+  background: #fff;
+  border-color: #b8cec0;
+}
+.studio-preview--light
+  .product-preview__notifications
+  .product-preview__notification-icon {
+  color: var(--preview-accent);
+  border-color: #b8cec0;
+  background: #eef4ef;
+}
+.studio-preview--light .product-preview :is(button, [tabindex]):focus-visible {
+  outline-color: var(--preview-accent);
+}
+
+/* Lender mode uses the same neutral surfaces and a tonal green chart palette. */
+.studio-preview--light .lender-portfolio {
+  --portfolio-series-1: #70b19e;
+  --portfolio-series-2: #91c1b1;
+  --portfolio-series-3: #b0d3c6;
+  --portfolio-track: #e7efea;
+  --portfolio-tile: #eef4f0;
+  color: var(--preview-ink);
+}
+.studio-preview--light .lender-portfolio__pending dd > .lender-portfolio__minus {
+  color: var(--color-state-danger-text);
+}
+.studio-preview--light
+  :is(
+    .lender-portfolio__funds,
+    .lender-portfolio__allocation,
+    .lender-portfolio__earnings,
+    .lender-portfolio__stat,
+    .lender-portfolio__monogram,
+    .lender-portfolio__update b
+  ) {
+  background: #fff;
+  border-color: var(--preview-line);
+  color: var(--preview-accent);
+}
+.studio-preview--light
+  :is(
+    .lender-portfolio__total,
+    .lender-portfolio__label,
+    .lender-portfolio__allocation h4,
+    .lender-portfolio__performance dt,
+    .lender-portfolio__pending dd,
+    .lender-portfolio__donut strong,
+    .lender-portfolio__legend strong,
+    .lender-portfolio__performance dd,
+    .lender-portfolio__status
+  ) {
+  color: var(--preview-ink);
+}
+.studio-preview--light
+  :is(
+    .lender-portfolio__heading h3 + p,
+    .lender-portfolio__network,
+    .lender-portfolio__pending dt,
+    .lender-portfolio__fund-note,
+    .lender-portfolio__donut small,
+    .lender-portfolio__legend li,
+    .lender-portfolio__stat > small,
+    .lender-portfolio__table-heading > span,
+    .lender-portfolio__vault-name small,
+    .lender-portfolio__asset,
+    .lender-portfolio__update,
+    .lender-portfolio__muted,
+    .lender-portfolio__table-note
+  ) {
+  color: var(--preview-muted);
+}
+.studio-preview--light
+  :is(
+    .lender-portfolio__network,
+    .lender-portfolio__table-scroll,
+    .lender-portfolio th,
+    .lender-portfolio td
+  ) {
+  border-color: var(--preview-line);
+}
+
+.studio-preview--light .product-preview__brand img.product-preview__wordmark {
+  width: 116px;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.studio-preview--light .product-preview--lender .product-preview__app {
+  background-color: #f2f7f3;
+  background-image: radial-gradient(
+      ellipse at 0 0,
+      rgb(112 177 158 / 0.1),
+      transparent 65%
+    ),
+    linear-gradient(rgb(63 110 89 / 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(63 110 89 / 0.025) 1px, transparent 1px);
+  background-size: auto, 48px 48px, 48px 48px;
+}
+.studio-preview--light .product-preview--lender .product-preview__content {
+  width: 88%;
+  max-width: 1120px;
+  padding: 20px 0;
+  background: transparent;
+}
+.studio-preview--light .product-preview--lender .product-preview__header {
+  gap: 18px;
+  min-height: 44px;
+  background: rgb(255 255 255 / 0.88);
+}
+.studio-preview--light .product-preview--lender .product-preview__nav {
+  font: 600 10px var(--font-mono);
+  text-transform: uppercase;
+}
+@container (max-width: 900px) {
+  .studio-preview--light .product-preview--lender .product-preview__content {
+    width: 94%;
+  }
+}

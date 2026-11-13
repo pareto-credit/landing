@@ -119,7 +119,7 @@ const InfrastructureSection = () => {
         <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-10 xl:gap-12">
           <div className="w-full lg:w-1/3">
             <h3 className="mb-4 border-b border-[var(--color-border-soft-strong)] pb-2.5 font-mono text-[10px] font-bold uppercase tracking-widest text-[var(--color-text-secondary)] xl:mb-6">
-              Core Workflows
+              Core workflows
             </h3>
 
             <div
@@ -227,7 +227,7 @@ const InfrastructureSection = () => {
                     style={{ left: `${node.x}%`, top: `${node.y}%` }}
                   >
                     <div
-                      className={`flex h-14 w-14 items-center justify-center rounded-2xl border shadow-lg transition-all duration-500 ${
+                      className={`flex h-14 w-14 items-center justify-center ui-radius-control border shadow-lg transition-all duration-500 ${
                         isActive && hoveredUseCase !== null
                           ? "border-[var(--color-brand)] bg-[var(--color-surface)] shadow-[0_0_20px_rgba(113,178,159,0.3)]"
                           : "border-[var(--color-border-soft-strong)] bg-[var(--color-surface)]"

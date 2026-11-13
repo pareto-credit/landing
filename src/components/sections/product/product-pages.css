@@ -1,0 +1,52 @@
+.product-main {
+  --color-focus-ring: var(--color-focus-on-light);
+  background: var(--color-bg-light-alt);
+  color: var(--color-text-primary);
+}
+.product-page:not(.credit-vaults-page) > nav[data-mobile-open="false"] {
+  background: color-mix(in srgb, var(--color-bg-light-alt) 97%, transparent);
+}
+.product-section {
+  padding-block: clamp(76px, 9vw, 132px);
+  scroll-margin-top: 88px;
+}
+.product-section--light {
+  background: var(--color-bg-light-alt);
+  color: var(--color-text-primary);
+}
+.product-section--muted {
+  background: var(--color-bg-light);
+  color: var(--color-text-primary);
+}
+.product-section--dark {
+  --color-focus-ring: var(--color-focus-on-dark);
+  background: var(--color-brand-dark);
+  color: var(--color-text-inverse);
+}
+.product-main #pricing {
+  scroll-margin-top: 88px;
+}
+.product-main #questions [data-section-header] {
+  margin-bottom: 1.5rem;
+}
+.product-main .audience-stories article {
+  height: 100%;
+}
+
+/* Credit Vaults follows the content spacing and headings of the audience pages. */
+.credit-vaults-page .product-section,
+.credit-vaults-page .ui-section-shell {
+  padding-block: var(--section-content-padding);
+}
+.credit-vaults-page .ui-section-fit {
+  min-height: 0;
+}
+.credit-vaults-page :is(h1, h2, h3) {
+  text-wrap: balance;
+}
+.credit-vaults-page [data-section-header] h2 {
+  font-size: clamp(36px, 4vw, 48px);
+}
+.credit-vaults-page #agents {
+  --color-focus-ring: var(--color-focus-on-dark);
+}

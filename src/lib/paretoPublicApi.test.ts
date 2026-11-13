@@ -12,7 +12,7 @@ describe("createParetoPublicApiClient", () => {
     await client.vaultLatestBlocks.search({ vaultId: ["vault-a", "vault-b"] });
 
     expect(String(fetchMock.mock.calls[0][0])).toBe(
-      `${window.location.origin}/v1/public/vault-latest-blocks?vaultId=vault-a&vaultId=vault-b`,
+      `${window.location.origin}/v1/public/vault-latest-blocks?vaultId=vault-a&vaultId=vault-b`
     );
   });
 
@@ -23,7 +23,7 @@ describe("createParetoPublicApiClient", () => {
     });
     const client = createParetoPublicApiClient(
       "https://api.pareto.credit/",
-      fetchMock as typeof fetch,
+      fetchMock as typeof fetch
     );
 
     await client.vaults.search({ status: "READY", contractType: "CDO_EPOCH" });
