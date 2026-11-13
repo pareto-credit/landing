@@ -1,5 +1,15 @@
 import { useReducedMotion } from "framer-motion";
+import { Coins } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import btcLogo from "../../assets/images/tokens/btc.png";
+import cbBtcLogo from "../../assets/images/tokens/cbBTC.svg";
+import ethLogo from "../../assets/images/tokens/eth.png";
+import usdcLogo from "../../assets/images/tokens/usdc.png";
+import usdtLogo from "../../assets/images/tokens/usdt.png";
+import wbtcLogo from "../../assets/images/tokens/WBTC.svg";
+import wethLogo from "../../assets/images/tokens/WETH.svg";
+import suspLogo from "../../assets/svgs/sUSP.svg";
+import uspLogo from "../../assets/svgs/USP.svg";
 import {
   getOperatorBackground,
   getOperatorSquareLogo,
@@ -16,6 +26,18 @@ interface ProductsSectionProps {
 }
 
 const PRODUCTS_SKELETON_COUNT = 4;
+
+const ASSET_LOGOS = new Map([
+  ["BTC", btcLogo],
+  ["CBBTC", cbBtcLogo],
+  ["ETH", ethLogo],
+  ["SUSP", suspLogo],
+  ["USDC", usdcLogo],
+  ["USDT", usdtLogo],
+  ["USP", uspLogo],
+  ["WBTC", wbtcLogo],
+  ["WETH", wethLogo],
+]);
 
 const PRODUCTS_MARQUEE_SPEED = 50;
 const PRODUCTS_MARQUEE_SETS = 2;
@@ -456,11 +478,47 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
                             </div>
 
                             <dl className="vault-card__metrics">
-                              <div>
+                              <div className="vault-card__asset-row">
                                 <dt>
                                   {assets.length > 1 ? "Assets" : "Asset"}
                                 </dt>
-                                <dd>{assets.join(" · ")}</dd>
+                                <dd className="vault-card__assets">
+                                  {assets.map((symbol) => {
+                                    if (symbol === "—") {
+                                      return <span key={symbol}>{symbol}</span>;
+                                    }
+
+                                    const logo = ASSET_LOGOS.get(
+                                      symbol.trim().toUpperCase()
+                                    );
+
+                                    return (
+                                      <span
+                                        className="vault-card__asset"
+                                        key={symbol}
+                                        title={symbol}
+                                      >
+                                        {logo ? (
+                                          <img
+                                            src={logo}
+                                            alt={symbol}
+                                            width={18}
+                                            height={18}
+                                            loading="lazy"
+                                            decoding="async"
+                                            draggable={false}
+                                          />
+                                        ) : (
+                                          <Coins
+                                            size={18}
+                                            role="img"
+                                            aria-label={symbol}
+                                          />
+                                        )}
+                                      </span>
+                                    );
+                                  })}
+                                </dd>
                               </div>
                               <div>
                                 <dt>TVL</dt>
