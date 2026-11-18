@@ -75,7 +75,6 @@ USP/sUSP remain available for preview with
 - `AgentsSection` retains a compact variant, with inline availability
   chips and the larger shared `agents/AgentSession` illustration. Both `studio`
   and `credit-vaults` use the same fuller workflow; the homepage omits this section.
-  The hero MCP announcement opens the contact form with early access preselected.
   The illustrative read-only prompt, queries and results pause offscreen/hidden
   and remain static for reduced motion. A small pause/resume control lets readers
   inspect the MCP illustration.
@@ -83,8 +82,9 @@ USP/sUSP remain available for preview with
   only at their respective reveal times, without changing the reserved layout.
   No standalone Agents navigation or product-specific homepage agent links.
 - Clients links to Originators and Capital Allocators. Audience content lives in
-  `src/data/personas.ts`; the two pages share an accessible layers explorer while
-  keeping configuration and allocation distinct. The latter
+  `src/data/personas.ts`. The Originators vault cross-section explains the flow
+  from deposits to withdrawals and distinguishes onchain records from offchain
+  reporting. Both explorers support keyboard navigation. The latter
   page is labelled Capital Allocators; its URL remains `/capital-providers`.
   Both follow an abstract animated hero → features → layers → stories → FAQs → contact.
   Feature cards use larger interface-inspired artwork, one-sentence descriptions

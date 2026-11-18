@@ -5,6 +5,8 @@ export type PersonaPageId = "originators" | "capital-providers";
 export type PersonaPath = "/originators" | "/capital-providers";
 export interface FrameworkItem {
   id: string;
+  /** Marks the opening and closing views that frame the numbered parts. */
+  kind?: "intro" | "overview";
   title: string;
   summary: string;
   detail: string;
@@ -25,7 +27,7 @@ export interface PersonaPageContent {
     intro: string;
     items: Array<{ label: string; title: string; copy: string }>;
   };
-  framework: { title: string; titleMuted?: string; intro: string; items: FrameworkItem[] };
+  framework: { title: string; titleMuted?: string; intro?: string; items: FrameworkItem[] };
   frameworkCta: { label: string; interest: ContactInterest };
   questions: Array<{ question: string; answer: string }>;
   closing: {
@@ -78,85 +80,92 @@ export const personaPages: PersonaPageContent[] = [
       ],
     },
     framework: {
-      title: "Build around every layer",
-      titleMuted: "every layer",
-      intro:
-        "Connect the layers your financing program needs.",
+      title: "Anatomy of a vault",
+      titleMuted: "a vault",
       items: [
         {
-          id: "application",
-          title: "Application",
-          summary: "Your credit offering. A connected experience.",
+          id: "vault",
+          kind: "intro",
+          title: "The vault",
+          summary: "What sits behind a vault",
           detail:
-            "Run facility operations in Pareto Studio and give eligible lenders access through the Pareto Lender App. Discuss a branded application as your program develops.",
+            "Follow capital from lender deposit to borrower funding and back. Explore what the vault records onchain and what the credit agreements govern.",
+          points: [],
+        },
+        {
+          id: "deposit",
+          title: "Deposits & shares",
+          summary: "How capital enters the vault",
+          detail:
+            "Eligible lenders deposit the asset specified by the facility. When the deposit is processed, the vault issues share tokens at the applicable share price. Those tokens represent the lender’s position in the vault.",
           points: [
-            ["Operations", "Pareto Studio"],
-            ["Lender experience", "Pareto Lender App"],
-            ["Brand", "White-label options where available"],
+            ["Participation", "Facility eligibility and KYC/KYB"],
+            ["Onchain record", "Asset deposited and shares issued"],
           ],
         },
         {
-          id: "eligibility",
-          title: "Eligibility",
-          summary: "Bring the right participants together.",
+          id: "facility",
+          title: "Credit facility",
+          summary: "How the borrower receives funding",
           detail:
-            "Establish facility-specific onboarding requirements and configure supported access permissions for approved participants.",
+            "The vault makes capital available to the approved borrower under the facility’s terms. The agreed structure determines when the borrower can draw funds, how interest is calculated and when repayment is due.",
           points: [
-            ["Participation", "Facility-specific eligibility"],
-            ["Onboarding", "KYC/KYB and required documents"],
-            ["Access", "Permissions for approved wallets"],
+            ["Facility design", "Asset, facility size, rate and repayment terms"],
+            ["Funding", "Term cycles or revolving draws, where supported"],
           ],
         },
         {
-          id: "underwriting",
-          title: "Underwriting",
-          summary: "Credit expertise at the centre.",
+          id: "oversight",
+          title: "Credit oversight",
+          summary: "Who assesses and monitors the credit",
           detail:
-            "Bring your own underwriting team or discuss curation support through NorthBridge. Credit assessment, monitoring and responsibilities are agreed for each facility.",
+            "The appointed underwriter or curator assesses the borrower and monitors the exposure under the facility agreements. Those agreements set out any collateral, guarantees, covenants and reporting duties that apply.",
           points: [
-            ["Expertise", "Your team or an appointed curator"],
-            ["Assessment", "Borrower, exposure and credit support"],
-            ["Responsibilities", "Defined in the applicable agreements"],
+            ["Responsible party", "The originator’s team or an appointed curator"],
+            ["Credit support", "Collateral or other support, where agreed"],
           ],
         },
         {
-          id: "terms",
-          title: "Credit terms",
-          summary: "A facility shaped around the financing need.",
+          id: "value",
+          title: "Share value",
+          summary: "What changes the value of a share",
           detail:
-            "Set the rate, facility size and repayment structure with the borrower and underwriter. Document any credit support in the facility agreements.",
+            "Interest accrues under the credit agreement and is reflected in the vault’s share price. Applicable fees and credit losses can reduce what a lender receives. The share price tracks the value of the position, while available liquidity governs what can settle.",
           points: [
-            ["Economics", "Asset, rate model and facility size"],
-            ["Mechanics", "Term cycles or revolving credit"],
-            [
-              "Credit support",
-              "Collateral, guarantees or other arrangements, where applicable",
-            ],
+            ["Accounting", "Accrued interest, applicable fees and losses"],
+            ["Lender position", "Number of shares and applicable share price"],
           ],
         },
         {
-          id: "servicing",
-          title: "Servicing",
-          summary: "A connected operating foundation.",
+          id: "settlement",
+          title: "Repayment & exit",
+          summary: "How funds return to lenders",
           detail:
-            "Coordinate draws, repayments and lender requests through the facility’s supported mechanics. Follow onchain activity alongside the reporting required by the underwriter.",
+            "The borrower repays principal and interest according to the agreement. Lenders request a withdrawal under the vault’s rules and can claim funds once the request settles. Timing depends on notice periods, repayment and available liquidity.",
           points: [
-            ["Operations", "Draws, repayments and lender requests"],
-            ["Reporting", "Onchain records and separate borrower disclosures"],
-            ["Liquidity", "Notice periods and withdrawal procedures"],
+            ["Borrower obligation", "Repayment on the agreed schedule"],
+            ["Lender exit", "Request, settlement and claim"],
           ],
         },
         {
-          id: "distribution",
-          title: "Distribution",
-          summary: "Connect your facility to a wider network.",
+          id: "reporting",
+          title: "Records & reporting",
+          summary: "What you can verify",
           detail:
-            "Explore lender access and supported integrations with venues such as Morpho and Pendle. Availability depends on the facility, venue and relevant eligibility requirements.",
+            "Vault contracts record activity such as share issuance, draws and repayments onchain. Borrower financials, collateral held offchain and covenant monitoring are covered by the reporting and access arrangements agreed for each facility.",
           points: [
-            ["Access", "Institutional and onchain participants"],
-            ["Integrations", "Supported DeFi venues"],
-            ["Availability", "Subject to facility and venue requirements"],
+            ["Onchain", "Vault contract activity and balances"],
+            ["Offchain", "Credit agreements and required disclosures"],
           ],
+        },
+        {
+          id: "anatomy",
+          kind: "overview",
+          title: "Full anatomy",
+          summary: "Six parts, one vault",
+          detail:
+            "Each layer connects what the vault records onchain with what the credit agreements govern. Select a layer to look at it again.",
+          points: [],
         },
       ],
     },

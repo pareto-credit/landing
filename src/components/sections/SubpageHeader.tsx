@@ -8,6 +8,7 @@ interface HeaderImage {
   mobile: string;
   mobileAvif: string;
   desktop: string;
+  desktopWidth?: number;
   large: string;
   largeWidth: number;
 }
@@ -31,6 +32,8 @@ export default function SubpageHeader({
   action,
   image,
 }: SubpageHeaderProps) {
+  const { desktopWidth = 1920 } = image;
+
   return (
     <section id="hero" className="subpage-header" aria-labelledby={titleId}>
       <picture className="subpage-header__photo">
@@ -42,11 +45,11 @@ export default function SubpageHeader({
         <source media="(max-width: 767px)" srcSet={image.mobile} />
         <img
           src={image.desktop}
-          srcSet={`${image.desktop} 1920w, ${image.large} ${image.largeWidth}w`}
+          srcSet={`${image.desktop} ${desktopWidth}w, ${image.large} ${image.largeWidth}w`}
           sizes="100vw"
           alt=""
-          width={1920}
-          height={1152}
+          width={desktopWidth}
+          height={(desktopWidth * 3) / 5}
         />
       </picture>
       <SectionContainer className="subpage-header__inner">

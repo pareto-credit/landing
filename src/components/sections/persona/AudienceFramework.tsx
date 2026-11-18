@@ -1,12 +1,6 @@
-import {
-  useId,
-  useRef,
-  useState,
-  type CSSProperties,
-  type KeyboardEvent,
-  type ReactNode,
-} from "react";
+import { useId, type CSSProperties, type ReactNode } from "react";
 import type { FrameworkItem } from "../../../data/personas";
+import { useFrameworkTabs } from "./useFrameworkTabs";
 
 export default function AudienceFramework({
   title,
@@ -17,28 +11,8 @@ export default function AudienceFramework({
   items: FrameworkItem[];
   action?: ReactNode;
 }) {
-  const [active, setActive] = useState(0);
-  const refs = useRef<Array<HTMLButtonElement | null>>([]);
-  const panelAreaRef = useRef<HTMLDivElement>(null);
+  const { tabProps, panelProps, panelAreaRef } = useFrameworkTabs(items.length);
   const prefix = useId();
-  const preview = (index: number) => {
-    // Keep a selected summary in place while it has keyboard focus.
-    if (!panelAreaRef.current?.contains(document.activeElement))
-      setActive(index);
-  };
-  const select = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
-    let next: number;
-    if (event.key === "ArrowDown" || event.key === "ArrowRight")
-      next = (index + 1) % items.length;
-    else if (event.key === "ArrowUp" || event.key === "ArrowLeft")
-      next = (index - 1 + items.length) % items.length;
-    else if (event.key === "Home") next = 0;
-    else if (event.key === "End") next = items.length - 1;
-    else return;
-    event.preventDefault();
-    setActive(next);
-    refs.current[next]?.focus({ preventScroll: true });
-  };
 
   return (
     <div className="audience-framework">
@@ -60,21 +34,9 @@ export default function AudienceFramework({
                   "--layer-depth": items.length - index,
                 } as CSSProperties
               }
-              type="button"
-              role="tab"
-              id={`${prefix}-tab-${layer.id}`}
+              {...tabProps(layer.id, index)}
               aria-label={layer.title}
               aria-describedby={`${prefix}-summary-${layer.id}`}
-              aria-controls={`${prefix}-panel-${layer.id}`}
-              aria-selected={active === index}
-              tabIndex={active === index ? 0 : -1}
-              ref={(node) => {
-                refs.current[index] = node;
-              }}
-              onMouseEnter={() => preview(index)}
-              onFocus={() => setActive(index)}
-              onClick={() => setActive(index)}
-              onKeyDown={(event) => select(event, index)}
             >
               <svg
                 className="audience-framework__plate"
@@ -119,12 +81,7 @@ export default function AudienceFramework({
           {items.map((layer, index) => (
             <div
               key={layer.id}
-              role="tabpanel"
-              id={`${prefix}-panel-${layer.id}`}
-              aria-labelledby={`${prefix}-tab-${layer.id}`}
-              aria-hidden={active !== index}
-              inert={active !== index}
-              tabIndex={0}
+              {...panelProps(layer.id, index)}
               className="audience-framework__panel"
             >
               <div className="audience-framework__panel-heading">

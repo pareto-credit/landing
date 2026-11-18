@@ -24,79 +24,188 @@ describe("audience pages", () => {
     ]);
   });
 
-  it("lets originators inspect each facility decision with the keyboard", () => {
+  it("lets originators explore the vault anatomy with the keyboard", () => {
     render(<PersonaPage id="originators" />);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
       "Financing built around your business"
     );
-    const tabs = screen.getByRole("tablist", {
-      name: "Build around every layer",
+    const anatomy = screen.getByRole("region", { name: "Anatomy of a vault" });
+    const tabs = within(anatomy).getByRole("tablist", {
+      name: "Anatomy of a vault",
     });
-    const first = within(tabs).getByRole("tab", { name: /application/i });
-    const next = within(tabs).getByRole("tab", { name: /eligibility/i });
+    const intro = within(tabs).getByRole("tab", { name: "The vault" });
+    expect(intro).toHaveAttribute("aria-selected", "true");
+    const first = within(tabs).getByRole("tab", { name: "Deposits & shares" });
+    const next = within(tabs).getByRole("tab", { name: "Credit facility" });
     first.focus();
-    fireEvent.keyDown(first, { key: "ArrowDown" });
+    fireEvent.keyDown(first, { key: "ArrowRight" });
     expect(next).toHaveFocus();
     expect(next).toHaveAttribute("aria-selected", "true");
     expect(
-      screen.getByRole("tabpanel", { name: /eligibility/i })
-    ).toHaveAccessibleName(/eligibility/i);
+      within(anatomy).getByRole("tabpanel", { name: "Credit facility" })
+    ).toHaveTextContent("How the borrower receives funding");
     fireEvent.keyDown(next, { key: "End" });
     expect(
-      within(tabs).getByRole("tab", { name: /distribution/i })
+      within(tabs).getByRole("tab", { name: "Full anatomy" })
     ).toHaveFocus();
     fireEvent.keyDown(document.activeElement!, { key: "Home" });
-    expect(first).toHaveFocus();
+    expect(intro).toHaveFocus();
     expect(screen.queryByRole("table")).not.toBeInTheDocument();
     expect(
       screen.queryByRole("link", { name: "Ecosystem" })
     ).not.toBeInTheDocument();
   });
 
-  it.each(["originators", "capital-providers"] as const)(
-    "links the stacked planes and their explanations on %s",
-    (id) => {
-      render(<PersonaPage id={id} />);
-      const tabs = screen.getByRole("tablist");
-      const eligibility = within(tabs).getByRole("tab", { name: "Eligibility" });
-      fireEvent.mouseEnter(eligibility);
-      expect(eligibility).toHaveAttribute("aria-selected", "true");
-      expect(screen.getByRole("tabpanel", { name: "Eligibility" })).toBeVisible();
+  it("links the allocator planes and their explanations", () => {
+    render(<PersonaPage id="capital-providers" />);
+    const tabs = screen.getByRole("tablist");
+    const eligibility = within(tabs).getByRole("tab", { name: "Eligibility" });
+    fireEvent.mouseEnter(eligibility);
+    expect(eligibility).toHaveAttribute("aria-selected", "true");
+    expect(screen.getByRole("tabpanel", { name: "Eligibility" })).toBeVisible();
 
-      const underwriting = within(tabs).getByRole("tab", { name: "Underwriting" });
-      const plate = underwriting.querySelector("svg")!;
-      expect(plate).not.toBeNull();
-      fireEvent.mouseEnter(plate);
-      expect(underwriting).toHaveAttribute("aria-selected", "true");
-      expect(screen.getByRole("tabpanel", { name: "Underwriting" })).toBeVisible();
+    const underwriting = within(tabs).getByRole("tab", { name: "Underwriting" });
+    const plate = underwriting.querySelector("svg")!;
+    expect(plate).not.toBeNull();
+    fireEvent.mouseEnter(plate);
+    expect(underwriting).toHaveAttribute("aria-selected", "true");
+    expect(screen.getByRole("tabpanel", { name: "Underwriting" })).toBeVisible();
 
-      const servicing = within(tabs).getByRole("tab", { name: "Servicing" });
-      fireEvent.click(servicing.querySelector("svg")!);
-      expect(servicing).toHaveAttribute("aria-selected", "true");
-      expect(screen.getByRole("tabpanel", { name: "Servicing" })).toBeVisible();
-    }
-  );
+    const servicing = within(tabs).getByRole("tab", { name: "Servicing" });
+    fireEvent.click(servicing.querySelector("svg")!);
+    expect(servicing).toHaveAttribute("aria-selected", "true");
+    expect(screen.getByRole("tabpanel", { name: "Servicing" })).toBeVisible();
+  });
+
+  it("opens the matching vault layer and settlement details on click", () => {
+    render(<PersonaPage id="originators" />);
+    const anatomy = screen.getByRole("region", { name: "Anatomy of a vault" });
+    fireEvent.click(within(anatomy).getByRole("tab", { name: "Repayment & exit" }));
+    const panel = within(anatomy).getByRole("tabpanel", { name: "Repayment & exit" });
+    expect(panel).toHaveTextContent("Request, settlement and claim");
+    const figure = anatomy.querySelector("figure")!;
+    expect(figure).toHaveAttribute("aria-hidden", "true");
+    expect(figure.querySelectorAll('svg [data-active="true"]')).toHaveLength(1);
+    const states = Array.from(figure.querySelectorAll("[data-part]")).map(
+      (layer) => [layer.getAttribute("data-part"), layer.getAttribute("data-state")]
+    );
+    expect(Object.fromEntries(states)).toEqual({
+      deposit: "stowed",
+      facility: "stowed",
+      oversight: "stowed",
+      value: "stowed",
+      settlement: "open",
+      reporting: "preview",
+    });
+  });
+
+  it("previews a vault layer when its control is hovered", () => {
+    render(<PersonaPage id="originators" />);
+    const anatomy = screen.getByRole("region", { name: "Anatomy of a vault" });
+    fireEvent.mouseEnter(within(anatomy).getByRole("tab", { name: "Share value" }));
+    expect(anatomy.querySelector('[data-part="value"]')).toHaveAttribute(
+      "data-state",
+      "open"
+    );
+    expect(
+      within(anatomy).getByRole("tabpanel", { name: "Share value" })
+    ).toBeVisible();
+  });
+
+  it("starts with the closed vault and steps through to the full anatomy", () => {
+    render(<PersonaPage id="originators" />);
+    const anatomy = screen.getByRole("region", { name: "Anatomy of a vault" });
+    const stage = anatomy.querySelector("figure svg")!;
+    const layerStates = () =>
+      Array.from(stage.querySelectorAll("[data-part]")).map((layer) =>
+        layer.getAttribute("data-state")
+      );
+    expect(stage).toHaveAttribute("data-view", "intro");
+    expect(new Set(layerStates())).toEqual(new Set(["closed"]));
+    expect(
+      within(anatomy).getByRole("tabpanel", { name: "The vault" })
+    ).toHaveTextContent("Follow capital from lender deposit");
+
+    fireEvent.click(within(anatomy).getByRole("button", { name: "Open the vault" }));
+    expect(stage).toHaveAttribute("data-view", "layer");
+    expect(
+      within(anatomy).getByRole("tab", { name: "Deposits & shares" })
+    ).toHaveAttribute("aria-selected", "true");
+    expect(stage.querySelector('[data-part="facility"]')).toHaveAttribute(
+      "data-state",
+      "preview"
+    );
+    fireEvent.click(
+      within(anatomy).getByRole("button", { name: "Next: Credit facility" })
+    );
+    expect(
+      within(anatomy).getByRole("tabpanel", { name: "Credit facility" })
+    ).toBeVisible();
+
+    fireEvent.click(within(anatomy).getByRole("tab", { name: "Share value" }));
+    const step = within(anatomy).getByRole("button", { name: "Next: Repayment & exit" });
+    step.focus();
+    fireEvent.click(step);
+    expect(
+      within(anatomy).getByRole("button", { name: "Next: Records & reporting" })
+    ).toHaveFocus();
+
+    fireEvent.click(within(anatomy).getByRole("tab", { name: "Records & reporting" }));
+    expect(
+      within(anatomy).queryByRole("link", { name: "Discuss your facility" })
+    ).not.toBeInTheDocument();
+    const last = within(anatomy).getByRole("button", { name: "See the full anatomy" });
+    last.focus();
+    fireEvent.click(last);
+    expect(stage).toHaveAttribute("data-view", "overview");
+    expect(within(anatomy).getByRole("tab", { name: "Full anatomy" })).toHaveFocus();
+    expect(
+      within(anatomy).getByRole("link", { name: "Discuss your facility" })
+    ).toBeVisible();
+    expect(within(anatomy).queryByRole("button")).not.toBeInTheDocument();
+    expect(new Set(layerStates())).toEqual(new Set(["spread"]));
+    expect(
+      within(anatomy).getByRole("tabpanel", { name: "Full anatomy" })
+    ).toBeVisible();
+    fireEvent.click(stage.querySelector('[data-part="oversight"]')!);
+    expect(
+      within(anatomy).getByRole("tab", { name: "Credit oversight" })
+    ).toHaveAttribute("aria-selected", "true");
+  });
+
+  it("selects a part when its vault layer is clicked", () => {
+    render(<PersonaPage id="originators" />);
+    const anatomy = screen.getByRole("region", { name: "Anatomy of a vault" });
+    fireEvent.click(within(anatomy).getByRole("tab", { name: "Share value" }));
+    fireEvent.click(anatomy.querySelector('[data-part="facility"]')!);
+    expect(
+      within(anatomy).getByRole("tab", { name: "Credit facility" })
+    ).toHaveAttribute("aria-selected", "true");
+    expect(
+      within(anatomy).getByRole("tabpanel", { name: "Credit facility" })
+    ).toBeVisible();
+  });
 
   it("selects a layer when its control receives keyboard focus", () => {
     render(<PersonaPage id="originators" />);
-    const eligibility = screen.getByRole("tab", { name: "Eligibility" });
-    fireEvent.focus(eligibility);
-    expect(eligibility).toHaveAttribute("aria-selected", "true");
-    expect(screen.getByRole("tabpanel", { name: "Eligibility" })).toBeVisible();
+    const oversight = screen.getByRole("tab", { name: "Credit oversight" });
+    fireEvent.focus(oversight);
+    expect(oversight).toHaveAttribute("aria-selected", "true");
+    expect(screen.getByRole("tabpanel", { name: "Credit oversight" })).toBeVisible();
   });
 
-  it("keeps the focused layer summary in place when another plane is hovered", () => {
+  it("keeps the focused vault explanation in place on pointer hover", () => {
     render(<PersonaPage id="originators" />);
-    const panel = screen.getByRole("tabpanel", { name: /application/i });
+    const panel = screen.getByRole("tabpanel", { name: "The vault" });
     panel.focus();
-    const eligibility = screen.getByRole("tab", { name: "Eligibility" });
-    fireEvent.mouseEnter(eligibility);
+    const facility = screen.getByRole("tab", { name: "Credit facility" });
+    fireEvent.mouseEnter(facility);
     expect(panel).toHaveFocus();
     expect(panel).toBeVisible();
-    expect(eligibility).toHaveAttribute("aria-selected", "false");
+    expect(facility).toHaveAttribute("aria-selected", "false");
 
-    fireEvent.focus(eligibility);
-    expect(eligibility).toHaveAttribute("aria-selected", "true");
+    fireEvent.focus(facility);
+    expect(facility).toHaveAttribute("aria-selected", "true");
   });
 
   it.each(["originators", "capital-providers"] as const)(
@@ -166,6 +275,7 @@ describe("audience pages", () => {
     const interest = screen.getByRole("combobox", { name: /interested in/i });
     fireEvent.change(name, { target: { value: "Alex Example" } });
     fireEvent.change(interest, { target: { value: "Lending" } });
+    fireEvent.click(screen.getByRole("tab", { name: "Full anatomy" }));
     const cta = screen.getByRole("link", { name: "Discuss your facility" });
     expect(cta).toHaveAttribute("href", "/originators#contact");
     fireEvent.click(cta);
@@ -222,25 +332,26 @@ describe("audience pages", () => {
     "shows the selected layer explanation without an extra disclosure for %s",
     (id) => {
       render(<PersonaPage id={id} />);
-      const panel = screen.getByRole("tabpanel", { name: /application/i });
-      const layers = personaPages.find((page) => page.id === id)!.framework.items;
-      expect(panel).toHaveTextContent(layers[0].detail);
+      const [first, second] = personaPages.find((page) => page.id === id)!.framework.items;
+      const panel = screen.getByRole("tabpanel", { name: first.title });
+      expect(panel).toHaveTextContent(first.detail);
       expect(panel.querySelector("details")).toBeNull();
       expect(screen.queryByText("Explore this layer")).not.toBeInTheDocument();
       const tabs = screen.getByRole("tablist");
-      fireEvent.click(within(tabs).getByRole("tab", { name: /eligibility/i }));
-      expect(screen.getByRole("tabpanel", { name: /eligibility/i })).toHaveTextContent(layers[1].detail);
-      fireEvent.click(within(tabs).getByRole("tab", { name: /application/i }));
-      expect(screen.getByRole("tabpanel", { name: /application/i })).toHaveTextContent(layers[0].detail);
+      fireEvent.click(within(tabs).getByRole("tab", { name: second.title }));
+      expect(screen.getByRole("tabpanel", { name: second.title })).toHaveTextContent(second.detail);
+      fireEvent.click(within(tabs).getByRole("tab", { name: first.title }));
+      expect(screen.getByRole("tabpanel", { name: first.title })).toHaveTextContent(first.detail);
     }
   );
 
   it("keeps the active explanation in place while its CTA has keyboard focus", () => {
     render(<PersonaPage id="originators" />);
+    fireEvent.click(screen.getByRole("tab", { name: "Full anatomy" }));
     const cta = screen.getByRole("link", { name: "Discuss your facility" });
-    const panel = screen.getByRole("tabpanel", { name: "Application" });
+    const panel = screen.getByRole("tabpanel", { name: "Full anatomy" });
     cta.focus();
-    fireEvent.mouseEnter(screen.getByRole("tab", { name: "Eligibility" }));
+    fireEvent.mouseEnter(screen.getByRole("tab", { name: "Credit facility" }));
     expect(cta).toHaveFocus();
     expect(panel).toBeVisible();
     fireEvent.click(cta);

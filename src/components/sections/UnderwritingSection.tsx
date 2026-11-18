@@ -37,14 +37,14 @@ const pillars: Pillar[] = [
     ],
   },
   {
-    title: "Receivables & portfolio finance",
+    title: "Receivable financing",
     description:
       "Finance commercial receivables, invoices or loan portfolios through structures such as warehouse facilities. Define eligible assets, advance rates and borrowing base requirements, with reporting on the underlying portfolio.",
     image: monitoringImage,
     imageClassName: "object-[60%_40%]",
     tags: [
       ["Assets", "Receivables · invoices · loans"],
-      ["Controls", "Eligibility · advance rates · borrowing base"],
+      ["Controls", "Eligibility · advance % · borrowing base"],
     ],
   },
 ];

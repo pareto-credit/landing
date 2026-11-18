@@ -1,5 +1,3 @@
-import { getPersonaPage } from "./personas";
-
 export const thesisChapters = [
   {
     id: "structured-credit",
@@ -87,15 +85,44 @@ export const thesisAnatomy = {
 } as const;
 
 /** Facility layers shown in the Thesis diagram. */
-export const thesisFacilityLayers = getPersonaPage("originators").framework.items.map(layer =>
-  layer.id === "application"
-    ? {
-        id: "legal",
-        title: "Legal framework",
-        detail: "A facility-specific loan agreement is linked to the Credit Vault. The vault executes configured terms onchain, and the agreement sets the governing law and remedies available offchain.",
-      }
-    : layer,
-);
+export const thesisFacilityLayers = [
+  {
+    id: "legal",
+    title: "Legal framework",
+    detail:
+      "A facility-specific loan agreement is linked to the Credit Vault. The vault executes configured terms onchain, and the agreement sets the governing law and remedies available offchain.",
+  },
+  {
+    id: "eligibility",
+    title: "Eligibility",
+    detail:
+      "Establish facility-specific onboarding requirements and configure supported access permissions for approved participants.",
+  },
+  {
+    id: "underwriting",
+    title: "Underwriting",
+    detail:
+      "Bring your own underwriting team or discuss curation support through NorthBridge. Credit assessment, monitoring and responsibilities are agreed for each facility.",
+  },
+  {
+    id: "terms",
+    title: "Credit terms",
+    detail:
+      "Set the rate, facility size and repayment structure with the borrower and underwriter. Document any credit support in the facility agreements.",
+  },
+  {
+    id: "servicing",
+    title: "Servicing",
+    detail:
+      "Coordinate draws, repayments and lender requests through the facility’s supported mechanics. Follow onchain activity alongside the reporting required by the underwriter.",
+  },
+  {
+    id: "distribution",
+    title: "Distribution",
+    detail:
+      "Explore lender access and supported integrations with venues such as Morpho and Pendle. Availability depends on the facility, venue and relevant eligibility requirements.",
+  },
+];
 
 export type ThesisProblemVideo = "market" | "desk" | "documents";
 

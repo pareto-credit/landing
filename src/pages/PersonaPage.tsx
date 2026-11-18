@@ -2,10 +2,10 @@ import Footer from "../components/layout/Footer";
 import { ArrowUpRight } from "lucide-react";
 import Navbar from "../components/layout/Navbar";
 import SubpageHeader from "../components/sections/SubpageHeader";
-import originatorsMobile from "../assets/images/ecosystem/fintech-card.jpg";
-import originatorsMobileAvif from "../assets/images/ecosystem/fintech-card.avif";
-import originatorsDesktop from "../assets/images/page-headers/originators-1920.jpg";
-import originatorsLarge from "../assets/images/page-headers/originators-3200.jpg";
+import originatorsMobile from "../assets/images/page-headers/originators-daylight-mobile.jpg";
+import originatorsMobileAvif from "../assets/images/page-headers/originators-daylight-mobile.avif";
+import originatorsDesktop from "../assets/images/page-headers/originators-daylight-1200.jpg";
+import originatorsLarge from "../assets/images/page-headers/originators-daylight-1560.jpg";
 import allocatorsMobile from "../assets/images/ecosystem/brokers-card.jpg";
 import allocatorsMobileAvif from "../assets/images/ecosystem/brokers-card.avif";
 import allocatorsDesktop from "../assets/images/page-headers/capital-allocators-1920.jpg";
@@ -16,6 +16,7 @@ import AudienceCardArt, {
 import AudienceFramework from "../components/sections/persona/AudienceFramework";
 import AudienceReveal from "../components/sections/persona/AudienceReveal";
 import AudienceStories from "../components/sections/persona/AudienceStories";
+import VaultAnatomy from "../components/sections/persona/VaultAnatomy";
 import ContactSection from "../components/sections/ContactSection";
 import "../components/sections/persona/persona.css";
 import { buttonClassName } from "../components/ui/buttonStyles";
@@ -36,8 +37,9 @@ const headerImages = {
     mobile: originatorsMobile,
     mobileAvif: originatorsMobileAvif,
     desktop: originatorsDesktop,
+    desktopWidth: 1200,
     large: originatorsLarge,
-    largeWidth: 3200,
+    largeWidth: 1560,
   },
   "capital-providers": {
     mobile: allocatorsMobile,
@@ -110,6 +112,7 @@ const ContactLink = ({
 
 export default function PersonaPage({ id }: { id: PersonaPageId }) {
   const page = getPersonaPage(id);
+  const Framework = id === "originators" ? VaultAnatomy : AudienceFramework;
 
   return (
     <div className="subpage-layout min-h-screen overflow-x-clip bg-[var(--color-bg-page)] font-sans text-[var(--color-text-inverse)]">
@@ -204,7 +207,7 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
               />
             </AudienceReveal>
             <AudienceReveal>
-              <AudienceFramework
+              <Framework
                 title={page.framework.title}
                 items={page.framework.items}
                 action={

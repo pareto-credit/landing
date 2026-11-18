@@ -59,7 +59,7 @@ describe("UnderwritingSection", () => {
     );
     const pillars = within(screen.getByTestId("underwriting-pillars")).getAllByRole("article");
     expect(pillars).toHaveLength(3);
-    for (const title of ["Secured credit facilities", "Corporate credit", "Receivables & portfolio finance"]) {
+    for (const title of ["Secured credit facilities", "Corporate credit", "Receivable financing"]) {
       const card = screen.getByRole("article", { name: title });
       card.focus();
       expect(card).toHaveFocus();

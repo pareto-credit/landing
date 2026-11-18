@@ -2,10 +2,8 @@ import { motion } from "framer-motion";
 import Earth3D from "../three/Earth3D";
 import { Button } from "../ui/Button";
 import { SectionContainer } from "../ui/Section";
-import { ArrowRight } from "lucide-react";
 import { scrollToSection } from "../../lib/scrollToSection";
 import { requestContact } from "../../lib/siteNavigation";
-import { MCP_PRODUCT_NAME } from "../../data/brand";
 import { AirportBoardNumber } from "../ui/AirportBoardNumber";
 import type { VanityMetrics } from "../../types/products";
 
@@ -34,22 +32,16 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
         className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center pb-44 pt-24 text-center sm:pb-48 sm:pt-28 md:min-h-screen md:pb-20 lg:pb-36 lg:pt-32"
       >
         <div className="flex w-full max-w-3xl flex-col items-center">
-          <motion.button
-            type="button"
+          <motion.span
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            onClick={() => requestContact(`${MCP_PRODUCT_NAME} early access`)}
             data-testid="hero-announcement"
-            className="ui-frost-chip group mb-6 inline-flex items-center gap-2 px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-wider text-[var(--color-brand-deep)] shadow-sm transition-colors hover:text-[var(--color-text-primary)] sm:mb-8 sm:text-xs"
+            className="ui-frost-chip mb-6 inline-flex items-center gap-2 px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-wider text-[var(--color-brand-deep)] shadow-sm sm:mb-8 sm:text-xs"
           >
             <span className="h-1.5 w-1.5 animate-pulse motion-reduce:animate-none rounded-full bg-[var(--color-brand)] shadow-[0_0_8px_var(--color-brand)]" />
-            New: {MCP_PRODUCT_NAME} early access
-            <ArrowRight
-              size={14}
-              className="transition-transform duration-300 group-hover:translate-x-0.5"
-            />
-          </motion.button>
+            Onchain Credit
+          </motion.span>
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
