@@ -18,37 +18,37 @@ export const originatorInfrastructure: CreditInfrastructureContent = {
       id: "application",
       title: "Application",
       description:
-        "Run facilities in Pareto Studio and give eligible lenders a dedicated app. White-label options are available for some programs.",
+        "Manage facilities in Pareto Studio, with lender access and optional white-label interfaces.",
     },
     {
       id: "eligibility",
       title: "Eligibility",
       description:
-        "Set facility-specific KYC/KYB and onboarding requirements. Configure supported wallet permissions for approved participants.",
+        "Define facility-specific KYC/KYB requirements and configure wallet permissions for approved facility participants.",
     },
     {
       id: "underwriting",
       title: "Underwriting",
       description:
-        "Bring your own underwriting team or discuss curation with NorthBridge. Define who assesses the borrower and monitors the credit.",
+        "Appoint your underwriter or explore NorthBridge curation for credit assessment and monitoring.",
     },
     {
       id: "terms",
       title: "Credit terms",
       description:
-        "Set facility size, rates and repayment mechanics. Document any agreed collateral, guarantees or other credit support.",
+        "Configure facility size, interest rates, repayment mechanics and any agreed credit support.",
     },
     {
       id: "servicing",
       title: "Servicing",
       description:
-        "Coordinate draws, repayments and lender requests. Follow onchain activity alongside the reporting required for the facility.",
+        "Coordinate drawdowns, repayments and lender requests with onchain records and facility reporting.",
     },
     {
       id: "distribution",
       title: "Distribution",
       description:
-        "Reach eligible lenders through supported Morpho and Pendle integrations. Availability depends on each facility and venue.",
+        "Reach eligible lenders through supported Morpho and Pendle integrations, where terms permit.",
     },
   ],
 };
@@ -61,37 +61,37 @@ export const allocatorInfrastructure: CreditInfrastructureContent = {
       id: "application",
       title: "Application",
       description:
-        "Use the Pareto Lender App to compare available vaults, track positions and review transaction history.",
+        "Compare vaults, monitor positions and review transactions through the Pareto Lender App.",
     },
     {
       id: "eligibility",
       title: "Eligibility",
       description:
-        "Review each facility’s access, KYC/KYB and onboarding requirements. Eligibility depends on the facility and jurisdiction.",
+        "Review facility-specific KYC/KYB, onboarding and access requirements under the applicable jurisdiction.",
     },
     {
       id: "underwriting",
       title: "Underwriting",
       description:
-        "Identify the borrower and curator. Review who assesses the credit, what they monitor and what information is available.",
+        "Assess the borrower, underwriting responsibilities, credit monitoring and available disclosures.",
     },
     {
       id: "terms",
       title: "Credit terms",
       description:
-        "Compare rates, fees and credit support against your mandate. The facility agreements define lender rights and borrower obligations.",
+        "Evaluate rates, fees, credit support and lender rights against your investment mandate.",
     },
     {
       id: "servicing",
       title: "Servicing",
       description:
-        "Track deposits, repayments and withdrawal requests. Review facility-specific notice periods, request windows and settlement terms.",
+        "Track deposits, repayments and withdrawals, including notice periods and settlement terms.",
     },
     {
       id: "distribution",
       title: "Integrations",
       description:
-        "Check whether a vault supports Morpho or Pendle. Review venue eligibility, market depth and liquidity risk.",
+        "Review supported Morpho and Pendle integrations, including eligibility, market depth and liquidity risks.",
     },
   ],
 };
