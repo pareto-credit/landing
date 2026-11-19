@@ -3,6 +3,7 @@ import Earth3D from "../three/Earth3D";
 import { Button } from "../ui/Button";
 import { SectionContainer } from "../ui/Section";
 import { scrollToSection } from "../../lib/scrollToSection";
+import { requestContact } from "../../lib/siteNavigation";
 import { AirportBoardNumber } from "../ui/AirportBoardNumber";
 import type { VanityMetrics } from "../../types/products";
 
@@ -31,16 +32,6 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
         className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center pb-44 pt-24 text-center sm:pb-48 sm:pt-28 md:min-h-screen md:pb-20 lg:pb-36 lg:pt-32"
       >
         <div className="flex w-full max-w-3xl flex-col items-center">
-          {/* <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="ui-frost-chip mb-8 inline-flex items-center gap-2 px-4 py-2 font-mono text-xs font-semibold uppercase tracking-wider text-[var(--color-brand)] shadow-sm"
-          >
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--color-brand)] shadow-[0_0_8px_var(--color-brand)]" />
-            Onchain credit solutions
-          </motion.div> */}
-
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -78,9 +69,9 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
               variant="primary"
               size="lg"
               className="w-full px-6 py-3 text-sm font-semibold sm:w-auto sm:px-8 sm:py-4 sm:text-base"
-              onClick={() => scrollToSection("contact")}
+              onClick={() => requestContact("Pareto Studio (Core)")}
             >
-              Build a Credit Line
+              Request Studio access
             </Button>
             <Button
               variant="white"
@@ -88,7 +79,7 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
               className="w-full px-6 py-3 text-sm sm:w-auto sm:px-8 sm:py-4 sm:text-base"
               onClick={() => scrollToSection("products")}
             >
-              Explore Vaults
+              Explore live vaults
             </Button>
           </motion.div>
         </div>

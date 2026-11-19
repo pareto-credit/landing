@@ -1,0 +1,214 @@
+.credit-history {
+  --credit-history-secondary: color-mix(in srgb, var(--color-brand) 65%, var(--color-brand-deep));
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  margin: 0;
+  padding: var(--data-dashboard-panel-padding, 20px);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-panel);
+  background: var(--color-surface);
+}
+.credit-history-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.credit-history-heading h2 {
+  margin: 0;
+  color: var(--color-brand-dark);
+  font-size: clamp(20px, 1.8vw, 24px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+}
+.credit-history-ranges {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px;
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-control);
+  background: var(--color-surface-muted);
+}
+.credit-history-ranges button {
+  min-width: 40px;
+  min-height: 36px;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  color: var(--color-text-muted);
+  font: 500 11px var(--font-mono);
+  cursor: pointer;
+  transition: background 180ms ease, color 180ms ease, box-shadow 180ms ease;
+}
+.credit-history-ranges button[aria-pressed="true"] {
+  color: var(--color-text-inverse);
+  background: var(--color-brand-deep);
+}
+.credit-history-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+.credit-history-legend button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 36px;
+  padding: 6px 9px;
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+.credit-history-legend button[aria-pressed="true"] {
+  background: var(--color-surface-muted);
+  border-color: var(--color-border-soft-strong);
+}
+.credit-history-legend button > span:first-child {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+.credit-history-legend__check {
+  width: 12px;
+  color: var(--color-brand-deep);
+}
+.credit-history-inspection {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  min-height: 50px;
+  padding-block: 10px;
+  color: var(--color-text-muted);
+  font: 11px/1.5 var(--font-mono);
+}
+.credit-history-inspection time {
+  color: var(--color-text-secondary);
+}
+.credit-history-inspection strong {
+  color: var(--color-brand-deep);
+  font-weight: 500;
+}
+.credit-history-inspection__name {
+  margin-right: 5px;
+}
+.credit-history-canvas {
+  min-width: 0;
+  min-height: 310px;
+}
+.credit-history-plot {
+  display: block;
+  width: 100%;
+  height: 310px;
+  overflow: visible;
+}
+.credit-history-grid {
+  stroke: var(--color-border-soft-strong);
+  stroke-width: 1;
+  stroke-dasharray: 3 5;
+}
+.credit-history-grid--vertical {
+  stroke-opacity: 0.7;
+}
+.credit-history-area {
+  pointer-events: none;
+}
+.credit-history[data-entered="true"] .credit-history-series {
+  stroke-dasharray: 1;
+  animation: credit-history-draw 1.25s cubic-bezier(0.22, 1, 0.36, 1) both paused;
+}
+.credit-history[data-running="true"] .credit-history-series {
+  animation-play-state: running;
+}
+.credit-history[data-running="true"] .credit-history-series[data-series="tvlUsd"] {
+  animation-delay: 120ms;
+}
+.credit-history-axis {
+  fill: var(--color-text-muted);
+  font: 11px var(--font-mono);
+}
+.credit-history-guide {
+  stroke: var(--color-text-muted);
+  stroke-width: 1;
+  stroke-dasharray: 3 4;
+}
+.credit-history-placeholder {
+  display: flex;
+  min-height: 310px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  text-align: center;
+  border: 1px dashed var(--color-border-soft-strong);
+  border-radius: var(--radius-control);
+  background: var(--color-bg-light-alt);
+}
+.credit-history-placeholder p {
+  color: var(--color-text-muted);
+  font-size: 12px;
+}
+.credit-history-caption {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-border-soft);
+  color: var(--color-text-muted);
+  font: 11px/1.5 var(--font-mono);
+}
+.credit-history button:focus-visible,
+.credit-history-plot:focus-visible {
+  outline: 2px solid var(--color-focus-on-light);
+  outline-offset: 4px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .credit-history button:hover {
+    border-color: var(--color-border-soft-strong);
+  }
+}
+@media (max-width: 639px) {
+  .credit-history-inspection {
+    min-height: 74px;
+    gap: 6px 14px;
+  }
+  .credit-history-legend {
+    gap: 6px;
+  }
+  .credit-history-legend button {
+    padding-inline: 9px;
+    font-size: 11px;
+  }
+  .credit-history-ranges button {
+    min-width: 34px;
+  }
+}
+@media (pointer: coarse) {
+  .credit-history-ranges button,
+  .credit-history-legend button {
+    min-height: 44px;
+  }
+}
+
+@keyframes credit-history-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .credit-history .credit-history-series { animation: none !important; stroke-dasharray: none; }
+  .credit-history button { transition: none; }
+}
