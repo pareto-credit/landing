@@ -1,9 +1,9 @@
 import { useId, useRef, useState, type KeyboardEvent } from "react";
-import type { FrameworkItem } from "../../../data/personas";
+import type { VaultAnatomyItem } from "../../../data/vaultAnatomy";
 
 interface FrameworkExplorerProps {
   title: string;
-  items: FrameworkItem[];
+  items: VaultAnatomyItem[];
 }
 
 export default function FrameworkExplorer({

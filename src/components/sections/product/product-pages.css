@@ -47,6 +47,3 @@
 .credit-vaults-page [data-section-header] h2 {
   font-size: clamp(36px, 4vw, 48px);
 }
-.credit-vaults-page #agents {
-  --color-focus-ring: var(--color-focus-on-dark);
-}

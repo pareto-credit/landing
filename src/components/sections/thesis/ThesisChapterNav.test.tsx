@@ -72,13 +72,13 @@ describe("ThesisChapterNav", () => {
   });
 
   it("tracks the first chapter", () => {
-    chapterTops.set("structured-credit", 100);
+    chapterTops.set("constraints", 100);
     renderContents();
     act(() => vi.runOnlyPendingTimers());
-    const toggle = screen.getByRole("button", { name: /thesis chapters.*structured credit/i });
+    const toggle = screen.getByRole("button", { name: /thesis chapters.*the constraints/i });
     expect(toggle).not.toHaveTextContent(/5 chapters|01\s*\/\s*05/);
     fireEvent.click(toggle);
-    expect(screen.getByRole("link", { name: "Structured credit" })).toHaveAttribute("aria-current", "location");
+    expect(screen.getByRole("link", { name: "The constraints" })).toHaveAttribute("aria-current", "location");
   });
 
   it("does not track matching section ids or focus another page's headings", () => {

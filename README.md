@@ -73,8 +73,8 @@ USP/sUSP remain available for preview with
   The four capability cards use compact artwork with hover/focus transitions,
   in a four/two/one-column responsive grid. Reduced motion keeps the art static.
 - `AgentsSection` retains a compact variant, with inline availability
-  chips and the larger shared `agents/AgentSession` illustration. Both `studio`
-  and `credit-vaults` use the same fuller workflow; the homepage omits this section.
+  chips and the larger shared `agents/AgentSession` illustration. Studio uses
+  the full workflow.
   The illustrative read-only prompt, queries and results pause offscreen/hidden
   and remain static for reduced motion. A small pause/resume control lets readers
   inspect the MCP illustration.
@@ -82,10 +82,10 @@ USP/sUSP remain available for preview with
   only at their respective reveal times, without changing the reserved layout.
   No standalone Agents navigation or product-specific homepage agent links.
 - Clients links to Originators and Capital Allocators. Audience content lives in
-  `src/data/personas.ts`. The Originators vault cross-section explains the flow
-  from deposits to withdrawals and distinguishes onchain records from offchain
-  reporting. Both explorers support keyboard navigation. The latter
-  page is labelled Capital Allocators; its URL remains `/capital-providers`.
+  `src/data/personas.ts`. Both pages and Credit Vaults share the keyboard-accessible
+  Anatomy of a vault walkthrough. Its copy lives in `src/data/vaultAnatomy.ts`.
+  Capital Allocators has its own copy on facility terms, credit oversight and
+  withdrawals. Its URL is `/capital-providers`.
   Both follow an abstract animated hero → features → layers → stories → FAQs → contact.
   Feature cards use larger interface-inspired artwork, one-sentence descriptions
   and subtle hover/focus motion. Layer summaries reveal supporting details on
@@ -130,7 +130,8 @@ USP/sUSP remain available for preview with
   router location and page links use `aria-current="page"`.
 - About shares the other dropdowns’ icon tiles, typography and footer, and groups
   Thesis, Data Dashboard and the official Brand assets link. Thesis opens with a
-  single claim over a subtle animated mesh, followed by a short write-up.
+  single claim over a subtle animated mesh, followed by the scroll-driven video
+  carousel and a short write-up.
   The SVG grid drifts slowly, pauses offscreen and in hidden tabs, and offers a
   pause/resume control. Reduced motion uses a static grid. No hero image loads.
   The inline chapter legend is removed. Six Clients modules connect directly to

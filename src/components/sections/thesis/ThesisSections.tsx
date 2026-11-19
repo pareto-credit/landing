@@ -97,6 +97,18 @@ const OpportunityScale = () => {
   );
 };
 
+/** Opens the thesis narrative with the full-viewport video carousel. */
+export const ThesisConstraints = () => (
+  <section
+    id="constraints"
+    aria-labelledby="constraints-title"
+    className="thesis-chapter thesis-chapter--constraints thesis-chapter--dark"
+  >
+    <h2 id="constraints-title" tabIndex={-1} className="sr-only">The constraints</h2>
+    <ThesisProblemStory />
+  </section>
+);
+
 const ThesisSections = () => (
   <>
     <Chapter
@@ -106,15 +118,6 @@ const ThesisSections = () => (
     >
       <ThesisAnatomy />
     </Chapter>
-
-    <section
-      id="constraints"
-      aria-labelledby="constraints-title"
-      className="thesis-chapter thesis-chapter--constraints thesis-chapter--dark"
-    >
-      <h2 id="constraints-title" tabIndex={-1} className="sr-only">The constraints</h2>
-      <ThesisProblemStory />
-    </section>
 
     <Chapter
       id="opportunity"

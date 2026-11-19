@@ -110,7 +110,7 @@ function BriefAgentsSection() {
 const AgentsSection = ({
   variant = "compact",
 }: {
-  variant?: "compact" | "studio" | "credit-vaults";
+  variant?: "compact" | "studio";
 }) => {
   const shouldReduceMotion = useReducedMotion();
 

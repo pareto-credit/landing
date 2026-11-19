@@ -54,7 +54,7 @@ interface MenuDefinition {
   id: MenuId;
   label: string;
   groups: Array<{ title: string; items: MenuItem[] }>;
-  isActive: (pathname: string) => boolean;
+  isActive: (location: NavLocation) => boolean;
 }
 
 const solutionGroups: MenuDefinition["groups"] = [
@@ -130,22 +130,22 @@ const menus: MenuDefinition[] = [
     id: "audiences",
     label: "Clients",
     groups: audienceGroups,
-    isActive: (pathname) =>
+    isActive: ({ pathname }) =>
       personaPages.some((page) => page.path === pathname.replace(/\/$/, "")),
   },
   {
     id: "solutions",
     label: "Solutions",
     groups: solutionGroups,
-    isActive: (pathname) =>
-      pathname === "/" ||
-      ["/credit-vaults", "/studio"].includes(pathname.replace(/\/$/, "")),
+    isActive: ({ pathname, hash }) =>
+      ["/credit-vaults", "/studio"].includes(pathname.replace(/\/$/, "")) ||
+      (pathname === "/" && hash.replace(/^#/, "") === "offering"),
   },
   {
     id: "about",
     label: "About",
     groups: aboutGroups,
-    isActive: (pathname) =>
+    isActive: ({ pathname }) =>
       ["/thesis", "/data"].includes(pathname.replace(/\/$/, "")),
   },
 ];
@@ -383,7 +383,7 @@ const NavbarContent = ({ location }: { location: NavLocation }) => {
                     }}
                     type="button"
                     aria-expanded={isOpen}
-                    data-active={menu.isActive(location.pathname) || undefined}
+                    data-active={menu.isActive(location) || undefined}
                     aria-controls={`${menu.id}-menu`}
                     onClick={(event) => {
                       cancelMenuClose();

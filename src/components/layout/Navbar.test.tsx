@@ -315,7 +315,15 @@ describe("Navbar", () => {
     ).not.toHaveAttribute("aria-current");
   });
 
-  it("keeps the homepage Solutions group active without selecting a product", async () => {
+  it.each(["/", "/#hero"])("keeps all desktop groups neutral at %s", async (entry) => {
+    renderAt(entry);
+    await screen.findByRole("button", { name: "Solutions" });
+    for (const name of ["Clients", "Solutions", "About"]) {
+      expect(screen.getByRole("button", { name })).not.toHaveAttribute("data-active");
+    }
+  });
+
+  it("marks Solutions for the Offering section without selecting a product", async () => {
     renderAt("/#offering");
     const solutions = await screen.findByRole("button", { name: /solutions/i });
     expect(solutions).toHaveAttribute("data-active", "true");

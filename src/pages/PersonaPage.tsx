@@ -13,10 +13,9 @@ import allocatorsLarge from "../assets/images/page-headers/capital-allocators-32
 import AudienceCardArt, {
   type AudienceArtKind,
 } from "../components/sections/persona/AudienceCardArt";
-import AudienceFramework from "../components/sections/persona/AudienceFramework";
 import AudienceReveal from "../components/sections/persona/AudienceReveal";
 import AudienceStories from "../components/sections/persona/AudienceStories";
-import VaultAnatomy from "../components/sections/persona/VaultAnatomy";
+import VaultAnatomySection from "../components/sections/persona/VaultAnatomy";
 import ContactSection from "../components/sections/ContactSection";
 import "../components/sections/persona/persona.css";
 import { buttonClassName } from "../components/ui/buttonStyles";
@@ -57,24 +56,14 @@ const benefitArtwork: Record<PersonaPageId, AudienceArtKind[]> = {
 const TwoToneTitle = ({
   title,
   muted,
-  dark = false,
 }: {
   title: string;
   muted?: string;
-  dark?: boolean;
 }) =>
   muted && title.endsWith(muted) ? (
     <>
       {title.slice(0, -muted.length)}
-      <span
-        className={
-          dark
-            ? "text-[var(--color-text-muted-inverse)]"
-            : "text-[var(--color-text-muted)]"
-        }
-      >
-        {muted}
-      </span>
+      <span className="text-[var(--color-text-muted)]">{muted}</span>
     </>
   ) : (
     title
@@ -112,7 +101,6 @@ const ContactLink = ({
 
 export default function PersonaPage({ id }: { id: PersonaPageId }) {
   const page = getPersonaPage(id);
-  const Framework = id === "originators" ? VaultAnatomy : AudienceFramework;
 
   return (
     <div className="subpage-layout min-h-screen overflow-x-clip bg-[var(--color-bg-page)] font-sans text-[var(--color-text-inverse)]">
@@ -185,42 +173,17 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
           </SectionContainer>
         </section>
 
-        <section
+        <VaultAnatomySection
           id="framework"
-          className="audience-section audience-section--layers"
-          aria-labelledby="framework-title"
-        >
-          <SectionContainer className="ui-section-shell">
-            <AudienceReveal>
-              <SectionHeader
-                eyebrow="Credit infrastructure"
-                titleId="framework-title"
-                title={
-                  <TwoToneTitle
-                    title={page.framework.title}
-                    muted={page.framework.titleMuted}
-                    dark
-                  />
-                }
-                description={page.framework.intro}
-                tone="dark"
-              />
-            </AudienceReveal>
-            <AudienceReveal>
-              <Framework
-                title={page.framework.title}
-                items={page.framework.items}
-                action={
-                  <ContactLink
-                    label={page.frameworkCta.label}
-                    interest={page.frameworkCta.interest}
-                    to={page.path}
-                  />
-                }
-              />
-            </AudienceReveal>
-          </SectionContainer>
-        </section>
+          content={page.framework}
+          action={
+            <ContactLink
+              label={page.frameworkCta.label}
+              interest={page.frameworkCta.interest}
+              to={page.path}
+            />
+          }
+        />
 
         <section
           id="experience"

@@ -1,8 +1,20 @@
 /* Vault anatomy: an opening vault, its numbered index and one reading pane,
    drawn straight onto the dark section. */
+.vault-anatomy-section {
+  --color-focus-ring: var(--color-focus-on-dark);
+  background: var(--color-bg-page);
+  color: var(--color-text-inverse);
+}
+.vault-anatomy-section .ui-section-shell { padding-block: var(--section-content-padding); }
+.vault-anatomy-section [data-section-header] { margin-bottom: clamp(16px, 2vw, 24px); }
+.vault-anatomy-section :is(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 5px;
+  border-radius: var(--radius-control);
+}
 .vault-anatomy {
   display: grid;
-  gap: 24px 16px;
+  gap: 16px;
 }
 
 /* Stage */
@@ -270,7 +282,7 @@ svg[data-view="intro"] .vault-stage__lid { cursor: pointer; }
   cursor: pointer;
   transition: color 180ms, background-color 180ms, border-color 180ms;
 }
-.audience-main .vault-anatomy__tab:focus-visible { outline-offset: 2px; }
+.vault-anatomy-section .vault-anatomy__tab:focus-visible { outline-offset: 2px; }
 .vault-anatomy__number {
   display: grid;
   flex: none;
@@ -340,7 +352,7 @@ svg[data-view="intro"] .vault-stage__lid { cursor: pointer; }
   min-height: 46px;
   margin-top: 24px;
 }
-.vault-anatomy__action a { min-height: 44px; }
+.vault-anatomy__action a { min-height: 44px; color: var(--color-text-primary); }
 .vault-anatomy__next {
   display: inline-flex;
   min-height: 44px;

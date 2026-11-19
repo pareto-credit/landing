@@ -1,6 +1,8 @@
 import { ArrowRight, CircleDot, Layers } from "lucide-react";
 import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
-import type { FrameworkItem } from "../../../data/personas";
+import type { VaultAnatomyContent, VaultAnatomyItem } from "../../../data/vaultAnatomy";
+import { SectionContainer, SectionHeader } from "../../ui/Section";
+import AudienceReveal from "./AudienceReveal";
 import { useFrameworkTabs } from "./useFrameworkTabs";
 import "./vault-anatomy.css";
 
@@ -169,7 +171,7 @@ function VaultStage({
   onSelect,
   onOpen,
 }: {
-  layers: FrameworkItem[];
+  layers: VaultAnatomyItem[];
   view: StageView;
   open: number;
   onSelect: (layer: number) => void;
@@ -283,14 +285,14 @@ function VaultStage({
   );
 }
 
-/** Pairs the Originators vault animation with its index and explanations. */
-export default function VaultAnatomy({
+/** Pairs the vault animation with its index and audience-specific explanations. */
+function VaultAnatomy({
   title,
   items,
   action,
 }: {
   title: string;
-  items: FrameworkItem[];
+  items: VaultAnatomyItem[];
   action: ReactNode;
 }) {
   const { active, select, focus, tabProps, panelProps, panelAreaRef } =
@@ -334,7 +336,11 @@ export default function VaultAnatomy({
         aria-orientation="vertical"
       >
         {items.map((item, index) => (
-          <button className="vault-anatomy__tab" key={item.id} {...tabProps(item.id, index)}>
+          <button
+            className="vault-anatomy__tab"
+            key={item.id}
+            {...tabProps(item.id, index, view !== "overview")}
+          >
             <span className="vault-anatomy__number" aria-hidden="true">
               {item.kind === "intro" ? (
                 <CircleDot size={13} />
@@ -398,5 +404,42 @@ export default function VaultAnatomy({
         </div>
       </div>
     </div>
+  );
+}
+
+/** Renders the same vault walkthrough on the audience and product pages. */
+export default function VaultAnatomySection({
+  id,
+  content,
+  action,
+}: {
+  id: string;
+  content: VaultAnatomyContent;
+  action: ReactNode;
+}) {
+  const { title, titleMuted, items } = content;
+  const titleId = `${id}-title`;
+
+  return (
+    <section id={id} className="vault-anatomy-section" aria-labelledby={titleId}>
+      <SectionContainer className="ui-section-shell">
+        <AudienceReveal>
+          <SectionHeader
+            eyebrow="Credit infrastructure"
+            titleId={titleId}
+            title={titleMuted && title.endsWith(titleMuted) ? (
+              <>
+                {title.slice(0, -titleMuted.length)}
+                <span className="text-[var(--color-text-muted-inverse)]">{titleMuted}</span>
+              </>
+            ) : title}
+            tone="dark"
+          />
+        </AudienceReveal>
+        <AudienceReveal>
+          <VaultAnatomy title={title} items={items} action={action} />
+        </AudienceReveal>
+      </SectionContainer>
+    </section>
   );
 }

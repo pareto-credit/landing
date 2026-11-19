@@ -35,19 +35,21 @@ afterEach(() => {
 });
 
 describe("ThesisPage", () => {
-  it("opens with one claim and removes the inline chapter legend", () => {
+  it("opens with the hero, videos and write-up in reading order", () => {
     render(<ThesisPage />);
 
     const heading = screen.getByRole("heading", { level: 1 });
     expect(heading).toHaveTextContent(/^credit is moving onchain$/i);
     expect(within(heading).getByText("onchain")).toHaveClass("text-[var(--color-text-muted-inverse)]");
     expect(screen.queryByRole("navigation", { name: "Contents" })).not.toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Read the thesis" })).toHaveAttribute("href", "/thesis#thesis-intro");
+    expect(screen.getByRole("link", { name: "Read the thesis" })).toHaveAttribute("href", "/thesis#constraints");
+    expect(Array.from(screen.getByRole("main").children, element => element.id)).toEqual([
+      "hero", "constraints", "thesis-intro", "structured-credit", "opportunity", "why-pareto", "contact",
+    ]);
     const intro = document.getElementById("thesis-intro");
-    expect(intro?.previousElementSibling).toHaveAttribute("id", "hero");
-    expect(intro?.nextElementSibling).toHaveAttribute("id", "structured-credit");
-    expect(intro).toHaveTextContent("Asset-backed finance turns the cash flows");
-    expect(intro).toHaveTextContent("Pareto is building the infrastructure to bring that credit onchain");
+    expect(intro).toHaveTextContent(
+      /^Pareto is building the infrastructure to bring that credit onchain, connecting origination, servicing and distribution in one facility\.$/,
+    );
     expect(screen.queryByText("Investment thesis")).not.toBeInTheDocument();
   });
 

@@ -132,7 +132,7 @@ describe("dedicated product pages", () => {
       expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
       expect(container.querySelectorAll("video")).toHaveLength(0);
       expect(container.querySelectorAll("#pricing")).toHaveLength(1);
-      expect(container.querySelectorAll("#agents")).toHaveLength(1);
+      expect(container.querySelectorAll(id === "credit-vaults" ? "#anatomy" : "#agents")).toHaveLength(1);
       expect(container.querySelectorAll("#contact")).toHaveLength(1);
       const faq = container.querySelector("#questions") as HTMLElement;
       const answers = within(faq).getAllByRole("button");
@@ -195,8 +195,25 @@ describe("dedicated product pages", () => {
 
 
 
-  it("gives Credit Vaults the same agent workflow as Studio with a working early-access inquiry", () => {
+  it("explains how Credit Vaults work and links the full walkthrough to live vaults", () => {
     render(<ProductPage id="credit-vaults" />);
+    const section = screen.getByRole("region", { name: "Anatomy of a vault" });
+    expect(screen.queryByText("Agentic Credit Operations")).not.toBeInTheDocument();
+    expect(within(section).getByRole("tabpanel", { name: "The vault" })).toHaveTextContent(
+      "A Pareto Credit Vault connects lender capital to a credit facility through smart contracts."
+    );
+    expect(within(section).getAllByRole("tab")).toHaveLength(8);
+    fireEvent.click(within(section).getByRole("button", { name: "Open the vault" }));
+    fireEvent.click(within(section).getByRole("button", { name: "Next: Credit facility" }));
+    expect(within(section).getByRole("tabpanel", { name: "Credit facility" })).toHaveTextContent(
+      "Term facilities operate in defined lending cycles"
+    );
+    fireEvent.click(within(section).getByRole("tab", { name: "Full anatomy" }));
+    expect(within(section).getByRole("link", { name: "Explore live vaults" })).toHaveAttribute("href", "/#products");
+  });
+
+  it("offers the agent workflow and early-access inquiry on Studio", () => {
+    render(<ProductPage id="studio" />);
     expect(screen.getByText("Agent-prepared actions")).toBeInTheDocument();
     expect(screen.getByText("Upcoming")).toBeInTheDocument();
     expect(screen.getByTestId("agent-session")).toBeInTheDocument();

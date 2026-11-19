@@ -1,17 +1,17 @@
 export const thesisChapters = [
   {
-    id: "structured-credit",
-    group: "The case",
-    label: "Structured credit",
-    summary: "One infrastructure layer for different credit structures.",
-    tag: "Definition",
-  },
-  {
     id: "constraints",
     group: "The case",
     label: "The constraints",
     summary: "Why private credit still runs on PDFs and phone calls.",
     tag: "Problem",
+  },
+  {
+    id: "structured-credit",
+    group: "The case",
+    label: "Structured credit",
+    summary: "One infrastructure layer for different credit structures.",
+    tag: "Definition",
   },
   {
     id: "opportunity",
@@ -69,7 +69,7 @@ export const thesisStats: ThesisStat[] = [
   },
 ];
 
-/** The parties around one facility, drawn in chapter 01. */
+/** The parties around one facility, shown in the Structured credit chapter. */
 export const thesisAnatomy = {
   curator: { title: "Curator", copy: "Diligence, terms and ongoing oversight" },
   borrower: { title: "Borrower", copy: "Credit fund, trading firm or fintech lender" },

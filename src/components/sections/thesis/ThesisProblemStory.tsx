@@ -140,7 +140,7 @@ const StickyStory = ({ pageVisible }: { pageVisible: boolean }) => {
             />
           ))}
         </div>
-        <a href="#opportunity" className="thesis-story__skip">Skip to the opportunity</a>
+        <a href="#thesis-intro" className="thesis-story__skip">Skip the videos</a>
       </div>
     </div>
   );

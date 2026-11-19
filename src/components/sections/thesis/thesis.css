@@ -60,7 +60,6 @@
   text-align: center;
   text-wrap: balance;
 }
-.thesis-intro__content p + p { margin-top: .65em; }
 .thesis-intro__content span { color: color-mix(in srgb, var(--color-text-inverse) 46%, var(--color-brand-dark)); transition: color 160ms ease-out; }
 .thesis-intro__content span[data-highlighted] { color: inherit; }
 .thesis-intro__content [tabindex]:focus-visible { outline: 2px solid var(--thesis-focus-color); outline-offset: 8px; }

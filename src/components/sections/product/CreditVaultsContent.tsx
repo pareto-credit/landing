@@ -2,7 +2,9 @@ import towerDesktop from "../../../assets/images/credit-vaults/tower-1920.jpg";
 import towerLarge from "../../../assets/images/credit-vaults/tower-3840.jpg";
 import towerImage from "../../../assets/images/ecosystem/market-makers-card.jpg";
 import towerImageAvif from "../../../assets/images/ecosystem/market-makers-card.avif";
-import AgentsSection from "../AgentsSection";
+import { creditVaultAnatomy } from "../../../data/vaultAnatomy";
+import { buttonClassName } from "../../ui/buttonStyles";
+import { PageLink } from "../../ui/PageLink";
 import {
   CreditStructureCards,
   type StructureDetailContent,
@@ -10,6 +12,7 @@ import {
 import { SectionContainer, SectionHeader } from "../../ui/Section";
 import FacilityCardArt from "./FacilityCardArt";
 import SubpageHeader from "../SubpageHeader";
+import VaultAnatomySection from "../persona/VaultAnatomy";
 
 /**
  * The eight facility families follow the homepage collection. These are design
@@ -139,7 +142,15 @@ const CreditVaultsContent = () => (
       </SectionContainer>
     </section>
 
-    <AgentsSection variant="credit-vaults" />
+    <VaultAnatomySection
+      id="anatomy"
+      content={creditVaultAnatomy}
+      action={
+        <PageLink to="/" hash="products" className={buttonClassName("primary", "md")}>
+          Explore live vaults
+        </PageLink>
+      }
+    />
   </>
 );
 

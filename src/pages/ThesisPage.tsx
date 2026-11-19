@@ -1,5 +1,5 @@
 import { ArrowDown } from "lucide-react";
-import ThesisSections from "../components/sections/thesis/ThesisSections";
+import ThesisSections, { ThesisConstraints } from "../components/sections/thesis/ThesisSections";
 import "../components/sections/thesis/thesis.css";
 import Footer from "../components/layout/Footer";
 import Navbar from "../components/layout/Navbar";
@@ -24,11 +24,11 @@ const ThesisPage = () => {
             </h1>
             <PageLink
               to="/thesis"
-              hash="thesis-intro"
+              hash="constraints"
               className="thesis-hero__read"
               onClick={(event) => {
                 if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-                window.requestAnimationFrame(() => document.getElementById("thesis-intro-copy")?.focus({ preventScroll: true }));
+                window.requestAnimationFrame(() => document.getElementById("constraints-title")?.focus({ preventScroll: true }));
               }}
             >
               Read the thesis<ArrowDown size={18} aria-hidden="true" />
@@ -37,6 +37,7 @@ const ThesisPage = () => {
           <ThesisHeroBackground />
         </section>
 
+        <ThesisConstraints />
         <ThesisIntro />
         <ThesisSections />
       </main>

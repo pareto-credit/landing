@@ -12,6 +12,7 @@ import {
   motion,
   useIsPresent,
   useReducedMotion,
+  type Transition,
 } from "framer-motion";
 import {
   Building2,
@@ -34,6 +35,11 @@ import { SectionContainer, SectionHeader } from "../ui/Section";
 import RevolvingCreditDiagram from "./structures/RevolvingCreditDiagram";
 
 type Tone = "dark" | "mint" | "light";
+
+const cardMorphTransition: Transition = {
+  duration: 0.38,
+  ease: [0.22, 1, 0.36, 1],
+};
 
 interface BentoTile {
   icon: LucideIcon;
@@ -250,13 +256,14 @@ const StructureDetail = ({
   }, [returnFocus, isPresent]);
 
   return createPortal(
-    <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 sm:p-6">
+    <div className="fixed inset-0 z-[70] flex items-center justify-center overflow-clip p-4 sm:p-6">
       <motion.div
         aria-hidden="true"
         className="absolute inset-0 bg-[color:rgb(5_12_9_/_0.55)] backdrop-blur-sm"
-        initial={{ opacity: 0 }}
+        initial={shouldReduceMotion ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
+        transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
         onClick={onClose}
       />
       <motion.div
@@ -265,21 +272,24 @@ const StructureDetail = ({
         aria-modal="true"
         aria-labelledby={`structure-detail-title-${number}`}
         layoutId={shouldReduceMotion ? undefined : `structure-card-${index}`}
-        transition={
-          shouldReduceMotion
-            ? { duration: 0 }
-            : { type: "spring", stiffness: 260, damping: 30 }
-        }
+        transition={{ layout: cardMorphTransition }}
         className={cn(
-          "relative z-10 max-h-[calc(100dvh-2rem)] w-full max-w-2xl overflow-y-auto overscroll-contain ui-radius-card border p-6 shadow-[0_40px_120px_rgb(0_0_0_/_0.35)] sm:max-h-[calc(100dvh-3rem)] sm:p-8",
+          "relative z-10 flex max-h-[calc(100dvh-2rem)] w-full max-w-2xl flex-col overflow-hidden ui-radius-card border shadow-[0_40px_120px_rgb(0_0_0_/_0.35)] sm:max-h-[calc(100dvh-3rem)]",
           tone.card
         )}
       >
-        <div className="flex items-start justify-between gap-4">
-          <motion.div
-            layout={shouldReduceMotion ? false : "position"}
-            className="flex items-center gap-3"
-          >
+        <motion.div
+          className="min-h-0 overflow-x-hidden overflow-y-auto overscroll-contain p-6 sm:p-8"
+          initial={shouldReduceMotion ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0, transition: { duration: shouldReduceMotion ? 0 : 0.1 } }}
+          transition={{
+            duration: shouldReduceMotion ? 0 : 0.22,
+            delay: shouldReduceMotion ? 0 : 0.12,
+            ease: "easeOut",
+          }}
+        >
+          <div className="flex items-start justify-between gap-4">
             <span
               className={cn(
                 "flex h-11 w-11 items-center justify-center ui-radius-control",
@@ -288,40 +298,28 @@ const StructureDetail = ({
             >
               <tile.icon size={20} />
             </span>
-          </motion.div>
-          <button
-            ref={closeRef}
-            type="button"
-            onClick={onClose}
-            aria-label="Close details"
-            className={cn(
-              "flex h-9 w-9 items-center justify-center rounded-full border transition-colors",
-              tile.tone === "dark"
-                ? "border-[color:rgb(255_255_255_/_0.15)] hover:bg-[color:rgb(255_255_255_/_0.08)]"
-                : "border-[var(--color-border-soft-strong)] hover:bg-[color:rgb(14_24_19_/_0.05)]"
-            )}
+            <button
+              ref={closeRef}
+              type="button"
+              onClick={onClose}
+              aria-label="Close details"
+              className={cn(
+                "flex h-9 w-9 items-center justify-center rounded-full border transition-colors",
+                tile.tone === "dark"
+                  ? "border-[color:rgb(255_255_255_/_0.15)] hover:bg-[color:rgb(255_255_255_/_0.08)]"
+                  : "border-[var(--color-border-soft-strong)] hover:bg-[color:rgb(14_24_19_/_0.05)]"
+              )}
+            >
+              <X size={16} />
+            </button>
+          </div>
+
+          <h3
+            id={`structure-detail-title-${number}`}
+            className="mt-6 text-3xl font-bold tracking-tight"
           >
-            <X size={16} />
-          </button>
-        </div>
-
-        <motion.h3
-          layout={shouldReduceMotion ? false : "position"}
-          id={`structure-detail-title-${number}`}
-          className="mt-6 text-3xl font-bold tracking-tight"
-        >
-          {structure.name}
-        </motion.h3>
-
-        <motion.div
-          initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0 }}
-          transition={{
-            duration: shouldReduceMotion ? 0 : 0.3,
-            delay: shouldReduceMotion ? 0 : 0.18,
-          }}
-        >
+            {structure.name}
+          </h3>
           <p className={cn("mt-3 text-base leading-relaxed", tone.muted)}>
             {detail?.description ?? structure.lede}
           </p>
@@ -331,7 +329,7 @@ const StructureDetail = ({
               <div
                 key={label}
                 className={cn(
-                  "flex items-baseline justify-between gap-6 border-t py-3",
+                  "flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-t py-3",
                   tile.tone === "dark"
                     ? "border-[color:rgb(255_255_255_/_0.1)]"
                     : "border-[var(--color-border-soft-strong)]"
@@ -390,12 +388,19 @@ export const CreditStructureCards = ({
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") setOpenIndex(null);
     };
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    const { body, documentElement } = document;
+    const previousOverflow = body.style.overflow;
+    const previousGutter = documentElement.style.scrollbarGutter;
+    const reserveGutter =
+      window.innerWidth > documentElement.clientWidth &&
+      getComputedStyle(documentElement).scrollbarGutter === "auto";
+    if (reserveGutter) documentElement.style.scrollbarGutter = "stable";
+    body.style.overflow = "hidden";
     window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      document.body.style.overflow = previousOverflow;
+      body.style.overflow = previousOverflow;
+      if (reserveGutter) documentElement.style.scrollbarGutter = previousGutter;
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [openIndex]);
@@ -432,7 +437,7 @@ export const CreditStructureCards = ({
         }}
         aria-haspopup="dialog"
         aria-label={`${structure.name}: show details`}
-        transition={{ type: "spring", stiffness: 260, damping: 30 }}
+        transition={{ layout: cardMorphTransition, y: { duration: 0.18 } }}
         whileHover={shouldReduceMotion ? undefined : { y: -4 }}
         className={cn(
           "group relative flex min-h-[10rem] flex-col overflow-hidden ui-radius-card border p-4 text-left sm:p-5 lg:min-h-[13rem] shadow-[var(--shadow-soft)] transition-shadow hover:shadow-[var(--shadow-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-alt)] sm:p-6",

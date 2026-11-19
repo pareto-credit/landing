@@ -71,7 +71,7 @@ describe("ThesisProblemStory", () => {
     render(<ThesisProblemStory />);
     expect(screen.queryByRole("tablist")).not.toBeInTheDocument();
     expect(screen.queryByRole("button")).not.toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Skip to the opportunity" })).toHaveAttribute("href", "#opportunity");
+    expect(screen.getByRole("link", { name: "Skip the videos" })).toHaveAttribute("href", "#thesis-intro");
   });
 
   it("automatically plays each mobile scene as it comes into view", () => {

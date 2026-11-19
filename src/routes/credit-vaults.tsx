@@ -4,10 +4,10 @@ import ProductPage from "../pages/ProductPage";
 export const Route = createFileRoute("/credit-vaults")({
   head: () => pageHead("/credit-vaults"),
   beforeLoad: ({ location }) => {
-    if (location.hash === "modules") {
+    if (location.hash === "modules" || location.hash === "agents") {
       throw redirect({
         to: "/credit-vaults",
-        hash: "facilities",
+        hash: location.hash === "modules" ? "facilities" : "anatomy",
         search: location.search,
         replace: true,
       });

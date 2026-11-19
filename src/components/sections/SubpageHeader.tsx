@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { ChevronRight } from "lucide-react";
 import { PageLink } from "../ui/PageLink";
 import { SectionContainer } from "../ui/Section";
 import "./subpage-header.css";
@@ -12,6 +11,13 @@ interface HeaderImage {
   large: string;
   largeWidth: number;
 }
+
+/** Divider between breadcrumb levels, kept out of the accessible trail. */
+const CrumbDivider = () => (
+  <span className="subpage-header__crumb-divider" aria-hidden="true">
+    /
+  </span>
+);
 
 interface SubpageHeaderProps {
   category: "Clients" | "Solutions";
@@ -59,10 +65,11 @@ export default function SubpageHeader({
               <PageLink to="/">Home</PageLink>
             </li>
             <li>
-              <ChevronRight size={12} aria-hidden="true" /> {category}
+              <CrumbDivider />
+              <span>{category}</span>
             </li>
             <li>
-              <ChevronRight size={12} aria-hidden="true" />
+              <CrumbDivider />
               <span aria-current="page">{pageName}</span>
             </li>
           </ol>

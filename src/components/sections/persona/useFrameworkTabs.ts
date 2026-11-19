@@ -36,7 +36,7 @@ export function useFrameworkTabs(count: number) {
       setActive(index);
       refs.current[index]?.focus({ preventScroll: true });
     },
-    tabProps: (id: string, index: number) => ({
+    tabProps: (id: string, index: number, previewOnHover = true) => ({
       type: "button" as const,
       role: "tab",
       id: `${prefix}-tab-${id}`,
@@ -46,7 +46,7 @@ export function useFrameworkTabs(count: number) {
       ref: (node: HTMLButtonElement | null) => {
         refs.current[index] = node;
       },
-      onMouseEnter: () => preview(index),
+      onMouseEnter: previewOnHover ? () => preview(index) : undefined,
       onFocus: () => setActive(index),
       onClick: () => setActive(index),
       onKeyDown: (event: KeyboardEvent<HTMLButtonElement>) => select(event, index),

@@ -56,27 +56,6 @@ describe("audience pages", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("links the allocator planes and their explanations", () => {
-    render(<PersonaPage id="capital-providers" />);
-    const tabs = screen.getByRole("tablist");
-    const eligibility = within(tabs).getByRole("tab", { name: "Eligibility" });
-    fireEvent.mouseEnter(eligibility);
-    expect(eligibility).toHaveAttribute("aria-selected", "true");
-    expect(screen.getByRole("tabpanel", { name: "Eligibility" })).toBeVisible();
-
-    const underwriting = within(tabs).getByRole("tab", { name: "Underwriting" });
-    const plate = underwriting.querySelector("svg")!;
-    expect(plate).not.toBeNull();
-    fireEvent.mouseEnter(plate);
-    expect(underwriting).toHaveAttribute("aria-selected", "true");
-    expect(screen.getByRole("tabpanel", { name: "Underwriting" })).toBeVisible();
-
-    const servicing = within(tabs).getByRole("tab", { name: "Servicing" });
-    fireEvent.click(servicing.querySelector("svg")!);
-    expect(servicing).toHaveAttribute("aria-selected", "true");
-    expect(screen.getByRole("tabpanel", { name: "Servicing" })).toBeVisible();
-  });
-
   it("opens the matching vault layer and settlement details on click", () => {
     render(<PersonaPage id="originators" />);
     const anatomy = screen.getByRole("region", { name: "Anatomy of a vault" });
@@ -112,8 +91,11 @@ describe("audience pages", () => {
     ).toBeVisible();
   });
 
-  it("starts with the closed vault and steps through to the full anatomy", () => {
-    render(<PersonaPage id="originators" />);
+  it.each([
+    ["originators", "Discuss your facility"],
+    ["capital-providers", "Discuss your allocation"],
+  ] as const)("walks from the closed vault to the full anatomy on %s", (id, action) => {
+    render(<PersonaPage id={id} />);
     const anatomy = screen.getByRole("region", { name: "Anatomy of a vault" });
     const stage = anatomy.querySelector("figure svg")!;
     const layerStates = () =>
@@ -152,7 +134,7 @@ describe("audience pages", () => {
 
     fireEvent.click(within(anatomy).getByRole("tab", { name: "Records & reporting" }));
     expect(
-      within(anatomy).queryByRole("link", { name: "Discuss your facility" })
+      within(anatomy).queryByRole("link", { name: action })
     ).not.toBeInTheDocument();
     const last = within(anatomy).getByRole("button", { name: "See the full anatomy" });
     last.focus();
@@ -160,7 +142,7 @@ describe("audience pages", () => {
     expect(stage).toHaveAttribute("data-view", "overview");
     expect(within(anatomy).getByRole("tab", { name: "Full anatomy" })).toHaveFocus();
     expect(
-      within(anatomy).getByRole("link", { name: "Discuss your facility" })
+      within(anatomy).getByRole("link", { name: action })
     ).toBeVisible();
     expect(within(anatomy).queryByRole("button")).not.toBeInTheDocument();
     expect(new Set(layerStates())).toEqual(new Set(["spread"]));
@@ -302,6 +284,8 @@ describe("audience pages", () => {
     const interest = screen.getByRole("combobox", { name: /interested in/i });
     fireEvent.change(organization, { target: { value: "Example Fund" } });
     fireEvent.change(interest, { target: { value: "Borrowing" } });
+    fireEvent.click(screen.getByRole("tab", { name: "Full anatomy" }));
+    fireEvent.mouseEnter(screen.getByRole("tab", { name: "Share value" }));
     const cta = screen.getByRole("link", { name: "Discuss your allocation" });
     expect(cta).toHaveAttribute("href", "/capital-providers#contact");
     fireEvent.click(cta);
@@ -312,16 +296,22 @@ describe("audience pages", () => {
     expect(consumePendingContactInterest()).toBeNull();
   });
 
-  it("gives capital allocators layers to evaluate", () => {
+  it("gives capital allocators specific checks on terms, oversight and withdrawals", () => {
     render(<PersonaPage id="capital-providers" />);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
       "A broader perspective on credit"
     );
     const tabs = screen.getByRole("tablist", {
-      name: "Understand every layer",
+      name: "Anatomy of a vault",
     });
-    fireEvent.click(within(tabs).getByRole("tab", { name: /servicing/i }));
-    expect(screen.getByRole("tabpanel")).toHaveTextContent(personaPages.find((page) => page.id === "capital-providers")!.framework.items.find((layer) => layer.id === "servicing")!.detail);
+    for (const [name, copy] of [
+      ["Credit facility", /intended use of proceeds, the rate, fees and repayment schedule/i],
+      ["Credit oversight", /who underwrites the facility and what they are responsible for monitoring/i],
+      ["Repayment & exit", /notice period, the withdrawal request window/i],
+    ] as const) {
+      fireEvent.click(within(tabs).getByRole("tab", { name }));
+      expect(screen.getByRole("tabpanel", { name })).toHaveTextContent(copy);
+    }
     expect(screen.queryByTestId("studio-desk")).not.toBeInTheDocument();
     expect(
       screen.getByText(/lending involves credit risk/i)

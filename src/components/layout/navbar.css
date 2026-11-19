@@ -1,5 +1,17 @@
 .site-nav-link { position: relative; min-height: 36px; }
 .site-nav-link[aria-current], .site-nav-link[data-active] { color: var(--color-brand-deep); font-weight: 500; }
+.site-nav-link:is([aria-current], [data-active])::after {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 3px;
+  inline-size: 22px;
+  block-size: 2px;
+  margin-inline: auto;
+  border-radius: 2px;
+  background: currentColor;
+  pointer-events: none;
+  content: "";
+}
 [data-site-navbar] { --color-focus-ring: var(--color-focus-on-light); }
 [data-site-navbar][data-hero-tone="dark"],
 [data-site-navbar][data-mobile-open="true"] { --color-focus-ring: var(--color-focus-on-dark); }
