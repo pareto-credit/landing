@@ -216,7 +216,7 @@
 }
 
 /* Reserve room for card shadows without adding space around the section content. */
-.home-page .home-section-track {
+:is(.home-page, .credit-vaults-page) .home-section-track {
   margin-block: -1rem;
   padding-block: 1rem;
 }

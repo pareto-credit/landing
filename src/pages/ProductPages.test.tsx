@@ -4,6 +4,21 @@ import ProductPage from "./ProductPage";
 
 vi.mock("../components/layout/Navbar", () => ({ default: () => <nav /> }));
 vi.mock("../components/layout/Footer", () => ({ default: () => <footer /> }));
+vi.mock("../hooks/useProductsData", () => ({
+  useProductsData: () => ({
+    isLoading: false,
+    vaults: [{
+      id: "example-vault",
+      address: "0x123",
+      name: "Example Credit Vault",
+      status: "LIVE",
+      apy: "8.10%",
+      tvl: "$3.2M",
+      asset: "USDC",
+      visibility: "PUBLIC",
+    }],
+  }),
+}));
 vi.mock("framer-motion", async (original) => ({
   ...(await original<typeof import("framer-motion")>()),
   useReducedMotion: () => true,
@@ -24,6 +39,10 @@ beforeEach(() => {
       dispatchEvent: vi.fn(),
     }))
   );
+  vi.stubGlobal("ResizeObserver", class {
+    observe() {}
+    disconnect() {}
+  });
   vi.spyOn(window, "scrollTo").mockImplementation(() => undefined);
 });
 afterEach(() => {
@@ -132,7 +151,7 @@ describe("dedicated product pages", () => {
       expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
       expect(container.querySelectorAll("video")).toHaveLength(0);
       expect(container.querySelectorAll("#pricing")).toHaveLength(1);
-      expect(container.querySelectorAll(id === "credit-vaults" ? "#infrastructure" : "#agents")).toHaveLength(1);
+      expect(container.querySelectorAll(id === "credit-vaults" ? "#products" : "#agents")).toHaveLength(1);
       expect(container.querySelectorAll("#contact")).toHaveLength(1);
       const faq = container.querySelector("#questions") as HTMLElement;
       const answers = within(faq).getAllByRole("button");
@@ -195,23 +214,16 @@ describe("dedicated product pages", () => {
 
 
 
-  it("shows configurable infrastructure as stacked layers on Credit Vaults", () => {
+  it("shows the Live Vaults carousel after facility structures on Credit Vaults", () => {
     render(<ProductPage id="credit-vaults" />);
-    const section = screen.getByRole("region", { name: "How Credit Vaults are built" });
-    const layers = within(section).getAllByRole("listitem");
-    expect(layers).toHaveLength(6);
-    const eligibility = within(section).getByRole("heading", { name: "Eligibility & compliance" }).closest("li");
-    const distribution = within(section).getByRole("heading", { name: "Distribution" }).closest("li");
-    expect(eligibility).toHaveTextContent(/KYC\/KYB.*wallet permissions/i);
-    expect(distribution).toHaveTextContent(/Morpho and Pendle.*availability depends/i);
-    const action = within(section).getByRole("link", { name: "Explore live vaults" });
-    expect(action).toHaveAttribute("href", "/#products");
-    expect(section.querySelector("[data-section-header]")).toContainElement(action);
-
-    const distributionButton = within(section).getByRole("button", { name: "Distribution" });
-    fireEvent.click(distributionButton);
-    expect(distributionButton).toHaveAttribute("aria-pressed", "true");
-    expect(distribution).toHaveAttribute("data-active", "true");
+    const section = screen.getByRole("region", { name: "Tokenized credit, built for scale" });
+    expect(section.previousElementSibling).toHaveAttribute("id", "facilities");
+    expect(section.nextElementSibling).toHaveAttribute("id", "pricing");
+    expect(within(section).getByRole("link", { name: "Open Example Credit Vault vault" }))
+      .toHaveAttribute("href", "https://app.pareto.credit/vault/0x123");
+    expect(within(section).getByRole("link", { name: "Explore Vaults" }))
+      .toHaveAttribute("href", "https://app.pareto.credit/");
+    expect(screen.queryByRole("heading", { name: "How Credit Vaults are built" })).not.toBeInTheDocument();
   });
 
   it("offers the agent workflow and early-access inquiry on Studio", () => {

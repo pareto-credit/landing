@@ -2,9 +2,7 @@ import towerDesktop from "../../../assets/images/credit-vaults/tower-1920.jpg";
 import towerLarge from "../../../assets/images/credit-vaults/tower-3840.jpg";
 import towerImage from "../../../assets/images/ecosystem/market-makers-card.jpg";
 import towerImageAvif from "../../../assets/images/ecosystem/market-makers-card.avif";
-import { creditVaultInfrastructure } from "../../../data/creditInfrastructure";
-import { buttonClassName } from "../../ui/buttonStyles";
-import { PageLink } from "../../ui/PageLink";
+import { useProductsData } from "../../../hooks/useProductsData";
 import {
   CreditStructureCards,
   type StructureDetailContent,
@@ -12,7 +10,7 @@ import {
 import { SectionContainer, SectionHeader } from "../../ui/Section";
 import FacilityCardArt from "./FacilityCardArt";
 import SubpageHeader from "../SubpageHeader";
-import CreditInfrastructure from "../persona/CreditInfrastructure";
+import ProductsSection from "../ProductsSection";
 
 /**
  * The eight facility families follow the homepage collection. These are design
@@ -96,62 +94,58 @@ const facilityDetails: StructureDetailContent[] = [
   },
 ];
 
-const CreditVaultsContent = () => (
-  <>
-    <SubpageHeader
-      category="Solutions"
-      pageName="Credit Vaults"
-      titleId="cv-hero-title"
-      title={
-        <>
-          Credit, structured around{" "}
-          <span className="text-[var(--color-text-muted)]">your business</span>
-        </>
-      }
-      description="Bring borrowers, capital and facility operations together. Define the structure and terms around the way you lend."
-      image={{
-        mobile: towerImage,
-        mobileAvif: towerImageAvif,
-        desktop: towerDesktop,
-        large: towerLarge,
-        largeWidth: 3840,
-      }}
-    />
+const CreditVaultsContent = () => {
+  const { vaults, isLoading } = useProductsData();
 
-    <section
-      id="facilities"
-      className="product-section"
-      aria-labelledby="cv-facilities-title"
-    >
-      <SectionContainer>
-        <SectionHeader
-          eyebrow="Facility structures"
-          titleId="cv-facilities-title"
-          title={
-            <>
-              One framework.{" "}
-              <span className="text-[var(--color-text-muted)]">
-                Many forms of credit
-              </span>
-            </>
-          }
-          description="From a straightforward term facility to a revolving line or an asset-backed structure. Choose the approach, then define the details with your team."
-        />
+  return (
+    <>
+      <SubpageHeader
+        category="Solutions"
+        pageName="Credit Vaults"
+        titleId="cv-hero-title"
+        title={
+          <>
+            Credit, structured around{" "}
+            <span className="text-[var(--color-text-muted)]">your business</span>
+          </>
+        }
+        description="Bring borrowers, capital and facility operations together. Define the structure and terms around the way you lend."
+        image={{
+          mobile: towerImage,
+          mobileAvif: towerImageAvif,
+          desktop: towerDesktop,
+          large: towerLarge,
+          largeWidth: 3840,
+        }}
+      />
 
-        <CreditStructureCards details={facilityDetails} />
-      </SectionContainer>
-    </section>
+      <section
+        id="facilities"
+        className="product-section"
+        aria-labelledby="cv-facilities-title"
+      >
+        <SectionContainer>
+          <SectionHeader
+            eyebrow="Facility structures"
+            titleId="cv-facilities-title"
+            title={
+              <>
+                One framework.{" "}
+                <span className="text-[var(--color-text-muted)]">
+                  Many forms of credit
+                </span>
+              </>
+            }
+            description="From a straightforward term facility to a revolving line or an asset-backed structure. Choose the approach, then define the details with your team."
+          />
 
-    <CreditInfrastructure
-      id="infrastructure"
-      content={creditVaultInfrastructure}
-      action={
-        <PageLink to="/" hash="products" className={buttonClassName("primary", "md")}>
-          Explore live vaults
-        </PageLink>
-      }
-    />
-  </>
-);
+          <CreditStructureCards details={facilityDetails} />
+        </SectionContainer>
+      </section>
+
+      <ProductsSection vaults={vaults} isVaultsLoading={isLoading} />
+    </>
+  );
+};
 
 export default CreditVaultsContent;

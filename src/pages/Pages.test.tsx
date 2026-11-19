@@ -53,6 +53,27 @@ describe("ThesisPage", () => {
     expect(screen.queryByText("Investment thesis")).not.toBeInTheDocument();
   });
 
+  it("gives both statement phrases equal billing beside a decorative three-panel photograph", () => {
+    render(<ThesisPage />);
+
+    const intro = document.getElementById("thesis-intro")!;
+    const phrases = Array.from(intro.querySelectorAll(".thesis-intro__phrase"));
+    expect(phrases.map((phrase) => phrase.textContent?.trim())).toEqual([
+      "Pareto is building the infrastructure to bring that credit onchain,",
+      "connecting origination, servicing and distribution in one facility.",
+    ]);
+    expect(phrases.map((phrase) => Array.from(phrase.querySelectorAll("[data-accent]"), (word) => word.textContent?.trim()).join(" "))).toEqual([
+      "credit onchain,",
+      "one facility.",
+    ]);
+    const panels = Array.from(intro.querySelectorAll("img"));
+    expect(panels).toHaveLength(3);
+    for (const panel of panels) {
+      expect(panel).toHaveAttribute("alt", "");
+      expect(panel.closest("[aria-hidden='true']")).not.toBeNull();
+    }
+  });
+
   it("cites a dated source for every market figure", () => {
     render(<ThesisPage />);
 

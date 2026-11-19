@@ -43,25 +43,101 @@
 .thesis-hero__read:hover svg { transform: translateY(3px); }
 .thesis-hero__read:focus-visible, .thesis-hero h1:focus-visible { outline: 2px solid var(--thesis-focus-color); outline-offset: 8px; }
 
+/*
+ * Statement: a pinned stage. `--settle` runs 0 → 1 as the reader scrolls: at 0 the
+ * photograph fills the stage, at 1 it has split into three overlapping panels
+ * beside the sentence. Without script or motion the settled state is the default.
+ */
 .thesis-intro {
   --thesis-focus-color: var(--color-focus-on-dark);
-  display: grid;
-  min-height: 62svh;
-  align-items: center;
-  padding-block: clamp(88px, 17svh, 176px);
+  position: relative;
   background: var(--color-brand-dark);
   color: var(--color-text-inverse);
 }
-.thesis-intro__content {
-  font-size: clamp(24px, 3.5vw, 50px);
-  font-weight: 500;
-  line-height: 1.17;
-  letter-spacing: -.04em;
-  text-align: center;
-  text-wrap: balance;
+.thesis-intro__stage {
+  --settle: 1;
+  --copy: 1;
+  /* A wider layout than the page container, so the sentence keeps room beside the large panels. */
+  --layout-width: min(100cqw, 1760px);
+  --side: clamp(24px, 4cqw, 64px);
+  --copy-x: calc(50cqw - var(--layout-width) / 2 + var(--side));
+  --frame-width: min(46cqw, 86cqh, 860px);
+  --frame-height: calc(var(--frame-width) * .9);
+  --frame-x: calc(50cqw + var(--layout-width) / 2 - var(--side) - var(--frame-width));
+  --copy-width: calc(var(--frame-x) - var(--copy-x) - clamp(28px, 4cqw, 72px));
+  --frame-y: calc(50cqh - var(--frame-height) / 2);
+  position: relative;
+  height: 100svh;
+  overflow: hidden;
+  container-type: size;
 }
-.thesis-intro__content span { color: color-mix(in srgb, var(--color-text-inverse) 46%, var(--color-brand-dark)); transition: color 160ms ease-out; }
-.thesis-intro__content span[data-highlighted] { color: inherit; }
+.thesis-intro__panels { position: absolute; inset: 0; isolation: isolate; }
+.thesis-intro__panel {
+  --unsettled: calc(1 - var(--settle));
+  --left: calc(var(--column) * 100cqw / 3 * var(--unsettled) + (var(--frame-x) + var(--x) * var(--frame-width)) * var(--settle));
+  --top: calc((var(--frame-y) + var(--y) * var(--frame-height)) * var(--settle));
+  --width: calc((100cqw / 3 + 1px) * var(--unsettled) + var(--w) * var(--frame-width) * var(--settle));
+  --height: calc(100cqh * var(--unsettled) + var(--h) * var(--frame-height) * var(--settle));
+  position: absolute;
+  top: var(--top);
+  left: var(--left);
+  width: var(--width);
+  height: var(--height);
+  overflow: hidden;
+  background: var(--color-brand-mid);
+  box-shadow: 0 0 0 calc(var(--panel-ring, 6px) * var(--settle)) var(--color-brand-dark), 0 32px 56px -24px rgb(0 0 0 / calc(.55 * var(--settle)));
+}
+/* Every panel holds the whole photograph, placed so the three line up as one picture. */
+.thesis-intro__panel img {
+  --image-x: calc(var(--frame-x) * var(--settle));
+  --image-y: calc(var(--frame-y) * var(--settle));
+  position: absolute;
+  top: calc(var(--image-y) - var(--top));
+  left: calc(var(--image-x) - var(--left));
+  width: calc(100cqw * var(--unsettled) + var(--frame-width) * var(--settle));
+  max-width: none;
+  height: calc(100cqh * var(--unsettled) + var(--frame-height) * var(--settle));
+  object-fit: cover;
+  transform: scale(calc(1 + (var(--zoom) - 1) * var(--settle)));
+  transform-origin: calc(var(--left) + var(--width) / 2 - var(--image-x)) calc(var(--top) + var(--height) / 2 - var(--image-y));
+}
+.thesis-intro__content { position: relative; z-index: 1; display: grid; height: 100%; align-items: center; padding-inline: var(--copy-x); }
+/* The type scales with the column: its longest line is about 11em wide, so it never wraps mid-phrase. */
+.thesis-intro__content p {
+  max-width: var(--copy-width);
+  font-size: clamp(1.25rem, min(var(--copy-width) / 12, 6.2cqh), 3.75rem);
+  font-weight: 500;
+  line-height: 1.14;
+  letter-spacing: -.04em;
+  opacity: var(--copy);
+  transform: translateY(calc((1 - var(--copy)) * 28px));
+}
+/* Both phrases carry the same weight; only their closing words take the accent colour. */
+.thesis-intro__phrase { display: block; text-wrap: balance; }
+.thesis-intro__phrase + .thesis-intro__phrase { margin-top: .6em; }
+.thesis-intro__content [data-word] { color: color-mix(in srgb, var(--color-text-inverse) 46%, var(--color-brand-dark)); transition: color 160ms ease-out; }
+.thesis-intro__content [data-word][data-accent] { color: color-mix(in srgb, var(--color-brand-soft) 42%, var(--color-brand-dark)); }
+.thesis-intro__content [data-word][data-highlighted] { color: inherit; }
+.thesis-intro__content [data-word][data-accent][data-highlighted] { color: var(--color-brand-soft); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .thesis-intro { height: 250svh; }
+  .thesis-intro__stage { position: sticky; top: 0; }
+}
+
+/* Upright phones and tablets: the sentence sits above the panels. */
+@media (max-width: 899px) and (orientation: portrait) {
+  .thesis-intro__stage {
+    --panel-ring: 4px;
+    --side: 24px;
+    --frame-width: min(100cqw - 48px, 42cqh, 520px);
+    --frame-x: var(--side);
+    --frame-y: calc(100cqh - var(--frame-height) - clamp(32px, 7cqh, 72px));
+  }
+  .thesis-intro__content { align-items: start; padding-top: calc(var(--thesis-nav-top) + clamp(32px, 6cqh, 64px)); }
+  .thesis-intro__content p { max-width: none; font-size: clamp(1.5rem, min(8cqw, 4.1cqh), 2.75rem); }
+}
+
 .thesis-intro__content [tabindex]:focus-visible { outline: 2px solid var(--thesis-focus-color); outline-offset: 8px; }
 
 .thesis-chapter[id] { scroll-margin-top: calc(var(--thesis-nav-top) + 16px); }
@@ -84,5 +160,6 @@
   .thesis-hero-mesh .thesis-hero-mesh__flow { animation: none; transform: none; }
   .thesis-hero__read svg { transition: none; }
   .thesis-hero__read:hover svg { transform: none; }
-  .thesis-intro__content span { color: inherit; transition: none; }
+  .thesis-intro__content [data-word] { color: inherit; transition: none; }
+  .thesis-intro__content [data-word][data-accent] { color: var(--color-brand-soft); }
 }

@@ -193,6 +193,7 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
   return (
     <section
       id="products"
+      aria-labelledby="products-title"
       className="ui-section-fit relative overflow-x-hidden bg-[var(--color-bg-light-alt)] text-[var(--color-text-primary)]"
     >
       <div className="pointer-events-none absolute left-1/2 top-0 h-[400px] w-[800px] -translate-x-1/2 rounded-full blur-[100px]" />
@@ -202,6 +203,7 @@ const ProductsSection = ({ vaults, isVaultsLoading }: ProductsSectionProps) => {
           <SectionHeader
             variant="collection"
             eyebrow="Live Vaults"
+            titleId="products-title"
             title={
               <>
                 Tokenized credit,{" "}

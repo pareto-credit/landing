@@ -49,7 +49,8 @@ USP/sUSP remain available for preview with
 - Shared partner roster: `src/data/partners.ts`.
 - Product narratives and motion live in `src/components/sections/product`;
   `ProductPage` shares pricing tiers, story placeholders, FAQs and a local contact
-  form. Product FAQ copy lives in `src/data/productPages.ts`. `ScrollHighlight`
+  form. Credit Vaults also uses the homepage’s Live Vaults carousel. Product FAQ
+  copy lives in `src/data/productPages.ts`. `ScrollHighlight`
   uses scroll motion values and a static reduced-motion rendering.
   Credit Vaults uses scroll emphasis only for its editorial paragraph. Eight
   facility cards each have an integrated animated illustration. Decorative motion
@@ -82,8 +83,8 @@ USP/sUSP remain available for preview with
   only at their respective reveal times, without changing the reserved layout.
   No standalone Agents navigation or product-specific homepage agent links.
 - Clients links to Originators and Capital Allocators. Audience content lives in
-  `src/data/personas.ts`. Both pages and Credit Vaults share a stack of
-  infrastructure layers with one explanation per row. Page-specific copy lives in
+  `src/data/personas.ts`. Both pages share a stack of infrastructure layers with
+  one explanation per layer. Page-specific copy lives in
   `src/data/creditInfrastructure.ts`. Capital Allocators is `/capital-providers`.
   Both follow an abstract animated hero → features → layers → stories → FAQs → contact.
   Feature cards use larger interface-inspired artwork, one-sentence descriptions
