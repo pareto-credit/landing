@@ -143,16 +143,17 @@ const TileVisual = ({
         ].map(([id, amount, status]) => (
           <li
             key={id}
-            className="flex items-center justify-between ui-radius-control border border-[color:rgb(255_255_255_/_0.07)] bg-[color:rgb(255_255_255_/_0.03)] px-2.5 py-1.5 text-[color:rgb(255_255_255_/_0.75)]"
+            className="grid grid-cols-3 items-center gap-x-2 ui-radius-control border border-[color:rgb(255_255_255_/_0.07)] bg-[color:rgb(255_255_255_/_0.03)] px-2.5 py-1.5 text-[color:rgb(255_255_255_/_0.75)]"
           >
             <span>{id}</span>
-            <span>{amount}</span>
+            <span className="justify-self-center">{amount}</span>
             <span
-              className={
+              className={cn(
+                "justify-self-end",
                 status === "Eligible"
                   ? "text-[var(--color-brand-bright)]"
                   : "text-[var(--color-accent-yellow)]"
-              }
+              )}
             >
               {status}
             </span>

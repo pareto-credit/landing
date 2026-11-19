@@ -89,7 +89,7 @@ const UnderwritingSection = () => {
               }
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.6, delay: index * 0.12 }}
-              className="group ui-radius-card relative min-h-[27rem] w-[84%] max-w-[24rem] shrink-0 snap-center overflow-hidden border border-[var(--color-border-soft)] bg-[var(--color-bg-dark)] shadow-[var(--shadow-soft)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-brand)] md:aspect-[3/4] md:w-auto md:max-w-none"
+              className="group ui-radius-card relative min-h-[27rem] w-[84%] max-w-[24rem] shrink-0 snap-center overflow-hidden bg-[var(--color-bg-dark)] shadow-[var(--shadow-soft)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-brand)] md:aspect-[3/4] md:w-auto md:max-w-none"
             >
               <img
                 src={pillar.image}
