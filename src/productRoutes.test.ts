@@ -5,7 +5,7 @@ import { routeTree } from "./routeTree.gen";
 describe("product and data routes", () => {
   it.each([
     ["/credit-vaults", "pricing"],
-    ["/credit-vaults", "anatomy"],
+    ["/credit-vaults", "infrastructure"],
     ["/studio", "pricing"],
     ["/data", "facilities-title"],
   ])("resolves %s and preserves a deep link", async (path, hash) => {
@@ -24,7 +24,8 @@ describe("product and data routes", () => {
   });
   it.each([
     ["modules", "facilities"],
-    ["agents", "anatomy"],
+    ["agents", "infrastructure"],
+    ["anatomy", "infrastructure"],
   ])("redirects the previous Credit Vaults anchor %s to %s", async (previous, current) => {
     const router = createRouter({
       routeTree,

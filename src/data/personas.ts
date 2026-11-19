@@ -1,10 +1,10 @@
 import type { ContactInterest } from "./brand";
 import { collateralQuestion } from "./collateral";
 import {
-  capitalAllocatorVaultAnatomy,
-  vaultAnatomy,
-  type VaultAnatomyContent,
-} from "./vaultAnatomy";
+  allocatorInfrastructure,
+  originatorInfrastructure,
+  type CreditInfrastructureContent,
+} from "./creditInfrastructure";
 
 export type PersonaPageId = "originators" | "capital-providers";
 export type PersonaPath = "/originators" | "/capital-providers";
@@ -23,7 +23,7 @@ export interface PersonaPageContent {
     intro: string;
     items: Array<{ label: string; title: string; copy: string }>;
   };
-  framework: VaultAnatomyContent;
+  framework: CreditInfrastructureContent;
   frameworkCta: { label: string; interest: ContactInterest };
   questions: Array<{ question: string; answer: string }>;
   closing: {
@@ -75,7 +75,7 @@ export const personaPages: PersonaPageContent[] = [
         },
       ],
     },
-    framework: vaultAnatomy,
+    framework: originatorInfrastructure,
     frameworkCta: {
       label: "Discuss your facility",
       interest: "Borrowing",
@@ -159,7 +159,7 @@ export const personaPages: PersonaPageContent[] = [
         },
       ],
     },
-    framework: capitalAllocatorVaultAnatomy,
+    framework: allocatorInfrastructure,
     frameworkCta: { label: "Discuss your allocation", interest: "Lending" },
     questions: [
       {

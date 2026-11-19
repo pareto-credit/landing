@@ -1,16 +1,13 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
-import { requestContact } from "../../lib/siteNavigation";
 import HeroSection from "./HeroSection";
-
-vi.mock("../../lib/siteNavigation", () => ({ requestContact: vi.fn() }));
 
 vi.mock("../three/Earth3D", () => ({
   default: () => <div data-testid="earth-3d" />,
 }));
 
 describe("HeroSection", () => {
-  it("renders the Onchain Credit badge as plain text", () => {
+  it("omits the Onchain Credit badge", () => {
     render(
       <HeroSection
         metrics={{ outstandingLoans: 0, creditExtended: 0 }}
@@ -18,11 +15,7 @@ describe("HeroSection", () => {
       />,
     );
 
-    const badge = screen.getByText("Onchain Credit");
-
-    expect(badge.closest("button, a, [role], [tabindex]")).toBeNull();
-    fireEvent.click(badge);
-    expect(requestContact).not.toHaveBeenCalled();
+    expect(screen.queryByText("Onchain Credit")).not.toBeInTheDocument();
   });
 
   it("uses a mobile-safe layout for CTAs and vanity metrics", () => {

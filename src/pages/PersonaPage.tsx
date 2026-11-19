@@ -15,7 +15,7 @@ import AudienceCardArt, {
 } from "../components/sections/persona/AudienceCardArt";
 import AudienceReveal from "../components/sections/persona/AudienceReveal";
 import AudienceStories from "../components/sections/persona/AudienceStories";
-import VaultAnatomySection from "../components/sections/persona/VaultAnatomy";
+import CreditInfrastructure from "../components/sections/persona/CreditInfrastructure";
 import ContactSection from "../components/sections/ContactSection";
 import "../components/sections/persona/persona.css";
 import { buttonClassName } from "../components/ui/buttonStyles";
@@ -173,7 +173,7 @@ export default function PersonaPage({ id }: { id: PersonaPageId }) {
           </SectionContainer>
         </section>
 
-        <VaultAnatomySection
+        <CreditInfrastructure
           id="framework"
           content={page.framework}
           action={

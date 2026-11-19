@@ -132,7 +132,7 @@ describe("dedicated product pages", () => {
       expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
       expect(container.querySelectorAll("video")).toHaveLength(0);
       expect(container.querySelectorAll("#pricing")).toHaveLength(1);
-      expect(container.querySelectorAll(id === "credit-vaults" ? "#anatomy" : "#agents")).toHaveLength(1);
+      expect(container.querySelectorAll(id === "credit-vaults" ? "#infrastructure" : "#agents")).toHaveLength(1);
       expect(container.querySelectorAll("#contact")).toHaveLength(1);
       const faq = container.querySelector("#questions") as HTMLElement;
       const answers = within(faq).getAllByRole("button");
@@ -195,21 +195,23 @@ describe("dedicated product pages", () => {
 
 
 
-  it("explains how Credit Vaults work and links the full walkthrough to live vaults", () => {
+  it("shows configurable infrastructure as stacked layers on Credit Vaults", () => {
     render(<ProductPage id="credit-vaults" />);
-    const section = screen.getByRole("region", { name: "Anatomy of a vault" });
-    expect(screen.queryByText("Agentic Credit Operations")).not.toBeInTheDocument();
-    expect(within(section).getByRole("tabpanel", { name: "The vault" })).toHaveTextContent(
-      "A Pareto Credit Vault connects lender capital to a credit facility through smart contracts."
-    );
-    expect(within(section).getAllByRole("tab")).toHaveLength(8);
-    fireEvent.click(within(section).getByRole("button", { name: "Open the vault" }));
-    fireEvent.click(within(section).getByRole("button", { name: "Next: Credit facility" }));
-    expect(within(section).getByRole("tabpanel", { name: "Credit facility" })).toHaveTextContent(
-      "Term facilities operate in defined lending cycles"
-    );
-    fireEvent.click(within(section).getByRole("tab", { name: "Full anatomy" }));
-    expect(within(section).getByRole("link", { name: "Explore live vaults" })).toHaveAttribute("href", "/#products");
+    const section = screen.getByRole("region", { name: "How Credit Vaults are built" });
+    const layers = within(section).getAllByRole("listitem");
+    expect(layers).toHaveLength(6);
+    const eligibility = within(section).getByRole("heading", { name: "Eligibility & compliance" }).closest("li");
+    const distribution = within(section).getByRole("heading", { name: "Distribution" }).closest("li");
+    expect(eligibility).toHaveTextContent(/KYC\/KYB.*wallet permissions/i);
+    expect(distribution).toHaveTextContent(/Morpho and Pendle.*availability depends/i);
+    const action = within(section).getByRole("link", { name: "Explore live vaults" });
+    expect(action).toHaveAttribute("href", "/#products");
+    expect(section.querySelector("[data-section-header]")).toContainElement(action);
+
+    const distributionButton = within(section).getByRole("button", { name: "Distribution" });
+    fireEvent.click(distributionButton);
+    expect(distributionButton).toHaveAttribute("aria-pressed", "true");
+    expect(distribution).toHaveAttribute("data-active", "true");
   });
 
   it("offers the agent workflow and early-access inquiry on Studio", () => {

@@ -32,17 +32,6 @@ const HeroSection = ({ metrics, isMetricsLoading }: HeroSectionProps) => {
         className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center pb-44 pt-24 text-center sm:pb-48 sm:pt-28 md:min-h-screen md:pb-20 lg:pb-36 lg:pt-32"
       >
         <div className="flex w-full max-w-3xl flex-col items-center">
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            data-testid="hero-announcement"
-            className="ui-frost-chip mb-6 inline-flex items-center gap-2 px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-wider text-[var(--color-brand-deep)] shadow-sm sm:mb-8 sm:text-xs"
-          >
-            <span className="h-1.5 w-1.5 animate-pulse motion-reduce:animate-none rounded-full bg-[var(--color-brand)] shadow-[0_0_8px_var(--color-brand)]" />
-            Onchain Credit
-          </motion.span>
-
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

@@ -82,14 +82,13 @@ USP/sUSP remain available for preview with
   only at their respective reveal times, without changing the reserved layout.
   No standalone Agents navigation or product-specific homepage agent links.
 - Clients links to Originators and Capital Allocators. Audience content lives in
-  `src/data/personas.ts`. Both pages and Credit Vaults share the keyboard-accessible
-  Anatomy of a vault walkthrough. Its copy lives in `src/data/vaultAnatomy.ts`.
-  Capital Allocators has its own copy on facility terms, credit oversight and
-  withdrawals. Its URL is `/capital-providers`.
+  `src/data/personas.ts`. Both pages and Credit Vaults share a stack of
+  infrastructure layers with one explanation per row. Page-specific copy lives in
+  `src/data/creditInfrastructure.ts`. Capital Allocators is `/capital-providers`.
   Both follow an abstract animated hero → features → layers → stories → FAQs → contact.
   Feature cards use larger interface-inspired artwork, one-sentence descriptions
-  and subtle hover/focus motion. Layer summaries reveal supporting details on
-  demand, while preserving keyboard tab navigation and reduced-motion support.
+  and subtle hover/focus motion. Each infrastructure explanation is visible in
+  its row, which highlights the matching plate. The primary action sits in the header.
   Story placeholders live in `AudienceStories.tsx`; approved article URLs can be
   added there. Role-specific illustrative event sequences live in
   `studioDeskData.ts`. Dark previews automatically complete each role’s sequence

@@ -1,9 +1,13 @@
 import { useId, useRef, useState, type KeyboardEvent } from "react";
-import type { VaultAnatomyItem } from "../../../data/vaultAnatomy";
+import type { InfrastructureLayer } from "../../../data/creditInfrastructure";
 
 interface FrameworkExplorerProps {
   title: string;
-  items: VaultAnatomyItem[];
+  items: Array<Pick<InfrastructureLayer, "id" | "title"> & {
+    summary: string;
+    detail: string;
+    points: Array<[string, string]>;
+  }>;
 }
 
 export default function FrameworkExplorer({
