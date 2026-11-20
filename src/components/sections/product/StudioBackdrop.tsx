@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useInView } from "framer-motion";
-import { Pause, Play } from "lucide-react";
 import { usePageVisibility } from "../../../hooks/usePageVisibility";
 import poster from "../../../assets/images/studio-current-wash.webp";
 import loop from "../../../assets/videos/studio-current-wash.mp4";
@@ -24,10 +23,9 @@ export default function StudioBackdrop() {
   const visible = useInView(stage);
   const pageVisible = usePageVisibility();
   const reduced = useSyncExternalStore(subscribeMotion, prefersStill, serverStill);
-  const [paused, setPaused] = useState(false);
   const [mode, setMode] = useState<"canvas" | "video" | "still">("canvas");
   const still = reduced || mode === "still";
-  const running = visible && pageVisible && !paused && !still;
+  const running = visible && pageVisible && !still;
 
   const mountCanvas = useCallback((element: HTMLCanvasElement | null) => {
     if (!element) return;
@@ -53,7 +51,7 @@ export default function StudioBackdrop() {
     let current = true;
     if (running) {
       video.play()?.catch((error: DOMException) => {
-        if (current && error.name !== "AbortError") setPaused(true);
+        if (current && error.name !== "AbortError") setMode("still");
       });
     } else {
       video.pause();
@@ -85,16 +83,6 @@ export default function StudioBackdrop() {
           />
         )}
       </div>
-      {!still && (
-        <button
-          type="button"
-          className="studio-backdrop__control"
-          aria-label={paused ? "Play background animation" : "Pause background animation"}
-          onClick={() => setPaused(value => !value)}
-        >
-          {paused ? <Play size={15} aria-hidden="true" /> : <Pause size={15} aria-hidden="true" />}
-        </button>
-      )}
     </div>
   );
 }

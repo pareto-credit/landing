@@ -36,27 +36,6 @@
     linear-gradient(90deg, rgb(244 247 245 / .69), rgb(244 247 245 / .56) 26%, rgb(244 247 245 / .13) 47%, transparent 64%);
 }
 
-.studio-backdrop__control {
-  position: absolute;
-  z-index: 2;
-  top: clamp(96px, 10svh, 125px);
-  right: clamp(12px, 2vw, 36px);
-  display: grid;
-  width: 44px;
-  height: 44px;
-  place-items: center;
-  border-radius: 50%;
-  background: rgb(244 247 245 / .75);
-  color: var(--color-brand-deep);
-  pointer-events: auto;
-  cursor: pointer;
-}
-.studio-backdrop__control:hover { background: white; }
-.studio-backdrop__control:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
-}
-
 @media (max-width: 767px) {
   .studio-backdrop__film :is(img, video) { object-position: 57% top; }
   .studio-backdrop__film::after {

@@ -24,23 +24,18 @@ beforeEach(() => {
 });
 afterEach(() => { vi.restoreAllMocks(); vi.unstubAllGlobals(); });
 
-it("keeps a manual pause while the backdrop leaves and re-enters the viewport", () => {
-  const { rerender } = render(<StudioBackdrop />);
-  expect(HTMLMediaElement.prototype.play).toHaveBeenCalledTimes(1);
-  fireEvent.click(screen.getByRole("button", { name: "Pause background animation" }));
-  expect(HTMLMediaElement.prototype.pause).toHaveBeenCalled();
-  viewport.visible = false;
-  rerender(<StudioBackdrop />);
-  viewport.visible = true;
-  rerender(<StudioBackdrop />);
-  expect(HTMLMediaElement.prototype.play).toHaveBeenCalledTimes(1);
-  fireEvent.click(screen.getByRole("button", { name: "Play background animation" }));
-  expect(HTMLMediaElement.prototype.play).toHaveBeenCalledTimes(2);
+it("shows the poster if the browser blocks autoplay", async () => {
+  vi.mocked(HTMLMediaElement.prototype.play).mockRejectedValue(new DOMException("", "NotAllowedError"));
+  const { container } = render(<StudioBackdrop />);
+  await act(async () => {});
+  expect(container.querySelector("img")).toBeInTheDocument();
+  expect(screen.queryByRole("button")).toBeNull();
 });
 
 it("only plays while both the backdrop and the page are visible", () => {
   const visibility = vi.spyOn(document, "visibilityState", "get");
   const { rerender } = render(<StudioBackdrop />);
+  expect(screen.queryByRole("button")).toBeNull();
   visibility.mockReturnValue("hidden");
   act(() => document.dispatchEvent(new Event("visibilitychange")));
   expect(HTMLMediaElement.prototype.pause).toHaveBeenCalledTimes(1);
@@ -83,21 +78,17 @@ it("draws the native field without requesting video and keeps it still under red
   reduced = false;
   act(() => preference.dispatchEvent(new Event("change")));
   expect(renderer.setRunning).toHaveBeenLastCalledWith(true);
-  fireEvent.click(screen.getByRole("button", { name: "Pause background animation" }));
-  expect(renderer.setRunning).toHaveBeenLastCalledWith(false);
+  expect(screen.queryByRole("button")).toBeNull();
   unmount();
   expect(renderer.dispose).toHaveBeenCalledOnce();
 });
 
-it("preserves a manual pause when switching to video after losing the graphics context", () => {
+it("switches to video after losing the graphics context", () => {
   const renderer = { setRunning: vi.fn(), dispose: vi.fn() };
   vi.mocked(createStudioCurrent).mockReturnValue(renderer);
   const { container } = render(<StudioBackdrop />);
-  fireEvent.click(screen.getByRole("button", { name: "Pause background animation" }));
   fireEvent(container.querySelector("canvas")!, new Event("webglcontextlost"));
   expect(renderer.dispose).toHaveBeenCalledOnce();
   expect(container.querySelector("video")).toBeInTheDocument();
-  expect(HTMLMediaElement.prototype.play).not.toHaveBeenCalled();
-  fireEvent.click(screen.getByRole("button", { name: "Play background animation" }));
   expect(HTMLMediaElement.prototype.play).toHaveBeenCalledOnce();
 });

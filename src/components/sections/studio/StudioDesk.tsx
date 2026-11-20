@@ -116,15 +116,16 @@ function ProductSession({
     const timer = window.setTimeout(
       () => {
         if (!finished) setEventCount((current) => current + 1);
-        else if (onComplete) {
-          completed.current = true;
-          onComplete();
-        } else setEventCount(0);
+        else {
+          if (onComplete && !screenView) completed.current = true;
+          else setEventCount(0);
+          onComplete?.();
+        }
       },
       finished ? FINAL_HOLD_MS : EVENT_INTERVAL_MS
     );
     return () => window.clearTimeout(timer);
-  }, [eventCount, onComplete, playing, scenario.events.length]);
+  }, [eventCount, onComplete, playing, scenario.events.length, screenView]);
 
   return (
     <div
@@ -293,6 +294,7 @@ function ProductSession({
                 isLive={motionRunning && !pauseEvents}
                 reduced={reduced}
                 animateEntrance={animateWorkspace}
+                onComplete={onComplete}
               />
             ) : (
               <StudioOverview

@@ -65,6 +65,45 @@ afterEach(() => {
 });
 
 describe("Studio preview playback and exploration", () => {
+  it("advances the five views when their own sequences finish, then returns to overview", () => {
+    render(<StudioFeatureTour />);
+    const tour = screen.getByRole("region", { name: "Interactive Studio walkthrough" });
+    const overview = screen.getByRole("img", { name: "Workspace overview preview" });
+    act(() => {
+      PreviewObserver.emit(tour, true);
+      PreviewObserver.emit(overview.querySelector(".studio-preview-frame")!, true);
+    });
+    completeSequence();
+    expect(tour).toHaveAttribute("data-view", "overview");
+    expect(screen.getByTestId("studio-desk")).toHaveAttribute("data-persona", "borrow");
+    completeSequence();
+    const finishWorkflow = (view: string) => {
+      advance(2200);
+      advance(2200);
+      advance(4999);
+      expect(tour).toHaveAttribute("data-view", view);
+      advance(1);
+    };
+    finishWorkflow("structuring");
+    expect(tour).toHaveAttribute("data-view", "operations");
+    completeSequence();
+    finishWorkflow("participants");
+    finishWorkflow("reporting");
+    expect(tour).toHaveAttribute("data-view", "overview");
+    expect(screen.getByTestId("studio-desk")).toHaveAttribute("data-persona", "underwrite");
+  });
+
+  it("keeps the tour on the chosen view under reduced motion", () => {
+    settings.reduced = true;
+    render(<StudioFeatureTour />);
+    const tour = screen.getByRole("region", { name: "Interactive Studio walkthrough" });
+    act(() => PreviewObserver.emit(tour, true));
+    fireEvent.click(screen.getByRole("button", { name: "Explore reporting & visibility" }));
+    expect(tour.querySelector("[data-phase]")).toHaveAttribute("data-phase", "2");
+    advance(30000);
+    expect(tour).toHaveAttribute("data-view", "reporting");
+  });
+
   it("keeps all five view controls inside the walkthrough when the screen changes", () => {
     render(<StudioFeatureTour />);
     const tour = screen.getByRole("region", { name: "Interactive Studio walkthrough" });
@@ -105,7 +144,7 @@ describe("Studio preview playback and exploration", () => {
     expect(screen.getByText("8,500,000 USDC")).toBeInTheDocument();
   });
 
-  it("keeps an explored function selected and returns on Escape without moving focus", () => {
+  it("continues from a manual selection and returns on Escape without moving focus", () => {
     render(<StudioFeatureTour />);
     const tour = screen.getByRole("region", {
       name: "Interactive Studio walkthrough",
@@ -116,9 +155,9 @@ describe("Studio preview playback and exploration", () => {
     });
     act(() => hotspot.focus());
     fireEvent.click(hotspot);
-    advance(40000);
+    completeSequence();
     expect(
-      screen.getByRole("img", { name: "Connected operations preview" })
+      screen.getByRole("img", { name: "Participant views preview" })
     ).toBeInTheDocument();
     expect(hotspot).toHaveFocus();
     fireEvent.keyDown(hotspot, { key: "Escape" });

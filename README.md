@@ -67,8 +67,9 @@ USP/sUSP remain available for preview with
   WebGL draws the 16-second loop at display density, with marks at most 0.85 CSS pixels wide.
   The fallback video and poster carry the flowing color, with the fine dot pattern applied by CSS.
   Playback pauses offscreen, in hidden tabs and for reduced motion.
-  An in-frame toolbar switches the graphite preview between overview, facility setup,
-  operations, participant views and reporting. The illustrated app remains inert.
+  The graphite preview advances from overview through facility setup, operations,
+  participant views and reporting as each animation finishes, then repeats.
+  The in-frame toolbar lets visitors jump to any view, including under reduced motion.
   All four functionality pages share `StudioDesk` navigation, chrome and layout.
   `StudioWorkspaceScreens` supplies native forms, queues, access and report tables;
   workflow updates happen inline, and the queue persists between feature views.

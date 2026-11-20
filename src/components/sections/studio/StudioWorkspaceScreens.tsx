@@ -29,6 +29,7 @@ interface StudioWorkspaceScreensProps {
   isLive: boolean;
   reduced: boolean;
   animateEntrance?: boolean;
+  onComplete?: () => void;
 }
 
 type Phase = 0 | 1 | 2;
@@ -51,6 +52,7 @@ function WorkspaceScreen({
   isLive,
   reduced,
   animateEntrance = true,
+  onComplete,
 }: StudioWorkspaceScreensProps) {
   const visible = usePageVisibility();
   const [phase, setPhase] = useState<Phase>(0);
@@ -59,13 +61,12 @@ function WorkspaceScreen({
 
   useEffect(() => {
     if (!running || view === "operations") return;
-    const timer = window.setTimeout(
-      () =>
-        setPhase((current) => (current === 2 ? 0 : ((current + 1) as Phase))),
-      phase === 2 ? 5000 : 2200
-    );
+    const timer = window.setTimeout(() => {
+      if (phase === 2 && onComplete) onComplete();
+      else setPhase(phase === 2 ? 0 : ((phase + 1) as Phase));
+    }, phase === 2 ? 5000 : 2200);
     return () => window.clearTimeout(timer);
-  }, [phase, running, view]);
+  }, [phase, running, view, onComplete]);
 
   return (
     <motion.div

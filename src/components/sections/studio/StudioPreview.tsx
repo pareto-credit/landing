@@ -21,10 +21,12 @@ export default function StudioPreview({
   mode = "desks",
   variant = "default",
   renderActions,
+  onComplete,
 }: {
   mode?: "desks" | "guided";
   variant?: "default" | "showcase";
   renderActions?: (persona: PersonaId) => ReactNode;
+  onComplete?: () => void;
 }) {
   const guided = mode === "guided";
   const desks = guided ? studioDesks : personaDesks;
@@ -166,7 +168,9 @@ export default function StudioPreview({
                     desk={desk}
                     isLive={isInView}
                     pauseEvents={previewFocused}
-                    onComplete={advancePersona}
+                    onComplete={
+                      active === deskCount - 1 && onComplete ? onComplete : advancePersona
+                    }
                     workspaceView={guided ? "overview" : undefined}
                   />
                 </motion.div>

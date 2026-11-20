@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useCallback,
   useId,
   useRef,
   useState,
@@ -68,10 +69,12 @@ function FeatureWorkspace({
   view,
   running,
   animate,
+  onComplete,
 }: {
   view: (typeof views)[number];
   running: boolean;
   animate: boolean;
+  onComplete: () => void;
 }) {
   return (
     <div className="studio-preview-frame" data-running={running}>
@@ -81,6 +84,7 @@ function FeatureWorkspace({
           workspaceView={view.id}
           isLive={running}
           animateWorkspace={animate}
+          onComplete={onComplete}
         />
       </div>
     </div>
@@ -98,6 +102,12 @@ export default function StudioFeatureTour() {
     id: TourView;
     animate: boolean;
   }>({ id: "overview", animate: false });
+  const advance = useCallback(() => {
+    setSelection((current) => {
+      const index = controls.findIndex((control) => control.id === current.id);
+      return { id: controls[(index + 1) % controls.length].id, animate: true };
+    });
+  }, []);
   const view = views.find(({ id }) => id === selection.id);
   const label = view?.label ?? "Workspace overview";
   const screenId = useId();
@@ -151,13 +161,14 @@ export default function StudioFeatureTour() {
               view={view}
               running={running}
               animate={selection.animate}
+              onComplete={advance}
             />
           ) : (
-            <StudioPreview mode="guided" />
+            <StudioPreview mode="guided" onComplete={advance} />
           )}
         </div>
       </div>
-      <p className="sr-only" aria-live="polite" aria-atomic="true">
+      <p className="sr-only" aria-live={running ? "off" : "polite"} aria-atomic="true">
         {label}.{" "}
         {view?.description ??
           "An animated overview of underwriter and borrower workflows. Choose a view to explore a function."}
