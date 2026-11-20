@@ -1,0 +1,3239 @@
+{
+  "schemaVersion": 2,
+  "source": "Pareto public API · 7 credit facilities",
+  "asOf": "2026-10-29",
+  "retrievedAt": "2026-10-29T11:36:12.158Z",
+  "points": [
+    {
+      "date": "2024-10-07",
+      "tvlUsd": 1000000,
+      "creditExtendedUsd": 1000000
+    },
+    {
+      "date": "2024-10-14",
+      "tvlUsd": 1002805.48,
+      "creditExtendedUsd": 1000000
+    },
+    {
+      "date": "2024-10-16",
+      "tvlUsd": 6003234.819672,
+      "creditExtendedUsd": 7003234.819672
+    },
+    {
+      "date": "2024-10-23",
+      "tvlUsd": 6019550.459672,
+      "creditExtendedUsd": 7003234.819672
+    },
+    {
+      "date": "2024-10-24",
+      "tvlUsd": 6019550.459672,
+      "creditExtendedUsd": 13022785.279344
+    },
+    {
+      "date": "2024-10-31",
+      "tvlUsd": 6035948.059672,
+      "creditExtendedUsd": 13022785.279344
+    },
+    {
+      "date": "2024-11-01",
+      "tvlUsd": 6035948.059672,
+      "creditExtendedUsd": 19058733.339016
+    },
+    {
+      "date": "2024-11-08",
+      "tvlUsd": 6052881.779672,
+      "creditExtendedUsd": 19058733.339016
+    },
+    {
+      "date": "2024-11-09",
+      "tvlUsd": 6052881.779672,
+      "creditExtendedUsd": 25111615.118688
+    },
+    {
+      "date": "2024-11-18",
+      "tvlUsd": 6080428.979672,
+      "creditExtendedUsd": 31192044.09836
+    },
+    {
+      "date": "2024-11-25",
+      "tvlUsd": 6110839.491672,
+      "creditExtendedUsd": 31192044.09836
+    },
+    {
+      "date": "2024-11-26",
+      "tvlUsd": 6110839.491672,
+      "creditExtendedUsd": 37302883.590032
+    },
+    {
+      "date": "2024-12-03",
+      "tvlUsd": 6152572.291672,
+      "creditExtendedUsd": 37302883.590032
+    },
+    {
+      "date": "2024-12-04",
+      "tvlUsd": 6152572.291672,
+      "creditExtendedUsd": 43455455.881704
+    },
+    {
+      "date": "2024-12-11",
+      "tvlUsd": 6183936.291672,
+      "creditExtendedUsd": 43455455.881704
+    },
+    {
+      "date": "2024-12-12",
+      "tvlUsd": 6199036.291672,
+      "creditExtendedUsd": 43455455.881704
+    },
+    {
+      "date": "2024-12-13",
+      "tvlUsd": 6199036.291672,
+      "creditExtendedUsd": 49654492.173376
+    },
+    {
+      "date": "2024-12-19",
+      "tvlUsd": 6219834.691672,
+      "creditExtendedUsd": 49654492.173376
+    },
+    {
+      "date": "2024-12-20",
+      "tvlUsd": 6219834.691672,
+      "creditExtendedUsd": 55874326.865048
+    },
+    {
+      "date": "2024-12-27",
+      "tvlUsd": 6239913.891672,
+      "creditExtendedUsd": 55874326.865048
+    },
+    {
+      "date": "2024-12-28",
+      "tvlUsd": 6239913.891672,
+      "creditExtendedUsd": 62114240.75672
+    },
+    {
+      "date": "2025-01-04",
+      "tvlUsd": 6260601.891672,
+      "creditExtendedUsd": 62114240.75672
+    },
+    {
+      "date": "2025-01-05",
+      "tvlUsd": 6260601.891672,
+      "creditExtendedUsd": 68374842.648392
+    },
+    {
+      "date": "2025-01-12",
+      "tvlUsd": 6278445.891672,
+      "creditExtendedUsd": 68374842.648392
+    },
+    {
+      "date": "2025-01-13",
+      "tvlUsd": 16357705.352562,
+      "creditExtendedUsd": 84732548.000954
+    },
+    {
+      "date": "2025-01-20",
+      "tvlUsd": 16405644.552562,
+      "creditExtendedUsd": 84732548.000954
+    },
+    {
+      "date": "2025-01-21",
+      "tvlUsd": 16405644.552562,
+      "creditExtendedUsd": 101138192.553516
+    },
+    {
+      "date": "2025-01-28",
+      "tvlUsd": 16444942.952562,
+      "creditExtendedUsd": 101138192.553516
+    },
+    {
+      "date": "2025-01-29",
+      "tvlUsd": 16445895.422749,
+      "creditExtendedUsd": 117584087.976265
+    },
+    {
+      "date": "2025-02-06",
+      "tvlUsd": 16474711.422749,
+      "creditExtendedUsd": 117584087.976265
+    },
+    {
+      "date": "2025-02-07",
+      "tvlUsd": 16474711.422749,
+      "creditExtendedUsd": 117584087.976265
+    },
+    {
+      "date": "2025-02-08",
+      "tvlUsd": 16474711.422749,
+      "creditExtendedUsd": 117584087.976265
+    },
+    {
+      "date": "2025-02-09",
+      "tvlUsd": 16474711.422749,
+      "creditExtendedUsd": 117584087.976265
+    },
+    {
+      "date": "2025-02-10",
+      "tvlUsd": 16474711.422749,
+      "creditExtendedUsd": 117584087.976265
+    },
+    {
+      "date": "2025-02-11",
+      "tvlUsd": 16474711.422749,
+      "creditExtendedUsd": 117584087.976265
+    },
+    {
+      "date": "2025-02-12",
+      "tvlUsd": 16474711.422749,
+      "creditExtendedUsd": 134058799.399014
+    },
+    {
+      "date": "2025-02-13",
+      "tvlUsd": 16503122.622749,
+      "creditExtendedUsd": 134058799.399014
+    },
+    {
+      "date": "2025-02-14",
+      "tvlUsd": 16503122.622749,
+      "creditExtendedUsd": 134058799.399014
+    },
+    {
+      "date": "2025-02-15",
+      "tvlUsd": 16503122.622749,
+      "creditExtendedUsd": 134058799.399014
+    },
+    {
+      "date": "2025-02-16",
+      "tvlUsd": 16503122.622749,
+      "creditExtendedUsd": 134058799.399014
+    },
+    {
+      "date": "2025-02-17",
+      "tvlUsd": 16503122.622749,
+      "creditExtendedUsd": 134058799.399014
+    },
+    {
+      "date": "2025-02-18",
+      "tvlUsd": 16503122.622749,
+      "creditExtendedUsd": 134058799.399014
+    },
+    {
+      "date": "2025-02-19",
+      "tvlUsd": 16503122.622749,
+      "creditExtendedUsd": 134058799.399014
+    },
+    {
+      "date": "2025-02-20",
+      "tvlUsd": 16503122.622749,
+      "creditExtendedUsd": 150561922.021763
+    },
+    {
+      "date": "2025-02-21",
+      "tvlUsd": 11270578.705817,
+      "creditExtendedUsd": 150561922.021763
+    },
+    {
+      "date": "2025-02-22",
+      "tvlUsd": 11270578.705817,
+      "creditExtendedUsd": 150561922.021763
+    },
+    {
+      "date": "2025-02-23",
+      "tvlUsd": 11270578.705817,
+      "creditExtendedUsd": 150561922.021763
+    },
+    {
+      "date": "2025-02-24",
+      "tvlUsd": 11270578.705817,
+      "creditExtendedUsd": 150561922.021763
+    },
+    {
+      "date": "2025-02-25",
+      "tvlUsd": 11270578.705817,
+      "creditExtendedUsd": 150561922.021763
+    },
+    {
+      "date": "2025-02-26",
+      "tvlUsd": 11270578.705817,
+      "creditExtendedUsd": 150561922.021763
+    },
+    {
+      "date": "2025-02-27",
+      "tvlUsd": 11270578.705817,
+      "creditExtendedUsd": 150561922.021763
+    },
+    {
+      "date": "2025-02-28",
+      "tvlUsd": 11270578.705817,
+      "creditExtendedUsd": 150561922.021763
+    },
+    {
+      "date": "2025-03-01",
+      "tvlUsd": 11270578.705817,
+      "creditExtendedUsd": 161832500.72758
+    },
+    {
+      "date": "2025-03-02",
+      "tvlUsd": 11301393.105817,
+      "creditExtendedUsd": 161832500.72758
+    },
+    {
+      "date": "2025-03-03",
+      "tvlUsd": 11301393.105817,
+      "creditExtendedUsd": 161832500.72758
+    },
+    {
+      "date": "2025-03-04",
+      "tvlUsd": 11301393.105817,
+      "creditExtendedUsd": 161832500.72758
+    },
+    {
+      "date": "2025-03-05",
+      "tvlUsd": 11301393.105817,
+      "creditExtendedUsd": 161832500.72758
+    },
+    {
+      "date": "2025-03-06",
+      "tvlUsd": 11301393.105817,
+      "creditExtendedUsd": 161832500.72758
+    },
+    {
+      "date": "2025-03-07",
+      "tvlUsd": 11301393.105817,
+      "creditExtendedUsd": 161832500.72758
+    },
+    {
+      "date": "2025-03-08",
+      "tvlUsd": 11301393.105817,
+      "creditExtendedUsd": 173133893.833397
+    },
+    {
+      "date": "2025-03-09",
+      "tvlUsd": 11315240.305817,
+      "creditExtendedUsd": 173133893.833397
+    },
+    {
+      "date": "2025-03-10",
+      "tvlUsd": 10220786.665756,
+      "creditExtendedUsd": 173133893.833397
+    },
+    {
+      "date": "2025-03-11",
+      "tvlUsd": 10220786.665756,
+      "creditExtendedUsd": 173133893.833397
+    },
+    {
+      "date": "2025-03-12",
+      "tvlUsd": 10220786.665756,
+      "creditExtendedUsd": 173133893.833397
+    },
+    {
+      "date": "2025-03-13",
+      "tvlUsd": 10220786.665756,
+      "creditExtendedUsd": 173133893.833397
+    },
+    {
+      "date": "2025-03-14",
+      "tvlUsd": 10220786.665756,
+      "creditExtendedUsd": 173133893.833397
+    },
+    {
+      "date": "2025-03-15",
+      "tvlUsd": 10220786.665756,
+      "creditExtendedUsd": 173133893.833397
+    },
+    {
+      "date": "2025-03-16",
+      "tvlUsd": 10220786.665756,
+      "creditExtendedUsd": 183354680.499153
+    },
+    {
+      "date": "2025-03-17",
+      "tvlUsd": 10232828.265756,
+      "creditExtendedUsd": 183354680.499153
+    },
+    {
+      "date": "2025-03-18",
+      "tvlUsd": 10232828.265756,
+      "creditExtendedUsd": 183354680.499153
+    },
+    {
+      "date": "2025-03-19",
+      "tvlUsd": 10232828.265756,
+      "creditExtendedUsd": 183354680.499153
+    },
+    {
+      "date": "2025-03-20",
+      "tvlUsd": 10232828.265756,
+      "creditExtendedUsd": 183354680.499153
+    },
+    {
+      "date": "2025-03-21",
+      "tvlUsd": 10232828.265756,
+      "creditExtendedUsd": 183354680.499153
+    },
+    {
+      "date": "2025-03-22",
+      "tvlUsd": 10232828.265756,
+      "creditExtendedUsd": 183354680.499153
+    },
+    {
+      "date": "2025-03-23",
+      "tvlUsd": 10232828.265756,
+      "creditExtendedUsd": 183354680.499153
+    },
+    {
+      "date": "2025-03-24",
+      "tvlUsd": 10232828.265756,
+      "creditExtendedUsd": 183354680.499153
+    },
+    {
+      "date": "2025-03-25",
+      "tvlUsd": 10244294.665756,
+      "creditExtendedUsd": 193587508.764909
+    },
+    {
+      "date": "2025-03-26",
+      "tvlUsd": 10244494.665756,
+      "creditExtendedUsd": 193587508.764909
+    },
+    {
+      "date": "2025-03-27",
+      "tvlUsd": 10244494.665756,
+      "creditExtendedUsd": 193587508.764909
+    },
+    {
+      "date": "2025-03-28",
+      "tvlUsd": 10244494.665756,
+      "creditExtendedUsd": 193587508.764909
+    },
+    {
+      "date": "2025-03-29",
+      "tvlUsd": 10244494.665756,
+      "creditExtendedUsd": 193587508.764909
+    },
+    {
+      "date": "2025-03-31",
+      "tvlUsd": 10244494.665756,
+      "creditExtendedUsd": 193587508.764909
+    },
+    {
+      "date": "2025-04-01",
+      "tvlUsd": 10244494.665756,
+      "creditExtendedUsd": 193587508.764909
+    },
+    {
+      "date": "2025-04-02",
+      "tvlUsd": 9195214.665756,
+      "creditExtendedUsd": 203832003.430665
+    },
+    {
+      "date": "2025-04-03",
+      "tvlUsd": 10195214.665756,
+      "creditExtendedUsd": 203832003.430665
+    },
+    {
+      "date": "2025-04-04",
+      "tvlUsd": 10195214.665756,
+      "creditExtendedUsd": 203832003.430665
+    },
+    {
+      "date": "2025-04-05",
+      "tvlUsd": 10195214.665756,
+      "creditExtendedUsd": 203832003.430665
+    },
+    {
+      "date": "2025-04-06",
+      "tvlUsd": 10195214.665756,
+      "creditExtendedUsd": 203832003.430665
+    },
+    {
+      "date": "2025-04-07",
+      "tvlUsd": 10195214.665756,
+      "creditExtendedUsd": 203832003.430665
+    },
+    {
+      "date": "2025-04-08",
+      "tvlUsd": 10195214.665756,
+      "creditExtendedUsd": 203832003.430665
+    },
+    {
+      "date": "2025-04-09",
+      "tvlUsd": 10195214.665756,
+      "creditExtendedUsd": 214027218.096421
+    },
+    {
+      "date": "2025-04-10",
+      "tvlUsd": 10214904.527074,
+      "creditExtendedUsd": 214027218.096421
+    },
+    {
+      "date": "2025-04-11",
+      "tvlUsd": 10214904.527074,
+      "creditExtendedUsd": 214027218.096421
+    },
+    {
+      "date": "2025-04-12",
+      "tvlUsd": 10214904.527074,
+      "creditExtendedUsd": 214027218.096421
+    },
+    {
+      "date": "2025-04-13",
+      "tvlUsd": 10214904.527074,
+      "creditExtendedUsd": 214027218.096421
+    },
+    {
+      "date": "2025-04-14",
+      "tvlUsd": 10214904.527074,
+      "creditExtendedUsd": 214027218.096421
+    },
+    {
+      "date": "2025-04-15",
+      "tvlUsd": 10214904.527074,
+      "creditExtendedUsd": 214027218.096421
+    },
+    {
+      "date": "2025-04-16",
+      "tvlUsd": 10214904.527074,
+      "creditExtendedUsd": 214027218.096421
+    },
+    {
+      "date": "2025-04-17",
+      "tvlUsd": 10214904.527074,
+      "creditExtendedUsd": 224242122.623495
+    },
+    {
+      "date": "2025-04-18",
+      "tvlUsd": 10229396.614078,
+      "creditExtendedUsd": 224242122.623495
+    },
+    {
+      "date": "2025-04-19",
+      "tvlUsd": 10229396.614078,
+      "creditExtendedUsd": 224242122.623495
+    },
+    {
+      "date": "2025-04-21",
+      "tvlUsd": 10229396.614078,
+      "creditExtendedUsd": 224242122.623495
+    },
+    {
+      "date": "2025-04-22",
+      "tvlUsd": 10229396.614078,
+      "creditExtendedUsd": 224242122.623495
+    },
+    {
+      "date": "2025-04-24",
+      "tvlUsd": 10229396.614078,
+      "creditExtendedUsd": 224242122.623495
+    },
+    {
+      "date": "2025-04-25",
+      "tvlUsd": 10229396.614078,
+      "creditExtendedUsd": 234471519.237573
+    },
+    {
+      "date": "2025-04-26",
+      "tvlUsd": 10242366.214078,
+      "creditExtendedUsd": 234471519.237573
+    },
+    {
+      "date": "2025-04-27",
+      "tvlUsd": 10242366.214078,
+      "creditExtendedUsd": 234471519.237573
+    },
+    {
+      "date": "2025-04-28",
+      "tvlUsd": 10242366.214078,
+      "creditExtendedUsd": 234471519.237573
+    },
+    {
+      "date": "2025-04-29",
+      "tvlUsd": 10242366.214078,
+      "creditExtendedUsd": 234471519.237573
+    },
+    {
+      "date": "2025-04-30",
+      "tvlUsd": 10242366.214078,
+      "creditExtendedUsd": 234471519.237573
+    },
+    {
+      "date": "2025-05-01",
+      "tvlUsd": 10242366.214078,
+      "creditExtendedUsd": 234471519.237573
+    },
+    {
+      "date": "2025-05-02",
+      "tvlUsd": 10242366.214078,
+      "creditExtendedUsd": 234471519.237573
+    },
+    {
+      "date": "2025-05-03",
+      "tvlUsd": 10242366.214078,
+      "creditExtendedUsd": 244713885.451651
+    },
+    {
+      "date": "2025-05-04",
+      "tvlUsd": 10253410.214078,
+      "creditExtendedUsd": 244713885.451651
+    },
+    {
+      "date": "2025-05-05",
+      "tvlUsd": 10253410.214078,
+      "creditExtendedUsd": 244713885.451651
+    },
+    {
+      "date": "2025-05-06",
+      "tvlUsd": 10253410.214078,
+      "creditExtendedUsd": 244713885.451651
+    },
+    {
+      "date": "2025-05-07",
+      "tvlUsd": 10253410.214078,
+      "creditExtendedUsd": 244713885.451651
+    },
+    {
+      "date": "2025-05-08",
+      "tvlUsd": 10253410.214078,
+      "creditExtendedUsd": 244713885.451651
+    },
+    {
+      "date": "2025-05-09",
+      "tvlUsd": 10253410.214078,
+      "creditExtendedUsd": 244713885.451651
+    },
+    {
+      "date": "2025-05-10",
+      "tvlUsd": 10253410.214078,
+      "creditExtendedUsd": 244713885.451651
+    },
+    {
+      "date": "2025-05-11",
+      "tvlUsd": 10253410.214078,
+      "creditExtendedUsd": 244713885.451651
+    },
+    {
+      "date": "2025-05-12",
+      "tvlUsd": 10273970.414078,
+      "creditExtendedUsd": 254967295.665729
+    },
+    {
+      "date": "2025-05-13",
+      "tvlUsd": 10273972.414078,
+      "creditExtendedUsd": 254967295.665729
+    },
+    {
+      "date": "2025-05-14",
+      "tvlUsd": 10273974.414078,
+      "creditExtendedUsd": 254967295.665729
+    },
+    {
+      "date": "2025-05-15",
+      "tvlUsd": 10319493.414086,
+      "creditExtendedUsd": 254967295.665729
+    },
+    {
+      "date": "2025-05-16",
+      "tvlUsd": 10319493.414086,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2025-05-17",
+      "tvlUsd": 10319493.414086,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2025-05-19",
+      "tvlUsd": 10319493.414086,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2025-05-20",
+      "tvlUsd": 10333827.98258,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2025-05-21",
+      "tvlUsd": 11283851.98258,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2025-05-22",
+      "tvlUsd": 11283851.98258,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2025-05-23",
+      "tvlUsd": 11283851.98258,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2025-05-24",
+      "tvlUsd": 11283851.98258,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2025-05-25",
+      "tvlUsd": 11283851.98258,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2025-05-26",
+      "tvlUsd": 11283851.98258,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2025-05-27",
+      "tvlUsd": 11283851.98258,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2025-05-28",
+      "tvlUsd": 11308161.266829,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2025-05-29",
+      "tvlUsd": 11355181.266829,
+      "creditExtendedUsd": 276520446.91512996
+    },
+    {
+      "date": "2025-05-30",
+      "tvlUsd": 11356122.947392,
+      "creditExtendedUsd": 276520446.91512996
+    },
+    {
+      "date": "2025-05-31",
+      "tvlUsd": 11356122.947392,
+      "creditExtendedUsd": 276520446.91512996
+    },
+    {
+      "date": "2025-06-02",
+      "tvlUsd": 11356122.947392,
+      "creditExtendedUsd": 276520446.91512996
+    },
+    {
+      "date": "2025-06-03",
+      "tvlUsd": 11356122.947392,
+      "creditExtendedUsd": 276520446.91512996
+    },
+    {
+      "date": "2025-06-04",
+      "tvlUsd": 11356127.947392,
+      "creditExtendedUsd": 276520446.91512996
+    },
+    {
+      "date": "2025-06-05",
+      "tvlUsd": 11356127.947392,
+      "creditExtendedUsd": 287830883.89787
+    },
+    {
+      "date": "2025-06-06",
+      "tvlUsd": 11481368.678663,
+      "creditExtendedUsd": 287830883.89787
+    },
+    {
+      "date": "2025-06-07",
+      "tvlUsd": 11481368.678663,
+      "creditExtendedUsd": 287830883.89787
+    },
+    {
+      "date": "2025-06-08",
+      "tvlUsd": 11481368.678663,
+      "creditExtendedUsd": 287830883.89787
+    },
+    {
+      "date": "2025-06-09",
+      "tvlUsd": 11481368.678663,
+      "creditExtendedUsd": 287830883.89787
+    },
+    {
+      "date": "2025-06-10",
+      "tvlUsd": 11481368.678663,
+      "creditExtendedUsd": 287830883.89787
+    },
+    {
+      "date": "2025-06-11",
+      "tvlUsd": 11481368.678663,
+      "creditExtendedUsd": 287830883.89787
+    },
+    {
+      "date": "2025-06-12",
+      "tvlUsd": 11481468.678663,
+      "creditExtendedUsd": 287830883.89787
+    },
+    {
+      "date": "2025-06-13",
+      "tvlUsd": 11482468.678663,
+      "creditExtendedUsd": 299266561.61188096
+    },
+    {
+      "date": "2025-06-14",
+      "tvlUsd": 11501596.837873,
+      "creditExtendedUsd": 299266561.61188096
+    },
+    {
+      "date": "2025-06-15",
+      "tvlUsd": 11501596.837873,
+      "creditExtendedUsd": 299266561.61188096
+    },
+    {
+      "date": "2025-06-16",
+      "tvlUsd": 11511596.837873,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2025-06-17",
+      "tvlUsd": 11511596.837873,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2025-06-18",
+      "tvlUsd": 11511601.837873,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2025-06-19",
+      "tvlUsd": 11511601.837873,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2025-06-20",
+      "tvlUsd": 11511601.837873,
+      "creditExtendedUsd": 299277666.61188096
+    },
+    {
+      "date": "2025-06-21",
+      "tvlUsd": 11511601.837873,
+      "creditExtendedUsd": 310729946.63886297
+    },
+    {
+      "date": "2025-06-22",
+      "tvlUsd": 11525163.991634,
+      "creditExtendedUsd": 310729946.63886297
+    },
+    {
+      "date": "2025-06-23",
+      "tvlUsd": 11526889.79935,
+      "creditExtendedUsd": 310729946.63886297
+    },
+    {
+      "date": "2025-06-24",
+      "tvlUsd": 12526889.79935,
+      "creditExtendedUsd": 310729946.63886297
+    },
+    {
+      "date": "2025-06-25",
+      "tvlUsd": 12526889.79935,
+      "creditExtendedUsd": 310729946.63886297
+    },
+    {
+      "date": "2025-06-26",
+      "tvlUsd": 12526889.79935,
+      "creditExtendedUsd": 310729946.63886297
+    },
+    {
+      "date": "2025-06-27",
+      "tvlUsd": 12526889.79935,
+      "creditExtendedUsd": 310729946.63886297
+    },
+    {
+      "date": "2025-06-28",
+      "tvlUsd": 12526889.79935,
+      "creditExtendedUsd": 311742777.446579
+    },
+    {
+      "date": "2025-06-30",
+      "tvlUsd": 12594376.720025,
+      "creditExtendedUsd": 323256831.438213
+    },
+    {
+      "date": "2025-07-01",
+      "tvlUsd": 12607230.511074,
+      "creditExtendedUsd": 323256831.438213
+    },
+    {
+      "date": "2025-07-02",
+      "tvlUsd": 12611184.401273001,
+      "creditExtendedUsd": 323256831.438213
+    },
+    {
+      "date": "2025-07-03",
+      "tvlUsd": 12611184.401273001,
+      "creditExtendedUsd": 323256831.438213
+    },
+    {
+      "date": "2025-07-04",
+      "tvlUsd": 12611184.401273001,
+      "creditExtendedUsd": 323256831.438213
+    },
+    {
+      "date": "2025-07-05",
+      "tvlUsd": 12611184.401273001,
+      "creditExtendedUsd": 323256831.438213
+    },
+    {
+      "date": "2025-07-06",
+      "tvlUsd": 12611184.401273001,
+      "creditExtendedUsd": 323256831.438213
+    },
+    {
+      "date": "2025-07-07",
+      "tvlUsd": 12611184.401273001,
+      "creditExtendedUsd": 323256831.438213
+    },
+    {
+      "date": "2025-07-08",
+      "tvlUsd": 12611184.401273001,
+      "creditExtendedUsd": 335770131.954159
+    },
+    {
+      "date": "2025-07-09",
+      "tvlUsd": 12729723.302192999,
+      "creditExtendedUsd": 335770131.954159
+    },
+    {
+      "date": "2025-07-10",
+      "tvlUsd": 22730711.379753,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2025-07-11",
+      "tvlUsd": 22733711.379753,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2025-07-12",
+      "tvlUsd": 22733711.379753,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2025-07-13",
+      "tvlUsd": 22733711.379753,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2025-07-14",
+      "tvlUsd": 22733711.379753,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2025-07-15",
+      "tvlUsd": 22733711.379753,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2025-07-16",
+      "tvlUsd": 22733711.379753,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2025-07-17",
+      "tvlUsd": 22733711.379753,
+      "creditExtendedUsd": 358405913.632994
+    },
+    {
+      "date": "2025-07-18",
+      "tvlUsd": null,
+      "creditExtendedUsd": 358405913.632994
+    },
+    {
+      "date": "2025-07-19",
+      "tvlUsd": null,
+      "creditExtendedUsd": 359435947.753595
+    },
+    {
+      "date": "2025-07-21",
+      "tvlUsd": 22786709.185078003,
+      "creditExtendedUsd": 359435947.753595
+    },
+    {
+      "date": "2025-07-22",
+      "tvlUsd": 22786709.185078003,
+      "creditExtendedUsd": 359435947.753595
+    },
+    {
+      "date": "2025-07-23",
+      "tvlUsd": 22796704.185078003,
+      "creditExtendedUsd": 359445952.753595
+    },
+    {
+      "date": "2025-07-24",
+      "tvlUsd": 22796704.185078003,
+      "creditExtendedUsd": 359445952.753595
+    },
+    {
+      "date": "2025-07-25",
+      "tvlUsd": 22796704.185078003,
+      "creditExtendedUsd": 371103745.855185
+    },
+    {
+      "date": "2025-07-26",
+      "tvlUsd": 22838952.342128,
+      "creditExtendedUsd": 371103745.855185
+    },
+    {
+      "date": "2025-07-27",
+      "tvlUsd": 22838952.342128,
+      "creditExtendedUsd": 372136147.332836
+    },
+    {
+      "date": "2025-07-28",
+      "tvlUsd": 22838952.342128,
+      "creditExtendedUsd": 372136147.332836
+    },
+    {
+      "date": "2025-07-29",
+      "tvlUsd": 22838952.342128,
+      "creditExtendedUsd": 372136147.332836
+    },
+    {
+      "date": "2025-07-30",
+      "tvlUsd": 22838952.342128,
+      "creditExtendedUsd": 372234026.218163
+    },
+    {
+      "date": "2025-07-31",
+      "tvlUsd": 45000014.644283,
+      "creditExtendedUsd": 372234026.218163
+    },
+    {
+      "date": "2025-08-01",
+      "tvlUsd": 45000014.644283,
+      "creditExtendedUsd": 372234026.218163
+    },
+    {
+      "date": "2025-08-02",
+      "tvlUsd": 45000014.644283,
+      "creditExtendedUsd": 372234026.218163
+    },
+    {
+      "date": "2025-08-03",
+      "tvlUsd": 47052940.426781006,
+      "creditExtendedUsd": 383931700.119753
+    },
+    {
+      "date": "2025-08-04",
+      "tvlUsd": 47842387.38678101,
+      "creditExtendedUsd": 384966401.589902
+    },
+    {
+      "date": "2025-08-05",
+      "tvlUsd": 47842387.38678101,
+      "creditExtendedUsd": 384966401.589902
+    },
+    {
+      "date": "2025-08-06",
+      "tvlUsd": 47842387.38678101,
+      "creditExtendedUsd": 384966401.589902
+    },
+    {
+      "date": "2025-08-07",
+      "tvlUsd": 47842387.38678101,
+      "creditExtendedUsd": 384966401.589902
+    },
+    {
+      "date": "2025-08-08",
+      "tvlUsd": 47842387.38678101,
+      "creditExtendedUsd": 384966401.589902
+    },
+    {
+      "date": "2025-08-09",
+      "tvlUsd": 47842387.38678101,
+      "creditExtendedUsd": 384966401.589902
+    },
+    {
+      "date": "2025-08-11",
+      "tvlUsd": 47871605.797506005,
+      "creditExtendedUsd": 397453522.451492
+    },
+    {
+      "date": "2025-08-12",
+      "tvlUsd": 47871605.797506005,
+      "creditExtendedUsd": 398490595.372366
+    },
+    {
+      "date": "2025-08-13",
+      "tvlUsd": 47871605.797506005,
+      "creditExtendedUsd": 398490595.372366
+    },
+    {
+      "date": "2025-08-14",
+      "tvlUsd": 47871605.797506005,
+      "creditExtendedUsd": 398490595.372366
+    },
+    {
+      "date": "2025-08-15",
+      "tvlUsd": 47871605.797506005,
+      "creditExtendedUsd": 398490595.372366
+    },
+    {
+      "date": "2025-08-16",
+      "tvlUsd": 47871605.797506005,
+      "creditExtendedUsd": 398490595.372366
+    },
+    {
+      "date": "2025-08-17",
+      "tvlUsd": 47871605.797506005,
+      "creditExtendedUsd": 398490595.372366
+    },
+    {
+      "date": "2025-08-18",
+      "tvlUsd": 47871605.797506005,
+      "creditExtendedUsd": 411004563.193956
+    },
+    {
+      "date": "2025-08-19",
+      "tvlUsd": 47897528.486568004,
+      "creditExtendedUsd": 411004563.193956
+    },
+    {
+      "date": "2025-08-20",
+      "tvlUsd": 47897528.486568004,
+      "creditExtendedUsd": 411004563.193956
+    },
+    {
+      "date": "2025-08-21",
+      "tvlUsd": 47897528.486568004,
+      "creditExtendedUsd": 411004563.193956
+    },
+    {
+      "date": "2025-08-22",
+      "tvlUsd": 47897528.486568004,
+      "creditExtendedUsd": 412044046.243892
+    },
+    {
+      "date": "2025-08-23",
+      "tvlUsd": 47897528.486568004,
+      "creditExtendedUsd": 412044046.243892
+    },
+    {
+      "date": "2025-08-25",
+      "tvlUsd": 47897528.486568004,
+      "creditExtendedUsd": 412044046.243892
+    },
+    {
+      "date": "2025-08-26",
+      "tvlUsd": 47897528.486568004,
+      "creditExtendedUsd": 424581526.625482
+    },
+    {
+      "date": "2025-08-27",
+      "tvlUsd": 47931541.28656801,
+      "creditExtendedUsd": 438691098.166201
+    },
+    {
+      "date": "2025-08-28",
+      "tvlUsd": 50333669.028261006,
+      "creditExtendedUsd": 438691098.166201
+    },
+    {
+      "date": "2025-08-29",
+      "tvlUsd": 50333669.028261006,
+      "creditExtendedUsd": 439932709.947785
+    },
+    {
+      "date": "2025-08-30",
+      "tvlUsd": 50333669.028261006,
+      "creditExtendedUsd": 439932709.947785
+    },
+    {
+      "date": "2025-08-31",
+      "tvlUsd": 50333669.028261006,
+      "creditExtendedUsd": 460143703.462108
+    },
+    {
+      "date": "2025-09-01",
+      "tvlUsd": 50910779.49545801,
+      "creditExtendedUsd": 460143703.462108
+    },
+    {
+      "date": "2025-09-02",
+      "tvlUsd": 50911779.49545801,
+      "creditExtendedUsd": 460143703.462108
+    },
+    {
+      "date": "2025-09-03",
+      "tvlUsd": 80451430.283105,
+      "creditExtendedUsd": 460143703.462108
+    },
+    {
+      "date": "2025-09-04",
+      "tvlUsd": 80451430.283105,
+      "creditExtendedUsd": 485184865.395612
+    },
+    {
+      "date": "2025-09-05",
+      "tvlUsd": 80490166.15486899,
+      "creditExtendedUsd": 485184865.395612
+    },
+    {
+      "date": "2025-09-06",
+      "tvlUsd": 80490166.15486899,
+      "creditExtendedUsd": 485184865.395612
+    },
+    {
+      "date": "2025-09-08",
+      "tvlUsd": 80490166.15486899,
+      "creditExtendedUsd": 485184865.395612
+    },
+    {
+      "date": "2025-09-09",
+      "tvlUsd": 80490166.15486899,
+      "creditExtendedUsd": 486429362.64896
+    },
+    {
+      "date": "2025-09-10",
+      "tvlUsd": 80490166.15486899,
+      "creditExtendedUsd": 486429362.64896
+    },
+    {
+      "date": "2025-09-11",
+      "tvlUsd": 80490166.15486899,
+      "creditExtendedUsd": 501236705.240595
+    },
+    {
+      "date": "2025-09-12",
+      "tvlUsd": 80819475.41135201,
+      "creditExtendedUsd": 501236705.240595
+    },
+    {
+      "date": "2025-09-13",
+      "tvlUsd": 80829475.41135201,
+      "creditExtendedUsd": 501236705.240595
+    },
+    {
+      "date": "2025-09-14",
+      "tvlUsd": 80829475.41135201,
+      "creditExtendedUsd": 502693695.750426
+    },
+    {
+      "date": "2025-09-15",
+      "tvlUsd": 80829475.41135201,
+      "creditExtendedUsd": 502693695.750426
+    },
+    {
+      "date": "2025-09-16",
+      "tvlUsd": 80829475.41135201,
+      "creditExtendedUsd": 502693695.750426
+    },
+    {
+      "date": "2025-09-17",
+      "tvlUsd": 80829475.41135201,
+      "creditExtendedUsd": 502693695.750426
+    },
+    {
+      "date": "2025-09-18",
+      "tvlUsd": 80829475.41135201,
+      "creditExtendedUsd": 517627854.342061
+    },
+    {
+      "date": "2025-09-19",
+      "tvlUsd": 80858920.220465,
+      "creditExtendedUsd": 556127947.45966
+    },
+    {
+      "date": "2025-09-20",
+      "tvlUsd": 80858920.220465,
+      "creditExtendedUsd": 556127947.45966
+    },
+    {
+      "date": "2025-09-21",
+      "tvlUsd": 80858920.220465,
+      "creditExtendedUsd": 556127947.45966
+    },
+    {
+      "date": "2025-09-22",
+      "tvlUsd": 80858920.220465,
+      "creditExtendedUsd": 556127947.45966
+    },
+    {
+      "date": "2025-09-23",
+      "tvlUsd": 80858920.220465,
+      "creditExtendedUsd": 556127947.45966
+    },
+    {
+      "date": "2025-09-24",
+      "tvlUsd": 80858920.220465,
+      "creditExtendedUsd": 556127947.45966
+    },
+    {
+      "date": "2025-09-25",
+      "tvlUsd": 80858920.220465,
+      "creditExtendedUsd": 556127947.45966
+    },
+    {
+      "date": "2025-09-26",
+      "tvlUsd": 80858920.220465,
+      "creditExtendedUsd": 556127947.45966
+    },
+    {
+      "date": "2025-09-27",
+      "tvlUsd": 80858920.220465,
+      "creditExtendedUsd": 556127947.45966
+    },
+    {
+      "date": "2025-09-28",
+      "tvlUsd": 80858920.220465,
+      "creditExtendedUsd": 572548541.370239
+    },
+    {
+      "date": "2025-09-29",
+      "tvlUsd": 80888213.138705,
+      "creditExtendedUsd": 583067975.60989
+    },
+    {
+      "date": "2025-09-30",
+      "tvlUsd": 84999883.06351998,
+      "creditExtendedUsd": 586130814.808674
+    },
+    {
+      "date": "2025-10-01",
+      "tvlUsd": 84999883.06351998,
+      "creditExtendedUsd": 586130814.808674
+    },
+    {
+      "date": "2025-10-02",
+      "tvlUsd": 84999883.06351998,
+      "creditExtendedUsd": 601477148.859606
+    },
+    {
+      "date": "2025-10-03",
+      "tvlUsd": 84999883.06351998,
+      "creditExtendedUsd": 601477148.859606
+    },
+    {
+      "date": "2025-10-04",
+      "tvlUsd": 84999883.06351998,
+      "creditExtendedUsd": 601477148.859606
+    },
+    {
+      "date": "2025-10-06",
+      "tvlUsd": 85030628.031093,
+      "creditExtendedUsd": 616464196.489641
+    },
+    {
+      "date": "2025-10-07",
+      "tvlUsd": 85030628.031093,
+      "creditExtendedUsd": 619533171.855998
+    },
+    {
+      "date": "2025-10-08",
+      "tvlUsd": 85030628.031093,
+      "creditExtendedUsd": 619533171.855998
+    },
+    {
+      "date": "2025-10-09",
+      "tvlUsd": 85030628.031093,
+      "creditExtendedUsd": 619533171.855998
+    },
+    {
+      "date": "2025-10-10",
+      "tvlUsd": 85030628.031093,
+      "creditExtendedUsd": 619533171.855998
+    },
+    {
+      "date": "2025-10-11",
+      "tvlUsd": 85030628.031093,
+      "creditExtendedUsd": 619533171.855998
+    },
+    {
+      "date": "2025-10-13",
+      "tvlUsd": 85059383.542732,
+      "creditExtendedUsd": 634544828.286033
+    },
+    {
+      "date": "2025-10-14",
+      "tvlUsd": 85059383.542732,
+      "creditExtendedUsd": 637463214.917936
+    },
+    {
+      "date": "2025-10-15",
+      "tvlUsd": 85059383.542732,
+      "creditExtendedUsd": 637463214.917936
+    },
+    {
+      "date": "2025-10-16",
+      "tvlUsd": 85059383.542732,
+      "creditExtendedUsd": 637463214.917936
+    },
+    {
+      "date": "2025-10-17",
+      "tvlUsd": 85059383.542732,
+      "creditExtendedUsd": 637463214.917936
+    },
+    {
+      "date": "2025-10-18",
+      "tvlUsd": 85059383.542732,
+      "creditExtendedUsd": 637463214.917936
+    },
+    {
+      "date": "2025-10-20",
+      "tvlUsd": 84688020.464378,
+      "creditExtendedUsd": 652262176.947971
+    },
+    {
+      "date": "2025-10-21",
+      "tvlUsd": 84688020.464378,
+      "creditExtendedUsd": 652262176.947971
+    },
+    {
+      "date": "2025-10-22",
+      "tvlUsd": 84688020.464378,
+      "creditExtendedUsd": 652262176.947971
+    },
+    {
+      "date": "2025-10-23",
+      "tvlUsd": 84688020.464378,
+      "creditExtendedUsd": 655186410.347613
+    },
+    {
+      "date": "2025-10-24",
+      "tvlUsd": 84688020.464378,
+      "creditExtendedUsd": 655186410.347613
+    },
+    {
+      "date": "2025-10-25",
+      "tvlUsd": 84688020.464378,
+      "creditExtendedUsd": 655186410.347613
+    },
+    {
+      "date": "2025-10-27",
+      "tvlUsd": 84713423.745675,
+      "creditExtendedUsd": 670000201.177648
+    },
+    {
+      "date": "2025-10-28",
+      "tvlUsd": 84713433.745675,
+      "creditExtendedUsd": 670000201.177648
+    },
+    {
+      "date": "2025-10-29",
+      "tvlUsd": 84713433.745675,
+      "creditExtendedUsd": 672930303.058587
+    },
+    {
+      "date": "2025-10-30",
+      "tvlUsd": 84713433.745675,
+      "creditExtendedUsd": 722427817.4216809
+    },
+    {
+      "date": "2025-10-31",
+      "tvlUsd": 94995458.01671499,
+      "creditExtendedUsd": 772399847.6805279
+    },
+    {
+      "date": "2025-11-01",
+      "tvlUsd": 94995458.01671499,
+      "creditExtendedUsd": 772399847.6805279
+    },
+    {
+      "date": "2025-11-03",
+      "tvlUsd": 95019042.01671499,
+      "creditExtendedUsd": 787233183.3105631
+    },
+    {
+      "date": "2025-11-04",
+      "tvlUsd": 95024931.759279,
+      "creditExtendedUsd": 787233183.3105631
+    },
+    {
+      "date": "2025-11-05",
+      "tvlUsd": 95024931.759279,
+      "creditExtendedUsd": 787233183.3105631
+    },
+    {
+      "date": "2025-11-06",
+      "tvlUsd": 94691879.8601,
+      "creditExtendedUsd": 787233183.3105631
+    },
+    {
+      "date": "2025-11-07",
+      "tvlUsd": 94691879.8601,
+      "creditExtendedUsd": 790159014.353539
+    },
+    {
+      "date": "2025-11-08",
+      "tvlUsd": 94691879.8601,
+      "creditExtendedUsd": 790159014.353539
+    },
+    {
+      "date": "2025-11-09",
+      "tvlUsd": 94691879.8601,
+      "creditExtendedUsd": 804810825.1317041
+    },
+    {
+      "date": "2025-11-10",
+      "tvlUsd": 94504630.323433,
+      "creditExtendedUsd": 804810825.1317041
+    },
+    {
+      "date": "2025-11-11",
+      "tvlUsd": 94504630.323433,
+      "creditExtendedUsd": 804810825.1317041
+    },
+    {
+      "date": "2025-11-12",
+      "tvlUsd": 94504630.323433,
+      "creditExtendedUsd": 804810825.1317041
+    },
+    {
+      "date": "2025-11-13",
+      "tvlUsd": 94504630.323433,
+      "creditExtendedUsd": 804810825.1317041
+    },
+    {
+      "date": "2025-11-14",
+      "tvlUsd": 94504630.323433,
+      "creditExtendedUsd": 804810825.1317041
+    },
+    {
+      "date": "2025-11-15",
+      "tvlUsd": 94504630.323433,
+      "creditExtendedUsd": 804810825.1317041
+    },
+    {
+      "date": "2025-11-16",
+      "tvlUsd": 94504630.323433,
+      "creditExtendedUsd": 818978432.6162319
+    },
+    {
+      "date": "2025-11-17",
+      "tvlUsd": 94021764.629796,
+      "creditExtendedUsd": 821598716.0597551
+    },
+    {
+      "date": "2025-11-18",
+      "tvlUsd": 93795492.027281,
+      "creditExtendedUsd": 821598716.0597551
+    },
+    {
+      "date": "2025-11-19",
+      "tvlUsd": 93795492.027281,
+      "creditExtendedUsd": 821598716.0597551
+    },
+    {
+      "date": "2025-11-20",
+      "tvlUsd": 93795492.027281,
+      "creditExtendedUsd": 821598716.0597551
+    },
+    {
+      "date": "2025-11-21",
+      "tvlUsd": 93795492.027281,
+      "creditExtendedUsd": 821598716.0597551
+    },
+    {
+      "date": "2025-11-22",
+      "tvlUsd": 93795492.027281,
+      "creditExtendedUsd": 824304799.9959459
+    },
+    {
+      "date": "2025-11-23",
+      "tvlUsd": 93795492.027281,
+      "creditExtendedUsd": 824304799.9959459
+    },
+    {
+      "date": "2025-11-24",
+      "tvlUsd": 93823453.46256399,
+      "creditExtendedUsd": 838495239.480474
+    },
+    {
+      "date": "2025-11-25",
+      "tvlUsd": 93823473.46256399,
+      "creditExtendedUsd": 841206764.851948
+    },
+    {
+      "date": "2025-11-26",
+      "tvlUsd": 93823473.46256399,
+      "creditExtendedUsd": 841206764.851948
+    },
+    {
+      "date": "2025-11-27",
+      "tvlUsd": 93823473.46256399,
+      "creditExtendedUsd": 856708227.4066808
+    },
+    {
+      "date": "2025-11-28",
+      "tvlUsd": 93823473.46256399,
+      "creditExtendedUsd": 856708227.4066808
+    },
+    {
+      "date": "2025-11-29",
+      "tvlUsd": 93823473.46256399,
+      "creditExtendedUsd": 868133703.1996629
+    },
+    {
+      "date": "2025-11-30",
+      "tvlUsd": 94076303.12836799,
+      "creditExtendedUsd": 868133703.1996629
+    },
+    {
+      "date": "2025-12-01",
+      "tvlUsd": 103288838.14623001,
+      "creditExtendedUsd": 890210381.6659908
+    },
+    {
+      "date": "2025-12-02",
+      "tvlUsd": 103288838.14623001,
+      "creditExtendedUsd": 893927339.374254
+    },
+    {
+      "date": "2025-12-03",
+      "tvlUsd": 103288838.14623001,
+      "creditExtendedUsd": 893927339.374254
+    },
+    {
+      "date": "2025-12-04",
+      "tvlUsd": 103288838.14623001,
+      "creditExtendedUsd": 893927339.374254
+    },
+    {
+      "date": "2025-12-05",
+      "tvlUsd": 103288838.14623001,
+      "creditExtendedUsd": 893927339.374254
+    },
+    {
+      "date": "2025-12-06",
+      "tvlUsd": 103288838.14623001,
+      "creditExtendedUsd": 893927339.374254
+    },
+    {
+      "date": "2025-12-07",
+      "tvlUsd": 103288838.14623001,
+      "creditExtendedUsd": 906104591.9760458
+    },
+    {
+      "date": "2025-12-08",
+      "tvlUsd": 103308056.790954,
+      "creditExtendedUsd": 906104591.9760458
+    },
+    {
+      "date": "2025-12-09",
+      "tvlUsd": 103308076.790954,
+      "creditExtendedUsd": 909829016.3290329
+    },
+    {
+      "date": "2025-12-10",
+      "tvlUsd": 103308076.790954,
+      "creditExtendedUsd": 909829016.3290329
+    },
+    {
+      "date": "2025-12-11",
+      "tvlUsd": 103308076.790954,
+      "creditExtendedUsd": 909829016.3290329
+    },
+    {
+      "date": "2025-12-12",
+      "tvlUsd": 103308076.790954,
+      "creditExtendedUsd": 909829016.3290329
+    },
+    {
+      "date": "2025-12-13",
+      "tvlUsd": 103308076.790954,
+      "creditExtendedUsd": 909829016.3290329
+    },
+    {
+      "date": "2025-12-15",
+      "tvlUsd": 103329750.82503101,
+      "creditExtendedUsd": 922018040.930825
+    },
+    {
+      "date": "2025-12-16",
+      "tvlUsd": 103329750.826509,
+      "creditExtendedUsd": 922018040.930825
+    },
+    {
+      "date": "2025-12-17",
+      "tvlUsd": 103329750.833396,
+      "creditExtendedUsd": 922018040.930825
+    },
+    {
+      "date": "2025-12-18",
+      "tvlUsd": 103329750.833396,
+      "creditExtendedUsd": 922018040.930825
+    },
+    {
+      "date": "2025-12-19",
+      "tvlUsd": 103329750.833396,
+      "creditExtendedUsd": 922018040.930825
+    },
+    {
+      "date": "2025-12-20",
+      "tvlUsd": 103329750.833396,
+      "creditExtendedUsd": 922018040.930825
+    },
+    {
+      "date": "2025-12-21",
+      "tvlUsd": 103329750.833396,
+      "creditExtendedUsd": 937953163.928046
+    },
+    {
+      "date": "2025-12-22",
+      "tvlUsd": 103355123.197388,
+      "creditExtendedUsd": 937953163.928046
+    },
+    {
+      "date": "2025-12-23",
+      "tvlUsd": 103505123.206899,
+      "creditExtendedUsd": 937953163.928046
+    },
+    {
+      "date": "2025-12-24",
+      "tvlUsd": 103505123.206899,
+      "creditExtendedUsd": 937953163.928046
+    },
+    {
+      "date": "2025-12-25",
+      "tvlUsd": 103505123.206899,
+      "creditExtendedUsd": 937953163.928046
+    },
+    {
+      "date": "2025-12-26",
+      "tvlUsd": 103505123.206899,
+      "creditExtendedUsd": 937953163.928046
+    },
+    {
+      "date": "2025-12-27",
+      "tvlUsd": 103505123.206899,
+      "creditExtendedUsd": 937953163.928046
+    },
+    {
+      "date": "2025-12-29",
+      "tvlUsd": 103532941.938654,
+      "creditExtendedUsd": 954063659.29877
+    },
+    {
+      "date": "2025-12-30",
+      "tvlUsd": 103532941.939345,
+      "creditExtendedUsd": 980419438.300456
+    },
+    {
+      "date": "2025-12-31",
+      "tvlUsd": 104186041.893181,
+      "creditExtendedUsd": 980419438.300456
+    },
+    {
+      "date": "2026-01-01",
+      "tvlUsd": 104186041.893181,
+      "creditExtendedUsd": 980419438.300456
+    },
+    {
+      "date": "2026-01-02",
+      "tvlUsd": 129336157.47352499,
+      "creditExtendedUsd": 1041458287.134945
+    },
+    {
+      "date": "2026-01-03",
+      "tvlUsd": 129336157.47352499,
+      "creditExtendedUsd": 1041458287.134945
+    },
+    {
+      "date": "2026-01-04",
+      "tvlUsd": 129336157.47352499,
+      "creditExtendedUsd": 1057596601.2381151
+    },
+    {
+      "date": "2026-01-05",
+      "tvlUsd": 129362113.43033299,
+      "creditExtendedUsd": 1057596601.2381151
+    },
+    {
+      "date": "2026-01-06",
+      "tvlUsd": 129562113.430088,
+      "creditExtendedUsd": 1057596601.2381151
+    },
+    {
+      "date": "2026-01-07",
+      "tvlUsd": 129562113.430088,
+      "creditExtendedUsd": 1057596601.2381151
+    },
+    {
+      "date": "2026-01-08",
+      "tvlUsd": 129562113.430088,
+      "creditExtendedUsd": 1057596601.2381151
+    },
+    {
+      "date": "2026-01-09",
+      "tvlUsd": 129562113.430088,
+      "creditExtendedUsd": 1057596601.2381151
+    },
+    {
+      "date": "2026-01-10",
+      "tvlUsd": 129562113.430088,
+      "creditExtendedUsd": 1057596601.2381151
+    },
+    {
+      "date": "2026-01-11",
+      "tvlUsd": 129562113.430088,
+      "creditExtendedUsd": 1073960871.297848
+    },
+    {
+      "date": "2026-01-12",
+      "tvlUsd": 129589596.790885,
+      "creditExtendedUsd": 1073960871.297848
+    },
+    {
+      "date": "2026-01-13",
+      "tvlUsd": 129589596.79263699,
+      "creditExtendedUsd": 1073960871.297848
+    },
+    {
+      "date": "2026-01-14",
+      "tvlUsd": 129589596.79263699,
+      "creditExtendedUsd": 1073960871.297848
+    },
+    {
+      "date": "2026-01-15",
+      "tvlUsd": 129589596.79263699,
+      "creditExtendedUsd": 1073960871.297848
+    },
+    {
+      "date": "2026-01-16",
+      "tvlUsd": 129589596.79263699,
+      "creditExtendedUsd": 1073960871.297848
+    },
+    {
+      "date": "2026-01-17",
+      "tvlUsd": 129589596.79263699,
+      "creditExtendedUsd": 1073960871.297848
+    },
+    {
+      "date": "2026-01-18",
+      "tvlUsd": 129589596.79263699,
+      "creditExtendedUsd": 1077919044.108229
+    },
+    {
+      "date": "2026-01-19",
+      "tvlUsd": 129611326.70711899,
+      "creditExtendedUsd": 1090352624.72013
+    },
+    {
+      "date": "2026-01-20",
+      "tvlUsd": 129633035.682498,
+      "creditExtendedUsd": 1090352624.72013
+    },
+    {
+      "date": "2026-01-21",
+      "tvlUsd": 129633035.682498,
+      "creditExtendedUsd": 1090352624.72013
+    },
+    {
+      "date": "2026-01-22",
+      "tvlUsd": 129633035.682498,
+      "creditExtendedUsd": 1090352624.72013
+    },
+    {
+      "date": "2026-01-23",
+      "tvlUsd": 129633035.682498,
+      "creditExtendedUsd": 1090352624.72013
+    },
+    {
+      "date": "2026-01-24",
+      "tvlUsd": 129633035.682498,
+      "creditExtendedUsd": 1090352624.72013
+    },
+    {
+      "date": "2026-01-25",
+      "tvlUsd": 129633035.682498,
+      "creditExtendedUsd": 1090352624.72013
+    },
+    {
+      "date": "2026-01-26",
+      "tvlUsd": 129046056.508733,
+      "creditExtendedUsd": 1106183275.458508
+    },
+    {
+      "date": "2026-01-27",
+      "tvlUsd": 129051773.12258399,
+      "creditExtendedUsd": 1106183275.458508
+    },
+    {
+      "date": "2026-01-28",
+      "tvlUsd": 129051773.12258399,
+      "creditExtendedUsd": 1106183275.458508
+    },
+    {
+      "date": "2026-01-29",
+      "tvlUsd": 129051773.12258399,
+      "creditExtendedUsd": 1106183275.458508
+    },
+    {
+      "date": "2026-01-30",
+      "tvlUsd": 146720590.045997,
+      "creditExtendedUsd": 1219381113.5311718
+    },
+    {
+      "date": "2026-01-31",
+      "tvlUsd": 147099494.242633,
+      "creditExtendedUsd": 1219381113.5311718
+    },
+    {
+      "date": "2026-02-01",
+      "tvlUsd": 147099494.242633,
+      "creditExtendedUsd": 1235235043.283401
+    },
+    {
+      "date": "2026-02-02",
+      "tvlUsd": 147135693.02393,
+      "creditExtendedUsd": 1235235043.283401
+    },
+    {
+      "date": "2026-02-03",
+      "tvlUsd": 147136886.58557302,
+      "creditExtendedUsd": 1235235043.283401
+    },
+    {
+      "date": "2026-02-04",
+      "tvlUsd": 147136886.58557302,
+      "creditExtendedUsd": 1235235043.283401
+    },
+    {
+      "date": "2026-02-05",
+      "tvlUsd": 147136886.58557302,
+      "creditExtendedUsd": 1235235043.283401
+    },
+    {
+      "date": "2026-02-06",
+      "tvlUsd": 147136886.58557302,
+      "creditExtendedUsd": 1235235043.283401
+    },
+    {
+      "date": "2026-02-07",
+      "tvlUsd": 147136886.58557302,
+      "creditExtendedUsd": 1235235043.283401
+    },
+    {
+      "date": "2026-02-08",
+      "tvlUsd": 147136886.58557302,
+      "creditExtendedUsd": 1237596948.843851
+    },
+    {
+      "date": "2026-02-09",
+      "tvlUsd": 147153026.123936,
+      "creditExtendedUsd": 1250125181.816927
+    },
+    {
+      "date": "2026-02-10",
+      "tvlUsd": 147157036.127763,
+      "creditExtendedUsd": 1250125181.816927
+    },
+    {
+      "date": "2026-02-11",
+      "tvlUsd": 147157136.127763,
+      "creditExtendedUsd": 1250125181.816927
+    },
+    {
+      "date": "2026-02-12",
+      "tvlUsd": 147157136.127763,
+      "creditExtendedUsd": 1250125181.816927
+    },
+    {
+      "date": "2026-02-13",
+      "tvlUsd": 147157136.127763,
+      "creditExtendedUsd": 1250125181.816927
+    },
+    {
+      "date": "2026-02-14",
+      "tvlUsd": 147157136.127763,
+      "creditExtendedUsd": 1250125181.816927
+    },
+    {
+      "date": "2026-02-15",
+      "tvlUsd": 147157136.127763,
+      "creditExtendedUsd": 1266036640.447032
+    },
+    {
+      "date": "2026-02-16",
+      "tvlUsd": 147174283.561676,
+      "creditExtendedUsd": 1266036640.447032
+    },
+    {
+      "date": "2026-02-17",
+      "tvlUsd": 147174283.56221402,
+      "creditExtendedUsd": 1266036640.447032
+    },
+    {
+      "date": "2026-02-18",
+      "tvlUsd": 147174283.56221402,
+      "creditExtendedUsd": 1266036640.447032
+    },
+    {
+      "date": "2026-02-19",
+      "tvlUsd": 147174283.56221402,
+      "creditExtendedUsd": 1266036640.447032
+    },
+    {
+      "date": "2026-02-20",
+      "tvlUsd": 147174283.56221402,
+      "creditExtendedUsd": 1266036640.447032
+    },
+    {
+      "date": "2026-02-21",
+      "tvlUsd": 147174283.56221402,
+      "creditExtendedUsd": 1266036640.447032
+    },
+    {
+      "date": "2026-02-22",
+      "tvlUsd": 147174283.56221402,
+      "creditExtendedUsd": 1280964657.738021
+    },
+    {
+      "date": "2026-02-23",
+      "tvlUsd": 146190425.519382,
+      "creditExtendedUsd": 1280964657.738021
+    },
+    {
+      "date": "2026-02-24",
+      "tvlUsd": 146190435.402417,
+      "creditExtendedUsd": 1280964657.738021
+    },
+    {
+      "date": "2026-02-25",
+      "tvlUsd": 146190435.402417,
+      "creditExtendedUsd": 1280964657.738021
+    },
+    {
+      "date": "2026-02-26",
+      "tvlUsd": 146190435.402417,
+      "creditExtendedUsd": 1280964657.738021
+    },
+    {
+      "date": "2026-02-27",
+      "tvlUsd": 146190435.402417,
+      "creditExtendedUsd": 1298008896.399057
+    },
+    {
+      "date": "2026-02-28",
+      "tvlUsd": 146584670.14938998,
+      "creditExtendedUsd": 1298008896.399057
+    },
+    {
+      "date": "2026-03-01",
+      "tvlUsd": 147584670.149392,
+      "creditExtendedUsd": 1312953657.31107
+    },
+    {
+      "date": "2026-03-02",
+      "tvlUsd": 148778182.45050198,
+      "creditExtendedUsd": 1312953657.31107
+    },
+    {
+      "date": "2026-03-03",
+      "tvlUsd": 159156548.260034,
+      "creditExtendedUsd": 1418340108.65556
+    },
+    {
+      "date": "2026-03-04",
+      "tvlUsd": 159464061.010859,
+      "creditExtendedUsd": 1418340108.65556
+    },
+    {
+      "date": "2026-03-05",
+      "tvlUsd": 159464111.010859,
+      "creditExtendedUsd": 1418340108.65556
+    },
+    {
+      "date": "2026-03-06",
+      "tvlUsd": 163488089.67713302,
+      "creditExtendedUsd": 1418340108.65556
+    },
+    {
+      "date": "2026-03-07",
+      "tvlUsd": 164088090.319484,
+      "creditExtendedUsd": 1418340108.65556
+    },
+    {
+      "date": "2026-03-08",
+      "tvlUsd": 164088090.319484,
+      "creditExtendedUsd": 1421217338.0125718
+    },
+    {
+      "date": "2026-03-09",
+      "tvlUsd": 173887125.059769,
+      "creditExtendedUsd": 1433083090.0918279
+    },
+    {
+      "date": "2026-03-10",
+      "tvlUsd": 173887126.059769,
+      "creditExtendedUsd": 1433083090.0918279
+    },
+    {
+      "date": "2026-03-11",
+      "tvlUsd": 173887127.059769,
+      "creditExtendedUsd": 1433083090.0918279
+    },
+    {
+      "date": "2026-03-12",
+      "tvlUsd": 173887127.059769,
+      "creditExtendedUsd": 1433083090.0918279
+    },
+    {
+      "date": "2026-03-13",
+      "tvlUsd": 174393385.5894,
+      "creditExtendedUsd": 1433083090.0918279
+    },
+    {
+      "date": "2026-03-14",
+      "tvlUsd": 174398376.433162,
+      "creditExtendedUsd": 1453696838.81915
+    },
+    {
+      "date": "2026-03-15",
+      "tvlUsd": 174423403.585948,
+      "creditExtendedUsd": 1468454476.525892
+    },
+    {
+      "date": "2026-03-16",
+      "tvlUsd": 174438072.02898002,
+      "creditExtendedUsd": 1468454476.525892
+    },
+    {
+      "date": "2026-03-17",
+      "tvlUsd": 174438072.02898002,
+      "creditExtendedUsd": 1468454476.525892
+    },
+    {
+      "date": "2026-03-18",
+      "tvlUsd": 174438072.02898002,
+      "creditExtendedUsd": 1468454476.525892
+    },
+    {
+      "date": "2026-03-19",
+      "tvlUsd": 174438072.02898002,
+      "creditExtendedUsd": 1468454476.525892
+    },
+    {
+      "date": "2026-03-20",
+      "tvlUsd": 174438072.12898,
+      "creditExtendedUsd": 1468454476.525892
+    },
+    {
+      "date": "2026-03-21",
+      "tvlUsd": 174438072.12898,
+      "creditExtendedUsd": 1468454476.525892
+    },
+    {
+      "date": "2026-03-22",
+      "tvlUsd": 174438072.12898,
+      "creditExtendedUsd": 1471338805.295007
+    },
+    {
+      "date": "2026-03-23",
+      "tvlUsd": 174448731.983396,
+      "creditExtendedUsd": 1483222763.07068
+    },
+    {
+      "date": "2026-03-24",
+      "tvlUsd": 174452944.902522,
+      "creditExtendedUsd": 1483222763.07068
+    },
+    {
+      "date": "2026-03-25",
+      "tvlUsd": 174457445.002522,
+      "creditExtendedUsd": 1483222763.07068
+    },
+    {
+      "date": "2026-03-26",
+      "tvlUsd": 174457445.002522,
+      "creditExtendedUsd": 1483222763.07068
+    },
+    {
+      "date": "2026-03-27",
+      "tvlUsd": 174457445.002522,
+      "creditExtendedUsd": 1483222763.07068
+    },
+    {
+      "date": "2026-03-28",
+      "tvlUsd": 174457445.462522,
+      "creditExtendedUsd": 1483222763.07068
+    },
+    {
+      "date": "2026-03-29",
+      "tvlUsd": 174785565.462522,
+      "creditExtendedUsd": 1515801298.633019
+    },
+    {
+      "date": "2026-03-30",
+      "tvlUsd": 175111611.02211702,
+      "creditExtendedUsd": 1518689183.423904
+    },
+    {
+      "date": "2026-03-31",
+      "tvlUsd": 175544848.962269,
+      "creditExtendedUsd": 1518689183.423904
+    },
+    {
+      "date": "2026-04-01",
+      "tvlUsd": 176414066.969414,
+      "creditExtendedUsd": 1648339683.94208
+    },
+    {
+      "date": "2026-04-02",
+      "tvlUsd": 176926225.452799,
+      "creditExtendedUsd": 1648339683.94208
+    },
+    {
+      "date": "2026-04-03",
+      "tvlUsd": 177576225.452799,
+      "creditExtendedUsd": 1648339683.94208
+    },
+    {
+      "date": "2026-04-04",
+      "tvlUsd": 177576225.452799,
+      "creditExtendedUsd": 1648339683.94208
+    },
+    {
+      "date": "2026-04-05",
+      "tvlUsd": 177576225.452799,
+      "creditExtendedUsd": 1662842182.452177
+    },
+    {
+      "date": "2026-04-06",
+      "tvlUsd": 177650439.109451,
+      "creditExtendedUsd": 1662842182.452177
+    },
+    {
+      "date": "2026-04-07",
+      "tvlUsd": 177119781.970052,
+      "creditExtendedUsd": 1662842182.452177
+    },
+    {
+      "date": "2026-04-08",
+      "tvlUsd": 177119781.970052,
+      "creditExtendedUsd": 1662842182.452177
+    },
+    {
+      "date": "2026-04-09",
+      "tvlUsd": 177119781.970052,
+      "creditExtendedUsd": 1662842182.452177
+    },
+    {
+      "date": "2026-04-10",
+      "tvlUsd": 177119784.124991,
+      "creditExtendedUsd": 1662842182.452177
+    },
+    {
+      "date": "2026-04-11",
+      "tvlUsd": 177119784.124991,
+      "creditExtendedUsd": 1662842182.452177
+    },
+    {
+      "date": "2026-04-12",
+      "tvlUsd": 177119784.124991,
+      "creditExtendedUsd": 1677359072.153171
+    },
+    {
+      "date": "2026-04-13",
+      "tvlUsd": 179134191.61857998,
+      "creditExtendedUsd": 1697576439.234061
+    },
+    {
+      "date": "2026-04-14",
+      "tvlUsd": 179197330.525729,
+      "creditExtendedUsd": 1697576439.234061
+    },
+    {
+      "date": "2026-04-17",
+      "tvlUsd": 179942330.526729,
+      "creditExtendedUsd": 1697576439.234061
+    },
+    {
+      "date": "2026-04-18",
+      "tvlUsd": 179942330.526729,
+      "creditExtendedUsd": 1697576439.234061
+    },
+    {
+      "date": "2026-04-19",
+      "tvlUsd": 179942330.526729,
+      "creditExtendedUsd": 1712106122.517068
+    },
+    {
+      "date": "2026-04-20",
+      "tvlUsd": 180405726.571193,
+      "creditExtendedUsd": 1712106122.517068
+    },
+    {
+      "date": "2026-04-21",
+      "tvlUsd": 180405726.571193,
+      "creditExtendedUsd": 1712106122.517068
+    },
+    {
+      "date": "2026-04-22",
+      "tvlUsd": 180405726.572193,
+      "creditExtendedUsd": 1712106122.517068
+    },
+    {
+      "date": "2026-04-23",
+      "tvlUsd": 180405726.572193,
+      "creditExtendedUsd": 1712106122.517068
+    },
+    {
+      "date": "2026-04-24",
+      "tvlUsd": 180405727.505564,
+      "creditExtendedUsd": 1712106122.517068
+    },
+    {
+      "date": "2026-04-25",
+      "tvlUsd": 180405727.505564,
+      "creditExtendedUsd": 1712106122.517068
+    },
+    {
+      "date": "2026-04-26",
+      "tvlUsd": 180405727.505564,
+      "creditExtendedUsd": 1712106122.517068
+    },
+    {
+      "date": "2026-04-27",
+      "tvlUsd": 181286090.970753,
+      "creditExtendedUsd": 1725650223.977293
+    },
+    {
+      "date": "2026-04-28",
+      "tvlUsd": 181349669.556308,
+      "creditExtendedUsd": 1745930736.641982
+    },
+    {
+      "date": "2026-04-29",
+      "tvlUsd": 181371148.282327,
+      "creditExtendedUsd": 1745930736.641982
+    },
+    {
+      "date": "2026-04-30",
+      "tvlUsd": 181630080.9235,
+      "creditExtendedUsd": 1756274381.1331038
+    },
+    {
+      "date": "2026-05-01",
+      "tvlUsd": 182118439.691935,
+      "creditExtendedUsd": 1756274381.1331038
+    },
+    {
+      "date": "2026-05-02",
+      "tvlUsd": 182118439.691935,
+      "creditExtendedUsd": 1756274381.1331038
+    },
+    {
+      "date": "2026-05-03",
+      "tvlUsd": 182118439.691935,
+      "creditExtendedUsd": 1756274381.1331038
+    },
+    {
+      "date": "2026-05-04",
+      "tvlUsd": 178831096.360784,
+      "creditExtendedUsd": 1888853333.228722
+    },
+    {
+      "date": "2026-05-05",
+      "tvlUsd": 178618936.78645,
+      "creditExtendedUsd": 1899900482.6376061
+    },
+    {
+      "date": "2026-05-06",
+      "tvlUsd": 178868936.78645,
+      "creditExtendedUsd": 1899900482.6376061
+    },
+    {
+      "date": "2026-05-07",
+      "tvlUsd": 178869036.78645,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2026-05-08",
+      "tvlUsd": 178869036.78645,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2026-05-09",
+      "tvlUsd": 178869036.78645,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2026-05-10",
+      "tvlUsd": 178869036.78645,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2026-05-11",
+      "tvlUsd": 178883471.254765,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2026-05-12",
+      "tvlUsd": 178883471.254765,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2026-05-13",
+      "tvlUsd": 177921493.825955,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2026-05-14",
+      "tvlUsd": 178578342.822771,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2026-05-15",
+      "tvlUsd": 179931199.436757,
+      "creditExtendedUsd": 1931876780.7517989
+    },
+    {
+      "date": "2026-05-16",
+      "tvlUsd": 179931199.436757,
+      "creditExtendedUsd": 1931876780.7517989
+    },
+    {
+      "date": "2026-05-17",
+      "tvlUsd": 179931199.436757,
+      "creditExtendedUsd": 1931876780.7517989
+    },
+    {
+      "date": "2026-05-18",
+      "tvlUsd": 179952901.36851,
+      "creditExtendedUsd": 1945027507.0276468
+    },
+    {
+      "date": "2026-05-19",
+      "tvlUsd": 179952901.36851,
+      "creditExtendedUsd": 1945027507.0276468
+    },
+    {
+      "date": "2026-05-20",
+      "tvlUsd": 181952901.36851,
+      "creditExtendedUsd": 1945027507.0276468
+    },
+    {
+      "date": "2026-05-21",
+      "tvlUsd": 181952901.36851,
+      "creditExtendedUsd": 1945027507.0276468
+    },
+    {
+      "date": "2026-05-22",
+      "tvlUsd": 181952901.36851,
+      "creditExtendedUsd": 1945027507.0276468
+    },
+    {
+      "date": "2026-05-23",
+      "tvlUsd": 181952901.36851,
+      "creditExtendedUsd": 1945027507.0276468
+    },
+    {
+      "date": "2026-05-24",
+      "tvlUsd": 181952901.36851,
+      "creditExtendedUsd": 1945027507.0276468
+    },
+    {
+      "date": "2026-05-25",
+      "tvlUsd": 181971615.530792,
+      "creditExtendedUsd": 1958195858.2352479
+    },
+    {
+      "date": "2026-05-26",
+      "tvlUsd": 182223460.49281198,
+      "creditExtendedUsd": 1958195858.2352479
+    },
+    {
+      "date": "2026-05-27",
+      "tvlUsd": 182275387.31692797,
+      "creditExtendedUsd": 1978847318.587211
+    },
+    {
+      "date": "2026-05-28",
+      "tvlUsd": 182275412.416928,
+      "creditExtendedUsd": 1978847318.587211
+    },
+    {
+      "date": "2026-05-29",
+      "tvlUsd": 182275412.416928,
+      "creditExtendedUsd": 1978847318.587211
+    },
+    {
+      "date": "2026-05-30",
+      "tvlUsd": 182275412.416928,
+      "creditExtendedUsd": 1978847318.587211
+    },
+    {
+      "date": "2026-05-31",
+      "tvlUsd": 182275412.416928,
+      "creditExtendedUsd": 1978847318.587211
+    },
+    {
+      "date": "2026-06-01",
+      "tvlUsd": 175033215.131789,
+      "creditExtendedUsd": 2121627283.9350243
+    },
+    {
+      "date": "2026-06-02",
+      "tvlUsd": 176933420.049554,
+      "creditExtendedUsd": 2121627283.9350243
+    },
+    {
+      "date": "2026-06-03",
+      "tvlUsd": 176933520.049554,
+      "creditExtendedUsd": 2121627283.9350243
+    },
+    {
+      "date": "2026-06-04",
+      "tvlUsd": 179325054.34005898,
+      "creditExtendedUsd": 2121627283.9350243
+    },
+    {
+      "date": "2026-06-05",
+      "tvlUsd": 179968847.962003,
+      "creditExtendedUsd": 2121627283.9350243
+    },
+    {
+      "date": "2026-06-06",
+      "tvlUsd": 180968831.962003,
+      "creditExtendedUsd": 2121627283.9350243
+    },
+    {
+      "date": "2026-06-07",
+      "tvlUsd": 180968831.962003,
+      "creditExtendedUsd": 2121627283.9350243
+    },
+    {
+      "date": "2026-06-08",
+      "tvlUsd": 180987681.514041,
+      "creditExtendedUsd": 2134941252.8756928
+    },
+    {
+      "date": "2026-06-09",
+      "tvlUsd": 181012681.514041,
+      "creditExtendedUsd": 2134941252.8756928
+    },
+    {
+      "date": "2026-06-10",
+      "tvlUsd": 181884664.654855,
+      "creditExtendedUsd": 2134941252.8756928
+    },
+    {
+      "date": "2026-06-11",
+      "tvlUsd": 182689146.505824,
+      "creditExtendedUsd": 2155673762.010723
+    },
+    {
+      "date": "2026-06-12",
+      "tvlUsd": 182935645.505824,
+      "creditExtendedUsd": 2155673762.010723
+    },
+    {
+      "date": "2026-06-13",
+      "tvlUsd": 182935645.505824,
+      "creditExtendedUsd": 2155673762.010723
+    },
+    {
+      "date": "2026-06-14",
+      "tvlUsd": 182935645.505824,
+      "creditExtendedUsd": 2155673762.010723
+    },
+    {
+      "date": "2026-06-15",
+      "tvlUsd": 182869435.601019,
+      "creditExtendedUsd": 2168926463.982882
+    },
+    {
+      "date": "2026-06-16",
+      "tvlUsd": 183942684.34238797,
+      "creditExtendedUsd": 2168926463.982882
+    },
+    {
+      "date": "2026-06-17",
+      "tvlUsd": 184442684.34238797,
+      "creditExtendedUsd": 2168926463.982882
+    },
+    {
+      "date": "2026-06-18",
+      "tvlUsd": 185162271.29689902,
+      "creditExtendedUsd": 2168926463.982882
+    },
+    {
+      "date": "2026-06-19",
+      "tvlUsd": 189572611.50082797,
+      "creditExtendedUsd": 2168926463.982882
+    },
+    {
+      "date": "2026-06-20",
+      "tvlUsd": 190223630.855178,
+      "creditExtendedUsd": 2168926463.982882
+    },
+    {
+      "date": "2026-06-21",
+      "tvlUsd": 190223630.855178,
+      "creditExtendedUsd": 2168926463.982882
+    },
+    {
+      "date": "2026-06-22",
+      "tvlUsd": 190774547.461151,
+      "creditExtendedUsd": 2182266022.605728
+    },
+    {
+      "date": "2026-06-23",
+      "tvlUsd": 191173176.923218,
+      "creditExtendedUsd": 2182266022.605728
+    },
+    {
+      "date": "2026-06-24",
+      "tvlUsd": 191236399.042074,
+      "creditExtendedUsd": 2182266022.605728
+    },
+    {
+      "date": "2026-06-25",
+      "tvlUsd": 193636409.042074,
+      "creditExtendedUsd": 2182266022.605728
+    },
+    {
+      "date": "2026-06-26",
+      "tvlUsd": 198091438.315239,
+      "creditExtendedUsd": 2203057134.824057
+    },
+    {
+      "date": "2026-06-27",
+      "tvlUsd": 198684863.52501202,
+      "creditExtendedUsd": 2203057134.824057
+    },
+    {
+      "date": "2026-06-28",
+      "tvlUsd": 198684863.52501202,
+      "creditExtendedUsd": 2203057134.824057
+    },
+    {
+      "date": "2026-06-29",
+      "tvlUsd": 198700371.75333202,
+      "creditExtendedUsd": 2216410171.839931
+    },
+    {
+      "date": "2026-06-30",
+      "tvlUsd": 198871951.418764,
+      "creditExtendedUsd": 2231410949.302568
+    },
+    {
+      "date": "2026-07-01",
+      "tvlUsd": 199907413.206397,
+      "creditExtendedUsd": 2378815895.0089607
+    },
+    {
+      "date": "2026-07-02",
+      "tvlUsd": 200741091.35298997,
+      "creditExtendedUsd": 2379066680.317168
+    },
+    {
+      "date": "2026-07-03",
+      "tvlUsd": 200744324.911489,
+      "creditExtendedUsd": 2379066680.317168
+    },
+    {
+      "date": "2026-07-04",
+      "tvlUsd": 200744324.911489,
+      "creditExtendedUsd": 2379066680.317168
+    },
+    {
+      "date": "2026-07-05",
+      "tvlUsd": 200744324.911489,
+      "creditExtendedUsd": 2379066680.317168
+    },
+    {
+      "date": "2026-07-06",
+      "tvlUsd": 201765677.36097503,
+      "creditExtendedUsd": 2392435225.561362
+    },
+    {
+      "date": "2026-07-07",
+      "tvlUsd": 201765790.07277402,
+      "creditExtendedUsd": 2392435225.561362
+    },
+    {
+      "date": "2026-07-08",
+      "tvlUsd": 201765790.07277402,
+      "creditExtendedUsd": 2392435225.561362
+    },
+    {
+      "date": "2026-07-09",
+      "tvlUsd": 201795513.982959,
+      "creditExtendedUsd": 2392435225.561362
+    },
+    {
+      "date": "2026-07-10",
+      "tvlUsd": 204149842.59785,
+      "creditExtendedUsd": 2413283156.722514
+    },
+    {
+      "date": "2026-07-11",
+      "tvlUsd": 204149842.59785,
+      "creditExtendedUsd": 2413283156.722514
+    },
+    {
+      "date": "2026-07-12",
+      "tvlUsd": 206128214.447156,
+      "creditExtendedUsd": 2413283156.722514
+    },
+    {
+      "date": "2026-07-13",
+      "tvlUsd": 206078122.907632,
+      "creditExtendedUsd": 2426588956.657007
+    },
+    {
+      "date": "2026-07-14",
+      "tvlUsd": 206254264.05452198,
+      "creditExtendedUsd": 2426588956.657007
+    },
+    {
+      "date": "2026-07-15",
+      "tvlUsd": 207118761.706275,
+      "creditExtendedUsd": 2426588956.657007
+    },
+    {
+      "date": "2026-07-16",
+      "tvlUsd": 209694820.43343502,
+      "creditExtendedUsd": 2426588956.657007
+    },
+    {
+      "date": "2026-07-17",
+      "tvlUsd": 210244820.43343502,
+      "creditExtendedUsd": 2426588956.657007
+    },
+    {
+      "date": "2026-07-18",
+      "tvlUsd": 210351538.696514,
+      "creditExtendedUsd": 2426588956.657007
+    },
+    {
+      "date": "2026-07-19",
+      "tvlUsd": 212388799.82791102,
+      "creditExtendedUsd": 2426588956.657007
+    },
+    {
+      "date": "2026-07-20",
+      "tvlUsd": 212410376.270917,
+      "creditExtendedUsd": 2439916670.542962
+    },
+    {
+      "date": "2026-07-21",
+      "tvlUsd": 217835007.895919,
+      "creditExtendedUsd": 2439916670.542962
+    },
+    {
+      "date": "2026-07-22",
+      "tvlUsd": 218127431.412922,
+      "creditExtendedUsd": 2439916670.542962
+    },
+    {
+      "date": "2026-07-23",
+      "tvlUsd": 221822294.38792,
+      "creditExtendedUsd": 2439916670.542962
+    },
+    {
+      "date": "2026-07-24",
+      "tvlUsd": 223530465.529425,
+      "creditExtendedUsd": 2439916670.542962
+    },
+    {
+      "date": "2026-07-25",
+      "tvlUsd": 223589866.63259,
+      "creditExtendedUsd": 2461727793.051495
+    },
+    {
+      "date": "2026-07-26",
+      "tvlUsd": 223589871.63259,
+      "creditExtendedUsd": 2461727793.051495
+    },
+    {
+      "date": "2026-07-27",
+      "tvlUsd": 223604435.386887,
+      "creditExtendedUsd": 2475167785.186425
+    },
+    {
+      "date": "2026-07-28",
+      "tvlUsd": 224041138.057089,
+      "creditExtendedUsd": 2475167785.186425
+    },
+    {
+      "date": "2026-07-29",
+      "tvlUsd": 226651644.345357,
+      "creditExtendedUsd": 2475167785.186425
+    },
+    {
+      "date": "2026-07-30",
+      "tvlUsd": 232450117.378941,
+      "creditExtendedUsd": 2490340122.314494
+    },
+    {
+      "date": "2026-07-31",
+      "tvlUsd": 235125240.669733,
+      "creditExtendedUsd": 2490340122.314494
+    },
+    {
+      "date": "2026-08-01",
+      "tvlUsd": 235126483.53706,
+      "creditExtendedUsd": 2490592148.189294
+    },
+    {
+      "date": "2026-08-02",
+      "tvlUsd": 235126483.53706,
+      "creditExtendedUsd": 2490592148.189294
+    },
+    {
+      "date": "2026-08-03",
+      "tvlUsd": 234159447.24280697,
+      "creditExtendedUsd": 2674415024.410659
+    },
+    {
+      "date": "2026-08-04",
+      "tvlUsd": 234179516.109475,
+      "creditExtendedUsd": 2686171567.034978
+    },
+    {
+      "date": "2026-08-05",
+      "tvlUsd": 234179516.109475,
+      "creditExtendedUsd": 2686171567.034978
+    },
+    {
+      "date": "2026-08-06",
+      "tvlUsd": 234179516.109475,
+      "creditExtendedUsd": 2686171567.034978
+    },
+    {
+      "date": "2026-08-07",
+      "tvlUsd": 234179516.109475,
+      "creditExtendedUsd": 2686171567.034978
+    },
+    {
+      "date": "2026-08-08",
+      "tvlUsd": 234239282.766433,
+      "creditExtendedUsd": 2708041070.86075
+    },
+    {
+      "date": "2026-08-09",
+      "tvlUsd": 234239282.766433,
+      "creditExtendedUsd": 2708041070.86075
+    },
+    {
+      "date": "2026-08-10",
+      "tvlUsd": 234274162.512673,
+      "creditExtendedUsd": 2721956335.179869
+    },
+    {
+      "date": "2026-08-11",
+      "tvlUsd": 234274162.512673,
+      "creditExtendedUsd": 2721956335.179869
+    },
+    {
+      "date": "2026-08-12",
+      "tvlUsd": 234244781.451076,
+      "creditExtendedUsd": 2721956335.179869
+    },
+    {
+      "date": "2026-08-13",
+      "tvlUsd": 235144822.201076,
+      "creditExtendedUsd": 2721956335.179869
+    },
+    {
+      "date": "2026-08-14",
+      "tvlUsd": 235144822.201076,
+      "creditExtendedUsd": 2721956335.179869
+    },
+    {
+      "date": "2026-08-15",
+      "tvlUsd": 235144822.201076,
+      "creditExtendedUsd": 2721956335.179869
+    },
+    {
+      "date": "2026-08-16",
+      "tvlUsd": 235144822.201076,
+      "creditExtendedUsd": 2721956335.179869
+    },
+    {
+      "date": "2026-08-17",
+      "tvlUsd": 235178994.48599797,
+      "creditExtendedUsd": 2735888579.381256
+    },
+    {
+      "date": "2026-08-18",
+      "tvlUsd": 235199000.641464,
+      "creditExtendedUsd": 2735888579.381256
+    },
+    {
+      "date": "2026-08-19",
+      "tvlUsd": 235199000.641464,
+      "creditExtendedUsd": 2735888579.381256
+    },
+    {
+      "date": "2026-08-20",
+      "tvlUsd": 235199000.641464,
+      "creditExtendedUsd": 2735888579.381256
+    },
+    {
+      "date": "2026-08-21",
+      "tvlUsd": 235199000.641464,
+      "creditExtendedUsd": 2735888579.381256
+    },
+    {
+      "date": "2026-08-22",
+      "tvlUsd": 235199000.641464,
+      "creditExtendedUsd": 2735888579.381256
+    },
+    {
+      "date": "2026-08-23",
+      "tvlUsd": 235199000.641464,
+      "creditExtendedUsd": 2735888579.381256
+    },
+    {
+      "date": "2026-08-24",
+      "tvlUsd": 235276999.215156,
+      "creditExtendedUsd": 2771787585.674485
+    },
+    {
+      "date": "2026-08-25",
+      "tvlUsd": 235276999.215156,
+      "creditExtendedUsd": 2771787585.674485
+    },
+    {
+      "date": "2026-08-26",
+      "tvlUsd": 235276999.215156,
+      "creditExtendedUsd": 2771787585.674485
+    },
+    {
+      "date": "2026-08-27",
+      "tvlUsd": 235277009.215156,
+      "creditExtendedUsd": 2771787585.674485
+    },
+    {
+      "date": "2026-08-28",
+      "tvlUsd": 235277009.215156,
+      "creditExtendedUsd": 2771787585.674485
+    },
+    {
+      "date": "2026-08-29",
+      "tvlUsd": 235277009.215156,
+      "creditExtendedUsd": 2771787585.674485
+    },
+    {
+      "date": "2026-08-30",
+      "tvlUsd": 235277009.215156,
+      "creditExtendedUsd": 2771787585.674485
+    },
+    {
+      "date": "2026-08-31",
+      "tvlUsd": 235429286.835143,
+      "creditExtendedUsd": 2801083276.2168713
+    },
+    {
+      "date": "2026-09-01",
+      "tvlUsd": 216951924.432081,
+      "creditExtendedUsd": 2969597611.9107437
+    },
+    {
+      "date": "2026-09-02",
+      "tvlUsd": 216921180.681876,
+      "creditExtendedUsd": 2969597611.9107437
+    },
+    {
+      "date": "2026-09-03",
+      "tvlUsd": 219921760.888797,
+      "creditExtendedUsd": 2969850880.652871
+    },
+    {
+      "date": "2026-09-04",
+      "tvlUsd": 223421043.53158098,
+      "creditExtendedUsd": 2969850880.652871
+    },
+    {
+      "date": "2026-09-05",
+      "tvlUsd": 223421043.53158098,
+      "creditExtendedUsd": 2969850880.652871
+    },
+    {
+      "date": "2026-09-06",
+      "tvlUsd": 223421043.53158098,
+      "creditExtendedUsd": 2969850880.652871
+    },
+    {
+      "date": "2026-09-07",
+      "tvlUsd": 224541541.468685,
+      "creditExtendedUsd": 3005856497.117559
+    },
+    {
+      "date": "2026-09-08",
+      "tvlUsd": 224540826.056278,
+      "creditExtendedUsd": 3005856497.117559
+    },
+    {
+      "date": "2026-09-09",
+      "tvlUsd": 226309831.60689798,
+      "creditExtendedUsd": 3005856497.117559
+    },
+    {
+      "date": "2026-09-10",
+      "tvlUsd": 226997406.227377,
+      "creditExtendedUsd": 3005856497.117559
+    },
+    {
+      "date": "2026-09-11",
+      "tvlUsd": 226997407.241977,
+      "creditExtendedUsd": 3005856497.117559
+    },
+    {
+      "date": "2026-09-12",
+      "tvlUsd": 227056506.94910598,
+      "creditExtendedUsd": 3005856497.117559
+    },
+    {
+      "date": "2026-09-13",
+      "tvlUsd": 227056506.949504,
+      "creditExtendedUsd": 3005856497.117559
+    },
+    {
+      "date": "2026-09-14",
+      "tvlUsd": 227272931.132351,
+      "creditExtendedUsd": 3019930826.962073
+    },
+    {
+      "date": "2026-09-15",
+      "tvlUsd": 227272931.15205202,
+      "creditExtendedUsd": 3019930826.962073
+    },
+    {
+      "date": "2026-09-16",
+      "tvlUsd": 240572882.064744,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2026-09-17",
+      "tvlUsd": 241962150.053592,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2026-09-18",
+      "tvlUsd": 244522182.998904,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2026-09-19",
+      "tvlUsd": 245210539.24979398,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2026-09-20",
+      "tvlUsd": 245223382.67404,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2026-09-21",
+      "tvlUsd": 245280443.458951,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2026-09-22",
+      "tvlUsd": 246166118.004568,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2026-09-23",
+      "tvlUsd": 246319013.471469,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2026-09-24",
+      "tvlUsd": 246109031.29433602,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2026-09-25",
+      "tvlUsd": 246459875.41097698,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2026-09-26",
+      "tvlUsd": 246375657.96723998,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2026-09-27",
+      "tvlUsd": 246433658.682073,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2026-09-28",
+      "tvlUsd": 246508166.11047798,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2026-09-29",
+      "tvlUsd": 250883466.14745098,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2026-09-30",
+      "tvlUsd": 251055367.075063,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2026-10-01",
+      "tvlUsd": 221352536.917225,
+      "creditExtendedUsd": null
+    },
+    {
+      "date": "2026-10-02",
+      "tvlUsd": 223012369.853409,
+      "creditExtendedUsd": 3253885662.067506
+    },
+    {
+      "date": "2026-10-03",
+      "tvlUsd": 222667766.23418298,
+      "creditExtendedUsd": 3254140179.8061686
+    },
+    {
+      "date": "2026-10-04",
+      "tvlUsd": 223000348.808698,
+      "creditExtendedUsd": 3254140179.8061686
+    },
+    {
+      "date": "2026-10-05",
+      "tvlUsd": 223087665.946293,
+      "creditExtendedUsd": 3268066530.343232
+    },
+    {
+      "date": "2026-10-06",
+      "tvlUsd": 225548129.19801602,
+      "creditExtendedUsd": 3290107814.842263
+    },
+    {
+      "date": "2026-10-07",
+      "tvlUsd": 225949154.08219898,
+      "creditExtendedUsd": 3290107814.842263
+    },
+    {
+      "date": "2026-10-08",
+      "tvlUsd": 225756124.79751098,
+      "creditExtendedUsd": 3290107814.842263
+    },
+    {
+      "date": "2026-10-09",
+      "tvlUsd": 225496036.925688,
+      "creditExtendedUsd": 3290107814.842263
+    },
+    {
+      "date": "2026-10-10",
+      "tvlUsd": 225612463.565913,
+      "creditExtendedUsd": 3290107814.842263
+    },
+    {
+      "date": "2026-10-11",
+      "tvlUsd": 225685545.09758997,
+      "creditExtendedUsd": 3290107814.842263
+    },
+    {
+      "date": "2026-10-12",
+      "tvlUsd": 225808345.35869,
+      "creditExtendedUsd": 3302070573.6177025
+    },
+    {
+      "date": "2026-10-13",
+      "tvlUsd": 225709021.26522398,
+      "creditExtendedUsd": 3304051736.6193237
+    },
+    {
+      "date": "2026-10-14",
+      "tvlUsd": 226059399.48712298,
+      "creditExtendedUsd": 3304051736.6193237
+    },
+    {
+      "date": "2026-10-15",
+      "tvlUsd": 225962993.621439,
+      "creditExtendedUsd": 3304051736.6193237
+    },
+    {
+      "date": "2026-10-16",
+      "tvlUsd": 226093414.69674897,
+      "creditExtendedUsd": 3304051736.6193237
+    },
+    {
+      "date": "2026-10-17",
+      "tvlUsd": 225982833.07491797,
+      "creditExtendedUsd": 3304051736.6193237
+    },
+    {
+      "date": "2026-10-18",
+      "tvlUsd": 225929569.33414897,
+      "creditExtendedUsd": 3304051736.6193237
+    },
+    {
+      "date": "2026-10-19",
+      "tvlUsd": 228810023.63218302,
+      "creditExtendedUsd": 3318040544.291764
+    },
+    {
+      "date": "2026-10-20",
+      "tvlUsd": 228969259.943357,
+      "creditExtendedUsd": 3318040544.291764
+    },
+    {
+      "date": "2026-10-21",
+      "tvlUsd": 229209640.449372,
+      "creditExtendedUsd": 3339946858.776083
+    },
+    {
+      "date": "2026-10-22",
+      "tvlUsd": 230056565.079269,
+      "creditExtendedUsd": 3339946858.776083
+    },
+    {
+      "date": "2026-10-23",
+      "tvlUsd": 229608862.457148,
+      "creditExtendedUsd": 3339946858.776083
+    },
+    {
+      "date": "2026-10-24",
+      "tvlUsd": 229550405.934999,
+      "creditExtendedUsd": 3339946858.776083
+    },
+    {
+      "date": "2026-10-25",
+      "tvlUsd": 229511296.909636,
+      "creditExtendedUsd": 3339946858.776083
+    },
+    {
+      "date": "2026-10-26",
+      "tvlUsd": 229447372.01928398,
+      "creditExtendedUsd": 3353956546.985794
+    },
+    {
+      "date": "2026-10-27",
+      "tvlUsd": 229436385.88577598,
+      "creditExtendedUsd": 3353956546.985794
+    },
+    {
+      "date": "2026-10-28",
+      "tvlUsd": 229583412.83398497,
+      "creditExtendedUsd": 3353956546.985794
+    },
+    {
+      "date": "2026-10-29",
+      "tvlUsd": 229621955.213853,
+      "creditExtendedUsd": 3544957547.532455
+    }
+  ],
+  "scope": {
+    "vaultIds": [
+      "69c505bec479494376635285",
+      "6825b4363ac7644d17e2bffd",
+      "684149d45a56723ad4eff591",
+      "6aa2b5dacbaa03cb8d7bf0b7",
+      "6703f887115a372bcf5936ea",
+      "687e1219e1d966cdc7a5d64a",
+      "685bca345e94ec3584eb3ca2"
+    ],
+    "vaultNames": [
+      "M1 Capital",
+      "Bastion Trading",
+      "Adaptive Frontier",
+      "Two Prime",
+      "Fasanara Digital",
+      "RockawayX",
+      "FalconX USDC"
+    ],
+    "description": "Current published credit-vault cohort; excludes index wrappers, private facilities and unlisted siblings. Each facility enters coverage at its first indexed snapshot."
+  },
+  "methodology": {
+    "creditExtended": "Latest reported cumulative epoch credit per vault by observation block timestamp. Cumulative epoch values are never summed across cycles or backdated to their start dates.",
+    "tvl": "Latest indexed withRequestsUSD, falling back to USD only when the extended field is absent; six USD base-unit decimals. May include idle capital, retained interest and pending withdrawal cash. This is not borrower debt.",
+    "observations": "UTC daily last indexed snapshots on dates with source observations. Last reported values carry forward between index updates. A vault contributes zero before its first indexed snapshot; missing reported amounts remain gaps."
+  }
+}
