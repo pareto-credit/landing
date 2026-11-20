@@ -47,61 +47,63 @@
   --thesis-focus-color: var(--color-focus-on-dark);
   background: var(--color-brand-dark);
   color: var(--color-text-inverse);
-  padding-block: clamp(52px, 7.5vw, 120px);
+  padding-block: clamp(32px, 2.4vw, 54px) clamp(56px, 6.3vw, 120px);
 }
 .thesis-intro__content {
+  width: 88.4%;
+  max-width: 1700px;
+  margin-inline: auto;
   display: grid;
-  grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr);
+  grid-template-columns: minmax(0, 1fr) 52%;
+  gap: 6.5%;
   align-items: center;
-  gap: clamp(40px, 7vw, 112px);
 }
-.thesis-intro__statement {
-  display: block;
-  max-width: 21ch;
-  font-size: clamp(2.35rem, 3.65vw, 3.75rem);
+.thesis-intro__content p {
+  font-size: clamp(1.6rem, 3.20vw, 3.75rem);
   font-weight: 500;
-  line-height: 1.07;
-  letter-spacing: -.048em;
-  text-wrap: balance;
+  line-height: 1.14;
+  letter-spacing: -.04em;
 }
-.thesis-intro__statement em {
-  color: #b6d8c5;
-  font-family: Georgia, "Times New Roman", serif;
-  font-weight: 400;
-  letter-spacing: -.045em;
-  white-space: nowrap;
-}
-.thesis-intro__continuation {
-  display: block;
-  max-width: 34ch;
-  margin-top: clamp(18px, 2.4vw, 32px);
-  color: var(--color-text-muted-inverse);
-  font-size: clamp(1.125rem, 1.5vw, 1.4rem);
-  line-height: 1.45;
-  text-wrap: pretty;
-}
-.thesis-intro__plate {
-  /* Three apertures frame a continuous photograph. */
-  --step: 7%;
-  width: 100%;
-  aspect-ratio: 1.12;
-  object-fit: cover;
-  clip-path: polygon(
-    0 calc(2 * var(--step)), 33.33% calc(2 * var(--step)), 33.33% var(--step),
-    66.67% var(--step), 66.67% 0, 100% 0, 100% calc(100% - 2 * var(--step)),
-    66.67% calc(100% - 2 * var(--step)), 66.67% calc(100% - var(--step)),
-    33.33% calc(100% - var(--step)), 33.33% 100%, 0 100%
-  );
-  mask-image: linear-gradient(to right,
-    black calc(33.33% - 2px), transparent calc(33.33% - 2px) calc(33.33% + 2px),
-    black calc(33.33% + 2px) calc(66.67% - 2px), transparent calc(66.67% - 2px) calc(66.67% + 2px),
-    black calc(66.67% + 2px));
-}
+.thesis-intro__phrase { display: block; text-wrap: balance; }
+.thesis-intro__phrase + .thesis-intro__phrase { margin-top: .6em; }
+.thesis-intro__phrase em { color: var(--color-brand-soft); font-style: normal; white-space: nowrap; }
 .thesis-intro__content [tabindex]:focus-visible { outline: 2px solid var(--thesis-focus-color); outline-offset: 8px; }
+
+.thesis-intro__bridge {
+  position: relative;
+  isolation: isolate;
+  container-type: inline-size;
+  aspect-ratio: 1 / .9;
+}
+/* All three windows share one photograph. Coordinates are relative to its width. */
+.thesis-intro__panel {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--w);
+  height: var(--h);
+  overflow: hidden;
+  box-shadow: 0 0 0 clamp(3px, .32vw, 6px) var(--color-brand-dark), 0 20px 30px -20px #0008;
+}
+.thesis-intro__panel--deck { --x: 0cqw; --y: 15.3cqw; --w: 46cqw; --h: 67.5cqw; --zoom: 1; }
+.thesis-intro__panel--arch { --x: 61cqw; --y: 0cqw; --w: 39cqw; --h: 54cqw; --zoom: 1.05; }
+.thesis-intro__panel--cables { --x: 35cqw; --y: 32.4cqw; --w: 35cqw; --h: 57.6cqw; --zoom: 1.12; }
+.thesis-intro__panel img {
+  position: absolute;
+  left: calc(0px - var(--x));
+  top: calc(0px - var(--y));
+  width: 100cqw;
+  max-width: none;
+  height: 90cqw;
+  object-fit: cover;
+  transform: scale(var(--zoom));
+  transform-origin: calc(var(--x) + var(--w) / 2) calc(var(--y) + var(--h) / 2);
+}
+
 @media (max-width: 767px) {
-  .thesis-intro__content { grid-template-columns: minmax(0, 1fr); gap: 32px; }
-  .thesis-intro__statement { font-size: clamp(2rem, 7.7vw, 2.75rem); }
-  .thesis-intro__plate { aspect-ratio: 1.95; object-position: 50% 45%; }
+  .thesis-intro { padding-block: 48px 56px; }
+  .thesis-intro__content { width: calc(100% - 48px); grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .thesis-intro__content p { font-size: clamp(1.6rem, 6.8vw, 2.5rem); }
 }
 
 .thesis-chapter[id] { scroll-margin-top: calc(var(--thesis-nav-top) + 16px); }
