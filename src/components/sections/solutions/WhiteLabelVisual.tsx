@@ -49,7 +49,7 @@ const WhiteLabelVisual = ({ activeIndex }: WhiteLabelVisualProps) => {
                   ].map((module) => (
                     <div
                       key={module.label}
-                      className={`rounded-2xl border border-[var(--color-border-inverse-soft)] bg-[var(--color-overlay-surface-03)] p-3 ${module.height}`}
+                      className={`ui-radius-panel border border-[var(--color-border-inverse-soft)] bg-[var(--color-overlay-surface-03)] p-3 ${module.height}`}
                     >
                       <div className="font-mono text-[9px] uppercase tracking-widest text-[var(--color-text-muted)]">
                         {module.label}
@@ -59,7 +59,7 @@ const WhiteLabelVisual = ({ activeIndex }: WhiteLabelVisualProps) => {
                 </div>
 
                 <div className="ui-radius-card absolute right-0 top-0 w-[292px] border border-[var(--color-border-inverse-soft)] bg-[color:rgb(7_15_12_/_0.96)] p-3.5 shadow-[0_24px_50px_rgba(0,0,0,0.42)]">
-                  <div className="flex items-center justify-between rounded-2xl border border-[var(--color-overlay-inverse-20)] bg-[var(--color-overlay-surface-03)] p-2.5">
+                  <div className="flex items-center justify-between ui-radius-panel border border-[var(--color-overlay-inverse-20)] bg-[var(--color-overlay-surface-03)] p-2.5">
                     <motion.div
                       animate={{
                         borderColor: [
@@ -74,7 +74,7 @@ const WhiteLabelVisual = ({ activeIndex }: WhiteLabelVisualProps) => {
                         ],
                       }}
                       transition={{ duration: 5.6, repeat: Infinity, ease: 'easeInOut' }}
-                      className="flex h-9 w-22 items-center justify-center rounded-xl border border-dashed"
+                      className="flex h-9 w-22 items-center justify-center ui-radius-panel border border-dashed"
                     >
                       <WhiteLabelBrandMark className="h-5 w-5 opacity-90" />
                     </motion.div>
@@ -96,11 +96,11 @@ const WhiteLabelVisual = ({ activeIndex }: WhiteLabelVisualProps) => {
                         ],
                       }}
                       transition={{ duration: 6.2, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
-                      className="h-20 rounded-2xl border border-dashed"
+                      className="h-20 ui-radius-panel border border-dashed"
                     />
                     <div className="space-y-2.5">
-                      <div className="h-9 rounded-2xl border border-[var(--color-overlay-inverse-20)] bg-[var(--color-overlay-surface-03)]" />
-                      <div className="h-10 rounded-2xl border border-[var(--color-overlay-inverse-20)] bg-[var(--color-overlay-surface-03)]" />
+                      <div className="h-9 ui-radius-panel border border-[var(--color-overlay-inverse-20)] bg-[var(--color-overlay-surface-03)]" />
+                      <div className="h-10 ui-radius-panel border border-[var(--color-overlay-inverse-20)] bg-[var(--color-overlay-surface-03)]" />
                     </div>
                   </div>
 
@@ -140,9 +140,9 @@ const WhiteLabelVisual = ({ activeIndex }: WhiteLabelVisualProps) => {
                     ease: 'easeInOut',
                     times: [0, 0.24, 0.72, 1],
                   }}
-                  className="absolute left-2 top-10 z-20 flex h-12 w-[92px] items-center gap-2 rounded-2xl border border-[var(--color-overlay-inverse-30)] bg-[color:rgb(18_38_30_/_0.92)] px-3 shadow-[0_18px_36px_rgba(0,0,0,0.35)]"
+                  className="absolute left-2 top-10 z-20 flex h-12 w-[92px] items-center gap-2 ui-radius-panel border border-[var(--color-overlay-inverse-30)] bg-[color:rgb(18_38_30_/_0.92)] px-3 shadow-[0_18px_36px_rgba(0,0,0,0.35)]"
                 >
-                  <span className="flex h-7 w-7 items-center justify-center rounded-xl bg-[var(--color-overlay-surface-10)]">
+                  <span className="flex h-7 w-7 items-center justify-center ui-radius-panel bg-[var(--color-overlay-surface-10)]">
                     <WhiteLabelBrandMark className="h-4 w-4" />
                   </span>
                   <span className="font-mono text-[9px] uppercase tracking-widest text-[var(--color-text-inverse)]">
@@ -173,7 +173,7 @@ const WhiteLabelVisual = ({ activeIndex }: WhiteLabelVisualProps) => {
                   <div className="space-y-2">
                     <div className="h-2 rounded-full bg-[color:rgb(59_130_246_/_0.18)]" />
                     <div className="h-2 w-4/5 rounded-full bg-[color:rgb(59_130_246_/_0.18)]" />
-                    <div className="h-14 rounded-2xl bg-[linear-gradient(180deg,rgba(59,130,246,0.22),rgba(59,130,246,0.06))]" />
+                    <div className="h-14 ui-radius-panel bg-[linear-gradient(180deg,rgba(59,130,246,0.22),rgba(59,130,246,0.06))]" />
                   </div>
                 </motion.div>
               </div>

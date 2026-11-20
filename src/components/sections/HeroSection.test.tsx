@@ -7,6 +7,17 @@ vi.mock("../three/Earth3D", () => ({
 }));
 
 describe("HeroSection", () => {
+  it("omits the Onchain Credit badge", () => {
+    render(
+      <HeroSection
+        metrics={{ outstandingLoans: 0, creditExtended: 0 }}
+        isMetricsLoading={false}
+      />,
+    );
+
+    expect(screen.queryByText("Onchain Credit")).not.toBeInTheDocument();
+  });
+
   it("uses a mobile-safe layout for CTAs and vanity metrics", () => {
     render(
       <HeroSection

@@ -1,0 +1,67 @@
+.studio-backdrop,
+.studio-backdrop__film {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.studio-backdrop__film {
+  z-index: -1;
+  background: linear-gradient(110deg, #f7f8f4, #e9efe9);
+}
+
+.studio-backdrop__film :is(canvas, img, video) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 60% top;
+}
+
+/* Decode only the flowing pigment. The browser prints its fine grain at display density. */
+.studio-backdrop__film :is(img, video) {
+  mask-image:
+    radial-gradient(circle at .75px 1.25px, #000 .15px, transparent .425px),
+    radial-gradient(circle at 2.25px 3.75px, #000 .15px, rgb(0 0 0 / .19) .425px);
+  mask-size: 3px 5px;
+}
+
+/* Soften the moving dots beneath the copy while retaining their contrast around the preview. */
+.studio-backdrop__film::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, var(--color-bg-light-alt), transparent 11%),
+    linear-gradient(90deg, rgb(244 247 245 / .69), rgb(244 247 245 / .56) 26%, rgb(244 247 245 / .13) 47%, transparent 64%);
+}
+
+.studio-backdrop__control {
+  position: absolute;
+  z-index: 2;
+  top: clamp(96px, 10svh, 125px);
+  right: clamp(12px, 2vw, 36px);
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgb(244 247 245 / .75);
+  color: var(--color-brand-deep);
+  pointer-events: auto;
+  cursor: pointer;
+}
+.studio-backdrop__control:hover { background: white; }
+.studio-backdrop__control:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+@media (max-width: 767px) {
+  .studio-backdrop__film :is(img, video) { object-position: 57% top; }
+  .studio-backdrop__film::after {
+    background:
+      linear-gradient(to top, var(--color-bg-light-alt), transparent 10%),
+      linear-gradient(90deg, rgb(244 247 245 / .95), rgb(244 247 245 / .88) 40%, rgb(244 247 245 / .58) 69%, rgb(244 247 245 / .06));
+  }
+}

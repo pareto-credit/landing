@@ -29,7 +29,17 @@ declare global {
   }
 }
 
-const siteSections = ["hero", "ecosystem", "products", "solutions", "news", "contact"] as const;
+const siteSections = [
+  "hero",
+  "underwriting",
+  "products",
+  "structures",
+  "studio",
+  "offering",
+  "testimonials",
+  "news",
+  "contact",
+] as const;
 
 const getSiteUrl = () => window.location.origin;
 
@@ -80,6 +90,9 @@ const createTools = (): WebMcpTool[] => [
         docs: "https://docs.pareto.credit/",
         apiDocs: "https://docs.pareto.credit/developers/api",
         governance: "https://gov.pareto.credit/",
+        thesis: `${getSiteUrl()}/thesis`,
+        originators: `${getSiteUrl()}/originators`,
+        capitalProviders: `${getSiteUrl()}/capital-providers`,
         privacyPolicy: `${getSiteUrl()}/privacy-policy`,
         termsOfService: `${getSiteUrl()}/terms-of-service`,
       }),

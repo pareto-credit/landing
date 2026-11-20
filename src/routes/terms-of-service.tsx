@@ -1,8 +1,10 @@
+import { pageHead } from "../lib/pageHead";
 import { createFileRoute } from "@tanstack/react-router";
 import { loadLegalDocument } from "../data/legalDocuments";
 import LegalDocumentPage from "../pages/LegalDocumentPage";
 
 export const Route = createFileRoute("/terms-of-service")({
+  head: () => pageHead("/terms-of-service"),
   loader: () => loadLegalDocument("terms"),
   component: TermsOfServiceRoute,
 });

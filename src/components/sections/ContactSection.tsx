@@ -1,38 +1,96 @@
+import { useEffect, useId, useState, type ReactNode } from "react";
 import { ChevronRight } from "lucide-react";
+import { CONTACT_INTERESTS, type ContactInterest } from "../../data/brand";
+import {
+  CONTACT_INTEREST_EVENT,
+  consumePendingContactInterest,
+} from "../../lib/siteNavigation";
 import { Button } from "../ui/Button";
-import { SectionContainer, SectionHeading } from "../ui/Section";
+import { SectionContainer, SectionHeader } from "../ui/Section";
+import { cn } from "../../lib/cn";
 
 const fieldLabelClassName =
   "mb-2 block text-sm text-[var(--color-text-secondary)]";
 const fieldInputClassName =
-  "ui-radius-control w-full border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] transition-colors focus:border-[var(--color-brand-alt)] focus:outline-none";
+  "ui-radius-control w-full border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-3.5 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] placeholder:opacity-100 transition-colors focus:border-[var(--color-brand-deep)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-ring)]";
 
-const ContactSection = () => {
+const isContactInterest = (value: unknown, options: readonly ContactInterest[]): value is ContactInterest =>
+  typeof value === "string" &&
+  (options as readonly string[]).includes(value);
+
+interface ContactSectionProps {
+  defaultInterest?: ContactInterest;
+  interestOptions?: readonly ContactInterest[];
+  eyebrow?: string;
+  title?: ReactNode;
+  description?: ReactNode;
+  submitLabel?: string;
+  className?: string;
+  disclaimer?: string;
+}
+
+const ContactSection = ({
+  defaultInterest = CONTACT_INTERESTS[0],
+  interestOptions = CONTACT_INTERESTS,
+  eyebrow = "GET IN TOUCH",
+  title,
+  description,
+  submitLabel = "Request Access",
+  className,
+  disclaimer,
+}: ContactSectionProps) => {
+  const titleId = useId();
+  const [interest, setInterest] = useState<ContactInterest>(() => {
+    const pending = consumePendingContactInterest();
+    return isContactInterest(pending, interestOptions) ? pending : defaultInterest;
+  });
+
+  useEffect(() => {
+    const handleInterest = (event: Event) => {
+      const detail = (event as CustomEvent<unknown>).detail;
+      if (isContactInterest(detail, interestOptions)) setInterest(detail);
+    };
+
+    window.addEventListener(CONTACT_INTEREST_EVENT, handleInterest);
+    return () =>
+      window.removeEventListener(CONTACT_INTEREST_EVENT, handleInterest);
+  }, [interestOptions]);
+
   return (
     <section
       id="contact"
-      className="ui-section-fit relative overflow-hidden bg-[var(--color-bg-light-alt)] text-[var(--color-text-primary)]"
+      aria-labelledby={titleId}
+      className={cn(
+        "ui-section-fit relative overflow-hidden bg-[var(--color-bg-light-alt)] text-[var(--color-text-primary)] [--color-focus-ring:var(--color-focus-on-light)]",
+        className
+      )}
     >
       <div className="pointer-events-none absolute bottom-0 left-0 h-[500px] w-[500px] rounded-full bg-[color:rgb(112_177_158_/_0.08)] blur-[150px]" />
       <div className="pointer-events-none absolute right-0 top-0 h-[380px] w-[380px] rounded-full bg-[color:rgb(59_130_246_/_0.06)] blur-[120px]" />
-      <SectionContainer size="5xl" className="ui-section-shell relative z-10">
-        <SectionHeading
-          eyebrow="GET IN TOUCH"
+      <SectionContainer className="ui-section-shell relative z-10">
+        <SectionHeader
+          titleId={titleId}
+          variant="centered"
+          eyebrow={eyebrow}
           title={
-            <>
-              The infrastructure is ready.
-              <br />
-              Are you?
-            </>
+            title ?? (
+              <>
+                The infrastructure is ready.
+                <br />
+                <span className="text-[var(--color-text-muted)]">Are you?</span>
+              </>
+            )
           }
-          className="mx-auto mb-10 text-center lg:mb-12"
-          titleClassName="text-[var(--color-text-primary)]"
-          descriptionClassName="mx-auto max-w-3xl text-base text-[var(--color-text-secondary)]"
-          description="Whether you're launching a facility, allocating capital, or embedding credit infrastructure, we'll help you assess the right setup."
+          description={
+            description ??
+            "Tell us what you're building. We'll help you find the right setup."
+          }
         />
 
-        <div className="ui-radius-panel mx-auto border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-6 shadow-[0_20px_42px_rgb(14_24_19_/_0.08)] md:p-8 lg:p-9">
+        <div className="ui-radius-panel mx-auto max-w-5xl border border-[var(--color-border-soft)] bg-[var(--color-surface)] p-6 shadow-[0_20px_42px_rgb(14_24_19_/_0.08)] md:p-8 lg:p-9">
           <form
+            aria-labelledby={titleId}
+            aria-describedby={disclaimer ? `${titleId}-disclaimer` : undefined}
             className="space-y-5"
             action="https://formspree.io/f/xkgjlnwg"
             method="POST"
@@ -41,7 +99,10 @@ const ContactSection = () => {
               data-testid="contact-primary-grid"
               className="grid gap-x-6 gap-y-5 lg:grid-cols-4"
             >
-              <div data-testid="contact-full-name-field" className="lg:col-span-2">
+              <div
+                data-testid="contact-full-name-field"
+                className="lg:col-span-2"
+              >
                 <label
                   htmlFor="contact-full-name"
                   className={fieldLabelClassName}
@@ -52,6 +113,7 @@ const ContactSection = () => {
                   id="contact-full-name"
                   type="text"
                   name="fullName"
+                  placeholder="Ray Dalio"
                   required
                   className={fieldInputClassName}
                 />
@@ -65,6 +127,7 @@ const ContactSection = () => {
                   id="contact-email"
                   type="email"
                   name="email"
+                  placeholder="you@company.com"
                   required
                   className={fieldInputClassName}
                 />
@@ -81,6 +144,7 @@ const ContactSection = () => {
                   id="contact-tg-handle"
                   type="text"
                   name="tgHandle"
+                  placeholder="@yourhandle"
                   className={fieldInputClassName}
                 />
               </div>
@@ -98,6 +162,7 @@ const ContactSection = () => {
                   id="contact-organization"
                   type="text"
                   name="organization"
+                  placeholder="Company or fund name"
                   required
                   className={fieldInputClassName}
                 />
@@ -114,12 +179,19 @@ const ContactSection = () => {
                   <select
                     id="contact-interested-in"
                     name="interestedIn"
+                    value={interest}
+                    onChange={(event) => {
+                      if (isContactInterest(event.target.value, interestOptions)) {
+                        setInterest(event.target.value);
+                      }
+                    }}
                     className={`${fieldInputClassName} cursor-pointer appearance-none pr-10`}
                   >
-                    <option>Lending</option>
-                    <option>Borrowing</option>
-                    <option>Underwriting</option>
-                    <option>Integration</option>
+                    {interestOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
                   </select>
                   <ChevronRight
                     size={16}
@@ -137,12 +209,13 @@ const ContactSection = () => {
                 id="contact-message"
                 required
                 name="message"
+                placeholder="Share your goals, use case and timeline."
                 rows={2}
                 className={`${fieldInputClassName} resize-y`}
               />
             </div>
 
-            <div className="flex items-start gap-3 pt-1">
+            <label className="flex cursor-pointer items-start gap-3 pt-1">
               <input
                 type="checkbox"
                 required
@@ -154,7 +227,7 @@ const ContactSection = () => {
                 I consent to Pareto contacting me regarding this inquiry and
                 processing personal data under applicable privacy rules.
               </span>
-            </div>
+            </label>
 
             <Button
               type="submit"
@@ -162,9 +235,17 @@ const ContactSection = () => {
               size="lg"
               className="w-full font-semibold"
             >
-              Request Access
+              {submitLabel}
             </Button>
           </form>
+          {disclaimer && (
+            <p
+              id={`${titleId}-disclaimer`}
+              className="mt-6 border-t border-[var(--color-border-soft)] pt-5 text-sm leading-relaxed text-[var(--color-text-muted)]"
+            >
+              {disclaimer}
+            </p>
+          )}
         </div>
       </SectionContainer>
     </section>

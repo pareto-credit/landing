@@ -328,7 +328,7 @@ const SyntheticDollarSection = ({
       id="synthetic-dollar"
       className="relative overflow-hidden border-b border-[var(--color-border-soft)] bg-[var(--color-bg-light-alt)] text-[var(--color-text-primary)]"
     >
-      <SectionContainer className="relative z-10 py-24 lg:py-32">
+      <SectionContainer className="ui-section-shell relative z-10">
         <div className="mb-16 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading
             eyebrow="Indexes"

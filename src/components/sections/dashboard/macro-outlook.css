@@ -1,0 +1,275 @@
+.macro-outlook__reference {
+  min-width: 0;
+  padding: var(--data-dashboard-panel-padding, 20px);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-panel);
+  background: var(--color-surface);
+}
+
+.macro-outlook__reference-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.macro-outlook__reference-heading h2 {
+  color: var(--color-brand-dark);
+  font-size: clamp(20px, 1.8vw, 24px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+}
+
+.macro-outlook__reference-heading > svg {
+  flex-shrink: 0;
+  color: var(--color-brand-deep);
+}
+
+.macro-outlook__benchmarks {
+  margin: 0;
+}
+
+.macro-outlook__rate {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  padding-block: 8px;
+  border-top: 1px solid var(--color-border-soft);
+}
+
+.macro-outlook__rate > dt {
+  color: var(--color-text-primary);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.macro-outlook__rate > dd {
+  margin: 0;
+}
+
+.macro-outlook__value {
+  color: var(--color-brand-deep);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.macro-outlook__description {
+  grid-column: 1 / -1;
+  color: var(--color-text-muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.macro-outlook__source {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 10px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-border-soft);
+  color: var(--color-text-muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.macro-outlook__rate .macro-outlook__source {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.macro-outlook__source a {
+  color: var(--color-brand-deep);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.macro-outlook__reference a:hover,
+.macro-outlook a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.macro-outlook__curve {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  margin-top: 8px;
+  padding: 9px 10px;
+  border-radius: var(--radius-control);
+  background: var(--color-surface-muted);
+  color: var(--color-text-muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.macro-outlook__curve-tenors {
+  font-family: var(--font-mono);
+}
+
+.macro-outlook__curve strong {
+  color: var(--color-brand-deep);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.macro-outlook__lending {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.macro-outlook__protocol {
+  min-width: 0;
+  padding: var(--data-dashboard-panel-padding, 20px);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+
+.macro-outlook[data-entered="true"] .macro-outlook__protocol {
+  animation: dashboard-panel-in 650ms cubic-bezier(0.22, 1, 0.36, 1) both paused;
+}
+
+.macro-outlook[data-running="true"] .macro-outlook__protocol {
+  animation-play-state: running;
+}
+
+.macro-outlook__protocol:nth-child(2) { animation-delay: 70ms; }
+.macro-outlook__protocol:nth-child(3) { animation-delay: 140ms; }
+.macro-outlook__protocol:nth-child(4) { animation-delay: 210ms; }
+
+.macro-outlook__protocol-title,
+.macro-outlook__protocol-title h3 {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+}
+
+.macro-outlook__protocol-title {
+  justify-content: space-between;
+}
+
+.macro-outlook__protocol-title h3 {
+  margin: 0;
+  color: var(--color-brand-dark);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.macro-outlook__logo {
+  display: inline-flex;
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--color-surface);
+}
+
+.macro-outlook__logo img {
+  display: block;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.macro-outlook__logo[data-provider="morpho"] {
+  justify-content: flex-start;
+  border-radius: 0;
+  background: transparent;
+}
+
+.macro-outlook__logo[data-provider="morpho"] img {
+  flex-shrink: 0;
+  width: 154px;
+  max-width: none;
+  height: 31px;
+}
+
+.macro-outlook__asset,
+.macro-outlook__network {
+  color: var(--color-text-muted);
+  font: 400 11px/1.5 var(--font-mono);
+}
+
+.macro-outlook__protocol-values {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.macro-outlook__protocol-values > div {
+  padding: 9px;
+  border-radius: var(--radius-control);
+  background: var(--color-surface-muted);
+}
+
+.macro-outlook__protocol-values dt {
+  color: var(--color-text-muted);
+  font: 400 11px/1.4 var(--font-mono);
+}
+
+.macro-outlook__protocol-values dd {
+  margin: 5px 0 0;
+  color: var(--color-brand-deep);
+  font-size: clamp(18px, 1.8vw, 24px);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.macro-outlook__coverage,
+.macro-outlook__notes {
+  color: var(--color-text-muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.macro-outlook__notes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 24px;
+  margin-top: 12px;
+}
+
+.macro-outlook__notes a {
+  color: var(--color-text-secondary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.macro-outlook__skeleton {
+  display: inline-block;
+  width: 3ch;
+  height: 0.75em;
+  border-radius: var(--radius-control);
+  background: var(--color-bg-light);
+}
+
+@media (max-width: 1023px) {
+  .macro-outlook__lending { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 639px) {
+  .macro-outlook__notes { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 479px) {
+  .macro-outlook__lending { grid-template-columns: minmax(0, 1fr); }
+}

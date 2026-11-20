@@ -3,6 +3,12 @@ export interface VanityMetrics {
   creditExtended: number;
 }
 
+export interface ProductsDataAvailability {
+  metrics: Record<keyof VanityMetrics, boolean>;
+  /** True when every displayed card has a reported TVL value. */
+  vaultTvl: boolean;
+}
+
 export type ProductVaultStatus = string;
 
 export interface ProductVaultCard {
@@ -12,6 +18,8 @@ export interface ProductVaultCard {
   status: ProductVaultStatus;
   apy: string;
   tvl: string;
+  /** Normalized USD value for ordering; null means unknown, zero is a real value. */
+  tvlUsd?: number | null;
   operatorName?: string;
   operatorCode?: string;
   curatorName?: string;
@@ -20,6 +28,10 @@ export interface ProductVaultCard {
   description?: string;
   redemptions?: string;
   asset: string;
+  /** Resolved asset symbols across the vault and its published siblings. */
+  assets?: string[];
+  /** The displayed APY is the highest available rate across multiple family members. */
+  apyIsMaximum?: boolean;
   type?: string;
   visibility: string;
 }
@@ -27,4 +39,8 @@ export interface ProductVaultCard {
 export interface ProductsDataPayload {
   metrics: VanityMetrics;
   vaults: ProductVaultCard[];
+  /** API-reported TVL-weighted APR in percentage points; null means unavailable. */
+  weightedAverageApr?: number | null;
+  /** Missing metadata must not be interpreted as proof that values are available. */
+  availability?: ProductsDataAvailability;
 }
